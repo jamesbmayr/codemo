@@ -1,0 +1,55 @@
+/* page */
+	body {
+		margin: 0px;
+		padding: 0px;
+		background-color: black;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	a:hover {
+		opacity: .75;
+	}
+
+/* header */
+	.banner {
+		display: block;
+		float: left;
+		height: calc(100vw / 5);
+		width: 100vw;
+		background-size: contain;
+		background-repeat: no-repeat;
+		margin: 0px;
+	}
+
+	.social {
+		display: inline-block;
+		float: left;
+		height: calc(25vw / 5);
+		width: 25vw;
+		background-color: #4BA5E8;
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+		margin: 0px;
+	}
+
+/* projects */
+	#container {
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+	}
+
+	.project {
+		display: inline-block;
+		float: left;
+		height: calc(50vw / 5);
+		width: 50vw;
+		background-size: contain;
+		background-repeat: no-repeat;
+		margin: 0px;
+	}
+	
