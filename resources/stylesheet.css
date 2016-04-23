@@ -15,11 +15,10 @@
 
 	.demoButton {
 		float: left;
-		width: calc(100vw / 3);
 		background-color: darkgray;
 		text-align: center;
 		color: white;
-		font-size: 50px;
+		font-size: 32px;
 		font-family: Ubuntu, arial, sans-serif;
 		-webkit-user-select: none;        
 		-moz-user-select: none;

@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
-	var demoArray = ["dice","maze","clippath"];
+	var demoArray = ["dice","maze","clippath","wordcounter"];
 
 	for (i = 0; i < demoArray.length; i++) {
-		$("#demoList").append('<div id="' + demoArray[i] + '" class="demoButton">' + demoArray[i] + '</div>');
+		$("#demoList").append('<div id="' + demoArray[i] + '" class="demoButton" style="width: calc(100vw / ' + demoArray.length + ')">' + demoArray[i] + '</div>');
 	}
 
 	$(".demoButton").click(function() {
