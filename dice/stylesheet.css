@@ -1,0 +1,127 @@
+body {
+	font-family: sans-serif;
+}
+
+.container {
+	border: goldenrod solid 2px;
+	padding: 10px;
+	text-align: center;
+	width: 200px;
+	border-radius: 10px;
+	background-color: beige;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+}
+
+#header {
+	display: inline-block;
+	margin: auto auto;
+	font-size: 25px;
+	color: green;
+	width: 150px;
+	border-radius: 5px;
+	border: green solid 2px;
+	text-align: center;
+	vertical-align: middle;
+	background-color: lightgreen;
+	padding: 10%;
+}
+
+.row {
+	display: block;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.counter {
+	display: inline-block;
+	background-color: white;
+	color: gray;
+	border: gray solid 2px;
+	border-radius: 100%;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5%;
+}
+
+.dice {
+	display: inline-block;
+	background-color: lightblue;
+	color: blue;
+	border: blue solid 2px;
+	border-radius: 5px;
+	width: 50px;
+	height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 5%;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+.dice:hover {
+	background-color: blue;
+	color: lightblue;
+}
+
+.subtotal {
+	display: inline-block;
+	background-color: gray;
+	color: white;
+	height: 20px;
+	width: 20px;
+	border-radius: 5px;
+	border: black solid 2px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 5%;
+}
+
+.total {
+	display: inline-block;
+	background-color: gray;
+	color: white;
+	height: 20px;
+	width: 145px;
+	border-radius: 5px;
+	border: black solid 2px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 20px;
+	padding: 10%;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
+.active {
+	border: red solid 2px;
+}
+
+#resetButton {
+	display: inline-block;
+	background-color: lightgreen;
+	color: green;
+	border: green solid 2px;
+	border-radius: 5px;
+	width: 175px;
+	height: 20px;
+	text-align: center;
+	margin-top: 0px;
+	padding: 3%;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+#resetButton:hover {
+	background-color: green;
+	color: lightgreen;
+}

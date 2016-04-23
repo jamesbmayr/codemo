@@ -1,0 +1,43 @@
+/* page */
+	body {
+		padding: 0px;
+		margin: 0px;
+	}
+
+	#banner {
+		width: 100vw;
+		height: calc(100vw / 5);
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-image: url("banner.png");
+		background-color: gray;
+	}
+
+	.demoButton {
+		float: left;
+		width: calc(100vw / 3);
+		background-color: darkgray;
+		text-align: center;
+		color: white;
+		font-size: 50px;
+		font-family: Ubuntu, arial, sans-serif;
+		-webkit-user-select: none;        
+		-moz-user-select: none;
+		-ms-user-select: none;
+	}
+
+	.demoButton:hover {
+		background-color: gray;
+		color: #50C6E0;
+	}
+
+	#footer {
+		height: 10px;
+		width: 100vw;
+		background-color: gray;
+	}
+
+	.selected {
+		background-color: gray;
+		color: #50C6E0;
+	}

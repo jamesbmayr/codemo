@@ -1,0 +1,63 @@
+/* text boxes */
+	#textBoxes {
+		width: calc(100% - 500px);
+		background-color: black;
+		display: inline-block;
+		text-align: center;
+	}
+
+	textarea {
+		margin: auto auto;
+		min-width: 30%;
+		min-height: 496px;
+	}
+
+	#redText {
+		color: red;
+	}
+
+	#greenText {
+		color: green;
+	}
+
+	#blueText {
+		color: blue;
+	}
+
+/* paths */
+	#container {
+		float: right; 
+		height: 500px; 
+		width: 500px; 
+		background-color: gray;
+	}
+
+	#redPath {
+		position: absolute;
+		background-color: red;
+		z-index: 1;
+		width: 500px;
+		height: 500px;
+		clip-path: polygon(0% 0%, 0% 50%, 50% 0%);
+		-webkit-clip-path: polygon(0% 0%, 0% 50%, 50% 0%);
+	}
+
+	#greenPath {
+		position: absolute;
+		background-color: green;
+		z-index: 2;
+		width: 500px;
+		height: 500px;
+		clip-path: polygon(100% 100%, 50% 100%, 100% 50%);
+		-webkit-clip-path: polygon(100% 100%, 50% 100%, 100% 50%);
+	}
+
+	#bluePath {
+		position: absolute;
+		background-color: blue;
+		z-index: 3;
+		width: 500px;
+		height: 500px;
+		clip-path: polygon(40% 40%, 40% 60%, 60% 60%, 60% 40%);
+		-webkit-clip-path: polygon(40% 40%, 40% 60%, 60% 60%, 60% 40%);
+	}

@@ -1,0 +1,74 @@
+body {
+	font-family: sans-serif;
+}
+
+#outerwall {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	background-color: gray;
+	padding: 40px;
+	border-radius: 20px;
+	text-align: center;
+}
+
+.maze {
+	border: 0;
+	margin: 0;
+}
+
+.black {
+	background-color: black;
+	float: left;
+}
+
+.white {
+	background-color: white;
+	float: left;
+}
+
+#player {
+	position: absolute;
+	top: 40px;
+	left: 40px;
+	display: block;
+	border: 0;
+	margin: 0;
+	z-index: 1;
+	border-radius: 100%;
+	background-color: red;
+}
+
+#keyCounter {
+	text-align: center;
+	font-family: sans-serif;
+	color: white;
+	vertical-align: middle;
+}
+
+#clickCounter {
+	text-align: center;
+	font-family: sans-serif;
+	color: white;
+	vertical-align: middle;
+}
+
+#victory {
+	border: 0;
+	border-radius: 20px;
+	background-color: lightblue;
+	color: goldenrod;
+	text-align: center;
+	padding: 20px;
+	-webkit-user-select: none;      
+	-moz-user-select: none;
+	-ms-user-select: none;
+	text-decoration: none;
+	font-size: 50px;
+}
+
+#victory:hover {
+	background-color: goldenrod;
+	color: lightblue;
+}
