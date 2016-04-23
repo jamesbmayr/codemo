@@ -14,7 +14,8 @@ $(document).ready(function() {
 			["DreamHatcher Games","dreamhatchergames","http://sites.google.com/site/dreamhatchergames"],
 			["Portmantoasters","portmantoasters","http://portmantoasters.tumblr.com"],
 			["Explorchestra","explorchestra","http://facebook.com/buexplorchestra"],
-			["Apollo","apollo","http://facebook.com/apollo.feeney.mayr"]
+			["Apollo","apollo","http://facebook.com/apollo.feeney.mayr"],
+			["Codemo","codemo","https://rawgit.com/jamesbmayr/codemo/master/"]
 		];
 
 	//---social---//
