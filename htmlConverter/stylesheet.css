@@ -1,0 +1,55 @@
+/* page */
+	body {
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.header {
+		text-align: center;
+		font-family: ubuntu, arial, sans-serif;
+		color: white;
+		font-weight: bold;
+		font-size: 50px;
+		margin: 0px;
+		width: 100%;
+		background-color: gray;
+		border-radius: 4px;
+	}
+
+/* top */
+	#top {
+			padding: 10px;
+		background-color: darkgray;
+	}
+
+	#input {
+		margin-top: 10px;
+	}
+
+/* bottom */
+	#bottom {
+		min-height: 50;
+		padding: 10px;
+	}
+
+	.helper {
+		color: darkgray;
+	}
+
+	#output {
+		margin-top: 10px;
+		border: 1px solid lightgray;
+		border-radius: 4px;
+		width: 100%;
+		min-height: 30vh;
+		padding: 5px 10px 5px 10px;
+		text-align: left;
+	}
+
+	#output:active {
+		border: 1px solid lightblue;
+	}
+
+	#output:hover {
+		border: 1px solid lightblue;
+	}
