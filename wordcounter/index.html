@@ -4,15 +4,24 @@
 		<title>wordCount</title>
 		<link rel="shortcut icon" href="http://mullicahillmom.com/wp-content/uploads/2014/06/preschool.jpg"/>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="stylesheet.css">
 		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
 
 		<div class="form-group">
-			<label class="col-md-2">Word Count</label>
+			<div class="col-md-2">
+				<label>
+					Words <span id="wordCount"></span>
+					<br>
+					Characters <span id="characterCount"></span>
+					<br>
+					Longest <span id="longestWordLength"></span>
+				</label>
+			</div>
 			<div class="col-md-10">
-				<textarea class="form-control" placeholder="type your text here!"></textarea>
+				<textarea class="form-control" placeholder="type your text here" rows="10"></textarea>
 			</div>
 		</div>
 

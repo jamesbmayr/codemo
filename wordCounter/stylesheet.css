@@ -1,0 +1,25 @@
+body {
+	background-color: lightgray;
+	margin: 0px;
+	padding: 0px;
+}
+
+#wordCount {
+	color: darkred;
+}
+
+#characterCount {
+	color: darkgreen;
+}
+
+#longestWordLength {
+	color: darkblue;
+}
+
+label {
+	font-size: 20px;
+	background-color: gray;
+	border-radius: 4px;
+	padding: 10px;
+	width: 100%;
+}
