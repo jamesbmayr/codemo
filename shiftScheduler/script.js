@@ -14,14 +14,14 @@ $(document).ready(function() {
 			var arrayPeople = [
 				["max",[0,1,2,3,4],["ruby","javascript","html/css"],0,"red"],
 				["james",[0,1,2,3,4,5,6],["php","javascript","html/css"],0,"lightblue"],
-				["dan",[0,2,3,4,5],["html/css"],0,"orange"],
+				["dan",[0,2,3,4,5],["html/css","ruby"],0,"orange"],
 				["liz",[2,3,4,5,6],["php","html/css"],0,"purple"],
 				["alex",[0,1,3,4,5,6],["javascript","html/css"],0,"maroon"],
-				["jon",[0,3,4,6],["html/css"],0,"green"],
-				["jenn",[1,2,3,4,5],["html/css","php","javascript"],0,"lightgreen"],
-				["felicia",[2,3,4,6],["ruby"],0,"blue"],
-				["ayelet",[0,1,2,3],["javascript"],0,"magenta"],
-				["lyndsey",[0,1,4,5],["php"],0,"yellow"]
+				["jon",[0,3,4,6],["html/css","javascript"],0,"green"],
+				["jenn",[1,2,3,4,5],["html/css","ruby","php","javascript"],0,"lightgreen"],
+				["felicia",[2,3,4,6],["ruby","html/css"],0,"blue"],
+				["ayelet",[0,1,2,3],["javascript","html/css"],0,"magenta"],
+				["lyndsey",[0,1,4,5],["php","javascript"],0,"yellow"]
 			];
 
 
