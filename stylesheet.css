@@ -26,14 +26,13 @@
 
 	.social {
 		display: inline-block;
-		float: left;
 		height: calc(25vw / 5);
 		width: 25vw;
 		background-color: #4BA5E8;
 		background-size: contain;
 		background-position: center;
 		background-repeat: no-repeat;
-		margin: 0px;
+		margin-bottom: -5px;
 	}
 
 /* projects */
@@ -45,11 +44,10 @@
 
 	.project {
 		display: inline-block;
-		float: left;
 		height: calc(50vw / 5);
 		width: 50vw;
 		background-size: contain;
 		background-repeat: no-repeat;
-		margin: 0px;
+		margin-bottom: -5px;
 	}
 	
