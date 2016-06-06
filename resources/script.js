@@ -3,7 +3,7 @@ $(document).ready(function(){
 	var demoArray = ["diceRoller","mazeMaker","clipPather","wordCounter","htmlConverter"];
 
 	for (i = 0; i < demoArray.length; i++) {
-		$("#demoList").append('<div id="' + demoArray[i] + '" class="demoButton" style="width: calc(100vw / ' + demoArray.length + ')">' + demoArray[i] + '</div>');
+		$("#demoList").append('<div id="' + demoArray[i] + '" class="demoButton" style="width: calc(100% / ' + demoArray.length + ')">' + demoArray[i] + '</div>');
 	}
 
 	$(".demoButton").click(function() {
