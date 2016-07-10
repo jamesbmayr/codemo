@@ -6,17 +6,43 @@
 		background-color: rgba(232,232,232,1);
 	}
 
-	#box {
+	#container {
 		text-align: center;
 		position: absolute;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
+	}
+
+	#box {
+		float: left;
 		border: 5px solid rgba(150,140,125,1);
 		border-radius: 5px;
 		padding: 0px;
 		height: 510px;
 		width: 510px;
+	}
+
+	#game {
+		position: absolute;
+		width: 510px;
+		height: 510px;
+		z-index: 2;
+	}
+
+	#connectors {
+		position: absolute;
+		width: 510px;
+		height: 510px;
+		z-index: 1;
+		padding: 25px;
+	}
+
+	#pad {
+		float: left;
+		background-color: lightblue;
+		height: 510px;
+		width: 100px;
 	}
 
 /* cubes */
@@ -25,7 +51,7 @@
 		height: 100px;
 		width: 100px;
 		padding: 5px;
-		background-color: rgba(255,255,255,1);
+		background-color: rgba(255,255,255,0);
 	}
 
 	.cube {
@@ -54,4 +80,60 @@
 
 	.selected {
 		background-color: rgba(150,140,125,1);
+	}
+
+	.hidden {
+		display: none;
+	}
+
+/* connectors */
+	.connector_frame {
+		float: left;
+		height: 50px;
+		width: 50px;
+		padding: 5px;
+	}
+
+	.connector {
+		height: 100%;
+		width: 100%;
+		background-color: rgba(150,140,125,1);
+		border-radius: 0px;
+		cursor: pointer;
+	}
+
+/* words */
+	.word {
+		width: 100%;
+		height: 20px;
+		font-size: 15px;
+		padding: 2px;
+		display: block;
+	}
+
+	.newWord {
+		background-color: lightgreen;
+		border: 2px solid green;
+		border-radius: 2px;
+		display: inline-block;
+	}
+
+	.oldWord {
+		background-color: magenta;
+		border: 2px solid purple;
+		border-radius: 2px;
+		display: inline-block;
+	}
+
+	.deleteWord {
+		display: inline-block;
+	}
+
+/* score */
+	#score {
+		width: 100%;
+		background-color: lightyellow;
+		border: 2px solid goldenrod;
+		font-size: 50px;
+		font-weight: bold;
 	}
