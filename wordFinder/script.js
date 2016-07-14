@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 		var puzzleCubes = [];
 
-	/* shuffle function */
+	/* functions */
 		function shuffle(inputArray) {
 			var outputArray = [];
 
@@ -48,8 +48,20 @@ $(document).ready(function() {
 			return outputArray;
 		}
 
-	/* build page */
-		function buildPage() {
+		function newGame() {
+			/* reset */
+				$(".clock").text("3:00");
+				$("#game").empty().addClass("active");
+				$("#connectors").empty();
+				$("#myWords").empty().css("height","100%");
+				$("#score").empty().css("height","0%");
+
+				$("#submitWord").addClass("active");
+				$("#cancelWord").addClass("active");
+				$("#endGame").addClass("active");
+				$("#pauseGame").addClass("active");
+				$("#newGame").removeClass("active");
+				$("#resumeGame").removeClass("active");
 
 			/* words */
 				$("#myWords").append("<div class='word'><div class='newWord'></div></div>");
@@ -57,7 +69,7 @@ $(document).ready(function() {
 
 			/* pick random side of each cube */
 				for (var i = 0; i < cubes.length; i++) {
-					shuffle(cubes[i]);
+					cubes[i] = shuffle(cubes[i]);
 					puzzleCubes[i] = cubes[i][0];
 				}
 
@@ -67,29 +79,118 @@ $(document).ready(function() {
 			/* display cubes */
 				var j = 50;
 				for (var i = 0; i < puzzleCubes.length; i++) {
-
 					$("#game").append("<div class='frame'><div id='" + j + "' class='cube'><div class='letter'>" + puzzleCubes[i] + "</div></div></div>");
 
 					j++;
 					while (j % 10 > 4) {
 						j++;
 					}
-
 				}
 
 			/* build connectors */
 				for (var i = 100; i < 189; i++) {
-
 					if (i % 10 !== 9) {
 						$("#connectors").append("<div class='connector_frame'><div id='" + i + "' class='connector hidden'></div></div>");
 					}
-
 				}
+
+			/* start timer */
+				resumeGame();
 		}
 
-	/* click listeners */
+		function resumeGame() {
+			/* buttons & overlay */
+				$("#overlay").addClass("hidden");
+
+				$("#newGame").addClass("hidden").removeClass("active");
+				$("#resumeGame").addClass("hidden").removeClass("active");
+				$("#pauseGame").removeClass("hidden").addClass("active");
+				$("#submitWord").addClass("active");
+				$("#cancelWord").addClass("active");
+			
+			/* create timer */
+				window.gameTimer = setInterval(function() {
+					var clock = $("#clock").text();
+					clock = clock.split(":");
+					var timeLeft = (Number(clock[0]) * 60) + (Number(clock[1])) - 1;
+
+					if (timeLeft > 0) {
+						timeLeft = String(Math.floor(timeLeft / 60)) + ":" + String(Math.floor((timeLeft % 60) / 10)) + String(timeLeft % 10);
+						$(".clock").text(timeLeft);
+					}
+					else {
+						$(".clock").text("0:00");
+						endGame();
+					}
+				}, 1000);
+			}
+
+		function pauseGame() {
+			$("#overlay").removeClass("hidden");
+
+			$("#pauseGame").addClass("hidden").removeClass("active");
+			$("#resumeGame").removeClass("hidden").addClass("active");
+			$("#submitWord").removeClass("active");
+			$("#cancelWord").removeClass("active");
+			clearInterval(gameTimer);
+		}
+
+		function endGame () {
+			/* kill clock */
+				$(".clock").text("0:00");
+				clearInterval(gameTimer);
+
+				$(".active").removeClass("active");
+				$(".deleteWord").remove();
+				$(".oldWord").css("width","100%");
+
+			/* reset buttons */
+				$("#resumeGame").addClass("hidden");
+				$("#pauseGame").addClass("hidden");
+				$("#newGame").removeClass("hidden").addClass("active");
+				$("#overlay").addClass("hidden");
+
+			/* score words */
+				var allWordDivs = $(".oldWord");
+				var allWords = [];
+				var score = "";
+				
+				for (var i = 0; i < allWordDivs.length; i++) {
+					allWords[i] = allWordDivs[i].innerHTML;
+					score = score + Number(allWords[i].length) - 2;
+					allWordDivs[i].innerHTML = allWords[i] + " (" + (Number(allWords[i].length) - 2) + ")";
+				}
+
+			/* display score */
+				$("#score").text("score: " + score).css("height","15%");
+				$(".oldWord").addClass("completeWord");
+				$(".newWord").remove();
+				$("#myWords").css("height","85%");
+		}
+
+	/* listeners */
+		/* start game */
+			$(document).on("click", ".active#newGame", function() {
+				newGame();
+			});
+
+		/* pause game */
+			$(document).on("click", ".active#pauseGame", function() {
+				pauseGame();
+			});
+
+		/* resume game */
+			$(document).on("click", ".active#resumeGame", function() {
+				resumeGame();
+			});
+
+		/* end game */
+			$(document).on("click", ".active#endGame", function() {
+				endGame();
+			});
+
 		/* click letter */
-			$(document).on("click", ".cube" , function() {
+			$(document).on("click", ".active .cube" , function() {
 
 				var oldCube = Number(selectedCubes.slice(-1)[0]);
 				var newCube = Number($(this).attr("id"));
@@ -132,9 +233,8 @@ $(document).ready(function() {
 
 			});
 
-
-		/* submit word*/
-			$(document).on("click", "#submitWord", function() {
+		/* submit word */
+			$(document).on("click", "#submitWord.active", function() {
 
 				var allWordDivs = $(".oldWord");
 				var allWords = [];
@@ -169,7 +269,7 @@ $(document).ready(function() {
 
 				$(".newWord").parent().append("<div class='deleteWord'><span class='glyphicon glyphicon-remove'></span></div>");
 				$(".newWord").removeClass("newWord").addClass("oldWord").attr("value",chain);
-				$("#myWords").append("<div class='word'><div class='newWord'></div></div>");
+				$("#myWords").prepend("<div class='word'><div class='newWord'></div></div>");
 
 				$(".selected").removeClass("selected");
 				$(".connector").addClass("hidden");
@@ -179,9 +279,8 @@ $(document).ready(function() {
 
 			});
 
-
 		/* cancel word */
-			$(document).on("click", "#cancelWord", function () {
+			$(document).on("click", "#cancelWord.active", function () {
 
 				$(".newWord").empty();
 				$(".selected").removeClass("selected");
@@ -192,56 +291,38 @@ $(document).ready(function() {
 
 		/* delete word */
 			$(document).on("click", ".deleteWord", function() {
-				console.log("test");
 				$(this).closest(".word").remove();
-			});
-
-	/* game end */
-		/* score game */
-			$(document).on("click", "#scoreGame", function() {
-				var allWordDivs = $(".oldWord");
-				var allWords = [];
-				var score = "";
-				
-				for (var i = 0; i < allWordDivs.length; i++) {
-					allWords[i] = allWordDivs[i].innerHTML;
-				}
-
-				for (i = 0; i < allWords.length; i++) {
-					score = score + allWords[i].length - 2;
-				}
-
-				$("#score").text("score: " + score);
-				$(".oldWord").addClass("completeWord");
-
 			});
 
 		/* hover over complete words */
 			$(document).on("mouseenter", ".completeWord", function() {
-				console.log("test");
-
 				var chain = $(this).attr("value");
 				var chainArray = chain.split(",");
 
 				for (var i = 0; i < chainArray.length; i++) {
 					$("#" + chainArray[i]).addClass("selected");
+					
+					var j = i + 1;
+					if (typeof chainArray[j] !== "undefined") {
+						var k = Number(chainArray[i]) + Number(chainArray[j]);
+						$("#" + k).removeClass("hidden");
+					}
 				}
-
 			});
 
-
 			$(document).on("mouseleave", ".completeWord", function() {
-
 				var chain = $(this).attr("value");
 				var chainArray = chain.split(",");
 
 				for (var i = 0; i < chainArray.length; i++) {
 					$("#" + chainArray[i]).removeClass("selected");
+
+					var j = i + 1;
+					if (typeof chainArray[j] !== "undefined") {
+						var k = Number(chainArray[i]) + Number(chainArray[j]);
+						$("#" + k).addClass("hidden");
+					}
 				}
-
 			});
-
-	/* make page */
-		buildPage();
 
 });

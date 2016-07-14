@@ -3,137 +3,242 @@
 	body {
 		padding: 0px;
 		margin: 0px;
-		background-color: rgba(232,232,232,1);
+		background-color: rgba(150,140,125,1);
 	}
 
 	#container {
-		text-align: center;
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translateX(-50%) translateY(-50%);
-	}
-
-	#box {
-		float: left;
-		border: 5px solid rgba(150,140,125,1);
-		border-radius: 5px;
+		height: 100%;
+		width: 100%;
 		padding: 0px;
-		height: 510px;
-		width: 510px;
+		background-color: rgba(150,140,125,1);
 	}
 
-	#game {
-		position: absolute;
-		width: 510px;
-		height: 510px;
-		z-index: 2;
-	}
-
-	#connectors {
-		position: absolute;
-		width: 510px;
-		height: 510px;
-		z-index: 1;
-		padding: 25px;
-	}
-
-	#pad {
-		float: left;
-		background-color: lightblue;
-		height: 510px;
-		width: 100px;
-	}
-
-/* cubes */
-	.frame {
-		float: left;
-		height: 100px;
-		width: 100px;
-		padding: 5px;
+/* controls */
+	#controls {
+		height: 18vh;
+		border: 1vh solid rgba(150,140,125,1);
 		background-color: rgba(255,255,255,0);
+		border-radius: 5px;
 	}
 
-	.cube {
-		height: 100%;
-		width: 100%;
-		background-color: rgba(200,180,150,1);
-		color: rgba(255,255,255,1);
-		border-radius: 3px;
-		cursor: pointer;
-	}
+	/* buttons */
+		#buttons {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(232,232,232,1);
+			overflow: none;
+			border-radius: 5px;
+		}
 
-	.letter {
-		text-align: center;
-		position: relative;
-		top: 50%;
-		left: 50%;
-		transform: translateX(-50%) translateY(-50%);
-		font-size: 50px;
-		font-weight: bold;
-		text-transform: capitalize;
-		user-select: none;
-		-moz-user-select: none;
-		-webkit-user-select: none;
-		-ms-user-select: none;
-	}
+		.button_frame {
+			float: left;
+			background-color: rgba(232,232,232,1);
+			width: 50%;
+			height: 8vh;
+			border-radius: 5px;
+			padding: 5px;
+		}
 
-	.selected {
-		background-color: rgba(150,140,125,1);
-	}
+		.button {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(200,180,150,1);
+			color: rgba(255,255,255,1);
+			text-transform: uppercase;
+			border: 0px;
+			border-radius: 5px;
+		}
 
-	.hidden {
-		display: none;
-	}
+		.button:hover {
+			background-color: rgba(150,140,125,1);
+		}
 
-/* connectors */
-	.connector_frame {
-		float: left;
-		height: 50px;
-		width: 50px;
-		padding: 5px;
-	}
+		.clock {
+			display: inline-block;
+			background-color: rgba(232,232,232,1);
+			color: rgba(150,140,125,1);
+			font-weight: bold;
+			padding: 2px;
+			border-radius: 3px;
+		}
 
-	.connector {
-		height: 100%;
-		width: 100%;
-		background-color: rgba(150,140,125,1);
-		border-radius: 0px;
-		cursor: pointer;
-	}
+/* game */
+		#overlay {
+			height: 82vh;
+			width: 100%;
+			background-color: rgba(150,140,125,1);
+			z-index: 3;
+			position: absolute;
+			text-align: center;
+		}
 
-/* words */
-	.word {
-		width: 100%;
-		height: 20px;
-		font-size: 15px;
-		padding: 2px;
-		display: block;
-	}
+		#overlay_text {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			color: rgba(255,255,255,1);
+			text-transform: uppercase;
+			font-size: 50px;
+			font-weight: bold;
+		}
 
-	.newWord {
-		background-color: lightgreen;
-		border: 2px solid green;
-		border-radius: 2px;
-		display: inline-block;
-	}
+		#box {
+			float: left;
+			border: 1vh solid rgba(150,140,125,1);
+			border-radius: 5px;
+			padding: 0px;
+			height: 82vh;
+			width: 82vh;
+		}
 
-	.oldWord {
-		background-color: magenta;
-		border: 2px solid purple;
-		border-radius: 2px;
-		display: inline-block;
-	}
+	/* cubes */
+		#game {
+			position: absolute;
+			width: 80vh;
+			height: 80vh;
+			z-index: 2;
+			border-radius: 5px;
+		}
 
-	.deleteWord {
-		display: inline-block;
-	}
+		.frame {
+			float: left;
+			height: 16vh;
+			width: 16vh;
+			padding: 1vh;
+			background-color: rgba(255,255,255,0);
+		}
 
-/* score */
-	#score {
-		width: 100%;
-		background-color: lightyellow;
-		border: 2px solid goldenrod;
-		font-size: 50px;
-		font-weight: bold;
-	}
+		.cube {
+			height: 100%;
+			width: 100%;
+			background-color: rgba(200,180,150,1);
+			color: rgba(255,255,255,1);
+			border-radius: 3px;
+			cursor: pointer;
+		}
+
+		.cube:hover {
+			background-color: rgba(150,140,125,1);
+		}
+
+		.letter {
+			text-align: center;
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			font-size: 50px;
+			font-weight: bold;
+			text-transform: capitalize;
+			user-select: none;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+
+		.selected {
+			background-color: rgba(150,140,125,1);
+		}
+
+	/* connectors */
+		#connectors {
+			position: absolute;
+			width: 80vh;
+			height: 80vh;
+			z-index: 1;
+			padding: 4vh;
+			background-color: rgba(232,232,232,1);
+			border-radius: 5px;
+		}
+
+		.connector_frame {
+			float: left;
+			height: 8vh;
+			width: 8vh;
+			padding: 1vh;
+		}
+
+		.connector {
+			height: 100%;
+			width: 100%;
+			background-color: rgba(150,140,125,1);
+			border-radius: 0px;
+			cursor: pointer;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+/* scorepad */
+		#pad {
+			float: left;
+			border: 1vh solid rgba(150,140,125,1);
+			border-radius: 0px 5px 5px 0px;
+			background-color: rgba(150,140,125,1);
+			height: 82vh;
+			width: calc(100% - 82vh);
+		}
+
+	/* score */
+		#score {
+			width: 100%;
+			text-align: center;
+			width: 100%;
+			background-color: rgba(150,140,125,1);
+			font-size: 50px;
+			font-weight: bold;
+			color: rgba(255,255,255,1);
+			text-transform: uppercase;
+		}
+
+	/* words */
+		#myWords {
+			padding: 1vh;
+			overflow: scroll;
+			height: 100%;
+			width: 100%;
+			border-radius: 5px;
+			background-color: rgba(232,232,232,1);
+		}
+
+		.word {
+			width: 100%;
+			font-size: 17px;
+			margin-bottom: 5px;
+			float: left;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		.newWord {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(150,140,125,1);
+			border: 0px;
+			border-radius: 5px;
+			float: left;
+			color: rgba(255,255,255,1);
+			padding: 5px;
+		}
+
+		.oldWord {
+			width: 95%;
+			height: 100%;
+			background-color: rgba(200,180,150,1);
+			border: 0px;
+			border-radius: 5px;
+			float: left;
+			color: rgba(255,255,255,1);
+			padding: 5px;
+		}
+
+		.deleteWord {
+			text-align: center;
+			float: left;
+			width: 5%;
+			height: 100%;
+			color: rgba(150,140,125,1);
+			transform: translateY(25%);
+			cursor: pointer;
+		}

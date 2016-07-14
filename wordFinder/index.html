@@ -11,16 +11,34 @@
 	<body>
 		<div id="header"></div>
 		<div id="container">
+			<div id="controls">
+				<div id="buttons">
+					<div class="button_frame">
+						<button id="newGame" class="button active">new game</button>
+						<button id="pauseGame" class="button hidden">pause game <span id="clock" class="clock"></span></button>
+						<button id="resumeGame" class="button hidden">resume game <span class="clock"></span></button>
+					</div>
+					<div class="button_frame">
+						<button id="endGame" class="button">end game</button>
+					</div>
+					<div class="button_frame">
+						<button id="submitWord" class="button">submit word</button>
+					</div>
+					<div class="button_frame">
+						<button id="cancelWord" class="button">cancel word</button>
+					</div>
+				</div>
+			</div>
+			<div id="overlay">
+				<div id="overlay_text">wordfinder</div>
+			</div>
 			<div id="box">
 				<div id="game"></div>
 				<div id="connectors"></div>
 			</div>
 			<div id="pad">
-				<div id="buttons"></div>
-					<button id="submitWord" class="btn btn-primary btn-lg">submit</button>
-					<button id="cancelWord" class="btn btn-danger btn-lg">cancel</button>
-					<button id="scoreGame" class="btn btn-success btn-lg">score</button>
-				<div id="myWords"><div id="score"></div></div>
+				<div id="score"></div>
+				<div id="myWords"></div>
 			</div>
 		</div>
 		<div id="footer"></div>
