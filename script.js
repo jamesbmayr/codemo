@@ -10,7 +10,7 @@ $(document).ready(function() {
 			["It's Who Iamb","itswhoiamb","http://itswhoiamb.tumblr.com/"],
 			["The Deathmakers' Symphony","thedeathmakerssymphony","https://soundcloud.com/jamesmayr/sets/the-deathmakers-symphony"],
 			["Wribbon","wribbon","https://drive.google.com/folderview?id=0B3Pd_099FSXVQlZ3LWpoR0hQVmc&usp=sharing"],
-			["Lampposts of the World","lamppostsoftheworld","http://www.panoramio.com/group/586700/photos"],
+			["Boss Fight","bossfight","http://bossfightgame.com"],
 			["DreamHatcher Games","dreamhatchergames","http://sites.google.com/site/dreamhatchergames"],
 			["Portmantoasters","portmantoasters","http://portmantoasters.tumblr.com"],
 			["Explorchestra","explorchestra","http://facebook.com/buexplorchestra"],
