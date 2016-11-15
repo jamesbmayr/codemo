@@ -45,9 +45,11 @@ $(document).ready(function() {
 
 	//---display---//
 		var display = function(inputArray, displayClass) {
+			var items = [];
 			for (var i = 0; i < inputArray.length; i++) {
-				$("#container").append('<a class="' + displayClass + '" id="' + inputArray[i][1] + '" href="' + inputArray[i][2] + '" target="_blank" style="background-image: url(images/' + inputArray[i][1] + '.png)"></a>');
+				items[i] = '<a class="' + displayClass + '" id="' + inputArray[i][1] + '" href="' + inputArray[i][2] + '" target="_blank" style="background-image: url(images/' + inputArray[i][1] + '.png)"></a>';
 			}
+			$("#container").append(items.join("<!-- -->"));
 		}
 	
 	//---execute---//

@@ -17,23 +17,22 @@
 	.banner {
 		display: block;
 		float: left;
-		height: calc(100vw / 5);
-		width: 100vw;
-		background-size: contain;
+		height: 20vw;
+		width: 100%;
+		background-size: cover;
 		background-repeat: no-repeat;
 		margin: 0px;
 	}
 
 	.social {
 		display: inline-block;
-		float: left;
-		height: calc(25vw / 5);
-		width: 25vw;
+		height: 5vw;
+		width: 25%;
 		background-color: #4BA5E8;
 		background-size: contain;
 		background-position: center;
 		background-repeat: no-repeat;
-		margin: 0px;
+		margin-bottom: -5px;
 	}
 
 /* projects */
@@ -45,11 +44,10 @@
 
 	.project {
 		display: inline-block;
-		float: left;
-		height: calc(50vw / 5);
-		width: 50vw;
-		background-size: contain;
+		height: 10vw;
+		width: 50%;
+		background-size: cover;
 		background-repeat: no-repeat;
-		margin: 0px;
+		margin-bottom: -5px;
 	}
 	
