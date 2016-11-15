@@ -2,8 +2,8 @@ $(document).ready(function() {
 
 	//---projects---//
 		var projectsArray = [
-			["ShareWaves","sharewaves","http://share-waves.com"],
-			["Sounddrawn","sounddrawn","http://jamesmayr.wix.com/music"],
+			["Underblue","underblue","http://officialunderblue.com"],
+			["Sounddrawn","sounddrawn","http://rawgit.com/jamesbmayr/music/master/"],
 			["Clevernacular","clevernacular","http://clevernacular.tumblr.com"],
 			["Lexpose","lexpose","http://www.writerscafe.org/jamesbmayr/writing"],
 			["Chalice","chalice","https://www.kickstarter.com/projects/jamesbmayr/chalice-the-card-game/description"],
