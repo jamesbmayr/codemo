@@ -1,30 +1,12 @@
 $(document).ready(function() {
 
-	//redPath
-		$(document).on("click", "#redText", function() {
-			updatePath("red");
+	//listeners
+		$(document).on("click","textarea", function() {
+			updatePath(String(this.id).replace("Text",""));
 		});
 
-		$(document).on("keyup", "#redText", function(key) {
-			updatePath("red");
-		});
-
-	//greenPath
-		$(document).on("click", "#greenText", function() {
-			updatePath("green");
-		});
-
-		$(document).on("keyup", "#greenText", function(key) {
-			updatePath("green");
-		});
-
-	//bluePath
-		$(document).on("click", "#blueText", function() {
-			updatePath("blue");
-		});
-
-		$(document).on("keyup", "#blueText", function(key) {
-			updatePath("blue");
+		$(document).on("keyup","textarea", function() {
+			updatePath(String(this.id).replace("Text",""));
 		});
 
 	//updatePath
