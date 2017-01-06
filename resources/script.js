@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	var demoArray = ["diceRoller","wordFinder","mazeMaker","clipPather","wordCounter","htmlConverter"];
+	var demoArray = ["diceRoller","wordFinder","mazeMaker","clipPather","wordCounter","htmlConverter","chordAnalyzer"];
 
 	for (i = 0; i < demoArray.length; i++) {
 		$("#demoList").append('<div id="' + demoArray[i] + '" class="demoButton" style="width: calc(100% / ' + demoArray.length + ')">' + demoArray[i] + '</div>');
