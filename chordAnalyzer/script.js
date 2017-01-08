@@ -137,40 +137,88 @@ $(document).ready(function() {
 
 			//chord
 				var chord = [];
-				var k = 0;
+				var resets = 0;
+				var savedChord = [];
 
-				while ((chord.length < notes.length) && (k < notes.length)) {
-					for (i = 0; i < pitches.length; i++) {
-						notes[i] = pitches[i];
-					}
+				while ((notes.length > 0) && (resets < pitches.length)) {
+					console.log ("resets: " + resets);
+					//starting chord and notes
+						for (var n = 0; n < pitches.length; n++) {
+							notes[n] = pitches[n];
+						}
 
-					chord = [notes[k]];
-					notes.splice(0,1);
+						chord = [notes[resets]];
+						notes.splice(resets,1);
 
-					var loopLimit = notes.length;
-					var loopCount = 0;
+					//loopCount
+						var loopLimit = notes.length;
+						var loopCount = 0;
+
+					console.log ("starting chord: " + chord);
 
 					while ((notes.length > 0) && (loopCount < loopLimit)) {
-						for (var i = 0; i < notes.length; i++) {
-							//new note is a third above
+
+						console.log ("loopCount: " + loopCount);
+
+						//next note is a third above
+							var i = 0;
+							while (i < notes.length) {
 								if ((chord[chord.length - 1] + 3 === notes[i]) || (chord[chord.length - 1] + 4 === notes[i]) || (chord[chord.length - 1] - 9 === notes[i]) || (chord[chord.length - 1] - 8 === notes[i])) {
 									chord.push(notes[i]);
 									notes.splice(i,1);
-									i--;
+									i = 0;
+									console.log ("third above; new chord: " + chord + "; remaining notes: " + notes + "; i: " + i);
 								}
-						}
-						for (var i = 0; i < notes.length; i++) {
-							//new note is a third below
-								if ((chord[0] - 3 === notes[i]) || (chord[0] - 4 === notes[i]) || (chord[0] + 9 === notes[i]) || (chord[0] + 8 === notes[i])) {
-									chord.unshift(notes[i]);
-									notes.splice(i,1);
-									i--;
+								else {
+									i++;
+									console.log ("i: " + i);
 								}
-						}
+							}
+
+						//next note is a third below
+							var j = 0;
+							while (j < notes.length) {
+								if ((chord[0] - 3 === notes[j]) || (chord[0] - 4 === notes[j]) || (chord[0] + 9 === notes[j]) || (chord[0] + 8 === notes[j])) {
+									chord.unshift(notes[j]);
+									notes.splice(j,1);
+									j = 0;
+									console.log ("third below; new chord: " + chord + "; remaining notes: " + notes + "; j: " + j);
+								}
+								else {
+									j++;
+									console.log ("j: " + j);
+								}
+							}
+
 						loopCount++;
 					}
-					k++;
+
+					//savedChord & savedNotes
+						if (chord.length > savedChord.length) {
+							for (var s = 0; s < chord.length; s++) {
+								savedChord[s] = chord[s];
+							}
+							savedNotes = [];
+							for (var n = 0; n < notes.length; n++) {
+								savedNotes[n] = notes[n];
+							}
+						}
+
+						console.log("savedChord: " + savedChord + "; savedNotes " + savedNotes);
+
+					resets++;
 				}
+
+				//final chord & notes
+					for (var s = 0; s < savedChord.length; s++) {
+						chord[s] = savedChord[s];
+					}
+					notes = [];
+					for (var n = 0; n < savedNotes.length; n++) {
+						notes[n] = savedNotes[n];
+					}
+
+				console.log ("final chord: " + chord + "; remaining notes: " + notes);
 
 			//root
 				switch (chord[0]) {
@@ -508,7 +556,7 @@ $(document).ready(function() {
 					}
 				}
 
-			//chord (letters)
+			//note names
 				for (i = 0; i < chord.length; i++) {
 					switch (chord[i]) {
 						case "":
@@ -654,4 +702,5 @@ $(document).ready(function() {
 
 				
 		}
+
 });
