@@ -503,16 +503,18 @@ $(document).ready(function() {
 				for (i = 1; i < chord.length; i++) {
 					//get the previousLetter (sans flats or sharps), and go 2 letters up
 						var previousLetter = chord[i - 1][0];
+						console.log(previousLetter + " is previousLetter");
 						var thisLetter = letters[(letters.indexOf(previousLetter) + 2) % 7];
+						console.log(thisLetter + " is thisLetter");
 
 					//replace the pitch number with the noteName by matching it to the letter
 						switch (thisLetter) {
 							case "C":
 								if (chord[i] === 10) {
-									chord[i] = "Bbb";
+									chord[i] = "Cbb";
 								}
 								else if (chord[i] === 11) {
-									chord[i] = "B";
+									chord[i] = "Cb";
 								}
 								else if (chord[i] === 0) {
 									chord[i] = "C";
