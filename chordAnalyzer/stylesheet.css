@@ -30,7 +30,7 @@
 		color: #333333;
 	}
 
-	#bigOutout {
+	#bigOutput {
 		display: block;
 		font-size: 40px;
 	}
@@ -66,9 +66,7 @@
 	}
 
 	.key {
-		/*width: calc((100vw - 62px) / 25);*/
 		margin: 0px 1px 1px 1px;
-		/*height: 100%;*/
 		border-radius: 0px 0px 4px 4px;
 		cursor: pointer;
 		padding-top: 10px;
