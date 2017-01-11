@@ -732,7 +732,7 @@ $(document).ready(function() {
 				var smallOutput = "";
 			
 			//rootName
-				var smallOutput += rootName;
+				smallOutput += rootName;
 
 			//chordType
 				smallOutput += " " + chordType;
