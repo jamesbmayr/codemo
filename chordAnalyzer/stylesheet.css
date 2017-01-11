@@ -1,32 +1,114 @@
 /* page */
 	body {
-		background-color: lightgray;
+		background-color: darkgray;
 		margin: 0px;
 		padding: 0px;
 	}
 
-/* keyboard */
-	.key {
-		border: 2px solid black;
-		width: 40px;
+/* screen */
+	#case {
+		display: block;
+		text-align: center;
+		font-size: 40px;
 		height: 200px;
+		width: 100vw;
+		background-color: #333333;
+		padding: 10px;
+	}
+
+	#screen {
+		margin: 0px;
+		background-color: #eeeeee;
+		border-radius: 10px;
+		height: 180px;
+		width: calc(100vw - 20px);
+	}
+
+	#analysis {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		color: #333333;
+	}
+
+/* keyboard */
+	#keyboard {
+		display: block;
+		border: 5px solid #333333;
+		height: calc(100vw / 3.5);
+		width: 100vw;
+		margin: 0px;
+		padding: 0px 1px 1px 1px;
+		border-radius: 0px 0px 10px 10px;
+	}
+
+	#blackKeys {
+		height: calc((100vw / 4) * (3 / 4));
+		z-index: 2;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	#whiteKeys {
+		height: calc((100vw / 3.5) - 12px);
+		z-index: 1;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	.key {
+		/*width: calc((100vw - 62px) / 25);*/
+		margin: 0px 1px 1px 1px;
+		/*height: 100%;*/
+		border-radius: 0px 0px 4px 4px;
+		cursor: pointer;
+		padding-top: 10px;
+		font-weight: bold;
 		float: left;
+		pointer-events: all;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.name {
+		position: absolute;
+		bottom: 0px;
+		text-align: center;
+		padding: 1.5%;
+		width: inherit;
 	}
 
 	.black {
 		background-color: #333333;
+		color: #eeeeee;
+		height: 100%;
+		width: calc((100vw - 42px) / 15);
+		vertical-align: top;
 	}
 
 	.white {
-		background-color: #dddddd;
+		background-color: #eeeeee;
+		color: #333333;
+		width: calc((100vw - 42px) / 15);
+		height: 100%;
+		display: table-cell;
+		vertical-align: bottom;
 	}
 
+	.black.left {
+		margin-left: calc(((100vw - 11px) / 15 / 2) + 1px);
+	}
+
+	.black.right {
+		margin-right: calc(((100vw - 11px) / 15 / 2) + 1px);
+	}
+
+/* active */
 	.black.active {
-		background-color: #3333ff;
+		background: linear-gradient(#333333, #185A8B);
 	}
 
 	.white.active {
-		background-color: #7777ff;
+		background: linear-gradient(#eeeeee, #185A8B);
 	}
-
-/* analysis */

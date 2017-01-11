@@ -5,18 +5,29 @@ $(document).ready(function() {
 
 	/* createKeyboard */
 		function createKeyboard() {
+			var names = ["C","C#<br>Db","D","D#<br>Eb","E","F","F#<br>Gb","G","G#<br>Ab","A","A#<br>Bb","B"];
+			var blackKeyMargins = ["left","right","left","none","right"];
+			var blackKeyMarginIndex = 0;
+			
 			for (octave = 0; octave < 2; octave++) {
 				for (pitch = 0; pitch < 12; pitch++) {
 					if ((pitch === 1) || (pitch === 3) || (pitch === 6) || (pitch === 8) || (pitch === 10)) {
 						var color = "black";
+						$("#blackKeys").append("<div id='" + octave + "_" + pitch + "' class='key " + color + " " + blackKeyMargins[blackKeyMarginIndex] + "' value='" + pitch + "'><span class='name'>" + names[pitch] + "</span></div>");
+						
+						blackKeyMarginIndex++;
+						if (blackKeyMarginIndex > 4) {
+							blackKeyMarginIndex = 0;
+						}
 					}
 					else {
 						var color = "white";
+						$("#whiteKeys").append("<div id='" + octave + "_" + pitch + "' class='key " + color + "' value='" + pitch + "'><span class='name'>" + names[pitch] + "</span></div>");
 					}
-					$("#keyboard").append("<button id='" + octave + "_" + pitch + "' class='key " + color + "' value='" + pitch + "'></button>");
 				}
 			}
-			$("#keyboard").append("<button id='2_0' class='key white lastkey' value='0'></button>");
+			
+			$("#whiteKeys").append("<div id='2_0' class='key white lastkey' value='0'><span class='name'>C</span></div>");
 		}
 
 	/* listeners */
@@ -70,7 +81,7 @@ $(document).ready(function() {
 			//get all activated keys
 				var pitches = [];
 				$(".active").each(function(index) {
-					pitches.push(Number($(this).val()));
+					pitches.push(Number($(this).attr("value")));
 				});
 
 			//eliminate duplicates
