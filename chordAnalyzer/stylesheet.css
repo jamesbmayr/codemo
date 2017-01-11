@@ -9,7 +9,6 @@
 	#case {
 		display: block;
 		text-align: center;
-		font-size: 40px;
 		height: 200px;
 		width: 100vw;
 		background-color: #333333;
@@ -29,6 +28,16 @@
 		top: 50%;
 		transform: translateY(-50%);
 		color: #333333;
+	}
+
+	#bigOutout {
+		display: block;
+		font-size: 40px;
+	}
+
+	#smallOutput {
+		display: block;
+		font-size: 25px;
 	}
 
 /* keyboard */
