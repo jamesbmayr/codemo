@@ -13,7 +13,7 @@ $(document).ready(function() {
 				for (pitch = 0; pitch < 12; pitch++) {
 					if ((pitch === 1) || (pitch === 3) || (pitch === 6) || (pitch === 8) || (pitch === 10)) {
 						var color = "black";
-						$("#blackKeys").append("<div id='" + octave + "_" + pitch + "' class='key " + color + " " + blackKeyMargins[blackKeyMarginIndex] + "' value='" + pitch + "'><span class='name'>" + names[pitch] + "</span></div>");
+						$("#blackKeys").append("<div id='" + octave + "_" + pitch + "' class='key " + color + " " + blackKeyMargins[blackKeyMarginIndex] + "' value='" + ((octave * 12) + pitch) + "'><span class='name'>" + names[pitch] + "</span></div>");
 						
 						blackKeyMarginIndex++;
 						if (blackKeyMarginIndex > 4) {
@@ -22,12 +22,12 @@ $(document).ready(function() {
 					}
 					else {
 						var color = "white";
-						$("#whiteKeys").append("<div id='" + octave + "_" + pitch + "' class='key " + color + "' value='" + pitch + "'><span class='name'>" + names[pitch] + "</span></div>");
+						$("#whiteKeys").append("<div id='" + octave + "_" + pitch + "' class='key " + color + "' value='" + ((octave * 12) + pitch) + "'><span class='name'>" + names[pitch] + "</span></div>");
 					}
 				}
 			}
 			
-			$("#whiteKeys").append("<div id='2_0' class='key white lastkey' value='0'><span class='name'>C</span></div>");
+			$("#whiteKeys").append("<div id='2_0' class='key white lastkey' value='25'><span class='name'>C</span></div>");
 		}
 
 	/* listeners */
@@ -78,11 +78,21 @@ $(document).ready(function() {
 
 	/* getPitches (new) */
 		function getPitches() {
-			//get all activated keys
-				var pitches = [];
+			//get all absolutePitches
+				var absolutePitches = [];
 				$(".active").each(function(index) {
-					pitches.push(Number($(this).attr("value")));
+					absolutePitches.push(Number($(this).attr("value")));
 				});
+
+
+			//order pitches
+				absolutePitches = absolutePitches.sort(function(a, b) {return a - b;});
+
+			//eliminate octave
+				var pitches = [];
+				for (i = 0; i < absolutePitches.length; i++) {
+					pitches[i] = absolutePitches[i] % 12;
+				}
 
 			//eliminate duplicates
 				for (i = 0; i < pitches.length; i++) {
