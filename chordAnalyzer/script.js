@@ -57,23 +57,28 @@ $(document).ready(function() {
 				var intervals = getIntervals(chord);
 				console.log("intervals: " + intervals);
 
-				var chordType = getChordType(intervals);
-				console.log("chord type: " + chordType);
+				var output = getChordType(intervals);
+					var chordType = output[0];
+					var shortType = output[1];
+				console.log("chord type: " + chordType + "(" + shortType + ")");
 
 				var output = getNoteNames(rootName,chord,addedNotes);
 					var chord = output["chord"];
 					var addedNotes = output["addedNotes"];
-					console.log("chord: " + chord);
-					console.log("added notes: " + addedNotes);
+				console.log("chord: " + chord + " [" + addedNotes + "]");
 
-				var analysis = getAnalysis(rootName,chordType,chord,inversion,addedNotes);
-				console.log("analysis: " + analysis);
+				var output = getAnalysis(rootName,shortType,chordType,chord,inversion,addedNotes);
+					var bigOutput = output["bigOutput"];
+					var smallOutput = output["smallOutput"];
+				console.log("analysis: " + bigOutput + " (" + smallOutput + ")");
 			}
 			else {
-				var analysis = "";
+				var bigOutput = "";
+				var smallOutput = "";
 			}
 
-			$("#analysis").text(analysis);
+			$("#bigOutput").text(bigOutput);
+			$("#smallOutput").text(smallOutput);
 		}
 
 	/* getPitches (new) */
@@ -358,16 +363,16 @@ $(document).ready(function() {
 		function getChordType(intervals) {
 			/* 1 pitch (note) */
 				if (intervals.length === 0) {
-					return "note";
+					return ["note",""];
 				}
 
 			/* 2 pitches (third) */
 				else if (intervals.length === 1) {
 					if (intervals[0] === 3) {
-						return "minor third";
+						return ["minor third","m"];
 					}
 					else if (intervals[0] === 4) {
-						return "major third";
+						return ["major third",""];
 					}
 				}
 
@@ -375,18 +380,18 @@ $(document).ready(function() {
 				else if (intervals.length === 2) {
 					if (intervals[0] === 3) {
 						if (intervals[1] === 3) {
-							return "diminished triad";
+							return ["diminished triad","dim"];
 						}
 						else if (intervals[1] === 4) {
-							return "minor triad";
+							return ["minor triad","m"];
 						}
 					}
 					else if (intervals[0] === 4) {
 						if (intervals[1] === 3) {
-							return "major triad";
+							return ["major triad",""];
 						}
 						else if (intervals[1] === 4) {
-							return "augmented triad";
+							return ["augmented triad","aug"];
 						}
 					}
 				}
@@ -396,36 +401,36 @@ $(document).ready(function() {
 					if (intervals[0] === 3) {
 						if (intervals[1] === 3) {
 							if (intervals[2] === 3) {
-								return "diminished seventh chord";
+								return ["diminished seventh chord","dim7"];
 							}
 							else if (intervals[2] === 4) {
-								return "half-diminished seventh chord";
+								return ["half-diminished seventh chord","half-dim7"];
 							}
 						}
 						else if (intervals[1] === 4) {
 							if (intervals[2] === 3) {
-								return "minor seventh chord";
+								return ["minor seventh chord","m7"];
 							}
 							else if (intervals[2] === 4) {
-								return "minor-major seventh chord";
+								return ["minor-major seventh chord","mM7"];
 							}
 						}
 					}
 					else if (intervals[0] === 4) {
 						if (intervals[1] === 3) {
 							if (intervals[2] === 3) {
-								return "dominant (major-minor) seventh chord";
+								return ["dominant (major-minor) seventh chord","7"];
 							}
 							else if (intervals[2] === 4) {
-								return "major seventh chord";
+								return ["major seventh chord","M7"];
 							}
 						}
 						else if (intervals[1] === 4) {
 							if (intervals[2] === 3) {
-								return "augmented seventh chord";
+								return ["augmented seventh chord","aug7"];
 							}
 							else if (intervals[2] === 4) {
-								return "augmented triad";
+								return ["augmented triad","aug"];
 							}
 						}
 					}
@@ -437,36 +442,36 @@ $(document).ready(function() {
 						if (intervals[1] === 3) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return "diminished seventh chord";
+									return ["diminished seventh chord","dim7"];
 								}
 								else if (intervals[3] === 4) {
-									return "diminished 7 + major 9th chord";
+									return ["diminished minor ninth chord","dim-min9"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return "half-diminished 7 + minor 9th chord";
+									return ["half-diminished minor ninth chord","half-dim min9"];
 								}
 								else if (intervals[3] === 4) {
-									return "half-diminished 7 + major 9th chord";
+									return ["half-diminished ninth chord","half-dim9"];
 								}
 							}
 						}
 						else if (intervals[1] === 4) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return "minor 7 + minor 9th chord";
+									return ["minor ninth chord","min9"];
 								}
 								else if (intervals[3] === 4) {
-									return "minor 7 + major 9th chord";
+									return ["minor dominant ninth chord","min9"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return "minor-major 7 + minor 9th chord";
+									return ["minor-major ninth chord","min-maj9"];
 								}
 								else if (intervals[3] === 4) {
-									return "minor-major 7 + minor 9th chord";
+									return ["minor-major-minor ninth chord","min-maj-min9"];
 								}
 							}
 						}
@@ -475,36 +480,36 @@ $(document).ready(function() {
 						if (intervals[1] === 3) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return "dominant (major-minor) 7 + minor 9th chord";
+									return ["dominant minor ninth chord","dom-min9"];
 								}
 								else if (intervals[3] === 4) {
-									return "dominant (major-minor) 7 + major 9th chord";
+									return ["dominant ninth chord","9"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return "major 7 + minor 9th chord";
+									return ["major ninth chord","maj9"];
 								}
 								else if (intervals[3] === 4) {
-									return "major 7 + major 9th chord";
+									return ["mixed-minor-major seventh","min/maj7"];
 								}
 							}
 						}
 						else if (intervals[1] === 4) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return "augmented 7 + minor 9th chord";
+									return ["augmented major ninth chord","aug-maj9"];
 								}
 								else if (intervals[3] === 4) {
-									return "augmented 7 + major 9th chord";
+									return ["mixed minor-major augmented seventh","min/maj aug7"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return "augmented triad + minor 9th chord";
+									return ["mixed minor-major augmented triad","min/maj aug"];
 								}
 								else if (intervals[3] === 4) {
-									return "augmented triad + major 9th chord";
+									return ["augmented triad","aug"];
 								}
 							}
 						}
@@ -719,47 +724,53 @@ $(document).ready(function() {
 		}
 
 	/* getAnalysis */
-		function getAnalysis(rootName,chordType,chord,inversion,addedNotes) {
-			//starting string
-				var output = "";
-
+		function getAnalysis(rootName,shortType,chordType,chord,inversion,addedNotes) {
+			//bigOutput
+				var bigOutput = rootName + " " + shortType;
+			
+			//smallOutput
+				var smallOutput = "";
+			
 			//rootName
-				output += rootName;
+				var smallOutput += rootName;
 
 			//chordType
-				output += " " + chordType;
+				smallOutput += " " + chordType;
 
 			//chord
-				output += " (";
+				smallOutput += " (";
 				for (i = 0; i < chord.length; i++) {
-					output += chord[i];
+					smallOutput += chord[i];
 
 					if (i < chord.length - 1) {
-						output += " - ";
+						smallOutput += " - ";
 					}
 					else {
-						output += ")";
+						smallOutput += ")";
 					}
 				}
 
 			//inversion
 				if (inversion.length > 0) {
-					output += " in " + inversion;
+					smallOutput += " in " + inversion;
 				}
 
 			//addedNotes
 				if (addedNotes.length > 0) {
-					output += " with added ";
+					smallOutput += " with added ";
 					for (i = 0; i < addedNotes.length; i++) {
-						output += addedNotes[i];
+						smallOutput += addedNotes[i];
 
 						if (i < addedNotes.length - 1) {
-							output += ", ";
+							smallOutput += ", ";
 						}
 					}
 				}
 
-			return output;
+			return {
+				"bigOutput": bigOutput,
+				"smallOutput": smallOutput
+			}
 		}
 
 });
