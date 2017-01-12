@@ -119,3 +119,41 @@
 	.white.active {
 		background: linear-gradient(#eeeeee, #185A8B);
 	}
+
+/* clear */
+	#clear {
+		width: 72vw;
+		margin: 2vw 14vw 0vw 14vw;
+		height: 5vw;
+		background-color: #333333;
+		border-radius: 10px;
+		cursor: pointer;
+	}
+
+	#clear.active {
+		background: linear-gradient(#333333, #185A8B);
+	}
+
+	#clear:hover {
+		background: linear-gradient(#333333, #185A8B);
+	}
+
+	#center {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		text-align: center;
+		color: #eeeeee;
+		font-size: 20px;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+/* tones */
+	#tones {
+		width: 0px;
+		height: 0px;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
