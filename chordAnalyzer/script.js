@@ -445,12 +445,12 @@ $(document).ready(function() {
 									return ["diminished seventh chord","dim7"];
 								}
 								else if (intervals[3] === 4) {
-									return ["diminished minor ninth chord","dim-min9"];
+									return ["diminished minor ninth chord","dim-m9"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return ["half-diminished minor ninth chord","half-dim min9"];
+									return ["half-diminished minor ninth chord","half-dim m9"];
 								}
 								else if (intervals[3] === 4) {
 									return ["half-diminished ninth chord","half-dim9"];
@@ -460,18 +460,18 @@ $(document).ready(function() {
 						else if (intervals[1] === 4) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return ["minor ninth chord","min9"];
+									return ["minor ninth chord","m9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["minor dominant ninth chord","min9"];
+									return ["minor dominant ninth chord","dom-m9"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return ["minor-major ninth chord","min-maj9"];
+									return ["minor-major ninth chord","mM9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["minor-major-minor ninth chord","min-maj-min9"];
+									return ["minor-major-minor ninth chord","mMm9"];
 								}
 							}
 						}
@@ -480,7 +480,7 @@ $(document).ready(function() {
 						if (intervals[1] === 3) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return ["dominant minor ninth chord","dom-min9"];
+									return ["dominant minor ninth chord","dom-m9"];
 								}
 								else if (intervals[3] === 4) {
 									return ["dominant ninth chord","9"];
@@ -488,25 +488,25 @@ $(document).ready(function() {
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return ["major ninth chord","maj9"];
+									return ["major ninth chord","M9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["mixed-minor-major seventh","min/maj7"];
+									return ["mixed minor-major seventh","m/M 7"];
 								}
 							}
 						}
 						else if (intervals[1] === 4) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return ["augmented major ninth chord","aug-maj9"];
+									return ["augmented major ninth chord","aug-M9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["mixed minor-major augmented seventh","min/maj aug7"];
+									return ["mixed minor-major augmented seventh","m/M aug7"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return ["mixed minor-major augmented triad","min/maj aug"];
+									return ["mixed minor-major augmented triad","m/M aug"];
 								}
 								else if (intervals[3] === 4) {
 									return ["augmented triad","aug"];
