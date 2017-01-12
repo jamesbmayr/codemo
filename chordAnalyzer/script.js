@@ -31,6 +31,7 @@ $(document).ready(function() {
 				}
 				
 				$("#whiteKeys").append("<div id='key_24' class='key white lastkey' value='24'><span class='name'>C</span></div>");
+				$("#tones").append("<audio id='tone_24'><source src='24.m4a' type='audio/mpeg'></source></audio>");
 			}
 
 		/* listeners */
