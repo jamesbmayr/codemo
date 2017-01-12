@@ -471,7 +471,7 @@ $(document).ready(function() {
 									return ["minor-major ninth chord","mM9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["minor-major-minor ninth chord","mMm9"];
+									return ["minor augmented ninth chord","m-aug9"];
 								}
 							}
 						}
@@ -480,7 +480,7 @@ $(document).ready(function() {
 						if (intervals[1] === 3) {
 							if (intervals[2] === 3) {
 								if (intervals[3] === 3) {
-									return ["dominant minor ninth chord","dom-m9"];
+									return ["dominant ninth chord","dom-m9"];
 								}
 								else if (intervals[3] === 4) {
 									return ["dominant ninth chord","9"];
@@ -491,7 +491,7 @@ $(document).ready(function() {
 									return ["major ninth chord","M9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["mixed minor-major seventh","m/M 7"];
+									return ["major augmented ninth chord","M-aug9"];
 								}
 							}
 						}
@@ -501,12 +501,12 @@ $(document).ready(function() {
 									return ["augmented major ninth chord","aug-M9"];
 								}
 								else if (intervals[3] === 4) {
-									return ["mixed minor-major augmented seventh","m/M aug7"];
+									return ["augmented ninth chord","aug9"];
 								}
 							}
 							else if (intervals[2] === 4) {
 								if (intervals[3] === 3) {
-									return ["mixed minor-major augmented triad","m/M aug"];
+									return ["augmented minor ninth chord","aug-m9"];
 								}
 								else if (intervals[3] === 4) {
 									return ["augmented triad","aug"];
