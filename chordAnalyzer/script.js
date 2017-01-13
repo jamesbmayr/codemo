@@ -3,18 +3,27 @@ $(document).ready(function() {
 	/* * * page * * */
 		/* on load */
 			createKeyboard();
+			sustain(true);
 
 		/* createKeyboard */
 			function createKeyboard() {
 				var names = ["C","C#<br>Db","D","D#<br>Eb","E","F","F#<br>Gb","G","G#<br>Ab","A","A#<br>Bb","B"];
+				var buttons = ["a","w","s","e","d","f","t","g","y","h","u","j","k","o","l","p",";","&rsquo;","]","enter"];
 				var blackKeyMargins = ["left","right","left","none","right"];
 				var blackKeyMarginIndex = 0;
 				
 				for (octave = 0; octave < 2; octave++) {
 					for (pitch = 0; pitch < 12; pitch++) {
+						if ((octave * 12) + pitch < 20) {
+							var altText = " title='" + buttons[(octave * 12) + pitch] + "' ";
+						}
+						else {
+							var altText = "";
+						}
+
 						if ((pitch === 1) || (pitch === 3) || (pitch === 6) || (pitch === 8) || (pitch === 10)) {
 							var color = "black";
-							$("#blackKeys").append("<div id='key_" + ((octave * 12) + pitch) + "' class='key " + color + " " + blackKeyMargins[blackKeyMarginIndex] + "' value='" + ((octave * 12) + pitch) + "'><span class='name'>" + names[pitch] + "</span></div>");
+							$("#blackKeys").append("<div id='key_" + ((octave * 12) + pitch) + "' class='key " + color + " " + blackKeyMargins[blackKeyMarginIndex] + "' value='" + ((octave * 12) + pitch) + "'" + altText + "><span class='name'>" + names[pitch] + "</span></div>");
 							
 							blackKeyMarginIndex++;
 							if (blackKeyMarginIndex > 4) {
@@ -23,140 +32,271 @@ $(document).ready(function() {
 						}
 						else {
 							var color = "white";
-							$("#whiteKeys").append("<div id='key_" + ((octave * 12) + pitch) + "' class='key " + color + "' value='" + ((octave * 12) + pitch) + "'><span class='name'>" + names[pitch] + "</span></div>");
+							$("#whiteKeys").append("<div id='key_" + ((octave * 12) + pitch) + "' class='key " + color + "' value='" + ((octave * 12) + pitch) + "'" + altText + "><span class='name'>" + names[pitch] + "</span></div>");
 						}
 
-						$("#tones").append("<audio id='tone_" + ((octave * 12) + pitch) + "'><source src='" + ((octave * 12) + pitch) + ".m4a' type='audio/mpeg'></source></audio>");
+						$("#tones").append("<audio id='tone_" + ((octave * 12) + pitch) + "'><source src='tones/" + ((octave * 12) + pitch) + ".m4a' type='audio/mpeg'></source></audio>");
 					}
 				}
 				
 				$("#whiteKeys").append("<div id='key_24' class='key white lastkey' value='24'><span class='name'>C</span></div>");
-				$("#tones").append("<audio id='tone_24'><source src='24.m4a' type='audio/mpeg'></source></audio>");
+				$("#tones").append("<audio id='tone_24'><source src='tones/24.m4a' type='audio/mpeg'></source></audio>");
 			}
 
 		/* listeners */
-			$(document).on("click",".key",function() {
-				$(this).toggleClass("active");
-				analyzeChord();
+			$(document).on("mousedown",".key",function() {
+				var key = $(this).attr("value");
+				window.lastKey = key;
+				activate(true,key);
+			});
 
-				if ($(this).hasClass("active")) {
-					playTone($(this).attr("value"));
+			$(document).on("mousedown","#sustain",function() {
+				if ($("#sustain").hasClass("sustaining")) {
+					sustain(false);
 				}
 				else {
-					stopTone($(this).attr("value"));
+					sustain(true);
 				}
 			});
 
-			$(document).on("click","#clear",function() {
-				$(".active").removeClass("active");
-				analyzeChord();
+			$(document).on("mouseup",".key",function() {
+				var key = window.lastKey;
+				setTimeout(function() {
+					activate(false,key);
+				}, 500);
 			});
 
 			$(document).on("keydown",document,function(key) {
-				switch (key.which) {
-					case 65:
-						var activate = 0;
-					break;
-
-					case 87:
-						var activate = 1;
-					break;
-
-					case 83:
-						var activate = 2;
-					break;
-
-					case 69:
-						var activate = 3;
-					break;
-
-					case 68:
-						var activate = 4;
-					break;
-
-					case 70:
-						var activate = 5;
-					break;
-
-					case 84:
-						var activate = 6;
-					break;
-
-					case 71:
-						var activate = 7;
-					break;
-
-					case 89:
-						var activate = 8;
-					break;
-
-					case 72:
-						var activate = 9;
-					break;
-
-					case 85:
-						var activate = 10;
-					break;
-
-					case 74:
-						var activate = 11;
-					break;
-
-					case 75:
-						var activate = 12;
-					break;
-
-					case 79:
-						var activate = 13;
-					break;
-
-					case 76:
-						var activate = 14;
-					break;
-
-					case 80:
-						var activate = 15;
-					break;
-
-					case 186:
-						var activate = 16;
-					break;
-
-					case 222:
-						var activate = 17;
-					break;
-
-					case 221:
-						var activate = 18;
-					break;
-
-					case 13:
-						var activate = 19;
-					break;
-
-					case 32:
-						var activate = -1;
-					break;
+				if (key.which === 32) {
+					sustain(true);
 				}
+				else {
+					switch (key.which) {
+						case 65:
+							var key = 0;
+						break;
 
-				if (typeof activate !== "undefined") {
-					if (activate === -1) {
-						$("#clear").addClass("active");
+						case 87:
+							var key = 1;
+						break;
+
+						case 83:
+							var key = 2;
+						break;
+
+						case 69:
+							var key = 3;
+						break;
+
+						case 68:
+							var key = 4;
+						break;
+
+						case 70:
+							var key = 5;
+						break;
+
+						case 84:
+							var key = 6;
+						break;
+
+						case 71:
+							var key = 7;
+						break;
+
+						case 89:
+							var key = 8;
+						break;
+
+						case 72:
+							var key = 9;
+						break;
+
+						case 85:
+							var key = 10;
+						break;
+
+						case 74:
+							var key = 11;
+						break;
+
+						case 75:
+							var key = 12;
+						break;
+
+						case 79:
+							var key = 13;
+						break;
+
+						case 76:
+							var key = 14;
+						break;
+
+						case 80:
+							var key = 15;
+						break;
+
+						case 186:
+							var key = 16;
+						break;
+
+						case 222:
+							var key = 17;
+						break;
+
+						case 221:
+							var key = 18;
+						break;
+
+						case 13:
+							var key = 19;
+						break;
+
+						default:
+							var key = -1;
 					}
-					else {
-						$("#key_" + activate).addClass("active");
-						analyzeChord();
-						playTone(activate);
-					}
+
+					activate(true,key);
 				}
 			});
 
 			$(document).on("keyup",document,function(key) {
 				if (key.which === 32) {
-					$(".active").removeClass("active");
-					analyzeChord();
+					sustain(false);
+				}
+				else {
+					switch (key.which) {
+						case 65:
+							var key = 0;
+						break;
+
+						case 87:
+							var key = 1;
+						break;
+
+						case 83:
+							var key = 2;
+						break;
+
+						case 69:
+							var key = 3;
+						break;
+
+						case 68:
+							var key = 4;
+						break;
+
+						case 70:
+							var key = 5;
+						break;
+
+						case 84:
+							var key = 6;
+						break;
+
+						case 71:
+							var key = 7;
+						break;
+
+						case 89:
+							var key = 8;
+						break;
+
+						case 72:
+							var key = 9;
+						break;
+
+						case 85:
+							var key = 10;
+						break;
+
+						case 74:
+							var key = 11;
+						break;
+
+						case 75:
+							var key = 12;
+						break;
+
+						case 79:
+							var key = 13;
+						break;
+
+						case 76:
+							var key = 14;
+						break;
+
+						case 80:
+							var key = 15;
+						break;
+
+						case 186:
+							var key = 16;
+						break;
+
+						case 222:
+							var key = 17;
+						break;
+
+						case 221:
+							var key = 18;
+						break;
+
+						case 13:
+							var key = 19;
+						break;
+
+						default:
+							var key = -1;
+					}
+
+					activate(false,key);
 				}
 			});
+
+		/* activate */
+			function activate(go,key) {
+				var sustaining = $("#sustain").hasClass("sustaining");
+
+				if (key > -1) {
+					if (go) {
+						if (!$("#key_" + key).hasClass("pressed")) {
+							$("#key_" + key).addClass("pressed");
+							$("#key_" + key).addClass("active");
+							playTone(key);
+							analyzeChord();
+						}
+					}
+					else if (!go) {
+						$("#key_" + key).removeClass("pressed");
+
+						if (!sustaining) {
+							$("#key_" + key).removeClass("active");
+							stopTone(key);
+							analyzeChord();
+						}
+					}
+				}
+
+			}
+
+		/* sustain */
+			function sustain(go) {
+				if (go) {
+					$("#sustain").addClass("sustaining");
+				}
+				else if (!go) {
+					$("#sustain").removeClass("sustaining");
+					$(".key.active").each(function(index) {
+						if (!$(this).hasClass("pressed")) {
+							$(this).removeClass("active");
+							var key = $(this).attr("value");
+							stopTone(key);
+						}
+					});
+					analyzeChord();
+				}
+			}
 
 	/* * * chord analysis * * */
 		/* analyzeChord */
@@ -168,8 +308,7 @@ $(document).ready(function() {
 					var output = getChord(pitches);
 						var chord = output["chord"];
 						var addedNotes = output["addedNotes"];
-						console.log("chord: " + chord);
-						console.log("added notes: " + addedNotes);
+					console.log("chord: " + chord + " + [" + addedNotes + "]");
 
 					var rootName = getRootName(chord);
 					console.log("root name: " + rootName);
@@ -183,17 +322,17 @@ $(document).ready(function() {
 					var output = getChordType(intervals);
 						var chordType = output[0];
 						var shortType = output[1];
-					console.log("chord type: " + chordType + "(" + shortType + ")");
+					console.log("chord type: " + chordType + " (" + shortType + ")");
 
 					var output = getNoteNames(rootName,chord,addedNotes);
 						var chord = output["chord"];
 						var addedNotes = output["addedNotes"];
-					console.log("chord: " + chord + " [" + addedNotes + "]");
+					console.log("chord: " + chord + " + [" + addedNotes + "]");
 
 					var output = getAnalysis(rootName,shortType,chordType,chord,inversion,addedNotes);
 						var bigOutput = output["bigOutput"];
 						var smallOutput = output["smallOutput"];
-					console.log("analysis: " + bigOutput + " (" + smallOutput + ")");
+					console.log("...");
 				}
 				else {
 					var bigOutput = "";
@@ -652,9 +791,7 @@ $(document).ready(function() {
 					for (i = 1; i < chord.length; i++) {
 						//get the previousLetter (sans flats or sharps), and go 2 letters up
 							var previousLetter = chord[i - 1][0];
-							console.log(previousLetter + " is previousLetter");
 							var thisLetter = letters[(letters.indexOf(previousLetter) + 2) % 7];
-							console.log(thisLetter + " is thisLetter");
 
 						//replace the pitch number with the noteName by matching it to the letter
 							switch (thisLetter) {

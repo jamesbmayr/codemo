@@ -120,8 +120,8 @@
 		background: linear-gradient(#eeeeee, #185A8B);
 	}
 
-/* clear */
-	#clear {
+/* sustain */
+	#sustain {
 		width: 72vw;
 		margin: 2vw 14vw 0vw 14vw;
 		height: 5vw;
@@ -130,15 +130,15 @@
 		cursor: pointer;
 	}
 
-	#clear.active {
+	#sustain.sustaining {
 		background: linear-gradient(#333333, #185A8B);
 	}
 
-	#clear:hover {
+	#sustain:hover {
 		background: linear-gradient(#333333, #185A8B);
 	}
 
-	#center {
+	#sustainText {
 		position: relative;
 		top: 50%;
 		transform: translateY(-50%);
