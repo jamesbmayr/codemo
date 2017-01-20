@@ -11,33 +11,45 @@
 		background-repeat: no-repeat;
 		background-image: url("banner.png");
 		background-color: gray;
-	}
-
-	.demoButton {
-		float: left;
-		background-color: darkgray;
-		text-align: center;
-		color: white;
-		font-size: 20px;
-		font-family: Ubuntu, arial, sans-serif;
-		-webkit-user-select: none;        
-		-moz-user-select: none;
-		-ms-user-select: none;
-		cursor: pointer;
-	}
-
-	.demoButton:hover {
-		background-color: gray;
-		color: #50C6E0;
+		cursor: default;
 	}
 
 	#footer {
-		height: 10px;
+		height: 0px;
 		width: 100%;
 		background-color: gray;
 	}
 
-	.selected {
-		background-color: gray;
-		color: #50C6E0;
+/* demoList */
+	#demoListBlock {
+		width: 100%;
+		background-color: #333333;
+	}
+
+	#instructions {
+		float: left;
+		width: 25vw;
+		height: 50px;
+		padding: 5px;
+		font-size: 25px;
+		color: lightgray;
+		text-align: center;
+		-webkit-user-select: none;        
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: default;
+		overflow: hidden;
+	}
+
+	#demoList {
+		display: inline-block;
+		width: 75vw;
+		height: 50px;
+		font-weight: bold;
+		font-size: 25px;
+		padding: 5px;
+		background-color: #555555;
+		color: lightgray;
+		border: 5px solid #555555;
+		cursor: pointer;
 	}

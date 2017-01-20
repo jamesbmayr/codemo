@@ -1,74 +1,83 @@
-body {
-	font-family: sans-serif;
-}
+/* page */
+	body {
+		font-family: sans-serif;
+		background-color: lightgray;
+	}
 
-#outerwall {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateY(-50%) translateX(-50%);
-	background-color: gray;
-	padding: 40px;
-	border-radius: 20px;
-	text-align: center;
-}
+/* maze */
+	#outerwall {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+		background-color: #333333;
+		padding: 40px;
+		border-radius: 20px;
+		text-align: center;
+	}
 
-.maze {
-	border: 0;
-	margin: 0;
-}
+	.maze {
+		border: 0;
+		margin: 0;
+	}
 
-.black {
-	background-color: black;
-	float: left;
-}
+	.black {
+		background-color: #333333;
+		float: left;
+	}
 
-.white {
-	background-color: white;
-	float: left;
-}
+	.white {
+		background-color: lightgray;
+		float: left;
+	}
 
-#player {
-	position: absolute;
-	top: 40px;
-	left: 40px;
-	display: block;
-	border: 0;
-	margin: 0;
-	z-index: 1;
-	border-radius: 100%;
-	background-color: red;
-}
+/* game */
+	#player {
+		position: absolute;
+		top: 40px;
+		left: 40px;
+		display: block;
+		border: 0;
+		margin: 0;
+		z-index: 1;
+		border-radius: 100%;
+		background-color: #314dea;
+	}
 
-#keyCounter {
-	text-align: center;
-	font-family: sans-serif;
-	color: white;
-	vertical-align: middle;
-}
+	#keyCounter {
+		text-align: center;
+		font-family: sans-serif;
+		color: lightgray;
+		vertical-align: middle;
+	}
 
-#clickCounter {
-	text-align: center;
-	font-family: sans-serif;
-	color: white;
-	vertical-align: middle;
-}
+	#clickCounter {
+		text-align: center;
+		font-family: sans-serif;
+		color: lightgray;
+		vertical-align: middle;
+	}
 
-#victory {
-	border: 0;
-	border-radius: 20px;
-	background-color: lightblue;
-	color: goldenrod;
-	text-align: center;
-	padding: 20px;
-	-webkit-user-select: none;      
-	-moz-user-select: none;
-	-ms-user-select: none;
-	text-decoration: none;
-	font-size: 50px;
-}
+	.special {
+		background-color: gray;
+	}
 
-#victory:hover {
-	background-color: goldenrod;
-	color: lightblue;
-}
+/* victory */
+	#victory {
+		border: 0;
+		border-radius: 20px;
+		background-color: lightgray;
+		color: #333333;
+		text-align: center;
+		padding: 20px;
+		-webkit-user-select: none;      
+		-moz-user-select: none;
+		-ms-user-select: none;
+		text-decoration: none;
+		font-size: 50px;
+	}
+
+	#victory:hover {
+		background-color: gray;
+		color: lightgray;
+	}

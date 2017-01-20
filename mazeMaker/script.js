@@ -59,8 +59,8 @@ $(document).ready(function(){
 
 		var startSquare = 1010;
 		var endSquare = ((y+9)*100) + (x+9);
-		$('#'+startSquare).removeClass('black').addClass('white').css('background-color','blue');
-		$('#'+endSquare).removeClass('black').addClass('white').css('background-color','green').css('line-height', z+'px').append('<div id="clickCounter" style="font-size: '+(z/2)+'px"></div>');
+		$('#'+startSquare).removeClass('black').addClass('white').addClass('special');
+		$('#'+endSquare).removeClass('black').addClass('white').addClass('special').css('line-height', z+'px').append('<div id="clickCounter" style="font-size: '+(z/2)+'px"></div>');
 		$('#outerwall').css('width',x*z);
 
 	//---control the ball---//

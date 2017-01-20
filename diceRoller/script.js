@@ -4,13 +4,12 @@ $(document).ready(function() {
 		$('.dice').removeClass('active');
 
 		var button = $(this);
-		button.addClass('active');
 
-		var counter = button.prev();
-		var subtotal = button.next();
+		var counter = button.next();
+		var subtotal = button.next().next();
 		var total = $('#total');
 
-		var die = button.text();
+		var die = Number($(button).val());
 		var result = Math.random() * Number(die);
 		result = Math.floor(result) + 1;
 
@@ -26,7 +25,6 @@ $(document).ready(function() {
 	});
 
 	$('#resetButton').click(function() {
-		$('.dice').removeClass('active');
 		$('.counter').text('');
 		$('.subtotal').text('');
 		$('.total').text('');

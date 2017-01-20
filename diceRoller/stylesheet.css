@@ -1,127 +1,140 @@
-body {
-	font-family: sans-serif;
-}
+/* page */
+	body {
+		font-family: sans-serif;
+		background-color: lightgray;
+	}
 
-.container {
-	border: goldenrod solid 2px;
-	padding: 10px;
-	text-align: center;
-	width: 200px;
-	border-radius: 10px;
-	background-color: beige;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translateY(-50%) translateX(-50%);
-}
+	.container {
+		border: gray solid 5px;
+		padding: 10px;
+		text-align: center;
+		width: 800px;
+		height: 400px;
+		border-radius: 10px;
+		background-color: gray;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+	}
 
-#header {
-	display: inline-block;
-	margin: auto auto;
-	font-size: 25px;
-	color: green;
-	width: 150px;
-	border-radius: 5px;
-	border: green solid 2px;
-	text-align: center;
-	vertical-align: middle;
-	background-color: lightgreen;
-	padding: 10%;
-}
+/* header */
+	#header {
+		float: left;
+		text-align: center;
+		width: 800px;
+		height: 50px;
+		font-size: 40px;
+		font-weight: bold;
+		color: lightgray;
+	}
 
-.row {
-	display: block;
-	width: 100%;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
+/* dice */
+	.row {
+		float: left;
+		width: 100px;
+		height: 200px;
+		text-align: center;
+	}
 
-.counter {
-	display: inline-block;
-	background-color: white;
-	color: gray;
-	border: gray solid 2px;
-	border-radius: 100%;
-	width: 20px;
-	height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	padding: 5%;
-}
+	.dice {
+		display: block;
+		background-color: #333333;
+		color: lightgray;
+		border-radius: 5px;
+		border: 0px;
+		width: 80px;
+		height: 80px;
+		text-align: center;
+		margin: 10px;
+		padding: 5%;
+		font-size: 25px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: pointer;
+	}
 
-.dice {
-	display: inline-block;
-	background-color: lightblue;
-	color: blue;
-	border: blue solid 2px;
-	border-radius: 5px;
-	width: 50px;
-	height: 20px;
-	text-align: center;
-	vertical-align: middle;
-	margin-left: 10px;
-	margin-right: 10px;
-	padding: 5%;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-}
+	.dice:hover {
+		background-color: lightgray;
+		color: #333333;
+	}
 
-.dice:hover {
-	background-color: blue;
-	color: lightblue;
-}
+	.counter {
+		display: block;
+		background-color: darkgray;
+		color: white;
+		height: 15px;
+		width: 15px;
+		margin-left: 70px;
+		margin-bottom: -12px;
+		padding: 5px;
+		font-size: 12px;
+		border-radius: 100%;
+		text-align: center;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: default;
+	}
 
-.subtotal {
-	display: inline-block;
-	background-color: gray;
-	color: white;
-	height: 20px;
-	width: 20px;
-	border-radius: 5px;
-	border: black solid 2px;
-	text-align: center;
-	vertical-align: middle;
-	padding: 5%;
-}
+	.subtotal {
+		display: block;
+		background-color: lightgray;
+		color: gray;
+		border-radius: 100%;
+		width: 50px;
+		height: 50px;
+		font-size: 40px;
+		text-align: center;
+		padding: 5%;
+		margin: auto auto;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: default;
+	}
 
-.total {
-	display: inline-block;
-	background-color: gray;
-	color: white;
-	height: 20px;
-	width: 145px;
-	border-radius: 5px;
-	border: black solid 2px;
-	text-align: center;
-	vertical-align: middle;
-	font-size: 20px;
-	padding: 10%;
-	margin-bottom: 5px;
-	margin-left: 5px;
-}
+/* footer */
+	#footer {
+		float: left;
+		width: 100%;
+		height: 150px;
+	}
 
-.active {
-	border: red solid 2px;
-}
+	.total {
+		float: left;
+		color: lightgray;
+		height: 130px;
+		width: 625px;
+		margin-right: 15px;
+		border-radius: 5px;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 100px;
+		border: 5px solid lightgray;
+		padding-top: 10px;
+	}
 
-#resetButton {
-	display: inline-block;
-	background-color: lightgreen;
-	color: green;
-	border: green solid 2px;
-	border-radius: 5px;
-	width: 175px;
-	height: 20px;
-	text-align: center;
-	margin-top: 0px;
-	padding: 3%;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-}
+	#resetButton {
+		float: right;
+		background-color: #333333;
+		color: lightgray;
+		border: 0px;
+		border-radius: 5px;
+		width: 150px;
+		height: 150px;
+		text-align: center;
+		font-size: 40px;
+		font-weight: bold;
+		padding: 10px;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		cursor: pointer;
+	}
 
-#resetButton:hover {
-	background-color: green;
-	color: lightgreen;
-}
+	#resetButton:hover {
+		background-color: lightgray;
+		color: #333333;
+	}

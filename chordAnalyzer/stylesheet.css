@@ -136,10 +136,13 @@
 		background-color: #333333;
 		border-radius: 10px;
 		cursor: pointer;
+		color: #eeeeee;
 	}
 
 	#sustain.sustaining {
 		background: linear-gradient(#333333, #185A8B);
+		color: #88BAEB;
+		text-shadow: 0px 0px 25px #eeeeee;
 	}
 
 	#sustain:hover {
@@ -151,7 +154,6 @@
 		top: 50%;
 		transform: translateY(-50%);
 		text-align: center;
-		color: #eeeeee;
 		font-size: 20px;
 		font-weight: bold;
 		text-transform: uppercase;
