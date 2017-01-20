@@ -7,6 +7,13 @@
 		text-align: center;
 	}
 
+	#container {
+		position: absolute;
+		width: calc(100vh - 50px + 100px + 25px);
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
 /* puzzle */
 	#puzzle {
 		width: calc(100vh - 50px);
@@ -71,7 +78,7 @@
 	#buttons {
 		float: left;
 		width: 100px;
-		height: 100%;
+		height: calc(100vh - 50px);
 		border: 5px solid gray;
 		background-color: gray;
 		border-radius: 10px;
@@ -87,6 +94,7 @@
 		width: 80px;
 		height: 80px;
 		margin: auto auto;
+		margin-bottom: 10px;
 		border: 5px solid lightgray;
 		cursor: default;
 		background-color: gray;
