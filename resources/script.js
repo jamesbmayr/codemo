@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	/* create page */
-		var demoArray = ["colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","wordCounter","clipPather",];
+		var demoArray = ["colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","wordCounter","clipPather"];
 
 		for (i = 0; i < demoArray.length; i++) {
 			$("#demoList").append('<option id="' + demoArray[i] + '" value="' + demoArray[i] + '">' + demoArray[i] + '</option>');
@@ -10,6 +10,14 @@ $(document).ready(function(){
 	/* load from hash */
 		if (String(location.hash).length > 0) {
 			var selected = String(location.hash).replace("#","");
+			$("#" + selected).attr("selected","true");
+			$("#demo").attr("src", selected + "/index.html");
+		}
+		else {
+			var array = $("option").toArray();
+			var random = Math.floor(Math.random() * demoArray.length);
+			var selected = array[random].value;
+			
 			$("#" + selected).attr("selected","true");
 			$("#demo").attr("src", selected + "/index.html");
 		}
