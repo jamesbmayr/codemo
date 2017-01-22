@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	/* create page */
-		var demoArray = ["colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","wordCounter","clipPather"];
+		var demoArray = ["tickTocker","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","wordCounter","clipPather"];
 
 		for (i = 0; i < demoArray.length; i++) {
 			$("#demoList").append('<option id="' + demoArray[i] + '" value="' + demoArray[i] + '">' + demoArray[i] + '</option>');

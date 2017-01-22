@@ -1,0 +1,105 @@
+/* page */
+	body {
+		background-color: #333333;
+		font-size: 10px;
+		color: #071a38;
+		font-weight: bold;
+		line-height: 1;
+	}
+
+	#title {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		font-size: 20px;
+		font-family: sans-serif;
+		color: white;
+	}
+
+/* face */
+	.face {
+		border-radius: 100%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		text-align: center;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: default;
+		box-shadow: 0px 0px 15px rgba(000,000,000,.8);
+	}
+
+	#face_second {
+		width: 90vh;
+		height: 90vh;
+		background-color: #235cba;
+	}
+
+	#face_minute {
+		width: 80vh;
+		height: 80vh;
+		background-color: #164ba0;
+	}
+
+	#face_hour {
+		width: 70vh;
+		height: 70vh;
+		background-color: #113d84;
+	}
+
+	#face_day {
+		width: 60vh;
+		height: 60vh;
+		background-color: #0e3470;
+	}
+
+	#face_date {
+		width: 50vh;
+		height: 50vh;
+		background-color: #0c2f68;
+	}
+
+	#face_month {
+		width: 40vh;
+		height: 40vh;
+		background-color: #0a2859;
+	}
+
+	#face_year {
+		width: 30vh;
+		height: 30vh;
+		background-color: #082047;
+	}
+
+	#face_center {
+		width: 20vh;
+		height: 20vh;
+		background-color: #071a38;
+	}
+
+/* hands */
+	.hand {
+		height: 100%;
+		width: 30px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.inner {
+		margin-top: 2px;
+		height: 50%;
+		width: 100%;
+		border-radius: 15px;
+		padding-top: 5px;
+		background: linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.5));
+		box-shadow: 0px 0px 15px rgba(000,000,000,.8);
+		text-align: center;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: default;
+	}
