@@ -80,7 +80,7 @@ $(document).ready(function() {
 				var emptyX = Number(gridSize - 1);
 				var emptyY = Number(gridSize - 1);
 
-				for (i = 0; i < (gridSize * gridSize * gridSize); i++) {				
+				for (i = 0; i < (gridSize * gridSize * gridSize * gridSize); i++) {			
 				 	var options = [[emptyX + 1,emptyY],[emptyX - 1,emptyY],[emptyX,emptyY + 1],[emptyX,emptyY - 1]];
 				 	do {
 				 		var r = Math.floor(Math.random() * options.length);
@@ -98,6 +98,14 @@ $(document).ready(function() {
 
 	/* slideTile */
 		function slideTile(emptyX,emptyY,x,y) {
+			/* slideTime */
+				if (window.playing) {
+					slideTime = 1000;
+				}
+				else {
+					slideTime = 200;
+				}
+
 			/* do the sliding */
 				if ((x + 1 === emptyX) && (y === emptyY)) {
 					//slide right
@@ -108,7 +116,7 @@ $(document).ready(function() {
 
 						$(".tile[value='" + x + "," + y + "']").attr("value",emptyX + "," + emptyY).animate({
 							"left": "+=" + (100 / gridSize) + "%"
-						},1000);
+						},slideTime);
 				}
 				else if ((x - 1 === emptyX) && (y === emptyY)) {
 					//slide left
@@ -119,7 +127,7 @@ $(document).ready(function() {
 
 						$(".tile[value='" + x + "," + y + "']").attr("value",emptyX + "," + emptyY).animate({
 							"left": "-=" + (100 / gridSize) + "%"
-						},1000);
+						},slideTime);
 				}
 				else if ((x === emptyX) && (y + 1 === emptyY)) {
 					//slide down
@@ -130,7 +138,7 @@ $(document).ready(function() {
 
 						$(".tile[value='" + x + "," + y + "']").attr("value",emptyX + "," + emptyY).animate({
 							"top": "+=" + (100 / gridSize) + "%"
-						},1000);
+						},slideTime);
 				}
 				else if ((x === emptyX) && (y - 1 === emptyY)) {
 					//slide up
@@ -141,7 +149,7 @@ $(document).ready(function() {
 
 						$(".tile[value='" + x + "," + y + "']").attr("value",emptyX + "," + emptyY).animate({
 							"top": "-=" + (100 / gridSize) + "%"
-						},1000);
+						},slideTime);
 				}
 				else {
 					//none
