@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>tileSlider</title>
+		<link rel="shortcut icon" type="image" href="https://cdn0.iconfinder.com/data/icons/faticons-2/26/tiles-512.png"></link>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="controls">
+				<input type="text" id="url" placeholder="enter an image url..."></input>
+				<select id="gridSize">
+					<option value="3">3 x 3</option>
+					<option value="4" selected>4 x 4</option>
+					<option value="5">5 x 5</option>
+					<option value="6">6 x 6</option>
+					<option value="7">7 x 7</option>
+					<option value="8">8 x 8</option>
+				</select>
+				<button id="refresh"><span class="glyphicon glyphicon-refresh"></span></button>
+			</div>
+			<div id="tiles"></div>
+			<div id="triggers"></div>
+			<div id='victoryOuter'>
+				<div id='victoryInner'>
+					<div id='message'>victory</div>
+					<div id='moveCount'></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

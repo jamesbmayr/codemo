@@ -1,0 +1,150 @@
+/* page */
+	body {
+		background-color: lightgray;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		overflow: hidden;
+	}
+
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 10px;
+		border: 10px solid #333333;
+		background-color: #333333;
+		padding: 0px;
+		margin: 0px;
+		height: calc(90vh + 30px);
+		width: calc(80vh + 20px);
+	}
+
+/* controls */
+	#controls {
+		position: absolute;
+		width: 80vh;
+		height: 10vh;
+		background-color: #333333;
+		border: 0px;
+		margin-bottom: 10px;
+	}
+
+	#url {
+		float: left;
+		padding: 10px;
+		font-size: 15px;
+		color: #333333;
+		width: 70%;
+		height: 100%;
+		border-radius: 5px 0px 0px 0px;
+		border: 0px;
+	}
+
+	#gridSize {
+		float: left;
+		padding: 5px;
+		color: lightgray;
+		background-color: #333333;
+		zoom: 2;
+		width: 20%;
+		height: 100%;
+		border-radius: 0px;
+		border: 0px;
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+	}
+
+	#refresh {
+		float: left;
+		background-color: #333333;
+		color: lightgray;
+		width: 10%;
+		height: 100%;
+		border: 0px;
+		border-radius: 0px 5px 0px 0px;
+		font-size: 25px;
+		padding: 5px;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	#refresh:hover {
+		background-color: darkgray;
+		color: #333333;
+	}
+
+/* tiles */
+	#tiles {
+		z-index: 1;
+		position: absolute;
+		height: 80vh;
+		width: 80vh;
+		top: calc(10vh + 10px);
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.tile {
+		background-repeat: no-repeat;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		width: 80vh;
+		height: 80vh;
+		background-size: cover;
+		background-position: center center;
+	}
+
+/* triggers */
+	#triggers {
+		z-index: 2;
+		position: absolute;
+		height: 80vh;
+		width: 80vh;
+		top: calc(10vh + 10px);
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.trigger {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		width: 80vh;
+		height: 80vh;
+		background-color: rgba(000,000,000,0);
+	}
+
+/* victory */
+	#victoryOuter {
+		position: absolute;
+		height: 80vh;
+		width: 80vh;
+		opacity: 0;
+		top: calc(10vh + 10px);
+	}
+
+	#victoryInner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		color: darkgray;
+		font-size: 50px;
+		font-weight: bold;
+		text-align: center;
+		cursor: default;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+	}
