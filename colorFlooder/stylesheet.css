@@ -1,26 +1,63 @@
 /* document */
-	body {
-		background-color: lightgray;
-		margin: 25px;
-		padding: 0px;
-		border: 0px;
-		text-align: center;
+	@media screen and (min-width: 800px) {
+		body {
+			background-color: lightgray;
+			margin: 25px;
+			padding: 0px;
+			border: 0px;
+			text-align: center;
+		}
+
+		#container {
+			position: absolute;
+			width: calc(100vh - 50px + 100px + 25px);
+			height: calc(100vh + 50px);
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 
-	#container {
-		position: absolute;
-		width: calc(100vh - 50px + 100px + 25px);
-		left: 50%;
-		transform: translateX(-50%);
+	@media screen and (max-width: 800px) {
+		body {
+			background-color: lightgray;
+			margin: 0px;
+			padding: 0px;
+			border: 0px;
+			text-align: center;
+		}
+
+		#container {
+			position: absolute;
+			width: calc(100vw - 50px);
+			height: auto;
+			left: 50%;
+			top: 25px;
+			margin-bottom: 25px;
+			transform: translateX(-50%);
+		}
 	}
 
 /* puzzle */
-	#puzzle {
-		width: calc(100vh - 50px);
-		height: calc(100vh - 50px);
-		border: 5px solid gray;
-		border-radius: 10px;
-		float: left;
+	@media screen and (min-width: 800px) {
+		#puzzle {
+			width: calc(100% - 125px);
+			height: calc(100% - 100px);
+			border: 5px solid gray;
+			border-radius: 10px;
+			float: left;
+			background-color: gray;
+		}
+	}
+
+	@media screen and (max-width: 800px) {
+		#puzzle {
+			width: 100%;
+			height: calc(100vw - 50px);
+			border: 5px solid gray;
+			border-radius: 10px;
+			float: left;
+			background-color: gray;
+		}
 	}
 
 	.row {
@@ -29,6 +66,7 @@
 		float: left;
 		margin: 0px;
 		padding: 0px;
+		border: 0px;
 	}
 
 	.cell {
@@ -75,49 +113,96 @@
 	}
 
 /* buttons */
-	#buttons {
-		float: left;
-		width: 100px;
-		height: calc(100vh - 50px);
-		border: 5px solid gray;
-		background-color: gray;
-		border-radius: 10px;
-		margin-right: 25px;
-		padding: 5px;
-		max-height: calc(100vh - 50px);
-		overflow-x: hidden;
-		overflow-y: scroll;
+	@media screen and (min-width: 800px) {
+		#buttons {
+			float: left;
+			width: 100px;
+			height: auto;
+			max-height: calc(100vw - 75px);
+			border: 5px solid gray;
+			background-color: gray;
+			border-radius: 10px;
+			margin-right: 25px;
+			padding: 5px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		#counterOuter {
+			border-radius: 10px;
+			width: 80px;
+			height: 80px;
+			margin: auto auto;
+			margin-bottom: 10px;
+			border: 5px solid lightgray;
+			cursor: default;
+			background-color: gray;
+			padding: auto auto;
+			text-align: center;
+		}
+
+		#counterInner {
+			text-align: center;
+			color: lightgray;
+			font-size: 50px;
+			user-select: none;
+			-webkit-user-select: none;
+		}
+
+		.button {
+			border-radius: 100%;
+			width: 80px;
+			height: 80px;
+			margin: auto auto;
+			margin-top: 5px;
+			cursor: pointer;
+			border: 5px solid gray;
+		}
 	}
 
-	#counterOuter {
-		border-radius: 10px;
-		width: 80px;
-		height: 80px;
-		margin: auto auto;
-		margin-bottom: 10px;
-		border: 5px solid lightgray;
-		cursor: default;
-		background-color: gray;
-		padding: auto auto;
-		text-align: center;
-	}
+	@media screen and (max-width: 800px) {
+		#buttons {
+			float: left;
+			min-height: 100px;
+			width: auto;
+			border: 5px solid gray;
+			background-color: gray;
+			border-radius: 10px;
+			margin-bottom: 25px;
+			padding: 0px;
+		}
 
-	#counterInner {
-		text-align: center;
-		color: lightgray;
-		font-size: 50px;
-		user-select: none;
-		-webkit-user-select: none;
-	}
+		#counterOuter {
+			float: left;
+			border-radius: 10px;
+			width: 80px;
+			height: 80px;
+			margin: 5px;
+			border: 5px solid lightgray;
+			cursor: default;
+			background-color: gray;
+			padding: auto auto;
+			text-align: center;
+		}
 
-	.button {
-		border-radius: 100%;
-		width: 80px;
-		height: 80px;
-		margin: auto auto;
-		margin-top: 5px;
-		cursor: pointer;
-		border: 5px solid gray;
+		#counterInner {
+			text-align: center;
+			color: lightgray;
+			font-size: 50px;
+			user-select: none;
+			-webkit-user-select: none;
+		}
+
+		.button {
+			float: left;
+			border-radius: 100%;
+			width: 80px;
+			height: 80px;
+			margin: auto auto;
+			margin: 5px;
+			cursor: pointer;
+			border: 5px solid gray;
+		}
 	}
 
 	.button:hover {
@@ -135,6 +220,10 @@
 		position: relative;
 		top: 50%;
 		transform: translateY(-50%);
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: default;
 	}
 
 	#message {

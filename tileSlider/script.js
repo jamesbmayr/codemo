@@ -70,7 +70,7 @@ $(document).ready(function() {
 					}
 				}
 
-				$(".trigger").css("width","calc(80vh / " + gridSize + ")").css("height","calc(80vh / " + gridSize + ")");
+				$(".trigger").css("width","calc(100% / " + gridSize + ")").css("height","calc(100% / " + gridSize + ")");
 
 			/* empty */
 				$(".tile[value='" + (gridSize - 1) + "," + (gridSize - 1) + "']").remove();
