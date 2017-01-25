@@ -15,37 +15,44 @@
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		border: 5px solid #666666;
+		border: 5px solid #dddddd;
 		border-radius: 10px;
+		margin: 0px;
 	}
 
 /* colors */
 	[color="red"] {
-		background-color: red;
+		background-color: rgba(255,000,000,.75);
 	}
 
 	[color="green"] {
-		background-color: green;
+		background-color: rgba(000,255,000,.75);
 	}
 
 	[color="blue"] {
-		background-color: blue;
+		background-color: rgba(000,000,255,.75);
 	}
 
-	.selected[color="red"] {
-		border: 5px solid red;
+	.online[color="red"] {
+		border: 5px solid rgba(255,000,000,.75);
 	}
 
-	.selected[color="green"] {
-		border: 5px solid green;
+	.online[color="green"] {
+		border: 5px solid rgba(000,255,000,.75);
 	}
 
-	.selected[color="blue"] {
-		border: 5px solid blue;
+	.online[color="blue"] {
+		border: 5px solid rgba(000,000,255,.75);
+	}
+
+	.endpoint.selected {
+		width: calc(33% + 10px);
+		height: calc(33% + 10px);
+		border: 5px solid #666666;
 	}
 
 /* underGrid */
-	#underGrid {
+	.underGrid {
 		z-index: 1;
 		position: absolute;
 		top: 0;
@@ -61,6 +68,8 @@
 	.underGrid_row {
 		float: left;
 		margin: 0px;
+		margin-bottom: 0px;
+		border: 0px;
 		height: 10%;
 		width: 100%;
 	}
@@ -70,7 +79,6 @@
 		margin: 0px;
 		height: 100%;
 		width: 10%;
-		border: 0px;
 	}
 	
 	/* from center */
@@ -91,7 +99,7 @@
 		}
 
 		.underGrid_cell[from="center"][to="bottom"] {
-			clip-path: polygon(45% 100%, 55% 100%, 55% 55%, 45% 55%);
+			clip-path: polygon(45% 100%, 55% 100%, 55% 45%, 45% 45%);
 		}
 
 	/* from left */
@@ -147,7 +155,7 @@
 
 	/* from bottom */
 		.underGrid_cell[from="bottom"][to="center"] {
-			clip-path: polygon(45% 100%, 55% 100%, 55% 55%, 45% 55%);
+			clip-path: polygon(45% 100%, 55% 100%, 55% 45%, 45% 45%);
 		}
 
 		.underGrid_cell[from="bottom"][to="left"] {
@@ -163,7 +171,7 @@
 		}
 
 /* overGrid */
-	#overGrid {
+	.overGrid {
 		z-index: 2;
 		position: relative;
 		top: 0;
@@ -189,7 +197,7 @@
 		margin: 0px;
 		height: 100%;
 		width: 10%;
-		border: 0px;
+		border: .25px solid #dddddd;
 	}
 
 	/* paths */
@@ -213,4 +221,21 @@
 			border-radius: 10px;
 			border: 5px solid rgba(000,000,000,0);
 			margin: 5px;
+		}
+
+	/* items */
+		.obstacle {
+			width: 100%;
+			height: 100%;
+			background-color: #333333;
+		}
+
+		.collector {
+			width: 90%;
+			height: 90%;
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translateY(-50%) translateX(-50%);
+			border-radius: 100%;
 		}
