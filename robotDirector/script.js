@@ -6,8 +6,10 @@ $(document).ready(function() {
 
 			var timer = setInterval(function() {
 				//animateLines();
-				moveRobots();
-				spawnRobots();
+				if (window.playing) {
+					moveRobots();
+					spawnRobots();
+				}
 			}, 2000);
 
 		/* listeners */
@@ -30,86 +32,75 @@ $(document).ready(function() {
 				}
 			});
 
+			$(document).on("click","#pause",function() {
+				if ($("#pause").hasClass("playing")) {
+					console.log("pause");
+					window.playing = false;
+					$("#pause").removeClass("playing").text("play");
+				}
+				else {
+					console.log("resume");
+					window.playing = true;
+					$("#pause").addClass("playing").text("pause");
+				}
+			});
+
 	/* * actions * */
 		/* selectCell */
 			function selectCell(cell_x,cell_y) {
-				console.log("selecting: " + cell_x + ", " + cell_y);
-
 				//get endpoint
 					var unit = Number(String($(".endpoint.selected").attr("id")).replace("endpoint_",""));
 					var color = String($(".endpoint.selected").attr("color"));
 
 				//add to path
-					if (unit && isEmptyUnderGrid(color, cell_x, cell_y)) {
+					if (unit && isEmptyUnderGrid(color, cell_x, cell_y) && !(Number($("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path")) === unit)) {
 						//get path endpoint
 							var end_x = Number($(".endpoint.selected").attr("x"));
 							var end_y = Number($(".endpoint.selected").attr("y"));
+							var to = false;
+							var from = false;
 
-							console.log("endpoint: " + end_x + ", " + end_y);
+						//starting?
+							if ($("#robot_" + unit + "[x='" + end_x + "'][y='" + end_y + "']").length) {
+								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","center");
+							}
 
-						if ((cell_x === end_x + 1) && (cell_y === end_y)) {
-							//right
-							console.log("right");
-							$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to","right");
+						//direction
+							var directions = toFrom(end_x,end_y,cell_x,cell_y);
+							var to = directions[0];
+							var from = directions[1];
 
-							var endpoint = $(".endpoint.selected").detach();
-							$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-							$(endpoint).attr("x",cell_x).attr("y",cell_y);
-							$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","left").attr("to","center").attr("color",color);
-						}
-						else if ((cell_x === end_x - 1) && (cell_y === end_y)) {
-							//left
-							console.log("left");
-							$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to","left");
+						//adjacent?
+							if (to) {
+								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to",to);
 
-							var endpoint = $(".endpoint.selected").detach();
-							$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-							$(endpoint).attr("x",cell_x).attr("y",cell_y);
-							$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","right").attr("to","center").attr("color",color);
-						}
-						else if ((cell_x === end_x) && (cell_y === end_y + 1)) {
-							//down
-							console.log("down");
-							$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to","bottom");
+								var endpoint = $(".endpoint.selected").detach();
+								$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
+								$(endpoint).attr("x",cell_x).attr("y",cell_y);
+								$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from",from).attr("to","center").attr("color",color);
 
-							var endpoint = $(".endpoint.selected").detach();
-							$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-							$(endpoint).attr("x",cell_x).attr("y",cell_y);
-							$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","top").attr("to","center").attr("color",color);
-						}
-						else if ((cell_x === end_x) && (cell_y === end_y - 1)) {
-							//up
-							console.log("up");
-							$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to","top");
+								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
+									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+								}
+							}
 
-							var endpoint = $(".endpoint.selected").detach();
-							$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-							$(endpoint).attr("x",cell_x).attr("y",cell_y);
-							$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","bottom").attr("to","center").attr("color",color);
-						}
-
-						//collector
-							if ($("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
-								console.log("collector");
+						//collector?
+							if (to && $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
 								var endpoint = $(".endpoint.selected").detach();
 								var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
 								
+								if ($(collector).find(".endpoint").length) {
+									$(collector).find(".endpoint").addClass("underneath");
+								}
+
 								$(endpoint).appendTo(collector);
 								$(endpoint).attr("x",cell_x).attr("y",cell_y);
+
+								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
+									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+								}
 							}
 
-					}
-
-				//reset path
-					else if (unit && (Number($("#robot_" + unit).attr("x")) === cell_x) && (Number($("#robot_" + unit).attr("y")) === cell_y)) {
-						//reset
-						console.log("reset");
-						$(".underGrid_cell[path='" + unit + "']").attr("path","").attr("from","").attr("to","").attr("color","");
-						$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","center").attr("to","center").attr("color",color);
-
-						var endpoint = $(".endpoint.selected").detach();
-						$(endpoint).appendTo("#robot_" + unit);
-						$(endpoint).attr("x",cell_x).attr("y",cell_y);
 					}
 
 				//backtrack path
@@ -118,65 +109,68 @@ $(document).ready(function() {
 							var end_x = Number($(".endpoint.selected").attr("x"));
 							var end_y = Number($(".endpoint.selected").attr("y"));
 
-							var previous = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
+							var from = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
 
-							switch (previous) {
-								case "top":
-									var previous_x = end_x;
-									var previous_y = end_y - 1;
-								break;
-
-								case "right":
-									var previous_x = end_x + 1;
-									var previous_y = end_y;
-								break;
-
-								case "bottom":
-									var previous_x = end_x;
-									var previous_y = end_y + 1;
-								break;
-
-								case "left":
-									var previous_x = end_x - 1;
-									var previous_y = end_y;
-								break;
-
-								default:
-									var previous = false;
-								break;
-							}
+							var coordinates = pathFrom(from, end_x, end_y);
+							var previous_x = coordinates[0];
+							var previous_y = coordinates[1];
 
 						//go back
-							if (previous && (cell_x === previous_x) && (cell_y === previous_y)) {
-								console.log("backtrack");
-								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","").attr("to","").attr("path","").attr("color","");
+							if (from && (cell_x === previous_x) && (cell_y === previous_y)) {
+								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y + ":not(.underGrid_collector)").attr("color","");
+								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","").attr("to","").attr("path","");
 
 								var endpoint = $(".endpoint.selected").detach();
 								$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
 								$(endpoint).attr("x",cell_x).attr("y",cell_y);
 								$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("to","center");
-							}
 
-						//collector
-							if ($("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
-								console.log("collector");
-								var endpoint = $(".endpoint.selected").detach();
-								var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
-								
-								$(endpoint).appendTo(collector);
-								$(endpoint).attr("x",cell_x).attr("y",cell_y);
+								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".underneath").length) {
+									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+								}
+
+								//collector
+									if ($("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
+										var endpoint = $(".endpoint.selected").detach();
+										var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
+										
+										if ($(collector).find(".endpoint").length) {
+											$(collector).find(".endpoint").addClass("underneath");
+										}
+
+										$(endpoint).appendTo(collector);
+										$(endpoint).attr("x",cell_x).attr("y",cell_y);
+									}
 							}
 					}
 
+				//reset path
+					if (unit && (Number($("#robot_" + unit).attr("x")) === cell_x) && (Number($("#robot_" + unit).attr("y")) === cell_y)) {
+						//reset
+						$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
+						$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("path","").attr("from","").attr("to","");
+						$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","center").attr("to","center").attr("color",color);
+
+						var endpoint = $(".endpoint.selected").detach();
+						$(endpoint).appendTo("#robot_" + unit);
+						$(endpoint).attr("x",cell_x).attr("y",cell_y);
+
+						if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
+							$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+						}
+					}
 			}
 
 	/* * functions * */
 		/* isEmptyUnderGrid */
 			function isEmptyUnderGrid(color,x,y) {
-				if ($("#overGrid_cell_" + x + "_" + y).find(".endpoint").length) {
+				if ($("#overGrid_cell_" + x + "_" + y).find(".endpoint:not([color='" + color + "'])").length) {
 					return false;
 				}
-				else if ($("#underGrid_cell_" + color + "_" + x + "_" + y).attr("path")) {
+				else if ($("#overGrid_cell_" + x + "_" + y).find(".endpoint[color='" + color + "']").length && !($("#overGrid_cell_" + x + "_" + y).find(".collector[color='" + color + "']").length)) {
+					return false;
+				}
+				else if ($("#underGrid_cell_" + color + "_" + x + "_" + y).attr("path") && !($("#overGrid_cell_" + x + "_" + y).find(".collector[color='" + color + "']").length)) {
 					return false;
 				}
 				else if ($("#overGrid_cell_" + x + "_" + y).find(".collector:not([color='" + color + "'])").length) {
@@ -195,15 +189,112 @@ $(document).ready(function() {
 				else if ($("#overGrid_cell_" + x + "_" + y).find(".obstacle").length) {
 					return false;
 				}
-				else if ($(".robot[x='" + x + "'][y='" + y + "']").length) {
+				else if ($("#overGrid_cell_" + x + "_" + y).find(".collector:not([color='" + color + "'])").length) {
 					return false;
 				}
-				else if ($("#overGrid_cell_" + x + "_" + y).find(".collector:not([color='" + color + "'])").length) {
+				else if ($(".robot[x='" + x + "'][y='" + y + "']:not([color='" + color + "']").length) {
+					return false;
+				}
+				else if ($(".robot[x='" + x + "'][y='" + y + "'][color='" + color + "']").length && !($("#overGrid_cell_" + x + "_" + y).find(".collector[color='" + color + "']").length)) {
 					return false;
 				}
 				else {
 					return true;
 				}
+			}
+
+		/* pathTo */
+			function pathTo(to,x,y) {
+				x = Number(x);
+				y = Number(y);
+
+				switch (to) {
+					case "top":
+						x = x;
+						y = y + 1;
+					break;
+
+					case "right":
+						x = x - 1;
+						y = y;
+					break;
+
+					case "bottom":
+						x = x;
+						y = y - 1;
+					break;
+
+					case "left":
+						x = x + 1;
+						y = y;
+					break;
+
+					default:
+						x = x;
+						y = y;
+					break;
+				}
+				return [x,y];
+			}
+
+		/* pathFrom */
+			function pathFrom(from,x,y) {
+				x = Number(x);
+				y = Number(y);
+
+				switch (from) {
+					case "top":
+						x = x;
+						y = y - 1;
+					break;
+
+					case "right":
+						x = x + 1;
+						y = y;
+					break;
+
+					case "bottom":
+						x = x;
+						y = y + 1;
+					break;
+
+					case "left":
+						x = x - 1;
+						y = y;
+					break;
+
+					default:
+						x = x;
+						y = y;
+					break;
+				}
+				return [x,y];
+			}
+
+		/* toFrom */
+			function toFrom(start_x,start_y,end_x,end_y) {
+				if ((end_x === start_x + 1) && (end_y === start_y)) {
+					to = "right";
+					from = "left";
+				}
+				else if ((end_x === start_x - 1) && (end_y === start_y)) {
+					to = "left";
+					from = "right";
+				}
+				else if ((end_x === start_x) && (end_y === start_y + 1)) {
+					to = "bottom";
+					from = "top";
+				}
+				else if ((end_x === start_x) && (end_y === start_y - 1)) {
+					to = "top";
+					from = "bottom";
+				}
+				else {
+					to = false;
+					from = false;
+				}
+
+				return [to,from];
 			}
 
 		/* startGame */
@@ -242,6 +333,7 @@ $(document).ready(function() {
 						while (collectorCoordinates.indexOf(x + "_" + y) > -1);
 						
 						$("#overGrid_cell_" + x + "_" + y).append("<div class='collector' color='" + colors[i] + "'>");
+						$("#underGrid_cell_" + colors[i] + "_" + x + "_" + y).addClass("underGrid_collector").attr("color",colors[i]);
 						collectorCoordinates.push(x + "_" + y);
 					}
 
@@ -275,42 +367,22 @@ $(document).ready(function() {
 						$(robot).attr("direction",newDirection);
 					
 					//get new coordinates
-						switch (newDirection) {
-							case "top":
-								var end_x = start_x;
-								var end_y = start_y - 1;
-							break;
-
-							case "right":
-								var end_x = start_x + 1;
-								var end_y = start_y;
-							break;
-
-							case "bottom":
-								var end_x = start_x;
-								var end_y = start_y + 1;
-							break;
-
-							case "left":
-								var end_x = start_x - 1;
-								var end_y = start_y;
-							break;
-
-							default:
-								var end_x = start_x;
-								var end_y = start_y;
-							break;
-						}
+						var coordinates = pathFrom(newDirection, start_x, start_y);
+						var end_x = coordinates[0];
+						var end_y = coordinates[1];
 
 					//collected?
-						if (newDirection === "collected") {
-							$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","").attr("color","");
+						if ($(robot).hasClass("collected")) {
+							$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
+							$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
 
 							var endpoint = $("#endpoint_" + unit).detach();
 							$(endpoint).appendTo(robot);
 							$(endpoint).attr("x",end_x).attr("y",end_y);
 
 							setTimeout(function() {
+								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
+								$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
 								$(robot).remove();
 							},2000);
 						}
@@ -324,7 +396,8 @@ $(document).ready(function() {
 							//remove line
 								var endpoint = $("#endpoint_" + unit).detach();
 								$(endpoint).appendTo(robot).attr("x",end_x).attr("y",end_y);
-								$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","").attr("color","");
+								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
+								$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
 
 							//animate robot
 								$(robot).attr("x",end_x).attr("y",end_y).animate({
@@ -357,7 +430,8 @@ $(document).ready(function() {
 
 							//remove line
 								setTimeout(function() {
-									$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y).attr("from","").attr("to","").attr("path","").attr("color","");
+									$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y + ":not(.underGrid_collector)").attr("color","");
+									$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y).attr("from","").attr("to","").attr("path","");
 								},750);
 
 								setTimeout(function() {
@@ -375,14 +449,87 @@ $(document).ready(function() {
 									$("#underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
 								}
 
+							//hijacking a path?
+								if (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) && (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) !== unit) && !$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
+									console.log("hijacking");
+
+									//get info on path
+										var path = Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path"));
+										var path_endpoint = $("#endpoint_" + path).detach();
+										var path_endpoint_x = $(path_endpoint).attr("x");
+										var path_endpoint_y = $(path_endpoint).attr("y");
+
+										console.log(unit + " hijacking " + path + "'s path from " + end_x + "," + end_y + " to " + path_endpoint_x + "," + path_endpoint_y)
+									
+									//move this robot's endpoint to the hijack spot
+										var endpoint = $("#endpoint_" + unit).detach();
+										if ($("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).find(".collector").length) {
+											var target = $("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).find(".collector");
+											$(endpoint).appendTo(target);
+											$(endpoint).attr("x",path_endpoint_x).attr("y",path_endpoint_y);
+										}
+										else {
+											$(endpoint).appendTo("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).attr("x",path_endpoint_x).attr("y",path_endpoint_y);
+										}
+
+									//move hijacked path's endpoint to previous spot
+										var from = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
+										var coordinates = pathFrom(from, end_x, end_y);
+										var previous_x = coordinates[0];
+										var previous_y = coordinates[1];
+
+										if ($("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).find(".collector").length) {
+											var target = $("#overGrid_cell_" + previous_x + "_" + previous_y).find(".collector");
+											$(path_endpoint).appendTo(target);
+											$(path_endpoint).attr("x",previous_x).attr("y",previous_y);
+										}
+										else {
+											$(path_endpoint).appendTo("#overGrid_cell_" + previous_x + "_" + previous_y).attr("x",previous_x).attr("y",previous_y);
+											$("#underGrid_cell_" + color + "_" + previous_x + "_" + previous_y).attr("to","center");
+										}
+
+									//eliminate this robot's other path components
+										$(".underGrid_cell[path='" + unit + "']").attr("path","").attr("from","").attr("to","");
+
+									//fix clip-path directions for start point and end point
+										var hijackedTo = toFrom(start_x,start_y,end_x,end_y)[0];
+										var hijackedFrom = toFrom(start_x,start_y,end_x,end_y)[1];
+										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from",hijackedFrom);
+										$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y).attr("to",hijackedTo).attr("from","center").attr("path",unit);
+
+									//fix owner of endpoint path cell
+										$("#underGrid_cell_" + color + "_" + path_endpoint_x + "_" + path_endpoint_y).attr("path",unit);
+									
+									//if there are additional path cells
+										if (!((path_endpoint_x === end_x) && (path_endpoint_y === end_y))) {
+											var uproot_x = path_endpoint_x;
+											var uproot_y = path_endpoint_y;
+											var uproot_from = $("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("from");
+											var abort = 0;
+										
+											while ((abort < 100) && !((uproot_x === end_x) && (uproot_y === end_y))) {
+												var uproot_coordinates = pathFrom(uproot_from, uproot_x, uproot_y);
+												var uproot_x = uproot_coordinates[0];
+												var uproot_y = uproot_coordinates[1];
+
+												$("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("path",unit);
+												console.log("uprooting: " + uproot_x + ", " + uproot_y + " ; abort: " + abort);
+												var uproot_from = $("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("from");
+												abort++;
+											}
+										}
+								}
+
 							//collector?
 								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".collector[color='" + color + "']").length) {
 									window.score++;
 									console.log("score is now " + window.score);
 
-									$(".underGrid_cell[path='" + unit + "']").attr("path","").attr("from","").attr("to","").attr("color","");
+									$("#endpoint_" + unit).remove();
+									$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
+									$(".underGrid_cell[path='" + unit + "']").attr("path","").attr("from","").attr("to","");
 									
-									$(robot).attr("direction","collected");
+									$(robot).attr("direction","collected").addClass("collected");
 									$(robot).animate({
 										border: "0",
 										opacity: "0",
@@ -445,34 +592,36 @@ $(document).ready(function() {
 							var x = cell[0];
 							var y = cell[1];
 							attempt++;
-						}
-						while (!isEmptyOverGrid(color,x,y) && (attempt < 9));
 
-						if (x === 0) {
-							var direction = "right";
+							if (x === 0) {
+								var direction = "right";
+							}
+							else if (x === 9) {
+								var direction = "left";
+							}
+							else if (y === 0) {
+								var direction = "bottom";
+							}
+							else if (y === 9) {
+								var direction = "top";
+							}
 						}
-						else if (x === 9) {
-							var direction = "left";
-						}
-						else if (y === 0) {
-							var direction = "bottom";
-						}
-						else if (y === 9) {
-							var direction = "top";
-						}
+						while (!isEmptyOverGrid(color,x,y) && (!isEmptyOverGrid(color,x - 1,y) || direction === "right") && (!isEmptyOverGrid(color,x + 1,y) || direction === "left") && (!isEmptyOverGrid(color,x,y - 1) || direction === "bottom") && (!isEmptyOverGrid(color,x,y + 1) || direction === "top") && (attempt < 9));
 
 						if (attempt < 10) {
 							var lastRobot = Number(String($(".robot").last().attr("id")).replace("robot_",""));
-							console.log("lastRobot:" + lastRobot);
 							
 							var newRobot = lastRobot + 1;
 
 							if (!newRobot) {
 								newRobot = 1;
 							}
+
+							var pre_coordinates = pathTo(direction,x,y);
+							var pre_x = pre_coordinates[0];
+							var pre_y = pre_coordinates[1];
 						
-							$("#overGrid").append("<div id='robot_" + newRobot + "' class='robot' color='" + color + "' x='" + x + "' y='" + y + "' direction='" + direction + "' style='top: " + (y * 10) + "%; left: " + (x * 10) + "%'><div id='endpoint_" + newRobot + "' class='endpoint' color='" + color + "' x='" + x + "' y='" + y + "'></div></div>");
-							$("#underGrid_cell_" + color + "_" + x + "_" + y).attr("from","center").attr("to","center").attr("path",newRobot).attr("color",color);
+							$("#overGrid").append("<div id='robot_" + newRobot + "' class='robot' color='" + color + "' x='" + pre_x + "' y='" + pre_y + "' direction='" + direction + "' style='top: " + (pre_y * 10) + "%; left: " + (pre_x * 10) + "%'><div id='endpoint_" + newRobot + "' class='endpoint' color='" + color + "' x='" + pre_x + "' y='" + pre_y + "'></div></div>");
 						}
 					}
 			}
