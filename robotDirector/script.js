@@ -12,38 +12,82 @@ $(document).ready(function() {
 				}
 			}, 2000);
 
-		/* listeners */
-			$(document).on("click",".endpoint",function() {
-				console.log("clicked");
-				if ($(this).hasClass("selected")) {
-					$(".endpoint").removeClass("selected");
-				}
-				else {
-					$(".endpoint").removeClass("selected");
-					$(this).addClass("selected");
-				}
-			});			
+			function is_touch_device() { // from http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
+				return 'ontouchstart' in window		// works on most browsers 
+					|| navigator.maxTouchPoints;	// works on IE10/11 and Surface
+			};
 
-			$(document).on("mouseenter",".overGrid_cell",function() {
-				if (window.playing) {
-					var cell_x = Number($(this).attr("x"));
-					var cell_y = Number($(this).attr("y"));
-					selectCell(cell_x,cell_y);
-				}
-			});
+		/* desktop listeners */
+			if (!is_touch_device()) {
+				$(document).on("click",".endpoint",function() {
+					console.log("clicked");
+					if ($(this).hasClass("selected")) {
+						$(".endpoint").removeClass("selected");
+					}
+					else {
+						$(".endpoint").removeClass("selected");
+						$(this).addClass("selected");
+					}
+				});			
 
-			$(document).on("click","#pause",function() {
-				if ($("#pause").hasClass("playing")) {
-					console.log("pause");
-					window.playing = false;
-					$("#pause").removeClass("playing").text("play");
-				}
-				else {
-					console.log("resume");
-					window.playing = true;
-					$("#pause").addClass("playing").text("pause");
-				}
-			});
+				$(document).on("mouseenter",".overGrid_cell",function() {
+					if (window.playing) {
+						var cell_x = Number($(this).attr("x"));
+						var cell_y = Number($(this).attr("y"));
+						selectCell(cell_x,cell_y);
+					}
+				});
+
+				$(document).on("click","#pause",function() {
+					if ($("#pause").hasClass("playing")) {
+						console.log("pause");
+						window.playing = false;
+						$("#pause").removeClass("playing").text("play");
+					}
+					else {
+						console.log("resume");
+						window.playing = true;
+						$("#pause").addClass("playing").text("pause");
+					}
+				});
+			}
+
+		/* mobile listeners */
+			if (is_touch_device()) {
+				$(document).on("touchstart",".endpoint",function() {
+					console.log("touched");
+					if ($(this).hasClass("selected")) {
+						$(".endpoint").removeClass("selected");
+					}
+					else {
+						$(".endpoint").removeClass("selected");
+						$(this).addClass("selected");
+					}
+				});
+
+				$(document).on("touchstart",":not(.endpoint)",function() {
+					console.log("untouched");
+					$(".endpoint").removeClass("selected");
+				});
+
+				$(document).on("touchcancel",document,function() {
+					console.log("untouched");
+					$(".endpoint").removeClass("selected");
+				});
+
+				$(document).on("touchend",document,function() {
+					console.log("untouched");
+					$(".endpoint").removeClass("selected");
+				});
+
+				$(document).on("touchmove",".overGrid_cell",function() {
+					if (window.playing) {
+						var cell_x = Number($(this).attr("x"));
+						var cell_y = Number($(this).attr("y"));
+						selectCell(cell_x,cell_y);
+					}
+				});
+			}
 
 	/* * actions * */
 		/* selectCell */
@@ -62,75 +106,35 @@ $(document).ready(function() {
 
 						//starting?
 							if ($("#robot_" + unit + "[x='" + end_x + "'][y='" + end_y + "']").length) {
-								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","center");
+								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","center").attr("color",color);
 							}
 
-						//direction
-							var directions = toFrom(end_x,end_y,cell_x,cell_y);
-							var to = directions[0];
-							var from = directions[1];
-
-						//adjacent?
-							if (to) {
-								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to",to);
-
-								var endpoint = $(".endpoint.selected").detach();
-								$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-								$(endpoint).attr("x",cell_x).attr("y",cell_y);
-								$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from",from).attr("to","center").attr("color",color);
-
-								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
-									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
-								}
+						//past a collector?
+							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
+								console.log("no going beyond a collector");
 							}
+							else {
+								//direction
+									var directions = toFrom(end_x,end_y,cell_x,cell_y);
+									var to = directions[0];
+									var from = directions[1];
 
-						//collector?
-							if (to && $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
-								var endpoint = $(".endpoint.selected").detach();
-								var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
-								
-								if ($(collector).find(".endpoint").length) {
-									$(collector).find(".endpoint").addClass("underneath");
-								}
+								//adjacent?
+									if (to) {
+										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to",to);
 
-								$(endpoint).appendTo(collector);
-								$(endpoint).attr("x",cell_x).attr("y",cell_y);
+										var endpoint = $(".endpoint.selected").detach();
+										$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
+										$(endpoint).attr("x",cell_x).attr("y",cell_y);
+										$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from",from).attr("to","center").attr("color",color);
 
-								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
-									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
-								}
-							}
+										if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
+											$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+										}
+									}
 
-					}
-
-				//backtrack path
-					else if (unit && (Number($("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path")) === unit)) {
-						//get previous cell
-							var end_x = Number($(".endpoint.selected").attr("x"));
-							var end_y = Number($(".endpoint.selected").attr("y"));
-
-							var from = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
-
-							var coordinates = pathFrom(from, end_x, end_y);
-							var previous_x = coordinates[0];
-							var previous_y = coordinates[1];
-
-						//go back
-							if (from && (cell_x === previous_x) && (cell_y === previous_y)) {
-								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y + ":not(.underGrid_collector)").attr("color","");
-								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","").attr("to","").attr("path","");
-
-								var endpoint = $(".endpoint.selected").detach();
-								$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-								$(endpoint).attr("x",cell_x).attr("y",cell_y);
-								$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("to","center");
-
-								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".underneath").length) {
-									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
-								}
-
-								//collector
-									if ($("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
+								//collector?
+									if (to && $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
 										var endpoint = $(".endpoint.selected").detach();
 										var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
 										
@@ -140,28 +144,90 @@ $(document).ready(function() {
 
 										$(endpoint).appendTo(collector);
 										$(endpoint).attr("x",cell_x).attr("y",cell_y);
+
+										if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
+											$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+										}
+									}
+							}
+					}
+
+				//backtrack path
+					else if (unit && (Number($("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path")) === unit)) {
+						//get endpoint cell
+							var end_x = Number($(".endpoint.selected").attr("x"));
+							var end_y = Number($(".endpoint.selected").attr("y"));
+
+						//backing out of a collector?
+							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
+								console.log("no backing out of a collector");
+							}
+							else {
+								//get previous cell
+									var from = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
+
+									var coordinates = pathFrom(from, end_x, end_y);
+									var previous_x = coordinates[0];
+									var previous_y = coordinates[1];
+
+								//go back
+									if (from && (cell_x === previous_x) && (cell_y === previous_y)) {
+										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y + ":not(.underGrid_collector)").attr("color","");
+										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","").attr("to","").attr("path","");
+
+										var endpoint = $(".endpoint.selected").detach();
+										$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
+										$(endpoint).attr("x",cell_x).attr("y",cell_y);
+										$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("to","center");
+
+										if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".underneath").length) {
+											$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+										}
+
+										//collector
+											if ($("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
+												var endpoint = $(".endpoint.selected").detach();
+												var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
+												
+												if ($(collector).find(".endpoint").length) {
+													$(collector).find(".endpoint").addClass("underneath");
+												}
+
+												$(endpoint).appendTo(collector);
+												$(endpoint).attr("x",cell_x).attr("y",cell_y);
+											}
 									}
 							}
 					}
 
 				//reset path
 					if (unit && (Number($("#robot_" + unit).attr("x")) === cell_x) && (Number($("#robot_" + unit).attr("y")) === cell_y)) {
-						//reset
-						$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
-						$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("path","").attr("from","").attr("to","");
-						$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","center").attr("to","center").attr("color",color);
+						//get endpoint cell
+							var end_x = Number($(".endpoint.selected").attr("x"));
+							var end_y = Number($(".endpoint.selected").attr("y"));
 
-						var endpoint = $(".endpoint.selected").detach();
-						$(endpoint).appendTo("#robot_" + unit);
-						$(endpoint).attr("x",cell_x).attr("y",cell_y);
+						//backing out of a collector?
+							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
+								console.log("no backing out of a collector");
+							}
+							else {
+								//reset
+								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
+								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("path","").attr("from","").attr("to","");
+								$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","center").attr("to","center").attr("color",color);
 
-						if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
-							$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
-						}
+								var endpoint = $(".endpoint.selected").detach();
+								$(endpoint).appendTo("#robot_" + unit);
+								$(endpoint).attr("x",cell_x).attr("y",cell_y);
+
+								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
+									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+								}
+							}
 					}
 			}
 
-	/* * functions * */
+	/* * helpers * */
 		/* isEmptyUnderGrid */
 			function isEmptyUnderGrid(color,x,y) {
 				if ($("#overGrid_cell_" + x + "_" + y).find(".endpoint:not([color='" + color + "'])").length) {
@@ -297,6 +363,7 @@ $(document).ready(function() {
 				return [to,from];
 			}
 
+	/* * functions * */
 		/* startGame */
 			function startGame() {
 				//reset
@@ -330,7 +397,7 @@ $(document).ready(function() {
 							var x = Math.floor(Math.random() * 6) + 2;
 							var y = Math.floor(Math.random() * 6) + 2;
 						}
-						while (collectorCoordinates.indexOf(x + "_" + y) > -1);
+						while ((collectorCoordinates.indexOf(x + "_" + y) > -1) || (collectorCoordinates.indexOf((x - 1) + "_" + y) > -1) || (collectorCoordinates.indexOf((x + 1) + "_" + y) > -1) || (collectorCoordinates.indexOf(x + "_" + (y - 1)) > -1) || (collectorCoordinates.indexOf(x + "_" + (y + 1)) > -1));
 						
 						$("#overGrid_cell_" + x + "_" + y).append("<div class='collector' color='" + colors[i] + "'>");
 						$("#underGrid_cell_" + colors[i] + "_" + x + "_" + y).addClass("underGrid_collector").attr("color",colors[i]);
@@ -478,7 +545,7 @@ $(document).ready(function() {
 										var previous_x = coordinates[0];
 										var previous_y = coordinates[1];
 
-										if ($("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).find(".collector").length) {
+										if ($("#overGrid_cell_" + previous_x + "_" + previous_y).find(".collector").length) {
 											var target = $("#overGrid_cell_" + previous_x + "_" + previous_y).find(".collector");
 											$(path_endpoint).appendTo(target);
 											$(path_endpoint).attr("x",previous_x).attr("y",previous_y);
@@ -526,8 +593,8 @@ $(document).ready(function() {
 									console.log("score is now " + window.score);
 
 									$("#endpoint_" + unit).remove();
-									$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
-									$(".underGrid_cell[path='" + unit + "']").attr("path","").attr("from","").attr("to","");
+									$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector):not([x='" + start_x + "'][y='" + start_y + "'])").attr("color","");
+									$(".underGrid_cell[path='" + unit + "']:not([x='" + start_x + "'][y='" + start_y + "'])").attr("path","").attr("from","").attr("to","");
 									
 									$(robot).attr("direction","collected").addClass("collected");
 									$(robot).animate({
@@ -588,25 +655,28 @@ $(document).ready(function() {
 						var attempt = 0;
 						
 						do {
-							var cell = possibleCells[Math.floor(Math.random() * possibleCells.length)];
-							var x = cell[0];
-							var y = cell[1];
-							attempt++;
+							do {
+								var cell = possibleCells[Math.floor(Math.random() * possibleCells.length)];
+								var x = cell[0];
+								var y = cell[1];
+								attempt++;
 
-							if (x === 0) {
-								var direction = "right";
+								if (x === 0) {
+									var direction = "right";
+								}
+								else if (x === 9) {
+									var direction = "left";
+								}
+								else if (y === 0) {
+									var direction = "bottom";
+								}
+								else if (y === 9) {
+									var direction = "top";
+								}
 							}
-							else if (x === 9) {
-								var direction = "left";
-							}
-							else if (y === 0) {
-								var direction = "bottom";
-							}
-							else if (y === 9) {
-								var direction = "top";
-							}
+							while (!isEmptyOverGrid(color,x,y) && (!isEmptyOverGrid(color,x - 1,y) || direction === "right") && (!isEmptyOverGrid(color,x + 1,y) || direction === "left") && (!isEmptyOverGrid(color,x,y - 1) || direction === "bottom") && (!isEmptyOverGrid(color,x,y + 1) || direction === "top") && (attempt < 9));
 						}
-						while (!isEmptyOverGrid(color,x,y) && (!isEmptyOverGrid(color,x - 1,y) || direction === "right") && (!isEmptyOverGrid(color,x + 1,y) || direction === "left") && (!isEmptyOverGrid(color,x,y - 1) || direction === "bottom") && (!isEmptyOverGrid(color,x,y + 1) || direction === "top") && (attempt < 9));
+						while ($(".robot[x='" + x + "'][y='" + y + "']").length);
 
 						if (attempt < 10) {
 							var lastRobot = Number(String($(".robot").last().attr("id")).replace("robot_",""));
@@ -625,4 +695,5 @@ $(document).ready(function() {
 						}
 					}
 			}
+
 });
