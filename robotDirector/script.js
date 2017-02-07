@@ -39,15 +39,29 @@ $(document).ready(function() {
 				});
 
 				$(document).on("click","#pause",function() {
-					if ($("#pause").hasClass("playing")) {
+					if ($("#pause").hasClass("reset")) {
+						console.log("starting");
+						startGame();
+
+						var timer = setInterval(function() {
+							//animateLines();
+							if (window.playing) {
+								moveRobots();
+								spawnRobots();
+							}
+						}, 2000);
+
+						$("#pause").removeClass("reset");
+					}
+					else if ($("#pause").hasClass("playing")) {
 						console.log("pause");
 						window.playing = false;
-						$("#pause").removeClass("playing").text("play");
+						$("#pause").removeClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-play">');
 					}
 					else {
 						console.log("resume");
 						window.playing = true;
-						$("#pause").addClass("playing").text("pause");
+						$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
 					}
 				});
 			}
@@ -85,6 +99,33 @@ $(document).ready(function() {
 						var cell_x = Number($(this).attr("x"));
 						var cell_y = Number($(this).attr("y"));
 						selectCell(cell_x,cell_y);
+					}
+				});
+
+				$(document).on("touchstart","#pause",function() {
+					if ($("#pause").hasClass("reset")) {
+						console.log("starting");
+						startGame();
+
+						var timer = setInterval(function() {
+							//animateLines();
+							if (window.playing) {
+								moveRobots();
+								spawnRobots();
+							}
+						}, 2000);
+
+						$("#pause").removeClass("reset");
+					}
+					else if ($("#pause").hasClass("playing")) {
+						console.log("pause");
+						window.playing = false;
+						$("#pause").removeClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-play">');
+					}
+					else {
+						console.log("resume");
+						window.playing = true;
+						$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
 					}
 				});
 			}
@@ -370,6 +411,7 @@ $(document).ready(function() {
 					window.playing = false;
 					window.score = 0;
 					var colors = ["red","green","blue"];
+					$("#scoreInner").text("");
 					$("#container").empty();
 					$("#container").append("<div id='overGrid' class='overGrid'></div>");
 					for (i = 0; i < colors.length; i++) {
@@ -404,7 +446,9 @@ $(document).ready(function() {
 						collectorCoordinates.push(x + "_" + y);
 					}
 
-				window.playing = true;
+				//begin game
+					window.playing = true;
+					$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
 			}
 
 		/* animateLines */
@@ -459,6 +503,7 @@ $(document).ready(function() {
 							//stop game
 								clearInterval(timer);
 								window.playing = false;
+								$("#pause").removeClass("playing").addClass("reset").html('<span id="pause_glyph" class="glyphicon glyphicon-refresh">');
 
 							//remove line
 								var endpoint = $("#endpoint_" + unit).detach();
@@ -590,7 +635,7 @@ $(document).ready(function() {
 							//collector?
 								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".collector[color='" + color + "']").length) {
 									window.score++;
-									console.log("score is now " + window.score);
+									$("#scoreInner").text(window.score);
 
 									$("#endpoint_" + unit).remove();
 									$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector):not([x='" + start_x + "'][y='" + start_y + "'])").attr("color","");

@@ -20,6 +20,51 @@
 		margin: 0px;
 	}
 
+	#pause {
+		position: absolute;
+		top: 0;
+		left: 0;
+		background-color: white;
+		width: 50px;
+		height: 50px;
+		z-index: 100;
+		border-bottom-right-radius: 50px;
+		border: 5px solid #dddddd;
+		border-left: 0px;
+		border-top: 0px;
+		outline: none;
+	}
+
+	#pause_glyph {
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		font-size: 25px;
+	}
+
+	#scoreOuter {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background-color: white;
+		width: 50px;
+		height: 50px;
+		z-index: 100;
+		border-bottom-left-radius: 50px;
+		border: 5px solid #dddddd;
+		border-right: 0px;
+		border-top: 0px;
+	}
+
+	#scoreInner {
+		position: absolute;
+		top: 5px;
+		right: 5px;
+		font-size: 20px;
+		font-weight: bold;
+		color: #333333;
+	}
+
 /* colors */
 	[color="red"] {
 		background-color: rgba(255,000,000,.75);
@@ -212,6 +257,7 @@
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
 			border-radius: 100%;
+			cursor: pointer;
 		}
 
 		.endpoint.selected {
