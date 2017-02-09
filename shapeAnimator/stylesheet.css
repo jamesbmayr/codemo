@@ -1,0 +1,255 @@
+/* page */
+	body {
+		width: 100vw;
+		height: 100vh;
+		border: 0px;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#zone {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		border: 0px;
+		margin: 0px;
+		padding: 0px;
+	}
+
+/* controls */
+	#controls {
+		position: relative;
+		top: 10px;
+		left: 10px;
+		width: 250px;
+		height: 500px;
+		background-color: #666666;
+		border-radius: 5px;
+		color: #ffffff;
+		padding: 5px;
+	}
+
+	#controls_handle {
+		position: absolute;
+		width: calc(100% - 10px);
+		border-radius: 5px;
+		background-color: #333333;
+		height: 35px;
+		cursor: move;
+		color: white;
+		text-align: center;
+		padding: 5px;
+		font-size: 20px;
+		font-weight: bold;
+		text-transform: uppercase;
+	}
+
+	#controls_scroll {
+		margin-top: 40px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		width: 100%;
+		height: calc(100% - 40px);
+		border-radius: 5px;
+	}
+
+	.control_shape {
+		margin-bottom: 10px;
+		width: 100%;
+		height: auto;
+		background-color: #333333;
+		border-radius: 5px;
+		padding: 5px;
+	}
+
+/* controls header */
+	.new_shape {
+		width: 100%;
+		height: 100%;
+		background-color: #ffffff;
+		color: #333333;
+		text-align: center;
+		font-size: 25px;
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px;
+	}
+
+	.new_shape:hover {
+		color: #ffffff;
+		background-color: #333333;
+	}
+
+	.control_shape_header {
+		width: 100%;
+		height: 50px;
+	}
+
+	.control_number {
+		float: left;
+		width: 50%;
+		text-align: center;
+		font-size: 25px;
+		font-weight: bold;
+		color: #ffffff;
+		height: 100%;
+		padding: 5px;
+		border: 2px solid white;
+		border-radius: 5px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: pointer;
+	}
+
+	.control_number.hover {
+		background-color: #ffffff;
+		color: #333333;
+	}
+
+	.collapse_shape {
+		float: left;
+		width: calc(25% - 5px);
+		height: 100%;
+		background-color: #ffffff;
+		color: #333333;
+		text-align: center;
+		font-size: 25px;
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px;
+		margin-left: 5px;
+	}
+
+	.collapse_shape:hover {
+		color: #ffffff;
+		background-color: #333333;
+	}
+
+	.expand_shape {
+		float: left;
+		width: calc(25% - 5px);
+		height: 100%;
+		background-color: #ffffff;
+		color: #333333;
+		text-align: center;
+		font-size: 25px;
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px;
+		margin-left: 5px;
+	}
+
+	.expand_shape:hover {
+		color: #ffffff;
+		background-color: #333333;
+	}
+
+	.remove_shape {
+		float: left;
+		width: calc(25% - 5px);
+		height: 100%;
+		background-color: #ffffff;
+		color: #333333;
+		text-align: center;
+		font-size: 25px;
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px;
+		margin-left: 5px;
+	}
+
+	.remove_shape:hover {
+		color: #ffffff;
+		background-color: #333333;
+	}
+
+/* controls options */
+	.plot_shape {
+		border: 0px;
+		background-color: #ffffff;
+		color: #333333;
+		padding: 5px;
+		font-size: 15px;
+		width: 100%;
+		max-width: 100%;
+		min-width: 100%;
+		height: 50px;
+		min-height: 50px;
+		max-height: 250px;
+		margin-top: 5px;
+		border-radius: 5px;
+	}
+
+	.parameters {
+		width: 100%;
+		height: 115px;
+	}
+
+	.preview_frame {
+		width: 50%;
+		height: 100%;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		float: left;
+	}
+
+	.preview_shape {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		top: 0;
+		left: 0;
+		background-color: gray;
+		clip-path: polygon(40% 5%, 60% 5%, 82.5% 17.5%, 95% 40%, 95% 60%, 82.5% 82.5%, 60% 95%, 40% 95%, 17.5% 82.5%, 5% 60%, 5% 40%, 17.5% 17.5%);
+	}
+
+	.preview_shape.hover {
+		opacity: .5;
+	}
+
+	.shape_size {
+		margin-left: 5px;
+		width: calc(50% - 5px);
+		height: calc(50% - 2.5px);
+		padding: 5px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 15px;
+	}
+
+	.shape_color {
+		margin-top: 5px;
+		margin-left: 5px;
+		width: calc(50% - 5px);
+		height: calc(50% - 2.5px);
+		padding: 5px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 15px;
+	}
+
+/* shape */
+	.shape {
+		position: absolute;
+		top: 25%;
+		left: 25%;
+		height: 100px;
+		width: 100px;
+		background-color: gray;
+		cursor: move;
+		clip-path: polygon(40% 5%, 60% 5%, 82.5% 17.5%, 95% 40%, 95% 60%, 82.5% 82.5%, 60% 95%, 40% 95%, 17.5% 82.5%, 5% 60%, 5% 40%, 17.5% 17.5%);
+	}
+
+	.shape.hover {
+		opacity: .5;
+	}
