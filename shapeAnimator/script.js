@@ -7,6 +7,7 @@ $(document).ready(function() {
 		window.queue = [];
 		window.endTime = 0;
 		window.timeNow = 0;
+		window.memory = {};
 
 		resetDraggable();
 
@@ -138,7 +139,7 @@ $(document).ready(function() {
 
 				$(this).replaceWith("\
 					<input type='text' class='animation_timestamp' placeholder='start' value='0:00'></input>\
-					<input type='text' class='animation_duration' placeholder='length' value='1000'></input>\
+					<input type='text' class='animation_duration' placeholder='length' value='1.00'></input>\
 					<button class='play'><span class='glyphicon glyphicon-play'></span></button>\
 					<button class='pause'><span class='glyphicon glyphicon-pause'></span></button>\
 					<button class='remove_animation'><span class='glyphicon glyphicon-remove'></span></button>\
@@ -157,7 +158,7 @@ $(document).ready(function() {
 			if (!window.playing) {
 				var id = Number(String($(this).attr("id")).replace("shape_",""));
 
-				$(this).addClass("hover");
+				$(this).addClass("hover").css("opacity","-=0.5");
 				$("#control_shape_" + id).find(".control_number").addClass("hover");
 			}
 		});
@@ -166,7 +167,7 @@ $(document).ready(function() {
 			if (!window.playing) {
 				var id = Number(String($(this).attr("id")).replace("shape_",""));
 
-				$(this).removeClass("hover");
+				$(this).removeClass("hover").css("opacity","+=0.5");
 				$("#control_shape_" + id).find(".control_number").removeClass("hover");
 			}
 		});
@@ -175,7 +176,7 @@ $(document).ready(function() {
 			if (!window.playing) {
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 
-				$("#shape_" + id).addClass("hover");
+				$("#shape_" + id).addClass("hover").css("opacity","-=0.5");
 				$(this).addClass("hover");
 			}
 		});
@@ -184,7 +185,7 @@ $(document).ready(function() {
 			if (!window.playing) {
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 
-				$("#shape_" + id).removeClass("hover");
+				$("#shape_" + id).removeClass("hover").css("opacity","+=0.5");
 				$(this).removeClass("hover");
 			}
 		});
@@ -195,10 +196,29 @@ $(document).ready(function() {
 				var button = $(this);
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 				var animation = String($(this).closest(".animation").find(".animation_text").val());
-				var duration = Number($(this).closest(".animation").find(".animation_duration").val());
+				var duration = Number($(this).closest(".animation").find(".animation_duration").val()) * 1000;
 
 				if ((animation) && (typeof duration === "number")) {
+					window.memory[id] = {
+						"height":$("#shape_" + id).css("height"),
+						"width":$("#shape_" + id).css("width"),
+						"top":$("#shape_" + id).css("top"),
+						"left":$("#shape_" + id).css("left"),
+						"opacity":$("#shape_" + id).css("opacity"),
+						"background-color":$("#shape_" + id).css("background-color")
+					}
+
 					window.timeout[id] = setTimeout(function() {
+						$("#shape_" + id)
+							.css("height",window.memory[id]["height"])
+							.css("width",window.memory[id]["width"])
+							.css("top",window.memory[id]["top"])
+							.css("left",window.memory[id]["left"])
+							.css("opacity",window.memory[id]["opacity"])
+							.css("background-color",window.memory[id]["background-color"]);
+
+						window.memory[id] = {};
+
 						$(button).show();
 						$(button).closest(".animation").find(".pause").hide();
 
@@ -206,7 +226,7 @@ $(document).ready(function() {
 						$(button).closest(".control_shape").find("input").removeClass("disabled").prop("disabled",false);
 						$(button).closest(".control_shape").find("textarea").removeClass("disabled").prop("disabled",false);
 						$(button).closest(".control_shape").find(".control_number").addClass("disabled").prop("disabled",true);
-					},duration);
+					},(duration + 20));
 
 					$(button).closest(".control_shape").find("button").addClass("disabled").prop("disabled",true);
 					$(button).closest(".control_shape").find("input").addClass("disabled").prop("disabled",true);
@@ -251,6 +271,16 @@ $(document).ready(function() {
 				clearInterval(window.timeout[id]);
 				$("#shape_" + id).stop();
 
+				$("#shape_" + id)
+					.css("height",window.memory[id]["height"])
+					.css("width",window.memory[id]["width"])
+					.css("top",window.memory[id]["top"])
+					.css("left",window.memory[id]["left"])
+					.css("opacity",window.memory[id]["opacity"])
+					.css("background-color",window.memory[id]["background-color"]);
+
+				window.memory[id] = {};
+
 				$(this).closest(".animation").find(".play").show();
 				$(this).closest(".animation").find(".pause").hide();
 
@@ -282,7 +312,7 @@ $(document).ready(function() {
 					if ($(this).find(".animation_timestamp").toArray().length > 0) {
 						var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 						var animation = String($(this).find(".animation_text").val());
-						var duration = Number($(this).find(".animation_duration").val());
+						var duration = Number($(this).find(".animation_duration").val()) * 1000;
 						var timestamp = String($(this).find(".animation_timestamp").val());
 						timestamp = timestamp.split(":");
 						
@@ -313,6 +343,15 @@ $(document).ready(function() {
 
 						if ((timestamp + duration) > endTime) {
 							endTime = timestamp + duration;
+						}
+
+						window.memory[id] = {
+							"height":$("#shape_" + id).css("height"),
+							"width":$("#shape_" + id).css("width"),
+							"top":$("#shape_" + id).css("top"),
+							"left":$("#shape_" + id).css("left"),
+							"opacity":$("#shape_" + id).css("opacity"),
+							"background-color":$("#shape_" + id).css("background-color")
 						}
 					}
 				});
@@ -377,8 +416,47 @@ $(document).ready(function() {
 								window.endTime = 0;
 								window.timeNow = 0;
 								clearInterval(window.timeout["main"]);
+
+								$("#controls_clock").text("00:00.00");
 							}
 							else {
+								var hours = Math.floor((window.timeNow / 1000) / 360);
+								var minutes = Math.floor(((window.timeNow / 1000) % 360) / 60);
+								var seconds = ((window.timeNow / 1000) % 360) % 60;
+								var clock = "0";
+
+								if (seconds > 0) {
+									var clock = String(seconds);
+									if (seconds < 10) {
+										clock = "0" + clock;
+									}
+									if (clock.indexOf(".") < 0) {
+										clock = clock + ".";
+									}
+									clock = clock + "000";		
+									clock = clock.substring(0,5);
+								}
+								else {
+									clock = "00.00";
+								}
+
+								if (minutes > 0) {
+									clock = minutes + ":" + clock; 
+									if (minutes < 10) {
+										clock = "0" + clock;
+									}
+								}
+								else {
+									clock = "00:" + clock;
+								}
+								if (hours > 0) {
+									clock = hours + ":" + clock;
+									if (hours < 10) {
+										clock = "0" + clock;
+									}
+								}
+
+								$("#controls_clock").text(clock);
 								window.timeNow = window.timeNow + 10;
 							}
 						}
@@ -408,6 +486,19 @@ $(document).ready(function() {
 			clearInterval(window.timeout["main"]);
 			$(".shape").stop();
 
+			$(".shape").each(function(index) {
+				var id = Number(String($(this).attr("id")).replace("shape_",""));
+				$("#shape_" + id)
+					.css("height",window.memory[id]["height"])
+					.css("width",window.memory[id]["width"])
+					.css("top",window.memory[id]["top"])
+					.css("left",window.memory[id]["left"])
+					.css("opacity",window.memory[id]["opacity"])
+					.css("background-color",window.memory[id]["background-color"]);
+			});
+
+			window.memory = {};
+
 			$("#controls_pause").hide();
 			$("#controls_play").show();
 			
@@ -416,6 +507,7 @@ $(document).ready(function() {
 			$("textarea").removeClass("disabled").prop("disabled",false);
 			$(".control_number").removeClass("disabled").prop("disabled",false);
 
-			$("#controls_clock").text("0:00");
+			$("#controls_clock").text("00:00.00");
 		});
+
 });
