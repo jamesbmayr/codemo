@@ -137,11 +137,12 @@ $(document).ready(function() {
 					</div>");
 
 				$(this).replaceWith("\
-					<input type='text' class='animation_timestamp' placeholder='timestamp' value='0:00'></input>\
+					<input type='text' class='animation_timestamp' placeholder='start' value='0:00'></input>\
+					<input type='text' class='animation_duration' placeholder='length' value='1000'></input>\
 					<button class='play'><span class='glyphicon glyphicon-play'></span></button>\
 					<button class='pause'><span class='glyphicon glyphicon-pause'></span></button>\
 					<button class='remove_animation'><span class='glyphicon glyphicon-remove'></span></button>\
-					<textarea class='animation_text' placeholder='({parameter=\"value\"},duration)'></textarea>");
+					<textarea class='animation_text' placeholder='parameter:\"value\",\nparameter:\"value\",\n...'></textarea>");
 			}
 		});
 
@@ -152,21 +153,39 @@ $(document).ready(function() {
 		});
 
 	/* shape hover */
-		$(document).on("mouseenter mouseleave",".shape",function() {
+		$(document).on("mouseenter",".shape",function() {
 			if (!window.playing) {
 				var id = Number(String($(this).attr("id")).replace("shape_",""));
 
-				$(this).toggleClass("hover");
-				$("#control_shape_" + id).find(".control_number").toggleClass("hover");
+				$(this).addClass("hover");
+				$("#control_shape_" + id).find(".control_number").addClass("hover");
 			}
 		});
 
-		$(document).on("mouseenter mouseleave",".control_number",function() {
+		$(document).on("mouseleave",".shape",function() {
+			if (!window.playing) {
+				var id = Number(String($(this).attr("id")).replace("shape_",""));
+
+				$(this).removeClass("hover");
+				$("#control_shape_" + id).find(".control_number").removeClass("hover");
+			}
+		});
+
+		$(document).on("mouseenter",".control_number",function() {
 			if (!window.playing) {
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 
-				$("#shape_" + id).toggleClass("hover");
-				$(this).toggleClass("hover");
+				$("#shape_" + id).addClass("hover");
+				$(this).addClass("hover");
+			}
+		});
+
+		$(document).on("mouseleave",".control_number",function() {
+			if (!window.playing) {
+				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
+
+				$("#shape_" + id).removeClass("hover");
+				$(this).removeClass("hover");
 			}
 		});
 
@@ -176,37 +195,35 @@ $(document).ready(function() {
 				var button = $(this);
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 				var animation = String($(this).closest(".animation").find(".animation_text").val());
+				var duration = Number($(this).closest(".animation").find(".animation_duration").val());
 
-				if (animation) {
-					var duration = Number(animation.substring(animation.indexOf("},") + 2,animation.indexOf(")")));
+				if ((animation) && (typeof duration === "number")) {
+					window.timeout[id] = setTimeout(function() {
+						$(button).show();
+						$(button).closest(".animation").find(".pause").hide();
 
-					if (typeof duration === "number") {
-						window.timeout[id] = setTimeout(function() {
-							$(button).show();
-							$(button).closest(".animation").find(".pause").hide();
-
-							$(button).closest(".control_shape").find("button").removeClass("disabled").prop("disabled",false);
-							$(button).closest(".control_shape").find("input").removeClass("disabled").prop("disabled",false);
-							$(button).closest(".control_shape").find("textarea").removeClass("disabled").prop("disabled",false);
-							$(button).closest(".control_shape").find(".control_number").addClass("disabled").prop("disabled",true);
-						},duration);
-
-						$(button).closest(".control_shape").find("button").addClass("disabled").prop("disabled",true);
-						$(button).closest(".control_shape").find("input").addClass("disabled").prop("disabled",true);
-						$(button).closest(".control_shape").find("textarea").addClass("disabled").prop("disabled",true);
+						$(button).closest(".control_shape").find("button").removeClass("disabled").prop("disabled",false);
+						$(button).closest(".control_shape").find("input").removeClass("disabled").prop("disabled",false);
+						$(button).closest(".control_shape").find("textarea").removeClass("disabled").prop("disabled",false);
 						$(button).closest(".control_shape").find(".control_number").addClass("disabled").prop("disabled",true);
+					},duration);
 
-						$(button).hide();
-						$(button).closest(".animation").find(".pause").show().removeClass("disabled").prop("disabled",false);
+					$(button).closest(".control_shape").find("button").addClass("disabled").prop("disabled",true);
+					$(button).closest(".control_shape").find("input").addClass("disabled").prop("disabled",true);
+					$(button).closest(".control_shape").find("textarea").addClass("disabled").prop("disabled",true);
+					$(button).closest(".control_shape").find(".control_number").addClass("disabled").prop("disabled",true);
 
-						try {
-							animation = "$('#shape_" + id + "').animate" + animation;
-							console.log(animation);
-							eval(animation);
-						}
-						catch (err) {
-							console.log("error");
-						}
+					$(button).hide();
+					$(button).closest(".animation").find(".pause").show().removeClass("disabled").prop("disabled",false);
+
+					try {
+						$("#shape_" + id).removeClass("hover");
+						animation = "$('#shape_" + id + "').animate({" + animation + "}," + duration + ")";
+						console.log(animation);
+						eval(animation);
+					}
+					catch (err) {
+						console.log("error");
 					}
 				}
 			}
@@ -265,7 +282,7 @@ $(document).ready(function() {
 					if ($(this).find(".animation_timestamp").toArray().length > 0) {
 						var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 						var animation = String($(this).find(".animation_text").val());
-						var duration = Number(animation.substring(animation.indexOf("},") + 2,animation.indexOf(")")));
+						var duration = Number($(this).find(".animation_duration").val());
 						var timestamp = String($(this).find(".animation_timestamp").val());
 						timestamp = timestamp.split(":");
 						
@@ -292,7 +309,7 @@ $(document).ready(function() {
 
 						timestamp = Number((hours * 360) + (minutes * 60) + seconds) * 1000;
 
-						queue[queue.length] = [timestamp,id,animation];
+						queue[queue.length] = [timestamp,id,animation,duration];
 
 						if ((timestamp + duration) > endTime) {
 							endTime = timestamp + duration;
@@ -331,9 +348,11 @@ $(document).ready(function() {
 					window.timeout["main"] = setInterval(function() {
 						
 						if (window.playing) {
+							$(".shape").removeClass("hover");
+
 							while ((window.queue.length > 0) && (window.queue[0][0] < (window.timeNow - 0.0001))) {
 								try {
-									var animation = "$('#shape_" + window.queue[0][1] + "').animate" + window.queue[0][2];
+									var animation = "$('#shape_" + window.queue[0][1] + "').animate({" + window.queue[0][2] + "}," + window.queue[0][3] + ")";
 									console.log(animation);
 									eval(animation);
 								}
