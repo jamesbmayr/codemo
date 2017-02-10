@@ -142,7 +142,7 @@ $(document).ready(function() {
 					<button class='play'><span class='glyphicon glyphicon-play'></span></button>\
 					<button class='pause'><span class='glyphicon glyphicon-pause'></span></button>\
 					<button class='remove_animation'><span class='glyphicon glyphicon-remove'></span></button>\
-					<textarea class='animation_text' placeholder='parameter:\"value\",\nparameter:\"value\",\n...'></textarea>");
+					<textarea class='animation_text' placeholder='parameter:\"value\",\nparameter:\"value\",\n...'>left:\"+=100px\",\nbackgroundColor:\"#333333\"</textarea>");
 			}
 		});
 
