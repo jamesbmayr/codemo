@@ -18,13 +18,18 @@
 		padding: 0px;
 	}
 
+	button {
+		outline: none;
+	}
+
 /* controls */
 	#controls {
 		position: relative;
 		top: 10px;
 		left: 10px;
 		width: 250px;
-		height: 500px;
+		min-height: 175px;
+		max-height: 500px;
 		background-color: #666666;
 		border-radius: 5px;
 		color: #ffffff;
@@ -36,32 +41,48 @@
 		width: calc(100% - 10px);
 		border-radius: 5px;
 		background-color: #333333;
-		height: 35px;
+		height: 45px;
 		cursor: move;
 		color: white;
 		text-align: center;
 		padding: 5px;
-		font-size: 20px;
+		font-size: 25px;
 		font-weight: bold;
 		text-transform: uppercase;
 	}
 
 	#controls_scroll {
-		margin-top: 40px;
 		overflow-x: hidden;
 		overflow-y: scroll;
 		width: 100%;
-		height: calc(100% - 40px);
+		height: calc(100% - 115px);
+		max-height: calc(500px - 125px);
+		margin-top: 5px;
 		border-radius: 5px;
 	}
 
-	.control_shape {
-		margin-bottom: 10px;
+/* controls animation */
+	#controls_animation {
+		margin-top: 50px;
+		margin-bottom: 0px;
 		width: 100%;
-		height: auto;
+		height: 60px;
 		background-color: #333333;
 		border-radius: 5px;
 		padding: 5px;
+	}
+
+	#controls_clock {
+		float: left;
+		width: 50%;
+		height: 100%;
+		padding: 5px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 25px;
 	}
 
 /* controls header */
@@ -75,6 +96,8 @@
 		border: 0px;
 		border-radius: 5px;
 		padding: 5px;
+		text-transform: uppercase;
+		font-weight: bold;
 	}
 
 	.new_shape:hover {
@@ -140,6 +163,7 @@
 		border-radius: 5px;
 		padding: 5px;
 		margin-left: 5px;
+		display: none;
 	}
 
 	.expand_shape:hover {
@@ -166,7 +190,16 @@
 		background-color: #333333;
 	}
 
-/* controls options */
+/* shape parameters */
+	.control_shape {
+		margin-bottom: 5px;
+		width: 100%;
+		height: auto;
+		background-color: #333333;
+		border-radius: 5px;
+		padding: 5px;
+	}
+
 	.plot_shape {
 		border: 0px;
 		background-color: #ffffff;
@@ -178,7 +211,7 @@
 		min-width: 100%;
 		height: 50px;
 		min-height: 50px;
-		max-height: 250px;
+		max-height: 150px;
 		margin-top: 5px;
 		border-radius: 5px;
 	}
@@ -204,7 +237,7 @@
 		top: 0;
 		left: 0;
 		background-color: gray;
-		clip-path: polygon(40% 5%, 60% 5%, 82.5% 17.5%, 95% 40%, 95% 60%, 82.5% 82.5%, 60% 95%, 40% 95%, 17.5% 82.5%, 5% 60%, 5% 40%, 17.5% 17.5%);
+		clip-path: polygon(38% 5%, 62% 5%, 82.5% 17.5%, 95% 38%, 95% 62%, 82.5% 82.5%, 62% 95%, 38% 95%, 17.5% 82.5%, 5% 62%, 5% 38%, 17.5% 17.5%);
 	}
 
 	.preview_shape.hover {
@@ -238,18 +271,167 @@
 		font-size: 15px;
 	}
 
+/* shape animations */
+	.animation {
+		margin-top: 5px;
+		width: 100%;
+	}
+
+	.animation_timestamp {
+		height: 50px;
+		width: 50%;
+		border: 0px;
+		border-radius: 5px;
+		background-color: #ffffff;
+		color: #333333;
+		font-size: 15px;
+		padding: 5px;
+		float: left;
+		text-align: center;
+	}
+
+	.play {
+		margin-left: 5px;
+		float: left;
+		width: calc(25% - 5px);
+		height: 50px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 25px;
+	}
+
+	.play:hover {
+		background-color: #333333;
+		color: #ffffff;
+	}
+
+	.pause {
+		margin-left: 5px;
+		float: left;
+		width: calc(25% - 5px);
+		height: 50px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 25px;
+		display: none;
+	}
+
+	.pause:hover {
+		background-color: #333333;
+		color: #ffffff;
+	}
+
+	.restart {
+		float: left;
+		width: calc(25% - 5px);
+		height: 50px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 25px;
+		margin-left: 5px;
+	}
+
+	.restart:hover {
+		background-color: #333333;
+		color: #ffffff;
+	}
+
+	.remove_animation {
+		float: left;
+		width: calc(25% - 5px);
+		height: 50px;
+		color: #333333;
+		background-color: #ffffff;
+		border-radius: 5px;
+		border: 0px;
+		text-align: center;
+		font-size: 25px;
+		margin-left: 5px;
+	}
+
+	.remove_animation:hover {
+		background-color: #333333;
+		color: #ffffff;
+	}
+
+	.animation_text {
+		border: 0px;
+		background-color: #ffffff;
+		color: #333333;
+		padding: 5px;
+		font-size: 15px;
+		width: 100%;
+		max-width: 100%;
+		min-width: 100%;
+		height: 50px;
+		min-height: 50px;
+		max-height: 100px;
+		margin-top: 5px;
+		border-radius: 5px;
+		margin-bottom: -5px;
+	}
+
+	.new_animation {
+		width: 100%;
+		height: 100%;
+		color: #ffffff;
+		background-color: #333333;
+		text-align: center;
+		font-size: 25px;
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+
+	.new_animation:hover {
+		background-color: #ffffff;
+		color: #333333;
+	}
+
 /* shape */
 	.shape {
 		position: absolute;
 		top: 25%;
 		left: 25%;
-		height: 100px;
-		width: 100px;
+		height: 200px;
+		width: 200px;
 		background-color: gray;
 		cursor: move;
-		clip-path: polygon(40% 5%, 60% 5%, 82.5% 17.5%, 95% 40%, 95% 60%, 82.5% 82.5%, 60% 95%, 40% 95%, 17.5% 82.5%, 5% 60%, 5% 40%, 17.5% 17.5%);
+		clip-path: polygon(38% 5%, 62% 5%, 82.5% 17.5%, 95% 38%, 95% 62%, 82.5% 82.5%, 62% 95%, 38% 95%, 17.5% 82.5%, 5% 62%, 5% 38%, 17.5% 17.5%);
 	}
 
 	.shape.hover {
 		opacity: .5;
+	}
+
+/* disabled */
+	input[type=text].disabled {
+		cursor: not-allowed;
+	}
+
+	input[type=number].disabled {
+		cursor: not-allowed;
+	}
+
+	textarea.disabled {
+		cursor: not-allowed;
+	}
+
+	button.disabled {
+		cursor: not-allowed;
+	}
+
+	.control_number.disabled {
+		cursor: default;
 	}
