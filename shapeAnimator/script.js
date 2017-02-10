@@ -193,20 +193,30 @@ $(document).ready(function() {
 	/* preview animation controls */
 		$(document).on("click",".play:not(#controls_play)",function() {
 			if (!window.playing) {
+				window.queue = [];
+				window.endTime = 0;
+				window.timeNow = 0;
+				clearInterval(window.timeout["main"]);
+
+				$("#controls_clock").text("00:00.00");
+
+				$(".shape").each(function(index) {
+					var id = Number(String($(this).attr("id")).replace("shape_",""));
+					if (typeof window.memory[id] !== "undefined") {
+						$("#shape_" + id)
+							.css("height",window.memory[id]["height"])
+							.css("width",window.memory[id]["width"])
+							.css("top",window.memory[id]["top"])
+							.css("left",window.memory[id]["left"])
+							.css("opacity",window.memory[id]["opacity"])
+							.css("background-color",window.memory[id]["background-color"]);
+					}
+				});
+
 				var button = $(this);
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 				var animation = String($(this).closest(".animation").find(".animation_text").val());
 				var duration = Number($(this).closest(".animation").find(".animation_duration").val()) * 1000;
-
-				if (typeof window.memory[id] !== "undefined") {
-					$("#shape_" + id)
-						.css("height",window.memory[id]["height"])
-						.css("width",window.memory[id]["width"])
-						.css("top",window.memory[id]["top"])
-						.css("left",window.memory[id]["left"])
-						.css("opacity",window.memory[id]["opacity"])
-						.css("background-color",window.memory[id]["background-color"]);
-				}
 
 				if ((animation) && (typeof duration === "number")) {
 					window.memory[id] = {
