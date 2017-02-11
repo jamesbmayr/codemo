@@ -111,10 +111,10 @@ $(document).ready(function() {
 					color = "gray";
 				}
 
-				$(this).closest(".control_shape").find(".preview_shape").css("background-color", color);
+				$(this).closest(".control_shape").find(".preview_shape").css("background", color);
 
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
-				$("#shape_" + id).css("background-color", color);
+				$("#shape_" + id).css("background", color);
 			}
 		});
 
@@ -138,7 +138,7 @@ $(document).ready(function() {
 					</div>");
 
 				$(this).replaceWith("\
-					<input type='text' class='animation_timestamp' placeholder='start' value='0:00'></input>\
+					<input type='text' class='animation_timestamp' placeholder='start' value='00:00'></input>\
 					<input type='text' class='animation_duration' placeholder='length' value='1.00'></input>\
 					<button class='play'><span class='glyphicon glyphicon-play'></span></button>\
 					<button class='pause'><span class='glyphicon glyphicon-pause'></span></button>\
@@ -209,7 +209,7 @@ $(document).ready(function() {
 							.css("top",window.memory[id]["top"])
 							.css("left",window.memory[id]["left"])
 							.css("opacity",window.memory[id]["opacity"])
-							.css("background-color",window.memory[id]["background-color"]);
+							.css("background",window.memory[id]["background"]);
 					}
 				});
 
@@ -225,7 +225,7 @@ $(document).ready(function() {
 						"top":$("#shape_" + id).css("top"),
 						"left":$("#shape_" + id).css("left"),
 						"opacity":$("#shape_" + id).css("opacity"),
-						"background-color":$("#shape_" + id).css("background-color")
+						"background":$("#shape_" + id).css("background")
 					}
 
 					window.timeout[id] = setTimeout(function() {
@@ -236,7 +236,7 @@ $(document).ready(function() {
 								.css("top",window.memory[id]["top"])
 								.css("left",window.memory[id]["left"])
 								.css("opacity",window.memory[id]["opacity"])
-								.css("background-color",window.memory[id]["background-color"]);
+								.css("background",window.memory[id]["background"]);
 						}
 
 						window.memory[id] = {};
@@ -300,7 +300,7 @@ $(document).ready(function() {
 						.css("top",window.memory[id]["top"])
 						.css("left",window.memory[id]["left"])
 						.css("opacity",window.memory[id]["opacity"])
-						.css("background-color",window.memory[id]["background-color"]);
+						.css("background",window.memory[id]["background"]);
 				}
 
 				window.memory[id] = {};
@@ -328,7 +328,7 @@ $(document).ready(function() {
 							.css("top",window.memory[id]["top"])
 							.css("left",window.memory[id]["left"])
 							.css("opacity",window.memory[id]["opacity"])
-							.css("background-color",window.memory[id]["background-color"]);
+							.css("background",window.memory[id]["background"]);
 					}
 				});
 			}
@@ -391,7 +391,7 @@ $(document).ready(function() {
 							"top":$("#shape_" + id).css("top"),
 							"left":$("#shape_" + id).css("left"),
 							"opacity":$("#shape_" + id).css("opacity"),
-							"background-color":$("#shape_" + id).css("background-color")
+							"background":$("#shape_" + id).css("background")
 						}
 					}
 				});
@@ -535,7 +535,7 @@ $(document).ready(function() {
 						.css("top",window.memory[id]["top"])
 						.css("left",window.memory[id]["left"])
 						.css("opacity",window.memory[id]["opacity"])
-						.css("background-color",window.memory[id]["background-color"]);
+						.css("background",window.memory[id]["background"]);
 				}
 			});
 
