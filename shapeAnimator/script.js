@@ -8,8 +8,34 @@ $(document).ready(function() {
 		window.endTime = 0;
 		window.timeNow = 0;
 		window.memory = {};
+		window.shapes = { //some clip-paths from http://bennettfeely.com/clippy/
+			"triangle":"50% 15%, 0% 100%, 100% 100%",
+			"square":"0% 0%, 100% 0%, 100% 100%, 0% 100%",
+			"diamond":"50% 0%, 100% 50%, 50% 100%, 0% 50%",
+			"parallelogram":"25% 0%, 100% 0%, 75% 100%, 0% 100%",
+			"rectangle":"0% 20%, 100% 20%, 100% 80%, 0% 80%",
+			"trapezoid":"20% 0%, 80% 0%, 100% 100%, 0% 100%",
+			"pentagon":"50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%",
+			"hexagon":"50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%",
+			"septagon":"50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%",
+			"octagon":"30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%",
+			"nonagon":"50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%",
+			"decagon":"50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%",
+			"dodecagon":"38% 5%, 62% 5%, 82.5% 17.5%, 95% 38%, 95% 62%, 82.5% 82.5%, 62% 95%, 38% 95%, 17.5% 82.5%, 5% 62%, 5% 38%, 17.5% 17.5%",
+			"star":"50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%",
+			"chevron":"50% 0%, 100% 100%, 50% 75%, 0 100%",
+			"cross":"0% 33%, 33% 33%, 33% 0%, 67% 0%, 67% 33%, 100% 33%, 100% 67%, 67% 67%, 67% 100%, 33% 100%, 33% 67%, 0% 67%",
+			"arrow":"50% 0, 50% 33%, 100% 33%, 100% 67%, 50% 67%, 50% 100%, 0% 50%"
+		}
 
 		resetDraggable();
+
+		var options = "";
+		for (i = 0; i < Object.keys(window.shapes).length; i++) {
+			options += "<option value='" + Object.keys(window.shapes)[i] + "'>" + Object.keys(window.shapes)[i] + "</option>";
+		}
+		options = "<select class='shape_options'><option selected value=''>shape</option>" + options + "</select>";
+		$(".new_shape").append(options);
 
 	/* draggable */
 		function resetDraggable() {
@@ -21,6 +47,8 @@ $(document).ready(function() {
 		$(document).on("click",".new_shape",function() {
 			if (!window.playing) {
 				var control_shape = $(this).closest(".control_shape");
+				var new_shape = $(this).find(".shape_options").val();
+
 				$(this).replaceWith("\
 					<div class='control_shape_header'>\
 						<span class='control_number'>" + window.shapeCount + "</span>\
@@ -28,11 +56,22 @@ $(document).ready(function() {
 						<button class='expand_shape'><span class='glyphicon glyphicon-chevron-down'></span></button>\
 						<button class='remove_shape'><span class='glyphicon glyphicon-remove'></span></button>\
 					</div>");
-				$(control_shape).append("<textarea class='plot_shape' placeholder='path points'>38 5, 62 5, 82.5 17.5, 95 38, 95 62, 82.5 82.5, 62 95, 38 95, 17.5 82.5, 5 62, 5 38, 17.5 17.5</textarea>");
+
+				if (new_shape === "shape") {
+					var points = window.shapes["dodecagon"];
+				}
+				else if (Object.keys(window.shapes).indexOf(new_shape) > -1) {
+					var points = window.shapes[new_shape];
+				}
+				else {
+					var points = window.shapes["dodecagon"];
+				}
+
+				$(control_shape).append("<textarea class='plot_shape' placeholder='shape or polygon coordinates'>" + points.replace(/%/g,"") + "</textarea>");
 				$(control_shape).append("\
 					<div class='parameters'>\
 						<div class='preview_frame'>\
-							<div id='preview_" + window.shapeCount + "' class='preview_shape'></div>\
+							<div id='preview_" + window.shapeCount + "' class='preview_shape' style='clip-path: polygon(" + points + ")'></div>\
 						</div>\
 						<input type='number' class='shape_size' placeholder='size' value='200'></input>\
 						<input type='text' class='shape_color' placeholder='color' value='gray'></input>\
@@ -42,15 +81,24 @@ $(document).ready(function() {
 						<button class='new_animation'><span class='glyphicon glyphicon-plus'></span> animation</button>\
 					</div>");
 
-				$("#zone").append("<div id='shape_" + window.shapeCount + "' class='shape'></div>");
+				$("#zone").append("<div id='shape_" + window.shapeCount + "' class='shape' style='clip-path: polygon(" + points + ")'></div>");
 				resetDraggable();
 				
 				window.shapeCount++;
+				var options = "";
+				for (i = 0; i < Object.keys(window.shapes).length; i++) {
+					options += "<option value='" + Object.keys(window.shapes)[i] + "'>" + Object.keys(window.shapes)[i] + "</option>";
+				}
+				options = "<select class='shape_options'><option selected value=''>shape</option>" + options + "</select>";
 				$("#controls_scroll").append("\
 					<div id='control_shape_" + window.shapeCount + "' class='control_shape'>\
-						<button class='new_shape'><span class='glyphicon glyphicon-plus'></span> shape</button>\
+						<button class='new_shape'><span class='glyphicon glyphicon-plus'></span>" + options + "</button>\
 					</div>");
 			}
+		});
+
+		$(document).on("click",".shape_options",function(e) {
+			e.stopPropagation();
 		});
 
 		$(document).on("click",".remove_shape",function() {
@@ -85,29 +133,9 @@ $(document).ready(function() {
 				if (path.length < 1) {
 					path = "0 0";
 				}
-				
-				var shapes = { //some clip-paths from http://bennettfeely.com/clippy/
-					"triangle":"50% 15%, 0% 100%, 100% 100%",
-					"square":"0% 0%, 100% 0%, 100% 100%, 0% 100%",
-					"diamond":"50% 0%, 100% 50%, 50% 100%, 0% 50%",
-					"parallelogram":"25% 0%, 100% 0%, 75% 100%, 0% 100%",
-					"rectangle":"0% 20%, 100% 20%, 100% 80%, 0% 80%",
-					"trapezoid":"20% 0%, 80% 0%, 100% 100%, 0% 100%",
-					"pentagon":"50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%",
-					"hexagon":"50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%",
-					"septagon":"50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%",
-					"octagon":"30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%",
-					"nonagon":"50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%",
-					"decagon":"50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%",
-					"dodecagon":"38% 5%, 62% 5%, 82.5% 17.5%, 95% 38%, 95% 62%, 82.5% 82.5%, 62% 95%, 38% 95%, 17.5% 82.5%, 5% 62%, 5% 38%, 17.5% 17.5%",
-					"star":"50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%",
-					"chevron":"50% 0%, 100% 100%, 50% 75%, 0 100%",
-					"cross":"0% 33%, 33% 33%, 33% 0%, 67% 0%, 67% 33%, 100% 33%, 100% 67%, 67% 67%, 67% 100%, 33% 100%, 33% 67%, 0% 67%",
-					"arrow":"50% 0, 50% 33%, 100% 33%, 100% 67%, 50% 67%, 50% 100%, 0% 50%"
-				}
 
-				if (Object.keys(shapes).indexOf(path) > -1) {
-					path = shapes[path];
+				if (Object.keys(window.shapes).indexOf(path) > -1) {
+					path = window.shapes[path];
 				}
 
 				path = path.replace(/, /g,",");
