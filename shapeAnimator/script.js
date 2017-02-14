@@ -43,6 +43,147 @@ $(document).ready(function() {
 			$(".shape").draggable();
 		};
 
+	/* file buttons */
+		$(document).on("click","#controls_download",function() {
+			var data = {};
+
+			$(".control_shape").each(function(i) {
+				if (!($(this).find(".new_shape").toArray().length > 0)) {
+					var number = Number($(this).find(".control_number").text());
+					var plot = String($(this).find(".plot_shape").val());
+					var size = String($(this).find(".shape_size").val());
+					var color = String($(this).find(".shape_color").val());
+					var animations = {};
+
+					$(this).find(".animation").each(function(j) {
+						if (!($(this).find(".new_animation").toArray().length > 0)) {
+							var timestamp = String($(this).find(".animation_timestamp").val());
+							var duration = String($(this).find(".animation_duration").val());
+							var text = String($(this).find(".animation_text").val());
+
+							animations[j] = {
+								"timestamp":timestamp,
+								"duration":duration,
+								"text":text
+							}
+						}
+					});
+
+					var top = String($("#shape_" + number).css("top"));
+					var left = String($("#shape_" + number).css("left"));
+					var points = String($("#shape_" + number).css("clip-path"));
+					var opacity = String($("#shape_" + number).css("opacity"));
+
+					data[number] = {
+						"plot":plot,
+						"size":size,
+						"color":color,
+						"top":top,
+						"left":left,
+						"points":points,
+						"opacity":opacity,
+						"animations":animations
+					}
+				}
+			});
+			
+			var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+			var data_time = new Date();
+			var month = String("0" + (data_time.getMonth() + 1)).slice(-2);
+			var date = String("0" + data_time.getDate()).slice(-2);
+			var year = String(data_time.getFullYear());
+			data_time = month + date + year;
+
+			$("body").append("<a id='download_link' href='data:" + data + "' download='shapeAnimator_" + data_time + ".json'></a>");
+			$("#download_link").click(function() {
+				$(this).remove();
+			})[0].click();
+		});
+
+		$(document).on("change","#file_chooser",function(event) {
+			if (($("#file_chooser").val() !== null) && ($("#file_chooser").val().length > 0)){
+			    var reader = new FileReader();
+			    reader.readAsText(event.target.files[0]);
+				reader.onload = function(event) {
+					var data = JSON.parse(event.target.result);
+					var data_shapes = Object.keys(data);
+
+					$("#zone").empty();
+					$("#controls_scroll").empty();
+					window.playing = false;
+					window.timeout = {};
+					window.queue = [];
+					window.endTime = 0;
+					window.timeNow = 0;
+					window.memory = {};
+					window.shapeCount = 0;
+
+					for (i = 0; i < data_shapes.length; i++) {
+						if (Number(data_shapes[i]) > window.shapeCount) {
+							window.shapeCount = Number(data_shapes[i]);
+						}
+
+						var animations = "";
+						for (j = 0; j < Object.keys(data[data_shapes[i]]["animations"]).length; j++) {
+							animations += '\
+								<div class="animation">\
+									<input type="text" class="animation_timestamp" placeholder="start" value="' + data[data_shapes[i]]["animations"][j]["timestamp"] + '">\
+									<input type="text" class="animation_duration" placeholder="length" value="' + data[data_shapes[i]]["animations"][j]["duration"] + '">\
+									<button class="play"><span class="glyphicon glyphicon-play"></span></button>\
+									<button class="pause"><span class="glyphicon glyphicon-pause"></span></button>\
+									<button class="remove_animation"><span class="glyphicon glyphicon-remove"></span></button>\
+									<textarea class="animation_text" placeholder="parameter:\"value\",\nparameter:\"value\",\n...">' + data[data_shapes[i]]["animations"][j]["text"] + '</textarea>\
+								</div>';
+						}
+
+						$("#controls_scroll").append('\
+							<div id="control_shape_' + data_shapes[i] + '" class="control_shape">\
+								<div class="control_shape_header">\
+									<span class="control_number">' + data_shapes[i] + '</span>\
+									<button class="collapse_shape"><span class="glyphicon glyphicon-chevron-up"></span></button>\
+									<button class="expand_shape"><span class="glyphicon glyphicon-chevron-down"></span></button>\
+									<button class="remove_shape"><span class="glyphicon glyphicon-remove"></span></button>\
+								</div>\
+								<textarea class="plot_shape" placeholder="shape or polygon coordinates">' + data[data_shapes[i]]["plot"] + '</textarea>\
+								<div class="parameters">\
+									<div class="preview_frame">\
+										<div id="preview_' + data_shapes[i] + '" class="preview_shape" style="clip-path: ' + data[data_shapes[i]]["points"] + '; background: ' + data[data_shapes[i]]["color"] + '">\
+										</div>\
+									</div>\
+									<input type="number" class="shape_size" placeholder="size" value="' + data[data_shapes[i]]["size"] + '">\
+									<input type="text" class="shape_color" placeholder="color" value="' + data[data_shapes[i]]["color"] + '">\
+								</div>\
+								' + animations + '\
+								<div class="animation">\
+									<button class="new_animation"><span class="glyphicon glyphicon-plus"></span> animation</button>\
+								</div>\
+							</div>');
+						
+						$("#zone").append('<div id="shape_' + data_shapes[i] + '" class="shape ui-draggable ui-draggable-handle" style="top: ' + data[data_shapes[i]]["top"] + '; left: ' + data[data_shapes[i]]["left"] + '; width: ' + data[data_shapes[i]]["size"] + 'px; height: ' + data[data_shapes[i]]["size"] + 'px; background: ' + data[data_shapes[i]]["color"] + '; clip-path: ' + data[data_shapes[i]]["points"] + '; opacity: ' + data[data_shapes[i]]["opacity"] + ';"></div>');
+					}
+
+					window.shapeCount = window.shapeCount + 1;
+
+					var options = "";
+					for (i = 0; i < Object.keys(window.shapes).length; i++) {
+						options += '<option value="' + Object.keys(window.shapes)[i] + '">' + Object.keys(window.shapes)[i] + '</option>';
+					}
+
+					$("#controls_scroll").append('\
+						<div id="control_shape_' + window.shapeCount + '" class="control_shape">\
+							<button class="new_shape"><span class="glyphicon glyphicon-plus"></span>\
+								<select class="shape_options">\
+									<option selected="" value="">shape</option>\
+									' + options + '\
+								</select>\
+							</button>\
+						</div>');
+
+					resetDraggable();
+				}
+			}
+		});
+
 	/* header buttons */
 		$(document).on("click",".new_shape",function() {
 			if (!window.playing) {
@@ -390,6 +531,7 @@ $(document).ready(function() {
 			$("button").addClass("disabled").prop("disabled",true);
 			$("input").addClass("disabled").prop("disabled",true);
 			$("textarea").addClass("disabled").prop("disabled",true);
+			$("label").addClass("disabled").prop("disabled",true);
 			$(".control_number").addClass("disabled").prop("disabled",true);
 
 			$(this).hide();
@@ -501,6 +643,7 @@ $(document).ready(function() {
 								$("button").removeClass("disabled").prop("disabled",false);
 								$("input").removeClass("disabled").prop("disabled",false);
 								$("textarea").removeClass("disabled").prop("disabled",false);
+								$("label").removeClass("disabled").prop("disabled",false);
 								$(".control_number").removeClass("disabled").prop("disabled",false);
 
 								window.playing = false;
@@ -567,6 +710,7 @@ $(document).ready(function() {
 			$("button").removeClass("disabled").prop("disabled",false);
 			$("input").removeClass("disabled").prop("disabled",false);
 			$("textarea").removeClass("disabled").prop("disabled",false);
+			$("label").removeClass("disabled").prop("disabled",false);
 			$(".control_number").removeClass("disabled").prop("disabled",false);
 		});
 
@@ -599,6 +743,7 @@ $(document).ready(function() {
 			$("button").removeClass("disabled").prop("disabled",false);
 			$("input").removeClass("disabled").prop("disabled",false);
 			$("textarea").removeClass("disabled").prop("disabled",false);
+			$("label").removeClass("disabled").prop("disabled",false);
 			$(".control_number").removeClass("disabled").prop("disabled",false);
 
 			$("#controls_clock").text("00:00.00");
