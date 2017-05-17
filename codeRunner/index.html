@@ -11,7 +11,7 @@
 	<body>
 		<div class="container">
 			<div class="indented content">
-				<div class="bracketer_top"><span class="greentext robot_name">codeRunner</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value='' contenteditable=true></span></span><span class="whitetext">) {</span></div>
+				<div class="bracketer_top"><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value='' contenteditable=true></span></span><span class="whitetext">) {</span></div>
 				<div class="megasection">
 					<div class="indented">
 						<div class="field_frame active" id="code_outer"><div class="whitetext field" id="code" value='' contenteditable=true></div></div>
@@ -21,10 +21,12 @@
 				<br>
 				<div class="section">
 					<form method="post" action="javascript:;" onsubmit="window.eval_code();" class="whitetext">
-						<button class="whitetext" id="eval_code" name="action" value="eval_code"><span class="greentext">codeRunner</span></button>(<span class="field_frame active"><span class="orangetext field" id="values" value='' contenteditable=true></span></span>)<span class="redtext"> = </span><span class="yellowtext">"<span id="output"></span>"</span>
+						<button class="whitetext" id="eval_code" name="action" value="eval_code"><span class="bluetext">eval</span></button>(<span class="field_frame active"><span class="orangetext field" id="values" value='' contenteditable=true></span></span>)<span class="redtext"> = </span>
+						<br>
+						<span class="yellowtext"><span id="output"></span></span>
 					</form>
 				</div>
-				<details class="graytext"><summary>//console</summary><div id="console"></div></details>
+				<details class="graytext" open><summary>//console</summary><div id="console"></div></details>
 			</div>
 		</div>
 	</body>
