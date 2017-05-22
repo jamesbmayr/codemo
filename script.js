@@ -15,7 +15,9 @@ $(document).ready(function() {
 			["Portmantoasters","portmantoasters","http://portmantoasters.tumblr.com"],
 			["Explorchestra","explorchestra","http://facebook.com/buexplorchestra"],
 			["Apollo","apollo","http://facebook.com/apollo.feeney.mayr"],
-			["Codemo","codemo","https://rawgit.com/jamesbmayr/codemo/master/"]
+			["Codemo","codemo","https://rawgit.com/jamesbmayr/codemo/master/"],
+			["Diamond Checkers","diamondcheckers","http://diamondcheckers.herokuapp.com/"],
+			["AI_Arenas","aiarenas","https://www.aiarenas.com/"]
 		];
 
 	//---social---//
