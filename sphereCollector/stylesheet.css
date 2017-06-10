@@ -1,0 +1,37 @@
+/* page */
+	body {
+		background-color: #eeeeee;
+		width: 100vw;
+		height: 100vh;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+/* pen */
+	#pen {
+		width: 100vw;
+		height: 100vh;
+		box-shadow: 0px -3px 30px 1px black inset;
+		cursor: pointer;
+		cursor: crosshair;
+	}
+
+/* spheres */
+	.sphere {
+		position: absolute;
+		border-radius: 100%;
+		box-shadow: 0px 0px 30px white inset;
+	}
+
+/* score */
+	#score {
+		text-align: center;
+		color: lightgray;
+		font-size: 100px;
+		font-weight: bold;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+	}
