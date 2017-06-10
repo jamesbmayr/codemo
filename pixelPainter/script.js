@@ -1,0 +1,141 @@
+$(document).ready(function() {
+	
+	/* set up */
+		window.painting = false;
+		window.colors = ["black"];
+		window.erasing = false;
+
+		var windowHeight = Math.floor(Number($(window).height()) / 10);
+		var windowWidth = Math.floor(Number($(window).width()) / 10);
+		var whiteboard = "";
+
+		for (y = 0; y < windowHeight; y++) {
+			var row = "<div class='row'>";
+			
+			for (x = 0; x < windowWidth; x++) {
+				row += "<span class='cell'></span>";
+			}
+
+			row += "</div>";
+			whiteboard += row;
+		}
+
+		$("#whiteboard").html(whiteboard);
+
+	/* paint */
+		$(document).on("mouseup",document,function() {
+			window.painting = false;
+		});
+
+		$(document).on("mousedown",".cell",function() {
+			window.painting = true;
+
+			if (window.erasing) {
+				$(this).removeClass().addClass("cell");
+			}
+			else {
+				$(this).removeClass().addClass("cell").addClass("painted").addClass(window.colors[window.colors.length - 1] || "black");
+			}
+		});
+
+		$(document).on("mouseenter",".cell",function() {
+			if (window.painting) {
+				if (window.erasing) {
+					$(this).removeClass().addClass("cell");
+				}
+				else {
+					$(this).removeClass().addClass("cell").addClass("painted").addClass(window.colors[window.colors.length - 1] || "black");
+				}
+			}
+		});
+
+	/* colors */
+		$(document).on("keydown",function(key) {
+			switch (key.which) {
+				case 82:
+					if (window.colors.indexOf("red") == -1) {
+						window.colors.push("red");
+					}
+				break;
+				case 79:
+					if (window.colors.indexOf("orange") == -1) {
+						window.colors.push("orange");
+					}
+				break;
+				case 89:
+					if (window.colors.indexOf("yellow") == -1) {
+						window.colors.push("yellow");
+					}
+				break;
+				case 71:
+					if (window.colors.indexOf("green") == -1) {
+						window.colors.push("green");
+					}
+				break;
+				case 66:
+					if (window.colors.indexOf("blue") == -1) {
+						window.colors.push("blue");
+					}
+				break;
+				case 80:
+					if (window.colors.indexOf("purple") == -1) {
+						window.colors.push("purple");
+					}
+				break;
+				case 67:
+					if (window.colors.indexOf("cyan") == -1) {
+						window.colors.push("cyan");
+					}
+				break;
+				case 77:
+					if (window.colors.indexOf("magenta") == -1) {
+						window.colors.push("magenta");
+					}
+				break;
+				case 32:
+				case 16:
+				case 18:
+				case 17:
+					window.erasing = true;
+					$("#whiteboard").addClass("erasing");
+				break;
+			}
+		});
+
+		$(document).on("keyup",function(key) {
+			switch (key.which) {
+				case 82:
+					window.colors.splice(window.colors.indexOf("red"),1);
+				break;
+				case 79:
+					window.colors.splice(window.colors.indexOf("orange"),1);
+				break;
+				case 89:
+					window.colors.splice(window.colors.indexOf("yellow"),1);
+				break;
+				case 71:
+					window.colors.splice(window.colors.indexOf("green"),1);
+				break;
+				case 66:
+					window.colors.splice(window.colors.indexOf("blue"),1);
+				break;
+				case 80:
+					window.colors.splice(window.colors.indexOf("purple"),1);
+				break;
+				case 67:
+					window.colors.splice(window.colors.indexOf("cyan"),1);
+				break;
+				case 77:
+					window.colors.splice(window.colors.indexOf("magenta"),1);
+				break;
+				case 32:
+				case 16:
+				case 18:
+				case 17:
+					window.erasing = false;
+					$("#whiteboard").removeClass("erasing");
+				break;
+			}
+		});
+
+});

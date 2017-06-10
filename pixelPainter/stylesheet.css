@@ -1,0 +1,84 @@
+/* page */
+	body {
+		background-color: #eeeeee;
+		width: 100vw;
+		height: 100vh;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+/* whiteboard */
+	#whiteboard {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		cursor: pointer;
+		cursor: copy;
+	}
+
+	#whiteboard.erasing {
+		cursor: default;
+		cursor: not-allowed;
+	}
+
+	.row {
+		width: 100vw;
+		height: 10px;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.cell {
+		width: 10px;
+		height: 10px;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+		opacity: 0;
+	}
+
+	.painted {
+		opacity: 1;
+	}
+
+/* colors */
+	.red {
+		background-color: red;
+	}
+
+	.orange {
+		background-color: orange;
+	}
+
+	.yellow {
+		background-color: yellow;
+	}
+
+	.green {
+		background-color: green;
+	}
+
+	.blue {
+		background-color: blue;
+	}
+
+	.purple {
+		background-color: purple;
+	}
+
+	.cyan {
+		background-color: cyan;
+	}
+
+	.magenta {
+		background-color: magenta;
+	}
+
+	.black {
+		background-color: black;
+	}
+
