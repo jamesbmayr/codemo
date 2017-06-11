@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>weatherExplorer</title>
+		<link rel="shortcut icon" href="https://www.shareicon.net/data/128x128/2015/09/22/105427_help_512x512.png"/>
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold;italic;bolditalic"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-DV16-JT9icgEYldfBY_CCjwP_BxmiVs&libraries=places"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<button id="refresh"><span class="fa fa-refresh"></span></button>
+		<div id="info">
+			<div id="place_data" class="data"></div>
+			<div id="coordinates_data"></div>
+			<br>
+			<div id="status">
+				<div id="temperature"><span class="fa fa-thermometer"></span>temperature:<br><span id="temperature_data" class="data"></span> °F</div>
+				<div id="precipitation"><span id="precipitation_type" class="fa fa-umbrella"></span>precipitation:<br><span id="precipitation_data" class="data"></span> in</div>
+				<div id="wind"><span class="fa fa-flag"></span>wind: <span id="wind_direction" class="data"></span><br><span id="wind_data" class="data"></span> mph</div>
+				<div id="humidity"><span class="fa fa-dashboard"></span>humidity:<br><span id="humidity_data" class="data"></span>%</div>
+				<div id="pressure"><span class="fa fa-sort-amount-desc"></span>pressure:<br><span id="pressure_data" class="data"></span> in</div>
+				<div id="clouds"><span class="fa fa-cloud"></span>cloudiness:<br><span id="clouds_data" class="data"></span>%</div>
+			</div>
+			<div id="map"></div>
+		</div>
+	</body>
+</html>
