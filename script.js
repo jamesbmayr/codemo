@@ -14,8 +14,8 @@ $(document).ready(function() {
 			["DreamHatcher Games","dreamhatchergames","http://sites.google.com/site/dreamhatchergames"],
 			["Portmantoasters","portmantoasters","http://portmantoasters.tumblr.com"],
 			["Explorchestra","explorchestra","http://facebook.com/buexplorchestra"],
-			["Apollo","apollo","http://facebook.com/apollo.feeney.mayr"],
-			["Codemo","codemo","https://rawgit.com/jamesbmayr/codemo/master/"],
+			["Apollo","apollo","https://facebook.com/apollo.feeney.mayr"],
+			["Codemo","codemo","http://rawgit.com/jamesbmayr/codemo/master/"],
 			["Diamond Checkers","diamondcheckers","http://diamondcheckers.herokuapp.com/"],
 			["AI_Arenas","aiarenas","https://www.aiarenas.com/"]
 		];
