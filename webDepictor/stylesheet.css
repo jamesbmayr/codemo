@@ -1,0 +1,200 @@
+/* page */
+	body {
+		background-color: #333333;
+		color: #333333;
+		padding: 0px;
+		margin: 0px;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+	}
+
+	#toggle {
+		z-index: 4;
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		width: 50px;
+		height: 50px;
+		border-radius: 100%;
+		background-color: #dddddd;
+		cursor: pointer;
+		padding: 7px;
+		font-size: 25px;
+		text-align: center;
+		border: 2px solid #dddddd;
+	}
+
+	#toggle:hover {
+		background-color: #aaaaaa;
+	}
+
+/* overlay */
+	#overlay {
+		position: absolute;
+		z-index: 3;
+		border-radius: 10px;
+		border: 2px solid #dddddd;
+		background-color: #dddddd;
+		width: calc(100vw - 20px);
+		height: calc(100vh - 20px);
+		margin: 10px;
+	}
+
+	#title {
+		color: #333333;
+		font-size: 25px;
+		font-weight: bold;
+		width: calc(100% - 20px);
+		height: 30px;
+		text-align: center;
+		margin: 10px;
+	}
+
+	#addRow {
+		width: calc(100% - 20px);
+		height: 50px;
+		margin: 10px;
+		font-size: 25px;
+		border-radius: 25px;
+		border: 0px;
+		background-color: #333333;
+		color: #dddddd;
+		cursor: pointer;
+		text-align: center;
+		padding: 7px;
+	}
+
+	#addRow:hover {
+		background-color: #777777;
+	}
+
+	#rows {
+		max-height: calc(100vh - 140px);
+		overflow: scroll;
+	}
+
+	.row {
+		width: calc(100% - 20px);
+		height: 35px;
+		margin: 10px;
+	}
+
+	input.name {
+		float: left;
+		width: calc(20% - 10px);
+		margin-right: 10px;
+		height: 35px;
+		border-radius: 25px;
+		outline: none;
+		border: 0px;
+		padding: 5px 10px 5px 10px;
+		color: #333333;
+	}
+
+	input.points_to {
+		float: left;
+		width: calc(70% - 10px);
+		margin-right: 10px;
+		height: 35px;
+		border-radius: 25px;
+		outline: none;
+		border: 0px;
+		padding: 5px 10px 5px 10px;
+		color: #333333;
+	}
+
+	.removeRow {
+		float: left;
+		width: calc(10%);
+		height: 35px;
+		font-size: 25px;
+		border-radius: 25px;
+		border: 0px;
+		background-color: #333333;
+		color: #dddddd;
+		cursor: pointer;
+		text-align: center;
+		padding: 2px;
+	}
+
+	.removeRow:hover {
+		background-color: #777777;
+	}
+
+/* web */
+	#circles {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.circle {
+		position: absolute;
+		border-radius: 100%;
+		border: 2px solid #dddddd;
+		text-align: center;
+		padding: 0px;
+		margin: 0px;
+		height: 50px;
+		width: 50px;
+		background-color: #dddddd;
+		z-index: 2;
+		cursor: pointer;
+	}
+
+	.circle:hover {
+		background-color: #aaaaaa;
+	}
+
+	.circle div {
+		position: relative;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	#lines {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.line {
+		stroke: #dddddd;
+		stroke-width: 0.5;
+	}
+
+/* circle states */
+	.active {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+	.from {
+		box-shadow: 0px 0px 20px rgba(255,000,000,1);
+	}
+
+	.to {
+		box-shadow: 0px 0px 20px rgba(000,255,000,1);
+	}
+
+	.from.to {
+		box-shadow: 0px 0px 20px rgba(255,255,000,1);
+	}
+
+	.center {
+		box-shadow: 0px 0px 20px rgba(000,000,255,1);
+	}
+
+/* line states */
+	line[from_active='true'] {
+		stroke: rgba(255,000,000,0.1);
+	}
+
+	line[to_active='true'] {
+		stroke: rgba(000,255,000,0.1);
+	}
