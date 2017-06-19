@@ -1,21 +1,5 @@
 $(document).ready(function() {
 
-	/* data */
-		// window.data = [
-		// 	{name: "AAA", to: ["BBB","CCC","DDD","EEE","III"]},
-		// 	{name: "BBB", to: ["CCC","EEE","GGG"]},
-		// 	{name: "CCC", to: ["DDD","HHH"]},
-		// 	{name: "DDD", to: ["AAA","CCC","EEE","III"]},
-		// 	{name: "EEE", to: ["BBB","HHH","FFF"]},
-		// 	{name: "FFF", to: ["AAA","CCC","DDD","GGG"]},
-		// 	{name: "GGG", to: ["BBB","CCC","KKK"]},
-		// 	{name: "HHH", to: ["AAA"]},
-		// 	{name: "III", to: ["CCC","DDD","FFF"]},
-		// 	{name: "JJJ", to: ["LLL"]},
-		// 	{name: "KKK", to: ["BBB","AAA","GGG"]},
-		// 	{name: "LLL", to: ["JJJ"]},
-		// ];
-
 	/* updateWeb */
 		window.updateWeb = function() {
 			$("#circles").remove();
@@ -76,31 +60,141 @@ $(document).ready(function() {
 				for (i in window.data) {
 					var distance = 10 + (((maximum - window.data[i].connections) / maximum) * 40);
 
-					window.data[i].y = 50 + (distance * Math.sin(i * arc));
-					window.data[i].x = 50 + (distance * Math.cos(i * arc));
+					window.data[i].y = (1 * Math.sin(i * arc));
+					window.data[i].x = (1 * Math.cos(i * arc));
 					circles += "<div class='circle' title='" + window.data[i].name + "' name='" + window.data[i].name + "' style='top: calc(" + window.data[i].y + "% - 25px); left: calc(" + window.data[i].x + "%  - 25px);'><div>" + window.data[i].name + "</div></div>";
 				}
 
 				circles = '<div id="circles">' + circles + "</div>";
 				$("body").append(circles);
 
-			/* lines */
-				var lines = "";
-				
-				for (i in window.data) {
-					for (j in window.data[i].to) {
-						var target = window.data.find(function (x) {
-							return x.name == window.data[i].to[j];
+			/* push gravity */
+				var pushTimeout = setTimeout(function() {
+					$(".circle").each(function() {
+						var circle_top = Number(String($(this).position().top).replace("px","").trim());
+						var circle_left = Number(String($(this).position().left).replace("px","").trim());
+						var circle_name = $(this).attr("name");
+
+						var to = window.data.find(function(x) {
+							return x.name == circle_name;
+						}).to;
+
+						var nontargets = window.data.filter(function(x) {
+							return ((to.indexOf(x.name) == -1) && (x.name !== circle_name));
 						});
 
-						if (target) {
-							lines += "<line x1='" + window.data[i].x + "' y1='" + window.data[i].y + "' x2='" + target.x + "' y2='" + target.y + "' from='" + window.data[i].name + "' to='" + target.name + "' class='line'/>";
-						}
-					}
-				}
+						for (i in nontargets) {
+							var nontarget_top = Number(String($(".circle[name='" + nontargets[i].name + "']").position().top).replace("px","").trim());
+							var nontarget_left = Number(String($(".circle[name='" + nontargets[i].name + "']").position().left).replace("px","").trim());
 
-				lines = '<svg id="lines" viewBox="0 0 100 100" height="100" width="100" preserveAspectRatio="none">' + lines + '</svg>';
-				$("body").append(lines);
+							var x = nontarget_left - circle_left;
+							var y = nontarget_top - circle_top;
+							var h = Math.pow((Math.pow(x,2) + Math.pow(y,2)),0.5);
+
+							var circle_z = (300 / window.data.length) / to.length;
+							var nontarget_z = (300 / window.data.length) / nontargets[i].to.length;
+
+							var circle_x = (x * circle_z / h);
+							var circle_y = (y * circle_z / h);
+							var nontarget_x = (x * nontarget_z / h);
+							var nontarget_y = (y * nontarget_z / h);
+
+							$(".circle[name='" + circle_name + "']").animate({
+								top: "-=" + (circle_y) + "px",
+								left: "-=" + (circle_x) + "px"
+							},100);
+
+
+							$(".circle[name='" + nontargets[i].name + "']").animate({
+								top: "+=" + (nontarget_y) + "px",
+								left: "+=" + (nontarget_x) + "px"
+							},100);
+						}
+					});
+				}, 500);
+	
+			/* pull gravity */
+				var pullTimeout = setTimeout(function() {
+					$(".circle").each(function() {
+						var circle_top = Number(String($(this).position().top).replace("px","").trim());
+						var circle_left = Number(String($(this).position().left).replace("px","").trim());
+						var circle_name = $(this).attr("name");
+
+
+						var to = window.data.find(function(x) {
+							return x.name == circle_name;
+						}).to;
+
+						var targets = window.data.filter(function(x) {
+							return to.indexOf(x.name) !== -1;
+						});
+
+						for (i in targets) {
+							var target_top = Number(String($(".circle[name='" + targets[i].name + "']").position().top).replace("px","").trim());
+							var target_left = Number(String($(".circle[name='" + targets[i].name + "']").position().left).replace("px","").trim());
+
+							var x = target_left - circle_left;
+							var y = target_top - circle_top;
+							var h = Math.pow((Math.pow(x,2) + Math.pow(y,2)),0.5);
+
+							var circle_z = (100 / window.data.length) / to.length;
+							var target_z = (100 / window.data.length) / targets[i].to.length;
+
+							var circle_x = (x * circle_z / h);
+							var circle_y = (y * circle_z / h);
+							var target_x = (x * target_z / h);
+							var target_y = (y * target_z / h);
+
+
+							$(".circle[name='" + circle_name + "']").animate({
+								top: "+=" + (circle_y) + "px",
+								left: "+=" + (circle_x) + "px"
+							},100);
+
+
+							$(".circle[name='" + targets[i].name + "']").animate({
+								top: "-=" + (target_y) + "px",
+								left: "-=" + (target_x) + "px"
+							},100);
+						}
+					});
+				}, 1500);
+
+			/* lines */
+				var lineTimeout = setTimeout(function () {
+					var window_height = Number($(window).height());
+					var window_width = Number($(window).width());
+
+					var lines = "";
+					
+					$(".circle").each(function() {
+						var circle_top = Number(String($(this).position().top).replace("px","").trim());
+						var circle_left = Number(String($(this).position().left).replace("px","").trim());
+						var circle_name = $(this).attr("name");
+
+						$(this).css("top", "calc(" + (circle_top * 100 / window_height) + "%)").css("left", "calc(" + (circle_left * 100 / window_width) + "%)");
+
+						var to = window.data.find(function(x) {
+							return x.name === circle_name;
+						}).to;
+
+						for (j in to) {
+							var target = window.data.find(function (x) {
+								return x.name == to[j];
+							});
+
+							if (target) {
+								var target_top = Number(String($(".circle[name='" + target.name + "']").position().top).replace("px","").trim());
+								var target_left = Number(String($(".circle[name='" + target.name + "']").position().left).replace("px","").trim());
+
+								lines += "<line x1='" + (((circle_left + 25) * 100 / window_width) + 50) + "' y1='" + (((circle_top + 25) * 100 / window_height) + 50) + "' x2='" + (((target_left + 25) * 100 / window_width) + 50) + "' y2='" + (((target_top + 25) * 100 / window_height) + 50) + "' from='" + circle_name + "' to='" + target.name + "' class='line'/>";
+							}
+						}
+					});
+
+					lines = '<svg id="lines" viewBox="0 0 100 100" height="100" width="100" preserveAspectRatio="none">' + lines + '</svg>';
+					$("body").append(lines);
+				}, 2500);
 		}
 
 	/* listeners */
