@@ -22,7 +22,8 @@
 
 /* demoList */
 	#demoListBlock {
-		width: 100%;
+		width: 100vw;
+		height: 50px;
 		background-color: #333333;
 	}
 
@@ -34,22 +35,54 @@
 		font-size: 25px;
 		color: lightgray;
 		text-align: center;
-		-webkit-user-select: none;        
+		-webkit-user-select: none;
 		-moz-user-select: none;
 		-ms-user-select: none;
 		cursor: default;
 		overflow: hidden;
+		color: #A6E22E;
 	}
 
 	#demoList {
-		display: inline-block;
-		width: 75vw;
+		float: left;
+		width: 50vw;
 		height: 50px;
 		font-weight: bold;
 		font-size: 25px;
 		padding: 5px;
-		background-color: #555555;
+		background-color: #333333;
 		color: lightgray;
-		border: 5px solid #555555;
+		border: 5px solid #333333;
 		cursor: pointer;
+		color: #F92672;
+		outline: none;
 	}
+
+	#demoList:focus {
+		outline: none;
+	}
+
+	#code {
+		float: left;
+		height: 50px;
+		width: 25vw;
+		padding: 5px;
+		font-size: 25px;
+		color: lightgray;
+		text-align: center;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		overflow: hidden;
+		text-align: center;
+	}
+
+	#code a {
+		color: #66D9EF;
+	}
+
+	#code a:hover {
+		text-decoration: none;
+		font-weight: bold;
+	}
+
