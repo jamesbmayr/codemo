@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>numberCruncher</title>
+		<link rel="shortcut icon" href="https://d30y9cdsu7xlg0.cloudfront.net/png/212465-200.png"></link>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<form id="calculator">
+				<div id="scale">
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+				</div>
+				<div id="abacus">
+					<input place="millions" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="hundred_thousands" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="ten_thousands" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="thousands" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="hundreds" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="tens" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="ones" type="range" min="0" max="9" steps="1" value="0"/>
+					<div id="values">
+						<div class="value">0</div>
+						<div class="value">1</div>
+						<div class="value">2</div>
+						<div class="value">3</div>
+						<div class="value">4</div>
+						<div class="value">5</div>
+						<div class="value">6</div>
+						<div class="value">7</div>
+						<div class="value">8</div>
+						<div class="value">9</div>
+					</div>
+					<input place="tenths" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="hundredths" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="thousandths" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="ten_thousandths" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="hundred_thousandths" type="range" min="0" max="9" steps="1" value="0"/>
+					<input place="millionths" type="range" min="0" max="9" steps="1" value="0"/>
+				</div>
+			</form>
+			<div class="numbers first">
+				<button class="negative">+</button><div class="digit" place="millions">0</div><div class="digit" place="hundred_thousands">0</div><div class="digit" place="ten_thousands">0</div><div class="digit" place="thousands">0</div><div class="digit" place="hundreds">0</div><div class="digit" place="tens">0</div><div class="digit" place="ones">0</div><div class="spacer">.</div><div class="digit" place="tenths">0</div><div class="digit" place="hundredths">0</div><div class="digit" place="thousandths">0</div><div class="digit" place="ten_thousandths">0</div><div class="digit" place="hundred_thousandths">0</div><div class="digit" place="millionths">0</div>
+			</div>
+			<div id="operators">
+				<button class="operator" id="addition" style="margin-left: 0px">+</button><button class="operator" id="subtraction">-</button><button class="operator" id="multiplication">*</button><button class="operator" id="division">÷</button><button class="operator" id="modulus">%</button><button class="operator" id="exponentiation">^</button><button class="operator" id="root" style="margin-right: 0px">√</button>
+			</div>
+			<div class="numbers second">
+				<button class="negative">+</button><div class="digit" place="millions">0</div><div class="digit" place="hundred_thousands">0</div><div class="digit" place="ten_thousands">0</div><div class="digit" place="thousands">0</div><div class="digit" place="hundreds">0</div><div class="digit" place="tens">0</div><div class="digit" place="ones">0</div><div class="spacer">.</div><div class="digit" place="tenths">0</div><div class="digit" place="hundredths">0</div><div class="digit" place="thousandths">0</div><div class="digit" place="ten_thousandths">0</div><div class="digit" place="hundred_thousandths">0</div><div class="digit" place="millionths">0</div>
+			</div>
+			<div id="equals_outer">
+				<button id="equals">C</button>
+			</div>
+		</div>
+	</body>
+</html>
