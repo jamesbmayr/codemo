@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>clip-path</title>
+	<title>clipPather</title>
 	<link rel="shortcut icon" href="https://cdn2.iconfinder.com/data/icons/mosaicon-11/512/cut-512.png"/>
 	<link rel="stylesheet" href="stylesheet.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
@@ -14,6 +14,22 @@
 		<textarea id="blackText" placeholder="black path"></textarea>
 		<textarea id="purpleText" placeholder="purple path"></textarea>
 		<textarea id="orangeText" placeholder="orange path"></textarea>
+		<div id="pointSliders">
+			<select id="color">
+				<option value="red">red</option>
+				<option value="green">green</option>
+				<option value="blue">blue</option>
+				<option value="black">black</option>
+				<option value="purple">purple</option>
+				<option value="orange">orange</option>
+			</select>
+			<select id="direction">
+				<option value="x">x</option>
+				<option value="y">y</option>
+			</select>
+			<input id="distance" type="number" value="0"></input>
+			<button id="adjust">slide</button>
+		</div>
 	</div>
 	<div id="container">
 		<div id="redPath"></div>
