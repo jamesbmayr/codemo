@@ -1,3 +1,16 @@
+/* desktop vs. mobile */
+	@media screen and (min-width: 980px) {
+		:root {
+			--factor: 1;
+		}
+	}
+
+	@media screen and (max-width: 979px) {
+		:root {
+			--factor: 2;
+		}
+	}
+
 /* page */
 	body {
 		margin: 0px;
@@ -54,7 +67,7 @@
 
 	#mainline {
 		background-color: #dddddd;
-		width: 10px;
+		width: calc(var(--factor) * 10px);
 		border-radius: 10px;
 		min-height: 100vh;
 		box-shadow: 0px 0px 10px #111111;
@@ -68,15 +81,15 @@
 		position: relative;
 		left: 50%;
 		transform: translateX(-50%);
-		width: 10px;
+		width: calc(var(--factor) * 10px);
 		margin: 20px 0px 20px 0px;
 	}
 
 	.dot {
 		background-color: #dddddd;
-		width: 10px;
-		border-radius: 10px;
-		height: 10px;
+		width: calc(var(--factor) * 10px);
+		height: calc(var(--factor) * 10px);
+		border-radius: 100%;
 		box-shadow: 0px 0px 10px #111111;
 		margin: 20px 0px 20px 0px;
 	}
@@ -89,23 +102,23 @@
 		transform: translateX(-50%);
 		background-color: rgba(000,000,000,0);
 		text-decoration: none;
-		width: 198px;
-		height: 198px;
-		border-radius: 25px;
+		width: calc(var(--factor) * 200px - 2px);
+		height: calc(var(--factor) * 200px - 2px);
+		border-radius: 100%;
 		cursor: pointer;
 	}
 
 	.project-image {
-		width: 200px;
-		height: 200px;
+		width: calc(var(--factor) * 200px);
+		height: calc(var(--factor) * 200px);
 		margin-left: -1px;
 		margin-top: -1px;
 		background-color: #dddddd;
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: cover;
-		border-radius: 100px;
-		z-index: 5;
+		border-radius: 100%;
+		z-index: 3;
 		box-shadow: 0px 0px 10px #111111;
 	}
 
@@ -125,15 +138,15 @@
 		text-align: center;
 		background-color: #dddddd;
 		color: #111111;
-		font-size: 20px;
-		height: 25px;
-		width: 25px;
+		font-size: calc(var(--factor) * 20px);
+		height: calc(var(--factor) * 25px);
+		width: calc(var(--factor) * 25px);
 		border-radius: 100%;
 		text-decoration: none;
 		box-shadow: 0px 0px 10px #111111;
 		margin: auto auto;
 		position: absolute;
-		bottom: 15px;
+		bottom: calc(var(--factor) * 15px);
 		left: 50%;
 		transform: translateX(-50%);
 	}
@@ -158,28 +171,28 @@
 	}
 
 	.project-line {
-		height: 10px;
+		height: calc(var(--factor) * 10px);
 		border-radius: 10px;
 		background-color: #dddddd;
 		position: relative;
-		top: 50%;
+		top: -50%;
 		left: -50%;
-		transform: translateX(-50%) translateY(50%);
+		transform: translateX(-50%) translateY(-250%);
 		box-shadow: 0px 0px 10px #111111;
 		z-index: -1;
 	}
 
 	.project-point {
 		background-color: #dddddd;
-		width: 20px;
-		border-radius: 10px;
-		height: 20px;
+		width: calc(var(--factor) * 20px);
+		height: calc(var(--factor) * 20px);
+		border-radius: 100%;
 		box-shadow: 0px 0px 10px #111111;
 		z-index: 2;
 		position: relative;
 		left: -50%;
-		top: 50%;
-		transform: translateX(-50%) translateY(100%);
+		top: -50%;
+		transform: translateX(-50%) translateY(-50%);
 	}
 
 /* active */
@@ -192,73 +205,81 @@
 	}
 
 	.project-block.active .project-description {
-		width: 137px;
-		height: 137px;
+		width: calc((var(--factor) * 200px) - 63px);
+		height: calc((var(--factor) * 200px) - 63px);
 		padding: 30px;
-		font-size: 13px;
+		font-size: calc(var(--factor) * 13px);
 		box-shadow: 0px 0px 10px #111111;
 		display: block;
 		background-color: rgba(000,000,000,0.8);
 		position: relative;
-		top: -200px;
+		top: calc(var(--factor) * -200px);
 		z-index: 2;
-		border-radius: 100px;
+		border-radius: 100%;
 		border: 2px solid #dddddd;
 		text-align: center;
 		vertical-align: center;
 	}
 
+	.project-block.active .project-point {
+		top: calc(-50% - (var(--factor) * 200px) - (1px / var(--factor)) );
+	}
+
+	.project-block.active .project-line {
+		top: calc(-50% - (var(--factor) * 200px) - (1px / var(--factor)) );
+	}
+
 /* block lanes */
 	.project-block.lane-0 {
-		left: calc(50% - 125px);
+		left: calc(50% - (var(--factor) * 125px) );
 	}
 
 	.project-block.lane-1 {
-		left: calc(50% + 125px);
+		left: calc(50% + (var(--factor) * 125px) );
 	}
 
 	.project-block.lane-2 {
-		left: calc(50% - 325px);
+		left: calc(50% - (((var(--factor) - 1) * -75px) + 325px) );
 	}
 
 	.project-block.lane-3 {
-		left: calc(50% + 325px);
+		left: calc(50% + (((var(--factor) - 1) * -75px) + 325px) );
 	}
 
 /* project points */
 	.project-point.lane-0 {
-		left: calc(50% + 125px);
+		left: calc(50% + (var(--factor) * 125px) );
 	}
 
 	.project-point.lane-1 {
-		left: calc(50% - 125px);
+		left: calc(50% - (var(--factor) * 125px) );
 	}
 
 	.project-point.lane-2 {
-		left: calc(50% + 325px);
+		left: calc(50% + (((var(--factor) - 1) * -75px) + 325px) );
 	}
 
 	.project-point.lane-3 {
-		left: calc(50% - 325px);
+		left: calc(50% - (((var(--factor) - 1) * -75px) + 325px) );
 	}
 
 /* line lanes */
 	.project-line.lane-0 {
-		left: calc(50% + 62.5px);
-		width: 125px;
+		left: calc(50% + (var(--factor) * 62.5px) );
+		width: calc(125px + ((var(--factor) - 1) * 125px));
 	}
 
 	.project-line.lane-1 {
-		left: calc(50% - 62.5px);
-		width: 125px;
+		left: calc(50% - (var(--factor) * 62.5px) );
+		width: calc(125px + ((var(--factor) - 1) * 125px));
 	}
 
 	.project-line.lane-2 {
-		left: calc(50% + 162.5px);
-		width: 325px;
+		left: calc(50% + (162.5px + ((var(--factor) - 1) * -37.5px)) );
+		width: calc(325px + ((var(--factor) - 1) * -50px));
 	}
 
 	.project-line.lane-3 {
-		left: calc(50% - 162.5px);
-		width: 325px;
+		left: calc(50% - (162.5px + ((var(--factor) - 1) * -37.5px)) );
+		width: calc(325px + ((var(--factor) - 1) * -50px));
 	}
