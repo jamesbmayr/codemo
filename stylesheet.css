@@ -24,7 +24,7 @@
 		font-family: Arial, sans-serif;
 		width: 100vw;
 		height: 100vh;
-		overflow: none;
+		overflow: hidden;
 		box-shadow: 0px 0px 30px #dddddd inset;
 	}
 
@@ -67,7 +67,7 @@
 
 	#mainline {
 		background-color: #dddddd;
-		width: calc(var(--factor) * 10px);
+		width: 10px;
 		border-radius: 10px;
 		min-height: 100vh;
 		box-shadow: 0px 0px 10px #111111;
@@ -81,14 +81,14 @@
 		position: relative;
 		left: 50%;
 		transform: translateX(-50%);
-		width: calc(var(--factor) * 10px);
+		width: 10px;
 		margin: 20px 0px 20px 0px;
 	}
 
 	.dot {
 		background-color: #dddddd;
-		width: calc(var(--factor) * 10px);
-		height: calc(var(--factor) * 10px);
+		width: 10px;
+		height: 10px;
 		border-radius: 100%;
 		box-shadow: 0px 0px 10px #111111;
 		margin: 20px 0px 20px 0px;
@@ -102,15 +102,15 @@
 		transform: translateX(-50%);
 		background-color: rgba(000,000,000,0);
 		text-decoration: none;
-		width: calc(var(--factor) * 200px - 2px);
-		height: calc(var(--factor) * 200px - 2px);
+		width: 198px;
+		height: 198px;
 		border-radius: 100%;
 		cursor: pointer;
 	}
 
 	.project-image {
-		width: calc(var(--factor) * 200px);
-		height: calc(var(--factor) * 200px);
+		width: 200px;
+		height: 200px;
 		margin-left: -1px;
 		margin-top: -1px;
 		background-color: #dddddd;
@@ -138,15 +138,15 @@
 		text-align: center;
 		background-color: #dddddd;
 		color: #111111;
-		font-size: calc(var(--factor) * 20px);
-		height: calc(var(--factor) * 25px);
-		width: calc(var(--factor) * 25px);
+		font-size: 20px;
+		height: 25px;
+		width: 25px;
 		border-radius: 100%;
 		text-decoration: none;
 		box-shadow: 0px 0px 10px #111111;
 		margin: auto auto;
 		position: absolute;
-		bottom: calc(var(--factor) * 15px);
+		bottom: 15px;
 		left: 50%;
 		transform: translateX(-50%);
 	}
@@ -171,7 +171,7 @@
 	}
 
 	.project-line {
-		height: calc(var(--factor) * 10px);
+		height: 10px;
 		border-radius: 10px;
 		background-color: #dddddd;
 		position: relative;
@@ -184,8 +184,8 @@
 
 	.project-point {
 		background-color: #dddddd;
-		width: calc(var(--factor) * 20px);
-		height: calc(var(--factor) * 20px);
+		width: 20px;
+		height: 20px;
 		border-radius: 100%;
 		box-shadow: 0px 0px 10px #111111;
 		z-index: 2;
@@ -205,15 +205,15 @@
 	}
 
 	.project-block.active .project-description {
-		width: calc((var(--factor) * 200px) - 63px);
-		height: calc((var(--factor) * 200px) - 63px);
+		width: 137px;
+		height: 137px;
 		padding: 30px;
-		font-size: calc(var(--factor) * 13px);
+		font-size: 13px;
 		box-shadow: 0px 0px 10px #111111;
 		display: block;
 		background-color: rgba(000,000,000,0.8);
 		position: relative;
-		top: calc(var(--factor) * -200px);
+		top: -200px;
 		z-index: 2;
 		border-radius: 100%;
 		border: 2px solid #dddddd;
@@ -222,64 +222,64 @@
 	}
 
 	.project-block.active .project-point {
-		top: calc(-50% - (var(--factor) * 200px) - (1px / var(--factor)) );
+		top: calc(-50% - 201px);
 	}
 
 	.project-block.active .project-line {
-		top: calc(-50% - (var(--factor) * 200px) - (1px / var(--factor)) );
+		top: calc(-50% - 201px);
 	}
 
 /* block lanes */
 	.project-block.lane-0 {
-		left: calc(50% - (var(--factor) * 125px) );
+		left: calc(50% - 125px);
 	}
 
 	.project-block.lane-1 {
-		left: calc(50% + (var(--factor) * 125px) );
+		left: calc(50% + 125px);
 	}
 
 	.project-block.lane-2 {
-		left: calc(50% - (((var(--factor) - 1) * -75px) + 325px) );
+		left: calc(50% - (((var(--factor) - 1) * -200px) + 325px) );
 	}
 
 	.project-block.lane-3 {
-		left: calc(50% + (((var(--factor) - 1) * -75px) + 325px) );
+		left: calc(50% + (((var(--factor) - 1) * -200px) + 325px) );
 	}
 
 /* project points */
 	.project-point.lane-0 {
-		left: calc(50% + (var(--factor) * 125px) );
+		left: calc(50% + 125px);
 	}
 
 	.project-point.lane-1 {
-		left: calc(50% - (var(--factor) * 125px) );
+		left: calc(50% - 125px);
 	}
 
 	.project-point.lane-2 {
-		left: calc(50% + (((var(--factor) - 1) * -75px) + 325px) );
+		left: calc(50% + (((var(--factor) - 1) * -200px) + 325px) );
 	}
 
 	.project-point.lane-3 {
-		left: calc(50% - (((var(--factor) - 1) * -75px) + 325px) );
+		left: calc(50% - (((var(--factor) - 1) * -200px) + 325px) );
 	}
 
 /* line lanes */
 	.project-line.lane-0 {
-		left: calc(50% + (var(--factor) * 62.5px) );
-		width: calc(125px + ((var(--factor) - 1) * 125px));
+		left: calc(50% + 62.5px);
+		width: 125px;
 	}
 
 	.project-line.lane-1 {
-		left: calc(50% - (var(--factor) * 62.5px) );
-		width: calc(125px + ((var(--factor) - 1) * 125px));
+		left: calc(50% - 62.5px);
+		width: 125px;
 	}
 
 	.project-line.lane-2 {
-		left: calc(50% + (162.5px + ((var(--factor) - 1) * -37.5px)) );
-		width: calc(325px + ((var(--factor) - 1) * -50px));
+		left: calc(50% + (162.5px + ((var(--factor) - 1) * -100px)) );
+		width: calc(325px + ((var(--factor) - 1) * -200px));
 	}
 
 	.project-line.lane-3 {
-		left: calc(50% - (162.5px + ((var(--factor) - 1) * -37.5px)) );
-		width: calc(325px + ((var(--factor) - 1) * -50px));
+		left: calc(50% - (162.5px + ((var(--factor) - 1) * -100px)) );
+		width: calc(325px + ((var(--factor) - 1) * -200px));
 	}
