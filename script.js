@@ -543,16 +543,8 @@ function javascript() {
 				var block = document.createElement("div")
 					block.className = "project-block " +  "lane-" + lane 
 					block.id = project.id
-					block.style.top = Number((new Date().getTime() - new Date(project.date).getTime()) / (1000 * 60 * 60 * 24))
+					block.style.top = "calc(25px + var(--factor) * (" + Number((new Date().getTime() - new Date(project.date).getTime()) / (1000 * 60 * 60 * 24)) + "px))"
 					block.style["background-color"] = project.color
-
-				var point = document.createElement("div")
-					point.className = "project-point " + "lane-" + lane
-					block.appendChild(point)
-
-				var line = document.createElement("div")
-					line.className = "project-line " + "lane-" + lane 
-					block.appendChild(line)
 
 				var image = document.createElement("div")
 					image.className = "project-image"
@@ -577,6 +569,14 @@ function javascript() {
 						description.appendChild(link)
 					}
 					block.appendChild(description)
+
+				var point = document.createElement("div")
+					point.className = "project-point " + "lane-" + lane
+					block.appendChild(point)
+
+				var line = document.createElement("div")
+					line.className = "project-line " + "lane-" + lane 
+					block.appendChild(line)
 
 				block.addEventListener("click",function() {
 					clickBlock(this)
@@ -606,7 +606,7 @@ function javascript() {
 		}
 	
 	/* on page load */
-		document.getElementById("mainline").style.height = (new Date().getTime() - new Date("January 1, 2004").getTime()) / (1000 * 60 * 60 * 24)
+		document.getElementById("mainline").style.height = "calc(var(--factor) * " + (new Date().getTime() - new Date("January 1, 2004").getTime()) / (1000 * 60 * 60 * 24) + "px)"
 
 		var lane = 0
 		for (x in projects) {
@@ -614,4 +614,3 @@ function javascript() {
 		}
 			
 }
-
