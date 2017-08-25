@@ -579,13 +579,13 @@ function javascript() {
 				description: "Underblue's debut EP, Passenger includes five songs, including one I composed, in which I play piano."
 			},
 			{
-				id: "synesthesia",
-				title: "Synesthesia",
+				id: "graphemecolorer",
+				title: "graphemecolorer",
 				tags: "code",
 				image: "logos/synesthesia.png",
 				url: "#",
 				date: "July 13, 2017",
-				description: "Synesthesia is a Google Chrome extension that displays text as a grapheme-color synesthete might see it."
+				description: "graphemeColorer is a Google Chrome extension that displays text as a grapheme-color synesthete might see it."
 			},
 			{
 				id: "memory",
