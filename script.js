@@ -623,7 +623,7 @@ function javascript() {
 
 			/* block */
 				var block = document.createElement("div")
-					block.className = "project-block " +  "lane-" + lane + " " + project.tags.split(" ").join("-selected ") + "-selected"
+					block.className = "project-block " +  "lane-" + lane + " " + project.tags.replace(/(writing|music|games|code)/gi,"$1-selected").replace(/(school|career|more)/gi,"$1-unselected")
 					block.id = project.id
 					block.style.top = "calc(100px + var(--factor) * (" + Number((new Date().getTime() - new Date(project.date).getTime()) / (1000 * 60 * 60 * 24)) + "px))"
 					block.style["background-color"] = project.color
@@ -673,14 +673,18 @@ function javascript() {
 		function clickBlock(project) {
 			if (project.className.indexOf("active") > -1) {
 				var activeList = document.getElementsByClassName("active")
-				for (activeItem of activeList) {
-					activeItem.className = activeItem.className.replace(" active","")
+				for (var x in activeList) {
+					if (activeList[x].className !== undefined) {
+						activeList[x].className = activeList[x].className.replace(" active","")
+					}
 				}
 			}
 			else {
 				var activeList = document.getElementsByClassName("active")
-				for (activeItem of activeList) {
-					activeItem.className = activeItem.className.replace(" active","")
+				for (var x in activeList) {
+					if (activeList[x].className !== undefined) {
+						activeList[x].className = activeList[x].className.replace(" active","")
+					}
 				}
 
 				project.className = project.className + " active"
@@ -688,22 +692,24 @@ function javascript() {
 		}
 
 	/* filterBlocks(button) */
-		function filterBlocks(button) {
+		window.filterBlocks = function(button) {
+			var projectBlocks = document.getElementsByClassName("project-block")
+
 			if (button.className.indexOf("selected") == -1) {
 				button.className += " selected"
 
-				for (projectBlock of document.getElementsByClassName("project-block")) {
-					if (projectBlock.className.indexOf(button.value) !== -1) {
-						projectBlock.className = projectBlock.className.replace(button.value + "-unselected", button.value + "-selected")
+				for (var x in projectBlocks) {
+					if (projectBlocks[x].className !== undefined && projectBlocks[x].className.indexOf(button.value) !== -1) {
+						projectBlocks[x].className = projectBlocks[x].className.replace(button.value + "-unselected", button.value + "-selected")
 					}
 				}
 			}
 			else {
 				button.className = button.className.replace(" selected","")
 				
-				for (projectBlock of document.getElementsByClassName("project-block")) {
-					if (projectBlock.className.indexOf(button.value) !== -1) {
-						projectBlock.className = projectBlock.className.replace(button.value + "-selected", button.value + "-unselected")
+				for (var x in projectBlocks) {
+					if (projectBlocks[x].className !== undefined && projectBlocks[x].className.indexOf(button.value) !== -1) {
+						projectBlocks[x].className = projectBlocks[x].className.replace(button.value + "-selected", button.value + "-unselected")
 					}
 				}
 			}
@@ -720,15 +726,18 @@ function javascript() {
 			}
 
 		/* filterButton listeners */
-			for (filterButton of document.getElementsByClassName("filter-button")) {
-				filterButton.addEventListener("click",function() {
-					filterBlocks(this)
-				})
-			}
+			// var filterButtons = document.getElementsByClassName("filter-button")
+			// for (var x in filterButtons) {
+			// 	var button = filterButtons[x]
+			// 	console.log(button.value)
+			// 	button.addEventListener("click",function() {
+			// 		filterBlocks(this)
+			// 	})
+			// }
 
 		/* projectBlocks */
 			var lane = 0
-			for (x in projects) {
+			for (var x in projects) {
 				lane = buildBlock(projects[x], lane)
 			}
 			
