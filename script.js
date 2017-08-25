@@ -5,6 +5,7 @@ function javascript() {
 			{
 				id: "p2pnzau",
 				title: "People 2 People: New Zealand & Australia",
+				tags: "more",
 				image: "logos/people2people.png",
 				url: "https://www.peopletopeople.com/",
 				date: "July 5, 2004",
@@ -13,6 +14,7 @@ function javascript() {
 			{
 				id: "lamppostsoftheworld",
 				title: "Lampposts of the World",
+				tags: "more",
 				image: "logos/lamppostsoftheworld.png",
 				url: "#",
 				date: "August 1, 2004",
@@ -21,6 +23,7 @@ function javascript() {
 			{
 				id: "rockypointhighschool",
 				title: "Rocky Point High School",
+				tags: "school",
 				image: "logos/rphs.png",
 				url: "http://rockypointschools.org/soaring/summer_08nl.pdf",
 				date: "November 1, 2004",
@@ -29,6 +32,7 @@ function javascript() {
 			{
 				id: "rpconcertmarchingband",
 				title: "Rocky Point Concert & Marching Band",
+				tags: "school music",
 				image: "logos/rpmusic.png",
 				url: "http://rpfriendsofmusic.org/grads.html",
 				date: "March 1, 2005",
@@ -37,6 +41,7 @@ function javascript() {
 			{
 				id: "rpjazzband",
 				title: "Rocky Point Jazz Band",
+				tags: "school music",
 				image: "logos/rpmusic.png",
 				url: "http://rpfriendsofmusic.org/grads.html",
 				date: "October 15, 2005",
@@ -45,6 +50,7 @@ function javascript() {
 			{
 				id: "p2pukir",
 				title: "People 2 People: UK & Ireland",
+				tags: "more",
 				image: "logos/people2people.png",
 				url: "https://www.peopletopeople.com/",
 				date: "July 5, 2006",
@@ -53,6 +59,7 @@ function javascript() {
 			{
 				id: "singingsantas",
 				title: "Singing Santas",
+				tags: "music more",
 				image: "logos/rpmusic.png",
 				url: "#",
 				date: "December 1, 2006",
@@ -61,6 +68,7 @@ function javascript() {
 			{
 				id: "completetakeover",
 				title: "Complete Takeover",
+				tags: "games",
 				image: "logos/completetakeover.png",
 				url: "https://sites.google.com/site/dreamhatchergames/",
 				date: "March 1, 2007",
@@ -69,6 +77,7 @@ function javascript() {
 			{
 				id: "eternalhorizon",
 				title: "Eternal Horizon",
+				tags: "music",
 				image: "logos/eternalhorizon.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "June 1, 2007",
@@ -77,6 +86,7 @@ function javascript() {
 			{
 				id: "rppitorchestra",
 				title: "Rocky Point Pit Orchestra",
+				tags: "school music",
 				image: "logos/rpmusic.png",
 				url: "http://rpfriendsofmusic.org/grads.html",
 				date: "October 15, 2007",
@@ -85,6 +95,7 @@ function javascript() {
 			{
 				id: "pockettheatre",
 				title: "Pocket Theatre",
+				tags: "school more",
 				image: "logos/rpeagle.png",
 				url: "#",
 				date: "February 15, 2008",
@@ -93,6 +104,7 @@ function javascript() {
 			{
 				id: "skyburst",
 				title: "Skyburst",
+				tags: "music",
 				image: "logos/skyburst.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "May 1, 2008",
@@ -101,6 +113,7 @@ function javascript() {
 			{
 				id: "binghamtonuniversity",
 				title: "Binghamton University",
+				tags: "school music writing",
 				image: "logos/binghamtonuniversity.png",
 				url: "https://www.binghamton.edu/",
 				date: "August 25, 2008",
@@ -109,6 +122,7 @@ function javascript() {
 			{
 				id: "pepband",
 				title: "BU Pep Band",
+				tags: "school music",
 				image: "logos/bupepband.png",
 				url: "https://bengaged.binghamton.edu/organization/pep-band",
 				date: "October 15, 2008",
@@ -117,6 +131,7 @@ function javascript() {
 			{
 				id: "clue",
 				title: "Clue",
+				tags: "more",
 				image: "logos/clue.png",
 				url: "https://bengaged.binghamton.edu/organization/dcp",
 				date: "December 6, 2008",
@@ -125,6 +140,7 @@ function javascript() {
 			{
 				id: "tourguide",
 				title: "BU Tour Guide Program",
+				tags: "school career",
 				image: "logos/bu.png",
 				url: "https://www.binghamton.edu/admissions/visit/index.html",
 				date: "March 1, 2009",
@@ -133,6 +149,7 @@ function javascript() {
 			{
 				id: "reslife",
 				title: "BU ResLife",
+				tags: "school career",
 				image: "logos/bureslife.png",
 				url: "https://www.binghamton.edu/residential-life/",
 				date: "August 15, 2009",
@@ -141,6 +158,7 @@ function javascript() {
 			{
 				id: "explorchestra",
 				title: "Explorchestra",
+				tags: "music",
 				image: "logos/explorchestra.png",
 				url: "https://www.facebook.com/buexplorchestra",
 				date: "Octboer 1, 2009",
@@ -149,6 +167,7 @@ function javascript() {
 			{
 				id: "shadowvalley",
 				title: "Shadow Valley",
+				tags: "music",
 				image: "logos/shadowvalley.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "December 1, 2009",
@@ -157,6 +176,7 @@ function javascript() {
 			{
 				id: "seveneleven",
 				title: "7-Eleven",
+				tags: "career",
 				image: "logos/seveneleven.png",
 				url: "#",
 				date: "May 20, 2010",
@@ -165,6 +185,7 @@ function javascript() {
 			{
 				id: "octavio",
 				title: "Octavio",
+				tags: "music games",
 				image: "logos/octavio.png",
 				url: "https://sites.google.com/site/dreamhatchergames/games/octavio",
 				date: "October 1, 2010",
@@ -173,6 +194,7 @@ function javascript() {
 			{
 				id: "draftsadrift",
 				title: "Drafts Adrift",
+				tags: "music",
 				image: "logos/draftsadrift.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "December 1, 2010",
@@ -181,6 +203,7 @@ function javascript() {
 			{
 				id: "playinggod",
 				title: "Playing God",
+				tags: "games",
 				image: "logos/playinggod.png",
 				url: "https://sites.google.com/site/dreamhatchergames/games/playing-god",
 				date: "January 1, 2011",
@@ -189,6 +212,7 @@ function javascript() {
 			{
 				id: "cascade",
 				title: "Cascade",
+				tags: "music",
 				image: "logos/cascade.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "February 15, 2011",
@@ -197,6 +221,7 @@ function javascript() {
 			{
 				id: "soulsofwar",
 				title: "Souls of War",
+				tags: "music",
 				image: "logos/soulsofwar.png",
 				url: "https://twitter.com/soulsofwar",
 				date: "April 20, 2011",
@@ -205,6 +230,7 @@ function javascript() {
 			{
 				id: "writinginitiativecenter",
 				title: "Writing Initiative Center",
+				tags: "school writing",
 				image: "logos/bu.png",
 				url: "https://www.binghamton.edu/writing/",
 				date: "July 1, 2011",
@@ -213,6 +239,7 @@ function javascript() {
 			{
 				id: "pipedream",
 				title: "BU Pipe Dream",
+				tags: "school writing",
 				image: "logos/pipedream.png",
 				url: "https://www.bupipedream.com/",
 				date: "September 15, 2011",
@@ -221,6 +248,7 @@ function javascript() {
 			{
 				id: "epicofkoranames",
 				title: "Epic of Koranames",
+				tags: "writing",
 				image: "logos/epicofkoranames.png",
 				url: "#",
 				date: "October 18, 2011",
@@ -229,6 +257,7 @@ function javascript() {
 			{
 				id: "draftsadrift2",
 				title: "Drafts Adrift 2",
+				tags: "music",
 				image: "logos/draftsadrift2.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "December 1, 2011",
@@ -237,6 +266,7 @@ function javascript() {
 			{
 				id: "sounddrawn",
 				title: "Sounddrawn",
+				tags: "music code",
 				image: "logos/sounddrawn.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "February 13, 2012",
@@ -245,6 +275,7 @@ function javascript() {
 			{
 				id: "captainchrono",
 				title: "Captain Chrono Sails Through Time",
+				tags: "music",
 				image: "logos/captainchronosailsthroughtime.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "April 1, 2012",
@@ -253,6 +284,7 @@ function javascript() {
 			{
 				id: "wilinloug",
 				title: "wi[lin][loug]",
+				tags: "writing more",
 				image: "logos/wilinloug.png",
 				url: "#",
 				date: "May 31, 2012",
@@ -261,6 +293,7 @@ function javascript() {
 			{
 				id: "petco",
 				title: "Petco",
+				tags: "career",
 				image: "logos/petco.png",
 				url: "#",
 				date: "July 11, 2012",
@@ -269,6 +302,7 @@ function javascript() {
 			{
 				id: "adventure",
 				title: "Adventure",
+				tags: "games",
 				image: "logos/adventure.png",
 				url: "#",
 				date: "September 1, 2012",
@@ -277,6 +311,7 @@ function javascript() {
 			{
 				id: "penduluminous",
 				title: "Penduluminous",
+				tags: "music writing",
 				image: "logos/penduluminous.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "November 1, 2012",
@@ -285,6 +320,7 @@ function javascript() {
 			{
 				id: "itswhoiamb",
 				title: "It's Who Iamb",
+				tags: "writing",
 				image: "logos/itswhoiamb.png",
 				url: "https://itswhoiamb.tumblr.com",
 				date: "December 2, 2012",
@@ -293,6 +329,7 @@ function javascript() {
 			{
 				id: "tfcu",
 				title: "Teachers Federal Credit Union",
+				tags: "career",
 				image: "logos/tfcu.png",
 				url: "https://www.teachersfcu.org",
 				date: "January 1, 2013",
@@ -301,6 +338,7 @@ function javascript() {
 			{
 				id: "stormfront",
 				title: "Stormfront",
+				tags: "games",
 				image: "logos/stormfront.png",
 				url: "https://sites.google.com/site/dreamhatchergames/games/stormfront",
 				date: "February 10, 2013",
@@ -309,6 +347,7 @@ function javascript() {
 			{
 				id: "dosvidaniya",
 				title: "Do Svidaniya, Mr. President",
+				tags: "games",
 				image: "logos/dosvidaniya.png",
 				url: "https://sites.google.com/site/dreamhatchergames/games/do-svidaniya",
 				date: "March 20, 2013",
@@ -317,6 +356,7 @@ function javascript() {
 			{
 				id: "thedeathmakerssymphony",
 				title: "The Deathmakers' Symphony",
+				tags: "music writing",
 				image: "logos/thedeathmakerssymphony.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "May 1, 2013",
@@ -325,6 +365,7 @@ function javascript() {
 			{
 				id: "teachforamerica",
 				title: "Teach For America",
+				tags: "school writing",
 				image: "logos/tfa.png",
 				url: "https://www.teachforamerica.org/",
 				date: "June 1, 2013",
@@ -333,6 +374,7 @@ function javascript() {
 			{
 				id: "nycdoe",
 				title: "NYC Department of Education",
+				tags: "school writing",
 				image: "logos/nycdoe.png",
 				url: "http://schools.nyc.gov/SchoolPortals/09/X365/default.htm",
 				date: "August 15, 2013",
@@ -341,6 +383,7 @@ function javascript() {
 			{
 				id: "fordhamuniversity",
 				title: "Fordham University",
+				tags: "school",
 				image: "logos/fordhamuniversity.png",
 				url: "https://www.fordham.edu/info/20990/graduate_school_of_education",
 				date: "November 1, 2013",
@@ -349,6 +392,7 @@ function javascript() {
 			{
 				id: "dreamhatcher",
 				title: "Dreamhatcher",
+				tags: "games",
 				image: "logos/dreamhatcher.png",
 				url: "https://sites.google.com/site/dreamhatchergames/",
 				date: "April 1, 2014",
@@ -357,6 +401,7 @@ function javascript() {
 			{
 				id: "ddaywalk",
 				title: "D-Day Walk",
+				tags: "more",
 				image: "logos/ddaywalk.png",
 				url: "#",
 				date: "July 11, 2014",
@@ -365,6 +410,7 @@ function javascript() {
 			{
 				id: "apollo",
 				title: "Apollo",
+				tags: "more",
 				image: "logos/apollo.png",
 				url: "https://www.facebook.com/apollo.feeney.mayr/",
 				date: "July 31, 2014",
@@ -373,6 +419,7 @@ function javascript() {
 			{
 				id: "clevernacular",
 				title: "Clevernacular",
+				tags: "writing",
 				image: "logos/clevernacular.png",
 				url: "http://clevernacular.tumblr.com",
 				date: "December 2, 2014",
@@ -381,6 +428,7 @@ function javascript() {
 			{
 				id: "chalice",
 				title: "Chalice",
+				tags: "games",
 				image: "logos/chalice.png",
 				url: "https://www.kickstarter.com/projects/jamesbmayr/chalice-the-card-game/description",
 				date: "March 21, 2015",
@@ -389,6 +437,7 @@ function javascript() {
 			{
 				id: "lexpose",
 				title: "Lexpose",
+				tags: "writing",
 				image: "logos/lexpose.png",
 				url: "http://www.writerscafe.org/jamesbmayr/writing",
 				date: "May 1, 2015",
@@ -397,6 +446,7 @@ function javascript() {
 			{
 				id: "wribbon",
 				title: "Wribbon",
+				tags: "more",
 				image: "logos/wribbon.png",
 				url: "https://drive.google.com/drive/folders/0B3Pd_099FSXVQlZ3LWpoR0hQVmc",
 				date: "June 5, 2015",
@@ -405,6 +455,7 @@ function javascript() {
 			{
 				id: "sharewaves",
 				title: "Sharewaves",
+				tags: "code",
 				image: "logos/sharewaves.png",
 				url: "https://github.com/jamesbmayr/sharewaves",
 				date: "August 15, 2015",
@@ -413,6 +464,7 @@ function javascript() {
 			{
 				id: "themuse",
 				title: "The Muse",
+				tags: "career writing",
 				image: "logos/themuse.png",
 				url: "https://www.themuse.com/team",
 				date: "September 29, 2015",
@@ -421,6 +473,7 @@ function javascript() {
 			{
 				id: "portmantoasters",
 				title: "Portmantoasters",
+				tags: "writing",
 				image: "logos/portmantoasters.png",
 				url: "https://portmantoasters.tumblr.com",
 				date: "December 2, 2015",
@@ -429,6 +482,7 @@ function javascript() {
 			{
 				id: "underblue",
 				title: "Underblue",
+				tags: "music",
 				image: "logos/underblue.png",
 				url: "https://www.facebook.com/officialunderblue",
 				date: "March 30, 2016",
@@ -437,6 +491,7 @@ function javascript() {
 			{
 				id: "codemo",
 				title: "Codemo",
+				tags: "code",
 				image: "logos/codemo.png",
 				url: "https://rawgit.com/jamesbmayr/codemo/master/",
 				date: "April 22, 2016",
@@ -445,6 +500,7 @@ function javascript() {
 			{
 				id: "singles",
 				title: "Singles",
+				tags: "music writing",
 				image: "logos/singles.png",
 				url: "http://rawgit.com/jamesbmayr/music/master/",
 				date: "May 30, 2016",
@@ -453,6 +509,7 @@ function javascript() {
 			{
 				id: "bossfight",
 				title: "Boss Fight",
+				tags: "code games",
 				image: "logos/bossfight.png",
 				url: "http://bossfightgame.com/",
 				date: "June 26, 2016",
@@ -461,6 +518,7 @@ function javascript() {
 			{
 				id: "theanthologysymphony",
 				title: "The Anthology Symphony",
+				tags: "music more",
 				image: "logos/theanthologysymphony.png",
 				url: "#",
 				date: "November 1, 2016",
@@ -469,6 +527,7 @@ function javascript() {
 			{
 				id: "pickupnotes",
 				title: "Pickup Notes",
+				tags: "music writing code",
 				image: "logos/pickupnotes.png",
 				url: "http://rawgit.com/jamesbmayr/pickupnotes/master/",
 				date: "December 20, 2016",
@@ -477,6 +536,7 @@ function javascript() {
 			{
 				id: "chordanalyzer",
 				title: "chordAnalyzer",
+				tags: "music code",
 				image: "logos/chordanalyzer.png",
 				url: "https://rawgit.com/jamesbmayr/codemo/master/chordAnalyzer/",
 				date: "January 15, 2017",
@@ -485,6 +545,7 @@ function javascript() {
 			{
 				id: "harmony",
 				title: "Harmony",
+				tags: "music code",
 				image: "logos/harmony.png",
 				url: "http://rawgit.com/jamessullivan77/Spotify-Group-Sharing/master/",
 				date: "January 21, 2017",
@@ -493,6 +554,7 @@ function javascript() {
 			{
 				id: "diamondcheckers",
 				title: "Diamond Checkers",
+				tags: "games code",
 				image: "logos/diamondcheckers.png",
 				url: "https://diamondcheckers.herokuapp.com",
 				date: "March 1, 2017",
@@ -501,6 +563,7 @@ function javascript() {
 			{
 				id: "aiarenas",
 				title: "AI Arenas",
+				tags: "games code",
 				image: "logos/aiarenas.png",
 				url: "https://www.aiarenas.com",
 				date: "May 1, 2017",
@@ -509,6 +572,7 @@ function javascript() {
 			{
 				id: "passenger",
 				title: "Passenger EP",
+				tags: "music",
 				image: "logos/passenger.png",
 				url: "https://itunes.apple.com/us/album/passenger-ep/id1258446913?app=itunes&ign-mpt=uo%3D4",
 				date: "June 1, 2017",
@@ -517,6 +581,7 @@ function javascript() {
 			{
 				id: "synesthesia",
 				title: "Synesthesia",
+				tags: "code",
 				image: "logos/synesthesia.png",
 				url: "#",
 				date: "July 13, 2017",
@@ -525,6 +590,7 @@ function javascript() {
 			{
 				id: "memory",
 				title: "Memory",
+				tags: "code games",
 				image: "logos/memory.png",
 				url: "http://rawgit.com/eef22/memory/master/",
 				date: "August 20, 2017",
@@ -532,7 +598,23 @@ function javascript() {
 			}
 		]
 
-	/* buildBlock */
+	/* buildYearDot(year) */
+		function buildYearDot(yearCount) {
+			var yearDot = document.createElement("div")
+				yearDot.className = "year-dot"
+				yearDot.style.top = "calc(60px + var(--factor) * " + (new Date().getTime() - new Date("January 1, " + (2004 + yearCount)).getTime()) / (1000 * 60 * 60 * 24) + "px)"
+
+			var yearDotInner = document.createElement("div")
+				yearDotInner.className = "year-dot-inner"
+
+			var yearText = document.createTextNode(Number(2004 + yearCount))
+				yearDotInner.appendChild(yearText)
+				yearDot.appendChild(yearDotInner)
+
+			document.getElementById("years").appendChild(yearDot)
+		}
+
+	/* buildBlock(project, lane) */
 		function buildBlock(project, lane) {
 			/* lane */
 				if (lane > 3) {
@@ -541,9 +623,9 @@ function javascript() {
 
 			/* block */
 				var block = document.createElement("div")
-					block.className = "project-block " +  "lane-" + lane 
+					block.className = "project-block " +  "lane-" + lane + " " + project.tags.split(" ").join("-selected ") + "-selected"
 					block.id = project.id
-					block.style.top = "calc(25px + var(--factor) * (" + Number((new Date().getTime() - new Date(project.date).getTime()) / (1000 * 60 * 60 * 24)) + "px))"
+					block.style.top = "calc(100px + var(--factor) * (" + Number((new Date().getTime() - new Date(project.date).getTime()) / (1000 * 60 * 60 * 24)) + "px))"
 					block.style["background-color"] = project.color
 
 				var image = document.createElement("div")
@@ -587,7 +669,7 @@ function javascript() {
 				return lane + 1
 		}
 
-	/* clickBlock */
+	/* clickBlock(project) */
 		function clickBlock(project) {
 			if (project.className.indexOf("active") > -1) {
 				var activeList = document.getElementsByClassName("active")
@@ -604,13 +686,50 @@ function javascript() {
 				project.className = project.className + " active"
 			}
 		}
+
+	/* filterBlocks(button) */
+		function filterBlocks(button) {
+			if (button.className.indexOf("selected") == -1) {
+				button.className += " selected"
+
+				for (projectBlock of document.getElementsByClassName("project-block")) {
+					if (projectBlock.className.indexOf(button.value) !== -1) {
+						projectBlock.className = projectBlock.className.replace(button.value + "-unselected", button.value + "-selected")
+					}
+				}
+			}
+			else {
+				button.className = button.className.replace(" selected","")
+				
+				for (projectBlock of document.getElementsByClassName("project-block")) {
+					if (projectBlock.className.indexOf(button.value) !== -1) {
+						projectBlock.className = projectBlock.className.replace(button.value + "-selected", button.value + "-unselected")
+					}
+				}
+			}
+			
+		}
 	
 	/* on page load */
-		document.getElementById("mainline").style.height = "calc(var(--factor) * " + (new Date().getTime() - new Date("January 1, 2004").getTime()) / (1000 * 60 * 60 * 24) + "px)"
+		/* mainline height */
+			document.getElementById("mainline").style.height = "calc(var(--factor) * " + (new Date().getTime() - new Date("January 1, 2004").getTime()) / (1000 * 60 * 60 * 24) + "px)"
 
-		var lane = 0
-		for (x in projects) {
-			lane = buildBlock(projects[x], lane)
-		}
+		/* yearDots */
+			for (var yearCount = Math.floor( (new Date().getTime() - new Date("January 1, 2004").getTime()) / (1000 * 60 * 60 * 24 * 365.25) ); yearCount > 0; yearCount--) {
+				buildYearDot(yearCount)
+			}
+
+		/* filterButton listeners */
+			for (filterButton of document.getElementsByClassName("filter-button")) {
+				filterButton.addEventListener("click",function() {
+					filterBlocks(this)
+				})
+			}
+
+		/* projectBlocks */
+			var lane = 0
+			for (x in projects) {
+				lane = buildBlock(projects[x], lane)
+			}
 			
 }

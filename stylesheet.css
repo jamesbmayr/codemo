@@ -57,6 +57,50 @@
 		z-index: 4;
 	}
 
+/* filters */
+	#filters {
+		width: 100vw;
+		height: 60px;
+		padding: 10px;
+		text-align: center;
+		background-color: #555555;
+		box-shadow: 0px 0px 10px #111111;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+	}
+
+	.filter-button {
+		border-radius: 100%;
+		width: 60px;
+		height: 60px;
+		text-align: center;
+		padding: auto auto;
+		cursor: pointer;
+		color: #dddddd;
+		background-color: #777777;
+		box-shadow: 0px 0px 10px #111111;
+		border: 0px;
+		outline: none;
+		font-size: 15px;
+	}
+
+	.filter-button:hover {
+		color: #dddddd;
+		box-shadow: 0px 0px 10px #dddddd;
+		outline: none;
+	}
+
+	.filter-button:focus {
+		outline: none;
+	}
+
+	.filter-button.selected {
+		color: #111111;
+		background-color: #dddddd;
+		outline: none;
+	}
+
 /* timeline */
 	#timeline {
 		position: absolute;
@@ -94,8 +138,48 @@
 		margin: 20px 0px 20px 0px;
 	}
 
+/* years */
+	#years {
+		z-index: 5;
+		position: absolute;
+		top: 100px;
+		left: 50%;
+		transform: translateX(-50%);
+		margin: 20px 0px 20px 0px;
+	}
+
+	.year-dot {
+		background-color: #dddddd;
+		width: 40px;
+		height: 40px;
+		color: #111111;
+		text-align: center;
+		padding: auto auto;
+		border-radius: 100%;
+		box-shadow: 0px 0px 10px #111111;
+		margin: 0px;
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 15px;
+		z-index: 10;
+		cursor: default;
+	}
+
+	.year-dot-inner {
+		text-align: center;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+	}
+
 /* projects */
 	.project-block {
+		opacity: 0;
+		pointer-events: none;
 		z-index: 2;
 		position: absolute;
 		left: 50%;
@@ -106,6 +190,16 @@
 		height: 198px;
 		border-radius: 100%;
 		cursor: pointer;
+		animation-name: fadeout;
+		animation-duration: 1s;
+	}
+
+	.project-block:hover {
+		box-shadow: 0px 0px 10px #dddddd;
+	}
+
+	.project-block:focus {
+		outline: none;
 	}
 
 	.project-image {
@@ -124,6 +218,10 @@
 
 	.project-description {
 		display: none;
+		opacity: 0;
+		pointer-events: none;
+		animation-name: fadeout;
+		animation-duration: 1s;
 	}
 
 	.project-description-inner {
@@ -131,6 +229,9 @@
 		position: relative;
 		top: 50%;
 		transform: translateY(-50%);
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
 	}
 
 	.project-link {
@@ -149,6 +250,7 @@
 		bottom: 15px;
 		left: 50%;
 		transform: translateX(-50%);
+		box-shadow: 0px 0px 10px #111111;
 	}
 
 	.project-link:after {
@@ -158,16 +260,21 @@
 	.project-link:visited {
 		background-color: #dddddd;
 		color: #111111;
+		outline: none;
 	}
 
 	.project-link:focus {
 		background-color: #dddddd;
 		color: #111111;
+		outline: none;
+		box-shadow: 0px 0px 10px #dddddd;
 	}
 
 	.project-link:hover {
-		color: #dddddd;
-		background-color: #111111;
+		color: #111111;
+		background-color: #dddddd;
+		outline: none;
+		box-shadow: 0px 0px 10px #dddddd;
 	}
 
 	.project-line {
@@ -210,7 +317,6 @@
 		padding: 30px;
 		font-size: 13px;
 		box-shadow: 0px 0px 10px #111111;
-		display: block;
 		background-color: rgba(000,000,000,0.8);
 		position: relative;
 		top: -200px;
@@ -219,6 +325,11 @@
 		border: 2px solid #dddddd;
 		text-align: center;
 		vertical-align: center;
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+		display: block;
 	}
 
 	.project-block.active .project-point {
@@ -227,6 +338,77 @@
 
 	.project-block.active .project-line {
 		top: calc(-50% - 201px);
+	}
+
+/* animation */
+	@keyframes fadein {
+		from {
+			opacity: 0;
+		}
+		
+		to {
+			opacity: 1;
+		}
+	}
+
+	@keyframes fadeout {
+		from {
+			opacity: 1;
+		}
+		
+		to {
+			opacity: 0;
+		}
+	}
+
+/* filtered */
+	.project-block.writing-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+	}
+
+	.project-block.music-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+	}
+
+	.project-block.code-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+	}
+
+	.project-block.games-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+	}
+
+	.project-block.school-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+	}
+
+	.project-block.career-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
+	}
+
+	.project-block.more-selected {
+		opacity: 1;
+		pointer-events: all;
+		animation-name: fadein;
+		animation-duration: 1s;
 	}
 
 /* block lanes */
