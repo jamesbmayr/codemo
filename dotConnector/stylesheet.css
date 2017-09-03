@@ -1,0 +1,135 @@
+/* page */
+	body {
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+	}
+
+	body.drawing {
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
+		cursor: grabbing;
+	}
+
+	#reset {
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		width: 40px;
+		height: 40px;
+		font-size: 30px;
+		font-weight: bold;
+		color: white;
+		font-family: Arial, sans-serif;
+		text-align: center;
+		border-radius: 5px;
+		border: 0px;
+		outline: none;
+		z-index: 3;
+		padding: 0px;
+		margin: 0px;
+		cursor: pointer;
+	}
+
+	#reset:hover {
+		background-color: gray;
+	}
+
+/* dots */
+	#dots {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+		z-index: 2;
+	}
+
+	.dot-outer {
+		position: absolute;
+		height: 20px;
+		width: 20px;
+		border-radius: 100%;
+		background-color: gray;
+		box-shadow: 0px 0px 20px darkgray;
+		transform: translateX(-50%) translateY(-50%);
+		cursor: pointer;
+	}
+
+	.dot-inner {
+		height: 100%;
+		width: 100%;
+		border-radius: 100%;
+		background-color: #333333;
+		box-shadow: 0px 0px 20px darkgray inset;
+	}
+
+	.dot-outer:hover {
+		box-shadow: 0px 0px 20px black;
+	}
+
+	.dot-inner:hover {
+		box-shadow: 0px 0px 20px gray inset;
+	}
+
+	.dot-outer.selected .dot-inner {
+		background-color: navy;
+	}
+
+/* lines */
+	#lines {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+		z-index: 1;
+	}
+
+	.line {
+		stroke: gray;
+		stroke-width: 0.5;
+	}
+
+/* score */
+	#score-outer {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		height: 200px;
+		width: 400px;
+		overflow: hidden;
+		z-index: -1;
+		pointer-events: none;
+	}
+
+	#score-inner {
+		position: relative;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		overflow: hidden;
+		text-align: center;
+		font-size: 100px;
+		font-weight: bold;
+		color: lightgray;
+		font-family: Arial, sans-serif;
+	}
