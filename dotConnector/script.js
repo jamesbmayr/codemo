@@ -47,7 +47,7 @@ function ready() {
 			var top = (y * height / 100) || (Math.random() * (height - 100)) + 50
 
 			var dot = document.createElement("div")
-				dot.className = "dot-outer connections-0"
+				dot.className = "dot-outer"
 				dot.style.left = left + "px"
 				dot.style.top = top + "px"
 				dot.setAttribute("lines","")
@@ -127,11 +127,6 @@ function ready() {
 			lines.push(window.drawing)
 			dot.setAttribute("lines", lines.join(","))
 
-			var connections = dot.className
-				connections = connections.substring(connections.indexOf("connections-") + 12, connections.indexOf("connections-") + 13)
-				connections = Number(connections) + 1
-			dot.className = dot.className.replace(/(connections\-)\d/gi,"connections-" + connections)
-
 			countConnections()
 		}
 
@@ -146,11 +141,6 @@ function ready() {
 				return l !== window.drawing
 			})
 			dot.setAttribute("lines", lines.join(","))
-
-			var connections = dot.className
-				connections = connections.substring(connections.indexOf("connections-") + 12, connections.indexOf("connections-") + 13)
-				connections = Math.max(Number(connections) - 1, 0)
-			dot.className = dot.className.replace(/(connections\-)\d/gi,"connections-" + connections)
 		}
 
 	/* createLine */
@@ -303,9 +293,44 @@ function ready() {
 	/* countConnections */
 		function countConnections() {
 			var dotCount = document.getElementsByClassName("dot-outer").length
-			var doubleConnectedCount = document.getElementsByClassName("connections-2").length
+			var lineCount = document.getElementsByClassName("line").length
 			
-			if (dotCount == doubleConnectedCount) {
+			if (dotCount == lineCount) {
+				checkContinuity()
+			}
+		}
+
+	/* checkContinuity */
+		function checkContinuity() {
+			var dots = document.getElementsByClassName("dot-outer")
+				dots = Array.prototype.slice.call(dots)
+
+			var currentDot = dots[0]
+			
+			var lines = currentDot.getAttribute("lines")
+			var endLine = lines.split(",")[0]
+			var currentLine = lines.split(",")[1]
+			
+			dots = dots.filter(function(d) {
+				return d.getAttribute("lines") !== lines
+			})
+
+			while ((dots.length) && (currentLine !== endLine)) {
+				currentDot = dots.find(function(d) {
+					return d.getAttribute("lines").indexOf(currentLine) !== -1
+				})
+
+				lines = currentDot.getAttribute("lines")
+				currentLine = lines.split(",").find(function(l) {
+					return l !== currentLine
+				})
+
+				dots = dots.filter(function(d) {
+					return d.getAttribute("lines") !== lines
+				})
+			}
+
+			if ((dots.length == 0) && (currentLine == endLine)) {
 				window.score += 3
 				startGame()
 			}
@@ -326,7 +351,6 @@ function ready() {
 				dots = Array.prototype.slice.call(dots)
 			
 			for (d in dots) {
-				dots[d].className = dots[d].className.replace(/(connections\-)\d/gi,"connections-0")
 				dots[d].setAttribute("lines","")
 			}
 		}
