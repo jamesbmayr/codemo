@@ -1,0 +1,263 @@
+/* page */
+	body {
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 100vh;
+		background-color: #333333;
+		color: #dddddd;
+		font-size: 20px;
+		font-family: Arial, sans-serif;
+		overflow: hidden;
+	}
+
+	#header {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 80px;
+		text-align: center;
+		font-size: 40px;
+		background-color: #111111;
+	}
+
+	#header-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+/* controls */
+	#controls {
+		position: absolute;
+		top: 80px;
+		left: 0px;
+		width: 100vw;
+		height: 40px;
+		background-color: #222222;
+		padding: 20px 0px 20px 0px;
+		text-align: center;
+	}
+
+	#controls button {
+		height: 40px;
+		width: 40px;
+		font-size: 20px;
+		background-color: #111111;
+		color: #dddddd;
+		border-radius: 100%;
+		border: 0px;
+		box-shadow: 0px 0px 20px #777777;
+		cursor: pointer;
+		outline: none;
+	}
+
+	#controls button:hover {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+	#controls input {
+		width: 60px;
+		height: 40px;
+		border-radius: 5px;
+		font-size: 20px;
+		background-color: #111111;
+		color: #dddddd;
+		zoom: 1;
+		border: 0px;
+		outline: none;
+		padding: 0px 10px 0px 5px;
+		text-align: right;
+		box-shadow: 0px 0px 20px #777777;
+	}
+
+	#controls input:focus {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+	#controls select {
+		width: 120px;
+		height: 40px;
+		border-radius: 5px;
+		font-size: 20px;
+		background-color: #111111;
+		color: #dddddd;
+		zoom: 1;
+		border: 0px;
+		outline: none;
+		padding: 0px 10px 0px 5px;
+		text-align: right;
+		box-shadow: 0px 0px 20px #777777;
+		cursor: pointer;
+	}
+
+	#controls select:focus {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+	#pause {
+		display: none;
+	}
+
+/* player */
+	#player {
+		position: absolute;
+		top: 160px;
+		left: 0px;
+		width: 100vw;
+		height: calc(100vh - 160px);
+		padding: 0px;
+		text-align: center;
+	}
+
+	#staff {
+		position: absolute;
+		top: 50%;
+		left: 64px;
+		transform: translateY(-50%);
+		height: 416px;
+		width: calc(100vw - 128px);
+		background-color: #111111;
+		box-shadow: 0px 0px 20px #000000;
+		overflow-y: hidden;
+		overflow-x: scroll;
+		text-align: left;
+		white-space: nowrap;
+	}
+
+	#staff-spacer {
+		position: relative;
+		top: 0px;
+		left: 0px;
+		display: inline-block;
+		width: calc(100vw - 128px);
+		height: 416px;
+		margin: 0px;
+	}
+
+/* frame */
+	#frame-left {
+		position: absolute;
+		top: 50%;
+		left: 0px;
+		transform: translateY(-50%);
+		z-index: 3;
+		height: 416px;
+		width: 64px;
+		box-shadow: 0px 0px 20px #000000;
+		background-color: #111111;
+	}
+
+	#frame-right {
+		position: absolute;
+		top: 50%;
+		right: 0px;
+		transform: translateY(-50%);
+		z-index: 3;
+		height: 416px;
+		width: 64px;
+		box-shadow: 0px 0px 20px #000000;
+		background-color: #111111;
+	}
+
+	#scroll-left, #scroll-right {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: 48px;
+		height: 48px;
+		border-radius: 8px;
+		border: 0px;
+		font-size: 36px;
+		color: #dddddd;
+		background-color: #111111;
+		text-align: center;
+		box-shadow: 0px 0px 20px #777777;
+		cursor: pointer;
+		outline: none;
+	}
+
+	#scroll-left:hover, #scroll-right:hover {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+/* measures */
+	.measure {
+		position: relative;
+		display: inline-block;
+		left: 0px;
+		top: -5px;
+		height: 416px;
+		width: 64px;
+		z-index: 1;
+		vertical-align: bottom;
+	}
+
+	.measure-number {
+		float: left;
+		height: 16px;
+		color: #dddddd;
+		width: 64px;
+		background-color: #222222;
+		vertical-align: bottom;
+		text-align: left;
+		font-size: 12px;
+		padding-left: 1px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
+	}
+
+/* beats */
+	.beat {
+		float: left;
+		height: 400px;
+		width: 16px;
+	}
+
+	.beat-1 {
+		background-color: #111111;
+	}
+
+	.beat-2 {
+		background-color: #222222;
+	}
+
+	.beat-3 {
+		background-color: #333333;
+	}
+
+	.beat-4 {
+		background-color: #444444;
+	}
+
+/* pitches */
+	.pitch {
+		height: 16px;
+		width: 16px;
+		border-radius: 2px;
+		box-shadow: 0px 0px 1px #dddddd inset;
+		cursor: pointer;
+	}
+
+	.pitch.sound-off:hover {
+		box-shadow: 0px 0px 10px #dddddd inset;
+		z-index: 2;
+	}
+
+	.pitch.sound-on {
+		box-shadow: 0px 0px 20px #dddddd inset;
+	}
+
+	.pitch.sound-on:hover {
+		box-shadow: 0px 0px 15px #dddddd inset;
+		z-index: 2;
+	}

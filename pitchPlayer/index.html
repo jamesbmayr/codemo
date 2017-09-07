@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>pitchPlayer</title>
+		<link rel="shortcut icon" type="image/png" href="https://maxcdn.icons8.com/Share/icon/ios7/Music//tuning_fork1600.png"></link>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<script tyle="text/javascript" src="script.js"></script>
+	</head>
+	<body onload="ready()">
+		<div id="header">
+			<div id="header-inner">{{{ pitchPlayer }}}</div>
+		</div>
+		<div id="controls">
+			<button id="play">|></button>
+			<button id="pause">| |</button>
+			<button id="stop">[-]</button>
+			<button id="reset">{x}</button>
+			&nbsp;&nbsp;&nbsp;
+			<label id="target-outer">&nbsp;&nbsp;&nbsp;[ measures ]&nbsp;<input id="target" type="number" max="256" min="1" step="1" value="16" placeholder="#"></input></label>
+			<label id="tempo-outer">&nbsp;&nbsp;&nbsp;[ tempo ]&nbsp;<input id="tempo" type="number" max="480" min="1" step="1" value="120" placeholder="bpm"></input></label>
+			<label id="volume-outer">&nbsp;&nbsp;&nbsp;[ volume ]&nbsp;<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
+			<label id="wave-outer">&nbsp;&nbsp;&nbsp;[ wave ]
+				<select id="wave">
+					<option value="sine">sine</option>
+					<option value="square">square</option>
+					<option value="triangle">triangle</option>
+					<option value="sawtooth">sawtooth</option>
+				</select>
+			</label>
+		</div>
+		<div id="player">
+			<div id="frame-left">
+				<button id="scroll-left"><</button>
+			</div>
+			<div id="staff">
+				<div id="staff-spacer"></div>
+			</div>
+			<div id="frame-right">
+				<button id="scroll-right">></button>
+			</div>
+		</div>
+	</body>
+</html>
