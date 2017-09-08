@@ -16,27 +16,92 @@
 			<button id="stop">[-]</button>
 			<button id="reset">{x}</button>
 			&nbsp;&nbsp;&nbsp;
-			<label id="target-outer">&nbsp;&nbsp;&nbsp;[ measures ]&nbsp;<input id="target" type="number" max="256" min="1" step="1" value="16" placeholder="#"></input></label>
-			<label id="tempo-outer">&nbsp;&nbsp;&nbsp;[ tempo ]&nbsp;<input id="tempo" type="number" max="480" min="1" step="1" value="120" placeholder="bpm"></input></label>
+			<label id="target-outer">&nbsp;&nbsp;&nbsp;[ measures ]&nbsp;<input id="target" type="number" max="256" min="1" step="1" value="32" placeholder="#"></input></label>
+			<label id="tempo-outer">&nbsp;&nbsp;&nbsp;[ tempo ]&nbsp;<input id="tempo" type="number" max="1000" min="1" step="1" value="240" placeholder="bpm"></input></label>
 			<label id="volume-outer">&nbsp;&nbsp;&nbsp;[ volume ]&nbsp;<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
 			<label id="wave-outer">&nbsp;&nbsp;&nbsp;[ wave ]
 				<select id="wave">
 					<option value="sine">sine</option>
 					<option value="square">square</option>
-					<option value="triangle">triangle</option>
+					<option value="triangle" selected>triangle</option>
 					<option value="sawtooth">sawtooth</option>
 				</select>
 			</label>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button id="download">&#x21E9;</button>
+			<label id="upload-outer"><input id="upload" type="file">&#x21E7;</label>
 		</div>
 		<div id="player">
 			<div id="frame-left">
 				<button id="scroll-left"><</button>
+				<div class="keyboard">
+					<div class="key" style="border-radius: 0px 8px 0px 0px;"></div>
+					<div class="key key-white key-inactive" value="24"></div>
+					<div class="key key-white key-inactive" value="23"></div>
+					<div class="key key-black key-inactive" value="22"></div>
+					<div class="key key-white key-inactive" value="21"></div>
+					<div class="key key-black key-inactive" value="20"></div>
+					<div class="key key-white key-inactive" value="19"></div>
+					<div class="key key-black key-inactive" value="18"></div>
+					<div class="key key-white key-inactive" value="17"></div>
+					<div class="key key-white key-inactive" value="16"></div>
+					<div class="key key-black key-inactive" value="15"></div>
+					<div class="key key-white key-inactive" value="14"></div>
+					<div class="key key-black key-inactive" value="13"></div>
+					<div class="key key-white key-inactive" value="12"></div>
+					<div class="key key-white key-inactive" value="11"></div>
+					<div class="key key-black key-inactive" value="10"></div>
+					<div class="key key-white key-inactive" value="9"></div>
+					<div class="key key-black key-inactive" value="8"></div>
+					<div class="key key-white key-inactive" value="7"></div>
+					<div class="key key-black key-inactive" value="6"></div>
+					<div class="key key-white key-inactive" value="5"></div>
+					<div class="key key-white key-inactive" value="4"></div>
+					<div class="key key-black key-inactive" value="3"></div>
+					<div class="key key-white key-inactive" value="2"></div>
+					<div class="key key-black key-inactive" value="1"></div>
+					<div class="key key-white key-inactive" value="0"></div>
+					<div class="key"></div>
+					<div class="key"></div>
+					<div class="key" style="border-radius: 0px 0px 8px 0px;"></div>
+				</div>
 			</div>
 			<div id="staff">
 				<div id="staff-spacer"></div>
 			</div>
 			<div id="frame-right">
 				<button id="scroll-right">></button>
+				<div class="keyboard">
+					<div class="key" style="border-radius: 8px 0px 0px 0px;"></div>
+					<div class="key key-white key-inactive" value="24"></div>
+					<div class="key key-white key-inactive" value="23"></div>
+					<div class="key key-black key-inactive" value="22"></div>
+					<div class="key key-white key-inactive" value="21"></div>
+					<div class="key key-black key-inactive" value="20"></div>
+					<div class="key key-white key-inactive" value="19"></div>
+					<div class="key key-black key-inactive" value="18"></div>
+					<div class="key key-white key-inactive" value="17"></div>
+					<div class="key key-white key-inactive" value="16"></div>
+					<div class="key key-black key-inactive" value="15"></div>
+					<div class="key key-white key-inactive" value="14"></div>
+					<div class="key key-black key-inactive" value="13"></div>
+					<div class="key key-white key-inactive" value="12"></div>
+					<div class="key key-white key-inactive" value="11"></div>
+					<div class="key key-black key-inactive" value="10"></div>
+					<div class="key key-white key-inactive" value="9"></div>
+					<div class="key key-black key-inactive" value="8"></div>
+					<div class="key key-white key-inactive" value="7"></div>
+					<div class="key key-black key-inactive" value="6"></div>
+					<div class="key key-white key-inactive" value="5"></div>
+					<div class="key key-white key-inactive" value="4"></div>
+					<div class="key key-black key-inactive" value="3"></div>
+					<div class="key key-white key-inactive" value="2"></div>
+					<div class="key key-black key-inactive" value="1"></div>
+					<div class="key key-white key-inactive" value="0"></div>
+					<div class="key"></div>
+					<div class="key"></div>
+					<div class="key" style="border-radius: 0px 0px 0px 8px;"></div>
+				</div>
 			</div>
 		</div>
 	</body>
