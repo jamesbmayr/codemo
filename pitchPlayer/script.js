@@ -523,8 +523,13 @@ function ready() {
 							var pitch = document.createElement("div")
 								pitch.className = "pitch pitch-" + p + " sound-off"
 								pitch.id = "measure-" + m + "-beat-" + b + "-pitch-" + p
-								pitch.addEventListener("click",function() {
+								pitch.addEventListener("mousedown", function() {
 									togglePitch(this)
+								})
+								pitch.addEventListener("mouseenter", function() {
+									if (clickdown) {
+										togglePitch(this)
+									}
 								})
 
 							if (beatPitches.indexOf(p) !== -1) {
