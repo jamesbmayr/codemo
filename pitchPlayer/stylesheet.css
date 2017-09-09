@@ -172,10 +172,11 @@
 		float: left;
 		margin-top: 16px;
 		z-index: 3;
-		height: 464px;
+		height: 656px;
 		width: 64px;
 		box-shadow: 0px 0px 20px #000000;
-		background-color: #222222;
+		background-color: #111111;
+		border-radius: 0px 8px 8px 0px;
 	}
 
 	#frame-left div {
@@ -186,10 +187,11 @@
 		float: left;
 		margin-top: 16px;
 		z-index: 3;
-		height: 464px;
+		height: 656px;
 		width: 64px;
 		box-shadow: 0px 0px 20px #000000;
-		background-color: #222222;
+		background-color: #111111;
+		border-radius: 8px 0px 0px 8px;
 	}
 
 	#frame-right div {
@@ -232,6 +234,14 @@
 		height: 432px;
 		width: 32px;
 		box-shadow: 0px 0px 20px #111111;
+	}
+
+	#frame-left .keyboard {
+		border-radius: 0px 8px 8px 0px;
+	}
+
+	#frame-right .keyboard {
+		border-radius: 8px 0px 0px 8px;
 	}
 
 	.key {
@@ -333,4 +343,34 @@
 	.pitch.sound-on:hover {
 		box-shadow: 0px 0px 15px #dddddd inset;
 		z-index: 2;
+	}
+
+/* mobile */
+	@media screen and (max-width: 980px) {
+		#controls {
+			max-height: 128px;
+		}
+
+		#player {
+			zoom: 2;
+			margin: 0px;
+			padding: 0px;
+		}
+
+		#scroll-left, #frame-right {
+			display: none;
+		}
+
+		#frame-left {
+			width: 32px;
+			margin-top: 0px;
+		}
+
+		#staff {
+			margin-top: 16px;
+		}
+
+		#staff, #staff-spacer {
+			width: calc(100vw - 32px);
+		}
 	}

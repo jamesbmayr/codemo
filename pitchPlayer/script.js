@@ -393,12 +393,13 @@ function ready() {
 
 				var tempo = document.getElementById("tempo").value || 100
 					tempo = tempo * 4
+				var volume = document.getElementsById("volume").value || 50
 				var measures = document.getElementsByClassName("measure")
 					measures = Array.prototype.slice.call(measures)
 				for (var m in measures) {
 
 					if (m == 0) {
-						musicXML += '<measure number="1"><attributes><divisions>4</divisions><key><fifths>0</fifths><mode>major</mode></key><staves>1</staves><clef><sign>G</sign><line>2</line></clef><sound tempo="' + tempo + '"/></attributes>'
+						musicXML += '<measure number="1"><attributes><divisions>1</divisions><key><fifths>0</fifths><mode>major</mode></key><time><beats>4</beats><beat-type>4</beat-type></time><staves>1</staves><clef><sign>G</sign><line>2</line></clef><sound tempo="' + (tempo * 4) + '"/></attributes><sound tempo="' + tempo + '" dynamics="' + volume + '"/>'
 					}
 					else {
 						musicXML += '<measure number="' + (Number(m) + 1) + '">'
@@ -501,7 +502,7 @@ function ready() {
 					if (m == 1) {
 						var sound = dataMeasures[m - 1].getElementsByTagName("sound")
 							sound = Array.prototype.slice.call(sound)[0]
-						try { document.getElementById("tempo").value = Number(sound.getAttribute("tempo")) / 4 } catch (error) {}
+						try { document.getElementById("tempo").value = Number(sound.getAttribute("tempo")) } catch (error) {}
 					}
 
 					var measure = document.createElement("div")
