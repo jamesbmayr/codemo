@@ -7,18 +7,16 @@
 		top: 0px;
 		left: 0px;
 		width: 100vw;
-		height: 100vh;
+		min-height: 100vh;
 		background-color: #333333;
 		color: #dddddd;
 		font-size: 20px;
 		font-family: Arial, sans-serif;
-		overflow: hidden;
+		overflow-x: hidden;
 	}
 
 	#header {
-		position: absolute;
-		top: 0px;
-		left: 0px;
+		float: left;
 		width: 100vw;
 		height: 80px;
 		text-align: center;
@@ -31,7 +29,7 @@
 	}
 
 	#header-inner {
-		position: absolute;
+		position: relative;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
@@ -39,14 +37,18 @@
 
 /* controls */
 	#controls {
-		position: absolute;
-		top: 80px;
-		left: 0px;
+		float: left;
 		width: 100vw;
-		height: 40px;
+		min-height: 40px;
+		height: 100%;
+		max-height: 100px;
 		background-color: #222222;
-		padding: 20px 0px 20px 0px;
+		padding: 8px 0px 8px 0px;
 		text-align: center;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-o-user-select: none;
 	}
 
 	#controls button, #upload-outer {
@@ -60,6 +62,7 @@
 		box-shadow: 0px 0px 20px #777777;
 		cursor: pointer;
 		outline: none;
+		margin: 1px;
 	}
 
 	#controls button:hover, #upload-outer:hover {
@@ -73,7 +76,7 @@
 		font-size: 20px;
 		background-color: #111111;
 		color: #dddddd;
-		zoom: 1;
+		margin: 2px;
 		border: 0px;
 		outline: none;
 		padding: 0px 10px 0px 5px;
@@ -105,7 +108,9 @@
 		box-shadow: 0px 0px 20px #dddddd;
 	}
 
-	#controls label {
+	#controls label:not(#upload-outer) {
+		margin: 0px 4px 0px 4px;
+		display: inline-block;
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
@@ -122,6 +127,7 @@
 
 	#upload-outer {
 		padding: 9px 10px 9px 10px;
+		margin: 0px 4px 0px 4px;
 	}
 
 	#upload {
@@ -130,21 +136,18 @@
 
 /* player */
 	#player {
-		position: absolute;
-		top: 160px;
-		left: 0px;
+		float: left;
 		width: 100vw;
-		height: calc(100vh - 160px);
-		padding: 0px;
+		min-height: calc(100vh - 160px);
+		height: 100%;
+		padding: 0px 0px 32px 0px;
 		text-align: center;
 	}
 
 	#staff {
-		position: absolute;
-		top: 50%;
-		left: 64px;
-		transform: translateY(-50%);
-		height: 432px;
+		float: left;
+		margin-top: 32px;
+		height: 624px;
 		width: calc(100vw - 128px);
 		background-color: #111111;
 		box-shadow: 0px 0px 40px #000000;
@@ -160,16 +163,14 @@
 		left: 0px;
 		display: inline-block;
 		width: calc(100vw - 128px);
-		height: 416px;
+		height: 608px;
 		margin: 0px;
 	}
 
 /* frame */
 	#frame-left {
-		position: absolute;
-		top: 50%;
-		left: 0px;
-		transform: translateY(-50%);
+		float: left;
+		margin-top: 16px;
 		z-index: 3;
 		height: 464px;
 		width: 64px;
@@ -182,15 +183,13 @@
 	}
 
 	#frame-right {
-		position: absolute;
-		top: 50%;
-		right: 0px;
-		transform: translateY(-50%);
+		float: left;
+		margin-top: 16px;
 		z-index: 3;
 		height: 464px;
 		width: 64px;
 		box-shadow: 0px 0px 20px #000000;
-		background-color: #222222	;
+		background-color: #222222;
 	}
 
 	#frame-right div {
@@ -199,7 +198,7 @@
 
 	#scroll-left, #scroll-right {
 		width: 32px;
-		height: 464px;
+		height: 656px;
 		border: 0px;
 		font-size: 36px;
 		color: #dddddd;
@@ -267,7 +266,7 @@
 		display: inline-block;
 		left: 0px;
 		top: -5px;
-		height: 416px;
+		height: 608px;
 		width: 64px;
 		z-index: 1;
 		vertical-align: bottom;
@@ -293,7 +292,7 @@
 /* beats */
 	.beat {
 		float: left;
-		height: 400px;
+		height: 592px;
 		width: 16px;
 	}
 

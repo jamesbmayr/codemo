@@ -15,11 +15,10 @@
 			<button id="pause">| |</button>
 			<button id="stop">[-]</button>
 			<button id="reset">{x}</button>
-			&nbsp;&nbsp;&nbsp;
-			<label id="target-outer">&nbsp;&nbsp;&nbsp;[ measures ]&nbsp;<input id="target" type="number" max="256" min="1" step="1" value="32" placeholder="#"></input></label>
-			<label id="tempo-outer">&nbsp;&nbsp;&nbsp;[ tempo ]&nbsp;<input id="tempo" type="number" max="1000" min="1" step="1" value="240" placeholder="bpm"></input></label>
-			<label id="volume-outer">&nbsp;&nbsp;&nbsp;[ volume ]&nbsp;<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
-			<label id="wave-outer">&nbsp;&nbsp;&nbsp;[ wave ]
+			<label id="target-outer">[&nbsp;measures&nbsp;]<input id="target" type="number" max="256" min="1" step="1" value="32" placeholder="#"></input></label>
+			<label id="tempo-outer">[&nbsp;tempo&nbsp;]<input id="tempo" type="number" max="1000" min="1" step="1" value="100" placeholder="bpm"></input></label>
+			<label id="volume-outer">[&nbsp;volume&nbsp;]<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
+			<label id="wave-outer">[&nbsp;wave&nbsp;]
 				<select id="wave">
 					<option value="sine">sine</option>
 					<option value="square">square</option>
@@ -27,15 +26,26 @@
 					<option value="sawtooth">sawtooth</option>
 				</select>
 			</label>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<button id="download">&#x21E9;</button>
 			<label id="upload-outer"><input id="upload" type="file">&#x21E7;</label>
+			<button id="download">&#x21E9;</button>
 		</div>
 		<div id="player">
 			<div id="frame-left">
 				<button id="scroll-left"><</button>
 				<div class="keyboard">
 					<div class="key" style="border-radius: 0px 8px 0px 0px;"></div>
+					<div class="key key-white key-inactive" value="36"></div>
+					<div class="key key-white key-inactive" value="35"></div>
+					<div class="key key-black key-inactive" value="34"></div>
+					<div class="key key-white key-inactive" value="33"></div>
+					<div class="key key-black key-inactive" value="32"></div>
+					<div class="key key-white key-inactive" value="31"></div>
+					<div class="key key-black key-inactive" value="30"></div>
+					<div class="key key-white key-inactive" value="29"></div>
+					<div class="key key-white key-inactive" value="28"></div>
+					<div class="key key-black key-inactive" value="27"></div>
+					<div class="key key-white key-inactive" value="26"></div>
+					<div class="key key-black key-inactive" value="25"></div>
 					<div class="key key-white key-inactive" value="24"></div>
 					<div class="key key-white key-inactive" value="23"></div>
 					<div class="key key-black key-inactive" value="22"></div>
@@ -73,6 +83,18 @@
 				<button id="scroll-right">></button>
 				<div class="keyboard">
 					<div class="key" style="border-radius: 8px 0px 0px 0px;"></div>
+					<div class="key key-white key-inactive" value="36"></div>
+					<div class="key key-white key-inactive" value="35"></div>
+					<div class="key key-black key-inactive" value="34"></div>
+					<div class="key key-white key-inactive" value="33"></div>
+					<div class="key key-black key-inactive" value="32"></div>
+					<div class="key key-white key-inactive" value="31"></div>
+					<div class="key key-black key-inactive" value="30"></div>
+					<div class="key key-white key-inactive" value="29"></div>
+					<div class="key key-white key-inactive" value="28"></div>
+					<div class="key key-black key-inactive" value="27"></div>
+					<div class="key key-white key-inactive" value="26"></div>
+					<div class="key key-black key-inactive" value="25"></div>
 					<div class="key key-white key-inactive" value="24"></div>
 					<div class="key key-white key-inactive" value="23"></div>
 					<div class="key key-black key-inactive" value="22"></div>

@@ -31,7 +31,7 @@ function ready() {
 							beat.className = "beat beat-" + b
 							beat.id = "measure-" + m + "-beat-" + b
 
-						for (var p = 24; p >= 0; p--) {
+						for (var p = 36; p >= 0; p--) {
 							var pitch = document.createElement("div")
 								pitch.className = "pitch pitch-" + p + " sound-off"
 								pitch.id = "measure-" + m + "-beat-" + b + "-pitch-" + p
@@ -88,7 +88,7 @@ function ready() {
 		}
 
 	/* dragPitch */
-		document.getElementById("staff").addEventListener("mousedown", function () { clickdown = true })
+		document.getElementById("player").addEventListener("mousedown", function () { clickdown = true })
 		document.addEventListener("mouseup", function () { clickdown = false })
 
 	/* resetPitches */
@@ -116,9 +116,10 @@ function ready() {
 			document.getElementById("play").style.display = "none"
 			document.getElementById("pause").style.display = "inline-block"
 
-			var tempo = Number(document.getElementById("tempo").value) || 120
+			var tempo = Number(document.getElementById("tempo").value) || 100
 				tempo = Math.max(tempo, 1)
-				tempo = Math.min(tempo, 1000)
+				tempo = Math.min(tempo, 250)
+				tempo = tempo * 4
 
 			window.animateLoop = setInterval(function() {		
 				var scrollLeft = document.getElementById("staff").scrollLeft
@@ -207,7 +208,7 @@ function ready() {
 	/* getFrequency */
 		function getFrequency(pitch) {
 			pitch = Number(pitch) || 0
-			pitch = Math.min(pitch, 24)
+			pitch = Math.min(pitch, 36)
 			pitch = Math.max(pitch, 0)
 
 			switch (pitch) {
@@ -286,6 +287,42 @@ function ready() {
 				case 24: 			// C5
 					return [523.25, "C", 0, 5]
 				break
+				case 25: 			// C#5 / Db5
+					return [554.37, "C", 1, 5]
+				break
+				case 26: 			// D5
+					return [587.33, "D", 0, 5]
+				break
+				case 27: 			// D#5 / Eb5
+					return [622.25, "E", -1, 5]
+				break
+				case 28: 			// E5
+					return [659.25, "E", 0, 5]
+				break
+				case 29: 			// F5
+					return [698.46, "F", 0, 5]
+				break
+				case 30: 			// F#5 / Gb5
+					return [739.99, "F", 1, 5]
+				break
+				case 31: 			// G5
+					return [783.99, "G", 0, 5]
+				break
+				case 32: 			// G#5 / Ab5
+					return [830.61, "A", -1, 5]
+				break
+				case 33: 			// A5
+					return [880.00, "A", 0, 5]
+				break
+				case 34: 			// A#5 / Bb5
+					return [932.33, "B", -1, 5]
+				break
+				case 35: 			// B5
+					return [987.77, "B", 0, 5]
+				break
+				case 36: 			// C6
+					return [1046.50, "C", 0, 6]
+				break
 				default:
 					return false
 			}
@@ -305,18 +342,25 @@ function ready() {
 			var keys = document.getElementsByClassName("key")
 				keys = Array.prototype.slice.call(keys)
 			for (var k in keys) {
-				keys[k].addEventListener("click", function() {
+				keys[k].addEventListener("mousedown", function() {
 					playNote(Number(this.getAttribute("value")))
+				})
+				keys[k].addEventListener("mouseenter", function() {
+					if (clickdown) {
+						playNote(Number(this.getAttribute("value")))
+					}
 				})
 			}
 
 		function playNote(pitch) {
 			//sound
-				var tempo = Number(document.getElementById("tempo").value) || 120
+				var tempo = Number(document.getElementById("tempo").value) || 100
 					tempo = Math.max(tempo, 1)
-					tempo = Math.min(tempo, 1000)
+					tempo = Math.min(tempo, 250)
+					tempo = tempo * 4
 				var wave = document.getElementById("wave").value || "triangle"
 				var frequency = getFrequency(pitch)[0] || null
+				console.log("frequency " + frequency)
 
 				var oscillator = window.audio.createOscillator()
 					oscillator.frequency.value = frequency
@@ -347,7 +391,8 @@ function ready() {
 				var musicXML = ""
 					musicXML += '<?xml version="1.0" standalone="no"?><!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise><part-list><score-part id="P1"><part-name>Synth</part-name></score-part></part-list><part id="P1">'
 
-				var tempo = document.getElementById("tempo").value || 120
+				var tempo = document.getElementById("tempo").value || 100
+					tempo = tempo * 4
 				var measures = document.getElementsByClassName("measure")
 					measures = Array.prototype.slice.call(measures)
 				for (var m in measures) {
@@ -456,7 +501,7 @@ function ready() {
 					if (m == 1) {
 						var sound = dataMeasures[m - 1].getElementsByTagName("sound")
 							sound = Array.prototype.slice.call(sound)[0]
-						try { document.getElementById("tempo").value = sound.getAttribute("tempo") } catch (error) {}
+						try { document.getElementById("tempo").value = Number(sound.getAttribute("tempo")) / 4 } catch (error) {}
 					}
 
 					var measure = document.createElement("div")
@@ -519,7 +564,7 @@ function ready() {
 						}
 						
 
-						for (var p = 24; p >= 0; p--) {
+						for (var p = 36; p >= 0; p--) {
 							var pitch = document.createElement("div")
 								pitch.className = "pitch pitch-" + p + " sound-off"
 								pitch.id = "measure-" + m + "-beat-" + b + "-pitch-" + p
