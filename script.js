@@ -59,7 +59,7 @@ function javascript() {
 			{
 				id: "singingsantas",
 				title: "Singing Santas",
-				tags: "music more",
+				tags: "more",
 				image: "logos/rpmusic.png",
 				url: "#",
 				date: "December 1, 2006",
@@ -95,7 +95,7 @@ function javascript() {
 			{
 				id: "pockettheatre",
 				title: "Pocket Theatre",
-				tags: "school more",
+				tags: "more",
 				image: "logos/rpeagle.png",
 				url: "#",
 				date: "February 15, 2008",
@@ -113,7 +113,7 @@ function javascript() {
 			{
 				id: "binghamtonuniversity",
 				title: "Binghamton University",
-				tags: "school music writing",
+				tags: "school",
 				image: "logos/binghamtonuniversity.png",
 				url: "https://www.binghamton.edu/",
 				date: "August 25, 2008",
@@ -122,7 +122,7 @@ function javascript() {
 			{
 				id: "pepband",
 				title: "BU Pep Band",
-				tags: "school music",
+				tags: "music",
 				image: "logos/bupepband.png",
 				url: "https://bengaged.binghamton.edu/organization/pep-band",
 				date: "October 15, 2008",
@@ -230,7 +230,7 @@ function javascript() {
 			{
 				id: "writinginitiativecenter",
 				title: "Writing Initiative Center",
-				tags: "school writing",
+				tags: "school",
 				image: "logos/bu.png",
 				url: "https://www.binghamton.edu/writing/",
 				date: "July 1, 2011",
@@ -239,7 +239,7 @@ function javascript() {
 			{
 				id: "pipedream",
 				title: "BU Pipe Dream",
-				tags: "school writing",
+				tags: "writing",
 				image: "logos/pipedream.png",
 				url: "https://www.bupipedream.com/",
 				date: "September 15, 2011",
@@ -284,7 +284,7 @@ function javascript() {
 			{
 				id: "wilinloug",
 				title: "wi[lin][loug]",
-				tags: "writing more",
+				tags: "more",
 				image: "logos/wilinloug.png",
 				url: "#",
 				date: "May 31, 2012",
@@ -365,7 +365,7 @@ function javascript() {
 			{
 				id: "teachforamerica",
 				title: "Teach For America",
-				tags: "school writing",
+				tags: "school",
 				image: "logos/tfa.png",
 				url: "https://www.teachforamerica.org/",
 				date: "June 1, 2013",
@@ -374,7 +374,7 @@ function javascript() {
 			{
 				id: "nycdoe",
 				title: "NYC Department of Education",
-				tags: "school writing",
+				tags: "school career",
 				image: "logos/nycdoe.png",
 				url: "http://schools.nyc.gov/SchoolPortals/09/X365/default.htm",
 				date: "August 15, 2013",
@@ -464,7 +464,7 @@ function javascript() {
 			{
 				id: "themuse",
 				title: "The Muse",
-				tags: "career writing",
+				tags: "career",
 				image: "logos/themuse.png",
 				url: "https://www.themuse.com/team",
 				date: "September 29, 2015",
@@ -527,7 +527,7 @@ function javascript() {
 			{
 				id: "pickupnotes",
 				title: "Pickup Notes",
-				tags: "music writing code",
+				tags: "music",
 				image: "logos/pickupnotes.png",
 				url: "http://rawgit.com/jamesbmayr/pickupnotes/master/",
 				date: "December 20, 2016",
@@ -545,7 +545,7 @@ function javascript() {
 			{
 				id: "harmony",
 				title: "Harmony",
-				tags: "music code",
+				tags: "code more",
 				image: "logos/harmony.png",
 				url: "http://rawgit.com/jamessullivan77/Spotify-Group-Sharing/master/",
 				date: "January 21, 2017",
