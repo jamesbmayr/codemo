@@ -604,7 +604,7 @@ function javascript() {
 				url: "https://bookvsmovie.herokuapp.com",
 				date: "September 10, 2017",
 				description: "Coded in collaboration with Max Pekarsky, Book vs. Movie is a simple tool to answer the age old question: which was better?"
-			},
+			}
 		]
 
 	/* buildYearDot(year) */
