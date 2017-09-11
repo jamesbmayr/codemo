@@ -595,7 +595,16 @@ function javascript() {
 				url: "http://rawgit.com/eef22/memory/master/",
 				date: "August 20, 2017",
 				description: "Coded in collaboration with Liz Ford, Memory is a fully customizable card game for two or more brains."
-			}
+			},
+			{
+				id: "bookvsmovie",
+				title: "Book vs. Movie",
+				tags: "code",
+				image: "logos/bookvsmovie.png",
+				url: "https://bookvsmovie.herokuapp.com",
+				date: "September 10, 2017",
+				description: "Coded in collaboration with Max Pekarsky, Book vs. Movie is a simple tool to answer the age old question: which was better?"
+			},
 		]
 
 	/* buildYearDot(year) */
@@ -724,16 +733,6 @@ function javascript() {
 			for (var yearCount = Math.floor( (new Date().getTime() - new Date("January 1, 2004").getTime()) / (1000 * 60 * 60 * 24 * 365.25) ); yearCount > 0; yearCount--) {
 				buildYearDot(yearCount)
 			}
-
-		/* filterButton listeners */
-			// var filterButtons = document.getElementsByClassName("filter-button")
-			// for (var x in filterButtons) {
-			// 	var button = filterButtons[x]
-			// 	console.log(button.value)
-			// 	button.addEventListener("click",function() {
-			// 		filterBlocks(this)
-			// 	})
-			// }
 
 		/* projectBlocks */
 			var lane = 0
