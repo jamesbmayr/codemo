@@ -104,13 +104,13 @@ function ready() {
 
 				//get data & run recursively
 					if (!selfClosing) {
-						var data = xml.substring(element.length, xml.indexOf("</" + tagName + ">"))
+						var data = xml.substring(element.length, xml.indexOf("</" + tagName + ">")).trim()
 
 						if (data.indexOf("\n") == 0) {
-							data = data.substring(1, data.length)
+							data = data.substring(1, data.length).trim()
 						}
 						if (data.lastIndexOf("\n") == data.length - 1) {
-							data = data.substring(0, data.length - 1)
+							data = data.substring(0, data.length - 1).trim()
 						}
 
 						if ((data.indexOf("<") == 0) && (escapeCounter < 100)) {
@@ -125,7 +125,7 @@ function ready() {
 						}
 						else if (data.length) {
 							if (isNaN(Number(data))) {
-								tempObj[innerIndex]._ = data
+								tempObj[innerIndex]._ = data.trim()
 							}
 							else {
 								tempObj[innerIndex]._ = Number(data)
@@ -135,7 +135,7 @@ function ready() {
 
 				//consolidate parameters if one or none
 					var keys = Object.keys(tempObj[innerIndex])
-					if (keys.length == 1) {
+					if ((keys.length == 1) && (keys[0] == "_")) {
 						tempObj[innerIndex] = tempObj[innerIndex][keys[0]]
 					}
 					else if (keys.length == 0) {
@@ -157,6 +157,8 @@ function ready() {
 					if (xml.lastIndexOf("\n") == xml.length - 1) {
 						xml = xml.substring(0, xml.length - 1)
 					}
+
+					xml = xml.trim()
 
 				//add temporary object (or string) to json tree
 					if (tempObj[outerIndex][tagName] && tempObj[outerIndex][tagName] !== undefined) {
