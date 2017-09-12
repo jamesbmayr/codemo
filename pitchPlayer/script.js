@@ -392,7 +392,6 @@ function ready() {
 					musicXML += '<?xml version="1.0" standalone="no"?><!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise><part-list><score-part id="P1"><part-name>Synth</part-name></score-part></part-list><part id="P1">'
 
 				var tempo = document.getElementById("tempo").value || 100
-					tempo = tempo * 4
 				var volume = document.getElementById("volume").value || 50
 				var measures = document.getElementsByClassName("measure")
 					measures = Array.prototype.slice.call(measures)
