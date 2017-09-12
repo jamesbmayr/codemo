@@ -393,7 +393,7 @@ function ready() {
 
 				var tempo = document.getElementById("tempo").value || 100
 					tempo = tempo * 4
-				var volume = document.getElementsById("volume").value || 50
+				var volume = document.getElementById("volume").value || 50
 				var measures = document.getElementsByClassName("measure")
 					measures = Array.prototype.slice.call(measures)
 				for (var m in measures) {
