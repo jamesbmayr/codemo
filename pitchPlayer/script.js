@@ -399,7 +399,7 @@ function ready() {
 				for (var m in measures) {
 
 					if (m == 0) {
-						musicXML += '<measure number="1"><attributes><divisions>1</divisions><key><fifths>0</fifths><mode>major</mode></key><time><beats>4</beats><beat-type>4</beat-type></time><staves>1</staves><clef><sign>G</sign><line>2</line></clef><sound tempo="' + (tempo * 4) + '"/></attributes><sound tempo="' + tempo + '" dynamics="' + volume + '"/>'
+						musicXML += '<measure number="1"><attributes><divisions>1</divisions><key><fifths>0</fifths><mode>major</mode></key><time><beats>4</beats><beat-type>4</beat-type></time><staves>1</staves><clef><sign>G</sign><line>2</line></clef><sound tempo="' + (tempo) + '"/></attributes><sound tempo="' + tempo + '" dynamics="' + volume + '"/>'
 					}
 					else {
 						musicXML += '<measure number="' + (Number(m) + 1) + '">'
