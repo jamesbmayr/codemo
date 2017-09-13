@@ -19,20 +19,17 @@ function ready() {
 			}
 
 			if (Array.isArray(json)) {
-				//console.log("array")
 				for (var i in json) {
 					html += "<details><summary>[" + i + "]</summary>" + buildOut(json[i]) + "</details>"
 				}
 			}
 			else if (typeof json == "object") {
-				//console.log("object")
 				var keys = Object.keys(json)
 				for (var k in keys) {
 					html += "<details><summary>." + [keys[k]] + "</summary>" + buildOut(json[keys[k]]) + "</details>"
 				}
 			}
 			else {
-				//console.log("string or number or boolean")
 				html += "<div>" + json + "</div>"
 			}
 				
@@ -55,23 +52,22 @@ function ready() {
 		//store all data at this level in a temporary object
 			if (!tempObj || tempObj == undefined) {
 				var tempObj = {}
-				var escapeCounter = 0
+					tempObj["escape"] = 0
 			}
 
 			var outerIndex = randomString()
 			tempObj[outerIndex] = {}
 
 		//loop through the xml at this level
-			while (xml.length && escapeCounter < 100) {
-				escapeCounter++
+			while (xml.length && tempObj["escape"] < 100) {
+				//create temporary object
+					var innerIndex = randomString()
+					tempObj[innerIndex] = {}
+					tempObj["escape"] = tempObj["escape"] + 1
 
 				//get tag and element
 					var element = xml.substring(0, xml.indexOf(">") + 1)
 					var tagName = element.substring(1, Math.min((element.indexOf(" ") + 1) || (element.length + 1), (element.indexOf(">") + 1) || (element.length + 1)) - 1).replace("/","")
-
-				//create temporary object
-					var innerIndex = randomString()
-					tempObj[innerIndex] = {}
 
 				//self closing?
 					if (element.substring(element.length - 2, element.length - 1) == "/") {
@@ -80,8 +76,30 @@ function ready() {
 					else if (xml.indexOf("</" + tagName + ">") == -1) {
 						var selfClosing = true
 					}
+					else if (element.indexOf("</") !== -1) {
+						var selfClosing = true
+					}
 					else {
-						var selfClosing = false
+						var tagCount = 1
+						var index = tagName.length
+
+						while (tagCount && index < xml.length) {
+							if (xml.indexOf("<" + tagName, index) == index) {
+								tagCount++
+							}
+							else if ((xml.indexOf("</" + tagName, index) == index) || (xml.indexOf("< /" + tagName, index) == index) || (xml.indexOf("</ " + tagName, index) == index) || (xml.indexOf("< / " + tagName, index) == 0)) {
+								tagCount--
+							}
+							index++
+						}
+
+						if (tagCount) {
+							selfClosing = true
+						}
+						else {
+							selfClosing = false
+							var closingIndex = index - 1
+						}
 					}
 
 				//get parameters
@@ -91,20 +109,26 @@ function ready() {
 					if (parameters.length > 0) {
 						parameters = parameters.split(/\"|\'/g)
 						
-						for (var p = 0; p < parameters.length; p += 2) {
+						if (parameters.length == 1) {
+							parameters = parameters.join().split(/\s|\=/g)
+						}
+						
+						if (Array.isArray(parameters) && parameters.length > 1) {
+							for (var p = 0; p < parameters.length; p += 2) {
 
-							if ((parameters[p].length > 0) && (parameters[p] !== "/")) {
-								var key = parameters[p].replace("=", "").trim()
-								var value = parameters[p + 1]
+								if ((parameters[p].length > 0) && (parameters[p] !== "/")) {
+									var key = parameters[p].replace("=", "").trim()
+									var value = parameters[p + 1]
 
-								tempObj[innerIndex][key] = value
+									tempObj[innerIndex][key] = value
+								}
 							}
 						}
 					}
 
 				//get data & run recursively
 					if (!selfClosing) {
-						var data = xml.substring(element.length, xml.indexOf("</" + tagName + ">")).trim()
+						var data = xml.substring(element.length, closingIndex).trim()
 
 						if (data.indexOf("\n") == 0) {
 							data = data.substring(1, data.length).trim()
@@ -113,8 +137,8 @@ function ready() {
 							data = data.substring(0, data.length - 1).trim()
 						}
 
-						if ((data.indexOf("<") == 0) && (escapeCounter < 100)) {
-							escapeCounter++
+						if ((data.indexOf("<") == 0) && (tempObj["escape"] < 100)) {
+							tempObj["escape"] = tempObj["escape"] + 1
 							
 							var tempData = parseXML(data)
 							var tempDataKeys = Object.keys(tempData)
@@ -145,7 +169,7 @@ function ready() {
 
 				//remove section from xml string
 					if (!selfClosing) {
-						xml = xml.substring(xml.indexOf("</" + tagName + ">") + tagName.length + 3, xml.length)
+						xml = xml.substring(closingIndex + tagName.length + 3, xml.length)
 					}
 					else {
 						xml = xml.substring(element.length, xml.length)
