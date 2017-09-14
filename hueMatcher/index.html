@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>hueMatcher</title>
+		<link rel="shortcut icon" type="image/png" href="https://d30y9cdsu7xlg0.cloudfront.net/png/6385-200.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="check-outer">
+			<button id="check" class="shown">&#9740;</button>
+			<div id="result-outer" class="hidden">
+				<div id="result"></div>
+			</div>
+		</div>
+		<div id="actual" class="section hidden">
+			<div id="bar-actual-red" class="bar-actual">
+				<div id="number-actual-red" class="number-actual"></div>
+			</div>
+			<div id="bar-actual-green" class="bar-actual">
+				<div id="number-actual-green" class="number-actual"></div>
+			</div>
+			<div id="bar-actual-blue" class="bar-actual">
+				<div id="number-actual-blue" class="number-actual"></div>
+			</div>
+		</div>
+		<div id="guess" class="section">
+			<div id="bar-guess-red" class="bar-guess">
+				<div id="number-guess-red" class="number-guess"></div>
+			</div>
+			<div id="bar-guess-green" class="bar-guess">
+				<div id="number-guess-green" class="number-guess"></div>
+			</div>
+			<div id="bar-guess-blue" class="bar-guess">
+				<div id="number-guess-blue" class="number-guess"></div>
+			</div>
+		</div>
+		<div id="ranges">
+			<div id="range-outer-red" class="range-outer">
+				<input id="range-red" type="range" class="range" max="255" min="0" step="1" value="0"/>
+			</div>
+			<div id="range-outer-green" class="range-outer">
+				<input id="range-green" type="range" class="range" max="255" min="0" step="1" value="0"/>
+			</div>
+			<div id="range-outer-blue" class="range-outer">
+				<input id="range-blue" type="range" class="range" max="255" min="0" step="1" value="0"/>
+			</div>
+		</div>
+	</body>
+</html>
