@@ -141,6 +141,35 @@
 		font-size: 75px;
 	}
 
+/* arrows */
+	#arrows {
+		position: absolute;
+		bottom: 0px;
+		z-index: 1;
+		text-align: center;
+	}
+
+	.arrow {
+		position: absolute;
+		bottom: 0px;
+		color: rgb(255,255,255);
+		font-family: Arial, sans-serif;
+		font-size: 200px;
+		text-shadow: 0px 0px 5px rgb(50,50,50);
+		width: calc(100vw / 3);
+		transform(translateX)
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		pointer-events: none;
+		-webkit-pointer-events: none;
+		-moz-pointer-events: none;
+		-ms-pointer-events: none;
+		-o-pointer-events: none;
+	}
+
 /* ranges */
 	.range-outer {
 		position: absolute;
@@ -256,15 +285,15 @@
 	}
 
 /* positions */
-	#bar-guess-red, #bar-actual-red, #range-red, #range-outer-red {
+	#bar-guess-red, #bar-actual-red, #range-red, #range-outer-red, #arrow-red {
 		left: calc((100vw / 3) * 0);
 	}
 
-	#bar-guess-green, #bar-actual-green, #range-green, #range-outer-green {
+	#bar-guess-green, #bar-actual-green, #range-green, #range-outer-green, #arrow-green {
 		left: calc((100vw / 3) * 1);
 	}
 
-	#bar-guess-blue, #bar-actual-blue, #range-blue, #range-outer-blue {
+	#bar-guess-blue, #bar-actual-blue, #range-blue, #range-outer-blue, #arrow-blue {
 		left: calc((100vw / 3) * 2);
 	}
 

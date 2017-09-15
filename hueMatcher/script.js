@@ -22,6 +22,8 @@ window.onload = function() {
 			document.getElementById("bar-guess-red").style.height = (red * 100 / 255) + "%"
 			document.getElementById("bar-guess-green").style.height = (green * 100 / 255) + "%"
 			document.getElementById("bar-guess-blue").style.height = (blue * 100 / 255) + "%"
+
+			document.getElementById("arrows").className = "hidden"
 		}
 
 
