@@ -602,8 +602,17 @@ function javascript() {
 				tags: "code",
 				image: "logos/bookvsmovie.png",
 				url: "https://bookvsmovie.herokuapp.com",
-				date: "September 10, 2017",
+				date: "September 9, 2017",
 				description: "Coded in collaboration with Max Pekarsky, Book vs. Movie is a simple tool to answer the age old question: which was better?"
+			},
+			{
+				id: "prosandconsole",
+				title: "Pros & Console",
+				tags: "code writing",
+				image: "logos/prosandconsole.png",
+				url: "https://prosandconsole.tumblr.com",
+				date: "September 16, 2017",
+				description: "Pros & Console is a blog that follows the ups and downs of project-oriented programming."
 			}
 		]
 
