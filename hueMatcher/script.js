@@ -4,7 +4,7 @@ window.onload = function() {
 		randomColor()
 
 	/* updateColor */
-		document.querySelectorAll(".range").forEach(function (element) {
+		Array.prototype.slice.call(document.querySelectorAll(".range")).forEach(function (element) {
 			element.addEventListener("change", updateColor)
 		})
 
