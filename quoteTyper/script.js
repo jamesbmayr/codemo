@@ -30,9 +30,9 @@ window.onload = function() {
 		function displayQuote(objects) {
 			var object = objects[Math.floor(Math.random() * objects.length)]
 			var author = object.title.trim()
-				author = author.replace(/\&\#8217\;|\&\#8216|\&\#8242\;\;/gi,"\'").replace(/\&\#8220\;|\&\#8221\;|\&\#8243\;/gi,"\"").replace(/\&\#8211\;|\&\#8212\;/gi, "-").replace(/\\u2026/gi,"...")
+				author = author.replace(/\&\#8217\;|\&\#8216\;|\&\#8242\;/gi,"\'").replace(/\&\#8220\;|\&\#8221\;|\&\#8243\;/gi,"\"").replace(/\&\#8211\;|\&\#8212\;/gi, "-").replace(/\\u2026/gi,"...")
 			var phrase = object.content.replace(/\<p\>|\<\/p\>|\<\\\/p\>|\n|\\n/gi,"").trim()
-				phrase = phrase.replace(/\&\#8217\;|\&\#8216|\&\#8242\;\;/gi,"\'").replace(/\&\#8220\;|\&\#8221\;|\&\#8243\;/gi,"\"").replace(/\&\#8211\;|\&\#8212\;/gi, "-").replace(/\\u2026/gi,"...")
+				phrase = phrase.replace(/\&\#8217\;|\&\#8216\;|\&\#8242\;/gi,"\'").replace(/\&\#8220\;|\&\#8221\;|\&\#8243\;/gi,"\"").replace(/\&\#8211\;|\&\#8212\;/gi, "-").replace(/\\u2026/gi,"...")
 
 			window.startTime = new Date().getTime()
 			window.quote = phrase + " -" + author
