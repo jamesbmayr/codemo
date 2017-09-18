@@ -22,15 +22,16 @@ window.onload = function() {
 				}
 			}
 
-			request.open("GET", "//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=displayQuote&callback=?", true)
+			request.open("GET", "//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=40&_jsonp=displayQuote&callback=?", true)
 			request.send()
 		}
 
 	/* displayQuote */
-		function displayQuote(object) {
-			var author = object[0].title.trim()
+		function displayQuote(objects) {
+			var object = objects[Math.floor(Math.random() * objects.length)]
+			var author = object.title.trim()
 				author = author.replace(/(\&\#8217\;)/gi,"'").replace(/(\\u2026)/gi,"").replace(/\&\#8211\;/gi, "-")
-			var phrase = object[0].content.replace(/\<p\>|\<\/p\>|\<\\\/p\>|\n|\\n/gi,"").trim()
+			var phrase = object.content.replace(/\<p\>|\<\/p\>|\<\\\/p\>|\n|\\n/gi,"").trim()
 				phrase = phrase.replace(/(\&\#8217\;)/gi,"'").replace(/(\\u2026)/gi,"").replace(/\&\#8211\;/gi, "-")
 
 			window.startTime = new Date().getTime()
