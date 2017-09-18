@@ -7,21 +7,29 @@ window.onload = function() {
 
 			request.onreadystatechange = function() {
 				if (request.readyState == XMLHttpRequest.DONE) {
-					if (request.status == 200 && request.responseText) {
-						displayQuote(responseText[0])
+					if (request.status == 200) {
+						try {
+							console.log("here")
+							console.log(request.responseText)
+						}
+						catch (error) {
+							console.log(error)
+						}
 					}
 					else {
-						alert("Unable to fetch a quote.")
+						console.log("Unable to fetch a quote: " + request.status)
 					}
 				}
 			}
 
-			request.open("GET", "https://quotesondesign.com/wp-json/posts?filter[orderby]=rand", true)
+			request.open("GET", "//quotesondesign.com/wp-json/posts?filter[orderby]=rand&_jsonp=displayQuote&callback=?", true)
 			request.send()
 		}
 
 	/* displayQuote */
 		function displayQuote(object) {
+			console.log(object)
+			object = object[0]
 			var author = object.title.trim()
 				author = author.replace(/(\&\#8217\;)/gi,"'").replace(/(\\u2026)/gi,"").replace(/\&\#8211\;/gi, "-")
 			var phrase = object.content.replace(/\<p\>|\<\/p\>|\<\\\/p\>|\n|\\n/gi,"").trim()
