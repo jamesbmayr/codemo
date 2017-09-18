@@ -9,8 +9,7 @@ window.onload = function() {
 				if (request.readyState == XMLHttpRequest.DONE) {
 					if (request.status == 200) {
 						try {
-							console.log("here")
-							console.log(request.responseText)
+							console.log("Quote fetched.")
 						}
 						catch (error) {
 							console.log(error)
@@ -22,21 +21,19 @@ window.onload = function() {
 				}
 			}
 
-			request.open("GET", "//quotesondesign.com/wp-json/posts?filter[orderby]=rand&_jsonp=displayQuote&callback=?", true)
+			request.open("GET", "//quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1&_jsonp=displayQuote&callback=?", true)
 			request.send()
 		}
 
 	/* displayQuote */
 		function displayQuote(object) {
-			console.log(object)
-			object = object[0]
-			var author = object.title.trim()
+			var author = object[0].title.trim()
 				author = author.replace(/(\&\#8217\;)/gi,"'").replace(/(\\u2026)/gi,"").replace(/\&\#8211\;/gi, "-")
-			var phrase = object.content.replace(/\<p\>|\<\/p\>|\<\\\/p\>|\n|\\n/gi,"").trim()
+			var phrase = object[0].content.replace(/\<p\>|\<\/p\>|\<\\\/p\>|\n|\\n/gi,"").trim()
 				phrase = phrase.replace(/(\&\#8217\;)/gi,"'").replace(/(\\u2026)/gi,"").replace(/\&\#8211\;/gi, "-")
 
 			window.startTime = new Date().getTime()
-			window.quote = quote + " -" + author
+			window.quote = phrase + " -" + author
 
 			document.querySelectorAll("#speed")[0].textContent = "???"
 			document.querySelectorAll("#quote")[0].className = ""
