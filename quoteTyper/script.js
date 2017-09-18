@@ -10,6 +10,7 @@ window.onload = function() {
 					if (request.status == 200) {
 						try {
 							console.log("Quote fetched.")
+							eval(request.responseText)
 						}
 						catch (error) {
 							console.log(error)
