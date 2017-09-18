@@ -87,8 +87,8 @@
 		margin: 0px;
 	}
 
-/* sentence */
-	#sentence-outer {
+/* quote */
+	#quote-outer {
 		position: absolute;
 		top: 125px;
 		height: 100px;
@@ -106,7 +106,7 @@
 		-o-user-select: none;
 	}
 
-	#sentence {
+	#quote {
 		position: absolute;
 		top: 50%;
 		left: 50%;
