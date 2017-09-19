@@ -1,0 +1,152 @@
+/* page */
+	body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 100vh;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+		background-color: #333333;
+		overflow: hidden;
+	}
+
+	#header {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 60px;
+		background-color: #111111;
+		font-size: 50px;
+		font-family: Arial, sans-serif;
+		text-align: center;
+		color: #dddddd;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+/* input */
+	#input-outer {
+		position: fixed;
+		top: 60px;
+		left: 0px;
+		width: calc(100vw - 10px);
+		height: 40px;
+		background-color: #222222;
+		font-size: 30px;
+		font-family: Arial, sans-serif;
+		text-align: center;
+		padding: 10px;
+	}
+
+	#input {
+		float: left;
+		width: calc(100vw - 130px);
+		height: 40px;
+		padding: 20px;
+		border-radius: 20px;
+		border: 0px;
+		background-color: #dddddd;
+		color: #222222;
+		margin-right: 10px;
+		outline: none;
+		font-size: 25px;
+		box-shadow: 0px 0px 5px #dddddd;
+		text-transform: uppercase;
+	}
+
+	#input:focus {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+	#input[disabled] {
+		background-color: #aaaaaa;
+		color: #777777;
+		cursor: not-allowed;
+	}
+
+	#search, #waiting {
+		float: left;
+		width: 100px;
+		height: 40px;
+		padding: 5px;
+		border-radius: 20px;
+		border: 0px;
+		background-color: #dddddd;
+		color: #222222;
+		outline: none;
+		box-shadow: 0px 0px 5px #dddddd;
+	}
+
+	#search-inner {
+		font-size: 23px;
+		font-weight: bold;
+		transform: rotate(45deg);
+	}
+
+	#search:hover, #search:focus {
+		box-shadow: 0px 0px 20px #dddddd;
+		cursor: pointer;
+	}
+
+	#waiting-inner {
+		font-size: 25px;
+		font-weight: bold;
+		animation: spin 2s infinite linear;
+	}
+
+/* output */
+	#output-outer {
+		float: left;
+		width: calc(100vw - 20px);
+		height: calc(100vh - 140px);
+		margin-top: 120px;
+		font-size: 30px;
+		font-family: Arial, sans-serif;
+		color: #dddddd;
+		padding: 10px;
+		overflow-y: auto;
+	}
+
+	#output {
+		text-transform: uppercase;
+		padding: 10px;
+	}
+
+	.section {
+		padding: 10px;
+		outline: none;
+	}
+
+	.number {
+		width: calc(100vw - 70px);
+		height: 30px;
+		padding: 5px;
+		background-color: #222222;
+		text-align: center;
+		margin-bottom: 10px;
+		border-radius: 20px;
+		outline: none;
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+/* animation */
+	@keyframes spin {
+		100% {
+			transform: rotate(360deg);
+		}
+	}
