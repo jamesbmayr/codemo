@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	/* create page */
-		var demoArray = ["wordShuffler", "quoteTyper", "hueMatcher", "xmlParser","pitchPlayer","dotConnector","numberCruncher","bladesDodger","webDepictor","weatherExplorer","pixelPainter","sphereCollector","codeRunner","shapeAnimator","tickTocker","balloonPopper","robotDirector","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","tileSlider","wordCounter","clipPather"];
+		var demoArray = ["snakeSnacker", "wordShuffler", "quoteTyper", "hueMatcher", "xmlParser","pitchPlayer","dotConnector","numberCruncher","bladesDodger","webDepictor","weatherExplorer","pixelPainter","sphereCollector","codeRunner","shapeAnimator","tickTocker","balloonPopper","robotDirector","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","tileSlider","wordCounter","clipPather"];
 
 		for (i = 0; i < demoArray.length; i++) {
 			$("#demoList").append('<option id="' + demoArray[i] + '" value="' + demoArray[i] + '">' + demoArray[i] + '</option>');
