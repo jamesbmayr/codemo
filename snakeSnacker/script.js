@@ -31,16 +31,16 @@ window.onload = function() {
 
 					for (var x = 0; x < window.size; x++) {
 						var content = document.createElement("div")
-							if (x == (window.size - 1) / 2 && y == window.size - 5) {
+							if      (x == Math.floor(window.size / 2) && y == window.size - 5) {
 								content.className = "content-apple"
 							}
-							else if (x == (window.size - 1) / 2 && y == window.size - 3) {
+							else if (x == Math.floor(window.size / 2) && y == window.size - 3) {
 								content.className = "content-snake snake-0 direction-up"
 							}
-							else if (x == (window.size - 1) / 2 && y == window.size - 2) {
+							else if (x == Math.floor(window.size / 2) && y == window.size - 2) {
 								content.className = "content-snake snake-1"
 							}
-							else if (x == (window.size - 1) / 2 && y == window.size - 1) {
+							else if (x == Math.floor(window.size / 2) && y == window.size - 1) {
 								content.className = "content-snake snake-2"
 							}
 							else {
