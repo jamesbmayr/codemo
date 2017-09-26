@@ -1,0 +1,187 @@
+/* page */
+	body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 50px;
+		background-color: #dddddd;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		color: #222222;
+		font-family: Arial, sans-serif;
+		overflow: hidden;
+	}
+
+	#container {
+		position: absolute;
+		top: 50px;
+		left: 0px;
+		width: 100vw;
+		height: calc(100vh - 100px);
+		background-color: #111111;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		color: #222222;
+	}
+
+	#map {
+		position: fixed;
+		top: calc(50% - 1000px);
+		left: calc(50% - 1000px);
+		background-color: #111111;
+		height: 2000px;
+		width: 2000px;
+		outline: 5px solid #dddddd;
+		cursor: pointer;
+	}
+
+	#footer {
+		position: absolute;
+		top: calc(100vh - 50px);
+		left: 0px;
+		width: 100vw;
+		height: 50px;
+		background-color: #222222;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		color: #dddddd;
+		font-family: 20px;
+		text-align: center;
+		z-index: 3;
+	}
+
+/* header */
+	#header {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 50px;
+		background-color: #222222;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		color: #dddddd;
+		font-size: 40px;
+		text-align: center;
+		z-index: 3;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	#title {
+		display: inline-block;
+	}
+
+	#zoom-in, #zoom-out {
+		height: 40px;
+		width: 40px;
+		margin: 5px;
+		padding: 5px;
+		border-radius: 100%;
+		font-size: 20px;
+		color: #222222;
+		background-color: #dddddd;
+		box-shadow: 0px 0px 5px #222222;
+		border: 0px;
+		display: inline-block;
+		vertical-align: top;
+		cursor: pointer;
+		outline: none;
+	}
+
+	#zoom-in:hover, #zoom-out:hover {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+/* stations */
+	#stations {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+	}
+
+	.station {
+		stroke: #000000;
+		stroke-width: 5;
+		fill: #ffffff;
+		cursor: context-menu;
+	}
+
+	#station-info {
+		font-family: Helvetica;
+		font-weight: bold;
+		font-size: 500%;
+		fill: #dddddd;
+		stroke: #000000;
+		stroke-width: 4;
+	}
+
+/* lines */
+	#lines {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		height: 100%;
+		width: 100%;
+		pointer-events: none;
+		-webkit-pointer-events: none;
+		-moz-pointer-events: none;
+		-ms-pointer-events: none;
+		-o-pointer-events: none;
+	}
+
+	.line {
+		stroke: white;
+		stroke-width: 10;
+		opacity: 0.5;
+	}
+
+/* trains */
+	#trains {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		height: 100%;
+		width: 100%;
+		pointer-events: none;
+		-webkit-pointer-events: none;
+		-moz-pointer-events: none;
+		-ms-pointer-events: none;
+		-o-pointer-events: none;
+	}
+
+	.train {
+		stroke: #ffffff;
+		stroke-width: 20;
+		fill: #000000;
+		cursor: context-menu;
+		pointer-events: all;
+		-webkit-pointer-events: all;
+		-moz-pointer-events: all;
+		-ms-pointer-events: all;
+		-o-pointer-events: all;
+	}
+
+	#train-info {
+		font-family: Helvetica;
+		font-size: 250%;
+		fill: #ffffff;
+		stroke: #ffffff;
+		stroke-width: 2;
+	}

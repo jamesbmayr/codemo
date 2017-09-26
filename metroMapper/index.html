@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>metroMapper</title>
+		<link rel="shortcut icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BSicon_lDAMPF.svg/500px-BSicon_lDAMPF.svg.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="header">
+			<div id="title">metroMapper</div>
+			<button id="zoom-in">[+]</button>
+			<button id="zoom-out">[-]</button>
+		</div>
+		<div id="container">
+			<div id="map">
+				<svg id="lines" viewBox="0 0 10000 10000" height="10000" width="10000" preserveAspectRatio="none"></svg>
+				<svg id="stations" viewBox="0 0 10000 10000" height="10000" width="10000" preserveAspectRatio="none"><text id="station-info" x="0" y="0"></text></svg>
+				<svg id="trains" viewBox="0 0 10000 10000" height="10000" width="10000" preserveAspectRatio="none"><text id="train-info" x="0" y="0"></text></svg>
+			</div>
+		</div>
+		<div id="footer"></div>
+	</body>
+</html>
