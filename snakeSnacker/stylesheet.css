@@ -1,0 +1,143 @@
+/* page */
+	body {
+		background-color: #333333;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+		height: 100vh;
+		width: 100vw;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		overflow: hidden;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	#game {
+		background-color: #111111;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 90vh;
+		width: 90vh;
+		border-radius: 20px;
+		box-shadow: 0px 0px 20px #aaaaaa;
+	}
+
+/* game-over */
+	#game-over {
+		height: calc(100% - 40px);
+		width: calc(100% - 40px);
+		background-color: rgba(0,0,0,0);	
+	}
+
+	#game-over-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		text-align: center;
+	}
+
+	#message {
+		text-align: center;
+		color: #dddddd;
+		text-shadow: 0px 0px 10px #aaaaaa;
+		font-size: 50px;
+		font-weight: bold;
+		font-family: Helvetica, sans-serif;
+		text-transform: uppercase;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	#refresh {
+		margin-top: 20px;
+		text-align: center;
+		color: #aaaaff;
+		background-color: #333333;
+		border-radius: 10px;
+		width: 300px;
+		height: 100px;
+		font-size: 75px;
+		font-weight: bold;
+		font-family: Helvetica, sans-serif;
+		box-shadow: 0px 0px 5px #aaaaaa;
+		text-shadow: 0px 0px 10px #7777ff;
+		border: 0px;
+		cursor: pointer;
+		outline: none;
+	}
+
+	#refresh:focus, #refresh:hover {
+		box-shadow: 0px 0px 20px #dddddd;
+	}
+
+/* grid */
+	#grid {
+		height: calc(100% - 40px);
+		width: calc(100% - 40px);
+		padding: 20px;
+		box-shadow: 0px 0px 20px #aaaaaa inset;
+		border-radius: 20px;
+	}
+
+	#grid.grid-collision {
+		box-shadow: 0px 0px 20px #ff5555 inset;
+	}
+
+	.row {
+		float: left;
+		width: 100%;
+		height: calc(100% / var(--factor));
+	}
+
+	.cell {
+		float: left;
+		height: calc(100% - 4px);
+		width: calc((100% / var(--factor)) - 4px);
+		padding: 2px;
+	}
+
+/* content */
+	.cell div {
+		width: 100%;
+		height: 100%;
+	}
+
+	.content-snake.snake-0 {
+		border-radius: 5px;
+		background-color: #222222;
+		box-shadow: 0px 0px 30px #aaaaaa inset;
+	}
+
+	.content-snake {
+		border-radius: 5px;
+		background-color: #222222;
+		box-shadow: 0px 0px 10px #aaaaaa inset;
+	}
+
+	.content-apple {
+		border-radius: 100%;
+		background-color: #77ff77;
+		box-shadow: 0px 0px 20px #33ff33 inset;
+	}
+
+	.content-block {
+		border-radius: 2px;
+		background-color: #ff2222;
+		box-shadow: 0px 0px 10px #aa2222 inset;
+	}
+
+	.content-collision {
+		border-radius: 5px;
+		background-color: #ff7777;
+		box-shadow: 0px 0px 20px #ff3333 inset;
+	}
