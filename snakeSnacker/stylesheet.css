@@ -58,13 +58,25 @@
 		-o-user-select: none;
 	}
 
+	select {
+		background-color: #333333;
+		border-radius: 10px;
+		border: 0px;
+		box-shadow: 0px 0px 5px #aaaaaa;
+		color: #aaaaaa;
+		font-size: 40px;
+		margin: 10px;
+		outline: none;
+		cursor: pointer;
+	}
+
 	#refresh {
 		margin-top: 20px;
 		text-align: center;
 		color: #aaaaff;
 		background-color: #333333;
 		border-radius: 10px;
-		width: 300px;
+		width: 400px;
 		height: 100px;
 		font-size: 75px;
 		font-weight: bold;
