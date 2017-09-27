@@ -78,7 +78,10 @@ function ready() {
 			var data = toggle.id.split("-")
 				var pitch = data[5]
 
-			if (toggle.className.indexOf("sound-on") == -1) {
+			if (window.shift) {
+				toggle.className = toggle.className.replace("sound-on", "sound-off")
+			}
+			else if (toggle.className.indexOf("sound-on") == -1) {
 				toggle.className = toggle.className.replace("sound-off", "sound-on")
 				playNote(Number(pitch))
 			}
@@ -88,8 +91,11 @@ function ready() {
 		}
 
 	/* dragPitch */
+		window.shift = false
 		document.getElementById("player").addEventListener("mousedown", function () { clickdown = true })
 		document.addEventListener("mouseup", function () { clickdown = false })
+		document.addEventListener("keydown", function (event) { if (event.which == 16) { window.shift = true } })
+		document.addEventListener("keyup", function (event) { if (event.which == 16) { window.shift = false } })
 
 	/* resetPitches */
 		document.getElementById("reset").addEventListener("click", resetPitches)
@@ -381,7 +387,7 @@ function ready() {
 				setTimeout(function() {
 					leftKey.className = leftKey.className.replace("key-active", "key-inactive")
 					rightKey.className = rightKey.className.replace("key-active", "key-inactive")
-				}, 60 * 1000 / 1000 * (3 / 4))
+				}, 60 * 1000 / 500)
 		}
 
 	/* downloadScore */
