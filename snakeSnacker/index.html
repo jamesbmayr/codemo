@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>snakeSnacker</title>
@@ -9,9 +10,19 @@
 	<body>
 		<div id="game">
 			<div id="grid"></div>
-			<div id="game-over" class="hidden">
+			<div id="game-over" class="shown">
 				<div id="game-over-inner">
-					<div id="message">game over</div>
+					<div id="message">snake&nbsp;Snacker</div>
+					<select id="size">
+						<option value="9">small</option>
+						<option value="15" selected>medium</option>
+						<option value="21">large</option>
+					</select>
+					<select id="speed">
+						<option value="500">slow</option>
+						<option value="250" selected>moderate</option>
+						<option value="125">fast</option>
+					</select>
 					<button id="refresh"> &#8635; </div>
 				</div>
 			</div>
