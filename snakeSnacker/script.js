@@ -1,16 +1,16 @@
 window.onload = function() {
 
 	/* onload */
-		window.size = 15
 		document.getElementById("refresh").addEventListener("click", newGame)
-		newGame()
 
 	/* newGame */
 		function newGame() {
 			//set arrow if none
-				if (!window.arrow || window.arrow == null) {
-					window.arrow = false
-				}
+				window.arrow = false
+
+			//get parameters
+				window.gridSize   = Number(Array.prototype.slice.call(document.querySelectorAll("#size"))[0].value)  || 15
+				window.snakeSpeed = Number(Array.prototype.slice.call(document.querySelectorAll("#speed"))[0].value) || 250
 
 			//show and hide and clear stuff
 				var gameOver = Array.prototype.slice.call(document.querySelectorAll("#game-over"))[0]
@@ -21,26 +21,26 @@ window.onload = function() {
 					grid.innerHTML = ""
 
 				var factor = Array.prototype.slice.call(document.querySelectorAll("#factor"))[0]
-					factor.textContent = ":root { --factor: " + window.size + "}"
+					factor.textContent = ":root { --factor: " + window.gridSize + "}"
 
 			//build grid
-				for (var y = 0; y < window.size; y++) {
+				for (var y = 0; y < window.gridSize; y++) {
 					var row = document.createElement("div")
 						row.className = "row"
 						row.id = "_row_" + y
 
-					for (var x = 0; x < window.size; x++) {
+					for (var x = 0; x < window.gridSize; x++) {
 						var content = document.createElement("div")
-							if      (x == Math.floor(window.size / 2) && y == window.size - 5) {
+							if      (x == Math.floor(window.gridSize / 2) && y == window.gridSize - 5) {
 								content.className = "content-apple"
 							}
-							else if (x == Math.floor(window.size / 2) && y == window.size - 3) {
+							else if (x == Math.floor(window.gridSize / 2) && y == window.gridSize - 3) {
 								content.className = "content-snake snake-0 direction-up"
 							}
-							else if (x == Math.floor(window.size / 2) && y == window.size - 2) {
+							else if (x == Math.floor(window.gridSize / 2) && y == window.gridSize - 2) {
 								content.className = "content-snake snake-1"
 							}
-							else if (x == Math.floor(window.size / 2) && y == window.size - 1) {
+							else if (x == Math.floor(window.gridSize / 2) && y == window.gridSize - 1) {
 								content.className = "content-snake snake-2"
 							}
 							else {
@@ -59,14 +59,14 @@ window.onload = function() {
 				}
 
 			//set snakeLoop
-				window.snakeLoop = setInterval(moveSnake, 250)
+				window.snakeLoop = setInterval(moveSnake, window.snakeSpeed)
 		}
 
 	/* spawnApple */
 		function spawnApple() {
 			do {
-				var x = Math.floor(Math.random() * window.size)
-				var y = Math.floor(Math.random() * window.size)
+				var x = Math.floor(Math.random() * window.gridSize)
+				var y = Math.floor(Math.random() * window.gridSize)
 			}
 			while (isCollision(x, y))
 
@@ -80,13 +80,13 @@ window.onload = function() {
 			if (x < 0) {
 				return true
 			}
-			else if (x > window.size - 1) {
+			else if (x > window.gridSize - 1) {
 				return true
 			}
 			else if (y < 0) {
 				return true
 			}
-			else if (y > window.size - 1) {
+			else if (y > window.gridSize - 1) {
 				return true
 			}
 			else if (Array.prototype.slice.call(document.querySelectorAll("#_row_" + y + "_cell_" + x))[0].firstChild.className.indexOf("content-snake") !== -1) {
@@ -180,7 +180,6 @@ window.onload = function() {
 
 					var collision = Array.prototype.slice.call(document.querySelectorAll("#_row_" + y + "_cell_" + x))[0]
 					if (collision && collision !== null) {
-						console.log(collision)
 						collision.firstChild.className = "content-collision"
 					}
 					else {
@@ -237,25 +236,6 @@ window.onload = function() {
 			}
 			else if (key == 37) {
 				window.arrow = "left"
-			}
-		}
-
-	/* arrowLift */
-		document.addEventListener("keyup", arrowLift)
-		function arrowLift(event) {
-			var key = event.which
-
-			if (key == 38 && window.arrow == "up") {
-				window.arrow = false
-			}
-			else if (key == 39 && window.arrow == "right") {
-				window.arrow = false
-			}
-			else if (key == 40 && window.arrow == "down") {
-				window.arrow = false
-			}
-			else if (key == 37 && window.arrow == "left") {
-				window.arrow = false
 			}
 		}
 
