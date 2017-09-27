@@ -122,11 +122,13 @@
 	}
 
 	.correct {
-		text-shadow: 0px 0px 5px #87CEEB;
+		color: #87CEEB;
+		text-shadow: 0px 0px 10px #87CEEB;
 	}
 	
 	.incorrect {
-		text-shadow: 0px 0px 5px #DC143C;
+		color: #DC143C;
+		text-shadow: 0px 0px 10px #DC143C;
 	}
 
 /* input */
