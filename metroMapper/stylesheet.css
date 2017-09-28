@@ -16,10 +16,10 @@
 
 	#container {
 		position: absolute;
-		top: 50px;
+		top: 0px;
 		left: 0px;
 		width: 100vw;
-		height: calc(100vh - 100px);
+		height: 100vh;
 		background-color: #111111;
 		margin: 0px;
 		border: 0px;
@@ -34,7 +34,7 @@
 		background-color: #111111;
 		height: 2000px;
 		width: 2000px;
-		outline: 5px solid #dddddd;
+		outline: 5px solid #222222;
 		cursor: pointer;
 	}
 
@@ -61,7 +61,8 @@
 		left: 0px;
 		width: 100vw;
 		height: 50px;
-		background-color: #222222;
+		background-color: rgba(0,0,0,0);
+		opacity: 0.5;
 		margin: 0px;
 		border: 0px;
 		padding: 0px;
@@ -74,13 +75,21 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		-o-user-select: none;
+		pointer-events: none;
+		-webkit-pointer-events: none;
+		-moz-pointer-events: none;
+		-ms-pointer-events: none;
+		-o-pointer-events: none;
 	}
 
 	#title {
-		display: inline-block;
+		margin-left: 10px;
+		float: left;
+		cursor: default;
 	}
 
 	#zoom-in, #zoom-out {
+		float: right;
 		height: 40px;
 		width: 40px;
 		margin: 5px;
@@ -95,6 +104,11 @@
 		vertical-align: top;
 		cursor: pointer;
 		outline: none;
+		pointer-events: all;
+		-webkit-pointer-events: all;
+		-moz-pointer-events: all;
+		-ms-pointer-events: all;
+		-o-pointer-events: all;
 	}
 
 	#zoom-in:hover, #zoom-out:hover {
@@ -124,6 +138,7 @@
 		fill: #dddddd;
 		stroke: #000000;
 		stroke-width: 4;
+		z-index: 3;
 	}
 
 /* lines */
@@ -167,9 +182,7 @@
 	}
 
 	.train {
-		stroke: #ffffff;
-		stroke-width: 20;
-		fill: #000000;
+		stroke-width: 10;
 		cursor: context-menu;
 		pointer-events: all;
 		-webkit-pointer-events: all;
@@ -178,10 +191,19 @@
 		-o-pointer-events: all;
 	}
 
-	#train-info {
+	.train-text {
 		font-family: Helvetica;
-		font-size: 250%;
+		font-size: 200%;
 		fill: #ffffff;
 		stroke: #ffffff;
 		stroke-width: 2;
+	}
+
+	#train-info {
+		font-family: Helvetica;
+		font-size: 400%;
+		fill: #ffffff;
+		stroke: #ffffff;
+		stroke-width: 2;
+		z-index: 3;
 	}
