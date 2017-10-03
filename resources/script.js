@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	/* create page */
-		var demoArray = ["snakeSnacker", "wordShuffler", "quoteTyper", "hueMatcher", "xmlParser","pitchPlayer","dotConnector","numberCruncher","bladesDodger","webDepictor","weatherExplorer","pixelPainter","sphereCollector","codeRunner","shapeAnimator","tickTocker","balloonPopper","robotDirector","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","tileSlider","wordCounter","clipPather"];
+		var demoArray = ["metroMapper","snakeSnacker", "wordShuffler", "quoteTyper", "hueMatcher", "xmlParser","pitchPlayer","dotConnector","numberCruncher","bladesDodger","webDepictor","weatherExplorer","pixelPainter","sphereCollector","codeRunner","shapeAnimator","tickTocker","balloonPopper","robotDirector","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","tileSlider","wordCounter","clipPather"];
 			demoArray = demoArray.sort();
 
 		for (i = 0; i < demoArray.length; i++) {
