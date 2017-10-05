@@ -9,6 +9,7 @@ window.onload = function() {
 			document.getElementById("new").className = "hidden"
 			document.getElementById("overlay").className = "hidden"
 			document.getElementById("count-inner").textContent = ""
+			document.getElementById("score-inner").textContent = ""
 
 			blocks = [
 				{type: "shape-i", coordinates: [[1,0],[1,1],[1,2],[1,3]]},
