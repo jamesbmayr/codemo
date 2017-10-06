@@ -51,7 +51,7 @@ window.onload = function() {
 					var ball = document.getElementById("ball")
 						ball.className = ""
 						ball.style.left = (p - 10) + "px"
-						ball.style.top = 600 + "px"
+						ball.style.top = 500 + "px"
 						ball.setAttribute("angle", [315,225][Math.floor(Math.random() * 2)])
 
 					window.gameLoop = setInterval(moveBall, 33)
@@ -74,9 +74,9 @@ window.onload = function() {
 		function buildBricks() {
 			var bricks = document.getElementById("bricks")
 				bricks.innerHTML = ""
-			var colors = ["magenta", "red", "orange", "yellow", "green", "cyan", "blue", "purple"]
+			var colors = ["magenta", "red", "yellow", "green", "cyan", "blue"]
 			
-			for (var y = 0; y < 8; y++) {
+			for (var y = 0; y < 6; y++) {
 				for (var x = 0; x < 16; x++) {
 					var brick = document.createElement("div")
 						brick.className = "brick"
@@ -107,8 +107,8 @@ window.onload = function() {
 					}
 				}
 				else if (event.which == 39) { //right
-					if (p + 25 >= 810 - 200) {
-						paddle.style.left = (810 - 200) + "px"
+					if (p + 25 >= 810 - 100) {
+						paddle.style.left = (810 - 100) + "px"
 					}
 					else {
 						paddle.style.left = (p + 25) + "px"
@@ -123,13 +123,13 @@ window.onload = function() {
 			var game = document.getElementById("game")
 			var paddle = document.getElementById("paddle")
 				var p = paddle.getBoundingClientRect().left - game.getBoundingClientRect().left - 5
-			var x = event.clientX - game.getBoundingClientRect().left - 5 - 100
+			var x = event.clientX - game.getBoundingClientRect().left - 5 - 50
 
 			if (x <= 10) {
 				paddle.style.left = 10 + "px"
 			}
-			else if (x >= 810 - 200) {
-				paddle.style.left = (810 - 200) + "px"
+			else if (x >= 810 - 100) {
+				paddle.style.left = (810 - 100) + "px"
 			}
 			else {
 				paddle.style.left = x + "px"
@@ -197,8 +197,8 @@ window.onload = function() {
 				var p = paddle.getBoundingClientRect().left - game.getBoundingClientRect().left
 			var brick = document.getElementById("_row_" + Math.floor((y - 10) / 50) + "_cell_" + Math.floor((x - 10) / 50))
 
-			if ((y >= 635) && (y <= 650) && (x + 10 >= p) && (x - 10 <= p + 200)) {
-				if ((oldX > x) && (x + 10 >= p + 180)) { //moving left, hits right corner
+			if ((y >= 535) && (y <= 550) && (x + 10 >= p) && (x - 10 <= p + 100)) {
+				if ((oldX > x) && (x + 10 >= p + 80)) { //moving left, hits right corner
 					return ["reverse", "paddle"]
 				}
 				else if ((oldX < x) && (x - 10 <= p + 20)) { //moving right, hits left corner
@@ -208,7 +208,7 @@ window.onload = function() {
 					return ["bottom", "paddle"]
 				}
 			}
-			else if (y >= 705) {
+			else if (y >= 605) {
 				return ["bottom", "pit"]
 			}
 			else if (y <= 15) {
