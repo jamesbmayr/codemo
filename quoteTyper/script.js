@@ -27,7 +27,7 @@ window.onload = function() {
 		}
 
 	/* displayQuote */
-		function displayQuote() {
+		function displayQuote(objects) {
 			var object = objects[Math.floor(Math.random() * objects.length)]
 			var author = object.title.trim()
 				author = author.replace(/\&\#8217\;|\&\#8216\;|\&\#8242\;/gi,"\'").replace(/\&\#8220\;|\&\#8221\;|\&\#8243\;/gi,"\"").replace(/\&\#8211\;|\&\#8212\;/gi, "-").replace(/\\u2026/gi,"...").replace(/(<([^>]+)>)/ig,"").trim()
