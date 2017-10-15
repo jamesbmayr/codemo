@@ -178,13 +178,15 @@ window.onload = function() {
 					var gameOver = Array.prototype.slice.call(document.querySelectorAll("#game-over"))[0]
 						gameOver.className = gameOver.className.replace("hidden", "shown")
 
+					var grid = Array.prototype.slice.call(document.querySelectorAll("#grid"))[0]
+
 					var collision = Array.prototype.slice.call(document.querySelectorAll("#_row_" + y + "_cell_" + x))[0]
 					if (collision && collision !== null) {
 						collision.firstChild.className = "content-collision"
+						grid.className = "content-collision"
 					}
 					else {
-						var grid = Array.prototype.slice.call(document.querySelectorAll("#grid"))[0]
-							grid.className = "grid-collision"
+						grid.className = "grid-collision"
 					}
 				}
 
