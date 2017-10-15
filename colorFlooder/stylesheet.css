@@ -6,6 +6,9 @@
 			padding: 0px;
 			border: 0px;
 			text-align: center;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
 		}
 
 		#container {
@@ -117,15 +120,18 @@
 		#buttons {
 			float: left;
 			width: 100px;
-			height: auto;
-			max-height: calc(100vw - 75px);
+			max-height: calc(100% - 100px);
 			border: 5px solid gray;
 			background-color: gray;
 			border-radius: 10px;
 			margin-right: 25px;
 			padding: 5px;
 			overflow-x: hidden;
-			overflow-y: scroll;
+			overflow-y: auto;
+		}
+
+		#buttons::-webkit-scrollbar {
+			display: none;
 		}
 
 		#counterOuter {
