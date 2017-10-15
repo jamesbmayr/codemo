@@ -3,6 +3,7 @@
 		background-color: lightgray;
 		padding: 10px;
 		margin: 0px;
+		overflow: hidden;
 	}
 
 /* text boxes */
