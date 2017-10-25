@@ -468,7 +468,7 @@ function javascript() {
 				image: "logos/themuse.png",
 				url: "https://www.themuse.com/team",
 				date: "September 29, 2015",
-				description: "I currently work as a writer and editor qt The Muse, a NYC tech startup that helps people find their dream careers."
+				description: "After 2 years as a writer and editor, I'm now on the Product Team at The Muse, a NYC tech startup that helps people find their dream careers."
 			},
 			{
 				id: "portmantoasters",
@@ -611,8 +611,17 @@ function javascript() {
 				tags: "code writing",
 				image: "logos/prosandconsole.png",
 				url: "https://prosandconsole.tumblr.com",
-				date: "September 16, 2017",
+				date: "September 30, 2017",
 				description: "Pros & Console is a blog that follows the ups and downs of project-oriented programming."
+			},
+			{
+				id: "specterinspectors",
+				title: "Specter Inspectors",
+				tags: "code game",
+				image: "logos/specterinspectors.png",
+				url: "http://www.specterinspectors.com",
+				date: "October 27, 2017",
+				description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deceptiona and deduction."
 			}
 		]
 
