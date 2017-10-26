@@ -621,7 +621,7 @@ function javascript() {
 				image: "logos/specterinspectors.png",
 				url: "http://www.specterinspectors.com",
 				date: "October 27, 2017",
-				description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deceptiona and deduction."
+				description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deception and deduction."
 			}
 		]
 
