@@ -723,8 +723,8 @@ window.onload = function() {
 		}
 
 	/* fetchData */
-		fetchLoop = setInterval(fetchData, 5000)
-		if (typeof window.clearLoop !== "undefined" && window.clearLoop !== null && window.clearLoop) { clearInterval(fetchLoop) }
+		//fetchLoop = setInterval(fetchData, 5000)
+		//if (typeof window.clearLoop !== "undefined" && window.clearLoop !== null && window.clearLoop) { clearInterval(fetchLoop) }
 		function fetchData() {
 			// chats
 				var chats = Array.prototype.slice.call(document.getElementsByClassName("chat"))
