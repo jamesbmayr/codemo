@@ -203,7 +203,7 @@
 			-o-user-select: none;
 			cursor: pointer;
 			z-index: 2;
-			font-size: 25px;
+			font-size: 20px;
 		}
 
 		#notes .slideContainer[value="left"] {
@@ -211,11 +211,11 @@
 		}
 
 		#notes .slideContainer[value="right"] {
-			right: 0vw;
+			right: 0px;
 		}
 
 		#chats .slideContainer[value="left"] {
-			left: 0vw;
+			left: 0px;
 		}
 
 		#chats .slideContainer[value="right"] {
