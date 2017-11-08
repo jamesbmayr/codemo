@@ -1,0 +1,156 @@
+/* page */
+	body, #canvas {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		padding: 0px;
+		margin: 0px;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #333333;
+	}
+
+	#canvas {
+		background-color: #ffffff;
+	}
+
+	#canvas[drawing=true] {
+		cursor: crosshair;
+	}
+
+	#canvas[drawing=true][erasing=true] {
+		cursor: not-allowed;
+	}
+
+/* controls */
+	#controls-outer {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 50px;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		background-color: black;
+	}
+
+	#controls {
+		position: absolute;
+		background-color: #333333;
+		height: 30px;
+		min-width: calc(100vw - 20px);
+		width: calc(470px + 175px + 70px);
+		padding: 10px;
+		box-shadow: 0px 0px 10px #111111 inset;
+	}
+
+	#controls button {
+		float: left;
+		height: 30px;
+		width: 30px;
+		font-size: 15px;
+		border-radius: 100%;
+		border: 0px;
+		color: #333333;
+		margin-right: 5px;
+		outline: none;
+		box-shadow: 0px 0px 10px #111111;
+		cursor: pointer;
+		padding: 0px;
+		vertical-align: middle;
+	}
+
+	#controls button:hover, #controls button.selected {
+		box-shadow: 0px 0px 10px #111111 inset;
+		color: #dddddd;
+	}
+
+	#controls #colors, #controls #sizes {
+		float: left;
+		height: 30px;
+		width: auto;
+		margin-right: 20px;
+	}
+
+/* colors */
+	#controls button#white {
+		background-color: white;
+		margin-right: 20px;
+	}
+
+	#controls button#red {
+		background-color: red;
+	}
+
+	#controls button#orange {
+		background-color: orange;
+	}
+
+	#controls button#yellow {
+		background-color: yellow;
+	}
+
+	#controls button#green {
+		background-color: green;
+	}
+
+	#controls button#cyan {
+		background-color: cyan;
+	}
+
+	#controls button#blue {
+		background-color: blue;
+	}
+
+	#controls button#purple {
+		background-color: purple;
+	}
+
+	#controls button#magenta {
+		background-color: magenta;
+	}
+
+	#controls button#pink {
+		background-color: pink;
+	}
+
+	#controls button#brown {
+		background-color: sienna;
+	}
+
+	#controls button#gray {
+		background-color: gray;
+	}
+
+	#controls button#black {
+		background-color: black;
+	}
+
+/* sizes */
+	#controls button#_1 {
+		font-size: 4px;
+	}
+
+	#controls button#_2 {
+		font-size: 9px;
+	}
+
+	#controls button#_5 {
+		font-size: 14px;
+	}
+
+	#controls button#_10 {
+		font-size: 19px;
+	}
+
+	#controls button#_20 {
+		font-size: 24px;
+	}
+
+	#controls button#reset {
+		margin-right: 0px;
+	}
