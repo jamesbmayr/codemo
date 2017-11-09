@@ -24,12 +24,15 @@ window.onload = function() {
 			function startDrawing(event) {
 				drawing = true
 				canvas.setAttribute("drawing", true)
+
+				var x = event.clientX || event.targetTouches[0].clientX
+				var y = event.clientY || event.targetTouches[0].clientY
 				
 				if (!erasing) {
 					paths.push({
 						color: color,
 						size: size,
-						coordinates: []
+						coordinates: [[x,y]]
 					})
 				}
 			}
@@ -46,7 +49,6 @@ window.onload = function() {
 			canvas.addEventListener("mousemove", moveDrawing)
 			canvas.addEventListener("touchmove", moveDrawing)
 			function moveDrawing(event) {
-				console.log(event)
 				if (drawing) {
 					var x = event.clientX || event.targetTouches[0].clientX
 					var y = event.clientY || event.targetTouches[0].clientY
@@ -61,8 +63,6 @@ window.onload = function() {
 							}) == -1
 						})
 					}
-
-					console.log(paths)
 				}
 			}
 

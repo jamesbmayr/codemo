@@ -79,16 +79,12 @@
 		height: 0px !important;
 	}
 
-	::-moz-scrollbar {
-		height: 0px !important;
-	}
-
-	::-ms-scrollbar {
-		height: 0px !important;
-	}
-
 	::-o-scrollbar {
 		height: 0px !important;
+	}
+
+	#controls button#reset {
+		margin-right: 0px;
 	}
 
 /* colors */
@@ -164,8 +160,4 @@
 
 	#controls button#_20 {
 		font-size: 24px;
-	}
-
-	#controls button#reset {
-		margin-right: 0px;
 	}
