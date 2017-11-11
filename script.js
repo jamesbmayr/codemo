@@ -624,13 +624,13 @@ function javascript() {
 				description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deception and deduction."
 			},
 			{
-				id: "cocrayon",
-				title: "CoCrayon",
+				id: "cocolors",
+				title: "CoColors",
 				tags: "code",
-				image: "logos/cocrayon.png",
-				url: "https://cocrayon.herokuapp.com",
+				image: "logos/cocolors.png",
+				url: "https://cocolors.herokuapp.com",
 				date: "November 10, 2017",
-				description: "CoCrayon is a real-time collaborative drawing tool. Create a canvas and start making art with friends."
+				description: "CoColors is a real-time collaborative drawing tool. Create a canvas and start making art with friends."
 			}
 		]
 
