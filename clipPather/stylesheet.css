@@ -82,8 +82,8 @@
 		font-weight: bold;
 	}
 
-/* slide controls */
-	#pointSliders {
+/* transform controls */
+	#transformers {
 		width: calc(100% - 10px);
 		height: 50px;
 	}
@@ -115,14 +115,14 @@
 		outline: none;
 	}
 
-	#translate, #rotate {
+	#translate, #rotate, #mirror {
 		border: 0px;
 		border-radius: 5px;
 		padding: 5px;
 		margin: 0px 0px 0px 10px;
 		font-size: 20px;
 		color: #333333;
-		width: 75px;
+		min-width: 75px;
 		background-color: #ffffff;
 		cursor: pointer;
 		height: 40px;
@@ -130,7 +130,7 @@
 		outline: none;
 	}
 
-	#translate:hover, #rotate:hover {
+	#translate:hover, #rotate:hover, #mirror:hover {
 		background-color: #333333;
 		color: #ffffff;
 	}
