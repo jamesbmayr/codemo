@@ -3,18 +3,11 @@
 	<title>clipPather</title>
 	<link rel="shortcut icon" href="https://cdn2.iconfinder.com/data/icons/mosaicon-11/512/cut-512.png"/>
 	<link rel="stylesheet" href="stylesheet.css">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
 	<script text="text/javascript" src="script.js"></script>
 </head>
 <body>
-	<div id="textBoxes">
-		<textarea id="redText" placeholder="red path">0% 0%, 0% 50%, 50% 0%</textarea>
-		<textarea id="greenText" placeholder="green path">100% 100%, 50% 100%, 100% 50%</textarea>
-		<textarea id="blueText" placeholder="blue path">40% 40%, 40% 60%, 60% 60%, 60% 40%</textarea>
-		<textarea id="blackText" placeholder="black path"></textarea>
-		<textarea id="purpleText" placeholder="purple path"></textarea>
-		<textarea id="orangeText" placeholder="orange path"></textarea>
-		<div id="pointSliders">
+	<div id="controls">
+		<div id="selector">
 			<select id="color">
 				<option value="red">red</option>
 				<option value="green">green</option>
@@ -22,22 +15,51 @@
 				<option value="black">black</option>
 				<option value="purple">purple</option>
 				<option value="orange">orange</option>
+				<option value="brown">brown</option>
+				<option value="gray">gray</option>
+				<option value="yellow">yellow</option>
+				<option value="white">white</option>
+				<option value="cyan">cyan</option>
+				<option value="magenta">magenta</option>
 			</select>
+		</div>
+		<div id="pointSliders">
 			<select id="direction">
 				<option value="x">x</option>
 				<option value="y">y</option>
 			</select>
 			<input id="distance" type="number" value="0"></input>
 			<button id="adjust">slide</button>
+			<label id="dotToggle-outer">dots <input id="dotToggle" type="checkbox" checked/></label>
 		</div>
+		<textarea class="textbox" id="redText" placeholder="red path">0% 0%, 0% 50%, 50% 0%</textarea>
+		<textarea class="textbox hidden" id="greenText" placeholder="green path">100% 100%, 50% 100%, 100% 50%</textarea>
+		<textarea class="textbox hidden" id="blueText" placeholder="blue path">40% 40%, 40% 60%, 60% 60%, 60% 40%</textarea>
+		<textarea class="textbox hidden" id="blackText" placeholder="black path"></textarea>
+		<textarea class="textbox hidden" id="purpleText" placeholder="purple path"></textarea>
+		<textarea class="textbox hidden" id="orangeText" placeholder="orange path"></textarea>
+		<textarea class="textbox hidden" id="brownText" placeholder="brown path"></textarea>
+		<textarea class="textbox hidden" id="grayText" placeholder="gray path"></textarea>
+		<textarea class="textbox hidden" id="yellowText" placeholder="yellow path"></textarea>
+		<textarea class="textbox hidden" id="whiteText" placeholder="white path"></textarea>
+		<textarea class="textbox hidden" id="cyanText" placeholder="cyan path"></textarea>
+		<textarea class="textbox hidden" id="magentaText" placeholder="magenta path"></textarea>
 	</div>
 	<div id="container">
-		<div id="redPath"></div>
-		<div id="greenPath"></div>
-		<div id="bluePath"></div>
-		<div id="blackPath"></div>
-		<div id="purplePath"></div>
-		<div id="orangePath"></div>
+		<div id="dots"></div>
+		<div class="path" id="redPath"></div>
+		<div class="path" id="greenPath"></div>
+		<div class="path" id="bluePath"></div>
+		<div class="path" id="blackPath"></div>
+		<div class="path" id="purplePath"></div>
+		<div class="path" id="orangePath"></div>
+
+		<div class="path" id="brownPath"></div>
+		<div class="path" id="grayPath"></div>
+		<div class="path" id="yellowPath"></div>
+		<div class="path" id="whitePath"></div>
+		<div class="path" id="cyanPath"></div>
+		<div class="path" id="magentaPath"></div>
 	</div>
 </body>
 </html>
