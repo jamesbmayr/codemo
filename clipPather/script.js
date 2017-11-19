@@ -25,9 +25,9 @@ window.onload = function() {
 		updatePath("green")
 		updatePath("red")
 
-	/* slidePath */
-		document.getElementById("adjust").addEventListener("click", slidePath)
-		function slidePath() {
+	/* translatePath */
+		document.getElementById("translate").addEventListener("click", translatePath)
+		function translatePath() {
 			var color = document.getElementById("color").value
 			var direction = document.getElementById("direction").value
 			var distance = document.getElementById("distance").value || false
@@ -184,6 +184,52 @@ window.onload = function() {
 			}
 			else {
 				document.getElementById("dots").className = "hidden"
+			}
+		}
+
+	/* switchTransform */
+		document.getElementById("direction").addEventListener("change", switchTransform)
+		function switchTransform(event) {
+			var direction = event.target.value
+
+			if (direction == "x" || direction == "y") {
+				document.getElementById("rotate").className = "hidden"
+				document.getElementById("translate").className = ""
+			}
+			else if (direction == "angle") {
+				document.getElementById("rotate").className = ""
+				document.getElementById("translate").className = "hidden"
+			}
+		}
+
+	/* rotatePath */
+		document.getElementById("rotate").addEventListener("click", rotatePath)
+		function rotatePath(event) {
+			var angle = Number(document.getElementById("distance").value) || false
+				angle = angle * Math.PI / 180
+
+			if (angle) {
+				var color = document.getElementById("color").value
+				var points = document.getElementById(color + "Text").value || false
+				
+				if (points) {
+					points = points.split(/\s?,\s?/gi)
+					
+					for (i in points) {
+						coordinates = points[i].split(/\s/)
+						var x = Number(coordinates[0].replace(/\%/g,"")) - 50
+						var y = Number(coordinates[1].replace(/\%/g,"")) - 50
+
+						var newX = ((x * Math.cos(angle)) - (y * Math.sin(angle))) + 50
+						var newY = ((y * Math.cos(angle)) + (x * Math.sin(angle))) + 50
+
+						var newCoordinates = newX + "% " + newY + "%"
+						points[i] = newCoordinates
+					}
+
+					document.getElementById(color + "Text").value = points.join(", ")
+					updatePath(color)
+				}
 			}
 		}
 
