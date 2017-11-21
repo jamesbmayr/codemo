@@ -17,7 +17,7 @@ window.onload = function() {
 
 		/* playTone */
 			function playTone(frequency, duration) {
-				var frequency = parseInt(frequency) / 100
+				var frequency = Number(frequency)
 
 				if (tone) {
 					tone.stop(0)
@@ -46,7 +46,7 @@ window.onload = function() {
 			document.getElementById("restart").addEventListener("click", startGame)
 			function startGame() {
 				// sound effects
-					var startSequence = [22000, 27718, 24694, 32963, 27718, 36999, 32963, 36999, 44000]
+					var startSequence = [220.00, 277.18, 246.94, 329.63, 277.18, 369.99, 329.63, 369.99, 440.00]
 					var startLoop = setInterval(function() {
 						if (startSequence.length > 1) {
 							playTone(startSequence[0], 100)
@@ -77,7 +77,7 @@ window.onload = function() {
 
 				// sound effects
 					setTimeout(function() {
-						var endSequence = [44000, 32963, 36999, 27718, 32963, 24694, 27718, 24694, 22000]
+						var endSequence = [440.00, 329.63, 369.99, 277.18, 329.63, 246.94, 277.18, 246.94, 220.00]
 						var endLoop = setInterval(function() {
 							if (endSequence.length > 1) {
 								playTone(endSequence[0], 100)
