@@ -3,6 +3,12 @@
 		padding: 0px;
 		margin: 0px;
 		overflow-x: hidden;
+		font-family: sans-serif;
+	}
+
+	::-webkit-scrollbar {
+		width: 0px;
+		height: 0px;
 	}
 
 	#banner {
@@ -30,9 +36,9 @@
 
 	#instructions {
 		float: left;
-		width: 25vw;
-		height: 50px;
-		padding: 5px;
+		width: calc(25vw - 20px);
+		height: 30px;
+		padding: 10px;
 		font-size: 25px;
 		color: lightgray;
 		text-align: center;
@@ -65,21 +71,24 @@
 
 	#code {
 		float: left;
-		height: 50px;
-		width: 25vw;
-		padding: 5px;
+		height: 30px;
+		width: calc(25vw - 20px);
+		padding: 10px;
 		font-size: 25px;
 		color: lightgray;
 		text-align: center;
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-ms-user-select: none;
+		-o-user-select: none;
 		overflow: hidden;
 		text-align: center;
+		text-decoration: none;
 	}
 
 	#code a {
 		color: #66D9EF;
+		text-decoration: none;
 	}
 
 	#code a:hover {
