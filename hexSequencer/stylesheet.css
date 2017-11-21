@@ -1,0 +1,194 @@
+/* page */
+	body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100vh;
+		width: 100vw;
+		margin: 0px;
+		padding: 0px;
+		background-color: #333333;
+		box-shadow: 0px 0px 20px #111111 inset;
+	}
+
+/* game */
+	#game {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: calc(100vw - 80px);
+		width: calc(100vw - 80px);
+		max-height: calc(100vh - 80px);
+		max-width: calc(100vh - 80px);
+		border-radius: 100%;
+		overflow: hidden;
+		filter: brightness(80%) drop-shadow(0px 0px 20px #dddddd);
+		padding: 20px;
+	}
+
+	#game-inner {
+		width: calc(100% - 40px);
+		height: calc(100% - 40px);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 100%;
+		overflow: hidden;
+	}
+
+	.wedge {
+		position: absolute;
+		top: 0px;
+		left: 50%;
+		height: 50%;
+		width: calc(100% / 1.73205080757);
+		clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+		cursor: pointer;
+		overflow: hidden;
+		transform-origin: bottom center;
+		box-shadow: 0px 0px 100px #dddddd inset;
+	}
+
+	#score {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 100%;
+		overflow: hidden;
+		height: 100px;
+		width: 100px;
+		z-index: 2;
+		background-color: #111111;
+		box-shadow: 0px 0px 50px #dddddd inset;
+	}
+
+	#score-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		color: #dddddd;
+		font-size: 50px;
+		font-family: sans-serif;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+/* play */
+	#game.play {
+		background-color: #dddddd;
+		box-shadow: 0px 0px 20px #111111 inset;
+		transition: 2s;
+	}
+
+	#game.play .wedge.inactive {
+	}
+
+	#game.play .wedge.active {
+		filter: brightness(60%);
+	}
+
+	#game.play .wedge.inactive:hover {
+		box-shadow: 0px 0px 300px #ffffff inset;
+	}
+
+/* ai */
+	#game.ai {
+		background-color: #111111;
+		box-shadow: 0px 0px 50px #dddddd inset;
+		transition: 2s;
+	}
+
+	#game.ai .wedge {
+		cursor: none;
+	}
+
+	#game.ai .wedge.inactive {
+	}
+
+	#game.ai .wedge.active {
+		filter: brightness(60%);
+	}
+
+/* end */
+	#game.end {
+		filter: blur(5px);
+		transition: 2s;
+		background-color: #dddddd;
+		box-shadow: 0px 0px 20px #111111 inset;
+	}
+
+	#game.end .wedge {
+		cursor: default;
+	}
+
+/* restart */
+	#restart {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 200px;
+		width: 200px;
+		border-radius: 100%;
+		font-size: 150px;
+		background-color: #333333;
+		color: #dddddd;
+		box-shadow: 0px 0px 25px #dddddd inset;
+		z-index: 3;
+		border: 0px;
+		cursor: pointer;
+		outline: none;
+	}
+
+	#restart.shown:hover, #restart.shown:focus {
+		box-shadow: 0px 0px 100px #dddddd inset;
+	}
+
+	#restart.hidden {
+		opacity: 0;
+		pointer-events: none;
+		transition: 2s;
+	}
+
+	#restart.shown {
+		opacity: 1;
+		transition: 2s;
+	}
+
+/* colors */
+	#red {
+		background-color: red;
+		transform: translateX(-50%) rotate(0deg);
+	}
+
+	#yellow {
+		background-color: yellow;
+		transform: translateX(-50%) rotate(60deg);
+	}
+
+	#green {
+		background-color: green;
+		transform: translateX(-50%) rotate(120deg);
+	}
+
+	#cyan {
+		background-color: cyan;
+		transform: translateX(-50%) rotate(180deg);
+	}
+
+	#blue {
+		background-color: blue;
+		transform: translateX(-50%) rotate(240deg);
+	}
+
+	#magenta {
+		background-color: magenta;
+		transform: translateX(-50%) rotate(300deg);
+	}
