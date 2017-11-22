@@ -7,7 +7,13 @@
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
-		<button id="start">&#8635;</button>
+		<div id="controls">
+			<button id="start">start</button>
+			<button class="toggle" player="human" color="white" active="true">human</button>
+			<button class="toggle" player="human" color="black" active="true">human</button>
+			<button class="toggle" player="ai"    color="white" active="false">ai</button>
+			<button class="toggle" player="ai"    color="black" active="false">ai</button>
+		</div>
 		<div id="game" turn="">
 			<div id="board"></div>
 		</div>

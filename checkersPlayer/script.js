@@ -1,6 +1,6 @@
 window.onload = function() {
 
-	/* game */
+	/* parameters */
 		/* globals */
 			var boardSize   = null
 			var squareSize  = null
@@ -8,31 +8,56 @@ window.onload = function() {
 			var marginX     = null
 			var marginY     = null
 
+			var players     = {}
 			var game        = document.getElementById("game")
 			createSquares()
 
 		/* resize */
 			window.addEventListener("resize", resizeWindow)
 			resizeWindow()
-			function resizeWindow() {
-				boardSize   = document.getElementById("board").getBoundingClientRect().width
-				squareSize  = boardSize / 8
-				checkerSize = boardSize / 10
-				marginX     = (window.innerWidth  - boardSize) / 2
-				marginY     = (window.innerHeight - boardSize) / 2
+			function resizeWindow(event) {
+				if (!event) {
+					boardSize   = document.getElementById("board").getBoundingClientRect().width
+					squareSize  = boardSize / 8
+					checkerSize = boardSize / 10
+					marginX     = (window.innerWidth  - boardSize) / 2
+					marginY     = (window.innerHeight - boardSize) / 2
+				}
+				else {
+					setTimeout(resizeWindow, 2000)
+				}
 			}
 
+		/* togglePlayer */
+			Array.from(document.querySelectorAll(".toggle")).forEach(function (t) {
+				t.addEventListener("click", togglePlayer)
+			})
+			function togglePlayer(event) {
+				if (event.target.className == "toggle") {
+					var color  = event.target.getAttribute("color")
+					var player = event.target.getAttribute("player")
+
+					Array.from(document.querySelectorAll(".toggle[player='" + (player == "ai" ? "human" : "ai") + "'][color='" + color + "']"))[0].setAttribute("active", "false")
+					event.target.setAttribute("active", "true")
+				}
+			}
+
+	/* game state */
 		/* startGame */
 			document.getElementById("start").addEventListener("click", startGame)
 			function startGame() {
-				document.getElementById("start").className = "hidden"
+				document.getElementById("controls").className = "hidden"
+
+				players.white = Array.from(document.querySelectorAll(".toggle[color='white'][active='true']"))[0].getAttribute("player")
+				players.black = Array.from(document.querySelectorAll(".toggle[color='black'][active='true']"))[0].getAttribute("player")
+
 				createCheckers()
 				getTurn()
 			}
 
 		/* endGame */
 			function endGame() {
-				document.getElementById("start").className = ""
+				document.getElementById("controls").className = ""
 			}
 
 	/* board */
@@ -98,6 +123,9 @@ window.onload = function() {
 									checker.setAttribute("color", "black")
 								}
 
+							// ai
+								checker.setAttribute("player", players[checker.getAttribute("color")])
+
 							// append
 								board.appendChild(checker)
 						}
@@ -122,7 +150,7 @@ window.onload = function() {
 		/* moveChecker */
 			document.addEventListener("mousemove", moveChecker)
 			function moveChecker(event) {
-				var checker = Array.from(document.querySelectorAll(".checker[active='true']"))[0] || false
+				var checker = Array.from(document.querySelectorAll(".checker[active='true'][player='human']"))[0] || false
 
 				if (checker) {
 					checker.style.left = event.clientX - marginX + "px"
@@ -133,7 +161,6 @@ window.onload = function() {
 	/* activation */
 		/* activateChecker */
 			function activateChecker(checker) {
-
 				// deactivate others
 					Array.from(document.querySelectorAll(".checker[active='true']")).forEach(function (c) {
 						c.setAttribute("active", "false")
@@ -145,7 +172,6 @@ window.onload = function() {
 
 		/* deactivateChecker */
 			function deactivateChecker(checker) {
-
 				// position
 					var x = checker.getBoundingClientRect().left - marginX + (0.5 * checkerSize)
 					var y = checker.getBoundingClientRect().top  - marginY + (0.5 * checkerSize)
@@ -167,21 +193,27 @@ window.onload = function() {
 							if (action.type == "jump") {
 								action.jumpee.parentNode.removeChild(action.jumpee)
 
-								if (getKing(checker)) {
+								if (action.king) {
 									checker.setAttribute("king", "true")									
 									getTurn(checker)
 								}
-								else if (!getJumps(checker)) {
+								else if (!getAllActions(checker).filter(function (a) {
+									return a.type == "jump"
+								}).length) {
 									getTurn(checker)
 								}
 								else {
 									checker.setAttribute("jumping", "true")
+
+									if (players[game.getAttribute("turn")] == "ai") {
+										chooseAIaction(checker)
+									}
 								}
 							}
 
 						// move
 							else if (action.type == "move") {
-								if (getKing(checker)) {
+								if (action.king) {
 									checker.setAttribute("king", "true")
 									getTurn(checker)
 								}
@@ -203,7 +235,6 @@ window.onload = function() {
 	/* game play */
 		/* getAction */
 			function getAction(active, x, y) {
-
 				// data
 					var activeX = parseInt(active.getAttribute("x"))
 					var activeY = parseInt(active.getAttribute("y"))
@@ -213,138 +244,117 @@ window.onload = function() {
 
 					var opponentColor = (activeColor == "white" ? "black" : "white")
 					var occupier = Array.from(document.querySelectorAll(".checker[x='" + x + "'][y='" + y + "']"))[0] || false
-					var jumpee   = Array.from(document.querySelectorAll(".checker[x='" + ((x + activeX) / 2) + "'][y='" + ((y + activeY) / 2) + "'][color='" + opponentColor + "']"))[0] || false
+					var jumpee = Array.from(document.querySelectorAll(".checker[x='" + ((x + activeX) / 2) + "'][y='" + ((y + activeY) / 2) + "'][color='" + opponentColor + "']"))[0] || false
+					var action = {x: x, y: y}
 
 				// checks
 					if (!active) {
-						return false
+						action = false
+					}
+					else if (x < 0 || y < 0 || x > 7 || y > 7) {
+						action = false
 					}
 					else if ((x + y) % 2 !== 0) {
-						return false
+						action = false
 					}
 					else if ((x == activeX) && (y == activeY)) {
-						return {type: "none", postjump: activeJumping}
+						action.type = "none"
+						action.postjump = activeJumping
 					}
 					else if (occupier) {
-						return false
+						action = false
 					}
 
 				// white
 					else if ((activeColor == "white") && (game.getAttribute("turn") == "white")) {
-						
 						// move
 							if ((y == activeY + 1) && ((x == activeX + 1) || (x == activeX - 1))) {
-								return {type: "move"}
+								action.type = "move"
 							}
 							else if (activeKing && (y == activeY - 1) && ((x == activeX + 1) || (x == activeX - 1))) {
-								return {type: "move"}
+								action.type = "move"
 							}
 
 						// jump
 							else if (jumpee && (y == activeY + 2) && ((x == activeX + 2) || (x == activeX - 2))) {
-								return {type: "jump", jumpee: jumpee}
+								action.type = "jump"
+								action.jumpee = jumpee
 							}
 							else if (jumpee && activeKing && (y == activeY - 2) && ((x == activeX + 2) || (x == activeX - 2))) {
-								return {type: "jump", jumpee: jumpee}
+								action.type = "jump"
+								action.jumpee = jumpee
 							}
 
 						// invalid
 							else {
-								return false
+								action = false
+							}
+
+						// king
+							if (action && !activeKing && y == 7) {
+								action.king = true
 							}
 					}
 
 				// black
 					else if ((activeColor == "black") && (game.getAttribute("turn") == "black")) {
-						
 						// move
 							if ((y == activeY - 1) && ((x == activeX + 1) || (x == activeX - 1))) {
-								return {type: "move"}
+								action.type = "move"
+
 							}
 							else if (activeKing && (y == activeY + 1) && ((x == activeX + 1) || (x == activeX - 1))) {
-								return {type: "move"}
+								action.type = "move"
+
 							}
 
 						// jump
 							else if (jumpee && (y == activeY - 2) && ((x == activeX + 2) || (x == activeX - 2))) {
-								return {type: "jump", jumpee: jumpee}
+								action.type = "jump"
+								action.jumpee = jumpee
 							}
 							else if (jumpee && activeKing && (y == activeY + 2) && ((x == activeX + 2) || (x == activeX - 2))) {
-								return {type: "jump", jumpee: jumpee}
+								action.type = "jump"
+								action.jumpee = jumpee
 							}
 
 						// invalid
 							else {
-								return false
+								action = false
+							}
+
+						// king
+							if (action && !activeKing && y == 0) {
+								action.king = true
 							}
 					}
+
+				// return
+					return action
 			}
 
-		/* getJumps */
-			function getJumps(active) {
-
+		/* getAllActions */
+			function getAllActions(active) {
 				// data
-					var activeX = parseInt(active.getAttribute("x"))
-					var activeY = parseInt(active.getAttribute("y"))
-					var activeKing = (active.getAttribute("king") == "true" ? true : false)
-					var activeColor = active.getAttribute("color")
-					var opponentColor = (activeColor == "white" ? "black" : "white")
+					var x = parseInt(active.getAttribute("x"))
+					var y = parseInt(active.getAttribute("y"))
+					var actions = []
 
-				// spaces
-					var opponentNW =  Array.from(document.querySelectorAll(".checker[x='" + (activeX - 1) + "'][y='" + (activeY - 1) + "'][color='" + opponentColor + "']"))[0] || false
-					var vacancyNW = !(Array.from(document.querySelectorAll(".checker[x='" + (activeX - 2) + "'][y='" + (activeY - 2) + "']"))[0] || false) && (activeX - 2 >= 0) && (activeY - 2 >= 0)
-					var opponentNE =  Array.from(document.querySelectorAll(".checker[x='" + (activeX + 1) + "'][y='" + (activeY - 1) + "'][color='" + opponentColor + "']"))[0] || false
-					var vacancyNE = !(Array.from(document.querySelectorAll(".checker[x='" + (activeX + 2) + "'][y='" + (activeY - 2) + "']"))[0] || false) && (activeX + 2 <= 7) && (activeY - 2 >= 0)
-					var opponentSW =  Array.from(document.querySelectorAll(".checker[x='" + (activeX - 1) + "'][y='" + (activeY + 1) + "'][color='" + opponentColor + "']"))[0] || false
-					var vacancySW = !(Array.from(document.querySelectorAll(".checker[x='" + (activeX - 2) + "'][y='" + (activeY + 2) + "']"))[0] || false) && (activeX - 2 >= 0) && (activeY + 2 <= 7)
-					var opponentSE =  Array.from(document.querySelectorAll(".checker[x='" + (activeX + 1) + "'][y='" + (activeY + 1) + "'][color='" + opponentColor + "']"))[0] || false
-					var vacancySE = !(Array.from(document.querySelectorAll(".checker[x='" + (activeX + 2) + "'][y='" + (activeY + 2) + "']"))[0] || false) && (activeX + 2 <= 7) && (activeY + 2 <= 7)
-
-				// black
-					if ((activeColor == "black" || activeKing) && (opponentNW && vacancyNW)) {
-						return true
+				// loop through
+					for (var deltaY = -2; deltaY <= 2; deltaY++) {
+						for (var deltaX = -2; deltaX <= 2; deltaX++) {
+							if ((((x + deltaX) + (y + deltaY)) % 2 == 0) && (deltaX !== 0 && deltaY !== 0)) {
+								actions.push(getAction(active, (x + deltaX), (y + deltaY)))
+							}
+						}
 					}
 
-					if ((activeColor == "black" || activeKing) && (opponentNE && vacancyNE)) {
-						return true
-					}
-
-				// white
-					if ((activeColor == "white" || activeKing) && (opponentSW && vacancySW)) {
-						return true
-					}
-
-					if ((activeColor == "white" || activeKing) && (opponentSE && vacancySE)) {
-						return true
-					}
-
-				// otherwise
-					return false
-			}
-
-		/* getKing */
-			function getKing(active) {
-
-				// data
-					var activeY = parseInt(active.getAttribute("y"))
-					var activeKing = (active.getAttribute("king") == "true" ? true : false)
-					var activeColor = active.getAttribute("color")
-
-				// check
-					if (activeKing) {
-						return false
-					}
-					else if ((activeColor == "white") && (activeY == 7)) {
-						return true
-					}
-					else if ((activeColor == "black") && (activeY == 0)) {
-						return true
-					}
+				// return array
+					return actions
 			}
 
 		/* getTurn */
 			function getTurn(active) {
-
 				// checker
 					if (active) {
 						active.setAttribute("jumping", "false")
@@ -364,6 +374,139 @@ window.onload = function() {
 						endGame()
 					}
 
+				// ai
+					if (players[game.getAttribute("turn")] == "ai") {
+						chooseAIaction()
+					}
 			}
+
+	/* ai */
+		function chooseAIaction(active) {
+			// get checkers
+				if (active) {
+					var checkers = [active]
+					var jumpsOnly = true
+				}
+				else {
+					var checkers = Array.from(document.querySelectorAll(".checker[color='" + game.getAttribute("turn") + "']"))
+					var jumpsOnly = false
+				}
+
+			// get all viable actions
+				var options  = []
+				for (var c in checkers) {
+					var actions = getAllActions(checkers[c])
+						actions = actions.filter(function (a) {
+							return (a !== false && a !== null)
+						}) || []
+
+					if (jumpsOnly) {
+						actions = actions.filter(function (a) {
+							return (a.type == "jump")
+						}) || [{type: "none", x: checkers[c].getAttribute("x"), y: checkers[c].getAttribute("y")}]
+					}
+
+					options[c] = {
+						checker: checkers[c],
+						actions: actions
+					}
+				}
+
+			// filter out pieces with no actions
+				options = options.filter(function (o) {
+					return o.actions.length
+				})
+
+			// weight options
+				var weightedOptions = []
+				for (var o in options) {
+					var weightedActions = []
+					for (var a in options[o].actions) {
+						if (options[o].actions[a].type == "move") { // x1
+							weightedActions.push(options[o].actions[a])
+							weightedOptions.push(options[o])
+						}
+
+						if (options[o].actions[a].y == 3 || options[o].actions[a].y == 4) { // x4
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+						}
+						
+						if (options[o].actions[a].type == "jump") { // x8
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+						}
+
+						if (options[o].actions[a].king) { // x8
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedActions.push(options[o].actions[a])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+							weightedOptions.push(options[o])
+						}
+					}
+
+					options[o].actions = weightedActions
+				}
+
+				options = weightedOptions
+				console.log(options)
+
+			// choose randomly
+				var selectedOption = options[Math.floor(Math.random() * options.length)]
+				var selectedAction = selectedOption.actions[Math.floor(Math.random() * selectedOption.actions.length)]
+
+			// activate, then get destination
+				activateChecker(selectedOption.checker)
+
+				var destinationX = (selectedAction.x * squareSize) + (0.5 * checkerSize)
+				var destinationY = (selectedAction.y * squareSize) + (0.5 * checkerSize)
+
+			// move, then deactivate
+				var AImoveLoop = setInterval(function() {
+					var currentX = selectedOption.checker.getBoundingClientRect().left - marginX + (0.5 * checkerSize)
+					var currentY = selectedOption.checker.getBoundingClientRect().top  - marginY + (0.5 * checkerSize)
+
+					if ((Math.abs(currentX - destinationX) > 10) || (Math.abs(currentY - destinationY) > 10)) {
+						selectedOption.checker.style.left = (currentX + Math.sign(destinationX - currentX)) + "px"
+						selectedOption.checker.style.top  = (currentY + Math.sign(destinationY - currentY)) + "px"
+					}
+					else {
+						clearInterval(AImoveLoop)
+						deactivateChecker(selectedOption.checker)
+					}
+				}, 10)
+		}	
 
 }
