@@ -57,6 +57,7 @@ window.onload = function() {
 
 		/* endGame */
 			function endGame() {
+				game.setAttribute("turn", "")
 				document.getElementById("controls").className = ""
 			}
 
@@ -305,7 +306,6 @@ window.onload = function() {
 							}
 							else if (activeKing && (y == activeY + 1) && ((x == activeX + 1) || (x == activeX - 1))) {
 								action.type = "move"
-
 							}
 
 						// jump
@@ -355,27 +355,55 @@ window.onload = function() {
 
 		/* getTurn */
 			function getTurn(active) {
-				// checker
+				// update turn
+					var turn = game.getAttribute("turn") || ""
+						turn = (turn == "white" ? "black" : "white")
+					game.setAttribute("turn", turn)
+
+				// deactivate checker
 					if (active) {
 						active.setAttribute("jumping", "false")
 						active.setAttribute("active", "false")
 					}
 
-				// game end ?
+				// get availableActions
 					var white = Array.from(document.querySelectorAll(".checker[color='white']")) || []
 					var black = Array.from(document.querySelectorAll(".checker[color='black']")) || []
+					var availableActions = []
 
-					if (white.length && black.length) {
-						var turn = game.getAttribute("turn")
-						game.setAttribute("turn", (turn == "white" ? "black" : "white"))
+					if (turn == "black") {
+						black.forEach(function (c) {
+							availableActions.push(getAllActions(c))
+						})
 					}
-					else {
-						game.setAttribute("turn", "")
+					else if (turn == "white") {
+						white.forEach(function (c) {
+							availableActions.push(getAllActions(c))
+						})
+					}
+
+					availableActions = availableActions.filter(function (array) {
+						return array.filter(function (a) {
+							return a
+						}).length
+					})
+
+				// check conditions
+					if (!white.length) {
+						console.log("black wins")
+						endGame()
+					}
+					else if (!black.length) {
+						console.log("white wins")
+						endGame()
+					}
+					else if (turn.length && !availableActions.length) {
+						console.log("stalemate")
 						endGame()
 					}
 
 				// ai
-					if (players[game.getAttribute("turn")] == "ai") {
+					if (players[turn] == "ai") {
 						chooseAIaction()
 					}
 			}
