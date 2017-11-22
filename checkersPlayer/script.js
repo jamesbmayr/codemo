@@ -403,7 +403,7 @@ window.onload = function() {
 					}
 
 				// ai
-					if (players[turn] == "ai") {
+					if (players[game.getAttribute("turn")] == "ai") {
 						chooseAIaction()
 					}
 			}
