@@ -1,12 +1,20 @@
 window.onload = function() {
 
-	/* onload */
+	/* on load */
 		/* globals */
 			var canvas = document.getElementById("graph")
 			var colors = ["black", "red", "green", "blue", "magenta", "yellow", "cyan"]
+			
 			var dragging = false
 			var dragX = null
 			var dragY = null
+
+			var moving = false
+			var moveX = null
+			var moveY = null
+			
+			var originX = null
+			var originY = null
 			var zoom = 1
 
 		/* resizeScreen */
@@ -16,27 +24,74 @@ window.onload = function() {
 				canvas.width = window.innerWidth * zoom
 				canvas.height = window.innerHeight * zoom
 
+				if (originX == null && originY == null) {
+					originX = Math.floor(canvas.width / 2)
+					originY = Math.floor(canvas.height / 2)
+				}
+
 				graphEquations()
 			}
 
+	/* move grid */
 		/* zoomGrid */
 			canvas.addEventListener("mousewheel", zoomGrid)
 			function zoomGrid(event) {
+				var x = event.clientX || event.targetTouches[0].clientX
+				var y = event.clientY || event.targetTouches[0].clientY
+
+				var diffX = Math.floor(originX - (x * zoom))
+				var diffY = Math.floor(originY - (y * zoom))
+				
 				if (event.deltaY > 0) { // out
 					if (zoom * 1.25 < 2) {
 						zoom = zoom * 125 / 100
+						originX =  Math.floor(originX * 125 / 100) - Math.floor(diffX * 25 / 100)
+						originY =  Math.floor(originY * 125 / 100) - Math.floor(diffY * 25 / 100)
+						
 						resizeScreen()
 					}
 				}
 				else if (event.deltaY < 0) { // in
 					if (zoom * 0.8 > 0.25) {
 						zoom = zoom * 80 / 100
+						originX = Math.floor(originX * 80 / 100) + Math.floor(diffX * 20 / 100)
+						originY = Math.floor(originY * 80 / 100) + Math.floor(diffY * 20 / 100)
+						
 						resizeScreen()
 					}
 				}
 			}
 
-	/* move controls */
+		/* selectGrid */
+			canvas.addEventListener("mousedown", selectGrid)
+			function selectGrid(event) {
+				moving = true
+				moveX = Math.floor((event.offsetX * zoom) - originX)
+				moveY = Math.floor((event.offsetY * zoom) - originY)
+			}
+
+		/* unselectGrid */
+			document.addEventListener("mouseup", unselectGrid)
+			function unselectGrid(event) {
+				moving = false
+				moveX = null
+				noveY = null
+			}
+
+		/* moveGrid */
+			document.addEventListener("mousemove", moveGrid)
+			function moveGrid(event) {
+				if (moving) {
+					var x = event.clientX || event.targetTouches[0].clientX
+					var y = event.clientY || event.targetTouches[0].clientY
+
+					originY = Math.floor((y * zoom) - moveY)
+					originX = Math.floor((x * zoom) - moveX)
+					graphEquations()
+				}
+			}
+
+	/* drag controls */
 		/* selectEquations */
 			document.getElementById("equations").addEventListener("mousedown", selectEquations)
 			function selectEquations(event) {
@@ -51,6 +106,8 @@ window.onload = function() {
 			document.addEventListener("mouseup", unselectEquations)
 			function unselectEquations(event) {
 				dragging = false
+				dragX = null
+				dragY = null
 			}
 
 		/* dragEquations */
@@ -124,24 +181,26 @@ window.onload = function() {
 						context.clearRect(0, 0, canvas.width, canvas.height)
 
 				// y lines
-					n = Math.floor(canvas.height / -2 / 10) * 10
-					while (n < canvas.height / 2) {
+					var n = Math.floor((canvas.height - originY) / -10) * 10
+					while (n < canvas.height + originY) {
 						var coordinates = calculateY(n)
-						plotCoordinates(coordinates, "gray", (n % 100 == 0 ? 3 : 1))
+						var thickness = (n % 1000 == 0 ? 3 : n % 100 == 0 ? 2 : 1)
+						plotCoordinates(coordinates, "gray", thickness)
 						n += 10
 					}
 
 				// x lines
-					n = Math.floor(canvas.width / -2 / 10) * 10
-					while (n < canvas.width / 2) {
+					var n = Math.floor(originX / -10) * 10
+					while (n < canvas.width - originX) {
 						var coordinates = calculateX(n)
-						plotCoordinates(coordinates, "gray", (n % 100 == 0 ? 3 : 1))
+						var thickness = (n % 1000 == 0 ? 3 : n % 100 == 0 ? 2 : 1)
+						plotCoordinates(coordinates, "gray", thickness)
 						n += 10
 					}
 
 				// origin
-					context.moveTo(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2))
-					context.arc(Math.floor(canvas.width / 2), Math.floor(canvas.height / 2), (5 * Math.max(0.64, Math.min(zoom, 1.8))), 0, Math.PI * 2, true)
+					context.moveTo(originX, originY)
+					context.arc(originX, originY, (5 * Math.max(0.64, Math.min(zoom, 1.8))), 0, Math.PI * 2, true)
 					context.fillStyle = "gray"
 					context.fill()
 			}
@@ -195,7 +254,6 @@ window.onload = function() {
 				equation = equation.replace(/\|([^|])\|/gi, "Math.abs($1)")
 				equation = equation.replace(/(\d+)([A-Za-z\(]+)/gi, "$1 * $2")
 
-				console.log(equation)
 				return equation.trim()
 			}
 
@@ -203,7 +261,7 @@ window.onload = function() {
 			function calculateY(equation) {
 				var coordinates = []
 
-				for (var x = Math.floor(canvas.width / -2); x <= Math.floor(canvas.width / 2); x++) {
+				for (var x = -originX; x <= canvas.width - originX; x++) {
 					try {
 						var y = eval(equation)
 					}
@@ -220,7 +278,7 @@ window.onload = function() {
 			function calculateX(equation) {
 				var coordinates = []
 
-				for (var y = Math.floor(canvas.height / -2); y <= Math.floor(canvas.height / 2); y++) {
+				for (var y = originY - canvas.height; y <= canvas.height + originY; y++) {
 					try {
 						var x = eval(equation)
 					}
@@ -253,11 +311,11 @@ window.onload = function() {
 
 		/* toCanvas */
 			function toCanvasX(x) {
-				return Math.floor(canvas.width / 2) + x
+				return originX + x
 			}
 
 			function toCanvasY(y) {
-				return Math.floor(canvas.height / 2) - y
+				return originY - y
 			}
 
 }
