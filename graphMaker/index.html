@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>graphMaker</title>
+		<link rel="shortcut icon" type="image/png" href="http://icons.iconarchive.com/icons/iconsmind/outline/128/Formula-icon.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<details id="equations">
+			<summary id="equations-toggle"></summary>
+			<div class="equation">
+				<div class="equation-y">y =</div>
+				<input class="equation-x" type="text" placeholder="...">
+				<select class="equation-hue">
+					<option value="black">black</option>
+					<option value="red">red</option>
+					<option value="green">green</option>
+					<option value="blue">blue</option>
+					<option value="magenta">magenta</option>
+					<option value="yellow">yellow</option>
+					<option value="cyan">cyan</option>
+				</select>
+				<button class="equation-remove">-</button>
+			</div>
+			<button id="equation-create">+</button>
+		</details>
+		<canvas id="graph"></canvas>
+	</body>
+</html>
