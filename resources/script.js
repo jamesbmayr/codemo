@@ -1,7 +1,7 @@
 window.onload = function() {
 
 	/* create page */
-		var demoArray = ["graphMaker", "checkersPlayer", "hexSequencer", "pencilPather", "brickBreaker", "blockDescender", "metroMapper", "snakeSnacker", "wordShuffler", "quoteTyper", "hueMatcher", "xmlParser","pitchPlayer","dotConnector","numberCruncher","bladesDodger","webDepictor","weatherExplorer","pixelPainter","sphereCollector","codeRunner","shapeAnimator","tickTocker","balloonPopper","robotDirector","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","tileSlider","wordCounter","clipPather"]
+		var demoArray = ["pawnPusher", "graphMaker", "checkersPlayer", "hexSequencer", "pencilPather", "brickBreaker", "blockDescender", "metroMapper", "snakeSnacker", "wordShuffler", "quoteTyper", "hueMatcher", "xmlParser","pitchPlayer","dotConnector","numberCruncher","bladesDodger","webDepictor","weatherExplorer","pixelPainter","sphereCollector","codeRunner","shapeAnimator","tickTocker","balloonPopper","robotDirector","colorFlooder","diceRoller","chordAnalyzer","wordFinder","mazeMaker","htmlConverter","tileSlider","wordCounter","clipPather"]
 			demoArray = demoArray.sort()
 
 		for (i = 0; i < demoArray.length; i++) {
