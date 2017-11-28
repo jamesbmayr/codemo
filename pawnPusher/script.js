@@ -273,15 +273,15 @@ window.onload = function() {
 					if ((Math.abs(currentX - destinationX) > 5) || (Math.abs(currentY - destinationY) > 5)) {
 						// set x and y
 							if (Math.abs(currentX - destinationX) > 5) {
-								pawn.style.left = Number(pawn.style.left.replace("px", "")) + (fx - x) + "px"
+								pawn.style.left = Number(pawn.style.left.replace("px", "")) + 10 * (fx - x) + "px"
 							}
 							if (Math.abs(currentY - destinationY) > 5) {
-								pawn.style.top  = Number(pawn.style.top.replace("px", ""))  + (fy - y) + "px"
+								pawn.style.top  = Number(pawn.style.top.replace("px", ""))  + 10 * (fy - y) + "px"
 							}
 
 						// set opacity
 							if (pawn.getAttribute("removing")) {
-								pawn.style.opacity -= 0.01
+								pawn.style.opacity -= 0.1
 							}
 					}
 					else {
@@ -297,7 +297,7 @@ window.onload = function() {
 								pawn.parentNode.removeChild(pawn)
 							}
 					}
-				}, 10)
+				}, 25)
 			}
 
 		/* checkVictory */
@@ -305,14 +305,14 @@ window.onload = function() {
 				var red  = Array.from(document.querySelectorAll(".pawn[color='red']:not([removing])"))
 				var blue = Array.from(document.querySelectorAll(".pawn[color='blue']:not([removing])"))
 
-				console.log(red)
-				console.log(blue)
-
 				if (!red.length) {
 					return "blue"
 				}
 				else if (!blue.length) {
 					return "red"
+				}
+				else if (red.length == 1 && blue.length == 1) {
+					return "tie"
 				}
 				else {
 					return false
