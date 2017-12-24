@@ -90,44 +90,56 @@ window.onload = function() {
 				return game
 			}
 
-		/* switchTurn */
-			function switchTurn() {
+		/* checkVictory */
+			function checkVictory() {
 				// get data
 					var game = getGame()
 
 				// rows
 					if (["X", "O"].includes(game[1]) && (game[1] == game[2]) && (game[1] == game[3])) {
-						endGame(game[1])
+						return game[1]
 					}
 					else if (["X", "O"].includes(game[4]) && (game[4] == game[5]) && (game[4] == game[6])) {
-						endGame(game[4])
+						return game[4]
 					}
 					else if (["X", "O"].includes(game[7]) && (game[7] == game[8]) && (game[7] == game[9])) {
-						endGame(game[7])
+						return game[7]
 					}
 
 				// columns
 					else if (["X", "O"].includes(game[1]) && (game[1] == game[4]) && (game[1] == game[7])) {
-						endGame(game[1])
+						return game[1]
 					}
 					else if (["X", "O"].includes(game[2]) && (game[2] == game[5]) && (game[2] == game[8])) {
-						endGame(game[2])
+						return game[2]
 					}
 					else if (["X", "O"].includes(game[3]) && (game[3] == game[6]) && (game[3] == game[9])) {
-						endGame(game[3])
+						return game[3]
 					}
 
 				// diagonals
 					else if (["X", "O"].includes(game[1]) && (game[1] == game[5]) && (game[1] == game[9])) {
-						endGame(game[1])
+						return game[1]
 					}
 					else if (["X", "O"].includes(game[3]) && (game[3] == game[5]) && (game[3] == game[7])) {
-						endGame(game[3])
+						return game[3]
 					}
 
 				// tie
-					else if (Object.keys(game).filter(function (g) { return game[g] }) == 9) {
-						endGame("tie")
+					else if (Object.keys(game).filter(function (g) { return game[g] }).length == 9) {
+						return "tie"
+					}
+					else {
+						return false
+					}
+			}
+
+		/* switchTurn */
+			function switchTurn() {
+				// end game ?
+					var victory = checkVictory()
+					if (victory) {
+						endGame(victory)
 					}
 
 				// continue
@@ -383,6 +395,11 @@ window.onload = function() {
 			function playOption(option) {
 				setTimeout(function() {
 					document.getElementById("cell-" + option).click()
+
+					var victory = checkVictory()
+					if (victory) {
+						endGame(victory)
+					}
 				}, 1000)
 			}
 }
