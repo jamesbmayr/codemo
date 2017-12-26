@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>stockTracker</title>
+		<link rel="shortcut icon" type="image/png" href="https://png.icons8.com/small/540/combo-chart.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="controls">
+			<details id="recent">
+				<summary></summary>
+			</details>
+			<button id="fetch" title="search">&#9740;</button>
+			<input type="text" id="search" placeholder="symbol" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+			<div id="yoy" title="year-over-year"></div>
+		</div>
+		<canvas id="chart"></canvas>
+	</body>
+</html>
