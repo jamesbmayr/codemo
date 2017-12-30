@@ -1,0 +1,246 @@
+/*** page ***/
+	body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100vh;
+		width: 100vw;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+		font-family: sans-serif;
+		color: #111111;
+		font-weight: bold;
+		font-size: 20px;
+		background-color: #222222;
+		box-shadow: 0px 0px 50px #000000 inset;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	/* effects */
+		.hidden {
+			opacity: 0;
+			pointer-events: none;
+			transition: 2s;
+		}
+
+/*** menu ***/
+	#menu {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		transition: 2s;
+		height: 200px;
+		width: 300px;
+		text-align: center;
+		padding: 10px;
+		z-index: 2;
+	}
+
+	/* title */
+		#menu-title {
+			float: left;
+			color: #111111;
+			font-size: 50px;
+			text-shadow: 0px 0px 10px #dddddd;
+			width: 100%;
+			text-align: center;
+			height: 60px;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+	/* size / mode */
+		#menu-size, #menu-mode {
+			width: calc(50% - 10px);
+			height: 60px;
+			margin: 5px;
+			float: left;
+			border: 0px;
+			border-radius: 5px;
+			cursor: pointer;
+			background-color: #111111;
+			box-shadow: 0px 0px 5px #dddddd inset;
+			transition: 1s;
+			color: #dddddd;
+			outline: none;
+			font-family: sans-serif;
+			font-size: 30px;
+		}
+
+		#menu-size:hover, #menu-mode:hover {
+			box-shadow: 0px 0px 50px #dddddd inset;
+		}
+
+	/* start */
+		#menu-start {
+			float: left;
+			outline: none;
+			border: 0px;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px #dddddd inset;
+			font-size: 50px;
+			width: calc(100% - 10px);
+			height: 70px;
+			margin: 5px;
+			color: #dddddd;
+			background-color: #111111;
+			transition: 1s;
+			cursor: pointer;
+		}
+
+		#menu-start:hover {
+			box-shadow: 0px 0px 50px #dddddd inset;
+		}
+
+/*** field ***/
+	#field {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 90vh;
+		width:  90vh;
+		max-height: 90vw;
+		max-width:  90vw;
+		border: 5px solid #111111;
+		border-radius: 5px;
+		overflow: hidden;
+		background-color: #111111;
+		box-shadow: 0px 0px 50px #111111;
+	}
+
+	/* end */
+		#field.gameover {
+			box-shadow: 0px 0px 50px #aa1111;
+			filter: blur(2px);
+			transition: 2s;
+		}
+
+		#field.gamewin {
+			box-shadow: 0px 0px 50px #11aaaa;
+			filter: blur(2px);
+			transition: 2s;
+		}
+
+		#field.gameplay {
+			transition: 2s;
+		}
+
+	/* cells */
+		.cell {
+			float: left;
+			background-color: #dddddd;
+			box-shadow: 0px 0px 5px #111111 inset;
+			border-radius: 2px;
+		}
+
+		.cell:after {
+			position: relative;
+			left: calc(50% - 5px);
+			top: calc(50% - 10px);
+			line-height: 1;
+			color: #111111;
+		}
+	
+	/* values */
+		.cell[value="mine"] {
+			background-color: #111111;
+		}
+		.cell[value="mine"]:after {
+			content: "*";
+			color: #dddddd;
+		}
+
+		.cell[value="0"] {
+			background-color: #dddddd;
+		}
+		.cell[value="0"]:after {
+			content: "0";
+		}
+
+		.cell[value="1"] {
+			background-color: #aa1111;
+		}
+		.cell[value="1"]:after {
+			content: "1";
+		}
+
+		.cell[value="2"] {
+			background-color: #11aa11;
+		}
+		.cell[value="2"]:after {
+			content: "2";
+		}
+
+		.cell[value="3"] {
+			background-color: #1111aa;
+		}
+		.cell[value="3"]:after {
+			content: "3";
+		}
+
+		.cell[value="4"] {
+			background-color: #aaaa11;
+		}
+		.cell[value="4"]:after {
+			content: "4";
+		}
+
+		.cell[value="5"] {
+			background-color: #11aaaa;
+		}
+		.cell[value="5"]:after {
+			content: "5";
+		}
+
+		.cell[value="6"] {
+			background-color: #aa11aa;
+		}
+		.cell[value="6"]:after {
+			content: "6";
+		}
+
+		.cell[value="7"] {
+			background-color: #aaaaaa;
+		}
+		.cell[value="7"]:after {
+			content: "7";
+		}
+
+		.cell[value="8"] {
+			background-color: #777777;
+		}
+		.cell[value="8"]:after {
+			content: "8";
+		}
+
+	/* state */
+		.cell[state="?"] {
+			background-color: #dddddd;
+			cursor: pointer;
+		}
+		.cell[state="?"]:after {
+			content: "";
+		}
+
+		.cell[state="?"]:hover {
+			background-color: #aaaaaa;
+		}
+
+		.cell[state="!"] {
+			background-color: #777777;
+			cursor: pointer;
+		}
+		.cell[state="!"]:after {
+			content: "!";
+			color: #dddddd;
+		}
