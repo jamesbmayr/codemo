@@ -565,7 +565,7 @@ function javascript() {
 				title: "AI Arenas",
 				tags: "games code",
 				image: "logos/aiarenas.png",
-				url: "https://www.aiarenas.com",
+				url: "http://www.aiarenas.com",
 				date: "May 1, 2017",
 				description: "AI Arenas is a web game where javascript robots battle for cubes in a competitive coding arena."
 			},
@@ -629,8 +629,17 @@ function javascript() {
 				tags: "code",
 				image: "logos/cocolors.png",
 				url: "https://cocolors.herokuapp.com",
-				date: "November 10, 2017",
+				date: "November 15, 2017",
 				description: "CoColors is a real-time collaborative drawing tool. Create a canvas and start making art with friends."
+			},
+			{
+				id: "chalice2",
+				title: "Chalice",
+				tags: "games",
+				image: "logos/chalice2.png",
+				url: "http://www.chalicethegame.com",
+				date: "December 15, 2017",
+				description: "Originally a card game, the new Chalice brings the same multiplayer gameplay to the web."
 			}
 		]
 

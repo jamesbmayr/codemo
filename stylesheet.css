@@ -37,8 +37,13 @@
 		left: 0px;
 		width: 100vw;
 		height: 100vh;
-		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: scroll;
 		text-align: center;
+	}
+
+	::-webkit-scrollbar {
+		width: 0 !important;
 	}
 
 /* logotype */
@@ -206,7 +211,7 @@
 		height: 200px;
 		margin-left: -1px;
 		margin-top: -1px;
-		background-color: #dddddd;
+		background-color: #222222;
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: cover;
