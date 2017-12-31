@@ -148,6 +148,23 @@ window.onload = function() {
 					else if (state == "!") {
 						cell.setAttribute("state", "?")
 					}
+				
+				// reveal neighbors
+					else if (state == ".") {
+						var x = Number(cell.id.split("_")[1])
+						var y = Number(cell.id.split("_")[2])
+
+						for (var deltaY = -1; deltaY <= 1; deltaY++) {
+							for (var deltaX = -1; deltaX <= 1; deltaX++) {
+								if (deltaY || deltaX) {
+									var neighbor = document.getElementById("_" + (x + deltaX) + "_" + (y + deltaY))
+									if (neighbor && neighbor.getAttribute("state") == "?") {
+										revealCell(neighbor)
+									}
+								}
+							}
+						}
+					}
 			}
 
 		/* revealCell */
