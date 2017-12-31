@@ -1,0 +1,215 @@
+/*** page ***/
+	body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		margin: 0px;
+		padding: 0px;
+		height: 100vh;
+		width: 100vw;
+		background-color: #222222;
+		box-shadow: 0px 0px 50px #000000 inset;
+		overflow: hidden;
+		color: #111111;
+		font-family: sans-serif;
+		font-size: 20px;
+	}
+
+	/* effects */
+		.hidden {
+			opacity: 0;
+			transition: 2s;
+			pointer-events: none;
+		}
+
+/*** menu ***/
+	#menu {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		transition: 2s;
+		z-index: 2;
+		text-align: center;
+		height: 600px;
+		width: 600px;
+	}
+
+	/* start */
+		#start {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			border-radius: 5px;
+			border: 0px;
+			outline: none;
+			font-family: sans-serif;
+			font-size: 75px;
+			padding: 0px;
+			margin: 0px;
+			width: 500px;
+			height: 500px;
+			color: #111111;
+			text-shadow: 0px 0px 5px #dddddd;
+			background-color: #111111;
+			box-shadow: 0px 0px 5px #dddddd inset;
+			transition: 1s;
+			cursor: pointer;
+			border-radius: 100%;
+			filter: drop-shadow(0px 0px 50px #000000)
+		}
+
+		#start:hover {
+			box-shadow: 0px 0px 100px #dddddd inset;
+		}
+
+	/* players */
+		#red {
+			border-radius: 100%;
+			height: 100px;
+			width: 100px;
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			padding: 0px;
+			margin: 0px;
+			background-color: #777777;
+			box-shadow: 0px 0px 100px #ff1111 inset;
+			filter: drop-shadow(0px 0px 5px #aa1111);
+			transition: 1s;
+			border: 0px;
+			cursor: pointer;
+			outline: none;
+		}
+
+		#red:hover {
+			box-shadow: 0px 0px 100px #ff5555 inset;
+		}
+
+		#blue {
+			border-radius: 100%;
+			height: 100px;
+			width: 100px;
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
+			padding: 0px;
+			margin: 0px;
+			background-color: #777777;
+			box-shadow: 0px 0px 100px #1111ff inset;
+			filter: drop-shadow(0px 0px 5px #1111aa);
+			transition: 1s;
+			border: 0px;
+			cursor: pointer;
+			outline: none;
+		}
+
+		#blue:hover {
+			box-shadow: 0px 0px 100px #5555ff inset;
+		}
+
+		#red[player="human"]:after, #blue[player="human"]:after {
+			content: "human";
+			color: #dddddd;
+			font-family: sans-serif;
+			font-size: 25px;
+		}
+
+		#red[player="ai"]:after, #blue[player="ai"]:after {
+			content: "ai";
+			color: #dddddd;
+			font-family: sans-serif;
+			font-size: 25px;
+		}
+
+/*** board ***/
+	#board {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 90vh;
+		width: 90vh;
+		max-height: 90vw;
+		max-width: 90vw;
+		border-radius: 10px;
+		border: 5px solid #111111;
+		overflow: hidden;
+		background-color: #111111;
+	}
+
+	/* game */
+		#board[turn=""] {
+			transition: 2s;
+			box-shadow: 0px 0px 100px #dddddd;
+		}
+
+		#board[turn="red"] {
+			transition: 2s;
+			box-shadow: 0px 0px 100px #aa1111;
+		}
+
+		#board[turn="blue"] {
+			transition: 2s;
+			box-shadow: 0px 0px 100px #1111aa;
+		}
+
+		#board[turn="tie"] {
+			transition: 2s;
+			box-shadow: 0px 0px 100px #11aa11;
+		}
+
+		#board[state="end"] {
+			filter: blur(5px);
+		}
+
+	/* cells */
+		.cell {
+			float: left;
+			width: calc(100% / 8);
+			height: calc(100% / 8);
+			border-radius: 5px;
+			cursor: pointer;
+		}
+
+		.cell[color="white"] {
+			background-color: #dddddd;
+		}
+
+		.cell[color="black"] {
+			background-color: #111111;
+		}
+
+		#board[turn="red"] .cell:hover {
+			box-shadow: 0px 0px 50px #aa1111 inset;
+		}
+
+		#board[turn="blue"] .cell:hover {
+			box-shadow: 0px 0px 50px #1111aa inset;
+		}
+
+	/* pieces */
+		.piece {
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 80%;
+			width: 80%;
+			border-radius: 100%;
+		}
+
+		.piece[color="red"] {
+			background-color: #777777;
+			box-shadow: 0px 0px 100px #ff1111 inset;
+			filter: drop-shadow(0px 0px 5px #aa1111);
+			transition: 1s;
+		}
+
+		.piece[color="blue"] {
+			background-color: #777777;
+			box-shadow: 0px 0px 100px #1111ff inset;
+			filter: drop-shadow(0px 0px 5px #1111aa);
+			transition: 1s;
+		}
