@@ -99,7 +99,7 @@
 			font-size: 30px;
 			border: 0px;
 			outline: none;
-			width: calc(100vw - 40px - 80px - 220px);
+			width: calc(100vw - 40px - 80px - 170px);
 			font-family: sans-serif;
 			text-transform: uppercase;
 			z-index: 2;
@@ -113,7 +113,7 @@
 		#yoy {
 			float: left;
 			height: 40px;
-			width: 200px;
+			width: 150px;
 			padding: 10px;
 			font-size: 30px;
 			text-align: right;
@@ -127,7 +127,7 @@
 		}
 
 		#yoy.negative {
-			color: pink;
+			color: crimson;
 		}
 
 		#yoy.neutral {
@@ -145,4 +145,29 @@
 		margin: 0px;
 		pointer-events: none;
 		z-index: 1;
+	}
+
+	#spinner {
+		position: absolute;
+		top: calc(50vh - 49px);
+		left: calc(50vw - 46px);
+		height: 99px;
+		width: 92px;
+		font-size: 100px;
+		line-height: 0.85;
+		color: #777777;
+		animation-name: spinner;
+		animation-duration: 1.25s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	}
+
+	#spinner.hidden {
+		display: none;
+		pointer-events: none;
+	}
+
+	@keyframes spinner {
+		0%   {transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
 	}

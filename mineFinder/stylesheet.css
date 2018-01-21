@@ -165,6 +165,7 @@
 		}
 		.cell[value="0"]:after {
 			content: "0";
+			color: #cccccc;
 		}
 
 		.cell[value="1"] {

@@ -127,7 +127,10 @@ window.onload = function() {
 				if (event.target.className == "cell") {
 					var cell = event.target
 
-					if (modify) {
+					if (modify == 16) {
+						revealNeighbors(cell)
+					}
+					else if (modify) {
 						flagCell(cell)
 					}
 					else {
@@ -135,6 +138,7 @@ window.onload = function() {
 					}
 				}
 			}
+
 	/*** gameplay ***/
 		/* flagCell */
 			function flagCell(cell) {
@@ -147,23 +151,6 @@ window.onload = function() {
 					}
 					else if (state == "!") {
 						cell.setAttribute("state", "?")
-					}
-				
-				// reveal neighbors
-					else if (state == ".") {
-						var x = Number(cell.id.split("_")[1])
-						var y = Number(cell.id.split("_")[2])
-
-						for (var deltaY = -1; deltaY <= 1; deltaY++) {
-							for (var deltaX = -1; deltaX <= 1; deltaX++) {
-								if (deltaY || deltaX) {
-									var neighbor = document.getElementById("_" + (x + deltaX) + "_" + (y + deltaY))
-									if (neighbor && neighbor.getAttribute("state") == "?") {
-										revealCell(neighbor)
-									}
-								}
-							}
-						}
 					}
 			}
 
@@ -182,19 +169,7 @@ window.onload = function() {
 					else if (state == "?" && value == "0") {
 						cell.setAttribute("state", ".")
 
-						var x = Number(cell.id.split("_")[1])
-						var y = Number(cell.id.split("_")[2])
-
-						for (var deltaY = -1; deltaY <= 1; deltaY++) {
-							for (var deltaX = -1; deltaX <= 1; deltaX++) {
-								if (deltaY || deltaX) {
-									var neighbor = document.getElementById("_" + (x + deltaX) + "_" + (y + deltaY))
-									if (neighbor) {
-										revealCell(neighbor)
-									}
-								}
-							}
-						}
+						revealNeighbors(cell)
 
 						if (checkVictory()) {
 							endGame(true)
@@ -210,6 +185,30 @@ window.onload = function() {
 						}
 					}
 			}
+
+		/* revealNeighbors */
+			function revealNeighbors(cell) {
+				// get data
+					var state = cell.getAttribute("state")
+
+				// reveal neighbors
+					if (state == ".") {
+						var x = Number(cell.id.split("_")[1])
+						var y = Number(cell.id.split("_")[2])
+
+						for (var deltaY = -1; deltaY <= 1; deltaY++) {
+							for (var deltaX = -1; deltaX <= 1; deltaX++) {
+								if (deltaY || deltaX) {
+									var neighbor = document.getElementById("_" + (x + deltaX) + "_" + (y + deltaY))
+									if (neighbor && neighbor.getAttribute("state") == "?") {
+										revealCell(neighbor)
+									}
+								}
+							}
+						}
+					}
+			}
+
 
 		/* checkVictory */
 			function checkVictory() {

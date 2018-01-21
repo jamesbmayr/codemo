@@ -3,6 +3,7 @@ window.onload = function() {
 		/* globals */
 			var apikey = "FKKGHK14DXGKONS4"
 			var canvas = document.getElementById("chart")
+			var data = null
 
 		/* resizeCanvas */
 			resizeCanvas()
@@ -10,6 +11,10 @@ window.onload = function() {
 			function resizeCanvas() {
 				canvas.height = window.innerHeight - 100
 				canvas.width  = window.innerWidth - 40
+
+				if (data) {
+					handleRequest()
+				}
 			}
 
 	/*** interaction ***/
@@ -19,6 +24,8 @@ window.onload = function() {
 				if (event.target.className == "item") {
 					var symbol = event.target.innerText
 					document.getElementById("search").value = symbol
+
+					fetchStock()
 				}
 			}
 
@@ -29,6 +36,7 @@ window.onload = function() {
 				var symbol = document.getElementById("search").value.toUpperCase() || null
 
 				if (symbol) {
+					document.getElementById("spinner").className = ""
 					var request = new XMLHttpRequest()
 						request.addEventListener("load", handleRequest)
 						request.open("GET", "https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=" + symbol + "&apikey=" + apikey)
@@ -41,8 +49,9 @@ window.onload = function() {
 			function handleRequest() {
 				try {
 					// get data
-						var data = this.responseText
-							data = JSON.parse(data)
+						if (this && this.responseText) {
+							data = JSON.parse(this.responseText)
+						}
 						var dates = Object.keys(data["Monthly Time Series"])
 
 					// save to recent
@@ -75,10 +84,14 @@ window.onload = function() {
 						else {
 							document.getElementById("yoy").className = "neutral"	
 						}
+
+					// hide spinner
+						document.getElementById("spinner").className = "hidden"
 				}
 				catch (error) {
 					document.getElementById("yoy").innerText = "not found"
-					document.getElementById("yoy").className = "positive"
+					document.getElementById("yoy").className = "negative"
+					document.getElementById("spinner").className = "hidden"
 				}
 			}
 
