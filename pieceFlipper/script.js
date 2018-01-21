@@ -46,6 +46,7 @@ window.onload = function() {
 				document.getElementById("menu").className = ""
 				document.getElementById("board").setAttribute("turn", victory || "tie")
 				document.getElementById("board").setAttribute("state", "end")
+				document.getElementById("start").innerHTML = (victory ? (victory + " wins!") : "tie game!") + "<br>play again?"
 			}
 
 		/* switchPlayers */
@@ -373,9 +374,14 @@ window.onload = function() {
 					var open = []
 					for (var c in cells) {
 						if (!cells[c].childNodes.length) {
+							var x = Number(cells[c].id.split("_")[1])
+							var y = Number(cells[c].id.split("_")[2])
+
 							open.push({
-								count: 0,
-								cell: cells[c]
+								count:  0,
+								cell:   cells[c],
+								edge:   ((x == 0 || x == 7 || y == 0 || y == 7) ? true : false),
+								corner: (((x == 0 && y == 0) || (x == 0 && y == 7) || (x == 7 && y == 0) || (x == 7 && y == 7)) ? true : false)
 							})
 						}
 					}
@@ -398,7 +404,27 @@ window.onload = function() {
 				// sort options
 					var options = findOptions()
 					options.sort(function(a, b) {
-						return b.count > a.count
+						return b.count - a.count
+					})
+
+				// put edges ahead
+					options.sort(function (a, b) {
+						if (b.edge && !a.edge) {
+							return 1
+						}
+						else {
+							return -1
+						}
+					})
+
+				// put corners ahead
+					options.sort(function (a, b) {
+						if (b.corner && !a.corner) {
+							return 1
+						}
+						else {
+							return -1
+						}
 					})
 
 				// select one of top 3 options

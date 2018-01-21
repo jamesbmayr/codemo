@@ -57,7 +57,8 @@
 			transition: 1s;
 			cursor: pointer;
 			border-radius: 100%;
-			filter: drop-shadow(0px 0px 50px #000000)
+			filter: drop-shadow(0px 0px 50px #000000);
+			opacity: 0.8;
 		}
 
 		#start:hover {
@@ -81,6 +82,7 @@
 			border: 0px;
 			cursor: pointer;
 			outline: none;
+			opacity: 0.8;
 		}
 
 		#red:hover {
@@ -103,6 +105,7 @@
 			border: 0px;
 			cursor: pointer;
 			outline: none;
+			opacity: 0.8;
 		}
 
 		#blue:hover {
