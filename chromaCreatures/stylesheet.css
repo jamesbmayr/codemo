@@ -11,14 +11,19 @@
 		box-shadow: 0px 0px 50px #000000 inset;
 		overflow: hidden;
 		color: #000000;
-		font-family: monospace;
+		font-family: 'Press Start 2P', monospace;
 		font-size: 20px;
 	}
 
 	/* effects */
-		.hidden {
+		.invisible {
 			opacity: 0;
 			pointer-events: none;
+			transition: 2s;
+		}
+
+		.visible {
+			opacity: 1;
 			transition: 2s;
 		}
 
@@ -34,7 +39,7 @@
 	/* title */
 		#title {
 			text-align: center;
-			font-size: 50px;
+			font-size: 35px;
 			color: #ffffff;
 			text-shadow: 0px 0px 5px #dddddd;
 			user-select: none;
@@ -47,7 +52,7 @@
 	/* start */
 		#start {
 			font-size: 50px;
-			font-family: monospace;
+			font-family: 'Press Start 2P', monospace;
 			color: #ffffff;
 			text-shadow: 0px 0px 10px #dddddd;
 			border: 0px;
@@ -85,6 +90,7 @@
 	#game.gameover {
 		filter: blur(5px) drop-shadow(0px 0px 20px #ff0000);
 		cursor: default;
+		transition: 2s;
 	}
 
 	/* score */
@@ -93,10 +99,24 @@
 			top: 50%;
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
+			text-align: center;
 			font-size: 100px;
-			font-family: monospace;
 			filter: blur(2px);
-			opacity: 0.5;
+			color: #777777;
+			text-shadow: 0px 0px 5px #dddddd;
+			z-index: -1;
+		}
+
+	/* message */
+		#message {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			text-transform: uppercase;
+			text-align: center;
+			font-size: 25px;
+			filter: blur(2px);
 			color: #ffffff;
 			text-shadow: 0px 0px 5px #dddddd;
 		}
@@ -125,7 +145,7 @@
 			left: 0px;
 			width: 100%;
 			height: 100%;
-			transition: 1s;
+			transition: 0.5s;
 			border-radius: 100%;
 		}
 
@@ -150,10 +170,9 @@
 	/* blaster */
 		#blaster {
 			position: absolute;
-			top: 95%;
-			left: calc(50% - 2vh);
-			height: 4vh;
-			width: 4vh;
+			top: 100%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
 			border-radius: 35%;
 		}
 
@@ -164,8 +183,53 @@
 			left: 0px;
 			width: 100%;
 			height: 100%;
-			transition: 1s;
+			transition: 0.5s;
 			border-radius: 35%;
+		}
+
+		#blaster[size="0"] {
+			height: 4vh;
+			width: 4vh;
+		}
+		#blaster[size="1"] {
+			height: 3.6vh;
+			width: 3.6vh;
+		}
+		#blaster[size="2"] {
+			height: 3.2vh;
+			width: 3.2vh;
+		}
+		#blaster[size="3"] {
+			height: 2.8vh;
+			width: 2.8vh;
+		}
+		#blaster[size="4"] {
+			height: 2.4vh;
+			width: 2.4vh;
+		}
+		#blaster[size="5"] {
+			height: 2vh;
+			width: 2vh;
+		}
+		#blaster[size="6"] {
+			height: 1.6vh;
+			width: 1.6vh;
+		}
+		#blaster[size="7"] {
+			height: 1.2vh;
+			width: 1.2vh;
+		}
+		#blaster[size="8"] {
+			height: 0.8vh;
+			width: 0.8vh;
+		}
+		#blaster[size="9"] {
+			height: 0.4vh;
+			width: 0.4vh;
+		}
+		#blaster[size="10"] {
+			height: 0vh;
+			width: 0vh;
 		}
 
 /*** colors ***/
