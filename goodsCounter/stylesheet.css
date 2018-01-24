@@ -1,0 +1,121 @@
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+		font-family: 'Share Tech Mono', monospace;
+		color: #000000;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+	}
+
+/*** content ***/
+	#counters {
+		float: left;
+		height: 100%;
+		width: 100%;
+	}
+
+	/* blocks */
+		.counter {
+			float: left;
+			width: 10%;
+			height: 100%;
+		}
+
+		#money {
+			width: 30%;
+			height: 100%;
+		}
+
+		@media screen and (max-width: 650px) {
+			.counter {
+				width: 20%;
+				height: 50%;
+			}
+
+			#money {
+				width: 60%;
+				height: 50%;
+			}
+		}
+
+	/* buttons */
+		.plus, .minus {
+			float: left;
+			width: 100%;
+			height: 25%;
+			padding: 0px;
+			font-family: 'Share Tech Mono', monospace;
+			color: #dddddd;
+			background-color: #111111;
+			border: 0px;
+			font-size: 80px;
+			cursor: pointer;
+			outline: none;
+		}
+
+		.plus:hover, .plus:focus, .minus:hover, .minus:focus {
+			background-color: #222222;
+		}
+
+	/* values */
+		input.number {
+			float: left;
+			width: 100%;
+			height: 50%;
+			text-align: center;
+			padding: 0px;
+			font-family: 'Share Tech Mono', monospace;
+			color: #111111;
+			font-size: 50px;
+			border: 0px;
+			padding: 0px;
+			outline: none;
+		}
+
+		input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		input[type="number"] {
+			-moz-appearance: textfield;
+		}
+
+	/* colors */
+		#red .number {
+			background-color: #dd3333;
+		}
+
+		#orange .number {
+			background-color: #dd8833;
+		}
+
+		#yellow .number {
+			background-color: #dddd33;
+		}
+
+		#green .number {
+			background-color: #33dd33;
+		}
+
+		#blue .number {
+			background-color: #3377dd;
+		}
+
+		#purple .number {
+			background-color: #9933cc;
+		}
+
+		#brown .number {
+			background-color: #996633;
+		}
+
+		#money .number {
+			background-color: #ffffff;
+			font-size: 100px;
+		}
