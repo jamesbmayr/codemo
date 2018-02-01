@@ -640,6 +640,24 @@ function javascript() {
 				url: "http://www.chalicethegame.com",
 				date: "December 15, 2017",
 				description: "Originally a card game, the new Chalice brings the same multiplayer gameplay to the web."
+			},
+			{
+				id: "chromacreatures",
+				title: "chromaCreatures",
+				tags: "games",
+				image: "logos/chromacreatures.png",
+				url: "https://rawgit.com/jamesbmayr/codemo/master/chromaCreatures/",
+				date: "January 15, 2018",
+				description: "chromaCreatures is a challenging shoot-em-up arcade game - players use a monochromatic blaster to fend off hybrid-hued enemies."
+			},
+			{
+				id: "switchonyms",
+				title: "Switchonyms",
+				tags: "games",
+				image: "logos/switchonyms.png",
+				url: "http://www.switchonyms.com",
+				date: "February 1, 2018",
+				description: "Switchonyms is a chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 			}
 		]
 
