@@ -617,7 +617,7 @@ function javascript() {
 			{
 				id: "specterinspectors",
 				title: "Specter Inspectors",
-				tags: "code game",
+				tags: "code games",
 				image: "logos/specterinspectors.png",
 				url: "http://www.specterinspectors.com",
 				date: "October 27, 2017",
@@ -635,7 +635,7 @@ function javascript() {
 			{
 				id: "chalice2",
 				title: "Chalice",
-				tags: "games",
+				tags: "code games",
 				image: "logos/chalice2.png",
 				url: "http://www.chalicethegame.com",
 				date: "December 15, 2017",
@@ -644,7 +644,7 @@ function javascript() {
 			{
 				id: "chromacreatures",
 				title: "chromaCreatures",
-				tags: "games",
+				tags: "code games",
 				image: "logos/chromacreatures.png",
 				url: "https://rawgit.com/jamesbmayr/codemo/master/chromaCreatures/",
 				date: "January 15, 2018",
@@ -653,7 +653,7 @@ function javascript() {
 			{
 				id: "switchonyms",
 				title: "Switchonyms",
-				tags: "games",
+				tags: "code games",
 				image: "logos/switchonyms.png",
 				url: "http://www.switchonyms.com",
 				date: "February 1, 2018",
