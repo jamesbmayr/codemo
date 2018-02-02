@@ -1,0 +1,198 @@
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+		background-color: #111111;
+		box-shadow: 0px 0px 25px #111111 inset;
+		font-family: monospace;
+		overflow: hidden;
+	}
+
+/*** container ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		height: 80%;
+		width: 80%;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	#title {
+		position: absolute;
+		top: 25%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: 100%;
+		font-size: 64px;
+		text-align: center;
+		text-transform: uppercase;
+		color: #141414;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		cursor: default;
+	}
+
+/*** graph ***/
+	#graph {
+		position: absolute;
+		top: 0%;
+		left: 0%;
+		height: 50%;
+		width: 100%;
+	}
+
+	#graph[grabbing] {
+		cursor: grabbing;
+		cursor: -webkit-grabbing;
+	}
+
+	/* overtones */
+		.overtone {
+			position: absolute;
+			bottom: 0px;
+			width: 2%;
+			background-color: #dddddd;
+			border-radius: 4px;
+			min-height: 1%;
+			max-height: 100%;
+			cursor: pointer;
+			color: rgba(0,0,0,0.1);
+			font-size: 50%;
+			text-align: center;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		.overtone:hover {
+			background-color: #bbbbbb;
+		}
+
+		.overtone[selected] {
+			box-shadow: 0px 0px 10px #aaaaaa;
+			cursor: grabbing;
+			cursor: -webkit-grabbing;
+		}
+
+/*** level ***/
+	#level {
+		position: absolute;
+		top: 53.5%;
+		height: 3%;
+		width: 100%;
+	}
+
+	#level[grabbing] {
+		cursor: grabbing;
+		cursor: -webkit-grabbing;
+	}
+
+	#level-bar {
+		position: absolute;
+		left: 0px;
+		height: 100%;
+		min-width: 1%;
+		max-width: 100%;
+		background-color: #dddddd;
+		border-radius: 4px;
+		cursor: pointer;
+		text-align: center;
+		color: rgba(0,0,0,0.1);
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	#level-bar:hover {
+		background-color: #bbbbbb;
+	}
+
+	#level-bar[selected] {
+		box-shadow: 0px 0px 10px #aaaaaa;
+		cursor: grabbing;
+		cursor: -webkit-grabbing;
+	}
+
+/*** board ***/
+	#board {
+		position: absolute;
+		top: 60%;
+		height: 40%;
+		width: 100%;
+		border-radius: 8px;
+	}
+
+	/* keys */
+		.key {
+			position: absolute;
+			top: 0px;
+			border: 0px;
+			border-radius: 0px 0px 8px 8px;
+			cursor: pointer;
+			font-family: monospace;
+			font-size: 15px;
+			outline: none;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		.key:first-child {
+			border-radius: 16px 0px 8px 16px;
+		}
+
+		.key:last-child {
+			border-radius: 0px 16px 16px 8px;
+		}
+
+	/* white */
+		.key[color="white"] {
+			z-index: 1;
+			background-color: #dddddd;
+			width: calc((100% / 15) - 5px);
+			height: 100%;
+			color: rgba(0,0,0,0.1);
+		}
+
+		.key[color="white"]:hover {
+			background-color: #bbbbbb;
+		}
+
+		.key[color="white"][selected] {
+			z-index: 2;
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+
+	/* black */
+		.key[color="black"] {
+			z-index: 3;
+			background-color: #222222;
+			width: calc(75% / 15);
+			height: 75%;
+			color: rgba(0,0,0,0.3);
+		}
+
+		.key[color="black"]:hover {
+			background-color: #111111;
+		}
+
+		.key[color="black"][selected] {
+			z-index: 4;
+			box-shadow: 0px 0px 10px #dddddd;
+		}
