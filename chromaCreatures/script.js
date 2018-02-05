@@ -79,7 +79,7 @@ window.onload = function() {
 		/* updateGame */
 			function updateGame() {
 				// create creatures
-					if (Array.from(creatures.childNodes).length < Math.min(((points + 10) / 10), 5)) {
+					if (Array.from(creatures.childNodes).length < Math.max(2, Math.min(((points + 10) / 10), 5))) {
 						createCreature()
 					}
 
