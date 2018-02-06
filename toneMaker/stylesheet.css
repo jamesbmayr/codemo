@@ -415,6 +415,40 @@
 		width: 5%;
 	}
 
+/*** tool-noise ***/
+	#tool-noise .section {
+		position: absolute;
+		left: 0px;
+		height: 50px;
+		width: 100%;
+	}
+
+	#tool-noise .toggle {
+		height: 50px;
+		width: 50px;
+		border-radius: 100%;
+		font-size: 25px;
+	}
+
+	#tool-noise .input {
+		position: absolute;
+		left: 60px;
+		width: 80px;
+		height: 100%;
+		font-size: 20px;
+	}
+
+	#tool-noise .track {
+		position: absolute;
+		left: 150px;
+		height: 100%;
+		width: calc(100% - 150px);
+	}
+
+	#tool-noise .bar {
+		height: 100%;
+	}
+
 /*** tool-envelope ***/
 	#tool-envelope .input {
 		position: absolute;

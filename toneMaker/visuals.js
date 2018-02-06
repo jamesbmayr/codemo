@@ -32,11 +32,12 @@ window.addEventListener("load", function() {
 				buildMetaTools()
 				buildPolysynthTool()
 				buildWaveTool()
+				buildNoiseTool()
 				buildEnvelopeTool()
 				buildEchoTool()
 				buildKeyboard()
 
-				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-polysynth']"))[0]})
+				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-meta']"))[0]})
 			}
 
 	/*** bars & inputs ***/
@@ -63,6 +64,9 @@ window.addEventListener("load", function() {
 						break
 						case "tool-wave": 
 							adjustWaveToolBar(event)
+						break
+						case "tool-noise":
+							adjustNoiseToolBar(event)
 						break
 						case "tool-envelope":
 							adjustEnvelopeToolBar(event)
@@ -95,6 +99,9 @@ window.addEventListener("load", function() {
 						case "tool-wave": 
 							adjustWaveToolInput(event)
 						break
+						case "tool-noise": 
+							adjustNoiseToolInput(event)
+						break
 						case "tool-envelope":
 							adjustEnvelopeToolInput(event)
 						break
@@ -116,6 +123,9 @@ window.addEventListener("load", function() {
 						case "tool-polysynth":
 							adjustPolysynthToolToggle(event)
 						break
+						case "tool-noise":
+							adjustNoiseToolToggle(event)
+						break
 					}
 				}
 			}
@@ -128,13 +138,16 @@ window.addEventListener("load", function() {
 				// name
 					var element = document.createElement("input")
 						element.id = "tool-meta-name"
+						element.className = "section"
 						element.setAttribute("placeholder", "instrument name")
+						element.value = "synthesizer"
 						element.addEventListener("change", changeName)
 					metaTool.appendChild(element)
 
 				// volume
 					var element = document.createElement("div")
 						element.id = "tool-meta-volume"
+						element.className = "section"
 					metaTool.appendChild(element)
 
 					var input = document.createElement("input")
@@ -309,6 +322,107 @@ window.addEventListener("load", function() {
 					var harmonic = {}
 						harmonic[event.target.id.split("--")[1]] = percentage / 100
 					window.instrument.setParameters({harmonic: harmonic})
+			}
+
+	/*** tool-noise ***/
+		/* buildNoiseTool */
+			function buildNoiseTool() {
+				var noiseTool = document.getElementById("tool-noise")
+				var colors = ["white", "pink", "brown"]
+
+				for (var c = 0; c < colors.length; c++) {
+					var color = colors[c]
+					
+					// volume
+						var element = document.createElement("div")
+							element.className = "section"
+							element.id = "tool-noise-volume--" + color
+							element.style.top = (c * 75) + 10 + "px"
+						noiseTool.appendChild(element)
+
+						var input = document.createElement("input")
+							input.setAttribute("type", "number")
+							input.setAttribute("min", 0)
+							input.setAttribute("max", 100)
+							input.className = "input"
+							input.id = "tool-noise-volume-input--" + color
+							input.value = 20 + (20 * c)
+						element.appendChild(input)
+
+						var track = document.createElement("div")
+							track.id = "tool-noise-volume-track--" + color
+							track.className = "track"
+						element.appendChild(track)
+
+						var bar = document.createElement("div")
+							bar.id = "tool-noise-volume-bar--" + color
+							bar.className = "bar"
+							bar.style.width = 20 + (20 * c) + "%"
+							bar.innerHTML = color + '&nbsp;<span class="fas fa-volume-up"></span>'
+						track.appendChild(bar)
+
+					// power
+						var toggle = document.createElement("button")
+							toggle.id = "tool-noise-power--" + color
+							toggle.className = "toggle"
+							toggle.innerHTML = '<span class="fas fa-cloud"></span>'
+						element.appendChild(toggle)
+				}
+			}
+
+		/* adjustNoiseToolBar */
+			function adjustNoiseToolBar(event) {
+				// display
+					var type = parameter.id.split("--")[1]
+					var rectangle  = document.getElementById("tool-noise-volume-track--" + type).getBoundingClientRect()
+					var input = document.getElementById("tool-noise-volume-input--" + type)
+
+					var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+						percentage = Math.min(100, Math.max(0, percentage))
+					parameter.style.width = percentage + "%"
+					input.value = percentage
+
+				// data
+					adjustNoiseToolInput({target: input})
+			}
+
+		/* adjustNoiseToolInput */
+			function adjustNoiseToolInput(event) {
+				// display
+					var type = event.target.id.split("--")[1]
+					var bar = document.getElementById("tool-noise-volume-bar--" + type)
+					var percentage = Number(event.target.value)
+						percentage = Math.min(100, Math.max(0, percentage))
+					bar.style.width = percentage + "%"
+
+				// audio
+					if (document.getElementById("tool-noise-power--" + type).getAttribute("selected")) {
+						var noise = {}
+							noise[type] = percentage
+						window.instrument.setParameters({ noise: noise })
+					}
+			}
+
+		/* adjustNoiseToolToggle */
+			function adjustNoiseToolToggle(event) {
+				if (event.target.getAttribute("selected")) {
+					event.target.removeAttribute("selected")
+
+					var type = event.target.id.split("--")[1]
+					var noise = {}
+						noise[type] = 0
+					window.instrument.setParameters({ noise: noise })
+				}
+				else {
+					event.target.setAttribute("selected", true)
+
+					var type = event.target.id.split("--")[1]
+					var percentage = document.getElementById("tool-noise-volume-input--" + type).value
+						percentage = Math.min(100, Math.max(0, percentage))
+					var noise = {}
+						noise[type] = percentage
+					window.instrument.setParameters({ noise: noise })
+				}
 			}
 
 	/*** tool-envelope ***/	
