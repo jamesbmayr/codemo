@@ -2,18 +2,34 @@
 <html>
 	<head>
 		<title>toneMaker</title>
-		<link rel="shortcut icon" href="http://barhoprecords.com/wp-content/uploads/2015/12/sound-wave.png"/>
+		<link rel="shortcut icon" href="logo.png"/>
+		<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="stylesheet.css"/>
-		<script src="script.js"></script>
+		<script src="visuals.js"></script>
+		<script src="audio.js"></script>
 	</head>
 	<body>
 		<div id="container">
 			<div id="title">toneMaker</div>
-			<div id="graph"></div>
-			<div id="level">
-				<div id="level-bar" style="width: 75%">volume</div>
+			<div id="tools">
+				<div class="tool" id="tool-meta"></div>
+				<div class="tool" id="tool-polysynth"></div>
+				<div class="tool" id="tool-wave"></div>
+				<div class="tool" id="tool-envelope"></div>
+				<div class="tool" id="tool-echo"></div>
+				<div class="tool" id="tool-effects"></div>
+				<div class="tool" id="tool-visualizer"></div>
 			</div>
-			<div id="board"></div>
+			<div id="switcher">
+				<button value="tool-meta"><span class="fas fa-cog"></span></button>
+				<button value="tool-polysynth"><span class="fas fa-sitemap"></span></button>
+				<button value="tool-wave"><span class="fas fa-signal"></span></button>
+				<button value="tool-envelope"><span class="fas fa-envelope-open"></span></button>
+				<button value="tool-echo"><span class="fas fa-ellipsis-h"></span></button>
+				<button value="tool-effects"><span class="fas fa-filter"></span></button>
+				<button value="tool-visualizer"><span class="fas fa-eye"></span></button>
+			</div>
+			<div id="keyboard"></div>
 		</div>
 	</body>
 </html>
