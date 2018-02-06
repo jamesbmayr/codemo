@@ -1,9 +1,10 @@
 window.addEventListener("load", function() {
 
-	/*** globals ***/
-		var tool = null
-		var parameter = null
-		var key = null
+	/*** onload ***/
+		/* globals */
+			var tool = null
+			var parameter = null
+			var key = null
 
 		/* prevention */
 			document.body.ondragstart = function() { return false }
@@ -29,12 +30,13 @@ window.addEventListener("load", function() {
 			buildTools()
 			function buildTools() {
 				buildMetaTools()
+				buildPolysynthTool()
 				buildWaveTool()
 				buildEnvelopeTool()
 				buildEchoTool()
 				buildKeyboard()
 
-				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-envelope']"))[0]})
+				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-polysynth']"))[0]})
 			}
 
 	/*** bars & inputs ***/
@@ -103,6 +105,21 @@ window.addEventListener("load", function() {
 				}
 			}
 
+		/* changeToggle */
+			Array.from(document.querySelectorAll(".toggle")).forEach(function (t) { t.addEventListener("click", changeToggle) })
+			function changeToggle(event) {
+				if (tool) {
+					switch (tool.id) {
+						case "tool-meta":
+							adjustPowerToolToggle(event)
+						break
+						case "tool-polysynth":
+							adjustPolysynthToolToggle(event)
+						break
+					}
+				}
+			}
+
 	/*** tool-meta ***/
 		/* buildMetaTools */
 			function buildMetaTools() {
@@ -119,13 +136,6 @@ window.addEventListener("load", function() {
 					var element = document.createElement("div")
 						element.id = "tool-meta-volume"
 					metaTool.appendChild(element)
-
-					var button = document.createElement("button")
-						button.id = "tool-meta-power"
-						button.setAttribute("selected", true)
-						button.addEventListener("click", changePower)
-						button.innerHTML = '<span class="fas fa-power-off"></span>'
-					element.appendChild(button)
 
 					var input = document.createElement("input")
 						input.setAttribute("type", "number")
@@ -147,6 +157,14 @@ window.addEventListener("load", function() {
 						bar.style.width = "75%"
 						bar.innerHTML = '<span class="fas fa-volume-up"></span>'
 					track.appendChild(bar)
+
+				// power
+					var toggle = document.createElement("button")
+						toggle.id = "tool-meta-power"
+						toggle.className = "toggle"
+						toggle.setAttribute("selected", true)
+						toggle.innerHTML = '<span class="fas fa-power-off"></span>'
+					element.appendChild(toggle)
 			}
 
 		/* changeName */
@@ -156,17 +174,15 @@ window.addEventListener("load", function() {
 				}
 			}
 
-		/* changePower */
-			function changePower(event) {
-				if (event.target.id == "tool-meta-power") {
-					if (event.target.getAttribute("selected")) {
-						event.target.removeAttribute("selected")
-						window.instrument.setParameters({ power: 0 })
-					}
-					else {
-						event.target.setAttribute("selected", true)
-						window.instrument.setParameters({ power: 1 })
-					}
+		/* adjustPowerToolToggle */
+			function adjustPowerToolToggle(event) {
+				if (event.target.getAttribute("selected")) {
+					event.target.removeAttribute("selected")
+					window.instrument.setParameters({ power: 0 })
+				}
+				else {
+					event.target.setAttribute("selected", true)
+					window.instrument.setParameters({ power: 1 })
 				}
 			}
 
@@ -198,6 +214,40 @@ window.addEventListener("load", function() {
 			}
 
 	/*** tool-polysynth ***/
+		/* buildPolysynthTool **/
+			function buildPolysynthTool() {
+				var polysynthTool = document.getElementById("tool-polysynth")
+
+				for (var i = -12; i <= 12; i++) {
+					var toggle = document.createElement("button")
+						toggle.className = "toggle"
+						toggle.id = "tool-polysynth-toggle--" + i
+						toggle.value = i
+						toggle.innerHTML = Math.abs(i)
+						toggle.style.left = 4 * (i + 12) + "%"
+					polysynthTool.appendChild(toggle)
+				}
+
+				Array.from(polysynthTool.querySelectorAll(".toggle[value='0']"))[0].setAttribute("selected", true)
+			}
+
+		/* adjustPolysynthToolToggle */
+			function adjustPolysynthToolToggle(event) {
+				if (event.target.getAttribute("selected")) {
+					event.target.removeAttribute("selected")
+
+					var polysynth = {}
+						polysynth[Number(event.target.value)] = false
+					window.instrument.setParameters({ polysynth: polysynth })
+				}
+				else {
+					event.target.setAttribute("selected", true)
+					
+					var polysynth = {}
+						polysynth[Number(event.target.value)] = true
+					window.instrument.setParameters({ polysynth: polysynth })
+				}
+			}
 
 	/*** tool-wave ***/	
 		/* buildWaveTool */

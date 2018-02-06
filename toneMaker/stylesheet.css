@@ -21,15 +21,6 @@
 		width: 100%;
 	}
 
-	.fas {
-		pointer-events: none;
-		user-select: none;
-		-webkit-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		-o-user-select: none;
-	}
-
 /*** sections ***/
 	#title {
 		position: absolute;
@@ -171,6 +162,16 @@
 		}
 
 /*** classes ***/
+	/* font awesome */
+		.fas {
+			pointer-events: none;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
 	/* tools */
 		.tool {
 			position: absolute;
@@ -187,6 +188,37 @@
 		.tool[grabbing] {
 			cursor: grabbing;
 			cursor: -webkit-grabbing;
+		}
+
+	/* toggles */
+		.toggle {
+			position: absolute;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			outline: none;
+			cursor: pointer;
+			border: 0px;
+			padding: 0px;
+			text-align: center;
+			font-family: monospace;
+		}
+
+		.toggle[selected] {
+			background-color: #ffffff;
+			color: #333333;
+			box-shadow: 0px 0px 20px #dddddd;
+		}
+
+		.toggle:not([selected]) {
+			background-color: #dddddd;
+			color: rgba(0, 0, 0, 0.2);
+		}
+
+		.toggle:not([selected]):hover {
+			box-shadow: 0px 0px 10px #aaaaaa;
 		}
 
 	/* tracks */
@@ -265,8 +297,8 @@
 			padding: 0px;
 			border: 0px;
 			outline: none;
-			background-color: #dddddd;
-			color: #333333;
+			background-color: #333333;
+			color: #999999;
 			text-align: center;
 			border-radius: 4px;
 			font-family: monospace;
@@ -278,8 +310,9 @@
 
 		.input:focus {
 			z-index: 2;
+			background-color: #222222;
+			color: #dddddd;
 			box-shadow: 0px 0px 20px #dddddd;
-			background-color: #ffffff;
 		}
 
 /*** tool-meta-name ***/
@@ -328,7 +361,6 @@
 
 /*** tool-meta-power ***/
 	#tool-meta-power {
-		position: absolute;
 		left: 0px;
 		top: 50%;
 		transform: translateY(-50%);
@@ -336,29 +368,31 @@
 		width: 50px;
 		font-size: 25px;
 		border-radius: 100%;
-		border: 0px;
-		outline: none;
-		color: #333333;
-		cursor: pointer;
-		font-weight: bold;
-	}
-
-	#tool-meta-power[selected] {
-		background-color: #ffffff;
-		color: #333333;
-		box-shadow: 0px 0px 20px #dddddd;
-	}
-
-	#tool-meta-power:not([selected]) {
-		background-color: #dddddd;
-		color: rgba(0, 0, 0, 0.2);
-	}
-
-	#tool-meta-power:not([selected]):hover {
-		box-shadow: 0px 0px 10px #aaaaaa;
 	}
 
 /*** tool-polysynth ***/
+	#tool-polysynth[selected] {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+	}
+
+	#tool-polysynth .toggle {
+		height: 20%;
+		width: calc(4% - 4px);
+		border-radius: 16px;
+		font-size: 20px;
+		text-align: center;
+	}
+
+	#tool-polysynth .toggle[selected] {
+		height: 100%;
+	}
+
+	#tool-polysynth .toggle#tool-polysynth-toggle--0 {
+		font-size: 40px;
+	}
 
 /*** tool-wave ***/
 	#tool-wave .track {

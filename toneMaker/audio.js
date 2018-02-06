@@ -10,7 +10,9 @@ window.addEventListener("load", function() {
 		function buildInstrument(parameters) {
 			// parameters & nodes
 				var i = {
-					parameters: {},
+					parameters: {
+						voices: [0]
+					},
 					power: audio.createGain(),
 					volume: audio.createGain(),
 					effects: {},
@@ -40,6 +42,23 @@ window.addEventListener("load", function() {
 								case "volume":
 									parameters.volume = Math.max(0, Math.min(1, parameters.volume ))
 									i.volume.gain.setValueAtTime(parameters.volume, now)
+								break
+
+							// polysynth
+								case "polysynth":
+									var tone = Math.max(-12, Math.min(12, Object.keys(parameters.polysynth)[0]))
+									if (parameters.polysynth[tone]) {
+										if (!i.parameters.voices.includes(tone)) {
+											i.parameters.voices.push(tone)
+										}
+									}
+									else {
+										if (i.parameters.voices.includes(tone)) {
+											i.parameters.voices = i.parameters.voices.filter(function (t) {
+												return t !== tone
+											})
+										}
+									}
 								break
 
 							// oscillator
@@ -121,22 +140,26 @@ window.addEventListener("load", function() {
 						var now   = audio.currentTime
 
 					// nodes
-						i.tones[pitch] = audio.createOscillator()
 						i.envelopes[pitch] = audio.createGain()
-						i.tones[pitch].connect(i.envelopes[pitch])
 						i.envelopes[pitch].connect(i.volume)
 
-					// effects ?
 						if (i.parameters.delay && i.parameters.feedback) {
 							i.envelopes[pitch].connect(i.effects.echo)
 						}
 
 					// oscillator
-						i.tones[pitch].frequency.setValueAtTime(pitch, now)
-						i.tones[pitch].setPeriodicWave(i.parameters.wave)
-						i.tones[pitch].start(now)
+						for (var v = 0; v < i.parameters.voices.length; v++) {
+							var distance = i.parameters.voices[v]
+							var multiplier = Math.pow(1.05946309436, distance)
 
-					// envelope
+							i.tones[pitch + "_" + distance] = audio.createOscillator()
+							i.tones[pitch + "_" + distance].connect(i.envelopes[pitch])
+							i.tones[pitch + "_" + distance].frequency.setValueAtTime(pitch * multiplier, now)
+							i.tones[pitch + "_" + distance].setPeriodicWave(i.parameters.wave)
+							i.tones[pitch + "_" + distance].start(now)
+						}
+
+					// envelopes
 						i.envelopes[pitch].gain.setValueAtTime(0, now)
 						i.envelopes[pitch].gain.linearRampToValueAtTime(1, now + (i.parameters.attack || 0))
 						i.envelopes[pitch].gain.exponentialRampToValueAtTime((i.parameters.sustain || 0) + 0.001, now + (i.parameters.attack || 0) + (i.parameters.decay || 0))
@@ -152,11 +175,15 @@ window.addEventListener("load", function() {
 						i.envelopes[pitch].gain.cancelScheduledValues(now)
 						i.envelopes[pitch].gain.setValueAtTime(i.envelopes[pitch].gain.value, now)
 						i.envelopes[pitch].gain.exponentialRampToValueAtTime(0.001, now + (i.parameters.release || 0))
-						i.tones[pitch].stop(now + (i.parameters.release || 0))
-
-					// oscillator
 						delete i.envelopes[pitch]
-						delete i.tones[pitch]
+					
+					// oscillators
+						Object.keys(i.tones).forEach(function (t) {
+							if (t.split("_")[0] == pitch) {
+								i.tones[t].stop(now + (i.parameters.release || 0))
+								delete i.tones[t]
+							}
+						})
 				}
 			
 			// start
