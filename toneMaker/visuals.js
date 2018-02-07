@@ -1,6 +1,6 @@
 window.addEventListener("load", function() {
 
-	/*** onload ***/
+	/*** load ***/
 		/* globals */
 			var tool = null
 			var parameter = null
@@ -34,10 +34,11 @@ window.addEventListener("load", function() {
 				buildWaveTool()
 				buildNoiseTool()
 				buildEnvelopeTool()
+				buildFilterTool()
 				buildEchoTool()
 				buildKeyboard()
 
-				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-meta']"))[0]})
+				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-filter']"))[0]})
 			}
 
 	/*** bars & inputs ***/
@@ -70,6 +71,9 @@ window.addEventListener("load", function() {
 						break
 						case "tool-envelope":
 							adjustEnvelopeToolBar(event)
+						break
+						case "tool-filter":
+							adjustFilterToolBar(event)
 						break
 						case "tool-echo":
 							adjustEchoToolBar(event)
@@ -104,6 +108,9 @@ window.addEventListener("load", function() {
 						break
 						case "tool-envelope":
 							adjustEnvelopeToolInput(event)
+						break
+						case "tool-filter":
+							adjustFilterToolInput(event)
 						break
 						case "tool-echo":
 							adjustEchoToolInput(event)
@@ -431,7 +438,7 @@ window.addEventListener("load", function() {
 				var envelopeTool = document.getElementById("tool-envelope")
 
 				// track
-					var track = document.createElement("track")
+					var track = document.createElement("div")
 						track.className = "track"
 						track.id = "tool-envelope-track"
 					envelopeTool.appendChild(track)
@@ -598,6 +605,193 @@ window.addEventListener("load", function() {
 					window.instrument.setParameters({ envelope: envelope })
 			}
 
+	/*** tool-filter ***/
+		/* buildFilterTool */
+			function buildFilterTool() {
+				var filterTool = document.getElementById("tool-filter")
+
+				// default
+					var raw = document.createElement("div")
+						raw.id = "tool-filter-raw"
+					filterTool.appendChild(raw)
+
+				// track
+					var track = document.createElement("div")
+						track.className = "track"
+						track.id = "tool-filter-track"
+					filterTool.appendChild(track)
+
+				// filter shapes / inputs
+					for (var i = 0; i <= 4; i++) {
+						// data
+							var low  = ((i - 2) * 25) + 50 - 40
+							var high = ((i - 2) * 25) + 50 + 40
+							var gain = ((i % 4 == 0) ? ((i - 2) * -20) : 0)
+						
+						// blobs
+							var blob = document.createElement("div")
+								blob.className = "blob"
+								blob.id = "tool-filter-blob--" + i
+								blob.style["clip-path"] = "polygon(100% 50%, 100% 100%, 0% 100%, 0% 50%, " + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
+							track.appendChild(blob)
+
+						// gain
+							var shape = document.createElement("div")
+								shape.className = "shape circle"
+								shape.id = "tool-filter-shape--gain--" + i
+								shape.style.left = ((low + high) / 2) + "%"
+								shape.style.top = (50 - gain) + "%"
+							track.appendChild(shape)
+
+							var input = document.createElement("input")
+								input.setAttribute("type", "number")
+								input.setAttribute("min", 0)
+								input.setAttribute("max", 100)
+								input.className = "input"
+								input.id = "tool-filter-input--gain--" + i
+								input.value = gain
+								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+								input.style.bottom = "15px"
+							filterTool.appendChild(input)
+
+						// low
+							var shape = document.createElement("div")
+								shape.className = "shape square"
+								shape.id = "tool-filter-shape--low--" + i
+								shape.style.left = low + "%"
+								shape.style.top = "50%"
+							track.appendChild(shape)
+
+							var input = document.createElement("input")
+								input.setAttribute("type", "number")
+								input.setAttribute("min", 0)
+								input.setAttribute("max", 100)
+								input.className = "input"
+								input.id = "tool-filter-input--low--" + i
+								input.value = low
+								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+								input.style.bottom = "30px"
+							filterTool.appendChild(input)
+
+						// high
+							var shape = document.createElement("div")
+								shape.className = "shape square"
+								shape.id = "tool-filter-shape--high--" + i
+								shape.style.left = high + "%"
+								shape.style.top = "50%"
+							track.appendChild(shape)
+
+							var input = document.createElement("input")
+								input.setAttribute("type", "number")
+								input.setAttribute("min", 0)
+								input.setAttribute("max", 100)
+								input.className = "input"
+								input.id = "tool-filter-input--high--" + i
+								input.value = high
+								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+								input.style.bottom = "0px"
+							filterTool.appendChild(input)
+					}
+			}
+
+		/* adjustFilterToolBar */
+			function adjustFilterToolBar(event) {
+				// display
+					var rectangle = document.getElementById("tool-filter-track").getBoundingClientRect()
+					var shape     = parameter.getBoundingClientRect()
+					var type      = parameter.id.split("--")[1]
+					var num       = parameter.id.split("--")[2]
+					var input     = document.getElementById("tool-filter-input--" + type + "--" + num)
+					var blob      = document.getElementById("tool-filter-blob--" + num)
+				
+				// gain
+					if (type == "gain") {
+						var percentage = (event.y - rectangle.top) * 100 / (rectangle.height)
+							percentage = Math.min(100, Math.max(0, percentage))
+						parameter.style.top = percentage + "%"
+						input.value = (50 - percentage)
+
+						var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+							percentage = Math.min(100, Math.max(0, percentage))
+						parameter.style.left = percentage + "%"
+
+						var low  = document.getElementById("tool-filter-input--low--" + num)
+						var lowValue  = Math.min(200, Math.max(-100, low.value))
+						var high = document.getElementById("tool-filter-input--high--" + num)
+						var highValue = Math.min(200, Math.max(-100, high.value))
+
+						var distance = (highValue - lowValue) / 2
+						low.value  = percentage - distance
+						high.value = percentage + distance
+							
+					}
+
+				// low
+					else if (type == "low") {
+						var high = document.getElementById("tool-filter-input--high--" + num)
+						var highValue = Math.min(200, Math.max(-100, high.value))
+
+						var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+							percentage = Math.min(100, Math.max(0, percentage))
+
+						if (percentage < highValue) {
+							parameter.style.left = percentage + "%"
+							input.value = percentage
+						}
+					}
+
+				// high
+					else if (type == "high") {
+						var low = document.getElementById("tool-filter-input--low--" + num)
+						var lowValue = Math.min(200, Math.max(-100, low.value))
+
+						var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+							percentage = Math.min(100, Math.max(0, percentage))
+
+						if (percentage > lowValue) {
+							parameter.style.left = percentage + "%"
+							input.value = percentage
+						}
+					}
+
+				// data
+					adjustFilterToolInput({target: input})
+			}
+
+		/* adjustFilterToolInput */
+			function adjustFilterToolInput(event) {
+				// data
+					var type = parameter.id.split("--")[1]
+					var num  = parameter.id.split("--")[2]
+					var blob = document.getElementById("tool-filter-blob--" + num)
+
+					var low       = document.getElementById("tool-filter-input--low--"  + num)
+					var lowValue  = Math.min(200, Math.max(-100, low.value))
+					var high      = document.getElementById("tool-filter-input--high--" + num)
+					var highValue = Math.min(200, Math.max(-100, high.value))
+					var gain      = document.getElementById("tool-filter-input--gain--" + num)
+					var gainValue = Math.min(50, Math.max(-50, gain.value))
+
+				// display
+					blob.style["clip-path"] = "polygon(100% 50%, 100% 100%, 0% 100%, 0% 50%, " + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
+					document.getElementById("tool-filter-shape--low--"  + num).style.left = lowValue  + "%"
+					document.getElementById("tool-filter-shape--high--" + num).style.left = highValue + "%"
+					document.getElementById("tool-filter-shape--gain--" + num).style.left = ((highValue + lowValue) / 2) + "%"
+
+					low.style.left = high.style.left = gain.style.left = Math.max(5, Math.min(95, ((highValue + lowValue) / 2))) + "%"
+
+				// audio
+					var filters = {}
+						filters[num] = {
+							low:  (440 * Math.pow(2, (  lowValue                   - 45) / 12)),
+							mid:  (440 * Math.pow(2, (((lowValue + highValue) / 2) - 45) / 12)),
+							high: (440 * Math.pow(2, (             highValue       - 45) / 12)),
+							gain: gainValue
+						}
+
+					window.instrument.setParameters({ filters: filters })
+			}
+
 	/*** tool-echo ***/
 		/* buildEchoTool */
 			function buildEchoTool() {
@@ -726,7 +920,6 @@ window.addEventListener("load", function() {
 						feedback: feedbackValue / 100
 					}
 					window.instrument.setParameters({ echo: echo })
-
 			}
 
 	/*** helpers ***/

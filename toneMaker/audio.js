@@ -58,15 +58,26 @@ window.addEventListener("load", function() {
 			// parameters & nodes
 				var i = {
 					parameters: {
-						voices: [0],
-						noise:  {}
+						voices:   [0],
+						noise:    {},
+						imag:     [],
+						real:     [],
+						wave:     null,
+						attack:   0,
+						decay:    0,
+						sustain:  0,
+						release:  0,
+						filters:  {},
+						delay:    0,
+						feedback: 0
 					},
-					power: audio.createGain(),
-					volume: audio.createGain(),
-					effects: {},
-					tones: {},
-					buffers: {},
-					envelopes: {}
+					tones:     {},
+					buffers:   {},
+					envelopes: {},
+					filters:   {},
+					effects:   {},
+					volume:    audio.createGain(),
+					power:     audio.createGain()
 				}
 
 				i.power.connect(master)
@@ -145,7 +156,58 @@ window.addEventListener("load", function() {
 									i.parameters.release = Math.max(0, Math.min(1, parameters.envelope.release))
 								break
 
-							// effects
+							// filter
+								case "filters":
+									for (var f in parameters.filters) {
+										var filter = parameters.filters[f]
+
+										var low  = Math.max(1, Math.min(20000, filter.low ))
+										var mid  = Math.max(1, Math.min(20000, filter.mid ))
+										var high = Math.max(1, Math.min(20000, filter.high))
+										var gain = Math.max(-50,  Math.min(50, filter.gain))
+
+										if (Math.abs(gain) < 2) {
+											if (Object.keys(i.parameters.filters).includes(f)) {
+												delete i.parameters.filters[f]
+												delete i.filters[f]
+											}
+										}
+										else {
+											var type = ((mid < 40) ? "lowshelf" : (mid > 8000) ? "highshelf" : "peaking")
+
+											i.parameters.filters[f] = {
+												type: type,
+												frequency: ((type == "lowshelf") ? high : (type == "highshelf") ? low : mid),
+												q:    mid / (high - low),
+												gain: gain
+											}
+
+											i.filters[f] = audio.createBiquadFilter()
+											i.filters[f].type = type
+											i.filters[f].frequency.setValueAtTime(i.parameters.filters[f].frequency,  now)
+											i.filters[f].Q.setValueAtTime(Math.min(10000, i.parameters.filters[f].q), now)
+											i.filters[f].gain.setValueAtTime(     i.parameters.filters[f].gain,       now)
+
+											var keys = Object.keys(i.filters)
+											for (var k in keys) {
+												i.filters[keys[k]].disconnect()
+
+												if (i.filters[keys[k + 1]]) {
+													i.filters[keys[k]].connect(i.filters[keys[k + 1]])
+												}
+												else {
+													i.filters[keys[k]].connect(i.volume)
+
+													if (i.parameters.delay && i.parameters.feedback) {
+														i.filters[keys[k]].connect(i.effects.echo)
+													}
+												}
+											}
+										}
+									}
+								break
+
+							// echo
 								case "echo":
 									i.parameters.delay    = Math.max(0, Math.min(1, parameters.echo.delay    ))
 									i.parameters.feedback = Math.max(0, Math.min(1, parameters.echo.feedback ))
@@ -179,10 +241,16 @@ window.addEventListener("load", function() {
 
 					// nodes
 						i.envelopes[pitch] = audio.createGain()
-						i.envelopes[pitch].connect(i.volume)
 
-						if (i.parameters.delay && i.parameters.feedback) {
-							i.envelopes[pitch].connect(i.effects.echo)
+						if (Object.keys(i.parameters.filters).length) {
+							i.envelopes[pitch].connect(i.filters[Object.keys(i.filters)[0]])
+						}
+						else {
+							i.envelopes[pitch].connect(i.volume)
+
+							if (i.parameters.delay && i.parameters.feedback) {
+								i.envelopes[pitch].connect(i.effects.echo)
+							}
 						}
 
 					// noise
@@ -267,6 +335,20 @@ window.addEventListener("load", function() {
 				delay: 0.1,
 				feedback: 0.8
 			},
+			filters: {
+				"0": {
+					low:  3.2445679498433218,
+					mid:  32.70319566257483,
+					high: 329.6275569128699,
+					gain: 50
+				},
+				"4": {
+					low:  1046.5022612023945,
+					mid:  10548.081821211836,
+					high: 106318.00258046597,
+					gain: -50
+				}
+			}
 			// filter: {
 			// 	cutoff: 1000,
 			// 	type: "lowpass"

@@ -498,6 +498,51 @@
 			min-height: 3%;
 		}
 
+/*** tool-filter ***/
+	/* blob */
+		#tool-filter .track {
+			position: absolute;
+			bottom: 50px;
+			left: 0%;
+			width: 100%;
+			height: calc(100% - 50px);
+		}
+
+		#tool-filter .blob {
+			position: absolute;
+			bottom: 0%;
+			left: 0%;
+			height: 100%;
+			width: 100%;
+			background-color: rgba(221, 221, 221, 0.25);
+			border-radius: 4px;
+		}
+
+	/* points */
+		#tool-filter .shape {
+			height: 10px;
+			width: 10px;
+			transform: translateX(-50%) translateY(-50%);
+		}
+
+		#tool-filter .shape.circle {
+			border-radius: 100%;
+			z-index: 5;
+		}
+
+		#tool-filter .shape.square {
+			border-radius: 2px;
+			z-index: 4;
+		}
+
+	/* inputs */
+		#tool-filter .input {
+			padding: 1px 5px 1px 5px;
+			height: 12px;
+			width: 100px;
+			transform: translateX(-50%);
+		}
+
 /*** tool-echo ***/
 	#tool-echo .track {
 		position: absolute;
@@ -564,8 +609,4 @@
 			left: 3%;
 			width: 94%;
 		}
-
-/*** tool-effects ***/
-
-/*** tool-visualizer ***/
 
