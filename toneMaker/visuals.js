@@ -10,6 +10,44 @@ window.addEventListener("load", function() {
 			document.body.ondragstart = function() { return false }
 			document.body.ondrop      = function() { return false }
 
+		/* builds */
+			buildTools()
+			setInstrument({
+				name: "synthesizer",
+				polysynth: {
+					"0": true,
+					"12": true
+				},
+				wave: [0, (1/1),0,(1/3),0, (1/5),0,(1/7),0, (1/9),0,(1/11),0, (1/13),0,(1/15),0, (1/17),0,(1/19),0, (1/21),0,(1/23),0, (1/25),0,(1/27),0, (1/29),0,(1/31),0, (1/33)],
+				noise: {
+					"white": 0.3,
+				},
+				envelope: {
+					attack: 0.01,
+					decay: 0.2,
+					sustain: 0.3,
+					release: 0.4
+				},
+				echo: {
+					delay: 0.08,
+					feedback: 0.7
+				},
+				filters: {
+					"0": {
+						low:  3.2445679498433218,
+						mid:  32.70319566257483,
+						high: 329.6275569128699,
+						gain: 20
+					},
+					"4": {
+						low:  1046.5022612023945,
+						mid:  10548.081821211836,
+						high: 106318.00258046597,
+						gain: -20
+					}
+				}
+			})
+
 	/*** tools ***/
 		/* selectTool */
 			Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) { b.addEventListener("click", selectTool) })
@@ -27,7 +65,6 @@ window.addEventListener("load", function() {
 			}
 
 		/* buildTools */
-			buildTools()
 			function buildTools() {
 				buildMetaTools()
 				buildPolysynthTool()
@@ -38,7 +75,74 @@ window.addEventListener("load", function() {
 				buildEchoTool()
 				buildKeyboard()
 
-				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-filter']"))[0]})
+				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-meta']"))[0]})
+			}
+
+		/* setInstrument */
+			function setInstrument(parameters) {
+				window.instrument = buildInstrument(parameters)
+
+				for (var p in parameters) {
+					switch (p) {
+						case "name":
+							document.getElementById("tool-meta-name").value = parameters[p]
+						break
+						case "polysynth":
+							for (var x in parameters[p]) {
+								var target = document.getElementById("tool-polysynth-toggle--" + x)
+								adjustPolysynthToolToggle({target: target}, true)
+							}
+						break
+						case "wave":
+							for (var x = 1; x < parameters[p].length; x++) {
+								var target = document.getElementById("tool-wave-input--" + x)
+									target.value = 100 * parameters[p][x]
+								adjustWaveToolInput({target: target}, true)
+							}
+						break
+						case "noise":
+							for (var x in parameters[p]) {
+								var target = document.getElementById("tool-noise-power--" + x)
+								adjustNoiseToolToggle({target: target}, true)
+
+								var target = document.getElementById("tool-noise-volume-input--" + x)
+									target.value = 100 * parameters[p][x]
+								adjustNoiseToolInput({target: target}, true)
+							}
+						break
+						case "envelope":
+							for (var x in parameters[p]) {
+								var target = document.getElementById("tool-envelope-input--" + x)
+									target.value = 100 * parameters[p][x]
+								adjustEnvelopeToolInput({target: target}, true)
+							}
+						break
+						case "filters":
+							for (var x in parameters[p]) {
+								var target = document.getElementById("tool-filter-input--low--" + x)
+									target.value = 45 + 12 * Math.log2(parameters[p][x].low / 440)
+								adjustFilterToolInput({target: target}, true)
+
+								var target = document.getElementById("tool-filter-input--high--" + x)
+									target.value = 45 + 12 * Math.log2(parameters[p][x].high / 440)
+								adjustFilterToolInput({target: target}, true)
+
+								var target = document.getElementById("tool-filter-input--gain--" + x)
+									target.value = parameters[p][x].gain
+								adjustFilterToolInput({target: target}, true)
+
+							}
+						break
+						case "echo":
+							for (var x in parameters[p]) {
+								var target = document.getElementById("tool-echo-input--" + x)
+									target.value = 100 * parameters[p][x]
+								adjustEchoToolInput({target: target}, true)
+							}
+						break
+						
+					}
+				}
 			}
 
 	/*** bars & inputs ***/
@@ -247,25 +351,27 @@ window.addEventListener("load", function() {
 						toggle.style.left = 4 * (i + 12) + "%"
 					polysynthTool.appendChild(toggle)
 				}
-
-				Array.from(polysynthTool.querySelectorAll(".toggle[value='0']"))[0].setAttribute("selected", true)
 			}
 
 		/* adjustPolysynthToolToggle */
-			function adjustPolysynthToolToggle(event) {
+			function adjustPolysynthToolToggle(event, setup) {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
 
-					var polysynth = {}
-						polysynth[Number(event.target.value)] = false
-					window.instrument.setParameters({ polysynth: polysynth })
+					if (!setup) {
+						var polysynth = {}
+							polysynth[Number(event.target.value)] = false
+						window.instrument.setParameters({ polysynth: polysynth })
+					}
 				}
 				else {
 					event.target.setAttribute("selected", true)
 					
-					var polysynth = {}
-						polysynth[Number(event.target.value)] = true
-					window.instrument.setParameters({ polysynth: polysynth })
+					if (!setup) {
+						var polysynth = {}
+							polysynth[Number(event.target.value)] = true
+						window.instrument.setParameters({ polysynth: polysynth })
+					}
 				}
 			}
 
@@ -282,7 +388,7 @@ window.addEventListener("load", function() {
 						input.className = "input"
 						input.id = "tool-wave-input--" + i
 						input.style.left = (i * 3) - 1.5 + "%"
-						input.value = ((i % 2 == 1) ? (100 / i) : 0)
+						input.value = 0
 					waveTool.appendChild(input)
 
 					var track = document.createElement("div")
@@ -294,8 +400,8 @@ window.addEventListener("load", function() {
 					var bar = document.createElement("div")
 						bar.className = "bar"
 						bar.id = "tool-wave-bar--" + i
-						bar.style.height = ((i % 2 == 1) ? (100 / i) : 0) + "%"
 						bar.innerText = i
+						bar.style.height = "0%"
 					track.appendChild(bar)
 				}
 			}
@@ -317,7 +423,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* adjustWaveToolInput */
-			function adjustWaveToolInput(event) {
+			function adjustWaveToolInput(event, setup) {
 				// display
 					var harmonic   = event.target.id.split("--")[1]
 					var bar        = document.getElementById("tool-wave-bar--" + harmonic)
@@ -326,9 +432,11 @@ window.addEventListener("load", function() {
 					bar.style.height = percentage + "%"
 
 				// audio
-					var harmonic = {}
-						harmonic[event.target.id.split("--")[1]] = percentage / 100
-					window.instrument.setParameters({harmonic: harmonic})
+					if (!setup) {
+						var harmonic = {}
+							harmonic[event.target.id.split("--")[1]] = percentage / 100
+						window.instrument.setParameters({harmonic: harmonic})
+					}
 			}
 
 	/*** tool-noise ***/
@@ -353,7 +461,7 @@ window.addEventListener("load", function() {
 							input.setAttribute("max", 100)
 							input.className = "input"
 							input.id = "tool-noise-volume-input--" + color
-							input.value = 20 + (20 * c)
+							input.value = 10
 						element.appendChild(input)
 
 						var track = document.createElement("div")
@@ -364,7 +472,7 @@ window.addEventListener("load", function() {
 						var bar = document.createElement("div")
 							bar.id = "tool-noise-volume-bar--" + color
 							bar.className = "bar"
-							bar.style.width = 20 + (20 * c) + "%"
+							bar.style.width = "10%"
 							bar.innerHTML = color + '&nbsp;<span class="fas fa-volume-up"></span>'
 						track.appendChild(bar)
 
@@ -394,7 +502,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* adjustNoiseToolInput */
-			function adjustNoiseToolInput(event) {
+			function adjustNoiseToolInput(event, setup) {
 				// display
 					var type = event.target.id.split("--")[1]
 					var bar = document.getElementById("tool-noise-volume-bar--" + type)
@@ -403,32 +511,36 @@ window.addEventListener("load", function() {
 					bar.style.width = percentage + "%"
 
 				// audio
-					if (document.getElementById("tool-noise-power--" + type).getAttribute("selected")) {
+					if (document.getElementById("tool-noise-power--" + type).getAttribute("selected") && !setup) {
 						var noise = {}
-							noise[type] = percentage
+							noise[type] = percentage / 100
 						window.instrument.setParameters({ noise: noise })
 					}
 			}
 
 		/* adjustNoiseToolToggle */
-			function adjustNoiseToolToggle(event) {
+			function adjustNoiseToolToggle(event, setup) {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
 
-					var type = event.target.id.split("--")[1]
-					var noise = {}
-						noise[type] = 0
-					window.instrument.setParameters({ noise: noise })
+					if (!setup) {
+						var type = event.target.id.split("--")[1]
+						var noise = {}
+							noise[type] = 0
+						window.instrument.setParameters({ noise: noise })
+					}
 				}
 				else {
 					event.target.setAttribute("selected", true)
 
-					var type = event.target.id.split("--")[1]
-					var percentage = document.getElementById("tool-noise-volume-input--" + type).value
-						percentage = Math.min(100, Math.max(0, percentage))
-					var noise = {}
-						noise[type] = percentage
-					window.instrument.setParameters({ noise: noise })
+					if (!setup) {
+						var type = event.target.id.split("--")[1]
+						var percentage = document.getElementById("tool-noise-volume-input--" + type).value
+							percentage = Math.min(100, Math.max(0, percentage))
+						var noise = {}
+							noise[type] = percentage
+						window.instrument.setParameters({ noise: noise })
+					}
 				}
 			}
 
@@ -555,7 +667,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* adjustEnvelopeToolInput */
-			function adjustEnvelopeToolInput(event) {
+			function adjustEnvelopeToolInput(event, setup) {
 				// inputs
 					var attackInput  = document.getElementById("tool-envelope-input--attack" )
 					var decayInput   = document.getElementById("tool-envelope-input--decay"  )
@@ -595,14 +707,16 @@ window.addEventListener("load", function() {
 					sustainInput.style.left   = Math.max(2, attackValue) + Math.max(2, decayValue) + "%"
 
 				// audio
-					var envelope = {
-						attack:  (Math.min(100, Math.max(0, attackInput.value )) / 100),
-						decay:   (Math.min(100, Math.max(0, decayInput.value  )) / 100),
-						sustain: (Math.min(100, Math.max(0, sustainInput.value)) / 100),
-						release: (Math.min(100, Math.max(0, releaseInput.value)) / 100)
-					}
+					if (!setup) {
+						var envelope = {
+							attack:  (Math.min(100, Math.max(0, attackInput.value )) / 100),
+							decay:   (Math.min(100, Math.max(0, decayInput.value  )) / 100),
+							sustain: (Math.min(100, Math.max(0, sustainInput.value)) / 100),
+							release: (Math.min(100, Math.max(0, releaseInput.value)) / 100)
+						}
 
-					window.instrument.setParameters({ envelope: envelope })
+						window.instrument.setParameters({ envelope: envelope })
+					}
 			}
 
 	/*** tool-filter ***/
@@ -624,9 +738,9 @@ window.addEventListener("load", function() {
 				// filter shapes / inputs
 					for (var i = 0; i <= 4; i++) {
 						// data
-							var low  = ((i - 2) * 25) + 50 - 40
-							var high = ((i - 2) * 25) + 50 + 40
-							var gain = ((i % 4 == 0) ? ((i - 2) * -20) : 0)
+							var low  = ((i - 2) * 25) + 50 - 3
+							var high = ((i - 2) * 25) + 50 + 3
+							var gain = 0
 						
 						// blobs
 							var blob = document.createElement("div")
@@ -634,25 +748,6 @@ window.addEventListener("load", function() {
 								blob.id = "tool-filter-blob--" + i
 								blob.style["clip-path"] = "polygon(100% 50%, 100% 100%, 0% 100%, 0% 50%, " + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
 							track.appendChild(blob)
-
-						// gain
-							var shape = document.createElement("div")
-								shape.className = "shape circle"
-								shape.id = "tool-filter-shape--gain--" + i
-								shape.style.left = ((low + high) / 2) + "%"
-								shape.style.top = (50 - gain) + "%"
-							track.appendChild(shape)
-
-							var input = document.createElement("input")
-								input.setAttribute("type", "number")
-								input.setAttribute("min", 0)
-								input.setAttribute("max", 100)
-								input.className = "input"
-								input.id = "tool-filter-input--gain--" + i
-								input.value = gain
-								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-								input.style.bottom = "15px"
-							filterTool.appendChild(input)
 
 						// low
 							var shape = document.createElement("div")
@@ -671,6 +766,25 @@ window.addEventListener("load", function() {
 								input.value = low
 								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
 								input.style.bottom = "30px"
+							filterTool.appendChild(input)
+
+						// gain
+							var shape = document.createElement("div")
+								shape.className = "shape circle"
+								shape.id = "tool-filter-shape--gain--" + i
+								shape.style.left = ((low + high) / 2) + "%"
+								shape.style.top = (50 - gain) + "%"
+							track.appendChild(shape)
+
+							var input = document.createElement("input")
+								input.setAttribute("type", "number")
+								input.setAttribute("min", -50)
+								input.setAttribute("max", 50)
+								input.className = "input"
+								input.id = "tool-filter-input--gain--" + i
+								input.value = gain
+								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+								input.style.bottom = "15px"
 							filterTool.appendChild(input)
 
 						// high
@@ -759,10 +873,10 @@ window.addEventListener("load", function() {
 			}
 
 		/* adjustFilterToolInput */
-			function adjustFilterToolInput(event) {
+			function adjustFilterToolInput(event, setup) {
 				// data
-					var type = parameter.id.split("--")[1]
-					var num  = parameter.id.split("--")[2]
+					var type = event.target.id.split("--")[1]
+					var num  = event.target.id.split("--")[2]
 					var blob = document.getElementById("tool-filter-blob--" + num)
 
 					var low       = document.getElementById("tool-filter-input--low--"  + num)
@@ -777,19 +891,22 @@ window.addEventListener("load", function() {
 					document.getElementById("tool-filter-shape--low--"  + num).style.left = lowValue  + "%"
 					document.getElementById("tool-filter-shape--high--" + num).style.left = highValue + "%"
 					document.getElementById("tool-filter-shape--gain--" + num).style.left = ((highValue + lowValue) / 2) + "%"
+					document.getElementById("tool-filter-shape--gain--" + num).style.top  = 50 - gainValue + "%"
 
 					low.style.left = high.style.left = gain.style.left = Math.max(5, Math.min(95, ((highValue + lowValue) / 2))) + "%"
 
 				// audio
-					var filters = {}
-						filters[num] = {
-							low:  (440 * Math.pow(2, (  lowValue                   - 45) / 12)),
-							mid:  (440 * Math.pow(2, (((lowValue + highValue) / 2) - 45) / 12)),
-							high: (440 * Math.pow(2, (             highValue       - 45) / 12)),
-							gain: gainValue
-						}
+					if (!setup) {
+						var filters = {}
+							filters[num] = {
+								low:  (440 * Math.pow(2, (  lowValue                   - 45) / 12)),
+								mid:  (440 * Math.pow(2, (((lowValue + highValue) / 2) - 45) / 12)),
+								high: (440 * Math.pow(2, (             highValue       - 45) / 12)),
+								gain: gainValue
+							}
 
-					window.instrument.setParameters({ filters: filters })
+						window.instrument.setParameters({ filters: filters })
+					}
 			}
 
 	/*** tool-echo ***/
@@ -887,7 +1004,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* adjustEchoToolInput */
-			function adjustEchoToolInput(event) {
+			function adjustEchoToolInput(event, setup) {
 				// inputs
 					var feedbackInput = document.getElementById("tool-echo-input--feedback")
 					var delayInput    = document.getElementById("tool-echo-input--delay")
@@ -915,11 +1032,13 @@ window.addEventListener("load", function() {
 					})
 
 				// audio
-					var echo = {
-						delay:    delayValue / 100,
-						feedback: feedbackValue / 100
+					if (!setup) {
+						var echo = {
+							delay:    delayValue / 100,
+							feedback: feedbackValue / 100
+						}
+						window.instrument.setParameters({ echo: echo })
 					}
-					window.instrument.setParameters({ echo: echo })
 			}
 
 	/*** helpers ***/
