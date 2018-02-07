@@ -226,6 +226,19 @@ window.addEventListener("load", function() {
 									if (i.parameters.delay && i.parameters.feedback) {
 										i.effects.echo.delayTime.setValueAtTime(i.parameters.delay, now)	
 										i.effects.feedback.gain.setValueAtTime(i.parameters.feedback, now)
+
+										var keys = Object.keys(i.filters)
+										for (var k in keys) {
+											i.filters[keys[k]].disconnect()
+
+											if (i.filters[keys[k + 1]]) {
+												i.filters[keys[k]].connect(i.filters[keys[k + 1]])
+											}
+											else {
+												i.filters[keys[k]].connect(i.volume)
+												i.filters[keys[k]].connect(i.effects.echo)
+											}
+										}
 									}
 									else {
 										i.effects.feedback.gain.cancelScheduledValues(now)
