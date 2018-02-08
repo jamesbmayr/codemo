@@ -77,16 +77,17 @@ window.addEventListener("load", function() {
 					for (var x in colors) {
 						var value = parameters.noise ? (parameters.noise[colors[x]] || 0) : 0
 						var target = document.getElementById("tool-noise-power--" + colors[x])
-						if (!target.getAttribute("selected") && value) {
+						
+						if (value && !target.getAttribute("selected")) {
+							adjustNoiseToolToggle({target: target}, setup)	
+						}
+						else if (!value && target.getAttribute("selected")) {
 							adjustNoiseToolToggle({target: target}, setup)
+						}
 
-							var target = document.getElementById("tool-noise-volume-input--" + colors[x])
-								target.value = 100 * value
-							adjustNoiseToolInput({target: target}, setup)
-						}
-						else if (target.getAttribute("selected") && !value) {
-							adjustNoiseToolToggle({target: target}, setup)									
-						}
+						var target = document.getElementById("tool-noise-volume-input--" + colors[x])
+							target.value = (100 * Number(value)) || 0
+						adjustNoiseToolInput({target: target}, setup)
 					}
 
 				// envelope
