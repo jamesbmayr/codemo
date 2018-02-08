@@ -541,6 +541,24 @@
 		}
 
 /*** tool-filter ***/
+	/* lines */
+		#tool-filter .line {
+			position: absolute;
+			top: 0px;
+			height: calc(100% - 4px);
+			width: 12px;
+			transform: translateX(-50%);
+			background-color: #222222;
+			pointer-events: none;
+			border-radius: 8px;
+			color: #777777;
+			font-family: monospace;
+			font-size: 10px;
+			z-index: 0;
+			text-align: center;
+			padding: 2px;
+		}
+
 	/* blob */
 		#tool-filter .track {
 			position: absolute;
