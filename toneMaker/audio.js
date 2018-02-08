@@ -58,18 +58,24 @@ window.addEventListener("load", function() {
 			// parameters & nodes
 				var i = {
 					parameters: {
-						polysynth: [0],
+						polysynth: {
+							"0": true
+						},
 						noise:     {},
-						imag:      [],
-						real:      [],
+						imag:      new Float32Array([0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]),
+						real:      new Float32Array(34),
 						wave:      null,
-						attack:    0,
-						decay:     0,
-						sustain:   0,
-						release:   0,
+						envelope: {
+							attack:    0,
+							decay:     0,
+							sustain:   1,
+							release:   0,
+						},
 						filters:   {},
-						delay:     0,
-						feedback:  0
+						echo: {
+							delay:     0,
+							feedback:  0
+						}
 					},
 					tones:     {},
 					buffers:   {},
@@ -80,6 +86,7 @@ window.addEventListener("load", function() {
 					power:     audio.createGain()
 				}
 
+				i.parameters.wave = audio.createPeriodicWave(i.parameters.real, i.parameters.imag)
 				i.power.connect(master)
 				i.volume.connect(i.power)
 
@@ -87,8 +94,9 @@ window.addEventListener("load", function() {
 				i.setParameters = function(parameters) {
 					var now = audio.currentTime
 
-					for (var p in parameters) {
-						switch (p) {
+					var keys = Object.keys(parameters)
+					for (var k = 0; k < keys.length; k++) {
+						switch (keys[k]) {
 							// meta
 								case "name":
 									i.parameters.name = parameters.name
@@ -108,25 +116,22 @@ window.addEventListener("load", function() {
 								case "polysynth":
 									for (var x in parameters.polysynth) {
 										var tone = Math.max(-12, Math.min(12, x))
-										if (parameters.polysynth[tone]) {
-											if (!i.parameters.polysynth.includes(tone)) {
-												i.parameters.polysynth.push(tone)
-											}
+										if (parameters.polysynth[tone] && !i.parameters.polysynth[tone]) {
+											i.parameters.polysynth[tone] = true
 										}
-										else {
-											if (i.parameters.polysynth.includes(tone)) {
-												i.parameters.polysynth = i.parameters.polysynth.filter(function (t) {
-													return t !== tone
-												})
-											}
+										else if (!parameters.polysynth[tone] && i.parameters.polysynth[tone]) {
+											delete i.parameters.polysynth[tone]
 										}
 									}
 								break
 
 							// oscillator
-								case "wave":
-									i.parameters.imag = new Float32Array(parameters.wave || 4096)
-									i.parameters.real = new Float32Array(i.parameters.imag.length)
+								case "imag":
+									i.parameters.imag = new Float32Array(34)
+									i.parameters.real = new Float32Array(34)
+									for (var x = 1; x < i.parameters.imag.length; x++) {
+										i.parameters.imag[x] = parameters.imag[x] || 0
+									}
 									i.parameters.wave = audio.createPeriodicWave(i.parameters.real, i.parameters.imag)
 								break
 
@@ -138,24 +143,25 @@ window.addEventListener("load", function() {
 
 							// noise
 								case "noise":
-									var color = Object.keys(parameters.noise)[0]
-									var value = Math.min(1, Math.max(0, parameters.noise[color]))
-									if (value) {
-										i.parameters.noise[color] = value
-									}
-									else {
-										if (Object.keys(i.parameters.noise).includes(color)) {
-											delete i.parameters.noise[color]
+									for (var color in parameters.noise) {
+										var value = Math.min(1, Math.max(0, parameters.noise[color]))
+										if (value) {
+											i.parameters.noise[color] = value
+										}
+										else {
+											if (Object.keys(i.parameters.noise).includes(color)) {
+												delete i.parameters.noise[color]
+											}
 										}
 									}
 								break
 
 							// envelope
 								case "envelope":
-									i.parameters.attack  = Math.max(0, Math.min(1, parameters.envelope.attack ))
-									i.parameters.decay   = Math.max(0, Math.min(1, parameters.envelope.decay  ))
-									i.parameters.sustain = Math.max(0, Math.min(1, parameters.envelope.sustain))
-									i.parameters.release = Math.max(0, Math.min(1, parameters.envelope.release))
+									i.parameters.envelope.attack  = Math.max(0, Math.min(1, parameters.envelope.attack ))
+									i.parameters.envelope.decay   = Math.max(0, Math.min(1, parameters.envelope.decay  ))
+									i.parameters.envelope.sustain = Math.max(0, Math.min(1, parameters.envelope.sustain))
+									i.parameters.envelope.release = Math.max(0, Math.min(1, parameters.envelope.release))
 								break
 
 							// filter
@@ -178,6 +184,9 @@ window.addEventListener("load", function() {
 											var type = ((mid < 40) ? "lowshelf" : (mid > 8000) ? "highshelf" : "peaking")
 
 											i.parameters.filters[f] = {
+												low: low,
+												mid: mid,
+												high: high,
 												type: type,
 												frequency: ((type == "lowshelf") ? high : (type == "highshelf") ? low : mid),
 												q:    mid / (high - low),
@@ -190,18 +199,18 @@ window.addEventListener("load", function() {
 											i.filters[f].Q.setValueAtTime(Math.min(10000, i.parameters.filters[f].q), now)
 											i.filters[f].gain.setValueAtTime(     i.parameters.filters[f].gain,       now)
 
-											var keys = Object.keys(i.filters)
-											for (var k in keys) {
-												i.filters[keys[k]].disconnect()
+											var fkeys = Object.keys(i.filters)
+											for (var fk in fkeys) {
+												i.filters[fkeys[fk]].disconnect()
 
-												if (i.filters[keys[k + 1]]) {
-													i.filters[keys[k]].connect(i.filters[keys[k + 1]])
+												if (i.filters[fkeys[fk + 1]]) {
+													i.filters[fkeys[fk]].connect(i.filters[fkeys[fk + 1]])
 												}
 												else {
-													i.filters[keys[k]].connect(i.volume)
+													i.filters[fkeys[fk]].connect(i.volume)
 
-													if (i.parameters.delay && i.parameters.feedback) {
-														i.filters[keys[k]].connect(i.effects.echo)
+													if (i.parameters.echo.delay && i.parameters.echo.feedback) {
+														i.filters[fkeys[fk]].connect(i.effects.echo)
 													}
 												}
 											}
@@ -211,8 +220,8 @@ window.addEventListener("load", function() {
 
 							// echo
 								case "echo":
-									i.parameters.delay    = Math.max(0, Math.min(1, parameters.echo.delay    ))
-									i.parameters.feedback = Math.max(0, Math.min(1, parameters.echo.feedback ))
+									i.parameters.echo.delay    = Math.max(0, Math.min(1, parameters.echo.delay    ))
+									i.parameters.echo.feedback = Math.max(0, Math.min(1, parameters.echo.feedback ))
 
 									if (!i.effects.echo || !i.effects.feedback) {
 										i.effects.echo = audio.createDelay()
@@ -223,20 +232,20 @@ window.addEventListener("load", function() {
 										i.effects.feedback.connect(i.volume)
 									}
 
-									if (i.parameters.delay && i.parameters.feedback) {
-										i.effects.echo.delayTime.setValueAtTime(i.parameters.delay, now)	
-										i.effects.feedback.gain.setValueAtTime(i.parameters.feedback, now)
+									if (i.parameters.echo.delay && i.parameters.echo.feedback) {
+										i.effects.echo.delayTime.setValueAtTime(i.parameters.echo.delay, now)	
+										i.effects.feedback.gain.setValueAtTime(i.parameters.echo.feedback, now)
 
-										var keys = Object.keys(i.filters)
-										for (var k in keys) {
-											i.filters[keys[k]].disconnect()
+										var fkeys = Object.keys(i.filters)
+										for (var fk in fkeys) {
+											i.filters[fkeys[fk]].disconnect()
 
-											if (i.filters[keys[k + 1]]) {
-												i.filters[keys[k]].connect(i.filters[keys[k + 1]])
+											if (i.filters[fkeys[fk + 1]]) {
+												i.filters[fkeys[fk]].connect(i.filters[fkeys[fk + 1]])
 											}
 											else {
-												i.filters[keys[k]].connect(i.volume)
-												i.filters[keys[k]].connect(i.effects.echo)
+												i.filters[fkeys[fk]].connect(i.volume)
+												i.filters[fkeys[fk]].connect(i.effects.echo)
 											}
 										}
 									}
@@ -263,15 +272,13 @@ window.addEventListener("load", function() {
 						else {
 							i.envelopes[pitch].connect(i.volume)
 
-							if (i.parameters.delay && i.parameters.feedback) {
+							if (i.parameters.echo.delay && i.parameters.echo.feedback) {
 								i.envelopes[pitch].connect(i.effects.echo)
 							}
 						}
 
 					// noise
-						for (n = 0; n < Object.keys(i.parameters.noise).length; n++) {
-							var color = Object.keys(i.parameters.noise)[n]
-
+						for (var color in i.parameters.noise) {
 							i.buffers[pitch + "_" + color] = audio.createGain()
 							i.buffers[pitch + "_" + color].connect(i.envelopes[pitch])
 							i.buffers[pitch + "_" + color].gain.setValueAtTime((i.parameters.noise[color]), now)
@@ -280,8 +287,9 @@ window.addEventListener("load", function() {
 						}
 
 					// oscillator
-						for (var p = 0; p < i.parameters.polysynth.length; p++) {
-							var distance = i.parameters.polysynth[p]
+						var polysynths = Object.keys(i.parameters.polysynth)
+						for (var p = 0; p < polysynths.length; p++) {
+							var distance = polysynths[p]
 							var multiplier = Math.pow(1.05946309436, distance)
 
 							i.tones[pitch + "_" + distance] = audio.createOscillator()
@@ -293,8 +301,8 @@ window.addEventListener("load", function() {
 
 					// envelopes
 						i.envelopes[pitch].gain.setValueAtTime(0, now)
-						i.envelopes[pitch].gain.linearRampToValueAtTime(1, now + (i.parameters.attack || 0))
-						i.envelopes[pitch].gain.exponentialRampToValueAtTime((i.parameters.sustain || 0) + 0.001, now + (i.parameters.attack || 0) + (i.parameters.decay || 0))
+						i.envelopes[pitch].gain.linearRampToValueAtTime(1, now + (i.parameters.envelope.attack || 0))
+						i.envelopes[pitch].gain.exponentialRampToValueAtTime((i.parameters.envelope.sustain || 0) + 0.001, now + (i.parameters.envelope.attack || 0) + (i.parameters.envelope.decay || 0))
 				}
 
 			/* lift */
@@ -306,7 +314,7 @@ window.addEventListener("load", function() {
 					// envelope
 						i.envelopes[pitch].gain.cancelScheduledValues(now)
 						i.envelopes[pitch].gain.setValueAtTime(i.envelopes[pitch].gain.value, now)
-						i.envelopes[pitch].gain.exponentialRampToValueAtTime(0.001, now + (i.parameters.release || 0))
+						i.envelopes[pitch].gain.exponentialRampToValueAtTime(0.001, now + (i.parameters.envelope.release || 0))
 						delete i.envelopes[pitch]
 
 					// buffers
@@ -321,7 +329,7 @@ window.addEventListener("load", function() {
 					// oscillators
 						Object.keys(i.tones).forEach(function (t) {
 							if (t.split("_")[0] == pitch) {
-								i.tones[t].stop(now + (i.parameters.release || 0))
+								i.tones[t].stop(now + (i.parameters.envelope.release || 0))
 								delete i.tones[t]
 							}
 						})
