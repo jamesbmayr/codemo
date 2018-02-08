@@ -101,7 +101,11 @@ window.addEventListener("load", function() {
 						
 				// filters
 					for (var x = 0; x <= 4; x++) {
-						var obj = (parameters.filters && parameters.filters[x]) ? parameters.filters[x] : {low: (1.15 * (x + 0.1) * 440), high: (1.15 * (x + 1.1) * 440), gain: 0}
+						var obj = (parameters.filters && parameters.filters[x]) ? parameters.filters[x] : {
+							low:  440 * Math.pow(2, ((24 + 12 * (x - 0.4)) - 45) / 12),
+							high: 440 * Math.pow(2, ((24 + 12 * (x + 0.4)) - 45) / 12),
+							gain: 0
+						}
 						var target = document.getElementById("tool-filter-input--low--" + x)
 							target.value = 45 + 12 * Math.log2(obj.low / 440)
 						adjustFilterToolInput({target: target}, setup)
@@ -1321,6 +1325,18 @@ window.addEventListener("load", function() {
 						raw.id = "tool-filter-raw"
 					filterTool.appendChild(raw)
 
+				// lines
+					for (var i = 0; i <= 100; i++) {
+						if (i % 12 == 0) {
+							var line = document.createElement("div")
+								line.id = "tool-filter-line--" + i
+								line.className = "line"
+								line.innerHTML = "C" + ((i / 12) + 1)
+								line.style.left = i + "%"
+							filterTool.appendChild(line)
+						}
+					}
+
 				// track
 					var track = document.createElement("div")
 						track.className = "track"
@@ -1330,8 +1346,8 @@ window.addEventListener("load", function() {
 				// filter shapes / inputs
 					for (var i = 0; i <= 4; i++) {
 						// data
-							var low  = 45 + 12 * Math.log2(1.15 * (i + 0.1))
-							var high = 45 + 12 * Math.log2(1.15 * (i + 1.1))
+							var low  = 24 + 12 * (i + 0.4)
+							var high = 24 + 12 * (i - 0.4)
 							var gain = 0
 						
 						// blobs
