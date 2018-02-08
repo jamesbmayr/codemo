@@ -754,6 +754,7 @@ window.addEventListener("load", function() {
 							break
 							case "honeyharp":
 								setInstrument({
+									"name": "honeyharp",
 									"polysynth":{
 										"0":true
 									},
@@ -801,6 +802,7 @@ window.addEventListener("load", function() {
 							break
 							case "boombash":
 								setInstrument({
+									"name": "boombash",
 									"noise":{
 										"brown":1,
 										"pink":0.2578992314261315,
