@@ -295,7 +295,7 @@ window.addEventListener("load", function() {
 					element.appendChild(input)
 
 				// select
-					var options = ["random", "_waves", "sine", "square", "triangle", "sawtooth", "_instruments", "shimmer", "jangle", "chordstrum", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "_custom"]
+					var options = ["random", "_waves", "sine", "square", "triangle", "sawtooth", "_instruments", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "_custom"]
 
 					if (window.localStorage.synthesizers) {
 						var custom = JSON.parse(window.localStorage.synthesizers)
@@ -518,7 +518,7 @@ window.addEventListener("load", function() {
 					}
 				
 				// presets
-					else if (["sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash"].includes(name)) {
+					else if (["sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash"].includes(name)) {
 						switch (name) {
 							case "sine":
 								setInstrument({
@@ -667,6 +667,42 @@ window.addEventListener("load", function() {
 									"echo":{
 										"delay":0.0010553957105702905,
 										"feedback":0.8857754774228093
+									}
+								}, true)
+							break
+							case "lazerz":
+								setInstrument({
+									"polysynth":{
+										"0":true
+									},
+									"imag":[0,1,0.43981871008872986,0.19477427005767822,0.16363249719142914,0.04059608280658722,0.05547327548265457,0.08984045684337616,0.02408204786479473,0.05339190736413002,0.0810762494802475,0.049579720944166183,0.004129277542233467,0.06980492174625397,0.011852550320327282,0.011417913250625134,0.05199107900261879,0.0462377704679966,0.011805979534983635,0.041976239532232285,0.04228879511356354,0.03486672788858414,0.03639288619160652,0.005501041188836098,0.018338866531848907,0.004767595790326595,0.02615637518465519,0.016462303698062897,0.018449874594807625,0.03333821892738342,0.03183285519480705,0.022049419581890106,0.020332850515842438,0.0260325875133276],
+									"envelope":{
+										"attack":0.3189542050630094,
+										"decay":0.6066113351908449,
+										"sustain":0.2795546993048945,
+										"release":0.2983127072001239
+									},
+									"filters":{
+										"0":{
+											"low":42.73771657635709,
+											"mid":74.15621598227193,
+											"high":128.6719274995506,
+											"gain":19.39672225311667
+										},
+										"4":{
+											"low":2236.228485250351,
+											"mid":3672.0056804902356,
+											"high":6029.627923303666,
+											"gain":-14.155259381494123
+										}
+									},
+									"bitcrusher":{
+										"bits":1,
+										"norm":0.9476107287222466
+									},
+									"echo":{
+										"delay":0.21428571428571427,
+										"feedback":0.2748267474475922
 									}
 								}, true)
 							break
