@@ -827,7 +827,7 @@ window.addEventListener("load", function() {
 					window.midi = midi || {}
 					window.midi.controllers = {}
 					window.midi.consumers   = {}
-					window.midi.addEventListener.onstatechange = function(event) {
+					window.midi.onstatechange = function(event) {
 						console.log(event.port.name + " " + event.port.manufacturer + " " + event.port.state)
 
 						updateMidiInputs()
