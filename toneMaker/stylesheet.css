@@ -540,6 +540,46 @@
 			min-height: 3%;
 		}
 
+/*** tool-bitcrusher ***/
+	#tool-bitcrusher .section {
+		height: 100px;
+	}
+
+	/* bits */
+		#tool-bitcrusher-bits .toggle {
+			height: 80px;
+			width: 80px;
+			margin: 10px;
+			font-size: 50px;
+			transform: translateX(-50%);
+		}
+
+	/* norm */
+		#tool-bitcrusher-norm {
+			top: 120px;
+		}
+
+		#tool-bitcrusher-norm .track {
+			left: 12.5%;
+			width: calc(87.5% - 20px);
+			height: calc(100% - 20px);
+			margin: 10px;
+			border-radius: 8px;
+			font-size: 50px;
+		}
+
+		#tool-bitcrusher-norm .bar {
+			height: 100%;
+		}
+
+		#tool-bitcrusher-norm .input {
+			height: 80px;
+			width: calc(12.5% - 20px);
+			margin: 10px;
+			border-radius: 8px;
+			font-size: 30px;
+		}
+
 /*** tool-filter ***/
 	/* lines */
 		#tool-filter .line {
@@ -669,4 +709,3 @@
 			left: 3%;
 			width: 94%;
 		}
-

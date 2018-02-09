@@ -37,6 +37,7 @@ window.addEventListener("load", function() {
 				buildWaveTool()
 				buildNoiseTool()
 				buildEnvelopeTool()
+				buildBitcrusherTool()
 				buildFilterTool()
 				buildEchoTool()
 				buildKeyboard()
@@ -97,6 +98,27 @@ window.addEventListener("load", function() {
 						var target = document.getElementById("tool-envelope-input--" + type[x])
 							target.value = 100 * value
 						adjustEnvelopeToolInput({target: target}, setup)
+					}
+
+				// bitcrusher
+					for (var x = 0; x <= 6; x++) {
+						var target = document.getElementById("tool-bitcrusher-bits-toggle--" + Math.pow(2, x))
+						if (parameters.bitcrusher && (parameters.bitcrusher.bits == Math.pow(2, x))) {
+							if (!target.getAttribute("selected")) {
+								adjustBitcrusherToolToggle({target: target}, setup)	
+							}
+						}
+						else {
+							if (target.getAttribute("selected")) {
+								adjustBitcrusherToolToggle({target: target}, setup)	
+							}
+						}
+						
+						if (parameters.bitcrusher) {
+							var target = document.getElementById("tool-bitcrusher-norm-input")
+								target.value = Math.max(0, Math.min(1, parameters.bitcrusher.norm)) * 100
+							adjustBitcrusherToolInput({target: target}, setup)
+						}
 					}
 						
 				// filters
@@ -160,6 +182,9 @@ window.addEventListener("load", function() {
 						case "tool-envelope":
 							adjustEnvelopeToolBar(event)
 						break
+						case "tool-bitcrusher":
+							adjustBitcrusherToolBar(event)
+						break
 						case "tool-filter":
 							adjustFilterToolBar(event)
 						break
@@ -199,6 +224,9 @@ window.addEventListener("load", function() {
 						case "tool-envelope":
 							adjustEnvelopeToolInput(event)
 						break
+						case "tool-bitcrusher":
+							adjustBitcrusherToolInput(event)
+						break
 						case "tool-filter":
 							adjustFilterToolInput(event)
 						break
@@ -222,6 +250,9 @@ window.addEventListener("load", function() {
 						break
 						case "tool-noise":
 							adjustNoiseToolToggle(event)
+						break
+						case "tool-bitcrusher":
+							adjustBitcrusherToolToggle(event)
 						break
 					}
 				}
@@ -329,7 +360,7 @@ window.addEventListener("load", function() {
 						input.setAttribute("max", 100)
 						input.className = "input"
 						input.id = "tool-meta-volume-input"
-						input.value = 75
+						input.value = 50
 					element.appendChild(input)
 
 					var track = document.createElement("div")
@@ -340,7 +371,7 @@ window.addEventListener("load", function() {
 					var bar = document.createElement("div")
 						bar.id = "tool-meta-volume-bar"
 						bar.className = "bar"
-						bar.style.width = "75%"
+						bar.style.width = "50%"
 						bar.innerHTML = '<span class="fas fa-volume-up"></span>'
 					track.appendChild(bar)
 			}
@@ -418,7 +449,6 @@ window.addEventListener("load", function() {
 		/* loadFile */
 			function loadFile(event, name) {
 				// data
-					var setup = (name ? true : false)
 					var name = name || document.getElementById("tool-meta-select").value
 					var custom = {}
 					if (window.localStorage.synthesizers) {
@@ -428,8 +458,8 @@ window.addEventListener("load", function() {
 				// random
 					if (name == "random") {
 						var low0  = Math.random() *  10 + 0
-						var high0 = Math.random() *  10 + 10
-						var low4  = Math.random() * -10 + 90
+						var high0 = Math.random() *  10 + 20
+						var low4  = Math.random() * -10 + 80
 						var high4 = Math.random() * -10 + 100
 
 						setInstrument({
@@ -455,6 +485,10 @@ window.addEventListener("load", function() {
 								sustain: Math.random(),
 								release: Math.random()
 							},
+							bitcrusher: {
+								bits: (Math.floor(Math.random() * 2) ? Math.pow(2, Math.floor(Math.random() * 6)) : 0),
+								norm: Math.random()
+							},
 							echo: {
 								delay:    Math.random() * 0.5,
 								feedback: Math.random() * 0.8
@@ -473,7 +507,7 @@ window.addEventListener("load", function() {
 									gain: (Math.random() * 50 - 25)
 								}
 							}
-						}, setup)
+						}, true)
 
 						document.getElementById("tool-meta-select").value = document.getElementById("tool-meta-name").value = "new synthesizer"
 						if (!Array.from(document.getElementById("tool-meta-select").querySelectorAll("option[value='new synthesizer']")).length) {
@@ -493,7 +527,7 @@ window.addEventListener("load", function() {
 										"0": true,
 									},
 									imag: [0, 1]
-								})
+								}, true)
 							break
 							case "square":
 								setInstrument({
@@ -502,7 +536,7 @@ window.addEventListener("load", function() {
 										"0": true,
 									},
 									imag: [0, (1/1), 0, (1/3), 0, (1/5), 0, (1/7), 0, (1/9), 0, (1/11), 0, (1/13), 0, (1/15), 0, (1/17), 0, (1/19), 0, (1/21), 0, (1/23), 0, (1/25), 0, (1/27), 0, (1/29), 0, (1/31), 0, (1/33)],
-								})
+								}, true)
 							break
 							case "triangle":
 								setInstrument({
@@ -511,7 +545,7 @@ window.addEventListener("load", function() {
 										"0": true,
 									},
 									imag: [0, (1/1), 0, (1/9), 0, (1/25), 0, (1/49), 0, (1/81), 0, (1/121), 0, (1/169), 0, (1/225), 0, (1/289), 0, (1/361), 0, (1/441), 0, (1/529), 0, (1/625), 0, (1/729), 0, (1/841), 0, (1/961), 0, (1/1089)],
-								})
+								}, true)
 							break
 							case "sawtooth":
 								setInstrument({
@@ -520,7 +554,7 @@ window.addEventListener("load", function() {
 										"0": true,
 									},
 									imag: [0, (1/1), (1/4), (1/9), (1/16), (1/25), (1/36), (1/49), (1/64), (1/81), (1/100), (1/121), (1/144), (1/169), (1/196), (1/225), (1/256), (1/289), (1/324), (1/361), (1/400), (1/441), (1/484), (1/529), (1/576), (1/625), (1/676), (1/729), (1/784), (1/841), (1/900), (1/961), (1/1024), (1/1089)],
-								})
+								}, true)
 							break
 							case "shimmer":
 								setInstrument({
@@ -538,6 +572,10 @@ window.addEventListener("load", function() {
 										decay: 0.2,
 										sustain: 0.3,
 										release: 0.4
+									},
+									bitcrusher: {
+										bits: 16,
+										norm: 0.25
 									},
 									echo: {
 										delay: 0.08,
@@ -557,7 +595,7 @@ window.addEventListener("load", function() {
 											gain: -20
 										}
 									}
-								})
+								}, true)
 							break
 							case "jangle":
 								setInstrument({
@@ -592,7 +630,7 @@ window.addEventListener("load", function() {
 										"delay":0.07412233349465767,
 										"feedback":0.6897265497330863
 									}
-								})
+								}, true)
 							break
 							case "chordstrum":
 								setInstrument({
@@ -630,7 +668,7 @@ window.addEventListener("load", function() {
 										"delay":0.0010553957105702905,
 										"feedback":0.8857754774228093
 									}
-								})
+								}, true)
 							break
 							case "darkflute":
 								setInstrument({
@@ -669,7 +707,7 @@ window.addEventListener("load", function() {
 										"delay":0.4607913227432864,
 										"feedback":0.4463562957226408
 									}
-								})
+								}, true)
 							break
 							case "buzzorgan":
 								setInstrument({
@@ -719,7 +757,7 @@ window.addEventListener("load", function() {
 										"delay":0,
 										"feedback":0.9233031920688528
 									}
-								})
+								}, true)
 							break
 							case "swello":
 								setInstrument({
@@ -755,7 +793,7 @@ window.addEventListener("load", function() {
 										"delay":0.009965899510513269,
 										"feedback":0.7489922649526092
 									}
-								})
+								}, true)
 							break
 							case "honeyharp":
 								setInstrument({
@@ -780,34 +818,29 @@ window.addEventListener("load", function() {
 											"high":61.47198808341059,
 											"gain":21.545055096884937
 										},
-										"1":{
-											"low":1121.8487872341102,
-											"mid":9373.47018041928,
-											"high":20000,
-											"gain":-50
-										},
 										"3":{
 											"low":822.8462713537634,
 											"mid":8221.107072310962,
 											"high":20000,
-											"gain":-50
+											"gain":-25
 										},
 										"4":{
 											"low":2390.278220900194,
 											"mid":10548.081821211836,
 											"high":20000,
-											"gain":-50
+											"gain":-25
 										}
 									},
 									"echo":{
 										"delay":0.00835524908457173,
 										"feedback":0.7594509205795837
 									}
-								})
+								}, true)
 							break
 							case "boombash":
 								setInstrument({
 									"name": "boombash",
+									"polysynth":{},
 									"noise":{
 										"brown":1,
 										"pink":0.2578992314261315,
@@ -822,41 +855,23 @@ window.addEventListener("load", function() {
 									},
 									"filters":{
 										"0":{
-											"low":1.579164828807748,
-											"mid":32.70319566257483,
-											"high":677.2560957757105,
-											"gain":35.35788212223554
-										},
-										"1":{
-											"low":2.241597670567632,
-											"mid":32.70319566257483,
-											"high":477.1146136468939,
-											"gain":31.871663579910667
-										},
-										"2":{
-											"low":1.7601451834179183,
-											"mid":32.70319566257483,
-											"high":607.6197671761702,
-											"gain":38.146856956095434
-										},
-										"3":{
-											"low":1.698020790499486,
-											"mid":32.70319566257483,
-											"high":629.8503602126401,
-											"gain":41.63307549842031
+											"low":10,
+											"mid":50,
+											"high":220,
+											"gain":20
 										},
 										"4":{
-											"low":1.5267923663499063,
-											"mid":32.70319566257483,
-											"high":700.4875254265894,
-											"gain":46.86240331190761
+											"low":10,
+											"mid":50,
+											"high":220,
+											"gain":25
 										}
 									},
 									"echo":{
 										"delay":0.03332033068666558,
 										"feedback":0.25743545048480226
 									}
-								})
+								}, true)
 							break
 						}
 					}
@@ -864,7 +879,7 @@ window.addEventListener("load", function() {
 				// favorites
 					else if (custom[name]) {
 						try {
-							setInstrument(custom[name])
+							setInstrument(custom[name], true)
 						}
 						catch (error) {
 							console.log(error)
@@ -884,7 +899,7 @@ window.addEventListener("load", function() {
 							var obj = String(event.target.result)
 							try {
 								obj = JSON.parse(obj)
-								setInstrument(obj)
+								setInstrument(obj, true)
 							}
 							catch (error) {
 								console.log(error)
@@ -1315,15 +1330,148 @@ window.addEventListener("load", function() {
 					}
 			}
 
+	/*** tool-bitcrusher ***/
+		/* buildBitcrusherTool */
+			function buildBitcrusherTool() {
+				var bitcrusherTool = document.getElementById("tool-bitcrusher")
+
+				// toggles
+					var element = document.createElement("div")
+						element.className = "section"
+						element.id = "tool-bitcrusher-bits"
+					bitcrusherTool.appendChild(element)
+
+					var toggle = document.createElement("button")
+						toggle.id = "tool-bitcrusher-bits-toggle--0"
+						toggle.value = 0
+						toggle.className = "toggle"
+						toggle.style.left = "5%"
+						toggle.innerHTML = '<span class="fas fa-ban"></span>'
+						toggle.style["border-radius"] = "100%"
+						toggle.setAttribute("selected", true)
+					element.appendChild(toggle)
+					
+					for (var i = 6; i >= 0; i--) {
+						var toggle = document.createElement("button")
+							toggle.id = "tool-bitcrusher-bits-toggle--" + Math.pow(2, i)
+							toggle.value = Math.pow(2, i)
+							toggle.className = "toggle"
+							toggle.style.left = (7 - i) * 12.5 + 5 + "%"
+							toggle.innerHTML = Math.pow(2, i)
+							toggle.style["border-radius"] = 7 * i + "%"
+						element.appendChild(toggle)
+					}
+
+				// norm
+					var element = document.createElement("div")
+						element.className = "section"
+						element.id = "tool-bitcrusher-norm"
+					bitcrusherTool.appendChild(element)
+
+					var input = document.createElement("input")
+						input.setAttribute("type", "number")
+						input.setAttribute("min", 0)
+						input.setAttribute("max", 100)
+						input.className = "input"
+						input.id = "tool-bitcrusher-norm-input"
+						input.value = 50
+					element.appendChild(input)
+
+					var track = document.createElement("div")
+						track.id = "tool-bitcrusher-norm-track"
+						track.className = "track"
+					element.appendChild(track)
+
+					var bar = document.createElement("div")
+						bar.id = "tool-bitcrusher-norm-bar"
+						bar.className = "bar"
+						bar.style.width = "50%"
+						bar.innerHTML = '<span class="fas fa-adjust"></span>'
+					track.appendChild(bar)
+			}
+
+		/* adjustBitcrusherToolToggle */
+			function adjustBitcrusherToolToggle(event, setup) {
+				// data
+					var bits = Math.max(0, Math.min(64, event.target.value))
+					var norm = Math.max(0, Math.min(100, document.getElementById("tool-bitcrusher-norm-input").value)) / 100
+
+				// unselect
+					if (event.target.getAttribute("selected")) {
+						event.target.removeAttribute("selected")
+
+						if (!Array.from(document.querySelectorAll("#tool-bitcrusher .toggle[selected]")).length) {
+							document.getElementById("tool-bitcrusher-bits-toggle--0").setAttribute("selected", true)
+						}
+
+						if (!setup) {
+							var bitcrusher = {}
+								bitcrusher.bits = bits
+								bitcrusher.norm = norm
+							window.instrument.setParameters({ bitcrusher: bitcrusher })
+						}
+					}
+
+				// select
+					else {
+						Array.from(document.querySelectorAll("#tool-bitcrusher .toggle:not([value='power'])")).forEach(function (t) {
+							t.removeAttribute("selected")
+						})
+						event.target.setAttribute("selected", true)
+
+						if (!setup) {
+							var bitcrusher = {}
+								bitcrusher.bits = bits
+								bitcrusher.norm = norm
+
+							window.instrument.setParameters({ bitcrusher: bitcrusher })
+						}
+					}
+			}
+
+		/* adjustBitcrusherToolBar */
+			function adjustBitcrusherToolBar(event) {
+				// display
+					var rectangle  = document.getElementById("tool-bitcrusher-norm-track").getBoundingClientRect()
+					var input = document.getElementById("tool-bitcrusher-norm-input")
+
+					var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+						percentage = Math.min(100, Math.max(0, percentage))
+					parameter.style.width = percentage + "%"
+					input.value = percentage
+
+				// data
+					adjustBitcrusherToolInput({target: input})
+			}
+
+		/* adjustBitcrusherToolInput */
+			function adjustBitcrusherToolInput(event, setup) {
+				// display
+					var bar = document.getElementById("tool-bitcrusher-norm-bar")
+					var percentage = Number(event.target.value)
+						percentage = Math.min(100, Math.max(0, percentage))
+					bar.style.width = percentage + "%"
+
+				// audio
+					if (!setup) {
+						var norm = percentage / 100
+						var bits = Array.from(document.querySelectorAll("#tool-bitcrusher .toggle[selected]")) || []
+							bits = bits[0] || 0
+						if (bits) {
+							bits = Math.min(64, Math.max(0, bits.value))
+						}
+
+						var bitcrusher = {}
+							bitcrusher.bits = bits
+							bitcrusher.norm = norm
+						window.instrument.setParameters({ bitcrusher: bitcrusher })
+					}
+			}
+
 	/*** tool-filter ***/
 		/* buildFilterTool */
 			function buildFilterTool() {
 				var filterTool = document.getElementById("tool-filter")
-
-				// default
-					var raw = document.createElement("div")
-						raw.id = "tool-filter-raw"
-					filterTool.appendChild(raw)
 
 				// lines
 					for (var i = 0; i <= 100; i++) {
