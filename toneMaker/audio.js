@@ -698,22 +698,30 @@ window.addEventListener("load", function() {
 				}
 
 			/* press */
-				i.press = function(pitch, velocity) {
+				i.press = function(pitch, when, velocity) {
 					try {
 
 						// info
 							var pitch = Math.max(8.18, Math.min(16744.04, pitch))
-							var now   = audio.currentTime
+							var now   = audio.currentTime + (Number(when) || 0)
 
 						// velocity
-							velocity = Math.max(0, Math.min(2, ((velocity / 64) || 1)))
+							if (velocity) {
+								velocity = Math.max(0, Math.min(2, (velocity || 1)))
+							}
+							else {
+								velocity = 1
+							}
+							
 							i.velocities[pitch] = audio.createGain()
+							i.velocities[pitch].gain.setValueAtTime(0, 0)
 							i.velocities[pitch].gain.setValueAtTime(velocity, now)
 
 						// noise
 							for (var color in i.parameters.noise) {
 								i.buffers[pitch + "_" + color] = audio.createGain()
 								i.buffers[pitch + "_" + color].connect(i.velocities[pitch])
+								i.buffers[pitch + "_" + color].gain.setValueAtTime(0, 0)
 								i.buffers[pitch + "_" + color].gain.setValueAtTime((i.parameters.noise[color]), now)
 
 								buffers[color].connect(i.buffers[pitch + "_" + color])
@@ -735,7 +743,7 @@ window.addEventListener("load", function() {
 						// envelopes
 							i.envelopes[pitch] = audio.createGain()
 							i.velocities[pitch].connect(i.envelopes[pitch])
-							i.envelopes[pitch].gain.setValueAtTime(0, now)
+							i.envelopes[pitch].gain.setValueAtTime(0, audio.currentTime)
 							i.envelopes[pitch].gain.linearRampToValueAtTime(1, now + (i.parameters.envelope.attack || 0))
 							i.envelopes[pitch].gain.exponentialRampToValueAtTime((i.parameters.envelope.sustain || 0) + 0.001, now + (i.parameters.envelope.attack || 0) + (i.parameters.envelope.decay || 0))
 
@@ -770,12 +778,12 @@ window.addEventListener("load", function() {
 				}
 
 			/* lift */
-				i.lift = function(pitch) {
+				i.lift = function(pitch, when, velocity) {
 					try {
 
 						// info
 							var pitch = Math.max(8.18, Math.min(16744.04, pitch))
-							var now   = audio.currentTime
+							var now   = audio.currentTime + (Number(when) || 0)
 
 						// buffers
 							Object.keys(i.buffers).forEach(function (b) {
@@ -850,7 +858,7 @@ window.addEventListener("load", function() {
 								window.midi.controllers[input.value.name + input.value.id].onmidimessage = function(event) {
 									try {
 										if (window.instrument && event.data[0] == 144 && event.data[2]) {
-											window.instrument.press(window.getFrequency(event.data[1])[0], event.data[2])
+											window.instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
 										}
 										else if (window.instrument && (event.data[0] == 128 || event.data[2] == 0)) {
 											window.instrument.lift(window.getFrequency(event.data[1])[0])
