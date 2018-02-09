@@ -672,6 +672,7 @@ window.addEventListener("load", function() {
 							break
 							case "lazerz":
 								setInstrument({
+									"name": "lazerz",
 									"polysynth":{
 										"0":true
 									},
