@@ -694,7 +694,6 @@ window.addEventListener("load", function() {
 											"mid":8906.515668158989,
 											"high":16316.528392549255,
 											"gain":-43.064876957494405
-										    }
 										}
 									},
 									"echo":{
