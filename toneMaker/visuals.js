@@ -678,7 +678,7 @@ window.addEventListener("load", function() {
 									},
 									"imag":[0,1,0.43981871008872986,0.19477427005767822,0.16363249719142914,0.04059608280658722,0.05547327548265457,0.08984045684337616,0.02408204786479473,0.05339190736413002,0.0810762494802475,0.049579720944166183,0.004129277542233467,0.06980492174625397,0.011852550320327282,0.011417913250625134,0.05199107900261879,0.0462377704679966,0.011805979534983635,0.041976239532232285,0.04228879511356354,0.03486672788858414,0.03639288619160652,0.005501041188836098,0.018338866531848907,0.004767595790326595,0.02615637518465519,0.016462303698062897,0.018449874594807625,0.03333821892738342,0.03183285519480705,0.022049419581890106,0.020332850515842438,0.0260325875133276],
 									"envelope":{
-										"attack":0.3189542050630094,
+										"attack":0.0103,
 										"decay":0.6066113351908449,
 										"sustain":0.2795546993048945,
 										"release":0.2983127072001239
@@ -1860,191 +1860,70 @@ window.addEventListener("load", function() {
 			function getKey(keycode) {
 				switch (keycode) {
 					case 65:
-						return 0
+						return 48
 					break
 					case 87:
-						return 1
+						return 49
 					break
 					case 83:
-						return 2
+						return 50
 					break
 					case 69:
-						return 3
+						return 51
 					break
 					case 68:
-						return 4
+						return 52
 					break
 					case 70:
-						return 5
+						return 53
 					break
 					case 84:
-						return 6
+						return 54
 					break
 					case 71:
-						return 7
+						return 55
 					break
 					case 89:
-						return 8
+						return 56
 					break
 					case 72:
-						return 9
+						return 57
 					break
 					case 85:
-						return 10
+						return 58
 					break
 					case 74:
-						return 11
+						return 59
 					break
 					case 75:
-						return 12
+						return 60
 					break
 					case 79:
-						return 13
+						return 61
 					break
 					case 76:
-						return 14
+						return 62
 					break
 					case 80:
-						return 15
+						return 63
 					break
 					case 186:
-						return 16
+						return 64
 					break
 					case 222:
-						return 17
+						return 65
 					break
 					case 221:
-						return 18
+						return 66
 					break
 					case 13:
-						return 19
+						return 67
 					break
 					case 220:
-						return 20
+						return 68
 					break
 					default:
 						return null
-				}
-			}
-
-		/* getFrequency */
-			function getFrequency(note) {
-				note = Math.max(0, Math.min(36, Number(note) || 0))
-
-				switch (note) {
-					case 0: 			// C3
-						return [130.81, "C", 0, 3]
-					break
-					case 1: 			// C#3 / Db3
-						return [138.59, "C", 1, 3]
-					break
-					case 2: 			// D3
-						return [146.83, "D", 0, 3]
-					break
-					case 3: 			// D#3 / Eb3
-						return [155.56, "E", -1, 3]
-					break
-					case 4: 			// E3
-						return [164.81, "E", 0, 3]
-					break
-					case 5: 			// F3
-						return [174.61, "F", 0, 3]
-					break
-					case 6: 			// F#3 / Gb3
-						return [185.00, "F", 1, 3]
-					break
-					case 7: 			// G
-						return [196.00, "G", 0, 3]
-					break
-					case 8: 			// G#3 / Ab3
-						return [207.65, "A", -1, 3]
-					break
-					case 9: 			// A3
-						return [220.00, "A", 0, 3]
-					break
-					case 10: 			// A#3 / Bb3
-						return [233.08, "B", -1, 3]
-					break
-					case 11: 			// B3
-						return [246.94, "B", 0, 3]
-					break
-					case 12: 			// C4
-						return [261.63, "C", 0, 4]
-					break
-					case 13: 			// C#4 / Db4
-						return [277.18, "C", 1, 4]
-					break
-					case 14: 			// D4
-						return [293.67, "D", 0, 4]
-					break
-					case 15: 			// D#4 / Eb4
-						return [311.13, "E", -1, 4]
-					break
-					case 16: 			// E4
-						return [329.63, "E", 0, 4]
-					break
-					case 17: 			// F4
-						return [349.23, "F", 0, 4]
-					break
-					case 18: 			// F#4 / Gb4
-						return [369.99, "F", 1, 4]
-					break
-					case 19: 			// G4
-						return [392.00, "G", 0, 4]
-					break
-					case 20: 			// G#4 / Ab4
-						return [415.30, "A", -1, 4]
-					break
-					case 21: 			// A4
-						return [440.00, "A", 0, 4]
-					break
-					case 22: 			// A#4 / Bb4
-						return [466.16, "B", -1, 4]
-					break
-					case 23: 			// B4
-						return [493.88, "B", 0, 4]
-					break
-					case 24: 			// C5
-						return [523.25, "C", 0, 5]
-					break
-					case 25: 			// C#5 / Db5
-						return [554.37, "C", 1, 5]
-					break
-					case 26: 			// D5
-						return [587.33, "D", 0, 5]
-					break
-					case 27: 			// D#5 / Eb5
-						return [622.25, "E", -1, 5]
-					break
-					case 28: 			// E5
-						return [659.25, "E", 0, 5]
-					break
-					case 29: 			// F5
-						return [698.46, "F", 0, 5]
-					break
-					case 30: 			// F#5 / Gb5
-						return [739.99, "F", 1, 5]
-					break
-					case 31: 			// G5
-						return [783.99, "G", 0, 5]
-					break
-					case 32: 			// G#5 / Ab5
-						return [830.61, "A", -1, 5]
-					break
-					case 33: 			// A5
-						return [880.00, "A", 0, 5]
-					break
-					case 34: 			// A#5 / Bb5
-						return [932.33, "B", -1, 5]
-					break
-					case 35: 			// B5
-						return [987.77, "B", 0, 5]
-					break
-					case 36: 			// C6
-						return [1046.50, "C", 0, 6]
-					break
-					default:
-						return false
 				}
 			}
 
@@ -2056,11 +1935,12 @@ window.addEventListener("load", function() {
 					var count = 0
 					var letters = ["a","w","s","e","d", "f","t","g","y","h","u","j","k","o","l","p",";","'","]","&#8629;","\\"]
 				
-				for (var i = 0; i <= 24; i++) {
+				for (var i = 48; i <= 72; i++) {
 					// build key
 						var element = document.createElement("button")
 							element.className = "key"
 							element.id = "key--" + i
+							element.value = i
 							if (letters[i]) { element.innerHTML = letters[i] }
 						keyboard.appendChild(element)
 
@@ -2095,7 +1975,7 @@ window.addEventListener("load", function() {
 				// select
 					if (press && !press.getAttribute("selected") && window.instrument) {
 						press.setAttribute("selected", true)
-						window.instrument.press(getFrequency(press.id.split("--")[1])[0])
+						window.instrument.press(window.getFrequency(press.value)[0])
 					}
 			}
 
@@ -2117,7 +1997,7 @@ window.addEventListener("load", function() {
 				// deselect			
 					if (lift && window.instrument) {
 						lift.removeAttribute("selected")
-						window.instrument.lift(getFrequency(lift.id.split("--")[1])[0])
+						window.instrument.lift(window.getFrequency(lift.value)[0])
 					}
 			}
 
