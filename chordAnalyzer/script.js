@@ -66,9 +66,11 @@ window.addEventListener("load", function() {
 			});
 
 			$(document).on("mousedown",".key",function() {
-				var key = $(this).attr("value");
-				window.lastKey = key;
-				activate(true,key);
+				if (!$(this).hasClass("active")) {
+					var key = $(this).attr("value");
+					window.lastKey = key;
+					activate(true,key);
+				}
 			});
 
 			$(document).on("mousedown","#sustain",function() {
@@ -177,7 +179,9 @@ window.addEventListener("load", function() {
 							var key = -1;
 					}
 
-					activate(true,key);
+					if (!$("#key_" + key).hasClass("active")) {
+						activate(true,key);
+					}
 				}
 			});
 
