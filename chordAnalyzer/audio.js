@@ -712,6 +712,13 @@ window.addEventListener("load", function() {
 							else {
 								velocity = 1
 							}
+
+							if (i.velocities[pitch]) {
+								console.log("problem velocity")
+								i.velocities[pitch].gain.cancelScheduledValues(now)
+								i.velocities[pitch].disconnect()
+								delete i.velocities[pitch]
+							}
 							
 							i.velocities[pitch] = audio.createGain()
 							i.velocities[pitch].gain.setValueAtTime(0, 0)
@@ -719,6 +726,13 @@ window.addEventListener("load", function() {
 
 						// noise
 							for (var color in i.parameters.noise) {
+								if (i.buffers[pitch + "_" + color]) {
+									console.log("problem buffer")
+									i.buffers[pitch + "_" + color].gain.cancelScheduledValues(now)
+									i.buffers[pitch + "_" + color].disconnect()
+									delete i.buffers[pitch + "_" + color]
+								}
+
 								i.buffers[pitch + "_" + color] = audio.createGain()
 								i.buffers[pitch + "_" + color].connect(i.velocities[pitch])
 								i.buffers[pitch + "_" + color].gain.setValueAtTime(0, 0)
@@ -733,6 +747,13 @@ window.addEventListener("load", function() {
 								var distance = polysynths[p]
 								var multiplier = Math.pow(1.05946309436, distance)
 
+								if (i.tones[pitch + "_" + distance]) {
+									console.log("problem tone")
+									i.tones[pitch + "_" + distance].stop(now)
+									i.tones[pitch + "_" + distance].disconnect()
+									delete i.tones[pitch + "_" + distance]
+								}
+
 								i.tones[pitch + "_" + distance] = audio.createOscillator()
 								i.tones[pitch + "_" + distance].connect(i.velocities[pitch])
 								i.tones[pitch + "_" + distance].frequency.setValueAtTime(pitch * multiplier, now)
@@ -741,6 +762,13 @@ window.addEventListener("load", function() {
 							}
 
 						// envelopes
+							if (i.envelopes[pitch]) {
+								console.log("problem envelope")
+								i.envelopes[pitch].cancelScheduledValues(now)
+								i.envelopes[pitch].disconnect()
+								delete i.envelopes[pitch]
+							}
+
 							i.envelopes[pitch] = audio.createGain()
 							i.velocities[pitch].connect(i.envelopes[pitch])
 							i.envelopes[pitch].gain.setValueAtTime(0, audio.currentTime)
@@ -752,6 +780,13 @@ window.addEventListener("load", function() {
 								i.envelopes[pitch].connect(i.filters["0"])
 							}
 							else {
+								if (i.bitcrushers[pitch]) {
+									console.log("problem bitcrusher")
+									i.bitcrushers[pitch].cancelScheduledValues(now)
+									i.bitcrushers[pitch].disconnect()
+									delete i.bitcrushers[pitch]
+								}
+
 								var wait = 0
 								var hold = 0
 
@@ -783,44 +818,52 @@ window.addEventListener("load", function() {
 
 						// info
 							var pitch = Math.max(8.18, Math.min(16744.04, pitch))
-							var now   = audio.currentTime + (Number(when) || 0)
-
-						// buffers
-							Object.keys(i.buffers).forEach(function (b) {
-								if (b.split("_")[0] == pitch) {
-									buffers[b.split("_")[1]].disconnect(i.buffers[b])
-									delete i.buffers[b]
-								}
-							})
-
-						// oscillators
-							Object.keys(i.tones).forEach(function (t) {
-								if (t.split("_")[0] == pitch) {
-									i.tones[t].stop(now + (i.parameters.envelope.release || 0))
-									delete i.tones[t]
-								}
-							})
-
-						// velocities
-							i.velocities[pitch].gain.cancelScheduledValues(now)
-							i.envelopes[pitch].gain.setValueAtTime(0, now)
-							delete i.velocities[pitch]
+							var now   = audio.currentTime + (Number(when) || 0)					
 
 						// envelope
 							i.envelopes[pitch].gain.cancelScheduledValues(now)
 							i.envelopes[pitch].gain.setValueAtTime(i.envelopes[pitch].gain.value, now)
 							i.envelopes[pitch].gain.exponentialRampToValueAtTime(0.001, now + (i.parameters.envelope.release || 0))
-							delete i.envelopes[pitch]
 
-						// bitcrusher
-							if (i.bitcrushers[pitch]) {
-								i.bitcrushers[pitch].disconnect()
-								delete i.bitcrushers[pitch]
-							}
+						// delete
+							setTimeout(function() {
+								if (i.bitcrushers[pitch]) {
+									i.bitcrushers[pitch].disconnect()
+									delete i.bitcrushers[pitch]
+								}
+
+								if (i.envelopes[pitch]) {
+									i.envelopes[pitch].gain.cancelScheduledValues(now)
+									i.envelopes[pitch].disconnect()
+									delete i.envelopes[pitch]
+								}
+
+								if (i.velocities[pitch]) {
+									i.velocities[pitch].gain.cancelScheduledValues(now)
+									i.velocities[pitch].disconnect()
+									delete i.velocities[pitch]
+								}
+
+								Object.keys(i.tones).forEach(function (t) {
+									if (t.split("_")[0] == pitch) {
+										i.tones[t].stop(now + (i.parameters.envelope.release || 0))
+										i.tones[t].disconnect()
+										delete i.tones[t]
+									}
+								})
+
+								Object.keys(i.buffers).forEach(function (b) {
+									if (b.split("_")[0] == pitch) {
+										i.buffers[b].gain.cancelScheduledValues(now)
+										i.buffers[b].disconnect()
+										delete i.buffers[b]
+									}
+								})								
+							}, when * 1000)
 
 					} catch (error) {}
 				}
-			
+				
 			// start
 				i.setParameters(parameters || {})
 				return i

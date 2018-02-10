@@ -2,10 +2,11 @@
 <html>
 	<head>
 		<title>pitchPlayer</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0'">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 		<link rel="shortcut icon" type="image/png" href="https://maxcdn.icons8.com/Share/icon/ios7/Music//tuning_fork1600.png"></link>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
-		<script tyle="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="audio.js"></script>
+		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body onload="ready()">
 		<div id="header">
@@ -17,14 +18,10 @@
 			<button id="stop">[-]</button>
 			<button id="reset">{x}</button>
 			<label id="target-outer">[&nbsp;measures&nbsp;]<input id="target" type="number" max="256" min="1" step="1" value="32" placeholder="#"></input></label>
-			<label id="tempo-outer">[&nbsp;tempo&nbsp;]<input id="tempo" type="number" max="250" min="1" step="1" value="100" placeholder="bpm"></input></label>
+			<label id="tempo-outer">[&nbsp;tempo&nbsp;]<input id="tempo" type="number" max="250" min="1" step="1" value="60" placeholder="bpm"></input></label>
 			<label id="volume-outer">[&nbsp;volume&nbsp;]<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
 			<label id="wave-outer">[&nbsp;wave&nbsp;]
 				<select id="wave">
-					<option value="sine">sine</option>
-					<option value="square">square</option>
-					<option value="triangle" selected>triangle</option>
-					<option value="sawtooth">sawtooth</option>
 				</select>
 			</label>
 			upload&nbsp;<label id="upload-outer"><input id="upload" type="file">&#x21E7;</label>

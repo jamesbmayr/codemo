@@ -1074,7 +1074,6 @@ window.addEventListener("load", function() {
 
 		/* stopTone */
 			function stopTone(tone) {
-				console.log(tone)
 				if (window.instrument) {
 					window.instrument.lift(window.getFrequency(+tone + 48)[0])
 				}
