@@ -1,9 +1,19 @@
-$(document).ready(function() {
+window.addEventListener("load", function() {
 
 	/* * * page * * */
 		/* on load */
+			createList()
 			createKeyboard();
 			sustain(true);
+
+		/* createList */
+			function createList() {
+				var instruments = window.getInstruments() || []
+					instruments = ["piano"].concat(instruments)
+				for (var i = 0; i < instruments.length; i++) {
+					$("#instruments").append("<option value=" + instruments[i] + ">" + instruments[i] + "</option>")
+				}
+			}
 
 		/* createKeyboard */
 			function createKeyboard() {
@@ -44,6 +54,17 @@ $(document).ready(function() {
 			}
 
 		/* listeners */
+			$(document).on("change","#instruments", function() {
+				var name = $(this).val()
+				var obj = window.getInstrument(name)
+				if (obj) {
+					window.instrument = window.buildInstrument(obj)
+				}
+				else {
+					window.instrument = null
+				}
+			});
+
 			$(document).on("mousedown",".key",function() {
 				var key = $(this).attr("value");
 				window.lastKey = key;
@@ -1036,17 +1057,28 @@ $(document).ready(function() {
 	/* * * tones * * */
 		/* playTone */
 			function playTone(tone) {
-				var sample = document.getElementById("tone_" + tone);
-				sample.pause();
-				sample.currentTime = 0;
-				sample.play();
+				if (window.instrument) {
+					window.instrument.press(window.getFrequency(+tone + 48)[0])
+				}
+				else {
+					var sample = document.getElementById("tone_" + tone);
+					sample.pause();
+					sample.currentTime = 0;
+					sample.play();
+				}
 			}
 
 		/* stopTone */
 			function stopTone(tone) {
-				var sample = document.getElementById("tone_" + tone);
-				sample.pause();
-				sample.currentTime = 0;
+				console.log(tone)
+				if (window.instrument) {
+					window.instrument.lift(window.getFrequency(+tone + 48)[0])
+				}
+				else {
+					var sample = document.getElementById("tone_" + tone);
+					sample.pause();
+					sample.currentTime = 0;
+				}
 			}
 
 });

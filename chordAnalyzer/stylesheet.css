@@ -3,6 +3,12 @@
 		background-color: darkgray;
 		margin: 0px;
 		padding: 0px;
+		margin-bottom: 20px;
+		overflow: hidden;
+	}
+
+	::-webkit-scrollbar { 
+		display: none; 
 	}
 
 /* screen */
@@ -24,10 +30,13 @@
 	}
 
 	#analysis {
-		position: relative;
-		top: 50%;
-		transform: translateY(-50%);
+		position: absolute;
+		top: 25px;
+		left: 50%;
+		width: calc(100% - 20px);
+		transform: translateX(-50%);
 		color: #333333;
+		text-align: center;
 	}
 
 	#bigOutput {
@@ -48,11 +57,27 @@
 		-webkit-user-select: none;
 	}
 
+	#instruments {
+		position: absolute;
+		top: 150px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 2;
+		font-size: 25px;
+		cursor: pointer;
+		outline: 0px;
+		border: 0px;
+		font-size: 20px;
+		border-radius: 25px;
+		height: 30px;
+		width: 200px;
+	}
+
 /* keyboard */
 	#keyboard {
 		display: block;
 		border: 5px solid #333333;
-		height: calc(100vw / 3.5);
+		height: calc(100vh - 300px);
 		width: 100vw;
 		margin: 0px;
 		padding: 0px 1px 1px 1px;
@@ -60,14 +85,14 @@
 	}
 
 	#blackKeys {
-		height: calc((100vw / 4) * (3 / 4));
+		height: calc(calc(100vh - 300px) * (2 / 3));
 		z-index: 2;
 		position: absolute;
 		pointer-events: none;
 	}
 
 	#whiteKeys {
-		height: calc((100vw / 3.5) - 12px);
+		height: calc((100vh - 300px) - 12px);
 		z-index: 1;
 		position: absolute;
 		pointer-events: none;
@@ -131,8 +156,8 @@
 /* sustain */
 	#sustain {
 		width: 72vw;
-		margin: 2vw 14vw 0vw 14vw;
-		height: 5vw;
+		margin: 20px 14vw 20px 14vw;
+		height: 50px;
 		background-color: #333333;
 		border-radius: 10px;
 		cursor: pointer;
