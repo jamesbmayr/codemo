@@ -5,6 +5,7 @@ window.addEventListener("load", function() {
 			var tool = null
 			var parameter = null
 			var key = null
+			var defaults = window.getInstruments(true)
 
 		/* prevention */
 			document.body.ondragstart = function() { return false }
@@ -79,15 +80,6 @@ window.addEventListener("load", function() {
 						var colors = ["white", "pink", "brown"]
 						for (var x in colors) {
 							var value = parameters.noise ? (parameters.noise[colors[x]] || 0) : 0
-							var target = document.getElementById("tool-noise-power--" + colors[x])
-							
-							if (value && !target.getAttribute("selected")) {
-								adjustNoiseToolToggle({target: target}, setup)	
-							}
-							else if (!value && target.getAttribute("selected")) {
-								adjustNoiseToolToggle({target: target}, setup)
-							}
-
 							var target = document.getElementById("tool-noise-volume-input--" + colors[x])
 								target.value = (100 * Number(value)) || 0
 							adjustNoiseToolInput({target: target}, setup)
@@ -124,12 +116,21 @@ window.addEventListener("load", function() {
 						}
 							
 					// filters
-						for (var x = 0; x <= 4; x++) {
+						var filters = Array.from(document.querySelectorAll("#tool-filter-track .blob"))
+						for (var x in filters) {
+							deselectFilterToolBar(null, Number(filters[x].id.split("--")[1]))
+						}
+
+						for (var x in parameters.filters) {
+							x = Number(x)
 							var obj = (parameters.filters && parameters.filters[x]) ? parameters.filters[x] : {
 								low:  440 * Math.pow(2, ((24 + 12 * (x - 0.4)) - 45) / 12),
 								high: 440 * Math.pow(2, ((24 + 12 * (x + 0.4)) - 45) / 12),
 								gain: 0
 							}
+							obj.number = x
+							createFilter(null, obj)
+
 							var target = document.getElementById("tool-filter-input--low--" + x)
 								target.value = 45 + 12 * Math.log2(obj.low / 440)
 							adjustFilterToolInput({target: target}, setup)
@@ -206,6 +207,10 @@ window.addEventListener("load", function() {
 			document.addEventListener("mouseup", deselectBar)
 			function deselectBar(event) {
 				if (tool && parameter) {
+					if (tool.id == "tool-filter") {
+						deselectFilterToolBar(event)
+					}
+
 					tool.removeAttribute("grabbing")
 					parameter.removeAttribute("selected")
 					parameter = null	
@@ -255,9 +260,6 @@ window.addEventListener("load", function() {
 						case "tool-polysynth":
 							adjustPolysynthToolToggle(event)
 						break
-						case "tool-noise":
-							adjustNoiseToolToggle(event)
-						break
 						case "tool-bitcrusher":
 							adjustBitcrusherToolToggle(event)
 						break
@@ -285,14 +287,6 @@ window.addEventListener("load", function() {
 						input.addEventListener("change", nameFile)
 					element.appendChild(input)
 
-				// save
-					var input = document.createElement("button")
-						input.id = "tool-meta-save"
-						input.className = "button"
-						input.innerHTML = '<span class="fas fa-save"></span>'
-						input.addEventListener("click", saveFile)
-					element.appendChild(input)
-
 				// download
 					var input = document.createElement("button")
 						input.id = "tool-meta-download"
@@ -307,6 +301,7 @@ window.addEventListener("load", function() {
 					var select = document.createElement("select")
 						select.id = "tool-meta-select"
 						select.className = "input"
+						select.addEventListener("change", loadFile)
 						for (var o in options) {
 							var option = document.createElement("option")
 								option.innerText = options[o]
@@ -314,15 +309,6 @@ window.addEventListener("load", function() {
 							select.appendChild(option)
 						}
 					element.appendChild(select)
-
-
-				// load
-					var input = document.createElement("button")
-						input.id = "tool-meta-load"
-						input.className = "button"
-						input.innerHTML = '<span class="fas fa-arrow-circle-right"></span>'
-						input.addEventListener("click", loadFile)
-					element.appendChild(input)
 
 				// upload
 					var input = document.createElement("label")
@@ -364,7 +350,7 @@ window.addEventListener("load", function() {
 						bar.id = "tool-meta-volume-bar"
 						bar.className = "bar"
 						bar.style.width = "50%"
-						bar.innerHTML = '<span class="fas fa-volume-up"></span>'
+						bar.innerHTML = 'volume&nbsp;<span class="fas fa-volume-up"></span>'
 					track.appendChild(bar)
 			}
 
@@ -383,6 +369,9 @@ window.addEventListener("load", function() {
 					}
 
 					window.instrument.setParameters({ name: event.target.value })
+					if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+						saveFile()
+					}
 				}
 			}
 
@@ -516,9 +505,49 @@ window.addEventListener("load", function() {
 						toggle.className = "toggle"
 						toggle.id = "tool-polysynth-toggle--" + i
 						toggle.value = i
-						toggle.innerHTML = Math.abs(i)
 						toggle.style.left = 4 * (i + 12) + "%"
 					polysynthTool.appendChild(toggle)
+
+					switch (Math.abs(i)) {
+						case 12:
+							toggle.innerHTML = "12<br>8ve"
+						break
+						case 11:
+							toggle.innerHTML = "11<br>M7"
+						break
+						case 10:
+							toggle.innerHTML = "10<br>m7"
+						break
+						case 9:
+							toggle.innerHTML = "9<br>M6"
+						break
+						case 8:
+							toggle.innerHTML = "8<br>m6"
+						break
+						case 7:
+							toggle.innerHTML = "7<br>P5"
+						break
+						case 6:
+							toggle.innerHTML = "6<br>Tt"
+						break
+						case 5:
+							toggle.innerHTML = "5<br>P4"
+						break
+						case 4:
+							toggle.innerHTML = "4<br>M3"
+						break
+						case 3:
+							toggle.innerHTML = "3<br>m3"
+						break
+						case 2:
+							toggle.innerHTML = "2<br>M2"
+						break
+						case 1:
+							toggle.innerHTML = "1<br>m2"
+						break
+						case 0:
+							toggle.innerHTML = "0<br>root"
+					}
 				}
 			}
 
@@ -531,6 +560,9 @@ window.addEventListener("load", function() {
 						var polysynth = {}
 							polysynth[Number(event.target.value)] = false
 						window.instrument.setParameters({ polysynth: polysynth })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
 				}
 				else {
@@ -540,6 +572,9 @@ window.addEventListener("load", function() {
 						var polysynth = {}
 							polysynth[Number(event.target.value)] = true
 						window.instrument.setParameters({ polysynth: polysynth })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
 				}
 			}
@@ -605,6 +640,9 @@ window.addEventListener("load", function() {
 						var harmonic = {}
 							harmonic[event.target.id.split("--")[1]] = percentage / 100
 						window.instrument.setParameters({harmonic: harmonic})
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
 			}
 
@@ -628,6 +666,7 @@ window.addEventListener("load", function() {
 							input.setAttribute("type", "number")
 							input.setAttribute("min", 0)
 							input.setAttribute("max", 100)
+							input.setAttribute("placeholder", color)
 							input.className = "input"
 							input.id = "tool-noise-volume-input--" + color
 							input.value = 10
@@ -644,13 +683,6 @@ window.addEventListener("load", function() {
 							bar.style.width = "10%"
 							bar.innerHTML = color + '&nbsp;<span class="fas fa-volume-up"></span>'
 						track.appendChild(bar)
-
-					// power
-						var toggle = document.createElement("button")
-							toggle.id = "tool-noise-power--" + color
-							toggle.className = "toggle"
-							toggle.innerHTML = '<span class="fas fa-cloud"></span>'
-						element.appendChild(toggle)
 				}
 			}
 
@@ -680,37 +712,14 @@ window.addEventListener("load", function() {
 					bar.style.width = percentage + "%"
 
 				// audio
-					if (document.getElementById("tool-noise-power--" + type).getAttribute("selected") && !setup) {
+					if (!setup) {
 						var noise = {}
 							noise[type] = percentage / 100
 						window.instrument.setParameters({ noise: noise })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
-			}
-
-		/* adjustNoiseToolToggle */
-			function adjustNoiseToolToggle(event, setup) {
-				if (event.target.getAttribute("selected")) {
-					event.target.removeAttribute("selected")
-
-					if (!setup) {
-						var type = event.target.id.split("--")[1]
-						var noise = {}
-							noise[type] = 0
-						window.instrument.setParameters({ noise: noise })
-					}
-				}
-				else {
-					event.target.setAttribute("selected", true)
-
-					if (!setup) {
-						var type = event.target.id.split("--")[1]
-						var percentage = document.getElementById("tool-noise-volume-input--" + type).value
-							percentage = Math.min(100, Math.max(0, percentage))
-						var noise = {}
-							noise[type] = percentage / 100
-						window.instrument.setParameters({ noise: noise })
-					}
-				}
 			}
 
 	/*** tool-envelope ***/	
@@ -885,6 +894,9 @@ window.addEventListener("load", function() {
 						}
 
 						window.instrument.setParameters({ envelope: envelope })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
 			}
 
@@ -915,7 +927,7 @@ window.addEventListener("load", function() {
 							toggle.value = Math.pow(2, i)
 							toggle.className = "toggle"
 							toggle.style.left = (7 - i) * 12.5 + 5 + "%"
-							toggle.innerHTML = Math.pow(2, i)
+							toggle.innerHTML = Math.pow(2, i) + "<span class='tool-bitcrusher-bits-toggle-bit'>-bit</span>"
 							toggle.style["border-radius"] = 7 * i + "%"
 						element.appendChild(toggle)
 					}
@@ -967,6 +979,9 @@ window.addEventListener("load", function() {
 								bitcrusher.bits = bits
 								bitcrusher.norm = norm
 							window.instrument.setParameters({ bitcrusher: bitcrusher })
+							if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+								saveFile()
+							}
 						}
 					}
 
@@ -983,6 +998,9 @@ window.addEventListener("load", function() {
 								bitcrusher.norm = norm
 
 							window.instrument.setParameters({ bitcrusher: bitcrusher })
+							if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+								saveFile()
+							}
 						}
 					}
 			}
@@ -1023,6 +1041,9 @@ window.addEventListener("load", function() {
 							bitcrusher.bits = bits
 							bitcrusher.norm = norm
 						window.instrument.setParameters({ bitcrusher: bitcrusher })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
 			}
 
@@ -1031,95 +1052,140 @@ window.addEventListener("load", function() {
 			function buildFilterTool() {
 				var filterTool = document.getElementById("tool-filter")
 
-				// lines
-					for (var i = 0; i <= 100; i++) {
-						if (i % 12 == 0) {
-							var line = document.createElement("div")
-								line.id = "tool-filter-line--" + i
-								line.className = "line"
-								line.innerHTML = "C" + ((i / 12) + 1)
-								line.style.left = i + "%"
-							filterTool.appendChild(line)
-						}
-					}
-
 				// track
 					var track = document.createElement("div")
 						track.className = "track"
 						track.id = "tool-filter-track"
 					filterTool.appendChild(track)
 
-				// filter shapes / inputs
-					for (var i = 0; i <= 4; i++) {
-						// data
-							var low  = 24 + 12 * (i + 0.4)
-							var high = 24 + 12 * (i - 0.4)
-							var gain = 0
-						
-						// blobs
-							var blob = document.createElement("div")
-								blob.className = "blob"
-								blob.id = "tool-filter-blob--" + i
-								blob.style["clip-path"] = "polygon(100% 50%, 100% 100%, 0% 100%, 0% 50%, " + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
-							track.appendChild(blob)
-
-						// low
-							var shape = document.createElement("div")
-								shape.className = "shape square"
-								shape.id = "tool-filter-shape--low--" + i
-								shape.style.left = low + "%"
-								shape.style.top = "50%"
-							track.appendChild(shape)
-
-							var input = document.createElement("input")
-								input.setAttribute("type", "number")
-								input.setAttribute("min", 0)
-								input.setAttribute("max", 100)
-								input.className = "input"
-								input.id = "tool-filter-input--low--" + i
-								input.value = low
-								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-								input.style.bottom = "30px"
-							filterTool.appendChild(input)
-
-						// gain
-							var shape = document.createElement("div")
-								shape.className = "shape circle"
-								shape.id = "tool-filter-shape--gain--" + i
-								shape.style.left = ((low + high) / 2) + "%"
-								shape.style.top = (50 - gain) + "%"
-							track.appendChild(shape)
-
-							var input = document.createElement("input")
-								input.setAttribute("type", "number")
-								input.setAttribute("min", -50)
-								input.setAttribute("max", 50)
-								input.className = "input"
-								input.id = "tool-filter-input--gain--" + i
-								input.value = gain
-								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-								input.style.bottom = "15px"
-							filterTool.appendChild(input)
-
-						// high
-							var shape = document.createElement("div")
-								shape.className = "shape square"
-								shape.id = "tool-filter-shape--high--" + i
-								shape.style.left = high + "%"
-								shape.style.top = "50%"
-							track.appendChild(shape)
-
-							var input = document.createElement("input")
-								input.setAttribute("type", "number")
-								input.setAttribute("min", 0)
-								input.setAttribute("max", 100)
-								input.className = "input"
-								input.id = "tool-filter-input--high--" + i
-								input.value = high
-								input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-								input.style.bottom = "0px"
-							filterTool.appendChild(input)
+				// lines
+					for (var i = 0; i <= 100; i++) {
+						if (i % 12 == 0) {
+							var line = document.createElement("div")
+								line.id = "tool-filter-line--" + i
+								line.className = "line"
+								line.innerHTML = "C" + ((i / 12) + 2) + "<span class='tool-filter-line-frequency'>" + window.getFrequency(i + 24)[0].toFixed(2) + "<br>Hz</span>"
+								line.style.left = i + "%"
+							track.appendChild(line)
+						}
 					}
+
+				// baseline
+					var baseline = document.createElement("div")
+						baseline.id = "tool-filter-baseline"
+						baseline.addEventListener("mousedown", createFilter)
+					track.appendChild(baseline)
+			}
+
+		/* createFilter */
+			function createFilter(event, options) {
+				// parents
+					var filterTool = document.getElementById("tool-filter")
+					var track = document.getElementById("tool-filter-track")
+
+				// click or load?
+					if (!options) {
+						// display
+							var rectangle = track.getBoundingClientRect()
+							var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+								percentage = Math.min(100, Math.max(0, percentage))
+
+						// data
+							var blobs = Array.from(document.querySelectorAll("#tool-filter-track .blob")) || []
+								blobs = blobs.map(function (b) {
+									return Number(b.id.split("--")[1])
+								}).sort(function (a, b) {
+									return b - a
+								}) || []
+							var num = (blobs[0] + 1) || 0
+							var low  = percentage - 5
+							var high = percentage + 5
+							var gain = 0
+					}
+					else {
+						var num  = options.number
+						var low  = 45 + 12 * Math.log2(options.low  / 440)
+						var high = 45 + 12 * Math.log2(options.high / 440)
+						var gain = options.gain
+					}
+						
+				// blobs
+					var blob = document.createElement("div")
+						blob.className = "blob"
+						blob.id = "tool-filter-blob--" + num
+						blob.style["clip-path"] = "polygon(" + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
+					track.appendChild(blob)
+
+				// low
+					var shape = document.createElement("div")
+						shape.className = "shape square"
+						shape.id = "tool-filter-shape--low--" + num
+						shape.addEventListener("mousedown", selectBar)
+						shape.style.left = low + "%"
+						shape.style.top = "50%"
+					track.appendChild(shape)
+
+					var input = document.createElement("input")
+						input.setAttribute("type", "number")
+						input.setAttribute("min", 0)
+						input.setAttribute("max", 100)
+						input.setAttribute("placeholder", "pitch #")
+						input.addEventListener("change", changeInput)
+						input.className = "input"
+						input.id = "tool-filter-input--low--" + num
+						input.value = low
+						input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+						input.style.bottom = "30px"
+					filterTool.appendChild(input)
+
+				// gain
+					var shape = document.createElement("div")
+						shape.className = "shape circle"
+						shape.id = "tool-filter-shape--gain--" + num
+						shape.addEventListener("mousedown", selectBar)
+						shape.style.left = ((low + high) / 2) + "%"
+						shape.style.top = (50 - gain) + "%"
+					track.appendChild(shape)
+
+					if (!options) {
+						parameter = shape
+						tool = filterTool
+					}
+
+					var input = document.createElement("input")
+						input.setAttribute("type", "number")
+						input.setAttribute("min", -50)
+						input.setAttribute("max", 50)
+						input.setAttribute("placeholder", "dB")
+						input.addEventListener("change", changeInput)
+						input.className = "input"
+						input.id = "tool-filter-input--gain--" + num
+						input.value = gain
+						input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+						input.style.bottom = "15px"
+					filterTool.appendChild(input)
+
+				// high
+					var shape = document.createElement("div")
+						shape.className = "shape square"
+						shape.id = "tool-filter-shape--high--" + num
+						shape.addEventListener("mousedown", selectBar)
+						shape.style.left = high + "%"
+						shape.style.top = "50%"
+					track.appendChild(shape)
+
+					var input = document.createElement("input")
+						input.setAttribute("type", "number")
+						input.setAttribute("min", 0)
+						input.setAttribute("max", 100)
+						input.setAttribute("placeholder", "pitch #")
+						input.addEventListener("change", changeInput)
+						input.className = "input"
+						input.id = "tool-filter-input--high--" + num
+						input.value = high
+						input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
+						input.style.bottom = "0px"
+					filterTool.appendChild(input)
 			}
 
 		/* adjustFilterToolBar */
@@ -1151,7 +1217,6 @@ window.addEventListener("load", function() {
 						var distance = (highValue - lowValue) / 2
 						low.value  = percentage - distance
 						high.value = percentage + distance
-							
 					}
 
 				// low
@@ -1201,7 +1266,7 @@ window.addEventListener("load", function() {
 					var gainValue = Math.min(50, Math.max(-50, gain.value))
 
 				// display
-					blob.style["clip-path"] = "polygon(100% 50%, 100% 100%, 0% 100%, 0% 50%, " + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
+					blob.style["clip-path"] = "polygon(" + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
 					document.getElementById("tool-filter-shape--low--"  + num).style.left = lowValue  + "%"
 					document.getElementById("tool-filter-shape--high--" + num).style.left = highValue + "%"
 					document.getElementById("tool-filter-shape--gain--" + num).style.left = ((highValue + lowValue) / 2) + "%"
@@ -1220,7 +1285,32 @@ window.addEventListener("load", function() {
 							}
 
 						window.instrument.setParameters({ filters: filters })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
+			}
+
+		/* deselectFilterToolBar */
+			function deselectFilterToolBar(event, override) {
+				if (event && event.target.className.includes("circle")) {
+					var num  = event.target.id.split("--")[2]
+					var gain = document.getElementById("tool-filter-input--gain--" + num).value
+				}
+				else if ((override !== undefined) && (override !== null)) {
+					var num = override
+					override = true
+				}
+
+				if ((Math.abs(gain) < 2) || override) {
+					document.getElementById("tool-filter-shape--low--"  + num).remove()
+					document.getElementById("tool-filter-shape--high--" + num).remove()
+					document.getElementById("tool-filter-shape--gain--" + num).remove()
+					document.getElementById("tool-filter-input--low--"  + num).remove()
+					document.getElementById("tool-filter-input--high--" + num).remove()
+					document.getElementById("tool-filter-input--gain--" + num).remove()
+					document.getElementById("tool-filter-blob--"        + num).remove()
+				}
 			}
 
 	/*** tool-echo ***/
@@ -1237,7 +1327,7 @@ window.addEventListener("load", function() {
 					var bar = document.createElement("div")
 						bar.id = "tool-echo-bar--feedback"
 						bar.className = "bar"
-						bar.innerHTML = '<span class="fas fa-arrows-alt-v"></span>'
+						bar.innerHTML = '<span class="fas fa-volume-up"></span>'
 						bar.style.height = "0%"
 					track.appendChild(bar)
 
@@ -1259,7 +1349,7 @@ window.addEventListener("load", function() {
 					var bar = document.createElement("div")
 						bar.id = "tool-echo-bar--delay"
 						bar.className = "bar"
-						bar.innerHTML = '<span class="fas fa-arrows-alt-h"></span>'
+						bar.innerHTML = '<span class="fas fa-clock"></span>'
 						bar.style.left = "0%"
 						bar.style.height = "0%"
 					track.appendChild(bar)
@@ -1352,6 +1442,9 @@ window.addEventListener("load", function() {
 							feedback: feedbackValue / 100
 						}
 						window.instrument.setParameters({ echo: echo })
+						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							saveFile()
+						}
 					}
 			}
 

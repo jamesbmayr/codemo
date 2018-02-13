@@ -54,7 +54,7 @@
 		position: absolute;
 		top: 55%;
 		left: 0%;
-		height: calc(5% - 10px);
+		height: calc(10% - 10px);
 		width: calc(100% - 10px);
 		display: flex;
 		flex-direction: row;
@@ -72,9 +72,10 @@
 		padding: 2px;
 		text-align: center;
 		background-color: #dddddd;
-		flex-grow: 1;
+		width: calc(100% / 8 - 10px);
 		cursor: pointer;
 		outline: none;
+		overflow: hidden;
 	}
 
 	#switcher button:hover, .switcher button:focus {
@@ -90,8 +91,8 @@
 /*** keyboard ***/
 	#keyboard {
 		position: absolute;
-		top: 60%;
-		height: calc(40% - 5px);
+		top: 65%;
+		height: calc(35% - 5px);
 		width: calc(100% - 5px);
 		border-radius: 8px;
 		margin: 0px 5px 0px 5px;
@@ -329,7 +330,7 @@
 
 	#tool-meta-name {
 		top: 0%;
-		width: calc(100% - 160px);
+		width: calc(100% - 90px);
 		height: 40px;
 		font-size: 40px;
 		padding: 10px;
@@ -338,7 +339,7 @@
 	#tool-meta-select {
 		font-size: 40px;
 		height: 60px;
-		width: calc(100% - 140px);
+		width: calc(100% - 70px);
 		line-height: 1.0;
 		cursor: pointer;
 	}
@@ -351,15 +352,11 @@
 		font-size: 30px;
 	}
 
-	#tool-meta-save, #tool-meta-load {
-		right: 70px;
-	}
-
 	#tool-meta-download, #tool-meta-upload {
 		right: 0px;
 	}
 
-	#tool-meta-select, #tool-meta-load, #tool-meta-upload {
+	#tool-meta-select, #tool-meta-upload {
 		top: 70px;
 	}
 
@@ -435,10 +432,6 @@
 		height: 100%;
 	}
 
-	#tool-polysynth .toggle#tool-polysynth-toggle--0 {
-		font-size: 40px;
-	}
-
 /*** tool-wave ***/
 	#tool-wave .track {
 		bottom: 30px;
@@ -465,16 +458,9 @@
 		height: 50px;
 	}
 
-	#tool-noise .toggle {
-		height: 50px;
-		width: 50px;
-		border-radius: 100%;
-		font-size: 25px;
-	}
-
 	#tool-noise .input {
 		position: absolute;
-		left: 60px;
+		left: 0px;
 		width: 80px;
 		height: 100%;
 		font-size: 20px;
@@ -482,13 +468,14 @@
 
 	#tool-noise .track {
 		position: absolute;
-		left: 150px;
+		left: 90px;
 		height: 100%;
-		width: calc(100% - 150px);
+		width: calc(100% - 90px);
 	}
 
 	#tool-noise .bar {
 		height: 100%;
+		min-width: 5%;
 	}
 
 /*** tool-envelope ***/
@@ -554,6 +541,13 @@
 			transform: translateX(-50%);
 		}
 
+		.tool-bitcrusher-bits-toggle-bit {
+			text-align: center;
+			display: block;
+			line-height: 1;
+			font-size: 15px;
+		}
+
 	/* norm */
 		#tool-bitcrusher-norm {
 			top: 120px;
@@ -570,6 +564,7 @@
 
 		#tool-bitcrusher-norm .bar {
 			height: 100%;
+			min-width: 5%;
 		}
 
 		#tool-bitcrusher-norm .input {
@@ -586,7 +581,7 @@
 			position: absolute;
 			top: 0px;
 			height: calc(100% - 4px);
-			width: 12px;
+			width: 16px;
 			transform: translateX(-50%);
 			background-color: #222222;
 			pointer-events: none;
@@ -599,6 +594,15 @@
 			padding: 2px;
 		}
 
+		.tool-filter-line-frequency {
+			position: absolute;
+			bottom: 0%;
+			left: 50%;
+			transform: translateX(-50%);
+			text-align: center;
+			font-size: 8px;
+		}
+
 	/* blob */
 		#tool-filter .track {
 			position: absolute;
@@ -606,6 +610,17 @@
 			left: 0%;
 			width: 100%;
 			height: calc(100% - 50px);
+		}
+
+		#tool-filter-baseline {
+			position: absolute;
+			top: 50%;
+			height: 4px;
+			width: 100%;
+			transform: translateY(-50%);
+			border-radius: 4px;
+			background-color: #dddddd;
+			cursor: pointer;
 		}
 
 		#tool-filter .blob {
@@ -669,6 +684,10 @@
 		bottom: 0px;
 		height: 30px;
 		width: 60px;
+	}
+
+	#tool-echo .bar {
+		min-height: 5%;
 	}
 
 	/* feedback */

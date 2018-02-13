@@ -521,13 +521,9 @@ window.addEventListener("load", function() {
 					velocities:  {},
 					envelopes:   {},
 					bitcrushers: {},
-					filters:   {
-						"0": audio.createBiquadFilter(),
-						"1": audio.createBiquadFilter(),
-						"2": audio.createBiquadFilter(),
-						"3": audio.createBiquadFilter(),
-						"4": audio.createBiquadFilter()
-					},
+					filterIn:  audio.createGain(),
+					filterOut: audio.createGain(),
+					filters:   {},
 					effects:   {
 						delay:    audio.createDelay(),
 						feedback: audio.createGain()
@@ -537,24 +533,18 @@ window.addEventListener("load", function() {
 				}
 
 			// default values
-				for (var x = 0; x <= 4; x++) {
-					i.filters[x].type = "peaking"
-					i.filters[x].gain.setValueAtTime(0, audio.currentTime)
-				}
-
 				i.effects.feedback.gain.setValueAtTime(0, audio.currentTime)
+				i.filterIn.gain.setValueAtTime(1, audio.currentTime)
+				i.filterOut.gain.setValueAtTime(1, audio.currentTime)
 				i.volume.gain.setValueAtTime(0.5, audio.currentTime)	
 				i.power.gain.setValueAtTime(1, audio.currentTime)
 
 			// connections
 				i.parameters.wave = audio.createPeriodicWave(i.parameters.real, i.parameters.imag)
-
-				i.filters["0"].connect(i.filters["1"])
-				i.filters["1"].connect(i.filters["2"])
-				i.filters["2"].connect(i.filters["3"])
-				i.filters["3"].connect(i.filters["4"])
-				i.filters["4"].connect(i.effects.delay)
-				i.filters["4"].connect(i.volume)
+				
+				i.filterIn.connect(i.filterOut)
+				i.filterOut.connect(i.effects.delay)
+				i.filterOut.connect(i.volume)
 
 				i.effects.delay.connect(i.effects.feedback)
 				i.effects.feedback.connect(i.effects.delay)
@@ -642,32 +632,69 @@ window.addEventListener("load", function() {
 								// filter
 									case "filters":
 										for (var f in parameters.filters) {
-											var low  = Math.max(1, Math.min(20000, parameters.filters[f].low ))
-											var mid  = Math.max(1, Math.min(20000, parameters.filters[f].mid ))
-											var high = Math.max(1, Math.min(20000, parameters.filters[f].high))
 											var gain = Math.max(-50,  Math.min(50, parameters.filters[f].gain))
 
-											var type = ((mid < 65) ? "lowshelf" : (mid > 4000) ? "highshelf" : "peaking")
-											if (Math.abs(gain) < 2) {
-												gain = 0
-												type = "peaking"
-											}
-											
-											i.parameters.filters[f] = {
-												low: low,
-												mid: mid,
-												high: high,
-												type: type,
-												frequency: ((type == "lowshelf") ? high : (type == "highshelf") ? low : mid),
-												q:    mid / (high - low),
-												gain: gain
-											}
+											// delete filter
+												if (Math.abs(gain) < 2) {
+													if (i.filters[f]) {
+														i.filters[f].gain.cancelScheduledValues(now)
+														i.filters[f].disconnect()
+														delete i.filters[f]
+														delete i.parameters.filters[f]
+													}
+												}
 
-											i.filters[f].type = type
-											i.filters[f].frequency.setValueAtTime(i.parameters.filters[f].frequency,  now)
-											i.filters[f].Q.setValueAtTime(Math.min(10000, i.parameters.filters[f].q), now)
-											i.filters[f].gain.setValueAtTime(     i.parameters.filters[f].gain,       now)
+											// new / adjust filter
+												else {
+													var low  = Math.max(1, Math.min(20000, parameters.filters[f].low ))
+													var mid  = Math.max(1, Math.min(20000, parameters.filters[f].mid ))
+													var high = Math.max(1, Math.min(20000, parameters.filters[f].high))
+													var type = ((mid < 65) ? "lowshelf" : (mid > 4000) ? "highshelf" : "peaking")
+													
+													i.parameters.filters[f] = {
+														low: low,
+														mid: mid,
+														high: high,
+														type: type,
+														frequency: ((type == "lowshelf") ? high : (type == "highshelf") ? low : mid),
+														q:    mid / (high - low),
+														gain: gain
+													}
+
+													if (!i.filters[f]) {
+														i.filters[f] = audio.createBiquadFilter()	
+													}
+													i.filters[f].type = type
+													i.filters[f].frequency.setValueAtTime(i.parameters.filters[f].frequency,  now)
+													i.filters[f].Q.setValueAtTime(Math.min(10000, i.parameters.filters[f].q), now)
+													i.filters[f].gain.setValueAtTime(     i.parameters.filters[f].gain,       now)
+												}
 										}
+
+										// manage connections
+											i.filterIn.disconnect()
+
+											var fkeys = Object.keys(i.filters) || []
+											if (fkeys.length) {
+												for (var f = 0; f < fkeys.length; f++) {
+													i.filters[fkeys[f]].disconnect()
+												}
+
+												for (var f = 0; f < fkeys.length; f++) {
+													if (!f) {
+														i.filterIn.connect(i.filters[fkeys[f]])
+													}
+													if (f + 1 == fkeys.length) {
+														i.filters[fkeys[f]].connect(i.filterOut)
+													}
+													else {
+														i.filters[fkeys[f]].connect(i.filters[fkeys[f + 1]])
+													}
+												}
+											}
+											else {
+												i.filterIn.connect(i.filterOut)
+											}
 									break
 
 								// bitcrusher
@@ -714,7 +741,6 @@ window.addEventListener("load", function() {
 							}
 
 							if (i.velocities[pitch]) {
-								console.log("problem velocity")
 								i.velocities[pitch].gain.cancelScheduledValues(now)
 								i.velocities[pitch].disconnect()
 								delete i.velocities[pitch]
@@ -727,7 +753,6 @@ window.addEventListener("load", function() {
 						// noise
 							for (var color in i.parameters.noise) {
 								if (i.buffers[pitch + "_" + color]) {
-									console.log("problem buffer")
 									i.buffers[pitch + "_" + color].gain.cancelScheduledValues(now)
 									i.buffers[pitch + "_" + color].disconnect()
 									delete i.buffers[pitch + "_" + color]
@@ -748,7 +773,6 @@ window.addEventListener("load", function() {
 								var multiplier = Math.pow(1.05946309436, distance)
 
 								if (i.tones[pitch + "_" + distance]) {
-									console.log("problem tone")
 									i.tones[pitch + "_" + distance].stop(now)
 									i.tones[pitch + "_" + distance].disconnect()
 									delete i.tones[pitch + "_" + distance]
@@ -763,7 +787,6 @@ window.addEventListener("load", function() {
 
 						// envelopes
 							if (i.envelopes[pitch]) {
-								console.log("problem envelope")
 								i.envelopes[pitch].cancelScheduledValues(now)
 								i.envelopes[pitch].disconnect()
 								delete i.envelopes[pitch]
@@ -777,11 +800,10 @@ window.addEventListener("load", function() {
 
 						// bitcrusher
 							if (!i.parameters.bitcrusher.bits) {
-								i.envelopes[pitch].connect(i.filters["0"])
+								i.envelopes[pitch].connect(i.filterIn)
 							}
 							else {
 								if (i.bitcrushers[pitch]) {
-									console.log("problem bitcrusher")
 									i.bitcrushers[pitch].cancelScheduledValues(now)
 									i.bitcrushers[pitch].disconnect()
 									delete i.bitcrushers[pitch]
@@ -791,7 +813,7 @@ window.addEventListener("load", function() {
 								var hold = 0
 
 								i.bitcrushers[pitch] = audio.createScriptProcessor(1024, 1, 1)
-								i.bitcrushers[pitch].connect(i.filters["0"])
+								i.bitcrushers[pitch].connect(i.filterIn)
 								i.bitcrushers[pitch].onaudioprocess = function(event) {
 									var input  =  event.inputBuffer.getChannelData(0)
 									var output = event.outputBuffer.getChannelData(0)
@@ -918,7 +940,7 @@ window.addEventListener("load", function() {
 									high: (440 * Math.pow(2, (         high0       - 45) / 12)),
 									gain: (Math.random() * 50 - 25)
 								},
-								"4": {
+								"1": {
 									low:  (440 * Math.pow(2, (  low4               - 45) / 12)),
 									mid:  (440 * Math.pow(2, (((low4 + high4) / 2) - 45) / 12)),
 									high: (440 * Math.pow(2, (         high4       - 45) / 12)),
@@ -995,7 +1017,7 @@ window.addEventListener("load", function() {
 									"high": 329.6275569128699,
 									"gain": 20
 								},
-								"4": {
+								"1": {
 									"low":  1046.5022612023945,
 									"mid":  10548.081821211836,
 									"high": 106318.00258046597,
@@ -1026,7 +1048,7 @@ window.addEventListener("load", function() {
 									"high":109.16808677654838,
 									"gain":-20.072992700729927
 								},
-								"4":{
+								"1":{
 									"low":1643.5737813862252,
 									"mid":2711.746487860111,
 									"high":4474.133803849979,
@@ -1064,7 +1086,7 @@ window.addEventListener("load", function() {
 									"high":92.36334099742746,
 									"gain":-8.282912235347773
 								},
-								"4":{
+								"1":{
 									"low":5800.5421831764315,
 									"mid":7108.3924411351645,
 									"high":8711.124150383675,
@@ -1097,7 +1119,7 @@ window.addEventListener("load", function() {
 									"high":128.6719274995506,
 									"gain":19.39672225311667
 								},
-								"4":{
+								"1":{
 									"low":2236.228485250351,
 									"mid":3672.0056804902356,
 									"high":6029.627923303666,
@@ -1133,7 +1155,7 @@ window.addEventListener("load", function() {
 								"release":0.3691070734990474
 							},
 							"filters":{
-								"4":{
+								"0":{
 									"low":4861.69725806286,
 									"mid":8906.515668158989,
 									"high":16316.528392549255,
@@ -1174,7 +1196,7 @@ window.addEventListener("load", function() {
 									"high":20000,
 									"gain":-47.0961571900539
 								},
-								"4":{
+								"2":{
 									"low":1420.4953144384704,
 									"mid":4083.655439283772,
 									"high":11739.737243261628,
@@ -1210,7 +1232,7 @@ window.addEventListener("load", function() {
 									"high":71.31575380412309,
 									"gain":-16.833988616123463
 								},
-								"4":{
+								"1":{
 									"low":3769.0635387334974,
 									"mid":5062.37024545204,
 									"high":6799.458867878282,
@@ -1246,13 +1268,13 @@ window.addEventListener("load", function() {
 									"high":61.47198808341059,
 									"gain":21.545055096884937
 								},
-								"3":{
+								"1":{
 									"low":822.8462713537634,
 									"mid":8221.107072310962,
 									"high":20000,
 									"gain":-25
 								},
-								"4":{
+								"2":{
 									"low":2390.278220900194,
 									"mid":10548.081821211836,
 									"high":20000,
@@ -1285,7 +1307,7 @@ window.addEventListener("load", function() {
 									"high":71.1791856928607,
 									"gain":39.42792557816032
 								},
-								"4":{
+								"1":{
 									"low":4556.987960311114,
 									"mid":9167.496497936349,
 									"high":18442.662735044294,
@@ -1325,7 +1347,7 @@ window.addEventListener("load", function() {
 									"high":220,
 									"gain":20
 								},
-								"4":{
+								"1":{
 									"low":10,
 									"mid":50,
 									"high":220,
@@ -1360,14 +1382,16 @@ window.addEventListener("load", function() {
 		}
 
 		window.getInstruments = getInstruments
-		function getInstruments() {
+		function getInstruments(defaults) {
 			try {
 				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash"]
 
-				if (window.localStorage.synthesizers) {
-					var custom = JSON.parse(window.localStorage.synthesizers)
-					if (typeof custom == "object") {
-						array = array.concat(Object.keys(custom))
+				if (!defaults) {
+					if (window.localStorage.synthesizers) {
+						var custom = JSON.parse(window.localStorage.synthesizers)
+						if (typeof custom == "object") {
+							array = array.concat(Object.keys(custom))
+						}
 					}
 				}
 
