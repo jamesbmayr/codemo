@@ -516,6 +516,7 @@ window.addEventListener("load", function() {
 							feedback: 0
 						}
 					},
+					timeouts:    {},
 					tones:       {},
 					buffers:     {},
 					velocities:  {},
@@ -732,6 +733,12 @@ window.addEventListener("load", function() {
 							var pitch = Math.max(8.18, Math.min(16744.04, pitch))
 							var now   = audio.currentTime + (Number(when) || 0)
 
+						// timeouts
+							if (i.timeouts[pitch]) {
+								clearInterval(i.timeouts[pitch])
+								delete i.timeouts[pitch]
+							}
+
 						// velocity
 							if (velocity) {
 								velocity = Math.max(0, Math.min(2, (velocity || 1)))
@@ -787,7 +794,7 @@ window.addEventListener("load", function() {
 
 						// envelopes
 							if (i.envelopes[pitch]) {
-								i.envelopes[pitch].cancelScheduledValues(now)
+								i.envelopes[pitch].gain.cancelScheduledValues(now)
 								i.envelopes[pitch].disconnect()
 								delete i.envelopes[pitch]
 							}
@@ -840,7 +847,7 @@ window.addEventListener("load", function() {
 
 						// info
 							var pitch = Math.max(8.18, Math.min(16744.04, pitch))
-							var now   = audio.currentTime + (Number(when) || 0)					
+							var now   = audio.currentTime + (Number(when) || 0)				
 
 						// envelope
 							i.envelopes[pitch].gain.cancelScheduledValues(now)
@@ -848,20 +855,20 @@ window.addEventListener("load", function() {
 							i.envelopes[pitch].gain.exponentialRampToValueAtTime(0.001, now + (i.parameters.envelope.release || 0))
 
 						// delete
-							setTimeout(function() {
+							i.timeouts[pitch] = setTimeout(function() {
 								if (i.bitcrushers[pitch]) {
 									i.bitcrushers[pitch].disconnect()
 									delete i.bitcrushers[pitch]
 								}
 
 								if (i.envelopes[pitch]) {
-									i.envelopes[pitch].gain.cancelScheduledValues(now)
+									i.envelopes[pitch].gain.cancelScheduledValues(now + (i.parameters.envelope.release || 0))
 									i.envelopes[pitch].disconnect()
 									delete i.envelopes[pitch]
 								}
 
 								if (i.velocities[pitch]) {
-									i.velocities[pitch].gain.cancelScheduledValues(now)
+									i.velocities[pitch].gain.cancelScheduledValues(now + (i.parameters.envelope.release || 0))
 									i.velocities[pitch].disconnect()
 									delete i.velocities[pitch]
 								}
@@ -876,12 +883,12 @@ window.addEventListener("load", function() {
 
 								Object.keys(i.buffers).forEach(function (b) {
 									if (b.split("_")[0] == pitch) {
-										i.buffers[b].gain.cancelScheduledValues(now)
+										i.buffers[b].gain.cancelScheduledValues(now + (i.parameters.envelope.release || 0))
 										i.buffers[b].disconnect()
 										delete i.buffers[b]
 									}
 								})								
-							}, when * 1000)
+							}, ((Number(when) || 0) + (i.parameters.envelope.release || 0)) * 1000)
 
 					} catch (error) {}
 				}
@@ -1176,7 +1183,7 @@ window.addEventListener("load", function() {
 								"12":true,
 								"-12":true
 							},
-							"imag":[0,1,0.21180202066898346,0.26972323656082153,0.23025603592395782,0.10392707586288452,0.09607698768377304,0.004078438971191645,0.08116075396537781,0.09426583349704742,0.07034718245267868,0.017152125015854836,0.051849864423274994,0.046453963965177536,0.03873147815465927,0.02706083096563816,0.011153786443173885,0.055654577910900116,0.007712990511208773,0.043686047196388245,0.03128065913915634,0.012106683105230331,0.01296298485249281,0.02216235175728798,0.03157423809170723,0.015807228162884712,0.007788603659719229,0.023812558501958847,0.021190673112869263,0.03439936414361,0.01860993728041649,0.02965649776160717,0.02742370031774044,0.015811465680599213],
+							"imag":[0,1,0.21180202066898346,0.26972323656082153,1,0.10392707586288452,0.09607698768377304,0.004078438971191645,1,0.09426583349704742,0.07034718245267868,0.017152125015854836,0.051849864423274994,0.046453963965177536,0.03873147815465927,0.02706083096563816,0.4557490646839142,0.055654577910900116,0.007712990511208773,0.043686047196388245,0.03128065913915634,0.012106683105230331,0.01296298485249281,0.02216235175728798,0.03157423809170723,0.015807228162884712,0.007788603659719229,0.023812558501958847,0.021190673112869263,0.03439936414361,0.01860993728041649,0.02965649776160717,0.02742370031774044,0.015811465680599213],
 							"envelope":{
 								"attack":0.23591836734693875,
 								"decay":0.9772734693877552,
@@ -1191,20 +1198,14 @@ window.addEventListener("load", function() {
 									"gain":-49.04364458355069
 								},
 								"1":{
-									"low":2778.0684833207633,
-									"mid":8372.018089619156,
+									"low":3411.36074387185,
+									"mid":9153.162477904323,
 									"high":20000,
-									"gain":-47.0961571900539
-								},
-								"2":{
-									"low":1420.4953144384704,
-									"mid":4083.655439283772,
-									"high":11739.737243261628,
-									"gain":-47.37436967483916
+									"gain":-50
 								}
 							},
 							"echo":{
-								"delay":0.006838905775075987,
+								"delay":0.005828060865818536,
 								"feedback":0.9233031920688528
 							}
 						}
@@ -1360,6 +1361,68 @@ window.addEventListener("load", function() {
 							}
 						}
 					break
+					case "accordienne":
+						return {
+							"name":"accordienne",
+							"polysynth":{
+								"0":true
+							},
+							"noise":{
+								"pink":0.06997558991049634,
+								"brown":0.12449145646867371
+							},
+							"imag":[0,1,0.44293421506881714,0.32471582293510437,0.011000609025359154,0.17021837830543518,0.13372759521007538,0.11268258094787598,0.005569384433329105,0.1067923977971077,0.09378086030483246,0.08295878767967224,0.0006959254387766123,0.05424145981669426,0.0423087477684021,0.05841623246669769,0.023867418989539146,0.04862881824374199,0.046523261815309525,0.016646606847643852,0.04738473519682884,0.012283651158213615,0.021767525002360344,0.04069533571600914,0.01118484791368246,0.029461022466421127,0.024899769574403763,0.006698890123516321,0.01303438562899828,0.030736785382032394,0.002923727734014392,0.01851494237780571,0.020675845444202423,0.009414720349013805],
+							"envelope":{
+								"attack":0.04006067500076161,
+								"decay":0.9215120822558321,
+								"sustain":0.5999866460488084,
+								"release":0.029129186086711334
+							},
+							"bitcrusher":{
+								"bits":8,
+								"norm":0.6084048851693262
+							},
+							"echo":{
+								"delay":0.08987914456024498,
+								"feedback":0.6014353203695686
+							}
+						}
+					break
+					case "glassical":
+						return {
+							"name":"glassical",
+							"polysynth":{
+								"0":true,
+								"-12":true
+							},
+							"noise":{
+								"brown":0.055284552845528454
+							},
+							"imag":[0,1,1,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0.024414559826254845],
+							"envelope":{
+								"attack":0.007199265381083561,
+								"decay":0.8632627074186466,
+								"sustain":0,
+								"release":1
+							},
+							"bitcrusher":{
+								"bits":8,
+								"norm":0.987639993997258
+							},
+							"filters":{
+								"0":{
+									"low":2646.268164573106,
+									"mid":10548.081821211836,
+									"high":20000,
+									"gain":-23.210589388822314
+								}
+							},
+							"echo":{
+								"delay":0.08495044767097758,
+								"feedback":0.8535788212223554
+							}
+						}
+					break
 					default:
 						if (window.localStorage.synthesizers) {
 							var custom = JSON.parse(window.localStorage.synthesizers)
@@ -1384,7 +1447,7 @@ window.addEventListener("load", function() {
 		window.getInstruments = getInstruments
 		function getInstruments(defaults) {
 			try {
-				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash"]
+				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "accordienne", "glassical"]
 
 				if (!defaults) {
 					if (window.localStorage.synthesizers) {
