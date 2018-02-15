@@ -1,6 +1,6 @@
 window.addEventListener("load", function() {
 	/*** globals ***/
-		var audio, master, buffers = {}
+		var audio, master, pedal = null, sustained = {}, buffers = {}
 
 	/*** getFrequency ***/
 		window.getFrequency = getFrequency
@@ -505,10 +505,7 @@ window.addEventListener("load", function() {
 						},
 						bitcrusher:   {
 							bits: 0,
-							norm: 0,
-							step: 0,
-							wait: 0,
-							hold: 0
+							norm: 0
 						},
 						filters:      {},
 						echo: {
@@ -702,9 +699,6 @@ window.addEventListener("load", function() {
 									case "bitcrusher":
 										i.parameters.bitcrusher.bits = Math.max(0, Math.min(64, parameters.bitcrusher.bits))
 										i.parameters.bitcrusher.norm = Math.max(0, Math.min(1,  parameters.bitcrusher.norm))
-										i.parameters.bitcrusher.step = Math.pow(0.5, i.parameters.bitcrusher.bits)
-										i.parameters.bitcrusher.hold = 0
-										i.parameters.bitcrusher.wait = 0
 									break
 
 								// echo
@@ -754,7 +748,7 @@ window.addEventListener("load", function() {
 							}
 							
 							i.velocities[pitch] = audio.createGain()
-							i.velocities[pitch].gain.setValueAtTime(0, 0)
+							i.velocities[pitch].gain.setValueAtTime(0, audio.currentTime)
 							i.velocities[pitch].gain.setValueAtTime(velocity, now)
 
 						// noise
@@ -767,7 +761,7 @@ window.addEventListener("load", function() {
 
 								i.buffers[pitch + "_" + color] = audio.createGain()
 								i.buffers[pitch + "_" + color].connect(i.velocities[pitch])
-								i.buffers[pitch + "_" + color].gain.setValueAtTime(0, 0)
+								i.buffers[pitch + "_" + color].gain.setValueAtTime(0, audio.currentTime)
 								i.buffers[pitch + "_" + color].gain.setValueAtTime((i.parameters.noise[color]), now)
 
 								buffers[color].connect(i.buffers[pitch + "_" + color])
@@ -811,13 +805,13 @@ window.addEventListener("load", function() {
 							}
 							else {
 								if (i.bitcrushers[pitch]) {
-									i.bitcrushers[pitch].cancelScheduledValues(now)
 									i.bitcrushers[pitch].disconnect()
 									delete i.bitcrushers[pitch]
 								}
 
 								var wait = 0
 								var hold = 0
+								var step = Math.pow(0.5, i.parameters.bitcrusher.bits)
 
 								i.bitcrushers[pitch] = audio.createScriptProcessor(1024, 1, 1)
 								i.bitcrushers[pitch].connect(i.filterIn)
@@ -829,7 +823,7 @@ window.addEventListener("load", function() {
 										wait += i.parameters.bitcrusher.norm
 										if (wait >= 1) {
 											wait -= 1
-											hold  = i.parameters.bitcrusher.step * Math.floor((input[x] / i.parameters.bitcrusher.step) + 0.5)
+											hold  = step * Math.floor((input[x] / step) + 0.5)
 										}
 										output[x] = hold
 									}
@@ -1496,12 +1490,45 @@ window.addEventListener("load", function() {
 								window.midi.controllers[input.value.name + input.value.id] = input.value
 								window.midi.controllers[input.value.name + input.value.id].onmidimessage = function(event) {
 									try {
-										if (window.instrument && event.data[0] == 144 && event.data[2]) {
-											window.instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
-										}
-										else if (window.instrument && (event.data[0] == 128 || event.data[2] == 0)) {
-											window.instrument.lift(window.getFrequency(event.data[1])[0])
-										}
+										// press key
+											if (window.instrument && (event.data[0] == 144) && event.data[2]) {
+												window.instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
+
+												if (pedal && sustained[event.data[1]]) {
+													delete sustained[event.data[1]]
+												}
+											}
+
+										// lift key
+											else if (window.instrument && ((event.data[0] == 128) || (event.data[0] == 128))) {
+												if (!pedal) {
+													window.instrument.lift(window.getFrequency(event.data[1])[0])
+												}
+												else {
+													sustained[event.data[1]] = true
+												}
+											}
+
+										// press pedal
+											else if (window.instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64) && event.data[2]) {
+												if (!pedal) {
+													pedal = true
+												}
+											}
+
+										// lift pedal
+											else if (window.instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64)) {
+												if (pedal) {
+													pedal = null
+
+													for (var s in sustained) {
+														window.instrument.lift(window.getFrequency(s)[0])
+													}
+
+													sustained = {}
+												}
+											}
+
 									} catch (error) {
 										console.log(error)
 									}
