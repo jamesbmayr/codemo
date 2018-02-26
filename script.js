@@ -658,6 +658,15 @@ function javascript() {
 				url: "http://www.switchonyms.com",
 				date: "February 1, 2018",
 				description: "Switchonyms is a chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
+			},
+			{
+				id: "tonemaker",
+				title: "toneMaker",
+				tags: "code music",
+				image: "logos/tonemaker.png",
+				url: "https://rawgit.com/jamesbmayr/codemo/master/toneMaker/",
+				date: "February 25, 2018",
+				description: "Use the toneMaker synthesizer tool to craft your own sounds, tinkering with parameters in audio visualizations."
 			}
 		]
 
