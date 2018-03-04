@@ -1080,20 +1080,6 @@ window.addEventListener("load", function() {
 								"sustain":0,
 								"release":1
 							},
-							"filters":{
-								"0":{
-									"low":50.26101396620003,
-									"mid":68.13424375331833,
-									"high":92.36334099742746,
-									"gain":-8.282912235347773
-								},
-								"1":{
-									"low":5800.5421831764315,
-									"mid":7108.3924411351645,
-									"high":8711.124150383675,
-									"gain":21.70039155284401
-								}
-							},
 							"echo":{
 								"delay":0.0010553957105702905,
 								"feedback":0.8857754774228093
@@ -1220,20 +1206,6 @@ window.addEventListener("load", function() {
 								"sustain":0.2436750666054115,
 								"release":0.7992139733184318
 							},
-							"filters":{
-								"0":{
-									"low":46.48371972705465,
-									"mid":57.57622349507208,
-									"high":71.31575380412309,
-									"gain":-16.833988616123463
-								},
-								"1":{
-									"low":3769.0635387334974,
-									"mid":5062.37024545204,
-									"high":6799.458867878282,
-									"gain":-16.171543609702944
-								}
-							},
 							"echo":{
 								"delay":0.009965899510513269,
 								"feedback":0.7489922649526092
@@ -1257,12 +1229,6 @@ window.addEventListener("load", function() {
 								"release":1
 							},
 							"filters":{
-								"0":{
-									"low":32.990956473904696,
-									"mid":45.03353953692942,
-									"high":61.47198808341059,
-									"gain":21.545055096884937
-								},
 								"1":{
 									"low":822.8462713537634,
 									"mid":8221.107072310962,
@@ -1417,6 +1383,57 @@ window.addEventListener("load", function() {
 							}
 						}
 					break
+					case "clarinaut":
+						return {
+							"name":"clarinaut",
+							"polysynth":{
+								"0":true
+							},
+							"imag":[0,1,0.04185762256383896,0.8109787106513977,0.10051940381526947,0.6024035215377808,0.08422446250915527,0.42967715859413147,0.06467054039239883,0.23087890446186066,0.03859863430261612,0.11029636114835739,0.03859863430261612,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+							"envelope":{
+								"attack":0.05228819184417878,
+								"decay":0.14524497734494107,
+								"sustain":0.8291752914260813,
+								"release":0.08699322990920816
+							},
+							"filters":{
+								"0":{
+									"low":18.312373638581303,
+									"mid":37.21396757355336,
+									"high":75.625334535975,
+									"gain":-50
+								},
+							},
+							"echo":{
+								"delay":0.04212744274441215,
+								"feedback":0.3480771325852489
+							}
+						}
+					break
+					case "qube":
+						return {
+							"name":"qube",
+							"polysynth":{
+								"0":true,
+								"12":true
+							},
+							"imag":[0,1,0,0.1111111119389534,0,0.03999999910593033,0,0.020408162847161293,0,0.012345679104328156,0,0.00826446246355772,0,0.005917159840464592,0,0.004444444552063942,0,0.0034602077212184668,0,0.002770083025097847,0,0.0022675737272948027,0,0.0018903592135757208,0,0.0015999999595806003,0,0.0013717421097680926,0,0.0011890606256201863,0,0.0010405827779322863,0,0.0009182736393995583],
+							"envelope":{
+								"attack":0.01061524334251607,
+								"decay":0.11725436179981635,
+								"sustain":0.4491774703126702,
+								"release":0.22923783287419647
+							},
+							"bitcrusher":{
+								"bits":8,
+								"norm":1
+							},
+							"echo":{
+								"delay":0.00032741056024983945,
+								"feedback":0.3829393180084976
+							}
+						}
+					break
 					default:
 						if (window.localStorage.synthesizers) {
 							var custom = JSON.parse(window.localStorage.synthesizers)
@@ -1441,7 +1458,7 @@ window.addEventListener("load", function() {
 		window.getInstruments = getInstruments
 		function getInstruments(defaults) {
 			try {
-				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "accordienne", "glassical"]
+				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "accordienne", "glassical", "clarinaut", "qube"]
 
 				if (!defaults) {
 					if (window.localStorage.synthesizers) {
@@ -1490,6 +1507,7 @@ window.addEventListener("load", function() {
 								window.midi.controllers[input.value.name + input.value.id] = input.value
 								window.midi.controllers[input.value.name + input.value.id].onmidimessage = function(event) {
 									try {
+										console.log(event.data)
 										// press key
 											if (window.instrument && (event.data[0] == 144) && event.data[2]) {
 												window.instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
@@ -1500,7 +1518,7 @@ window.addEventListener("load", function() {
 											}
 
 										// lift key
-											else if (window.instrument && ((event.data[0] == 128) || (event.data[0] == 128))) {
+											else if (window.instrument && ((event.data[0] == 128) || (event.data[0] == 144))) {
 												if (!pedal) {
 													window.instrument.lift(window.getFrequency(event.data[1])[0])
 												}
