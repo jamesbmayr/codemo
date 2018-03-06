@@ -1,0 +1,229 @@
+/* page */
+	html, body {
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		padding: 0px;
+		margin: 0px;
+		background-color: #ffffff;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+	}
+
+/* menu */
+	#menu {
+		display: none;
+	}
+
+/* game */
+	#game {
+		height: 500px;
+		width: 500px;
+		border: 5px solid #111111;
+		border-radius: 5px;
+	}
+
+	.cell {
+		float: left;
+		height: 48px;
+		width: 48px;
+		margin: 1px;
+	}
+
+	/* spaces */
+		.cell[type="space"] {
+			background-color: #ffffff;
+			outline: 1px solid #dddddd;
+		}
+
+	/* walls */
+		.cell[type="wall-black"][active] {
+			background-color: #ffffff;
+			outline: 1px solid #111111;
+			box-shadow: 0px 0px 5px #111111 inset;
+		}
+
+		.cell[type="wall-red"] {
+			background-color: #ffffff;
+			outline: 1px solid #ff1111;
+			box-shadow: 0px 0px 5px #ff1111 inset;
+		}
+
+		.cell[type="wall-yellow"] {
+			background-color: #ffffff;
+			outline: 1px solid #ffff11;
+			box-shadow: 0px 0px 5px #ffff11 inset;
+		}
+
+		.cell[type="wall-blue"] {
+			background-color: #ffffff;
+			outline: 1px solid #1111ff;
+			box-shadow: 0px 0px 5px #1111ff inset;
+		}
+
+		.cell[type="wall-pink"] {
+			background-color: #ffffff;
+			outline: 1px solid magenta;
+			box-shadow: 0px 0px 5px magenta inset;
+		}
+
+		.cell[type="wall-teal"] {
+			background-color: #ffffff;
+			outline: 1px solid turquoise;
+			box-shadow: 0px 0px 5px turquoise inset;
+		}
+
+		.cell[type="wall-black"][active] {
+			background-color: #111111;
+			outline: 1px solid #111111;
+		}
+
+		.cell[type="wall-red"][active] {
+			background-color: #ff1111;
+			outline: 1px solid #ff1111;
+		}
+
+		.cell[type="wall-yellow"][active] {
+			background-color: #ffff11;
+			outline: 1px solid #ffff11;
+		}
+
+		.cell[type="wall-blue"][active] {
+			background-color: #1111ff;
+			outline: 1px solid #1111ff;
+		}
+
+		.cell[type="wall-pink"][active] {
+			background: linear-gradient(white, magenta, white, magenta, white, magenta, white, magenta, white, magenta, white);
+			outline: 1px solid magenta;
+		}
+
+		.cell[type="wall-teal"][active] {
+			background: linear-gradient(white, turquoise, white, turquoise, white, turquoise, white, turquoise, white, turquoise, white);
+			outline: 1px solid turquoise;
+		}
+
+	/* switches */
+		.cell[type="switch-red"] {
+			height: 32px;
+			width: 32px;
+			border: 8px solid #ffffff;
+			border-radius: 100%;
+			outline: 1px solid #dddddd;
+			background-color: #ff1111;
+		}
+
+		.cell[type="switch-yellow"] {
+			height: 32px;
+			width: 32px;
+			border: 8px solid #ffffff;
+			border-radius: 100%;
+			outline: 1px solid #dddddd;
+			background-color: #ffff11;
+		}
+
+		.cell[type="switch-blue"] {
+			height: 32px;
+			width: 32px;
+			border: 8px solid #ffffff;
+			border-radius: 100%;
+			outline: 1px solid #dddddd;
+			background-color: #1111ff;
+		}
+
+		.cell[type="switch-pink"] {
+			height: 32px;
+			width: 32px;
+			border: 8px solid #ffffff;
+			border-radius: 100%;
+			outline: 1px solid #dddddd;
+			background-color: magenta;
+		}
+
+		.cell[type="switch-teal"] {
+			height: 32px;
+			width: 32px;
+			border: 8px solid #ffffff;
+			border-radius: 100%;
+			outline: 1px solid #dddddd;
+			background-color: turquoise;
+		}
+
+		.cell[type="switch-red"][active] {
+			box-shadow: 0px 0px 10px #ff1111 inset;
+			background-color: #ffffff;
+		}
+
+		.cell[type="switch-yellow"][active] {
+			box-shadow: 0px 0px 10px #ffff11 inset;
+			background-color: #ffffff;
+		}
+
+		.cell[type="switch-blue"][active] {
+			box-shadow: 0px 0px 10px #1111ff inset;
+			background-color: #ffffff;
+		}
+
+		.cell[type="switch-pink"][active] {
+			box-shadow: 0px 0px 10px magenta inset;
+			background-color: #ffffff;
+		}
+
+		.cell[type="switch-teal"][active] {
+			box-shadow: 0px 0px 10px turquoise inset;
+			background-color: #ffffff;
+		}
+
+	/* players */
+		.player {
+			height: 40px;
+			width: 40px;
+			border-radius: 100%;
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+		}
+
+		#pink {
+			background: magenta;
+			box-shadow: 0px 0px 10px magenta;
+		}
+
+		#teal {
+			background: turquoise;
+			box-shadow: 0px 0px 10px turquoise;
+		}
+
+		#gradient {
+			background: linear-gradient(magenta, turquoise);
+			box-shadow: 0px 0px 10px orange;
+		}
+
+/* designer */
+	#designer {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		padding: 20px;
+	}
+
+	#type {
+		display: block;
+		font-family: monospace;
+		border: 5px solid #111111;
+		border-radius: 5px;
+		font-size: 25px;
+		width: 330px;
+		cursor: pointer;
+	}
+
+	#output {
+		padding: 10px;
+		border: 5px solid #111111;
+		border-radius: 5px;
+		width: 300px;
+		height: 175px;
+		font-family: monospace;
+	}
