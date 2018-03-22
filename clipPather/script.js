@@ -164,19 +164,29 @@ window.onload = function() {
 					document.getElementById("rotate").className = "hidden"
 					document.getElementById("translate").className = ""
 					document.getElementById("mirror").className = "hidden"
+					document.getElementById("resize").className = "hidden"
 					document.getElementById("distance").className = ""
 				}
 				else if (direction == "angle") {
 					document.getElementById("rotate").className = ""
 					document.getElementById("translate").className = "hidden"
 					document.getElementById("mirror").className = "hidden"
+					document.getElementById("resize").className = "hidden"
 					document.getElementById("distance").className = ""
 				}
 				else if (direction == "mirror-x" || direction == "mirror-y") {
 					document.getElementById("rotate").className = "hidden"
 					document.getElementById("translate").className = "hidden"
 					document.getElementById("mirror").className = ""
+					document.getElementById("resize").className = "hidden"
 					document.getElementById("distance").className = "hidden"
+				}
+				else if (direction == "resize") {
+					document.getElementById("rotate").className = "hidden"
+					document.getElementById("translate").className = "hidden"
+					document.getElementById("mirror").className = "hidden"
+					document.getElementById("distance").className = ""
+					document.getElementById("resize").className = ""
 				}
 			}
 
@@ -205,6 +215,9 @@ window.onload = function() {
 							else if (direction == "y") {
 								y = y + Number(distance)
 							}
+
+							x = Math.round(x * 100) / 100
+							y = Math.round(y * 100) / 100
 
 							var newCoordinates = x + "% " + y + "%"
 							points[i] = newCoordinates
@@ -285,6 +298,39 @@ window.onload = function() {
 
 					document.getElementById(color + "Text").value = points.join(", ")
 					updatePath(color)
+				}
+			}
+
+		/* resizePath */
+			document.getElementById("resize").addEventListener("click", resizePath)
+			function resizePath(event) {
+				var multiplier = Number(document.getElementById("distance").value) || false
+
+				if (multiplier) {
+					var color = document.getElementById("color").value
+					var points = document.getElementById(color + "Text").value || false
+
+					if (points) {
+						points = points.split(/\s?,\s?/gi)
+
+						for (i in points) {
+							coordinates = points[i].split(/\s/)
+							var x = Number(coordinates[0].replace(/\%/g,"")) - 50
+							var y = Number(coordinates[1].replace(/\%/g,"")) - 50
+
+							var newX = (x * multiplier) + 50
+							var newY = (y * multiplier) + 50
+
+							newX = Math.round(newX * 100) / 100
+							newY = Math.round(newY * 100) / 100
+
+							var newCoordinates = newX + "% " + newY + "%"
+							points[i] = newCoordinates
+						}
+
+						document.getElementById(color + "Text").value = points.join(", ")
+						updatePath(color)
+					}
 				}
 			}
 
