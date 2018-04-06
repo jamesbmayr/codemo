@@ -667,6 +667,15 @@ function javascript() {
 				url: "https://rawgit.com/jamesbmayr/codemo/master/toneMaker/",
 				date: "February 25, 2018",
 				description: "Use the toneMaker synthesizer tool to craft your own sounds, tinkering with parameters in audio visualizations."
+			},
+			{
+				id: "wordsblockchain",
+				title: "WordsBlockChain",
+				tags: "code game",
+				image: "logos/wordsblockchain.png",
+				url: "http://www.wordsblockchain.com",
+				date: "April 6, 2018",
+				description: "WordsBlockChain is a fast-paced party game of linking words in a blockchain."
 			}
 		]
 
