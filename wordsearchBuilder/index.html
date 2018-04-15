@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordsearchBuilder</title>
+		<link rel="shortcut icon" href="https://d30y9cdsu7xlg0.cloudfront.net/png/1176719-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<header id="header">wordsearchBuilder</header>
+		<form id="form" action="javascript:;">
+			<textarea id="words" placeholder="word1, word2, word3..."></textarea>
+			<div id="options">
+				<label><input id="fill" type="checkbox" checked>fill</label>
+				<label><input id="diagonal" type="checkbox">diagonal</label>
+				<button id="submit">go</button>
+			</div>
+		</form>
+		<div id="display" style="font-family: monospace; font-size: 10px;">
+			<button id="left"><</button>
+			<div id="viewer"></div>
+			<button id="right">></button>
+		</div>
+		<div id="count"></div>
+	</body>
+</html>
