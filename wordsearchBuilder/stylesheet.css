@@ -180,20 +180,30 @@
 	/* boards */
 		.board {
 			display: block;
-			border: 5px solid #dddddd;
+			border: 2px solid #dddddd;
 			border-radius: 10px;
 			display: block;
 			margin: 0px;
-			padding: 20px;
+			padding: 10px;
 			font-size: 20px;
 			color: #dddddd;
 			font-family: monospace;
 			line-height: 1;
 			background-color: #333333;
+			white-space: nowrap;
 		}
 
-		.board:not([visible]) {
-			display: none;
+		.letter, .fill {
+			display: inline-block;
+			padding: 2px;
+			height: 20px;
+			width: 20px;
+			color: #dddddd;
+			text-align: center;
+		}
+
+		.fill:not([visible]) {
+			color: #333333;
 		}
 
 	/* count */
@@ -207,4 +217,8 @@
 			left: 50%;
 			transform: translateX(-50%);
 			z-index: 1;
+		}
+
+		#index {
+			display: inline-block;
 		}
