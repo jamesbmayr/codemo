@@ -1,0 +1,73 @@
+/* page */
+	html, body {
+		padding: 0px;
+		margin: 0px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		background-color: #dddddd;
+	}
+
+/* field */
+	#field {
+		z-index: 1;
+		padding: 0px;
+		margin: 0px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+	}
+
+	#field[dragging] {
+		cursor: "grabbing";
+	}
+
+	#instructions {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		font-family: sans-serif;
+		color: #aaaaaa;
+		font-size: 30px;
+		text-align: center;
+		max-width: 300px;
+		z-index: 0;
+		user-select: none;
+	}
+
+/* magnet */
+	.magnet {
+		position: absolute;
+		border-radius: 100%;
+		transform: translateX(-50%) translateY(+50%);
+		cursor: pointer;
+	}
+
+	.magnet[selected] {
+		cursor: grab;
+		cursor: grabbing;
+		cursor: -webkit-grab;
+		cursor: -webkit-grabbing;
+	}
+
+	.magnet[p="1"] {
+		background-color: #3333dd;
+		box-shadow: 0px 0px 5px #3333dd;
+	}
+
+	.magnet[p="0"] {
+		background-color: #33dd33;
+		box-shadow: 0px 0px 5px #33dd33;
+	}
+
+	.magnet[p="-1"] {
+		background-color: #dd3333;
+		box-shadow: 0px 0px 5px #dd3333;
+	}
