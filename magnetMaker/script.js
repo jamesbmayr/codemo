@@ -151,8 +151,13 @@ window.onload = function() {
 						changing = true
 				}
 				else if (event.keyCode == 32) { // SPACE
-					// pause
-						paused = true
+					// pause / unpause
+						if (paused) {
+							paused = false
+						}
+						else {
+							paused = true
+						}
 				}
 			}
 
@@ -162,10 +167,6 @@ window.onload = function() {
 				if (event.keyCode == 16) { // SHIFT
 					// unset changing
 						changing = false
-				}
-				else if (event.keyCode == 32) { // SPACE
-					// unpause
-						paused = false
 				}
 			}
 
