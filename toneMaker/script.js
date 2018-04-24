@@ -161,8 +161,8 @@ window.addEventListener("load", function() {
 
 	/*** bars & inputs ***/
 		/* selectBar */
-			Array.from(document.querySelectorAll(".bar")).forEach(function (p) { p.addEventListener("mousedown", selectBar) })
-			Array.from(document.querySelectorAll(".shape")).forEach(function (p) { p.addEventListener("mousedown", selectBar) })
+			Array.from(document.querySelectorAll(".bar")  ).forEach(function (p) { p.addEventListener("mousedown", selectBar); p.addEventListener("touchstart", selectBar) })
+			Array.from(document.querySelectorAll(".shape")).forEach(function (p) { p.addEventListener("mousedown", selectBar); p.addEventListener("touchstart", selectBar) })
 			function selectBar(event) {
 				if (tool) {
 					parameter = event.target
@@ -175,6 +175,7 @@ window.addEventListener("load", function() {
 
 		/* moveBar */
 			document.addEventListener("mousemove", moveBar)
+			document.addEventListener("touchmove", moveBar)
 			function moveBar(event) {
 				if (tool && parameter) {
 					switch (tool.id) {
@@ -204,7 +205,8 @@ window.addEventListener("load", function() {
 			}
 
 		/* deselectBar */
-			document.addEventListener("mouseup", deselectBar)
+			document.addEventListener("mouseup",  deselectBar)
+			document.addEventListener("touchend", deselectBar)
 			function deselectBar(event) {
 				if (tool && parameter) {
 					if (tool.id == "tool-filter") {
@@ -1073,7 +1075,8 @@ window.addEventListener("load", function() {
 				// baseline
 					var baseline = document.createElement("div")
 						baseline.id = "tool-filter-baseline"
-						baseline.addEventListener("mousedown", createFilter)
+						baseline.addEventListener("mousedown",  createFilter)
+						baseline.addEventListener("touchstart", createFilter)
 					track.appendChild(baseline)
 			}
 
@@ -1120,7 +1123,8 @@ window.addEventListener("load", function() {
 					var shape = document.createElement("div")
 						shape.className = "shape square"
 						shape.id = "tool-filter-shape--low--" + num
-						shape.addEventListener("mousedown", selectBar)
+						shape.addEventListener("mousedown",  selectBar)
+						shape.addEventListener("touchstart", selectBar)
 						shape.style.left = low + "%"
 						shape.style.top = "50%"
 					track.appendChild(shape)
@@ -1142,7 +1146,8 @@ window.addEventListener("load", function() {
 					var shape = document.createElement("div")
 						shape.className = "shape circle"
 						shape.id = "tool-filter-shape--gain--" + num
-						shape.addEventListener("mousedown", selectBar)
+						shape.addEventListener("mousedown",  selectBar)
+						shape.addEventListener("touchstart", selectBar)
 						shape.style.left = ((low + high) / 2) + "%"
 						shape.style.top = (50 - gain) + "%"
 					track.appendChild(shape)
@@ -1169,7 +1174,8 @@ window.addEventListener("load", function() {
 					var shape = document.createElement("div")
 						shape.className = "shape square"
 						shape.id = "tool-filter-shape--high--" + num
-						shape.addEventListener("mousedown", selectBar)
+						shape.addEventListener("mousedown",  selectBar)
+						shape.addEventListener("touchstart", selectBar)
 						shape.style.left = high + "%"
 						shape.style.top = "50%"
 					track.appendChild(shape)
@@ -1551,7 +1557,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* pressKey */
-			Array.from(document.querySelectorAll(".key")).forEach(function (k) { k.addEventListener("mousedown", pressKey) })
+			Array.from(document.querySelectorAll(".key")).forEach(function (k) { k.addEventListener("mousedown", pressKey); k.addEventListener("touchstart", pressKey) })
 			document.addEventListener("keydown", pressKey)
 			function pressKey(event) {		
 				// keyboard or mouse?
@@ -1573,8 +1579,9 @@ window.addEventListener("load", function() {
 			}
 
 		/* liftKey */
-			document.addEventListener("mouseup", liftKey)
-			document.addEventListener("keyup", liftKey)
+			document.addEventListener("mouseup",  liftKey)
+			document.addEventListener("touchend", liftKey)
+			document.addEventListener("keyup",    liftKey)
 			function liftKey(event) {
 				// keyboard or mouse?
 					if ((event.type == "mouseup") && key) {
