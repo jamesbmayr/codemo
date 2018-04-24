@@ -31,7 +31,7 @@ window.onload = function() {
 						event.target.appendChild(magnet)
 
 					// tips
-						if (tips.length == 5) {
+						if (tips.length == 6) {
 							updateInstructions()
 						}
 				}
@@ -62,7 +62,7 @@ window.onload = function() {
 						held = new Date().getTime()
 
 					// tips
-						if (tips.length == 3) {
+						if (tips.length == 4) {
 							updateInstructions()
 						}
 				}
@@ -99,7 +99,7 @@ window.onload = function() {
 							selected.setAttribute("vx", 0)
 							selected.setAttribute("vy", 0)
 
-							if (tips.length == 2) {
+							if (tips.length == 3) {
 								updateInstructions()
 							}
 						}
@@ -134,7 +134,7 @@ window.onload = function() {
 						magnet.setAttribute("p", p)
 
 					// tips
-						if (tips.length == 4) {
+						if (tips.length == 5) {
 							updateInstructions()
 						}
 				}
@@ -157,6 +157,11 @@ window.onload = function() {
 						}
 						else {
 							paused = true
+						}
+					
+					// tips
+						if (tips.length == 1) {
+							updateInstructions()
 						}
 				}
 			}
@@ -189,7 +194,7 @@ window.onload = function() {
 					changed = true
 
 				// tips
-					if (tips.length == 1) {
+					if (tips.length == 2) {
 						updateInstructions()
 					}				
 			}
@@ -443,7 +448,7 @@ window.onload = function() {
 
 	/*** instructions ***/
 		/* updateInstructions */
-			var tips = ["doubleclick to create/remove an orb", "click to change an orb's polarity: red & blue attract", "hold & drag to move an orb", "hold an orb in place for 1 second to stop it", "shift-drag to change orb size", "magnetMaker"]
+			var tips = ["doubleclick to create/remove an orb", "click to change an orb's polarity: red & blue attract", "hold & drag to move an orb", "hold an orb in place for 1 second to stop it", "shift-drag to change orb size", "press space to pause", "magnetMaker"]
 			updateInstructions()
 			function updateInstructions() {
 				// update instructions element
