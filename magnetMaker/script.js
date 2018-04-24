@@ -170,7 +170,7 @@ window.onload = function() {
 					var cx = event.clientX
 					var cy = window.innerHeight - event.clientY
 
-					var d = Math.abs(getDistance(getDifference(cx, x), getDifference(cy, y)))
+					var d = Math.abs(getScalar(getDifference(cx, x), getDifference(cy, y)))
 
 				// update mass and size
 					selected.setAttribute("m", d)
@@ -207,20 +207,20 @@ window.onload = function() {
 					return difference
 			}
 
-		/* getDistance */
-			function getDistance(dx, dy) {
+		/* getScalar */
+			function getScalar(x, y) {
 				// pythagorean theorem
-					var distance = Math.pow(Math.pow(dx, 2) + Math.pow(dy, 2), 0.5)
-					return distance
+					var scalar = Math.pow(Math.pow(x, 2) + Math.pow(y, 2), 0.5)
+					return scalar
 			}
 
 		/* getAngle */
-			function getAngle(dx, dy) {
+			function getAngle(x, y) {
 				// SOH CAH TOA
-					var tangent = (dy) / (dx)
+					var tangent = y / x
 
 				// arctangent, with multipliers for quadrant
-					var angle = Math.atan(tangent) * Math.sign(dx) * Math.sign(dy)
+					var angle = Math.atan(tangent)
 					return angle
 			}
 
@@ -239,14 +239,14 @@ window.onload = function() {
 							collisions = data[1]
 					})
 
-				// update the velocities for each magnet
-					magnets.forEach(function (magnet) {
-						updateVelocity(magnet, forces, collisions)
-					})
-
 				// update velocities for each collision
 					collisions.forEach(function (collision) {
 						updateCollision(collision)
+					})
+
+				// update the velocities for each magnet
+					magnets.forEach(function (magnet) {
+						updateVelocity(magnet, forces, collisions)
 					})
 
 				// draw the new positions
@@ -273,36 +273,36 @@ window.onload = function() {
 			}
 
 		/* updateForce */
-			function updateForce(magnet, magnets, forces, collisions) {
-				magnets.forEach(function (other) {
-					if (other.id !== magnet.id) {
+			function updateForce(magnet1, magnets, forces, collisions) {
+				magnets.forEach(function (magnet2) {
+					if (magnet2.id !== magnet1.id) {
 						// get polarities
-							var p1 = Number(magnet.getAttribute("p"))
-							var p2 = Number( other.getAttribute("p"))
+							var p1 = Number(magnet1.getAttribute("p"))
+							var p2 = Number(magnet2.getAttribute("p"))
 
 						// get coordinates
-							var x1 = Number(magnet.style.left.replace(  "px", ""))
-							var y1 = Number(magnet.style.bottom.replace("px", ""))
+							var x1 = Number(magnet1.style.left.replace(  "px", ""))
+							var y1 = Number(magnet1.style.bottom.replace("px", ""))
 
-							var x2 = Number( other.style.left.replace(  "px", ""))
-							var y2 = Number( other.style.bottom.replace("px", ""))
+							var x2 = Number(magnet2.style.left.replace(  "px", ""))
+							var y2 = Number(magnet2.style.bottom.replace("px", ""))
 
 						// get differences
 							var dx = getDifference(x1, x2)
 							var dy = getDifference(y1, y2)
 
 						// get geometry
-							var d = getDistance(dx, dy)
-							var a = getAngle(   dx, dy)
+							var d = getScalar(dx, dy)
+							var a = getAngle( dx, dy) * Math.sign(dx) * Math.sign(dy)
 
 						// get masses / radii
-							var m1 = Number(magnet.getAttribute("m"))
-							var m2 = Number( other.getAttribute("m")) 
+							var m1 = Number(magnet1.getAttribute("m"))
+							var m2 = Number(magnet2.getAttribute("m")) 
 
 						// magnetic force
 							if (p1 !== 0 && p2 !== 0) {
 								// calculate force
-									var f = 2 * (m1 * m2) / Math.pow(d, 2)
+									var f = 4 * (m1 * m2) / Math.pow(d, 2)
 								
 								// flip for same polarities
 									if (p1 == p2) {
@@ -310,16 +310,16 @@ window.onload = function() {
 									}
 
 								// split into x and y
-									forces[other.id].x += (f * Math.cos(a) * Math.sign(dx))
-									forces[other.id].y += (f * Math.sin(a) * Math.sign(dy))
+									forces[magnet2.id].x += (f * Math.cos(a) * Math.sign(dx))
+									forces[magnet2.id].y += (f * Math.sin(a) * Math.sign(dy))
 							}
 
 						// collision? --> update velocities
 							if ((d < m1 + m2)) {
 								if (!collisions.filter(function (collision) {
-									return (collision.includes(magnet.id) && collision.includes(other.id))
+									return (collision.includes(magnet1.id) && collision.includes(magnet2.id))
 								}).length) {
-									collisions.push([magnet.id, other.id])
+									collisions.push([magnet1.id, magnet2.id])
 								}
 							}
 					}
@@ -355,63 +355,34 @@ window.onload = function() {
 					var magnet2 = document.getElementById(collision[1])
 
 				// m
-					var m1   = Number(magnet1.getAttribute("m"))
-					var m2   = Number(magnet2.getAttribute("m"))
+					var m1 = Number(magnet1.getAttribute("m"))
+					var m2 = Number(magnet2.getAttribute("m"))
+					var m  = m1 + m2
 
 				// x & y
 					var x1 = Number(magnet1.getAttribute("x"))
 					var y1 = Number(magnet1.getAttribute("y"))
 					var x2 = Number(magnet2.getAttribute("x"))
 					var y2 = Number(magnet2.getAttribute("y"))
-					var dx = getDifference(x1, x2)
-					var dy = getDifference(y1, y2)
+					var dx = getDifference(x2, x1)
+					var dy = getDifference(y2, y1)
 
-				// vx
-					var vxi1 = Number(magnet1.getAttribute("vx"))
-					var vxi2 = Number(magnet2.getAttribute("vx"))
+				// acceleration
+					var angle = Math.atan2(dy, dx)
+					var ax    = (Math.cos(angle) * m) + (x1 - x2)
+					var ay    = (Math.sin(angle) * m) + (y1 - y2)
 
-					var vxc  = ( (m1 * vxi1) + (m2 * vxi2) ) / (m1 + m2)
+				// vx & vy (initial)
+					var vx1 = Number(magnet1.getAttribute("vx"))
+					var vy1 = Number(magnet1.getAttribute("vy"))
+					var vx2 = Number(magnet2.getAttribute("vx"))
+					var vy2 = Number(magnet2.getAttribute("vy"))
 
-					var vxf1 = (2 * vxc) - vxi1
-					var vxf2 = (2 * vxc) - vxi2
-
-				// vy
-					var vyi1 = Number(magnet1.getAttribute("vy"))
-					var vyi2 = Number(magnet2.getAttribute("vy"))
-
-					var vyc  = ( (m1 * vyi1) + (m2 * vyi2) ) / (m1 + m2)
-
-					var vyf1 = (2 * vyc) - vyi1
-					var vyf2 = (2 * vyc) - vyi2
-
-				// update
-					magnet1.setAttribute("vx", vxf1)
-					magnet1.setAttribute("vy", vyf1)
-					magnet2.setAttribute("vx", vxf2)
-					magnet2.setAttribute("vy", vyf2)
-
-					console.log("m1: " + m1 + " | m2: " + m2)
-					console.log("dx, dy: " + dx + ", " + dy)
-
-				// get bump
-					var x1b = Math.max(1, Math.abs(m2 * dx / (m1 + m2) / (m1 + m2))) * Math.sign(m2 / dx)
-					var x2b = Math.max(1, Math.abs(m1 * dx / (m1 + m2) / (m1 + m2))) * Math.sign(m1 / dx)
-					var y1b = Math.max(1, Math.abs(m2 * dy / (m1 + m2) / (m1 + m2))) * Math.sign(m2 / dy)
-					var y2b = Math.max(1, Math.abs(m1 * dy / (m1 + m2) / (m1 + m2))) * Math.sign(m1 / dy)
-
-					console.log("x1b: " + x1b + " | x2b: " + x2b)
-					console.log("y1b: " + y1b + " | y2b: " + y2b)
-
-				// separate
-					magnet1.setAttribute("x", x1 + x1b)
-					magnet2.setAttribute("x", x2 - x2b)
-					magnet1.style.left = x1 + x1b + "px"
-					magnet2.style.left = x2 - x2b + "px"
-
-					magnet1.setAttribute("y", y1 + y1b)
-					magnet2.setAttribute("y", y2 - y2b)
-					magnet1.style.bottom = y1 + y1b + "px"
-					magnet2.style.bottom = y2 - y2b + "px"
+				// vx & vy (final)
+					magnet1.setAttribute("vx", vx1 - (ax * m2 / m))
+					magnet1.setAttribute("vy", vy1 - (ay * m2 / m))
+					magnet2.setAttribute("vx", vx2 + (ax * m1 / m))
+					magnet2.setAttribute("vy", vy2 + (ay * m1 / m))
 			}
 
 		/* updatePosition */
@@ -421,16 +392,16 @@ window.onload = function() {
 						var m = Number(magnet.getAttribute("m"))
 						var x = Number(magnet.getAttribute("x"))
 						var y = Number(magnet.getAttribute("y"))
-						var vx = Math.min(100, Math.max(-100, Number(magnet.getAttribute("vx"))))
-						var vy = Math.min(100, Math.max(-100, Number(magnet.getAttribute("vy"))))
+						var vx = Math.min(10, Math.max(-10, Number(magnet.getAttribute("vx"))))
+						var vy = Math.min(10, Math.max(-10, Number(magnet.getAttribute("vy"))))
 
 					// update x position or velocity
-						if (x + vx - m <= 0) {
+						if (x + vx - m <= 0) { // left
 							magnet.setAttribute("vx", vx * -1)
 							magnet.setAttribute("x", m)
 							magnet.style.left = m + "px"
 						}
-						else if (x + vx + m >= window.innerWidth) {
+						else if (x + vx + m >= window.innerWidth) { // right
 							magnet.setAttribute("vx", vx * -1)
 							magnet.setAttribute("x", window.innerWidth - m)
 							magnet.style.left = window.innerWidth - m + "px"
@@ -441,12 +412,12 @@ window.onload = function() {
 						}
 
 					// update y position or velocity
-						if (y + vy - m <= 0) {
+						if (y + vy - m <= 0) { // bottom
 							magnet.setAttribute("vy", vy * -1)
 							magnet.setAttribute("y", m)
 							magnet.style.bottom = m + "px"
 						}
-						else if (y + vy + m >= window.innerHeight) {
+						else if (y + vy + m >= window.innerHeight) { // top
 							magnet.setAttribute("vy", vy * -1)
 							magnet.setAttribute("y", window.innerHeight - m)
 							magnet.style.bottom = window.innerHeight - m + "px"
