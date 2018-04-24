@@ -143,11 +143,16 @@ window.onload = function() {
 		/* startChanging */
 			var changing = false
 			var changed  = false
+			var paused   = false
 			document.addEventListener("keydown", startChanging)
 			function startChanging(event) {
 				if (event.keyCode == 16) { // SHIFT
 					// set changing
 						changing = true
+				}
+				else if (event.keyCode == 32) { // SPACE
+					// pause
+						paused = true
 				}
 			}
 
@@ -157,6 +162,10 @@ window.onload = function() {
 				if (event.keyCode == 16) { // SHIFT
 					// unset changing
 						changing = false
+				}
+				else if (event.keyCode == 32) { // SPACE
+					// unpause
+						paused = false
 				}
 			}
 
@@ -227,32 +236,34 @@ window.onload = function() {
 	/*** magnet interaction ***/
 		/* magnetLoop */
 			var magnetLoop = setInterval(function() {
-				// get magnets and empty forces object
-					var magnets = Array.from(document.querySelectorAll(".magnet")) || []
-					var forces = resetForces(magnets)
-					var collisions = []
+				if (!paused) {
+					// get magnets and empty forces object
+						var magnets = Array.from(document.querySelectorAll(".magnet")) || []
+						var forces = resetForces(magnets)
+						var collisions = []
 
-				// calculate positions
-					magnets.forEach(function (magnet) {
-						var data = updateForce(magnet, magnets, forces, collisions)
+					// calculate positions
+						magnets.forEach(function (magnet) {
+							var data = updateForce(magnet, magnets, forces, collisions)
 							forces = data[0]
 							collisions = data[1]
-					})
+						})
 
-				// update velocities for each collision
-					collisions.forEach(function (collision) {
-						updateCollision(collision)
-					})
+					// update velocities for each collision
+						collisions.forEach(function (collision) {
+							updateCollision(collision)
+						})
 
-				// update the velocities for each magnet
-					magnets.forEach(function (magnet) {
-						updateVelocity(magnet, forces, collisions)
-					})
+					// update the velocities for each magnet
+						magnets.forEach(function (magnet) {
+							updateVelocity(magnet, forces, collisions)
+						})
 
-				// draw the new positions
-					magnets.forEach(function (magnet) {
-						updatePosition(magnet)
-					})
+					// draw the new positions
+						magnets.forEach(function (magnet) {
+							updatePosition(magnet)
+						})
+				}
 			}, 10)
 
 		/* resetForces */
