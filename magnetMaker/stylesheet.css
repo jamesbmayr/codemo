@@ -71,3 +71,50 @@
 		background-color: #dd3333;
 		box-shadow: 0px 0px 5px #dd3333;
 	}
+
+/* settings */
+	#settings {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 10px;
+		box-shadow: 0px 0px 5px #dddddd;
+		background-color: rgba(0,0,0,0.5);
+		text-align: right;
+		padding: 10px;
+		z-index: 2;
+		color: #dddddd;
+	}
+
+	#settings:not([visible]) {
+		display: none;
+		pointer-events: none;
+		user-select: none;
+	}
+
+	#settings-title {
+		text-align: center;
+		font-size: 40px;
+		font-family: sans-serif;
+		user-select: none;
+	}
+
+	#settings label {
+		display: block;
+		width: calc(100% - 20px);
+		font-size: 20px;
+		font-family: sans-serif;
+		padding: 10px;
+		user-select: none;
+		cursor: pointer;
+	}
+
+	#settings label:hover, #settings label:active, #settings label:focus {
+		text-shadow: 0px 0px 5px #dddddd;
+	}
+
+	#settings input {
+		margin: 10px;
+		cursor: pointer;
+	}
