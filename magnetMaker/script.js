@@ -11,8 +11,9 @@ window.onload = function() {
 			tips: ["doubleclick to create/remove an orb", "click to change an orb's polarity: red & blue attract", "hold & drag to move an orb", "hold an orb in place for 1 second to stop it", "shift-drag to change orb size", "press space to pause", "magnetMaker"],
 			magnetism: 4,
 			friction: 0,
-			gravity: 0,
 			elasticity: 1,
+			gravity: 0,
+			wind: 0,
 			maxspeed: 5
 		}
 		window.state = state
@@ -336,7 +337,7 @@ window.onload = function() {
 						// magnetic force
 							if (p1 !== 0 && p2 !== 0) {
 								// calculate force
-									var f = state.magnetism * (m1 * m2) / Math.pow(d, 2)
+									var f = state.magnetism * m1 * m2 / Math.pow(d, 2)
 								
 								// flip for same polarities
 									if (p1 == p2) {
@@ -365,6 +366,7 @@ window.onload = function() {
 		/* updateGravity */
 			function updateGravity(magnet, forces) {
 				forces[magnet.id].y -= state.gravity
+				forces[magnet.id].x += state.wind
 
 				return forces
 			}
