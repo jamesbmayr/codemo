@@ -7,7 +7,6 @@ window.onload = function() {
 			var tone = null
 
 		/* createAudio */
-			createAudio()
 			function createAudio() {
 				audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
 				gain = audio.createGain()
@@ -45,6 +44,11 @@ window.onload = function() {
 		/* startGame */
 			document.getElementById("restart").addEventListener("click", startGame)
 			function startGame() {
+				// create audio
+					if (!audio) {
+						createAudio()
+					}
+
 				// sound effects
 					var startSequence = [220.00, 277.18, 246.94, 329.63, 277.18, 369.99, 329.63, 369.99, 440.00]
 					var startLoop = setInterval(function() {

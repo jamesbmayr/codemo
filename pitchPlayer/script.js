@@ -88,7 +88,9 @@ function ready() {
 
 	/*** changes ***/
 		/* changeInstrument */
-			changeInstrument()
+			document.addEventListener("click", function() {
+				if (window.audio && !window.instrument) { changeInstrument(); changeVolume() }
+			})
 			document.getElementById("wave").addEventListener("change", changeInstrument)
 			function changeInstrument() {
 				var name = document.getElementById("wave").value
@@ -96,7 +98,6 @@ function ready() {
 			}
 
 		/* changeVolume */
-			changeVolume()
 			document.getElementById("volume").addEventListener("change", changeVolume)
 			function changeVolume() {
 				var volume = Number(document.getElementById("volume").value) || 50
@@ -263,8 +264,10 @@ function ready() {
 				pitch = Number(pitch) || 0
 				var frequency = window.getFrequency(pitch + 48)[0]
 
-				window.instrument.press(frequency)
-				window.instrument.lift(frequency, (60 / tempo))
+				if (window.instrument) {
+					window.instrument.press(frequency)
+					window.instrument.lift(frequency, (60 / tempo))
+				}
 				
 			//visual
 				var keys = document.querySelectorAll(".key[value='" + pitch + "']")

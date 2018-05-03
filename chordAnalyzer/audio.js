@@ -1,6 +1,8 @@
 window.addEventListener("load", function() {
 	/*** globals ***/
-		var audio, master, pedal = null, sustained = {}, buffers = {}
+		var audio, instrument, master, pedal = null, sustained = {}, buffers = {}
+		window.audio = audio = null
+		window.instrument = instrument = null
 
 	/*** getFrequency ***/
 		window.getFrequency = getFrequency
@@ -436,11 +438,14 @@ window.addEventListener("load", function() {
 		}
 
 	/*** buildAudio ***/
-		buildAudio()
+		document.addEventListener("click", function() {
+			if (!window.audio) { buildAudio() }
+		})
 		window.buildAudio = buildAudio
 		function buildAudio() {
 			// audio context
-				audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
+				window.audio = audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
+
 
 			// master volume
 				master = audio.createGain()

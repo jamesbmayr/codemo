@@ -1,6 +1,8 @@
 window.addEventListener("load", function() {
 	/*** globals ***/
-		var audio, master, pedal = null, sustained = {}, buffers = {}
+		var audio, instrument, master, pedal = null, sustained = {}, buffers = {}
+		window.audio = audio = null
+		window.instrument = instrument = null
 
 	/*** getFrequency ***/
 		window.getFrequency = getFrequency
@@ -436,11 +438,13 @@ window.addEventListener("load", function() {
 		}
 
 	/*** buildAudio ***/
-		buildAudio()
+		document.addEventListener("click", function() {
+			if (!window.audio) { buildAudio() }
+		})
 		window.buildAudio = buildAudio
 		function buildAudio() {
 			// audio context
-				audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
+				window.audio = audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
 
 			// master volume
 				master = audio.createGain()
@@ -1509,8 +1513,8 @@ window.addEventListener("load", function() {
 									try {
 										console.log(event.data)
 										// press key
-											if (window.instrument && (event.data[0] == 144) && event.data[2]) {
-												window.instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
+											if (instrument && (event.data[0] == 144) && event.data[2]) {
+												instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
 
 												if (pedal && sustained[event.data[1]]) {
 													delete sustained[event.data[1]]
@@ -1518,9 +1522,9 @@ window.addEventListener("load", function() {
 											}
 
 										// lift key
-											else if (window.instrument && ((event.data[0] == 128) || (event.data[0] == 144))) {
+											else if (instrument && ((event.data[0] == 128) || (event.data[0] == 144))) {
 												if (!pedal) {
-													window.instrument.lift(window.getFrequency(event.data[1])[0])
+													instrument.lift(window.getFrequency(event.data[1])[0])
 												}
 												else {
 													sustained[event.data[1]] = true
@@ -1528,19 +1532,19 @@ window.addEventListener("load", function() {
 											}
 
 										// press pedal
-											else if (window.instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64) && event.data[2]) {
+											else if (instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64) && event.data[2]) {
 												if (!pedal) {
 													pedal = true
 												}
 											}
 
 										// lift pedal
-											else if (window.instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64)) {
+											else if (instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64)) {
 												if (pedal) {
 													pedal = null
 
 													for (var s in sustained) {
-														window.instrument.lift(window.getFrequency(s)[0])
+														instrument.lift(window.getFrequency(s)[0])
 													}
 
 													sustained = {}

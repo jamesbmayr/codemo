@@ -13,7 +13,10 @@ window.addEventListener("load", function() {
 
 		/* builds */
 			buildTools()
-			loadFile(null, "random")
+			document.addEventListener("click", function() {
+				if (window.audio && !window.instrument) { loadFile(null, "random") }
+			})
+			
 
 	/*** tools ***/
 		/* selectTool */
@@ -370,7 +373,7 @@ window.addEventListener("load", function() {
 						option.innerText = event.target.value
 					}
 
-					window.instrument.setParameters({ name: event.target.value })
+					if (window.instrument) { window.instrument.setParameters({ name: event.target.value }) }
 					if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 						saveFile()
 					}
@@ -462,11 +465,11 @@ window.addEventListener("load", function() {
 			function adjustPowerToolToggle(event) {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
-					window.instrument.setParameters({ power: 0 })
+					if (window.instrument) { window.instrument.setParameters({ power: 0 }) }
 				}
 				else {
 					event.target.setAttribute("selected", true)
-					window.instrument.setParameters({ power: 1 })
+					if (window.instrument) { window.instrument.setParameters({ power: 1 }) }
 				}
 			}
 
@@ -475,8 +478,9 @@ window.addEventListener("load", function() {
 				// display
 					var rectangle  = document.getElementById("tool-meta-volume-track").getBoundingClientRect()
 					var input = document.getElementById("tool-meta-volume-input")
+					var x = event.x || event.targetTouches[0].clientX
 
-					var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 						percentage = Math.min(100, Math.max(0, percentage))
 					parameter.style.width = percentage + "%"
 					input.value = percentage
@@ -494,7 +498,7 @@ window.addEventListener("load", function() {
 					bar.style.width = percentage + "%"
 
 				// audio
-					window.instrument.setParameters({ volume: (percentage / 100) })
+					if (window.instrument) { window.instrument.setParameters({ volume: (percentage / 100) }) }
 			}
 
 	/*** tool-polysynth ***/
@@ -561,7 +565,7 @@ window.addEventListener("load", function() {
 					if (!setup) {
 						var polysynth = {}
 							polysynth[Number(event.target.value)] = false
-						window.instrument.setParameters({ polysynth: polysynth })
+						if (window.instrument) { window.instrument.setParameters({ polysynth: polysynth }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -573,7 +577,7 @@ window.addEventListener("load", function() {
 					if (!setup) {
 						var polysynth = {}
 							polysynth[Number(event.target.value)] = true
-						window.instrument.setParameters({ polysynth: polysynth })
+						if (window.instrument) { window.instrument.setParameters({ polysynth: polysynth }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -618,8 +622,9 @@ window.addEventListener("load", function() {
 					var harmonic   = parameter.id.split("--")[1]
 					var rectangle  = document.getElementById("tool-wave-track--" + harmonic).getBoundingClientRect()
 					var input = document.getElementById("tool-wave-input--" + harmonic)
+					var y = event.y || event.targetTouches[0].clientY
 
-					var percentage = (rectangle.bottom - event.y) * 100 / (rectangle.height)
+					var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
 						percentage = Math.min(100, Math.max(0, percentage))
 					parameter.style.height = percentage + "%"
 					input.value = percentage
@@ -641,7 +646,7 @@ window.addEventListener("load", function() {
 					if (!setup) {
 						var harmonic = {}
 							harmonic[event.target.id.split("--")[1]] = percentage / 100
-						window.instrument.setParameters({harmonic: harmonic})
+						if (window.instrument) { window.instrument.setParameters({harmonic: harmonic}) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -694,8 +699,9 @@ window.addEventListener("load", function() {
 					var type = parameter.id.split("--")[1]
 					var rectangle  = document.getElementById("tool-noise-volume-track--" + type).getBoundingClientRect()
 					var input = document.getElementById("tool-noise-volume-input--" + type)
+					var x = event.x || event.targetTouches[0].clientX
 
-					var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 						percentage = Math.min(100, Math.max(0, percentage))
 					parameter.style.width = percentage + "%"
 					input.value = percentage
@@ -717,7 +723,7 @@ window.addEventListener("load", function() {
 					if (!setup) {
 						var noise = {}
 							noise[type] = percentage / 100
-						window.instrument.setParameters({ noise: noise })
+						if (window.instrument) { window.instrument.setParameters({ noise: noise }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -819,23 +825,25 @@ window.addEventListener("load", function() {
 					var shape     = parameter.getBoundingClientRect()
 					var type      = parameter.id.split("--")[1]
 					var input     = document.getElementById("tool-envelope-input--" + type)
+					var x = event.x || event.targetTouches[0].clientX
+					var y = event.y || event.targetTouches[0].clientY
 					
 					switch (type) {
 						case "attack":
 						case "decay":
-							var percentage = (event.x - shape.left) * 100 / (rectangle.width)
+							var percentage = (x - shape.left) * 100 / (rectangle.width)
 								percentage = Math.min(25, Math.max(0, percentage))
 							parameter.style.width = percentage + "%"
 							input.value = Math.pow(percentage * 4 / 10, 2)
 						break
 						case "release":
-							var percentage = (shape.right - event.x) * 100 / (rectangle.width)
+							var percentage = (shape.right - x) * 100 / (rectangle.width)
 								percentage = Math.min(25, Math.max(0, percentage))
 							parameter.style.width = percentage + "%"
 							input.value = Math.pow(percentage * 4 / 10, 2)
 						break
 						case "sustain":
-							var percentage = (rectangle.bottom - event.y) * 100 / (rectangle.height)
+							var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
 								percentage = Math.min(100, Math.max(0, percentage))
 							parameter.style.height = percentage + "%"
 							input.value = percentage
@@ -895,7 +903,7 @@ window.addEventListener("load", function() {
 							release: (Math.min(100, Math.max(0, releaseInput.value)) / 100)
 						}
 
-						window.instrument.setParameters({ envelope: envelope })
+						if (window.instrument) { window.instrument.setParameters({ envelope: envelope }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -980,7 +988,7 @@ window.addEventListener("load", function() {
 							var bitcrusher = {}
 								bitcrusher.bits = bits
 								bitcrusher.norm = norm
-							window.instrument.setParameters({ bitcrusher: bitcrusher })
+							if (window.instrument) { window.instrument.setParameters({ bitcrusher: bitcrusher }) }
 							if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 								saveFile()
 							}
@@ -999,7 +1007,7 @@ window.addEventListener("load", function() {
 								bitcrusher.bits = bits
 								bitcrusher.norm = norm
 
-							window.instrument.setParameters({ bitcrusher: bitcrusher })
+							if (window.instrument) { window.instrument.setParameters({ bitcrusher: bitcrusher }) }
 							if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 								saveFile()
 							}
@@ -1012,8 +1020,9 @@ window.addEventListener("load", function() {
 				// display
 					var rectangle  = document.getElementById("tool-bitcrusher-norm-track").getBoundingClientRect()
 					var input = document.getElementById("tool-bitcrusher-norm-input")
+					var x = event.x || event.targetTouches[0].clientX
 
-					var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 						percentage = Math.min(100, Math.max(0, percentage))
 					parameter.style.width = percentage + "%"
 					input.value = percentage
@@ -1042,7 +1051,7 @@ window.addEventListener("load", function() {
 						var bitcrusher = {}
 							bitcrusher.bits = bits
 							bitcrusher.norm = norm
-						window.instrument.setParameters({ bitcrusher: bitcrusher })
+						if (window.instrument) { window.instrument.setParameters({ bitcrusher: bitcrusher }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -1090,7 +1099,8 @@ window.addEventListener("load", function() {
 					if (!options) {
 						// display
 							var rectangle = track.getBoundingClientRect()
-							var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+							var x = event.x || event.targetTouches[0].clientX
+							var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 								percentage = Math.min(100, Math.max(0, percentage))
 
 						// data
@@ -1203,15 +1213,17 @@ window.addEventListener("load", function() {
 					var num       = parameter.id.split("--")[2]
 					var input     = document.getElementById("tool-filter-input--" + type + "--" + num)
 					var blob      = document.getElementById("tool-filter-blob--" + num)
+					var x         = event.x || event.targetTouches[0].clientX
+					var y         = event.y || event.targetTouches[0].clientY
 				
 				// gain
 					if (type == "gain") {
-						var percentage = (event.y - rectangle.top) * 100 / (rectangle.height)
+						var percentage = (y - rectangle.top) * 100 / (rectangle.height)
 							percentage = Math.min(100, Math.max(0, percentage))
 						parameter.style.top = percentage + "%"
 						input.value = (50 - percentage)
 
-						var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+						var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 							percentage = Math.min(100, Math.max(0, percentage))
 						parameter.style.left = percentage + "%"
 
@@ -1230,7 +1242,7 @@ window.addEventListener("load", function() {
 						var high = document.getElementById("tool-filter-input--high--" + num)
 						var highValue = Math.min(200, Math.max(-100, high.value))
 
-						var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+						var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 							percentage = Math.min(100, Math.max(0, percentage))
 
 						if (percentage < highValue) {
@@ -1244,7 +1256,7 @@ window.addEventListener("load", function() {
 						var low = document.getElementById("tool-filter-input--low--" + num)
 						var lowValue = Math.min(200, Math.max(-100, low.value))
 
-						var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+						var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 							percentage = Math.min(100, Math.max(0, percentage))
 
 						if (percentage > lowValue) {
@@ -1290,7 +1302,7 @@ window.addEventListener("load", function() {
 								gain: gainValue
 							}
 
-						window.instrument.setParameters({ filters: filters })
+						if (window.instrument) { window.instrument.setParameters({ filters: filters }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
@@ -1393,16 +1405,18 @@ window.addEventListener("load", function() {
 					var shape     = parameter.getBoundingClientRect()
 					var rectangle = document.getElementById("tool-echo-track--" + type).getBoundingClientRect()
 					var input     = document.getElementById("tool-echo-input--" + type)
+					var x         = event.x || event.targetTouches[0].clientX
+					var y         = event.y || event.targetTouches[0].clientY
 
 					switch (type) {
 						case "feedback":
-							var percentage = (rectangle.bottom - event.y) * 100 / (rectangle.height)
+							var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
 								percentage = Math.min(100, Math.max(0, percentage))
 							parameter.style.height = percentage + "%"
 							input.value = percentage
 						break
 						case "delay":
-							var percentage = (event.x - rectangle.left) * 100 / (rectangle.width)
+							var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 								percentage = Math.min(100, Math.max(0, percentage))
 							parameter.style.left = percentage + "%"
 							input.value = percentage
@@ -1447,7 +1461,7 @@ window.addEventListener("load", function() {
 							delay:    delayValue / 100,
 							feedback: feedbackValue / 100
 						}
-						window.instrument.setParameters({ echo: echo })
+						if (window.instrument) { window.instrument.setParameters({ echo: echo }) }
 						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
 							saveFile()
 						}
