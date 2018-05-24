@@ -9,12 +9,13 @@ window.onload = function() {
 			held: false,
 			moved: false,
 			tips: ["doubleclick to create/remove an orb", "click to change an orb's polarity: red & blue attract", "hold & drag to move an orb", "hold an orb in place for 1 second to stop it", "shift-drag to change orb size", "press space to pause", "magnetMaker"],
-			magnetism: 4,
+			magnetism: 0.05,
 			friction: 0,
 			elasticity: 1,
 			gravity: 0,
 			wind: 0,
-			maxspeed: 5
+			maxspeed: 5,
+			density: 1
 		}
 		window.state = state
 	
@@ -39,7 +40,7 @@ window.onload = function() {
 							magnet.setAttribute("y", window.innerHeight - event.clientY)
 							magnet.setAttribute("vx", (Math.random() * 1) - 0.5)
 							magnet.setAttribute("vy", (Math.random() * 1) - 0.5)
-							magnet.setAttribute("m", 20)
+							magnet.setAttribute("r", 20)
 							magnet.setAttribute("p", 0)
 					
 					// event listeners & append
@@ -90,7 +91,7 @@ window.onload = function() {
 			function moveMagnet(event) {
 				// change mass
 					if (state.selected && state.changing) {
-						changeMass(event)
+						changeSize(event)
 					}
 
 				// move & set physics
@@ -188,8 +189,8 @@ window.onload = function() {
 				}
 			}
 
-		/* changeMass */
-			function changeMass(event) {
+		/* changeSize */
+			function changeSize(event) {
 				// get position
 					var x = Number(state.selected.getAttribute("x"))
 					var y = Number(state.selected.getAttribute("y"))
@@ -198,12 +199,13 @@ window.onload = function() {
 					var cx = event.clientX
 					var cy = window.innerHeight - event.clientY
 
-					var d = Math.abs(getScalar(getDifference(cx, x), getDifference(cy, y)))
+					var r = Math.abs(getScalar(getDifference(cx, x), getDifference(cy, y)))
+					var m = getVolume(r) * state.density
 
-				// update mass and size
-					state.selected.setAttribute("m", d)
-					state.selected.style.height = d * 2 + "px"
-					state.selected.style.width  = d * 2 + "px"
+				// update size
+					state.selected.setAttribute("r", r)
+					state.selected.style.height = r * 2 + "px"
+					state.selected.style.width  = r * 2 + "px"
 					state.changed = true
 
 				// tips
@@ -240,6 +242,13 @@ window.onload = function() {
 				// pythagorean theorem
 					var scalar = Math.pow(Math.pow(x, 2) + Math.pow(y, 2), 0.5)
 					return scalar
+			}
+
+		/* getVolume */
+			function getVolume(r) {
+				// volume of a sphere
+				var volume = (4 / 3) * Math.PI * Math.pow(r, 3)
+				return volume
 			}
 
 		/* getAngle */
@@ -331,8 +340,10 @@ window.onload = function() {
 							var a = getAngle( dx, dy) * Math.sign(dx) * Math.sign(dy)
 
 						// get masses / radii
-							var m1 = Number(magnet1.getAttribute("m"))
-							var m2 = Number(magnet2.getAttribute("m")) 
+							var r1 = Number(magnet1.getAttribute("r"))
+							var r2 = Number(magnet2.getAttribute("r"))
+							var m1 = getVolume(r1) * state.density
+							var m2 = getVolume(r2) * state.density
 
 						// magnetic force
 							if (p1 !== 0 && p2 !== 0) {
@@ -350,7 +361,7 @@ window.onload = function() {
 							}
 
 						// collision? --> update velocities
-							if ((d < m1 + m2)) {
+							if ((d < r1 + r2)) {
 								if (!collisions.filter(function (collision) {
 									return (collision.includes(magnet1.id) && collision.includes(magnet2.id))
 								}).length) {
@@ -365,8 +376,13 @@ window.onload = function() {
 
 		/* updateGravity */
 			function updateGravity(magnet, forces) {
-				forces[magnet.id].y -= state.gravity
-				forces[magnet.id].x += state.wind
+				var r = Number(magnet.getAttribute("r"))
+				var m = getVolume(r) * state.density
+
+				if (m) {
+					forces[magnet.id].y -= (state.gravity * m)
+					forces[magnet.id].x += (state.wind * state.wind * Math.sign(state.wind) / m)
+				}
 
 				return forces
 			}
@@ -378,13 +394,14 @@ window.onload = function() {
 					var fy = forces[magnet.id].y
 
 				// get mass and velocities
-					var m  = Number(magnet.getAttribute("m"))
+					var r  = Number(magnet.getAttribute("r"))
+					var m  = getVolume(r) * state.density
 					var vx = Number(magnet.getAttribute("vx"))
 					var vy = Number(magnet.getAttribute("vy"))
 
 				// calculate acceleration
-					var ax = fx / m
-					var ay = fy / m
+					var ax = m ? (fx / m) : 0
+					var ay = m ? (fy / m) : 0
 
 				// calculate friction
 					vx = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, (vx + ax) * (1 - Math.pow(state.friction, 2))))
@@ -401,9 +418,14 @@ window.onload = function() {
 					var magnet1 = document.getElementById(collision[0])
 					var magnet2 = document.getElementById(collision[1])
 
+				// r
+					var r1 = Number(magnet1.getAttribute("r"))
+					var r2 = Number(magnet2.getAttribute("r"))
+					var r  = r1 + r2
+
 				// m
-					var m1 = Number(magnet1.getAttribute("m"))
-					var m2 = Number(magnet2.getAttribute("m"))
+					var m1 = getVolume(r1) * state.density
+					var m2 = getVolume(r2) * state.density
 					var m  = m1 + m2
 
 				// x & y
@@ -416,8 +438,8 @@ window.onload = function() {
 
 				// acceleration
 					var angle = Math.atan2(dy, dx)
-					var ax    = ( (Math.cos(angle) * m) + (x1 - x2) ) * state.elasticity
-					var ay    = ( (Math.sin(angle) * m) + (y1 - y2) ) * state.elasticity
+					var ax    = ( (Math.cos(angle) * r) + (x1 - x2) ) * state.elasticity
+					var ay    = ( (Math.sin(angle) * r) + (y1 - y2) ) * state.elasticity
 
 				// vx & vy (initial)
 					var vx1 = Number(magnet1.getAttribute("vx"))
@@ -426,10 +448,12 @@ window.onload = function() {
 					var vy2 = Number(magnet2.getAttribute("vy"))
 
 				// vx & vy (final)
-					vx1 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vx1 - (ax * m2 / m)))
-					vy1 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vy1 - (ay * m2 / m)))
-					vx2 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vx2 + (ax * m1 / m)))
-					vy2 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vy2 + (ay * m1 / m)))
+					if (m) {
+						vx1 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vx1 - (ax * m2 / m)))
+						vy1 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vy1 - (ay * m2 / m)))
+						vx2 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vx2 + (ax * m1 / m)))
+						vy2 = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vy2 + (ay * m1 / m)))
+					}
 
 				// vx & vy (final)
 					magnet1.setAttribute("vx", vx1)
@@ -442,22 +466,22 @@ window.onload = function() {
 			function updatePosition(magnet) {
 				if (!state.selected || state.selected.id !== magnet.id) {
 					// get position & velocity
-						var m = Number(magnet.getAttribute("m"))
+						var r = Number(magnet.getAttribute("r"))
 						var x = Number(magnet.getAttribute("x"))
 						var y = Number(magnet.getAttribute("y"))
 						var vx = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, Number(magnet.getAttribute("vx"))))
 						var vy = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, Number(magnet.getAttribute("vy"))))
 
 					// update x position or velocity
-						if (x + vx - m <= 0) { // left
+						if (x + vx - r <= 0) { // left
 							magnet.setAttribute("vx", vx * -1)
-							magnet.setAttribute("x", m)
-							magnet.style.left = m + "px"
+							magnet.setAttribute("x", r)
+							magnet.style.left = r + "px"
 						}
-						else if (x + vx + m >= window.innerWidth) { // right
+						else if (x + vx + r >= window.innerWidth) { // right
 							magnet.setAttribute("vx", vx * -1)
-							magnet.setAttribute("x", window.innerWidth - m)
-							magnet.style.left = window.innerWidth - m + "px"
+							magnet.setAttribute("x", window.innerWidth - r)
+							magnet.style.left = window.innerWidth - r + "px"
 						}
 						else {
 							magnet.setAttribute("x", x + vx)
@@ -465,15 +489,15 @@ window.onload = function() {
 						}
 
 					// update y position or velocity
-						if (y + vy - m <= 0) { // bottom
+						if (y + vy - r <= 0) { // bottom
 							magnet.setAttribute("vy", vy * -1)
-							magnet.setAttribute("y", m)
-							magnet.style.bottom = m + "px"
+							magnet.setAttribute("y", r)
+							magnet.style.bottom = r + "px"
 						}
-						else if (y + vy + m >= window.innerHeight) { // top
+						else if (y + vy + r >= window.innerHeight) { // top
 							magnet.setAttribute("vy", vy * -1)
-							magnet.setAttribute("y", window.innerHeight - m)
-							magnet.style.bottom = window.innerHeight - m + "px"
+							magnet.setAttribute("y", window.innerHeight - r)
+							magnet.style.bottom = window.innerHeight - r + "px"
 						}
 						else {
 							magnet.setAttribute("y", y + vy)
