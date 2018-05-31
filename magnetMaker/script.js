@@ -9,7 +9,7 @@ window.onload = function() {
 			held: false,
 			moved: false,
 			tips: ["doubleclick to create/remove an orb", "click to change an orb's polarity: red & blue attract", "hold & drag to move an orb", "hold an orb in place for 1 second to stop it", "shift-drag to change orb size", "press space to pause", "magnetMaker"],
-			magnetism: 0.05,
+			magnetism: 0.005,
 			friction: 0,
 			elasticity: 1,
 			gravity: 0,
@@ -381,7 +381,7 @@ window.onload = function() {
 
 				if (m) {
 					forces[magnet.id].y -= (state.gravity * m)
-					forces[magnet.id].x += (state.wind * state.wind * Math.sign(state.wind) / m)
+					forces[magnet.id].x += (Math.pow(state.wind * 1000, 3) / m)
 				}
 
 				return forces
