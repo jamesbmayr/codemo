@@ -198,9 +198,7 @@ window.onload = function() {
 				// calculate distance to cursor
 					var cx = event.clientX
 					var cy = window.innerHeight - event.clientY
-
 					var r = Math.abs(getScalar(getDifference(cx, x), getDifference(cy, y)))
-					var m = getVolume(r) * state.density
 
 				// update size
 					state.selected.setAttribute("r", r)
@@ -247,8 +245,8 @@ window.onload = function() {
 		/* getVolume */
 			function getVolume(r) {
 				// volume of a sphere
-				var volume = (4 / 3) * Math.PI * Math.pow(r, 3)
-				return volume
+					var volume = (4 / 3) * Math.PI * Math.pow(r, 3)
+					return volume
 			}
 
 		/* getAngle */
@@ -256,7 +254,7 @@ window.onload = function() {
 				// SOH CAH TOA
 					var tangent = y / x
 
-				// arctangent, with multipliers for quadrant
+				// arctangent
 					var angle = Math.atan(tangent)
 					return angle
 			}
