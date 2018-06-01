@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>tipRounder</title>
+		<link rel="shortcut icon" href="https://png.icons8.com/metro/1600/coins.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="title">tipRounder</div>
+			<label id="cost-label">$<input type="number" id="cost" step="0.01" min="0.00" value="0.00"/></label>
+			<label id="plus">+</label>
+			<label id="percent-label"><input type="number" id="percent" step="1" min="0" max="100" value="20"/>%</label>
+			<div id="coins">
+				<label><input type="radio" name="coin" id="coin-penny" value="0.01"/> penny</label>
+				<label><input type="radio" name="coin" id="coin-nickel" value="0.05"/> nickel</label>
+				<label><input type="radio" name="coin" id="coin-dime" value="0.10"/> dime</label>
+				<label><input type="radio" name="coin" id="coin-quarter" value="0.25"/> quarter</label>
+				<label><input type="radio" name="coin" id="coin-halfdollar" value="0.50"/> halfdollar</label>
+				<label selected><input type="radio" name="coin" id="coin-dollar" value="1.00" checked/> dollar</label>
+			</div>
+			<output id="output-tip"></output>
+			<output id="output-total"></output>
+		</div>
+	</body>
+</html>
