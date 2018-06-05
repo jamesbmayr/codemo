@@ -402,10 +402,14 @@ window.onload = function() {
 					var ay = m ? (fy / m) : 0
 
 				// calculate friction
-					vx = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, (vx + ax) * (1 - Math.pow(state.friction, 2))))
-					vy = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, (vy + ay) * (1 - Math.pow(state.friction, 2))))
+					vx = (vx + ax) * (1 - Math.pow(state.friction, 2))
+					vy = (vy + ay) * (1 - Math.pow(state.friction, 2))
 
-				// calculate new velocity
+				// calculate velocity
+					vx = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vx))
+					vy = Math.min(state.maxspeed, Math.max(state.maxspeed * -1, vy))
+
+				// save values
 					magnet.setAttribute("vx", vx)
 					magnet.setAttribute("vy", vy)
 			}
