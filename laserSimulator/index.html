@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>laserSimulator</title>
+		<link rel="shortcut icon" href="http://icons.iconarchive.com/icons/icons8/ios7/512/Industry-Laser-Beam-icon.png"/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="controls" color="#ffffff">
+			<select id="color">
+				<option value="#ffffff">W</option>
+				<option value="#ff0000">R</option>
+				<option value="#00ff00">G</option>
+				<option value="#0000ff">B</option>
+			</select>
+			<button id="cursor" selected><span class="fas fa-mouse-pointer"       ></span></button>
+			<button id="eraser"         ><span class="fas fa-eraser"              ></span></button>
+			<button id="emitter"        ><span class="fas fa-magic"               ></span></button>
+			<button id="prism"          ><span class="fas fa-exclamation-triangle"></span></button>
+			<button id="refractor"      ><span class="fas fa-tint"                ></span></button>
+			<button id="filter"         ><span class="fas fa-filter"              ></span></button>
+			<button id="mirror"         ><span class="fas fa-project-diagram"     ></span></button>
+			<button id="block"          ><span class="fas fa-stop"                ></span></button>			
+		</div>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>

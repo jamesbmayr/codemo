@@ -440,8 +440,8 @@ window.onload = function() {
 
 				// acceleration
 					var angle = Math.atan2(dy, dx)
-					var ax    = ( (Math.cos(angle) * r) + (x1 - x2) ) * state.elasticity
-					var ay    = ( (Math.sin(angle) * r) + (y1 - y2) ) * state.elasticity
+					var ax    = ( (Math.cos(angle) * r) - dx ) * state.elasticity
+					var ay    = ( (Math.sin(angle) * r) - dy ) * state.elasticity
 
 				// vx & vy (initial)
 					var vx1 = Number(magnet1.getAttribute("vx"))
