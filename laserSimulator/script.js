@@ -1,9 +1,12 @@
 window.onload = function() {
 
 	/*** onload ***/
-		/* globals */
-			window.items = items = []
-			window.lines = lines = []
+		/* canvas objects */
+			var items = []
+			var lines = []
+			var walls = []
+
+		/* interaction */
 			var color = "#ffffff"
 			var tool = "cursor"
 			var selected = {}
@@ -38,7 +41,8 @@ window.onload = function() {
 					items.filter(function (item) {
 						return item.type == "emitter"
 					}).forEach(function (emitter) {
-						drawLaser(emitter)
+						var recursionCount = 0
+						drawLaser(emitter, recursionCount)
 					})
 			}, 10)
 
@@ -51,7 +55,9 @@ window.onload = function() {
 			})
 
 			document.addEventListener("keyup", function (event) {
-				shifting = false
+				if (event.key == "Shift") {
+					shifting = false
+				}
 			})
 
 		/* resize */
@@ -59,7 +65,18 @@ window.onload = function() {
 			window.addEventListener("resize", resizeCanvas)
 			function resizeCanvas(event) {
 				canvas.height = window.innerHeight
-				canvas.width = window.innerWidth
+				canvas.width  = window.innerWidth
+
+				walls = [
+					{ start: { x: 0,            y: 0             },  	// top
+					  end:   { x: canvas.width, y: 0             } },
+					{ start: { x: 0,            y: canvas.height }, 	// bottom
+					  end:   { x: canvas.width, y: canvas.height } },
+					{ start: { x: 0,            y: 0             },		// left
+					  end:   { x: 0,            y: canvas.height } },
+					{ start: { x: canvas.width, y: 0             },		// right
+					  end:   { x: canvas.width, y: canvas.height } }
+				]
 			}
 
 		/* mousedown */
@@ -92,23 +109,26 @@ window.onload = function() {
 				position.x = event.clientX
 				position.y = event.clientY
 
-				if (pressing && selected.item) {
-					if (selected.item == "controls") {
-						moveControls(event)
-					}
-					else if (tool == "cursor" && shifting) {
-						rotateItem(event)
-					}
-					else if (tool == "cursor") {
-						moveItem(event)
-					}
-					else if (["mirror", "block", "filter"].includes(tool)) {
-						endLine(event)
-					}
+				if (pressing && selected.item == "controls") {
+					moveControls(event)
 				}
 				else if (pressing) {
 					if (tool == "eraser") {
 						eraseItems(event)
+					}
+					else if (["mirror", "block", "filter"].includes(tool) && selected.item) {
+						endLine(event)
+					}
+					else if (tool == "cursor" && selected.item) {
+						if (shifting && selected.item.type == "emitter") {
+							rotateItem(event)	
+						}
+						else if (shifting && selected.item.type == "refractor") {
+							resizeItem(event)
+						}
+						else if (!shifting && selected.item) {
+							moveItem(event)
+						}
 					}
 				}
 			}
@@ -134,6 +154,7 @@ window.onload = function() {
 					x: event.offsetX,
 					y: event.offsetY
 				}
+
 				controls.setAttribute("dragging", true)
 			}
 
@@ -187,7 +208,10 @@ window.onload = function() {
 					//
 				}
 				else if  (item.type == "refractor") {
-					//
+					context.beginPath()
+					context.fillStyle = "#00ffff"
+					context.arc(item.x, item.y, item.r, 0, 2 * Math.PI, true)
+					context.fill()
 				}
 			}
 
@@ -204,9 +228,10 @@ window.onload = function() {
 			}
 
 		/* drawLaser */
-			function drawLaser(emitter) {
-				// get collisions
-					var collisions = []
+			function drawLaser(emitter, recursionCount) {
+				var collisions = []
+
+				// get line collisions
 					for (var l in lines) {
 						var intersection = findIntersection(emitter, lines[l])
 						if (intersection) {
@@ -215,25 +240,30 @@ window.onload = function() {
 						}
 					}
 
-				// find closest collision
-					var collision = null
-					if (collisions.length) {
-						var minDistance = 1000000
-
-						for (var c in collisions) {
-							var distance = findDistance(emitter.x, emitter.y, collisions[c].x, collisions[c].y)
-							
-							if (0 < distance && distance < minDistance) {
-								minDistance = distance
-								collision = collisions[c]
+				// get item collisions
+					for (var i in items) {
+						if (items[i].type == "refractor") {
+							var intersection = findCollision(emitter, items[i])
+							if (intersection) {
+								intersection.line = items[i]
+								collisions.push(intersection)
 							}
 						}
 					}
-				
-				// no collision? wall collision
-					if (!collision) {
-						var collision = findWallCollision(emitter)
+
+				// no collisions? wall
+					if (!collisions.length) {
+						for (var w in walls) {
+							var intersection = findIntersection(emitter, walls[w])
+							if (intersection) {
+								intersection.line = walls[w]
+								collisions.push(intersection)
+							}
+						}
 					}
+
+				// find closest
+					var collision = findClosest(emitter, collisions)
 
 				// draw segment
 					context.beginPath()
@@ -245,25 +275,33 @@ window.onload = function() {
 					context.stroke()
 
 				// continue ?
-					if (collision.line) {
-						if (collision.line.type == "mirror") {
-							var lineA = findAngle(collision.line.start.x, collision.line.start.y, collision.line.end.x, collision.line.end.y)
+					if (collision.line.type == "mirror" && recursionCount <= 100) {
+						var lineA = findAngle(collision.line.start.x, collision.line.start.y, collision.line.end.x, collision.line.end.y)
 
-							drawLaser({
-								x: collision.x,
-								y: collision.y, 
-								a: findReflection(emitter.a, lineA),
-								color: emitter.color
-							})
-						}
-						else if (collision.line.type == "filter" && collision.line.color == emitter.color) {
-							drawLaser({
-								x: collision.x,
-								y: collision.y,
-								a: emitter.a,
-								color: emitter.color
-							})
-						}
+						drawLaser({
+							x: collision.x,
+							y: collision.y, 
+							a: findReflection(emitter.a, lineA),
+							color: emitter.color
+						}, ++recursionCount)
+					}
+					else if (collision.line.type == "refractor" && recursionCount <= 100) {
+						var circleA = findAngle(emitter.x, emitter.y, collision.line.x, collision.line.y)
+
+						drawLaser({
+							x: collision.x,
+							y: collision.y,
+							a: findReflection(emitter.a, circleA),
+							color: emitter.color
+						}, ++recursionCount)
+					}
+					else if (collision.line.type == "filter" && collision.line.color == emitter.color) {
+						drawLaser({
+							x: collision.x,
+							y: collision.y,
+							a: emitter.a,
+							color: emitter.color
+						}, recursionCount)
 					}
 			}
 
@@ -283,6 +321,11 @@ window.onload = function() {
 		/* rotateItem */
 			function rotateItem(event) {
 				selected.item.a = findAngle(position.x, position.y, selected.item.x, selected.item.y)
+			}
+
+		/* resizeItem */
+			function resizeItem(event) {
+				selected.item.r = findDistance(position.x, position.y, selected.item.x, selected.item.y)
 			}
 
 		/* moveItem */
@@ -340,14 +383,6 @@ window.onload = function() {
 				}) || []
 			}
 
-		/* findLines */
-			function findLines(x, y) {
-				return lines.filter(function(line) {
-					return ((findDistance(line.start.x, line.start.y, position.x, position.y) < 10)
-						 || (findDistance(line.end.x  , line.end.y  , position.x, position.y) < 10))
-				}) || []
-			}
-
 	/*** lines ***/
 		/* startLine */
 			function startLine(event) {
@@ -388,36 +423,70 @@ window.onload = function() {
 				selected.item.end.y = position.y
 			}
 
+		/* findLines */
+			function findLines(x, y) {
+				return lines.filter(function(line) {
+					return ((findDistance(line.start.x, line.start.y, position.x, position.y) < 10)
+						 || (findDistance(line.end.x  , line.end.y  , position.x, position.y) < 10))
+				}) || []
+			}
+
 	/*** geometry ***/
 		/* findDistance */
 			function findDistance(x1, y1, x2, y2) {
-				return Math.round(Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5) * 1000000) / 1000000
+				return roundNumber( Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5) )
 			}
 
 		/* findRadians */
 			function findRadians(degrees) {
-				return Math.round(degrees / 180 * Math.PI * 1000000) / 1000000
+				return roundNumber( degrees / 180 * Math.PI )
 			}
 
 		/* findAngle */
 			function findAngle(x1, y1, x2, y2) {
-				return Math.round((Math.atan2(y2 - y1, x2 - x1) / Math.PI * 180 * -1) + 180)
+				return roundNumber( (Math.atan2(y2 - y1, x2 - x1) / Math.PI * 180 * -1) + 180 )
 			}
 
 		/* findReflection */
 			function findReflection(laserA, lineA) {
-				return Math.round((lineA + lineA - laserA + 360) % 360)
+				return roundNumber( (lineA + lineA - laserA + 360) % 360 )
 			}
 
 		/* findSlope */
 			function findSlope(angle) {
-				return Math.round((Math.tan(angle * Math.PI / 180) * -1) * 1000000) / 1000000
+				if (angle == 90 || angle == 270) {
+					return NaN
+				}
+				else {
+					return roundNumber( Math.tan(angle * Math.PI / 180) * -1 )
+				}
 			}
 
 		/* findIntercept */
 			function findIntercept(x, y, m) {
-				return Math.round((y - m * x) * 1000000) / 1000000
+				if (typeof m !== "number") {
+					return NaN
+				}
+				else {
+					return roundNumber( y - m * x )
+				}
 			}		
+
+		/* findClosest */
+			function findClosest(target, options) {
+				var closest = null
+				var minumum = 1000000
+
+				for (var o in options) {
+					var distance = findDistance(target.x, target.y, options[o].x, options[o].y)
+					if (0 < distance && distance < minumum) {
+						minumum = distance
+						closest = options[o]
+					}
+				}
+
+				return closest
+			}
 
 		/* findIntersection */
 			function findIntersection(item, line) {
@@ -431,24 +500,24 @@ window.onload = function() {
 					var m = findSlope(a)
 					var b = findIntercept(item.x, item.y, m)
 
-				// calculate intersection
+				// calculate (x, y)
 					if (a == 90 || a == 270) {
 						var x = item.x
-						var y = Math.round((lineM * x + lineB) * 1000000) / 1000000
+						var y = roundNumber( lineM * x + lineB )
 					}
 					else if (lineA == 90 || lineA == 270) {
 						var x = line.start.x
-						var y = Math.round((m * x + b) * 1000000) / 1000000
+						var y = roundNumber( m * x + b )
 					}
 					else {
-						var x = Math.round(((lineB - b) / (m - lineM)) * 1000000) / 1000000
-						var y = Math.round((lineM * x + lineB) * 1000000) / 1000000
+						var x = roundNumber( (lineB - b) / (m - lineM) )
+						var y = roundNumber( lineM * x + lineB )
 					}
 
 				// within segment?
 					if (((line.start.x <= x && x <= line.end.x) || (line.start.x >= x && x >= line.end.x))
 					 && ((line.start.y <= y && y <= line.end.y) || (line.start.y >= y && y >= line.end.y))
-					 && (findAngle(x, y, item.x, item.y) == a)) {
+					 && ( Math.round( findAngle(x, y, item.x, item.y) ) == Math.round( a ) )) {
 						return {
 							x: x,
 							y: y
@@ -457,72 +526,58 @@ window.onload = function() {
 					else {
 						return null
 					}
-			}		
+			}
 
-		/* findWallCollision */
-			function findWallCollision(item) {
-				// line equation
+		/* findCollision */
+			function findCollision(item, circle) {
+				// item
 					var a = (item.a + 360) % 360
 					var m = findSlope(a)
 					var b = findIntercept(item.x, item.y, m)
 
+				// circle
+					var h = circle.x
+					var k = circle.y
+					var r = circle.r
+				
 				// intersection points
-					var leftY   = Math.round(((m * 0) + b)             * 1000) / 1000
-					var rightY  = Math.round(((m * canvas.width) + b)  * 1000) / 1000
-					var topX    = Math.round(((0 - b) / m)             * 1000) / 1000
-					var bottomX = Math.round(((canvas.height - b) / m) * 1000) / 1000
-
-					var wallCollision = {}
-
-				// q1
-					if (a >= 0 && a <= 90) {
-						if (rightY >= 0 && rightY <= canvas.height) {
-							wallCollision.x = canvas.width
-							wallCollision.y = rightY
-						}
-						else if (topX >= 0 && topX <= canvas.width) {
-							wallCollision.x = topX
-							wallCollision.y = 0
-						}
+					if (a == 90 || a == 270) {
+						var z = (-2*k)**2 - (4 * (item.x**2 - item.x*h*2 + h**2 + k**2 - r**2))
+						
+						var x1 = roundNumber( item.x )
+						var y1 = (2*k + Math.pow(z, 0.5)) / 2
+							y1 = roundNumber(y1)
+						
+						var x2 = roundNumber( item.x )
+						var y2 = (2*k - Math.pow(z, 0.5)) / 2
+							y2 = roundNumber(y2)
+					}
+					else {
+						var z  = (r**2 * (1 + m**2)) - ((k - m*h - b)**2)
+						
+						var x1 = ((h + k*m - b*m) + Math.pow(z, 0.5)) / (1 + m**2)
+							x1 = roundNumber(x1)
+						var y1 = roundNumber( m * x1 + b )
+						
+						var x2 = ((h + k*m - b*m) - Math.pow(z, 0.5)) / (1 + m**2)
+							x2 = roundNumber(x2)
+						var y2 = roundNumber( m * x2 + b )
 					}
 
-				// q2
-					else if (a >= 90 && a <= 180) {
-						if (leftY >= 0 && leftY <= canvas.height) {
-							wallCollision.x = 0
-							wallCollision.y = leftY
-						}
-						else if (topX >= 0 && topX <= canvas.width) {
-							wallCollision.x = topX
-							wallCollision.y = 0
-						}
-					}
+				// validate angles
+					var a1 = Math.round(findAngle(x1, y1, item.x, item.y))
+					var a2 = Math.round(findAngle(x2, y2, item.x, item.y))
 
-				// q3
-					else if (a >= 180 && a <= 270) {
-						if (leftY >= 0 && leftY <= canvas.height) {
-							wallCollision.x = 0
-							wallCollision.y = leftY
-						}
-						else if (bottomX >= 0 && bottomX <= canvas.width) {
-							wallCollision.x = bottomX
-							wallCollision.y = canvas.height
-						}
+				// closest
+					if (a1 == Math.round(item.a) && a2 == Math.round(item.a)) {
+						return findClosest(item, [{x: x1, y: y1}, {x: x2, y: y2}])
 					}
-
-				// q4
-					else if (a >= 270 && a <= 360) {
-						if (rightY >= 0 && rightY <= canvas.height) {
-							wallCollision.x = canvas.width
-							wallCollision.y = rightY
-						}
-						else if (bottomX >= 0 && bottomX <= canvas.width) {
-							wallCollision.x = bottomX
-							wallCollision.y = canvas.height
-						}
+					else if (a1 == Math.round(item.a)) {
+						return {x: x1, y: y1}
 					}
-
-				return wallCollision
+					else if (a2 == Math.round(item.a)) {
+						return {x: x2, y: y2}
+					}
 			}
 
 	/*** helpers ***/
@@ -536,6 +591,11 @@ window.onload = function() {
 					random += set[Math.floor(Math.random() * set.length)]
 				}
 				return random
-			}	
+			}
+
+		/* roundNumber */
+			function roundNumber(n) {
+				return Math.round(n * 1000000) / 1000000
+			}
 
 }

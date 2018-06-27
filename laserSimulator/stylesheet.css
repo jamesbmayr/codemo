@@ -87,11 +87,24 @@
 			pointer-events: none;
 		}
 
-		#controls button#mirror, #controls button#prism, #controls button#refractor {
+	/* tools */
+		#controls button#mirror {
 			color: #555555;
 		}
 
-		#controls button#block, #controls button#cursor, #controls button#eraser {
+		#controls button#prism {
+			color: #ffff00;
+		}
+
+		#controls button#refractor {
+			color: #00ffff;
+		}
+
+		#controls button#eraser {
+			color: #ff00ff;
+		}
+
+		#controls button#block, #controls button#cursor {
 			color: #111111;
 		}
 
