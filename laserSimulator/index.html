@@ -9,21 +9,22 @@
 	</head>
 	<body>
 		<div id="controls" color="#ffffff">
-			<select id="color">
+			<select id="color"     title="color">
 				<option value="#ffffff">W</option>
 				<option value="#ff0000">R</option>
 				<option value="#00ff00">G</option>
 				<option value="#0000ff">B</option>
 			</select>
-			<button id="cursor" selected><span class="fas fa-mouse-pointer"       ></span></button>
-			<button id="eraser"         ><span class="fas fa-eraser"              ></span></button>
-			<button id="emitter"        ><span class="fas fa-magic"               ></span></button>
-			<button id="prism"          ><span class="fas fa-exclamation-triangle"></span></button>
-			<button id="refractor"      ><span class="fas fa-tint"                ></span></button>
-			<button id="filter"         ><span class="fas fa-filter"              ></span></button>
-			<button id="mirror"         ><span class="fas fa-project-diagram"     ></span></button>
-			<button id="block"          ><span class="fas fa-stop"                ></span></button>			
+			<button id="cursor"    title="cursor"          ><span class="fas fa-mouse-pointer"       ></span></button>
+			<button id="eraser"    title="eraser"          ><span class="fas fa-eraser"              ></span></button>
+			<button id="emitter"   title="emitter" selected><span class="fas fa-magic"               ></span></button>
+			<button id="prism"     title="prism"           ><span class="fas fa-exclamation-triangle"></span></button>
+			<button id="refractor" title="refractor"       ><span class="fas fa-tint"                ></span></button>
+			<button id="filter"    title="filter"          ><span class="fas fa-filter"              ></span></button>
+			<button id="mirror"    title="mirror"          ><span class="fas fa-project-diagram"     ></span></button>
+			<button id="block"     title="block"           ><span class="fas fa-stop"                ></span></button>			
 		</div>
 		<canvas id="canvas"></canvas>
+		<div id="message"></div>
 	</body>
 </html>

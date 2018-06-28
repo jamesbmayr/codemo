@@ -1,14 +1,27 @@
 window.onload = function() {
 
 	/*** onload ***/
-		/* canvas objects */
+		/* arrays */
 			var items = []
 			var lines = []
 			var walls = []
+			var tips  = [
+				"click to create a laser",
+				"use the cursor tool to drag items",
+				"hold shift to rotate",
+				"create a prism to split white into colors",
+				"create a refractor to alter the angles",
+				"hold shift to change the size",
+				"draw a wall to block a laser",
+				"draw a mirror to reflect a laser",
+				"draw a filter to allow only one color through",
+				"select other colors to create more emitters",
+				"laserSimulator"
+			]
 
 		/* interaction */
 			var color = "#ffffff"
-			var tool = "cursor"
+			var tool = "emitter"
 			var selected = {}
 			var pressing = false
 			var shifting = false
@@ -19,8 +32,9 @@ window.onload = function() {
 
 		/* elements */
 			var controls = document.getElementById("controls")
-			var canvas = document.getElementById("canvas")
-			var context = canvas.getContext("2d")
+			var message  = document.getElementById("message")
+			var canvas   = document.getElementById("canvas")
+			var context  = canvas.getContext("2d")
 
 		/* animation loop */
 			var canvasLoop = setInterval(function() {
@@ -123,6 +137,9 @@ window.onload = function() {
 						if (shifting && selected.item.type == "emitter") {
 							rotateItem(event)	
 						}
+						else if (shifting && selected.item.type == "prism") {
+							rotateItem(event)
+						}
 						else if (shifting && selected.item.type == "refractor") {
 							resizeItem(event)
 						}
@@ -173,6 +190,8 @@ window.onload = function() {
 		/* selectColor */
 			controls.querySelector("select").addEventListener("change", selectColor)
 			function selectColor(event) {
+				if (tips.length == 1) { displayNextTip() }
+
 				color = controls.querySelector("select").value
 				controls.setAttribute("color", color)
 			}
@@ -195,31 +214,53 @@ window.onload = function() {
 		/* drawItem */
 			function drawItem(item) {
 				if (item.type == "emitter") {
-					var angle = findRadians(item.a) * -1
-		
-					context.beginPath()
-					context.strokeStyle = item.color
-					context.lineWidth = 3
-
-					context.arc(item.x, item.y, item.r, angle + (Math.PI / 4), angle - (Math.PI / 4), false)
-					context.stroke()
+					drawEmitter(item)
 				}
 				else if (item.type == "prism") {
-					//
+					drawPrism(item)	
 				}
 				else if  (item.type == "refractor") {
-					context.beginPath()
-					context.fillStyle = "#00ffff"
-					context.arc(item.x, item.y, item.r, 0, 2 * Math.PI, true)
-					context.fill()
+					drawRefractor(item)
 				}
+			}
+
+		/* drawEmitter */
+			function drawEmitter(item) {
+				var angle = findRadians(item.a) * -1
+		
+				context.beginPath()
+				context.strokeStyle = item.color
+				context.lineWidth = 3
+
+				context.arc(item.x, item.y, item.r, angle + (Math.PI / 4), angle - (Math.PI / 4), false)
+				context.stroke()
+			}
+
+		/* drawPrism */
+			function drawPrism(item) {
+				var sides = findTriangle(item)
+
+				context.beginPath()
+				context.fillStyle = "#ffff00"
+				context.moveTo(sides[0].start.x, sides[0].start.y)
+				context.lineTo(sides[1].start.x, sides[1].start.y)
+				context.lineTo(sides[2].start.x, sides[2].start.y)
+				context.fill()
+			}
+
+		/* drawRefractor */
+			function drawRefractor(item) {
+				context.beginPath()
+				context.fillStyle = "#00ffff"
+				context.arc(item.x, item.y, item.r, 0, 2 * Math.PI, true)
+				context.fill()
 			}
 
 		/* drawLine */
 			function drawLine(line) {
 				context.beginPath()
 				context.strokeStyle = line.color
-				context.lineWidth = 3
+				context.lineWidth   = line.type ? 3 : 2
 
 				context.moveTo(line.start.x, line.start.y)
 				context.lineTo(line.end.x, line.end.y)
@@ -233,17 +274,24 @@ window.onload = function() {
 
 				// get line collisions
 					for (var l in lines) {
-						var intersection = findIntersection(emitter, lines[l])
+						var intersection = findLineIntersection(emitter, lines[l])
 						if (intersection) {
 							intersection.line = lines[l]
 							collisions.push(intersection)
 						}
 					}
 
-				// get item collisions
+				// get refractor / prism collisions
 					for (var i in items) {
 						if (items[i].type == "refractor") {
-							var intersection = findCollision(emitter, items[i])
+							var intersection = findCircleIntersection(emitter, items[i])
+							if (intersection) {
+								intersection.line = items[i]
+								collisions.push(intersection)
+							}
+						}
+						else if (items[i].type == "prism") {
+							var intersection = findTriangleIntersection(emitter, items[i])
 							if (intersection) {
 								intersection.line = items[i]
 								collisions.push(intersection)
@@ -254,7 +302,7 @@ window.onload = function() {
 				// no collisions? wall
 					if (!collisions.length) {
 						for (var w in walls) {
-							var intersection = findIntersection(emitter, walls[w])
+							var intersection = findLineIntersection(emitter, walls[w])
 							if (intersection) {
 								intersection.line = walls[w]
 								collisions.push(intersection)
@@ -263,19 +311,19 @@ window.onload = function() {
 					}
 
 				// find closest
-					var collision = findClosest(emitter, collisions)
+					var collision = findClosest(emitter, collisions) || null
 
 				// draw segment
-					context.beginPath()
-					context.strokeStyle = emitter.color
-					context.lineWidth = 2
-
-					context.moveTo(emitter.x, emitter.y)
-					context.lineTo(collision.x, collision.y)
-					context.stroke()
+					if (collision) {
+						drawLine({
+							color: emitter.color,
+							start: {x: emitter.x,   y: emitter.y  },
+							end:   {x: collision.x, y: collision.y}
+						})
+					}
 
 				// continue ?
-					if (collision.line.type == "mirror" && recursionCount <= 100) {
+					if (collision && collision.line.type == "mirror" && recursionCount <= 100) {
 						var lineA = findAngle(collision.line.start.x, collision.line.start.y, collision.line.end.x, collision.line.end.y)
 
 						drawLaser({
@@ -285,21 +333,55 @@ window.onload = function() {
 							color: emitter.color
 						}, ++recursionCount)
 					}
-					else if (collision.line.type == "refractor" && recursionCount <= 100) {
-						var circleA = findAngle(emitter.x, emitter.y, collision.line.x, collision.line.y)
+					else if (collision && collision.line.type == "refractor" && recursionCount <= 100) {
+						var normalA = findAngle(collision.x, collision.y, collision.line.x, collision.line.y)
 
 						drawLaser({
 							x: collision.x,
 							y: collision.y,
-							a: findReflection(emitter.a, circleA),
+							a: findRefraction(normalA, emitter.a, 1.5),
 							color: emitter.color
 						}, ++recursionCount)
 					}
-					else if (collision.line.type == "filter" && collision.line.color == emitter.color) {
+					else if (collision && collision.line.type == "prism" && recursionCount <= 100) {
+						var normalA = findAngle(collision.x, collision.y, collision.line.x, collision.line.y)
+
+						if (emitter.color == "#ffffff") {
+							drawLaser({
+								x: collision.x,
+								y: collision.y,
+								a: findRefraction(normalA, emitter.a, 1.25),
+								color: "#ff0000"
+							}, ++recursionCount)
+
+							drawLaser({
+								x: collision.x,
+								y: collision.y,
+								a: findRefraction(normalA, emitter.a, 1.5),
+								color: "#00ff00"
+							}, ++recursionCount)
+
+							drawLaser({
+								x: collision.x,
+								y: collision.y,
+								a: findRefraction(normalA, emitter.a, 1.75),
+								color: "#0000ff"
+							}, ++recursionCount)
+						}
+						else {
+							drawLaser({
+								x: collision.x,
+								y: collision.y,
+								a: findMin(emitter.a),
+								color: emitter.color
+							}, recursionCount)
+						}
+					}
+					else if (collision && collision.line.type == "filter" && collision.line.color == emitter.color) {
 						drawLaser({
 							x: collision.x,
 							y: collision.y,
-							a: emitter.a,
+							a: findMin(emitter.a),
 							color: emitter.color
 						}, recursionCount)
 					}
@@ -320,16 +402,22 @@ window.onload = function() {
 
 		/* rotateItem */
 			function rotateItem(event) {
+				if (tips.length == 8) { displayNextTip() }
+
 				selected.item.a = findAngle(position.x, position.y, selected.item.x, selected.item.y)
 			}
 
 		/* resizeItem */
 			function resizeItem(event) {
+				if (tips.length == 5) { displayNextTip() }
+
 				selected.item.r = findDistance(position.x, position.y, selected.item.x, selected.item.y)
 			}
 
 		/* moveItem */
 			function moveItem(event) {
+				if (tips.length == 9) { displayNextTip() }
+
 				selected.item.x = position.x - selected.x
 				selected.item.y = position.y - selected.y
 			}
@@ -342,14 +430,20 @@ window.onload = function() {
 	/*** items ***/
 		/* createItem */
 			function createItem(event) {
+				if (tips.length) {
+					if (tips.length == 10 && tool == "emitter"  ) { displayNextTip() }
+					if (tips.length ==  7 && tool == "prism"    ) { displayNextTip() }
+					if (tips.length ==  6 && tool == "refractor") { displayNextTip() }
+				}
+
 				items.push({
 					id: generateRandom(),
 					x: position.x,
 					y: position.y,
-					a: 45,
-					r: 10,
-					type: tool,
-					color: color
+					a:     (tool == "emitter" ?    45 : 90  ),
+					r:     (tool == "emitter" ?    10 : 30  ),
+					color: (tool == "emitter" ? color : null),
+					type:   tool
 				})
 
 				selectTool({target: controls.querySelector("#cursor")})
@@ -419,6 +513,12 @@ window.onload = function() {
 
 		/* endLine */
 			function endLine(event) {
+				if (tips.length) {
+					if (tips.length == 4 && tool == "block" ) { displayNextTip() }
+					if (tips.length == 3 && tool == "mirror") { displayNextTip() }
+					if (tips.length == 2 && tool == "filter") { displayNextTip() }
+				}
+
 				selected.item.end.x = position.x
 				selected.item.end.y = position.y
 			}
@@ -437,6 +537,11 @@ window.onload = function() {
 				return roundNumber( Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5) )
 			}
 
+		/* findDegrees */
+			function findDegrees(radians) {
+				return findMin(roundNumber( (radians * 180 / Math.PI) ))
+			}
+
 		/* findRadians */
 			function findRadians(degrees) {
 				return roundNumber( degrees / 180 * Math.PI )
@@ -444,12 +549,29 @@ window.onload = function() {
 
 		/* findAngle */
 			function findAngle(x1, y1, x2, y2) {
-				return roundNumber( (Math.atan2(y2 - y1, x2 - x1) / Math.PI * 180 * -1) + 180 )
+				return findMin(roundNumber( (Math.atan2(y2 - y1, x2 - x1) / Math.PI * 180 * -1) + 180))
+			}
+
+		/* findMin */
+			function findMin(angle) {
+				return roundNumber( (angle + 360) % 360 )
 			}
 
 		/* findReflection */
 			function findReflection(laserA, lineA) {
-				return roundNumber( (lineA + lineA - laserA + 360) % 360 )
+				return findMin( roundNumber( lineA + lineA - laserA ) )
+			}
+
+		/* findRefraction */
+			function findRefraction(normal, emitter, index) {
+				var a = findRadians(normal - emitter)
+
+				if (Math.cos(a) < 0) {
+					return findMin(roundNumber( normal + findDegrees(Math.asin(Math.sin(a) / index)) - 180 ))
+				}
+				else {
+					return findMin(emitter)
+				}
 			}
 
 		/* findSlope */
@@ -488,21 +610,21 @@ window.onload = function() {
 				return closest
 			}
 
-		/* findIntersection */
-			function findIntersection(item, line) {
+		/* findLineIntersection */
+			function findLineIntersection(emitter, line) {
+				// emitter
+					var a = findMin(emitter.a)
+					var m = findSlope(a)
+					var b = findIntercept(emitter.x, emitter.y, m)
+
 				// line
 					var lineA = findAngle(line.start.x, line.start.y, line.end.x, line.end.y)
 					var lineM = findSlope(lineA)
 					var lineB = findIntercept(line.start.x, line.start.y, lineM)
 
-				// laser
-					var a = (item.a + 360) % 360
-					var m = findSlope(a)
-					var b = findIntercept(item.x, item.y, m)
-
 				// calculate (x, y)
 					if (a == 90 || a == 270) {
-						var x = item.x
+						var x = emitter.x
 						var y = roundNumber( lineM * x + lineB )
 					}
 					else if (lineA == 90 || lineA == 270) {
@@ -517,7 +639,7 @@ window.onload = function() {
 				// within segment?
 					if (((line.start.x <= x && x <= line.end.x) || (line.start.x >= x && x >= line.end.x))
 					 && ((line.start.y <= y && y <= line.end.y) || (line.start.y >= y && y >= line.end.y))
-					 && ( Math.round( findAngle(x, y, item.x, item.y) ) == Math.round( a ) )) {
+					 && (Math.round(findAngle(x, y, emitter.x, emitter.y) + 360) % 360 == Math.round(a + 360) % 360)) {
 						return {
 							x: x,
 							y: y
@@ -528,12 +650,55 @@ window.onload = function() {
 					}
 			}
 
-		/* findCollision */
-			function findCollision(item, circle) {
-				// item
-					var a = (item.a + 360) % 360
+		/* findTriangle */
+			function findTriangle(triangle) {
+				// corners
+					var x1 = roundNumber( triangle.x + triangle.r * Math.sin(findRadians(triangle.a + 90)) )
+					var y1 = roundNumber( triangle.y + triangle.r * Math.cos(findRadians(triangle.a + 90)) )
+
+					var x2 = roundNumber( triangle.x + triangle.r * Math.sin(findRadians(triangle.a + 210)) )
+					var y2 = roundNumber( triangle.y + triangle.r * Math.cos(findRadians(triangle.a + 210)) )
+
+					var x3 = roundNumber( triangle.x + triangle.r * Math.sin(findRadians(triangle.a + 330)) )
+					var y3 = roundNumber( triangle.y + triangle.r * Math.cos(findRadians(triangle.a + 330)) )
+
+				// sides
+					return [
+						{start: {x: x1, y: y1}, end: {x: x2, y: y2}},
+						{start: {x: x2, y: y2}, end: {x: x3, y: y3}},
+						{start: {x: x3, y: y3}, end: {x: x1, y: y1}}
+					]
+			}
+
+		/* findTriangleIntersection */
+			function findTriangleIntersection(emitter, triangle) {
+				// emitter
+					var a = findMin(emitter.a)
 					var m = findSlope(a)
-					var b = findIntercept(item.x, item.y, m)
+					var b = findIntercept(emitter.x, emitter.y, m)
+
+				// triangle
+					var sides = findTriangle(triangle)
+
+				// collisions
+					var collisions = []
+					for (var s in sides) {
+						var collision = findLineIntersection(emitter, sides[s])
+						if (collision) {
+							collisions.push(collision)
+						}
+					}
+
+				// closest
+					return findClosest(emitter, collisions) || null
+			}
+
+		/* findCircleIntersection */
+			function findCircleIntersection(emitter, circle) {
+				// emitter
+					var a = findMin(emitter.a)
+					var m = findSlope(a)
+					var b = findIntercept(emitter.x, emitter.y, m)
 
 				// circle
 					var h = circle.x
@@ -542,13 +707,13 @@ window.onload = function() {
 				
 				// intersection points
 					if (a == 90 || a == 270) {
-						var z = (-2*k)**2 - (4 * (item.x**2 - item.x*h*2 + h**2 + k**2 - r**2))
+						var z = (-2*k)**2 - (4 * (emitter.x**2 - emitter.x*h*2 + h**2 + k**2 - r**2))
 						
-						var x1 = roundNumber( item.x )
+						var x1 = roundNumber(emitter.x)
 						var y1 = (2*k + Math.pow(z, 0.5)) / 2
 							y1 = roundNumber(y1)
 						
-						var x2 = roundNumber( item.x )
+						var x2 = roundNumber(emitter.x)
 						var y2 = (2*k - Math.pow(z, 0.5)) / 2
 							y2 = roundNumber(y2)
 					}
@@ -565,17 +730,17 @@ window.onload = function() {
 					}
 
 				// validate angles
-					var a1 = Math.round(findAngle(x1, y1, item.x, item.y))
-					var a2 = Math.round(findAngle(x2, y2, item.x, item.y))
+					var a1 = Math.round(findAngle(x1, y1, emitter.x, emitter.y))
+					var a2 = Math.round(findAngle(x2, y2, emitter.x, emitter.y))
 
 				// closest
-					if (a1 == Math.round(item.a) && a2 == Math.round(item.a)) {
-						return findClosest(item, [{x: x1, y: y1}, {x: x2, y: y2}])
+					if (a1 == Math.round(emitter.a) && a2 == Math.round(emitter.a)) {
+						return findClosest(emitter, [{x: x1, y: y1}, {x: x2, y: y2}])
 					}
-					else if (a1 == Math.round(item.a)) {
+					else if (a1 == Math.round(emitter.a)) {
 						return {x: x1, y: y1}
 					}
-					else if (a2 == Math.round(item.a)) {
+					else if (a2 == Math.round(emitter.a)) {
 						return {x: x2, y: y2}
 					}
 			}
@@ -598,4 +763,10 @@ window.onload = function() {
 				return Math.round(n * 1000000) / 1000000
 			}
 
+		/* displayNextTip */
+			displayNextTip()
+			function displayNextTip() {
+				message.innerText = tips[0]
+				tips.shift()
+			}
 }
