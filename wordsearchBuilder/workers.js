@@ -25,9 +25,9 @@
 			if (results.length < 10000) {
 				// get existing base board
 					var oldBoard = boards[oldKey]
-
+					
 				// fresh board
-					if (Object.keys(oldBoard).length == 1) {
+					if (oldBoard && Object.keys(oldBoard).length == 1) {
 						// right
 							// new board
 								var rightBoard = {}
@@ -113,10 +113,13 @@
 									results.push(diagonalBoard)
 								}
 						}
+
+						// clean up
+							delete boards[oldKey]
 					}
 
 				// add to existing board
-					else {
+					else if (oldBoard) {
 						// find overlapping letters
 							var overlaps = []
 							for (var cell in oldBoard) {
@@ -127,10 +130,10 @@
 							overlaps = sortRandom(overlaps)
 
 						// for each overlapping letter...
-							var branchFund = 9
+							var branchFund = Math.min(oldBoard.words.length, 9)
 							for (var o in overlaps) {
 								for (var l in word) { // ...cycle through the word 
-									if (branchFund < 0) { break } // (if there are already 10 branches on this oldBoard)
+									if (branchFund < 0) { break } // (if there are already 3 branches on this oldBoard)
 									else if (oldBoard[overlaps[o]] == word[l]) { // ...and find the overlap
 										// x and y
 											var x = overlaps[o].split(",")[0]
@@ -163,23 +166,26 @@
 
 											// if that didn't error out...
 												if (possible) {
-													// add this to the boards object
-														var k = oldKey + "-" + newKey + "_" + overlaps[o] + "_" + l + "_x"
-														boards[k] = rightBoard
-														branchFund -= 1
+													rightBoard = rezeroBoard(rightBoard)
+													if (!isDuplicate(rightBoard)) {
+														// add this to the boards object
+															var k = oldKey + "-" + newKey + "_" + overlaps[o] + "_" + l + "_x"
+															boards[k] = rightBoard
+															branchFund -= 1
 
-													// build branching boards for each remaining word
-														if (rightBoard.words.length) {
-															rightBoard.words = sortRandom(rightBoard.words)
-															for (var w in rightBoard.words) {
-																buildBoards(k, w, rightBoard.words[w], diagonal)
+														// build branching boards for each remaining word
+															if (rightBoard.words.length) {
+																rightBoard.words = sortRandom(rightBoard.words)
+																for (var w in rightBoard.words) {
+																	buildBoards(k, w, rightBoard.words[w], diagonal)
+																}
 															}
-														}
 
-													// add to results
-														else {
-															results.push(rightBoard)
-														}
+														// add to results
+															else {
+																results.push(rightBoard)
+															}
+													}
 												}
 
 										// down
@@ -209,23 +215,26 @@
 
 											// if that didn't error out...
 												if (possible) {
-													// add this to the boards object
-														var k = oldKey + "-" + newKey + "_" + overlaps[o] + "_" + l + "_y"
-														boards[k] = downBoard
-														branchFund -= 1
+													downBoard = rezeroBoard(downBoard)
+													if (!isDuplicate(downBoard)) {
+														// add this to the boards object
+															var k = oldKey + "-" + newKey + "_" + overlaps[o] + "_" + l + "_y"
+															boards[k] = downBoard
+															branchFund -= 1
 
-													// build branching boards for each remaining word
-														if (downBoard.words.length) {
-															downBoard.words = sortRandom(downBoard.words)
-															for (var w in downBoard.words) {
-																buildBoards(k, w, downBoard.words[w], diagonal)
+														// build branching boards for each remaining word
+															if (downBoard.words.length) {
+																downBoard.words = sortRandom(downBoard.words)
+																for (var w in downBoard.words) {
+																	buildBoards(k, w, downBoard.words[w], diagonal)
+																}
 															}
-														}
 
-													// add to results
-														else {
-															results.push(downBoard)
-														}
+														// add to results
+															else {
+																results.push(downBoard)
+															}
+													}
 												}
 
 										// diagonal
@@ -258,28 +267,34 @@
 
 											// if that didn't error out...
 												if (possible) {
-													// add this to the boards object
-														var k = oldKey + "-" + newKey + "_" + overlaps[o] + "_" + l + "_xy"
-														boards[k] = diagonalBoard
-														branchFund -= 1
+													diagonalBoard = rezeroBoard(diagonalBoard)
+													if (!isDuplicate(diagonalBoard)) {
+														// add this to the boards object
+															var k = oldKey + "-" + newKey + "_" + overlaps[o] + "_" + l + "_xy"
+															boards[k] = diagonalBoard
+															branchFund -= 1
 
-													// build branching boards for each remaining word
-														if (diagonalBoard.words.length) {
-															diagonalBoard.words = sortRandom(diagonalBoard.words)
-															for (var w in diagonalBoard.words) {
-																buildBoards(k, w, diagonalBoard.words[w], diagonal)
+														// build branching boards for each remaining word
+															if (diagonalBoard.words.length) {
+																diagonalBoard.words = sortRandom(diagonalBoard.words)
+																for (var w in diagonalBoard.words) {
+																	buildBoards(k, w, diagonalBoard.words[w], diagonal)
+																}
 															}
-														}
 
-													// add to results
-														else {
-															results.push(diagonalBoard)
-														}
+														// add to results
+															else {
+																results.push(diagonalBoard)
+															}
+													}
 												}
 										}
 									}
 								}
 							}
+
+						// clean up
+							delete boards[oldKey]
 					}
 			}
 		}
@@ -310,4 +325,81 @@
 				}
 
 			return array || []
+		}
+
+	/* rezeroBoard */
+		function rezeroBoard(oldBoard) {
+			// get x and y
+				var minX = 0
+				var maxX = 0
+				var minY = 0
+				var maxY = 0
+
+				for (var cell in oldBoard) {
+					if (cell !== "words") {
+						var x = Number(cell.split(",")[0])
+						var y = Number(cell.split(",")[1])
+
+						if (x < minX) {
+							minX = x
+						}
+						if (x > maxX) {
+							maxX = x
+						}
+						if (y < minY) {
+							minY = y
+						}
+						if (y > maxY) {
+							maxY = y
+						}
+					}
+				}
+
+			// create copy with adjusted coordinates
+				var newBoard = {words: oldBoard.words}
+				for (var y = minY; y <= maxY; y++) {
+					for (var x = minX; x <= maxX; x++) {
+						if (oldBoard[x + "," + y]) {
+							newBoard[(x - minX) + "," + (y - minY)] = oldBoard[x + "," + y]
+						}
+					}
+				}
+
+				return newBoard
+		}
+
+	/* isDuplicate */
+		function isDuplicate(oldObject) {
+			// get as a string
+				var stringO = JSON.stringify(oldObject)
+				var wordsO  = oldObject.words.join("")
+				var keysO   = Object.keys(oldObject)
+
+			// find a copy
+				for (var b in boards) {
+					var keysB = Object.keys(boards[b])
+
+					if (keysB.length !== keysO.length) {
+						break
+					}
+					else if (boards[b].words.join("") !== wordsO) {
+						break
+					}
+					else {
+						for (var k = 0; k < keysB.length; k++) {
+							if (keysB[k] !== keysO[k]) {
+								break
+							}
+							else if (k && (boards[b][keysB[k]] !== oldObject[keysB[k]])) {
+								break
+							}
+							else {
+								return true
+							}
+						}
+					}
+				}
+			
+			// no repeat?
+				return false
 		}

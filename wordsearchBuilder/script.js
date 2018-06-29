@@ -6,7 +6,6 @@ window.onload = function() {
 			function submitForm() {
 				if (!document.getElementById("submit").getAttribute("loading")) {
 					document.getElementById("submit").setAttribute("loading", true)
-					results = null
 
 					setTimeout(function() {
 						// get diagonal, get & trim words
