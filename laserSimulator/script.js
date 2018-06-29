@@ -134,8 +134,8 @@ window.onload = function() {
 		/* mousemove */
 			document.addEventListener(move, moveMouse)
 			function moveMouse(event) {
-				position.x = event.clientX
-				position.y = event.clientY
+				position.x = event.clientX || event.touches[0].clientX
+				position.y = event.clientY || event.touches[0].clientY
 
 				if (pressing && selected.item == "controls") {
 					moveControls(event)
