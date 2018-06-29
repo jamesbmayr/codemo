@@ -109,6 +109,8 @@ window.onload = function() {
 		/* mousedown */
 			document.addEventListener(down, downMouse)
 			function downMouse(event) {
+				position.x = event.clientX || event.touches[0].clientX
+				position.y = event.clientY || event.touches[0].clientY
 				pressing = true
 				holding  = new Date().getTime()
 
