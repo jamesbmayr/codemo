@@ -8,10 +8,10 @@ window.onload = function() {
 			var tips  = [
 				"click to create a laser",
 				"use the cursor tool to drag items",
-				"hold shift to rotate",
+				"long-press or hold shift to rotate",
 				"create a prism to split white into colors",
 				"create a refractor to alter the angles",
-				"hold shift to change the size",
+				"long-press or hold shift to resize",
 				"draw a wall to block a laser",
 				"draw a mirror to reflect a laser",
 				"draw a filter to allow only one color through",
@@ -25,6 +25,7 @@ window.onload = function() {
 			var selected = {}
 			var pressing = false
 			var shifting = false
+			var holding  = null
 			var position = {
 				x: null,
 				y: null
@@ -35,6 +36,18 @@ window.onload = function() {
 			var message  = document.getElementById("message")
 			var canvas   = document.getElementById("canvas")
 			var context  = canvas.getContext("2d")
+
+		/* events */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var down = "touchstart"
+				var move = "touchmove"
+				var up   = "touchend"
+			}
+			else {
+				var down = "mousedown"
+				var move = "mousemove"
+				var up   = "mouseup"
+			}
 
 		/* animation loop */
 			var canvasLoop = setInterval(function() {
@@ -94,9 +107,10 @@ window.onload = function() {
 			}
 
 		/* mousedown */
-			document.addEventListener("mousedown", downMouse)
+			document.addEventListener(down, downMouse)
 			function downMouse(event) {
 				pressing = true
+				holding  = new Date().getTime()
 
 				if (event.target.id == "controls") {
 					selectControls(event)
@@ -118,7 +132,7 @@ window.onload = function() {
 			}
 
 		/* mousemove */
-			document.addEventListener("mousemove", moveMouse)
+			document.addEventListener(move, moveMouse)
 			function moveMouse(event) {
 				position.x = event.clientX
 				position.y = event.clientY
@@ -134,6 +148,10 @@ window.onload = function() {
 						endLine(event)
 					}
 					else if (tool == "cursor" && selected.item) {
+						if (holding && (new Date().getTime() - holding > 1000)) {
+							shifting = true
+						}
+
 						if (shifting && selected.item.type == "emitter") {
 							rotateItem(event)	
 						}
@@ -148,12 +166,16 @@ window.onload = function() {
 						}
 					}
 				}
+
+				holding = null
 			}
 
 		/* mouseup */
-			document.addEventListener("mouseup", upMouse)
+			document.addEventListener(up, upMouse)
 			function upMouse(event) {
 				pressing = false
+				shifting = false
+				holding  = null
 
 				if (selected.item == "controls") {
 					unselectControls(event)
