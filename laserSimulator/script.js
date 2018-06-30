@@ -136,8 +136,8 @@ window.onload = function() {
 		/* mousemove */
 			document.addEventListener(move, moveMouse)
 			function moveMouse(event) {
-				position.x = event.clientX || event.touches[0].clientX
-				position.y = event.clientY || event.touches[0].clientY
+				position.x = (typeof event.clientX == "number") ? event.clientX : event.touches[0].clientX
+				position.y = (typeof event.clientY == "number") ? event.clientY : event.touches[0].clientY
 
 				if (pressing && selected.item == "controls") {
 					moveControls(event)
@@ -254,7 +254,7 @@ window.onload = function() {
 		
 				context.beginPath()
 				context.strokeStyle = item.color
-				context.lineWidth = 3
+				context.lineWidth = 4
 
 				context.arc(item.x, item.y, item.r, angle + (Math.PI / 4), angle - (Math.PI / 4), false)
 				context.stroke()
@@ -265,7 +265,7 @@ window.onload = function() {
 				var sides = findTriangle(item)
 
 				context.beginPath()
-				context.fillStyle = "#ffff00"
+				context.fillStyle = "#ffff0066"
 				context.moveTo(sides[0].start.x, sides[0].start.y)
 				context.lineTo(sides[1].start.x, sides[1].start.y)
 				context.lineTo(sides[2].start.x, sides[2].start.y)
@@ -275,7 +275,7 @@ window.onload = function() {
 		/* drawRefractor */
 			function drawRefractor(item) {
 				context.beginPath()
-				context.fillStyle = "#00ffff"
+				context.fillStyle = "#00ffff66"
 				context.arc(item.x, item.y, item.r, 0, 2 * Math.PI, true)
 				context.fill()
 			}
@@ -284,7 +284,7 @@ window.onload = function() {
 			function drawLine(line) {
 				context.beginPath()
 				context.strokeStyle = line.color
-				context.lineWidth   = line.type ? 3 : 2
+				context.lineWidth   = line.type ? 5 : 2
 
 				context.moveTo(line.start.x, line.start.y)
 				context.lineTo(line.end.x, line.end.y)
@@ -401,12 +401,12 @@ window.onload = function() {
 							}, recursionCount)
 						}
 					}
-					else if (collision && collision.line.type == "filter" && collision.line.color == emitter.color) {
+					else if ((collision && collision.line.type == "filter") && (collision.line.color == emitter.color || emitter.color == "#ffffff")) {
 						drawLaser({
 							x: collision.x,
 							y: collision.y,
 							a: findMin(emitter.a),
-							color: emitter.color
+							color: collision.line.color
 						}, recursionCount)
 					}
 			}
@@ -464,13 +464,14 @@ window.onload = function() {
 					id: generateRandom(),
 					x: position.x,
 					y: position.y,
-					a:     (tool == "emitter" ?    45 : 90  ),
+					a:     generateRandomAngle(),
 					r:     (tool == "emitter" ?    10 : 30  ),
 					color: (tool == "emitter" ? color : null),
 					type:   tool
 				})
 
 				selectTool({target: controls.querySelector("#cursor")})
+				selectItem(event)
 			}
 
 		/* eraseItems */
@@ -780,6 +781,11 @@ window.onload = function() {
 					random += set[Math.floor(Math.random() * set.length)]
 				}
 				return random
+			}
+
+		/* generateRandomAngle */
+			function generateRandomAngle() {
+				return Math.floor(Math.random() * 360)
 			}
 
 		/* roundNumber */

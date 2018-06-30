@@ -48,8 +48,8 @@
 		position: absolute;
 		top: 5px;
 		left: 5px;
-		height: 120px;
-		width: 120px;
+		height: 180px;
+		width: 180px;
 		overflow: hidden;
 		border-radius: 10px;
 		background-color: #888888;
@@ -67,12 +67,25 @@
 		cursor: grabbing;
 	}
 
+	/* labels */
+		#controls label {
+			float: left;
+			width: 60px;
+			height: 60px;
+			font-size: 12px;
+			color: #555555;
+			text-align: center;
+			font-weight: bold;
+			vertical-align: bottom;
+			user-select: none;
+			cursor: pointer;
+		}
+
 	/* buttons & select */
 		#controls button, #controls select {
-			float: left;
-			margin: 5px;
-			height: 30px;
-			width: 30px;
+			height: 36px;
+			width: 36px;
+			margin: 0px 5px 0px 5px;
 			border-radius: 100%;
 			border: 0px;
 			padding: 5px;
@@ -81,13 +94,14 @@
 			outline: none;
 			font-family: sans-serif;
 			font-size: 15px;
+			text-align: center;
 		}
 
 		#controls select {
 			margin: 0px;
-			height: 36px;
-			width: 36px;
-			margin: 2px;
+			height: 40px;
+			width: 40px;
+			margin: 0px 5px 0px 5px;
 		}
 
 		#controls button:hover, #controls select:hover {
