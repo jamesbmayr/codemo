@@ -30,7 +30,7 @@
 
 	#color {
 		height: 40px;
-		width: 100%;
+		width: calc(100% - 48px);
 		margin: 0px;
 		outline: none;
 		cursor: pointer;
@@ -39,6 +39,27 @@
 		font-size: 20px;
 		color: #333333;
 	}
+
+	/* j-logo */
+		#j-logo {
+			margin: 4px;
+			float: right;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 2px #222222);
+		}
 
 	#dotToggle-outer {
 		float: right;

@@ -66,7 +66,7 @@ window.onload = function() {
 				}
 
 				if (letters.length > 1) {
-					var otherLetters = letters.join("").split("")
+					var otherLetters = letters
 						otherLetters.splice(l, 1)
 					
 					words = buildWords(words, otherLetters, stem + letters[l])

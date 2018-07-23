@@ -99,7 +99,7 @@
 			font-size: 30px;
 			border: 0px;
 			outline: none;
-			width: calc(100vw - 40px - 80px - 170px);
+			width: calc(100vw - 40px - 80px - 170px - 50px);
 			font-family: sans-serif;
 			text-transform: uppercase;
 			z-index: 2;
@@ -133,6 +133,27 @@
 		#yoy.neutral {
 			color: lightblue;
 		}
+
+	/* j-logo */
+	#j-logo {
+		float: left;
+		height: 30px;
+		width: 20px;
+		margin: 15px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		opacity: 0.5;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}
 
 /*** charts ***/
 	#chart {

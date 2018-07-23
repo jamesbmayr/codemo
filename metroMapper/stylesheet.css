@@ -1,3 +1,26 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		opacity: 0.5;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #aaaaaa);
+		opacity: 1;
+	}
+	
 /* page */
 	body {
 		position: absolute;
@@ -83,13 +106,13 @@
 	}
 
 	#title {
-		margin-left: 10px;
+		margin: 5px 5px 5px 10px;
 		float: left;
 		cursor: default;
 	}
 
 	#zoom-in, #zoom-out {
-		float: right;
+		float: left;
 		height: 40px;
 		width: 40px;
 		margin: 5px;
