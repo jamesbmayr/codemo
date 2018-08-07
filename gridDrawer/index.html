@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>gridDrawer</title>
+		<link rel="shortcut icon" href="http://cdn.onlinewebfonts.com/svg/img_437931.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="navbar" mode="creation">
+			<div class="spacer"></div>
+			<div id="name">gridDrawer</div>
+			<div class="spacer"></div>
+			<form id="creation" method="post" action="javascript:;">
+				<select id="shape">
+					<option value="triangle">&#9650;</option>
+					<option value="square">&#9724;</option>
+					<option value="rectangle-x">&#9644;</option>
+					<option value="rectangle-y">&#9646;</option>
+					<option value="hexagon-x">&#11043;</option>
+					<option value="hexagon-y">&#11042;</option>
+				</select>
+				<input type="number" id="spacing" step="1" max="100" min="1" value="30" placeholder="spacing"/>
+				<button id="create" type="submit">&#x279C;</button>
+			</form>
+			<div class="spacer"></div>
+			<form id="tools" method="post" action="javascript:;">
+				<select id="color" style="color: orange">
+					<option value="red">r</option>
+					<option value="orange" selected>o</option>
+					<option value="yellow">y</option>
+					<option value="green">g</option>
+					<option value="cyan">c</option>
+					<option value="blue">b</option>
+					<option value="purple">p</option>
+					<option value="magenta">m</option>
+					<option value="black">k</option>
+				</select>
+				<button id="draw"     value="draw" style="color: orange">&#10000;</button>
+				<button id="erase"    value="erase"   >&#10008;</button>
+				<div class="spacer"></div>
+				<button id="drag"     value="drag"    >&#10011;</button>
+				<button id="zoom-in"  value="zoom-in" >&#8853;</button>
+				<button id="zoom-out" value="zoom-out">&#8854;</button>
+			</form>
+			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		</div>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>

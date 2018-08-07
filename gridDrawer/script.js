@@ -1,0 +1,554 @@
+window.onload = function() {
+	/*** globals ***/
+		/* events */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var down = "touchstart"
+				var move = "touchmove"
+				var up   = "touchend"
+			}
+			else {
+				var down = "mousedown"
+				var move = "mousemove"
+				var up   = "mouseup"
+			}
+
+		/* variables */
+			var canvas   = document.getElementById("canvas")
+			var context  = canvas.getContext("2d")
+			
+			var lines    = []
+			var settings = {}
+			var drawLoop = null
+
+		/* resetGlobals */
+			function resetGlobals() {
+				window.lines = lines = []
+
+				window.settings = settings = {
+					canvas: {
+						height: 0,
+						width: 0,
+						x: 0,
+						y: 0,
+						shape: null,
+						spacing: 0,
+						zoom: 1
+					},
+					cursor: {
+						color: "orange",
+						tool: "draw",
+						shift: false,
+						press: false,
+						x: 0,
+						y: 0,
+						closest: {
+							x: 0,
+							y: 0,
+							distance: 0
+						}
+					},
+					live: {
+						x: null,
+						y: null
+					}
+				}
+
+				if (drawLoop) {
+					clearInterval(drawLoop)
+					drawLoop = null
+				}
+			}
+
+		/* resizeScreen */
+			window.addEventListener("resize", resizeScreen)
+			function resizeScreen() {
+				settings.canvas.height = (window.innerHeight - 50)
+				settings.canvas.width  =  window.innerWidth
+				canvas.setAttribute("height", settings.canvas.height)
+				canvas.setAttribute("width",  settings.canvas.width )
+			}
+
+	/*** creation ***/
+		/* createGrid */
+			document.getElementById("creation").addEventListener("submit", createGrid)
+			function createGrid() {
+				resetGlobals()
+				resizeScreen()
+				settings.canvas.shape =   document.getElementById( "shape" ).value || "square"
+				settings.canvas.spacing = parseInt(document.getElementById("spacing").value) || 30
+
+				navbar.setAttribute("mode", "tools")
+				drawLoop = setInterval(drawCanvas, 10)
+				canvas.setAttribute("tool", "draw")
+			}
+
+	/*** tools ***/
+		/* selectColor */
+			document.getElementById("color").addEventListener("change", selectColor)
+			function selectColor() {
+				settings.cursor.color = document.getElementById("color").value
+				selectTool({target: document.getElementById("draw")})
+
+				document.getElementById("color").style.color = settings.cursor.color
+				document.getElementById("draw" ).style.color = settings.cursor.color
+			}
+
+		/* selectTool */
+			document.querySelectorAll("#tools button").forEach(function(button) {
+				button.addEventListener(down, selectTool)
+			})
+			function selectTool(event) {
+				settings.cursor.tool = event.target.value
+
+				document.querySelectorAll("#tools button").forEach(function(button) {
+					button.removeAttribute("selected")
+				})
+
+				event.target.setAttribute("selected", true)
+				canvas.setAttribute("tool", settings.cursor.tool)
+			}
+
+	/*** input ***/
+		/* downShift */
+			document.addEventListener("keydown", function(event) {
+				if (event.key == "Shift" || event.which == 16) {
+					downShift()
+				}
+			})
+			function downShift() {
+				if (settings.cursor) {
+					settings.cursor.shift = true
+				}
+			}
+
+		/* upShift */
+			document.addEventListener("keyup", function(event) {
+				if (event.key == "Shift" || event.which == 16) {
+					upShift()
+				}
+			})
+			function upShift() {
+				if (settings.cursor) {
+					settings.cursor.shift = false
+				}
+			}
+
+		/* downMouse */
+			canvas.addEventListener(down, downMouse)
+			function downMouse(event) {
+				if (settings.cursor) {
+					settings.cursor.press = true
+
+					if (settings.cursor.tool == "draw") {
+						canvas.setAttribute("tool", "drawing")
+						startLine(event)
+					}
+					else if (settings.cursor.tool == "erase") {
+						eraseLine(event)
+					}
+					else if (settings.cursor.tool == "drag") {
+						canvas.setAttribute("tool", "dragging")
+						startDrag(event)
+					}
+					else if (settings.cursor.tool == "zoom-in") {
+						zoomIn(event)
+					}
+					else if (settings.cursor.tool == "zoom-out") {
+						zoomOut(event)
+					}
+				}
+			}
+
+		/* moveMouse */
+			canvas.addEventListener(move, moveMouse)
+			function moveMouse(event) {
+				if (settings.cursor) {
+					settings.cursor.x = ((event.clientX || event.touches[0].clientX)     )
+					settings.cursor.y = ((event.clientY || event.touches[0].clientY) - 50)
+					settings.cursor.closest.distance = getDistance(settings.cursor.x, settings.cursor.y, settings.cursor.closest.x, settings.cursor.closest.y)
+
+					if (settings.cursor.tool == "erase" && settings.cursor.press) {
+						eraseLine(event)
+					}
+					else if (settings.cursor.tool == "drag" && settings.cursor.press) {
+						moveDrag(event)
+					}
+				}
+			}
+
+		/* upMouse */
+			canvas.addEventListener(up, upMouse)
+			function upMouse(event) {
+				if (settings.cursor) {
+					settings.cursor.press = false
+
+					if (settings.cursor.tool == "draw") {
+						completeLine(event)
+						canvas.setAttribute("tool", "draw")
+					}
+					else if (settings.cursor.tool == "drag") {
+						endDrag(event)
+						canvas.setAttribute("tool", "drag")
+					}
+				}
+			}
+
+	/*** drawing ***/
+		/* startLine */
+			function startLine(event) {
+				settings.live.x = settings.cursor.closest.x
+				settings.live.y = settings.cursor.closest.y
+			}
+
+		/* completeLine */
+			function completeLine(event) {
+				if (settings.cursor.closest.x !== settings.live.x || settings.cursor.closest.y !== settings.live.y) {
+					lines.push({
+						start: {
+							x: (settings.live.x - settings.canvas.x) / settings.canvas.zoom,
+							y: (settings.live.y - settings.canvas.y) / settings.canvas.zoom
+						},
+						end: {
+							x: (settings.cursor.closest.x - settings.canvas.x) / settings.canvas.zoom,
+							y: (settings.cursor.closest.y - settings.canvas.y) / settings.canvas.zoom
+						},
+						color: settings.cursor.color
+					})
+				}
+
+				settings.live.x = settings.live.y = null
+			}
+
+		/* eraseLine */
+			function eraseLine(event) {
+				var x = settings.cursor.x - settings.canvas.x
+				var y = settings.cursor.y - settings.canvas.y
+
+				for (var l in lines) {
+					if (((lines[l].start.x - 2 < x && x < lines[l].end.x + 2) || (lines[l].start.x + 2 > x && x > lines[l].end.x - 2))
+					&&  ((lines[l].start.y - 2 < y && y < lines[l].end.y + 2) || (lines[l].start.y + 2 > y && y > lines[l].end.y - 2))) {
+						var a = getDistance(lines[l].start.x, lines[l].start.y,              x,              y)
+						var b = getDistance(               x,                y, lines[l].end.x, lines[l].end.y)
+						var c = getDistance(lines[l].start.x, lines[l].start.y, lines[l].end.x, lines[l].end.y)
+
+						if (a + b < c + 1) {
+							lines.splice(l, 1)	
+						}
+					}
+				}
+			}
+
+	/*** canvas ***/
+		/* drawCanvas */
+			function drawCanvas() {
+				clearCanvas()
+				drawGrid()
+				drawLines()
+				drawLiveLine()
+			}
+
+		/* clearCanvas */
+			function clearCanvas() {
+				context.clearRect(0, 0, settings.canvas.width, settings.canvas.height)
+			}
+
+		/* drawGrid */
+			function drawGrid() {
+				switch (settings.canvas.shape) {
+					case "triangle":
+						drawTriangles(false)
+					break
+					
+					case "square":
+						drawQuadrilaterals(1, 1)
+					break
+					
+					case "rectangle-x":
+						drawQuadrilaterals(1.5, 1)
+					break
+					case "rectangle-y":
+						drawQuadrilaterals(1, 1.5)
+					break
+					
+					case "hexagon-x":
+						drawTriangles("x")
+					break
+					case "hexagon-y":
+						drawTriangles("y")
+					break
+				}
+			}
+
+		/* drawQuadrilaterals */
+			function drawQuadrilaterals(xFactor, yFactor) {
+				// down & right
+					for (    var y = settings.canvas.y; y < settings.canvas.height; y += (settings.canvas.spacing * yFactor) * settings.canvas.zoom) {
+						for (var x = settings.canvas.x; x < settings.canvas.width;  x += (settings.canvas.spacing * xFactor) * settings.canvas.zoom) {
+							drawDot(x, y)
+							updateClosest(x, y)
+						}
+					}
+
+				// down & left
+					for (    var y = settings.canvas.y; y < settings.canvas.height; y += (settings.canvas.spacing * yFactor) * settings.canvas.zoom) {
+						for (var x = settings.canvas.x; x > 0;                      x -= (settings.canvas.spacing * xFactor) * settings.canvas.zoom) {
+							drawDot(x, y)
+							updateClosest(x, y)
+						}
+					}
+
+				// up & right
+					for (    var y = settings.canvas.y; y > 0;                      y -= (settings.canvas.spacing * yFactor) * settings.canvas.zoom) {
+						for (var x = settings.canvas.x; x < settings.canvas.width;  x += (settings.canvas.spacing * xFactor) * settings.canvas.zoom) {
+							drawDot(x, y)
+							updateClosest(x, y)
+						}
+					}
+
+				// up & right
+					for (    var y = settings.canvas.y; y > 0;                      y -= (settings.canvas.spacing * yFactor) * settings.canvas.zoom) {
+						for (var x = settings.canvas.x; x > 0;                      x -= (settings.canvas.spacing * xFactor) * settings.canvas.zoom) {
+							drawDot(x, y)
+							updateClosest(x, y)
+						}
+					}
+			}
+
+		/* drawTriangles */
+			function drawTriangles(skipDirection) {
+				if (!skipDirection || skipDirection == "x") {
+					// down & right
+						var offset = 0
+						for (var y = settings.canvas.y; y < settings.canvas.height; y += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 2 - (offset ? 2 : 0)
+							for (var x = settings.canvas.x + offset; x < settings.canvas.width; x += settings.canvas.spacing * settings.canvas.zoom) {
+								if (!skipDirection || skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+
+					// down & left
+						var offset = 0
+						for (var y = settings.canvas.y; y < settings.canvas.height; y += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 0 + (offset ? 0 : 1)
+							for (var x = settings.canvas.x + offset; x > 0; x -= settings.canvas.spacing * settings.canvas.zoom) {
+								if (!skipDirection || skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+
+					// up & right
+						var offset = 0
+						for (var y = settings.canvas.y; y > 0; y -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 2 - (offset ? 2 : 0)
+							for (var x = settings.canvas.x + offset; x < settings.canvas.width; x += settings.canvas.spacing * settings.canvas.zoom) {
+								if (!skipDirection || skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+
+					// up & left
+						var offset = 0
+						for (var y = settings.canvas.y; y > 0; y -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 0 + (offset ? 0 : 1)
+							for (var x = settings.canvas.x + offset; x > 0; x -= settings.canvas.spacing * settings.canvas.zoom) {
+								if (!skipDirection || skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+				}
+				else if (skipDirection == "y") {
+					// down & right
+						var offset = 0
+						for (var x = settings.canvas.x; x < settings.canvas.width; x += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 2 - (offset ? 0 : 1)
+							for (var y = settings.canvas.y + offset; y < settings.canvas.height; y += settings.canvas.spacing * settings.canvas.zoom) {
+								if (skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+
+					// up & right
+						var offset = 0
+						for (var x = settings.canvas.x; x < settings.canvas.width; x += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 2 - (offset ? 1 : 0)
+							for (var y = settings.canvas.y + offset; y > 0; y -= settings.canvas.spacing * settings.canvas.zoom) {
+								if (skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+
+					// down & left
+						var offset = 0
+						for (var x = settings.canvas.x; x > 0; x -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 1 + (offset ? 1 : 0)
+							for (var y = settings.canvas.y + offset; y < settings.canvas.height; y += settings.canvas.spacing * settings.canvas.zoom) {
+								if (skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+
+					// up & left
+						var offset = 0
+						for (var x = settings.canvas.x; x > 0; x -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
+							var skipCount = 1 + (offset ? 0 : 1)
+							for (var y = settings.canvas.y + offset; y > 0; y -= settings.canvas.spacing * settings.canvas.zoom) {
+								if (skipCount) {
+									drawDot(x, y)
+									updateClosest(x, y)
+									skipCount--
+								}
+								else {
+									skipCount = 2
+								}
+							}
+							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
+						}
+				}
+			}
+		
+		/* drawDot */
+			function drawDot(x, y, color) {
+				context.beginPath()
+				context.strokeStyle = color || "gray"
+				context.lineWidth = 1
+
+				context.arc(x, y, (color ? 5 : 2), 0, 2 * Math.PI, true)
+				context.stroke()
+			}
+
+		/* drawLines */
+			function drawLines() {
+				for (var l = 0; l < lines.length; l++) {
+					drawLine((lines[l].start.x * settings.canvas.zoom + settings.canvas.x),
+							 (lines[l].start.y * settings.canvas.zoom + settings.canvas.y),
+							 (lines[l].end.x   * settings.canvas.zoom + settings.canvas.x),
+							 (lines[l].end.y   * settings.canvas.zoom + settings.canvas.y),
+							lines[l].color)
+				}
+			}
+
+		/* drawLine */
+			function drawLine(x1, y1, x2, y2, color) {
+				drawDot(x1, y1, color)
+				drawDot(x2, y2, color)
+
+				context.beginPath()
+				context.strokeStyle = color || "gray"
+				context.lineWidth = 3
+				
+				context.moveTo(x1, y1)
+				context.lineTo(x2, y2)
+				context.stroke()
+			}
+
+		/* drawLiveLine */
+			function drawLiveLine() {
+				if (settings.cursor.tool == "draw" && settings.cursor.press) {
+					if (!settings.cursor.shift) {
+						drawLine(settings.live.x, settings.live.y, settings.cursor.x, settings.cursor.y, settings.cursor.color)
+					}
+					else {
+						drawLine(settings.live.x, settings.live.y, settings.cursor.closest.x, settings.cursor.closest.y, settings.cursor.color)	
+					}
+				}
+			}
+
+	/*** geometry ***/
+		/* updateClosest */
+			function updateClosest(x, y) {
+				var distance = getDistance(x, y, settings.cursor.x, settings.cursor.y)
+				if (distance < settings.cursor.closest.distance) {
+					settings.cursor.closest.x = x
+					settings.cursor.closest.y = y
+					settings.cursor.closest.distance = distance
+				}
+			}
+
+		/* getDistance */
+			function getDistance(x1, y1, x2, y2) {
+				return Math.pow(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2), 0.5) || 0
+			}
+
+	/*** zooming ***/
+		/* zoomIn */
+			function zoomIn(event) {
+				settings.canvas.x = settings.canvas.x - ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
+				settings.canvas.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+				settings.canvas.zoom *= 2
+			}
+
+		/* zoomOut */
+			function zoomOut(event) {
+				settings.canvas.zoom /= 2
+				settings.canvas.x = settings.canvas.x + ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
+				settings.canvas.y = settings.canvas.y + ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+			}
+
+	/*** dragging ***/
+		/* startDrag */
+			function startDrag(event) {
+				settings.live.x = settings.canvas.x - ((event.clientX || event.touches[0].clientX)     )
+				settings.live.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 50)
+			}
+
+		/* moveDrag */
+			function moveDrag(event) {
+				settings.canvas.x = settings.live.x + ((event.clientX || event.touches[0].clientX)     )
+				settings.canvas.y = settings.live.y + ((event.clientY || event.touches[0].clientY) - 50)
+			}
+
+		/* endDrag */
+			function endDrag(event) {
+				settings.live.x = settings.live.y = null
+			}
+}

@@ -1,0 +1,158 @@
+/*** page ***/
+	body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+		background-color: #dddddd;
+		box-shadow: 0px 0px 20px #333333 inset;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+	button, input, select {
+		float: left;
+		font-family: monospace;
+		outline: none;
+		cursor: pointer;
+		user-select: none;
+		margin: 5px;
+		padding: 5px;
+		border-radius: 5px;
+		border: none;
+		height: 40px;
+		width: 50px;
+		background-color: #444444;
+		color: #dddddd;
+		font-size: 20px;
+	}
+
+	button:hover, input:hover, select:hover, button:focus, input:focus, select:focus {
+		box-shadow: 0px 0px 5px #aaaaaa;
+	}
+
+	#canvas {
+		position: absolute;
+		top: 50px;
+		left: 0px;
+		height: calc(100vh - 50px);
+		width: 100vw;
+		overflow: hidden;
+	}
+
+	#canvas[tool="draw"] {
+		cursor: pointer;
+	}
+
+	#canvas[tool="drawing"] {
+		cursor: -webkit-grabbing;
+		cursor: grabbing;
+	}
+
+	#canvas[tool="erase"] {
+		cursor: no-drop;
+	}
+
+	#canvas[tool="drag"] {
+		cursor: -webkit-grab;
+		cursor: grab;
+	}
+
+	#canvas[tool="dragging"] {
+		cursor: -webkit-grabbing;
+		cursor: grabbing;
+	}
+
+	#canvas[tool="zoom-in"] {
+		cursor: -webkit-zoom-in;
+		cursor: zoom-in;
+	}
+
+	#canvas[tool="zoom-out"] {
+		cursor: -webkit-zoom-out;
+		cursor: zoom-out;
+	}
+
+/*** navbar ***/
+	#navbar {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 50px;
+		width: 100vw;
+		overflow: hidden;
+		background-color: #222222;
+	}
+
+	#name {
+		float: left;
+		width: 150px;
+		height: 30px;
+		font-family: monospace;
+		font-size: 25px;
+		margin: 10px;
+		color: #dddddd;
+		user-select: none;
+	}
+
+	.spacer {
+		float: left;
+		width: 20px;
+		height: 50px;
+	}
+
+	/* creation */
+		#creation {
+			float: left;
+			height: 50px;
+		}
+
+		#shape {
+			font-size: 25px;
+		}
+
+		#spacing {
+			height: 30px;
+			width: 40px;
+		}
+
+		#create {
+		}
+
+	/* tools */
+		#tools {
+			float: left;
+			height: 50px;
+		}
+
+		#navbar:not([mode="tools"]) #tools {
+			display: none;
+		}
+
+		#tools button[selected] {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* j-logo */
+		#j-logo {
+			float: right;
+			margin: 9px 5px 9px 5px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 3px #dddddd);
+		}
