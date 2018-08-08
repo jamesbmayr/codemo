@@ -8,19 +8,23 @@
 	</head>
 	<body>
 		<div id="navbar" mode="creation">
-			<div class="spacer"></div>
 			<div id="name">gridDrawer</div>
-			<div class="spacer"></div>
 			<form id="creation" method="post" action="javascript:;">
 				<select id="shape">
-					<option value="triangle">&#9650;</option>
+					<option value="triangle-x">&#9650;</option>
+					<option value="triangle-y">&#9654;</option>
 					<option value="square">&#9724;</option>
 					<option value="rectangle-x">&#9644;</option>
 					<option value="rectangle-y">&#9646;</option>
 					<option value="hexagon-x">&#11043;</option>
 					<option value="hexagon-y">&#11042;</option>
 				</select>
-				<input type="number" id="spacing" step="1" max="100" min="1" value="30" placeholder="spacing"/>
+				<select id="spacing">
+					<option value="20">s</option>
+					<option value="30">m</option>
+					<option value="50">l</option>
+					<option value="80">xl</option>
+				</select>
 				<button id="create" type="submit">&#x279C;</button>
 			</form>
 			<div class="spacer"></div>
@@ -37,9 +41,9 @@
 					<option value="black">k</option>
 				</select>
 				<button id="draw"     value="draw" style="color: orange">&#10000;</button>
-				<button id="erase"    value="erase"   >&#10008;</button>
+				<button id="erase"    value="erase"   >&#x2704;</button>
 				<div class="spacer"></div>
-				<button id="drag"     value="drag"    >&#10011;</button>
+				<button id="drag"     value="drag"    >&#x2725;</button>
 				<button id="zoom-in"  value="zoom-in" >&#8853;</button>
 				<button id="zoom-out" value="zoom-out">&#8854;</button>
 			</form>

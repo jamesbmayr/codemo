@@ -35,10 +35,11 @@ window.onload = function() {
 						zoom: 1
 					},
 					cursor: {
-						color: "orange",
-						tool: "draw",
+						color: "black",
+						tool:  "draw",
 						shift: false,
 						press: false,
+						since: null,
 						x: 0,
 						y: 0,
 						closest: {
@@ -62,10 +63,12 @@ window.onload = function() {
 		/* resizeScreen */
 			window.addEventListener("resize", resizeScreen)
 			function resizeScreen() {
-				settings.canvas.height = (window.innerHeight - 50)
-				settings.canvas.width  =  window.innerWidth
-				canvas.setAttribute("height", settings.canvas.height)
-				canvas.setAttribute("width",  settings.canvas.width )
+				if (settings.canvas) {
+					settings.canvas.height = (window.innerHeight - 50)
+					settings.canvas.width  =  window.innerWidth
+					canvas.setAttribute("height", settings.canvas.height)
+					canvas.setAttribute("width",  settings.canvas.width )
+				}
 			}
 
 	/*** creation ***/
@@ -74,12 +77,15 @@ window.onload = function() {
 			function createGrid() {
 				resetGlobals()
 				resizeScreen()
-				settings.canvas.shape =   document.getElementById( "shape" ).value || "square"
+				
+				settings.canvas.shape   =          document.getElementById( "shape" ).value  || "square"
 				settings.canvas.spacing = parseInt(document.getElementById("spacing").value) || 30
+				settings.cursor.color   =          document.getElementById( "color" ).value  || "orange"
 
 				navbar.setAttribute("mode", "tools")
 				drawLoop = setInterval(drawCanvas, 10)
 				canvas.setAttribute("tool", "draw")
+				document.getElementById("create").innerHTML = "&#8635;"
 			}
 
 	/*** tools ***/
@@ -138,6 +144,7 @@ window.onload = function() {
 			function downMouse(event) {
 				if (settings.cursor) {
 					settings.cursor.press = true
+					settings.cursor.since = new Date().getTime()
 
 					if (settings.cursor.tool == "draw") {
 						canvas.setAttribute("tool", "drawing")
@@ -173,6 +180,10 @@ window.onload = function() {
 					else if (settings.cursor.tool == "drag" && settings.cursor.press) {
 						moveDrag(event)
 					}
+					else if (settings.cursor.tool == "draw" && settings.cursor.since && (new Date().getTime() - settings.cursor.since < 500)) {
+						settings.cursor.since = null
+						pickupLine(event)
+					}
 				}
 			}
 
@@ -181,6 +192,7 @@ window.onload = function() {
 			function upMouse(event) {
 				if (settings.cursor) {
 					settings.cursor.press = false
+					settings.cursor.since = null
 
 					if (settings.cursor.tool == "draw") {
 						completeLine(event)
@@ -198,6 +210,45 @@ window.onload = function() {
 			function startLine(event) {
 				settings.live.x = settings.cursor.closest.x
 				settings.live.y = settings.cursor.closest.y
+			}
+
+		/* pickupLine */
+			function pickupLine(event) {
+				console.log("picking up")
+				var x = (settings.live.x - settings.canvas.x) / settings.canvas.zoom
+				var y = (settings.live.y - settings.canvas.y) / settings.canvas.zoom 
+
+				var indeces = []
+				var relevantLines = lines.filter(function(line, index) {
+					console.log(line.start.x, line.end.x, x)
+					console.log(line.start.y, line.end.y, y)
+					if (((getDistance(line.start.x, line.start.y, x, y) < 2)
+					 ||  (getDistance(line.end.x,   line.end.y,   x, y) < 2))
+					 &&  (line.color == settings.cursor.color)) {
+						indeces.push(index)
+						return true
+					}
+				}) || []
+
+				console.log(relevantLines)
+
+				if (relevantLines.length) {
+					var pickup = relevantLines[relevantLines.length - 1]
+					console.log(pickup.start.x, pickup.end.x, x)
+					console.log(pickup.start.y, pickup.end.y, y)
+					if (getDistance(pickup.start.x, pickup.start.y, x, y) < 2) {
+						console.log("first")
+						settings.live.x = (pickup.end.x * settings.canvas.zoom  + settings.canvas.x)
+						settings.live.y = (pickup.end.y * settings.canvas.zoom  + settings.canvas.y)
+					}
+					else {
+						console.log("second")
+						settings.live.x = (pickup.start.x * settings.canvas.zoom + settings.canvas.x)
+						settings.live.y = (pickup.start.y * settings.canvas.zoom + settings.canvas.y)
+					}
+
+					lines.splice(indeces[indeces.length - 1], 1)
+				}
 			}
 
 		/* completeLine */
@@ -221,8 +272,8 @@ window.onload = function() {
 
 		/* eraseLine */
 			function eraseLine(event) {
-				var x = settings.cursor.x - settings.canvas.x
-				var y = settings.cursor.y - settings.canvas.y
+				var x = (settings.cursor.x - settings.canvas.x) / settings.canvas.zoom
+				var y = (settings.cursor.y - settings.canvas.y) / settings.canvas.zoom
 
 				for (var l in lines) {
 					if (((lines[l].start.x - 2 < x && x < lines[l].end.x + 2) || (lines[l].start.x + 2 > x && x > lines[l].end.x - 2))
@@ -255,8 +306,12 @@ window.onload = function() {
 		/* drawGrid */
 			function drawGrid() {
 				switch (settings.canvas.shape) {
-					case "triangle":
-						drawTriangles(false)
+					case "triangle-x":
+						drawTriangles("x")
+					break
+
+					case "triangle-y":
+						drawTriangles("y")
 					break
 					
 					case "square":
@@ -271,10 +326,10 @@ window.onload = function() {
 					break
 					
 					case "hexagon-x":
-						drawTriangles("x")
+						drawTriangles("x", true)
 					break
 					case "hexagon-y":
-						drawTriangles("y")
+						drawTriangles("y", true)
 					break
 				}
 			}
@@ -315,14 +370,14 @@ window.onload = function() {
 			}
 
 		/* drawTriangles */
-			function drawTriangles(skipDirection) {
-				if (!skipDirection || skipDirection == "x") {
+			function drawTriangles(direction, hexagon) {
+				if (direction == "x") {
 					// down & right
 						var offset = 0
 						for (var y = settings.canvas.y; y < settings.canvas.height; y += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 2 - (offset ? 2 : 0)
 							for (var x = settings.canvas.x + offset; x < settings.canvas.width; x += settings.canvas.spacing * settings.canvas.zoom) {
-								if (!skipDirection || skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -339,7 +394,7 @@ window.onload = function() {
 						for (var y = settings.canvas.y; y < settings.canvas.height; y += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 0 + (offset ? 0 : 1)
 							for (var x = settings.canvas.x + offset; x > 0; x -= settings.canvas.spacing * settings.canvas.zoom) {
-								if (!skipDirection || skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -356,7 +411,7 @@ window.onload = function() {
 						for (var y = settings.canvas.y; y > 0; y -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 2 - (offset ? 2 : 0)
 							for (var x = settings.canvas.x + offset; x < settings.canvas.width; x += settings.canvas.spacing * settings.canvas.zoom) {
-								if (!skipDirection || skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -373,7 +428,7 @@ window.onload = function() {
 						for (var y = settings.canvas.y; y > 0; y -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 0 + (offset ? 0 : 1)
 							for (var x = settings.canvas.x + offset; x > 0; x -= settings.canvas.spacing * settings.canvas.zoom) {
-								if (!skipDirection || skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -385,13 +440,13 @@ window.onload = function() {
 							offset = offset ? 0 : (settings.canvas.spacing / 2) * settings.canvas.zoom
 						}
 				}
-				else if (skipDirection == "y") {
+				else if (direction == "y") {
 					// down & right
 						var offset = 0
 						for (var x = settings.canvas.x; x < settings.canvas.width; x += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 2 - (offset ? 0 : 1)
 							for (var y = settings.canvas.y + offset; y < settings.canvas.height; y += settings.canvas.spacing * settings.canvas.zoom) {
-								if (skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -408,7 +463,7 @@ window.onload = function() {
 						for (var x = settings.canvas.x; x < settings.canvas.width; x += (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 2 - (offset ? 1 : 0)
 							for (var y = settings.canvas.y + offset; y > 0; y -= settings.canvas.spacing * settings.canvas.zoom) {
-								if (skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -425,7 +480,7 @@ window.onload = function() {
 						for (var x = settings.canvas.x; x > 0; x -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 1 + (offset ? 1 : 0)
 							for (var y = settings.canvas.y + offset; y < settings.canvas.height; y += settings.canvas.spacing * settings.canvas.zoom) {
-								if (skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -442,7 +497,7 @@ window.onload = function() {
 						for (var x = settings.canvas.x; x > 0; x -= (settings.canvas.spacing * Math.pow(3, 0.5) / 2) * settings.canvas.zoom) {
 							var skipCount = 1 + (offset ? 0 : 1)
 							for (var y = settings.canvas.y + offset; y > 0; y -= settings.canvas.spacing * settings.canvas.zoom) {
-								if (skipCount) {
+								if (!hexagon || skipCount) {
 									drawDot(x, y)
 									updateClosest(x, y)
 									skipCount--
@@ -522,16 +577,20 @@ window.onload = function() {
 	/*** zooming ***/
 		/* zoomIn */
 			function zoomIn(event) {
-				settings.canvas.x = settings.canvas.x - ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
-				settings.canvas.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
-				settings.canvas.zoom *= 2
+				if (settings.canvas.zoom < 8) {
+					settings.canvas.x = settings.canvas.x - ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
+					settings.canvas.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+					settings.canvas.zoom *= 2
+				}
 			}
 
 		/* zoomOut */
 			function zoomOut(event) {
-				settings.canvas.zoom /= 2
-				settings.canvas.x = settings.canvas.x + ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
-				settings.canvas.y = settings.canvas.y + ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+				if (settings.canvas.zoom > 0.25) {
+					settings.canvas.zoom /= 2
+					settings.canvas.x = settings.canvas.x + ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
+					settings.canvas.y = settings.canvas.y + ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+				}
 			}
 
 	/*** dragging ***/
