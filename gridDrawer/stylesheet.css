@@ -119,9 +119,6 @@
 			width: 50px;
 		}
 
-		#create {
-		}
-
 	/* tools */
 		#tools {
 			float: left;
@@ -134,6 +131,11 @@
 
 		#tools button[selected] {
 			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+		#instrument {
+			height: 40px;
+			width: 150px;
 		}
 
 	/* j-logo */

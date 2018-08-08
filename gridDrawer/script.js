@@ -77,15 +77,18 @@ window.onload = function() {
 			function createGrid() {
 				resetGlobals()
 				resizeScreen()
+				selectInstrument()
 				
 				settings.canvas.shape   =          document.getElementById( "shape" ).value  || "square"
 				settings.canvas.spacing = parseInt(document.getElementById("spacing").value) || 30
 				settings.cursor.color   =          document.getElementById( "color" ).value  || "orange"
 
-				navbar.setAttribute("mode", "tools")
-				drawLoop = setInterval(drawCanvas, 10)
-				canvas.setAttribute("tool", "draw")
 				document.getElementById("create").innerHTML = "&#8635;"
+				selectTool({target: document.getElementById("draw")})
+
+				navbar.setAttribute("mode", "tools")
+				canvas.setAttribute("tool", "draw")
+				drawLoop = setInterval(drawCanvas, 10)
 			}
 
 	/*** tools ***/
@@ -151,7 +154,7 @@ window.onload = function() {
 						startLine(event)
 					}
 					else if (settings.cursor.tool == "erase") {
-						eraseLine(event)
+						eraseLines(event)
 					}
 					else if (settings.cursor.tool == "drag") {
 						canvas.setAttribute("tool", "dragging")
@@ -162,6 +165,9 @@ window.onload = function() {
 					}
 					else if (settings.cursor.tool == "zoom-out") {
 						zoomOut(event)
+					}
+					else if (settings.cursor.tool == "music") {
+						playNotes(event)
 					}
 				}
 			}
@@ -175,7 +181,7 @@ window.onload = function() {
 					settings.cursor.closest.distance = getDistance(settings.cursor.x, settings.cursor.y, settings.cursor.closest.x, settings.cursor.closest.y)
 
 					if (settings.cursor.tool == "erase" && settings.cursor.press) {
-						eraseLine(event)
+						eraseLines(event)
 					}
 					else if (settings.cursor.tool == "drag" && settings.cursor.press) {
 						moveDrag(event)
@@ -183,6 +189,9 @@ window.onload = function() {
 					else if (settings.cursor.tool == "draw" && settings.cursor.since && (new Date().getTime() - settings.cursor.since < 500)) {
 						settings.cursor.since = null
 						pickupLine(event)
+					}
+					else if (settings.cursor.tool == "music" && settings.cursor.press) {
+						playNotes(event)
 					}
 				}
 			}
@@ -214,14 +223,11 @@ window.onload = function() {
 
 		/* pickupLine */
 			function pickupLine(event) {
-				console.log("picking up")
 				var x = (settings.live.x - settings.canvas.x) / settings.canvas.zoom
 				var y = (settings.live.y - settings.canvas.y) / settings.canvas.zoom 
 
 				var indeces = []
 				var relevantLines = lines.filter(function(line, index) {
-					console.log(line.start.x, line.end.x, x)
-					console.log(line.start.y, line.end.y, y)
 					if (((getDistance(line.start.x, line.start.y, x, y) < 2)
 					 ||  (getDistance(line.end.x,   line.end.y,   x, y) < 2))
 					 &&  (line.color == settings.cursor.color)) {
@@ -230,19 +236,13 @@ window.onload = function() {
 					}
 				}) || []
 
-				console.log(relevantLines)
-
 				if (relevantLines.length) {
 					var pickup = relevantLines[relevantLines.length - 1]
-					console.log(pickup.start.x, pickup.end.x, x)
-					console.log(pickup.start.y, pickup.end.y, y)
 					if (getDistance(pickup.start.x, pickup.start.y, x, y) < 2) {
-						console.log("first")
 						settings.live.x = (pickup.end.x * settings.canvas.zoom  + settings.canvas.x)
 						settings.live.y = (pickup.end.y * settings.canvas.zoom  + settings.canvas.y)
 					}
 					else {
-						console.log("second")
 						settings.live.x = (pickup.start.x * settings.canvas.zoom + settings.canvas.x)
 						settings.live.y = (pickup.start.y * settings.canvas.zoom + settings.canvas.y)
 					}
@@ -270,23 +270,14 @@ window.onload = function() {
 				settings.live.x = settings.live.y = null
 			}
 
-		/* eraseLine */
-			function eraseLine(event) {
+		/* eraseLines */
+			function eraseLines(event) {
 				var x = (settings.cursor.x - settings.canvas.x) / settings.canvas.zoom
 				var y = (settings.cursor.y - settings.canvas.y) / settings.canvas.zoom
 
-				for (var l in lines) {
-					if (((lines[l].start.x - 2 < x && x < lines[l].end.x + 2) || (lines[l].start.x + 2 > x && x > lines[l].end.x - 2))
-					&&  ((lines[l].start.y - 2 < y && y < lines[l].end.y + 2) || (lines[l].start.y + 2 > y && y > lines[l].end.y - 2))) {
-						var a = getDistance(lines[l].start.x, lines[l].start.y,              x,              y)
-						var b = getDistance(               x,                y, lines[l].end.x, lines[l].end.y)
-						var c = getDistance(lines[l].start.x, lines[l].start.y, lines[l].end.x, lines[l].end.y)
-
-						if (a + b < c + 1) {
-							lines.splice(l, 1)	
-						}
-					}
-				}
+				findLines(x, y, function(l) {
+					lines.splice(l, 1)
+				})
 			}
 
 	/*** canvas ***/
@@ -574,6 +565,22 @@ window.onload = function() {
 				return Math.pow(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2), 0.5) || 0
 			}
 
+		/* findLine */
+			function findLines(x, y, callback) {
+				for (var l in lines) {
+					if (((lines[l].start.x - 2 < x && x < lines[l].end.x + 2) || (lines[l].start.x + 2 > x && x > lines[l].end.x - 2))
+					&&  ((lines[l].start.y - 2 < y && y < lines[l].end.y + 2) || (lines[l].start.y + 2 > y && y > lines[l].end.y - 2))) {
+						var a = getDistance(lines[l].start.x, lines[l].start.y,              x,              y)
+						var b = getDistance(               x,                y, lines[l].end.x, lines[l].end.y)
+						var c = getDistance(lines[l].start.x, lines[l].start.y, lines[l].end.x, lines[l].end.y)
+
+						if (a + b < c + 1) {
+							callback(l)
+						}
+					}
+				}
+			}
+
 	/*** zooming ***/
 		/* zoomIn */
 			function zoomIn(event) {
@@ -609,5 +616,54 @@ window.onload = function() {
 		/* endDrag */
 			function endDrag(event) {
 				settings.live.x = settings.live.y = null
+			}
+
+	/*** music ***/
+		/* buildList */
+			buildList()
+			function buildList() {
+				var list = window.getInstruments() || []
+				var instruments = document.getElementById("instrument")
+
+				for (var l in list) {
+					instruments.innerHTML += "<option value='" + list[l] + "'>" + list[l] + "</option>"
+				}
+
+				if (list.includes("honeyharp")) {
+					instruments.value = "honeyharp"
+				}
+				else {
+					instruments.value = "triangle"
+				}
+			}
+
+		/* selectInstrument */
+			document.getElementById("instrument").addEventListener("change", selectInstrument)
+			function selectInstrument() {
+				var name = document.getElementById("instrument").value || "triangle"
+				var obj = window.getInstrument(name)
+
+				if (obj) {
+					window.instrument = window.buildInstrument(obj)
+				}
+				else {
+					window.instrument = null
+				}
+
+				selectTool({target: document.getElementById("music")})
+			}
+
+		/* playNotes */
+			function playNotes(event) {
+				var x = (settings.cursor.x - settings.canvas.x) / settings.canvas.zoom
+				var y = (settings.cursor.y - settings.canvas.y) / settings.canvas.zoom
+
+				findLines(x, y, function(l) {
+					var wavelength = getDistance(lines[l].start.x, lines[l].start.y, lines[l].end.x, lines[l].end.y)
+					var frequency  = 343.2 / wavelength * 200
+
+					window.instrument.press(frequency, 0  )
+					window.instrument.lift( frequency, 0.25)
+				})
 			}
 }
