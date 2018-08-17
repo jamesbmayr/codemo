@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html>	
 	<head>
-		<title>james mayr</title>
+		<title>James Mayr</title>
 		<link rel="shortcut icon" type="image/png" href="logo.png"></link>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
 		<script type="text/javascript" src="script.js"></script>
-		<meta charset="UTF-8"/>\
-		<meta name="description" content="James Mayr: writer, composer, coder, game-maker. See my custom creative projects and career/education resume."/>\
-		<meta name="keywords" content="james, mayr, writing, coding, games, music, projects, resume, composing, code"/>\
-		<meta name="author" content="James Mayr"/>\
-		<meta property="og:title" content="James Mayr: writer, composer, coder, game-maker"/>\
-		<meta property="og:url" content="http://www.specterinspectors.com"/>\
-		<meta property="og:description" content="See James Mayr's custom creative projects and career/education resume."/>\
-		<meta property="og:image" content="https://jamesmayr.com/logo.png"/>\
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=0.8, minimum-scale=0.8, maximum-scale=0.8, user-scalable=no">
+		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
+		<script>
+			var config = {
+				apiKey: "AIzaSyDZoeAyQyiLmoVQjeL4gVEdlYUb78yY__w",
+				authDomain: "projects-3bd0e.firebaseapp.com",
+				databaseURL: "https://projects-3bd0e.firebaseio.com",
+				projectId: "projects-3bd0e",
+				storageBucket: "",
+				messagingSenderId: "440234615994"
+			}
+			firebase.initializeApp(config)
+		</script>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="James Mayr: writer, composer, coder, game-maker. See my custom creative projects and career/education resume."/>
+		<meta name="keywords" content="james, mayr, writing, coding, games, music, projects, resume, composing, code"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="James Mayr: writer, composer, coder, game-maker"/>
+		<meta property="og:url" content="https://www.jamesmayr.com"/>
+		<meta property="og:description" content="See James Mayr's custom creative projects and career/education resume."/>
+		<meta property="og:image" content="https://jamesmayr.com/logo.png"/>
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	</head>
-	<body onload="javascript();">
-		<div id="container">
-			<div id="logotype"></div>
-			<div id="timeline">
-				<form id="filters" method="post" action="javascript:;">
-					<button class="filter-button selected" value="writing" onclick="filterBlocks(this)">writing</button>
-					<button class="filter-button selected" value="music" onclick="filterBlocks(this)">music</button>
-					<button class="filter-button selected" value="games" onclick="filterBlocks(this)">games</button>
-					<button class="filter-button selected" value="code" onclick="filterBlocks(this)">code</button>
-					<button class="filter-button" value="school" onclick="filterBlocks(this)">school</button>
-					<button class="filter-button" value="career" onclick="filterBlocks(this)">career</button>
-					<button class="filter-button" value="more" onclick="filterBlocks(this)">more</button>
-				</form>
-				<div id="mainline"></div>
-				<div id="years"></div>
-				<div id="projects"></div>
-				<div id="ellipsis-bottom" class="ellipsis">
-					<div class="dot"></div>
-					<div class="dot"></div>
-					<div class="dot"></div>
-				</div>
+	<body>
+		<div id="controls">
+			<div id="controls-image"></div>
+			<h1  id="controls-name">james mayr</h1>
+			<div id="controls-tags">
+				<button class="filter" value="code"           title="code"           selected="true">{}</button>
+				<button class="filter" value="music"          title="music"          selected="true">&#9835;</button>
+				<button class="filter" value="games"          title="games"          selected="true">&#9816;</button>
+				<button class="filter" value="writing"        title="writing"        selected="true">&#9998;</button>
+				<button class="filter" value="art"            title="art"            selected="true">&#8862;</button>
+				<button class="filter" value="collaborations" title="collaborations" selected="true">&#8258;</button>
 			</div>
+			<div id="controls-sort">
+				<button class="filter" value="chronological"  title="chronological"  selected="true">&#10561;</button>
+				<button class="filter" value="reverseChronological" title="reverse chronological"   >&#10560;</button>
+				<button class="filter" value="alphabetical"   title="alphabetical"                  >A&#8593;</button>
+				<button class="filter" value="reverseAlphabetical"  title="reverse alphabetical"    >Z&#8595;</button>
+				<button class="filter" value="thematic"       title="thematic"                      >&#10070;</button>
+			</div>
+			<div id="controls-sizes">
+				<button class="filter" value="small"          title="small"          selected="true">S</button>
+				<button class="filter" value="medium"         title="medium"         selected="true">M</button>
+				<button class="filter" value="large"          title="large"          selected="true">L</button>
+				<button class="filter" value="extra-large"    title="extra-large"    selected="true">XL</button>
+			</div>			
 		</div>
-		<!-- firebase -->
-			<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
-			<script>
-				var config = {
-					apiKey: "AIzaSyDZoeAyQyiLmoVQjeL4gVEdlYUb78yY__w",
-					authDomain: "projects-3bd0e.firebaseapp.com",
-					databaseURL: "https://projects-3bd0e.firebaseio.com",
-					projectId: "projects-3bd0e",
-					storageBucket: "",
-					messagingSenderId: "440234615994"
-				}
-				firebase.initializeApp(config)
-			</script>
 	</body>
 </html>
