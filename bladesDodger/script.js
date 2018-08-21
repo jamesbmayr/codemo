@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", keydown: "keydown", keyup: "keyup" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", keydown: "keydown", keyup: "keyup" }
+		}
+
 	/* on load */
 		window.score = 0;
 		window.level = 0;
@@ -81,7 +89,7 @@ $(document).ready(function() {
 		}, 100);
 	
 	/* startRound */
-		$(document).on("click", ".play", function () {
+		$(document).on(on.click, ".play", function () {
 			if (window.clock !== 60000) {
 				window.clock = 60 * 1000;
 				window.level++;
@@ -112,7 +120,7 @@ $(document).ready(function() {
 		});
 
 	/* collectGem */
-		$(document).on("click", ".gem", function () {
+		$(document).on(on.click, ".gem", function () {
 			if ((window.playing) && (!$(this).hasClass("collected"))) {
 				var gem = $(this);
 
@@ -133,7 +141,7 @@ $(document).ready(function() {
 		});
 
 	/* hitBlade */
-		$(document).on("click", ".blade", function () {
+		$(document).on(on.click, ".blade", function () {
 			if (window.playing) {
 				window.score = Math.max(10, window.score - (100 / window.level));
 				$("#points").animate({
