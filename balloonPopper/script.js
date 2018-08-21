@@ -3,7 +3,10 @@ $(document).ready(function() {
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", keydown: "keydown", keyup: "keyup" }
-			document.body.style.height = document.documentElement.clientHeight
+			document.addEventListener(on.mousedown, function(event) {
+				event.preventDefault()
+				event.target.click()
+			})
 		}
 		else {
 			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", keydown: "keydown", keyup: "keyup" }
@@ -14,13 +17,11 @@ $(document).ready(function() {
 
 	/* listeners */
 		$(document).on(on.click,".balloon:not(.popped)",function(event) {
-			event.preventDefault()
 			var id = String($(this).attr("id"));
 			popBalloon(id);
 		});
 
 		$(document).on(on.click,"#restart",function(event) {
-			event.preventDefault()
 			startGame();
 		});
 
