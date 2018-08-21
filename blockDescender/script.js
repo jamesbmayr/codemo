@@ -3,8 +3,16 @@ window.onload = function() {
 	/* onload */
 		startGame()
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* startGame */
-		document.getElementById("new").addEventListener("click", startGame)
+		document.getElementById("new").addEventListener(on.click, startGame)
 		function startGame() {
 			document.getElementById("new").className = "hidden"
 			document.getElementById("overlay").className = "hidden"
@@ -224,7 +232,7 @@ window.onload = function() {
 		}
 
 	/* rotateBlock */
-		document.getElementById("rotate").addEventListener("click", rotateBlock)
+		document.getElementById("rotate").addEventListener(on.click, rotateBlock)
 		function rotateBlock() {
 			var control = document.getElementById("rotate")
 				control.className = "activated"
@@ -290,7 +298,7 @@ window.onload = function() {
 		}
 
 	/* leftBlock */
-		document.getElementById("left").addEventListener("click", leftBlock)
+		document.getElementById("left").addEventListener(on.click, leftBlock)
 		function leftBlock() {
 			var control = document.getElementById("left")
 				control.className = "activated"
@@ -331,7 +339,7 @@ window.onload = function() {
 		}
 
 	/* rightBlock */
-		document.getElementById("right").addEventListener("click", rightBlock)
+		document.getElementById("right").addEventListener(on.click, rightBlock)
 		function rightBlock() {
 			var control = document.getElementById("right")
 				control.className = "activated"
@@ -414,7 +422,7 @@ window.onload = function() {
 		}
 
 	/* dropBlock */
-		document.getElementById("drop").addEventListener("click", dropBlock)
+		document.getElementById("drop").addEventListener(on.click, dropBlock)
 		function dropBlock() {
 			var control = document.getElementById("drop")
 				control.className = "activated"
