@@ -11,6 +11,7 @@ $(document).ready(function() {
 			document.documentElement.addEventListener("touchstart", function (event) {
 				if (event.touches.length > 1) {
 					event.preventDefault();
+					document.body.style["background-color"] = "#" + Number(Math.random()).toString(16).slice(-6)
 				}
 			}, false)
 		}
