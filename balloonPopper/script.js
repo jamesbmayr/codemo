@@ -3,10 +3,16 @@ $(document).ready(function() {
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", keydown: "keydown", keyup: "keyup" }
-			document.addEventListener(on.mousedown, function(event) {
-				event.preventDefault()
-				event.target.click()
-			})
+			// document.addEventListener(on.mousedown, function(event) {
+			// 	event.preventDefault()
+			// 	event.target.click()
+			// })
+
+			document.documentElement.addEventListener("touchstart", function (event) {
+				if (event.touches.length > 1) {
+					event.preventDefault();
+				}
+			}, false)
 		}
 		else {
 			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", keydown: "keydown", keyup: "keyup" }
