@@ -293,3 +293,42 @@
 	.shape-j {
 		background-color: blue;
 	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#container {
+			height: auto;
+			width: calc(30vh + 30px + 16vh + 30px + 10px);
+			text-align: center;
+		}
+
+		#grid {
+			display: inline-block;
+			height: 60vh;
+			width: 30vh;
+		}
+
+		#overlay {
+			width: 100%;
+			text-align: center;
+		}
+
+		#score, #count, #new {
+			height: 4vh;
+			width: 16vh;
+		}
+
+		#title {
+			display: none;
+		}
+
+		#controls button {
+			font-size: 15px;
+		}
+
+		#overlay, #count, #score, #new {
+			font-size: 20px;
+		}
+
+	}
+	
