@@ -1,5 +1,13 @@
 window.onload = function() {
 	/*** onload ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* elements */
 			var score = document.getElementById("score")
 			var creatures = document.getElementById("creatures")
@@ -20,8 +28,8 @@ window.onload = function() {
 
 	/*** game ***/
 		/* startGame */
-			document.getElementById("start").addEventListener("click", startGame)
-			function startGame() {
+			document.getElementById("start").addEventListener(on.click, startGame)
+			function startGame(event) {
 				resetBlaster()
 				resetCreatures()
 				resetBursts()
@@ -32,7 +40,9 @@ window.onload = function() {
 
 				increaseLevel()
 
-				play = setInterval(updateGame, 50)
+				setTimeout(function() {
+					play = setInterval(updateGame, 50)
+				}, 500)
 			}
 
 		/* endGame */
@@ -51,7 +61,7 @@ window.onload = function() {
 		/* resetBlaster */
 			function resetBlaster() {
 				// get sizes
-					var gameSize = window.innerHeight * 0.9
+					var gameSize = Math.min(window.innerHeight, window.innerWidth) * 0.9
 					var blasterSize = window.innerHeight * 0.04
 
 				// reset position & size
@@ -62,6 +72,16 @@ window.onload = function() {
 					blasterColors = ["red"]
 					color = blasterColors[Math.floor(Math.random() * blasterColors.length)]
 					blaster.firstChild.setAttribute("color", color)
+
+				// mobile
+					document.getElementById("color-red").className = ""
+					document.getElementById("color-green").className = "invisible"
+					document.getElementById("color-blue" ).className = "invisible"
+
+					document.querySelectorAll("#colors button").forEach(function (b) {
+						b.removeAttribute("selected")
+					})
+					document.getElementById("color-red").setAttribute("selected", true)
 			}
 
 		/* resetCreatures */
@@ -97,7 +117,7 @@ window.onload = function() {
 		/* createCreature */
 			function createCreature() {
 				// get sizes
-					var gameSize = window.innerHeight * 0.9
+					var gameSize = Math.min(window.innerHeight, window.innerWidth) * 0.9
 					var creatureSize = window.innerHeight * 0.08
 				
 				// create creature parameters
@@ -121,7 +141,7 @@ window.onload = function() {
 		/* moveCreature */
 			function moveCreature(creature) {
 				// get sizes
-					var gameSize = window.innerHeight * 0.9
+					var gameSize = Math.min(window.innerHeight, window.innerWidth) * 0.9
 					var creatureSize = window.innerHeight * 0.08
 
 				// get position
@@ -132,7 +152,7 @@ window.onload = function() {
 					var opacity = Number(window.getComputedStyle(creature).opacity)
 
 				// calculate new position
-					var top = top + ((creatureSize / 50) * Math.sin(angle / 180 * Math.PI) * speed)
+					var top  = top  + ((creatureSize / 50) * Math.sin(angle / 180 * Math.PI) * speed)
 					var left = left + ((creatureSize / 50) * Math.cos(angle / 180 * Math.PI) * speed)
 
 				// invisible
@@ -191,10 +211,10 @@ window.onload = function() {
 							blaster.setAttribute("size", Array.from(document.querySelectorAll(".burst")).length)
 
 						// level up?
-							if (points % 20 == 0) {
+							if (points == 10 || (points + 10) % 20 == 0) {
 								increaseLevel()
 							}
-							else if (points % 20 == 3) {
+							else if (points == 3 || (points + 10) % 20 == 3) {
 								message.className = "invisible"
 								message.innerText = ""
 								score.className = "visible"
@@ -288,47 +308,49 @@ window.onload = function() {
 				score.className = "invisible"
 				message.className = "visible"
 
-				if (points < 20) {
+				if (points < 10) {
 					blasterColors = ["red"]
 					creatureColors = ["red"]
-					message.innerText = "space / click to shoot"
+					message.innerText = on.click == "click" ? "space / click to shoot" : "tap to shoot"
 				}
-				else if (points < 40) {
+				else if (points < 30) {
 					blasterColors = ["red", "blue"]
 					creatureColors = ["red", "blue"]
-					message.innerText = "scroll / arrows to change"
+					message.innerText = on.click == "click" ? "scroll / arrows to change" : "touch colors to change"
+					document.getElementById("color-blue").className = ""
 				}
-				else if (points < 60) {
+				else if (points < 50) {
 					blasterColors = ["red", "blue"]
 					creatureColors = ["red", "blue", "magenta"]
 					message.innerText = "hybrids take 2 colors"
 				}
-				else if (points < 80) {
+				else if (points < 70) {
 					blasterColors = ["red", "green", "blue"]
 					creatureColors = ["red", "green", "blue"]
 					message.innerText = "full blaster unlocked"
+					document.getElementById("color-green").className = ""
 				}
-				else if (points < 100) {
+				else if (points < 90) {
 					creatureColors = ["red", "green", "blue", "magenta"]
 					message.innerText = "hybrids have returned"
 				}
-				else if (points < 120) {
+				else if (points < 110) {
 					creatureColors = ["red", "yellow", "green", "blue", "magenta"]
 					message.innerText = "more hybrids have arrived"
 				}
-				else if (points < 140) {
+				else if (points < 130) {
 					creatureColors = ["red", "yellow", "green", "cyan", "blue", "magenta"]
 					message.innerText = "6 colors attacking"
 				}
-				else if (points < 160) {
+				else if (points < 150) {
 					creatureColors = ["yellow", "cyan", "magenta"]
 					message.innerText = "only hybrids now"
 				}
-				else if (points < 180) {
+				else if (points < 170) {
 					creatureColors = ["red", "green", "blue", "white"]
 					message.innerText = "overlord take 3 colors"
 				}
-				else if (points < 200) {
+				else if (points < 190) {
 					creatureColors = ["yellow", "cyan", "magenta", "white"]
 					message.innerText = "hybrids have returned"
 				}
@@ -371,22 +393,22 @@ window.onload = function() {
 			}
 
 		/* detectMouse */
-			document.addEventListener("mousemove", detectMouse)
+			document.addEventListener(on.mousemove, detectMouse)
 			function detectMouse(event) {
 				if (play) {
 					// get sizes
-						var gameSize = window.innerHeight * 0.9
+						var gameSize = Math.min(window.innerHeight, window.innerWidth) * 0.9
 						var marginLeft = (window.innerWidth - gameSize) / 2
 						var blasterSize = window.innerHeight * 0.04 * ((10 - Number(blaster.getAttribute("size"))) / 10)
 
 					// get position
-						var left = (event.screenX || event.clientX) - marginLeft
+						var left = event.touches ? (event.touches[0].clientX - marginLeft) : ((event.screenX || event.clientX) - marginLeft)
 						blaster.style.left = Math.max(0, Math.min(gameSize, left)) + "px"
 				}
 			}
 
 		/* clickMouse */
-			document.addEventListener("click", clickMouse)
+			document.addEventListener(on.mouseup, clickMouse)
 			function clickMouse(event) {
 				if (play) {
 					fireBlaster()
@@ -413,11 +435,16 @@ window.onload = function() {
 				}
 			}
 
+		/* setColor */
+			document.querySelectorAll("#colors button").forEach(function (b) {
+				b.addEventListener(on.click, setColor)
+			})
+			
 	/*** blaster ***/
 		/* moveBlaster */
 			function moveBlaster(change) {
 				// get sizes
-					var gameSize = window.innerHeight * 0.9
+					var gameSize = Math.min(window.innerHeight, window.innerWidth) * 0.9
 					var blasterSize = window.innerHeight * 0.04 * ((10 - Number(blaster.getAttribute("size"))) / 10)
 				
 				// get new position
@@ -465,9 +492,18 @@ window.onload = function() {
 			}
 
 		/* setColor */
-			function setColor(hue) {
-				color = hue
-				blaster.firstChild.setAttribute("color", color)
+			function setColor(event) {
+				var hue = event.target.id.replace("color-","")
+
+				if (["red","green","blue"].includes(hue)) {
+					color = hue
+					blaster.firstChild.setAttribute("color", color)
+
+					document.querySelectorAll("#colors button").forEach(function (b) {
+						b.removeAttribute("selected")
+					})
+					event.target.setAttribute("selected", true)
+				}
 			}
 
 		/* fireBlaster */
@@ -475,7 +511,7 @@ window.onload = function() {
 				var burstCount = Array.from(document.querySelectorAll(".burst")).length
 				if (burstCount < 10) {
 					// get sizes
-						var gameSize = window.innerHeight * 0.9
+						var gameSize = Math.min(window.innerHeight, window.innerWidth) * 0.9
 						var blasterSize = window.innerHeight * 0.04 * ((10 - burstCount) / 10)
 						var burstSize = window.innerHeight * 0.005
 

@@ -21,12 +21,21 @@
 	}
 	
 /*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
 	body {
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		width: 100vw;
-		height: 100vh;
+		width: 100%;
+		height: 100%;
 		margin: 0px;
 		padding: 0px;
 		background-color: #111111;
@@ -290,3 +299,68 @@
 		filter: drop-shadow(0px 0px 10px #ffffff);
 	}
 
+/*** mobile ***/
+	#colors {
+		display: none;
+	}
+
+	@media screen and (max-width: 800px) {
+		#title {
+			font-size: 20px;
+		}
+
+		#colors {
+			display: block;
+			position: absolute;
+			bottom: -25px;
+			left: 50%;
+			width: 170px;
+			height: 50px;
+			transform: translateX(-50%);
+		}
+
+		#colors button {
+			border: 0px;
+			border-radius: 25%;
+			font-size: 20px;
+			color: white;
+			outline: none;
+			user-select: none;
+			height: 50px;
+			width: 50px;
+			float: left;
+			outline: none;
+		}
+
+		#color-red {
+			background-color: #777777;
+			box-shadow: 0px 0px 50px #ff0000 inset;
+			filter: drop-shadow(0px 0px 10px #ff0000);
+			margin-right: 10px;
+		}
+
+		#color-red[selected] {
+			box-shadow: 0px 0px 100px #ff0000 inset;
+		}
+
+		#color-green {
+			background-color: #777777;
+			box-shadow: 0px 0px 50px #00ff00 inset;
+			filter: drop-shadow(0px 0px 10px #00ff00);
+		}
+
+		#color-green[selected] {
+			box-shadow: 0px 0px 100px #00ff00 inset;
+		}
+
+		#color-blue {
+			margin-left: 10px;
+			background-color: #777777;
+			box-shadow: 0px 0px 50px #0000ff inset;
+			filter: drop-shadow(0px 0px 10px #0000ff);
+		}
+
+		#color-blue[selected] {
+			box-shadow: 0px 0px 100px #0000ff inset;
+		}
+	}
