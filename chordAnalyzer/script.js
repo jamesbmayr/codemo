@@ -1,6 +1,14 @@
 window.addEventListener("load", function() {
 
 	/* * * page * * */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* on load */
 			createList()
 			createKeyboard();
@@ -65,7 +73,7 @@ window.addEventListener("load", function() {
 				}
 			});
 
-			$(document).on("mousedown",".key",function() {
+			$(document).on(on.mousedown,".key",function() {
 				if (!$(this).hasClass("active")) {
 					var key = $(this).attr("value");
 					window.lastKey = key;
@@ -73,7 +81,7 @@ window.addEventListener("load", function() {
 				}
 			});
 
-			$(document).on("mousedown","#sustain",function() {
+			$(document).on(on.mousedown,"#sustain",function() {
 				if ($("#sustain").hasClass("sustaining")) {
 					sustain(false);
 				}
@@ -82,7 +90,7 @@ window.addEventListener("load", function() {
 				}
 			});
 
-			$(document).on("mouseup",".key",function() {
+			$(document).on(on.mouseup,".key",function() {
 				var key = window.lastKey;
 				setTimeout(function() {
 					activate(false,key);
@@ -327,37 +335,37 @@ window.addEventListener("load", function() {
 		/* analyzeChord */
 			function analyzeChord() {
 				var pitches = getPitches();
-				console.log("pitches: " + pitches);
+				// console.log("pitches: " + pitches);
 
 				if (pitches.length > 0) {
 					var output = getChord(pitches);
 						var chord = output["chord"];
 						var addedNotes = output["addedNotes"];
-					console.log("chord: " + chord + " + [" + addedNotes + "]");
+					// console.log("chord: " + chord + " + [" + addedNotes + "]");
 
 					var rootName = getRootName(chord);
-					console.log("root name: " + rootName);
+					// console.log("root name: " + rootName);
 
 					var inversion = getInversion(pitches,chord);
-					console.log("inversion: " + inversion);
+					// console.log("inversion: " + inversion);
 
 					var intervals = getIntervals(chord);
-					console.log("intervals: " + intervals);
+					// console.log("intervals: " + intervals);
 
 					var output = getChordType(intervals);
 						var chordType = output[0];
 						var shortType = output[1];
-					console.log("chord type: " + chordType + " (" + shortType + ")");
+					// console.log("chord type: " + chordType + " (" + shortType + ")");
 
 					var output = getNoteNames(rootName,chord,addedNotes);
 						var chord = output["chord"];
 						var addedNotes = output["addedNotes"];
-					console.log("chord: " + chord + " + [" + addedNotes + "]");
+					// console.log("chord: " + chord + " + [" + addedNotes + "]");
 
 					var output = getAnalysis(rootName,shortType,chordType,chord,inversion,addedNotes);
 						var bigOutput = output["bigOutput"];
 						var smallOutput = output["smallOutput"];
-					console.log("...");
+					// console.log("...");
 				}
 				else {
 					var bigOutput = "";
