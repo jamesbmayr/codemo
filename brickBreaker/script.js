@@ -1,8 +1,16 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* startGame */
 		startGame()
-		document.getElementById("new").addEventListener("click", startGame)
+		document.getElementById("new").addEventListener(on.click, startGame)
 		function startGame() {
 			window.ballCount = 3
 
@@ -37,7 +45,7 @@ window.onload = function() {
 		}
 
 	/* spawnBall */
-		document.getElementById("game").addEventListener("click", spawnBall)
+		document.getElementById("game").addEventListener(on.click, spawnBall)
 		function spawnBall() {
 			if (!window.playing) {
 				window.playing = true
@@ -118,12 +126,13 @@ window.onload = function() {
 		}
 
 	/* mousePaddle */
-		document.onmousemove = mousePaddle
+		document.addEventListener(on.mousemove, mousePaddle)
 		function mousePaddle(event) {
 			var game = document.getElementById("game")
 			var paddle = document.getElementById("paddle")
 				var p = paddle.getBoundingClientRect().left - game.getBoundingClientRect().left - 5
-			var x = event.clientX - game.getBoundingClientRect().left - 5 - 50
+			var x = event.touches ? event.touches[0].clientX : event.clientX
+				x = x - game.getBoundingClientRect().left - 5 - 50
 
 			if (x <= 10) {
 				paddle.style.left = 10 + "px"
