@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/* parameters */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* globals */
 			var boardSize   = null
 			var squareSize  = null
@@ -30,7 +38,7 @@ window.onload = function() {
 
 		/* togglePlayer */
 			Array.from(document.querySelectorAll(".toggle")).forEach(function (t) {
-				t.addEventListener("click", togglePlayer)
+				t.addEventListener(on.click, togglePlayer)
 			})
 			function togglePlayer(event) {
 				if (event.target.className == "toggle") {
@@ -44,7 +52,7 @@ window.onload = function() {
 
 	/* game state */
 		/* startGame */
-			document.getElementById("start").addEventListener("click", startGame)
+			document.getElementById("start").addEventListener(on.click, startGame)
 			function startGame() {
 				document.getElementById("controls").className = "hidden"
 
@@ -114,7 +122,8 @@ window.onload = function() {
 									checker.setAttribute("y", y)
 									checker.setAttribute("king", "false")
 									checker.setAttribute("jumping", "false")
-									checker.addEventListener("click", touchChecker)
+									checker.addEventListener(on.mousedown, selectChecker)
+									checker.addEventListener(on.mouseup, deselectChecker)
 
 							// color
 								if (y < 3) {
@@ -135,27 +144,28 @@ window.onload = function() {
 			}
 
 	/* interaction */
-		/* touchChecker */
-			function touchChecker(event) {
-				// deactivate
-					if (event.target.getAttribute("active") == "true") {
-						deactivateChecker(event.target)
-					}
-
-				// activate
-					else if ((event.target.className == "checker") && (event.target.getAttribute("color") == game.getAttribute("turn"))) {
-						activateChecker(event.target)
-					}
-			}
-
 		/* moveChecker */
-			document.addEventListener("mousemove", moveChecker)
+			document.addEventListener(on.mousemove, moveChecker)
 			function moveChecker(event) {
 				var checker = Array.from(document.querySelectorAll(".checker[active='true'][player='human']"))[0] || false
 
 				if (checker) {
-					checker.style.left = event.clientX - marginX + "px"
-					checker.style.top  = event.clientY - marginY + "px"
+					checker.style.left = (event.touches ? event.touches[0].clientX : event.clientX) - marginX + "px"
+					checker.style.top  = (event.touches ? event.touches[0].clientY : event.clientY) - marginY + "px"
+				}
+			}
+
+		/* selectChecker */
+			function selectChecker(event) {
+				if ((event.target.className == "checker") && (event.target.getAttribute("color") == game.getAttribute("turn"))) {
+					activateChecker(event.target)
+				}
+			}
+
+		/* deselectChecker */
+			function deselectChecker(event) {
+				if (event.target.getAttribute("active") == "true") {
+					deactivateChecker(event.target)
 				}
 			}
 
@@ -390,15 +400,12 @@ window.onload = function() {
 
 				// check conditions
 					if (!white.length) {
-						console.log("black wins")
 						endGame()
 					}
 					else if (!black.length) {
-						console.log("white wins")
 						endGame()
 					}
 					else if (turn.length && !availableActions.length) {
-						console.log("stalemate")
 						endGame()
 					}
 
@@ -509,7 +516,6 @@ window.onload = function() {
 				}
 
 				options = weightedOptions
-				console.log(options)
 
 			// choose randomly
 				var selectedOption = options[Math.floor(Math.random() * options.length)]
