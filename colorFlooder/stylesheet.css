@@ -30,7 +30,7 @@
 		overflow: hidden;
 	}
 
-	@media screen and (min-width: 600px) {
+	@media screen and (min-width: 500px) {
 		body {
 			background-color: lightgray;
 			margin: 25px;
@@ -52,7 +52,7 @@
 		}
 	}
 
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 500px) {
 		body {
 			background-color: lightgray;
 			margin: 0px;
@@ -73,7 +73,7 @@
 	}
 
 /* puzzle */
-	@media screen and (min-width: 600px) {
+	@media screen and (min-width: 500px) {
 		#puzzle {
 			width: calc(100% - 125px);
 			height: 100%;
@@ -84,7 +84,7 @@
 		}
 	}
 
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 500px) {
 		#puzzle {
 			width: 100%;
 			height: calc(100vw - 90px);
@@ -148,7 +148,7 @@
 	}
 
 /* buttons */
-	@media screen and (min-width: 600px) {
+	@media screen and (min-width: 500px) {
 		#buttons {
 			float: left;
 			width: 100px;
@@ -198,7 +198,7 @@
 		}
 	}
 
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 500px) {
 		#buttons {
 			float: left;
 			height: 70px;
