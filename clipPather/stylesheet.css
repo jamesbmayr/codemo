@@ -9,7 +9,7 @@
 	}
 
 	body {
-		background-color: darkgray;
+		background-color: lightgray;
 		padding: 0px;
 		margin: 0px;
 		overflow: hidden;
@@ -286,7 +286,7 @@
 		#controls {
 			position: fixed;
 			width: calc(100vw - 20px);
-			height: calc(100% - 100vw - 60px);
+			height: calc(100% - 100vw - 10px);
 		}
 
 		#selector, #transformers, .textbox {
