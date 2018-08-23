@@ -255,18 +255,18 @@
 		}
 
 		#keyboard {
-			height: calc(100vh - 200px);
+			height: calc(100vh - 250px);
 			font-size: 10px;
 		}
 
 		#blackKeys {
-			height: calc(calc(100vh - 200px) * (2 / 3));
+			height: calc(calc(100vh - 250px) * (2 / 3));
 			z-index: 2;
 			position: absolute;
 			pointer-events: none;
 		}
 
 		#whiteKeys {
-			height: calc((100vh - 200px) - 12px);
+			height: calc((100vh - 250px) - 12px);
 		}
 	}

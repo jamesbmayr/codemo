@@ -1,20 +1,28 @@
 $(document).ready(function() {
 
 	/* on load */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* create page */
 			var colors = ["blue","red","green","yellow","magenta","cyan","black"];
 			newPuzzle();
 
 		/* listeners */
-			$(document).on("click",".button",function() {
+			$(document).on(on.click,".button",function() {
 				changeColor($(this));
 			});
 
-			$(document).on("click",".cell",function() {
+			$(document).on(on.click,".cell",function() {
 				floodArea($(this));
 			});
 
-			$(document).on("click","#refreshOuter",function() {
+			$(document).on(on.click,"#refreshOuter",function() {
 				newPuzzle();
 			});
 

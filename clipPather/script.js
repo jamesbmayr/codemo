@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/*** update ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* onload */
 			updatePath("blue")
 			updatePath("green")
@@ -8,7 +16,7 @@ window.onload = function() {
 			
 		/* updatePath */
 			Array.from(document.querySelectorAll("textarea")).forEach(function (t) {
-				t.addEventListener("click", function(event) {
+				t.addEventListener(on.click, function(event) {
 					updatePath(String(event.target.id).replace("Text",""))
 				})
 			})
@@ -19,12 +27,15 @@ window.onload = function() {
 				})
 			})
 
-			function updatePath(color) {
+			function updatePath(color, moving) {
 				var path = document.getElementById(color + "Text").value || "0% 0%"
 				document.getElementById(color + "Path").style["clip-path"] = "polygon(" + path + ")"
 				document.getElementById(color + "Path").style["webkit-clip-path"] = "polygon(" + path + ")"
 
-				displayDots(color)
+				if (!moving) {
+					console.log("here")
+					displayDots(color)
+				}
 			}
 
 		/* displayDots */
@@ -42,15 +53,16 @@ window.onload = function() {
 						var x = coordinates[0]
 						var y = coordinates[1]
 
-						var dot = document.createElement("div")
-							dot.className = "dot"
-							dot.style.top = y
-							dot.style.left = x
-							dot.setAttribute("index", i)
-							dot.setAttribute("title", x + " " + y)
-							dot.addEventListener("mousedown", selectDot)
+						var d = document.createElement("div")
+							d.className = "dot"
+							d.style.top = y
+							d.style.left = x
+							d.setAttribute("index", i)
+							d.setAttribute("title", x + " " + y)
+							d.addEventListener(on.mousedown, selectDot)
+							d.addEventListener(on.mouseup, unselectDot)
 
-						dots.appendChild(dot)
+						dots.appendChild(d)
 					}
 				}
 			}
@@ -62,20 +74,25 @@ window.onload = function() {
 				if (!dot) {
 					dot = event.target
 				}
-				else {				
+			}
+
+		/* unselectDot */
+			function unselectDot(event) {
+				if (dot) {
 					dot = null
 				}
 			}
 
 		/* moveDots */
-			document.addEventListener("mousemove", moveDots)
+			document.addEventListener(on.mousemove, moveDots)
 			function moveDots(event) {
-				if (dot && event.target.id == "dots") {
+				if (dot && (event.touches ? event.target.parentNode.id == "dots" : event.target.id == "dots")) {
 					// move dot
 						var size = document.getElementById("dots").getBoundingClientRect().width
 
-						var x = Math.round(event.offsetX * 10000 / size) / 100
-						var y = Math.round(event.offsetY * 10000 / size) / 100
+						var x = Math.round((event.touches ? (event.touches[0].clientX - 15) : event.offsetX) * 10000 / size) / 100
+						var y = Math.round((event.touches ? (event.touches[0].clientY - 15) : event.offsetY) * 10000 / size) / 100
+						console.log(event.offsetX, event.offsetY)
 						
 						dot.style.left = x + "%"
 						dot.style.top  = y + "%"
@@ -90,19 +107,18 @@ window.onload = function() {
 							points[index] = x + "% " + y + "% "
 						
 						document.getElementById(color + "Text").value = points.join(", ")
-						updatePath(color)
-
+						updatePath(color, true)
 				}
 			}
 
 		/* makeDot */
-			document.getElementById("dots").addEventListener("click", makeDot)
+			document.getElementById("dots").addEventListener(on.click, makeDot)
 			function makeDot(event) {
 				if (!dot && event.target.className.indexOf("dot") == -1) {
 					// create dot
 						var size = document.getElementById("dots").getBoundingClientRect().width
-						var x = Math.round(event.offsetX * 10000 / size) / 100
-						var y = Math.round(event.offsetY * 10000 / size) / 100
+						var x = Math.round((event.touches ? (event.touches[0].clientX - 15) : event.offsetX) * 10000 / size) / 100
+						var y = Math.round((event.touches ? (event.touches[0].clientY - 15) : event.offsetY) * 10000 / size) / 100
 
 						var dot = document.createElement("div")
 							dot.className = "dot"
@@ -192,7 +208,7 @@ window.onload = function() {
 
 	/*** transforms ***/
 		/* translatePath */
-			document.getElementById("translate").addEventListener("click", translatePath)
+			document.getElementById("translate").addEventListener(on.click, translatePath)
 			function translatePath() {
 				var color = document.getElementById("color").value
 				var direction = document.getElementById("direction").value
@@ -231,7 +247,7 @@ window.onload = function() {
 			}
 
 		/* rotatePath */
-			document.getElementById("rotate").addEventListener("click", rotatePath)
+			document.getElementById("rotate").addEventListener(on.click, rotatePath)
 			function rotatePath(event) {
 				var angle = Number(document.getElementById("distance").value) || false
 					angle = angle * Math.PI / 180
@@ -265,7 +281,7 @@ window.onload = function() {
 			}
 
 		/* mirrorPath */
-			document.getElementById("mirror").addEventListener("click", mirrorPath)
+			document.getElementById("mirror").addEventListener(on.click, mirrorPath)
 			function mirrorPath(event) {
 				var direction = document.getElementById("direction").value
 
@@ -302,7 +318,7 @@ window.onload = function() {
 			}
 
 		/* resizePath */
-			document.getElementById("resize").addEventListener("click", resizePath)
+			document.getElementById("resize").addEventListener(on.click, resizePath)
 			function resizePath(event) {
 				var multiplier = Number(document.getElementById("distance").value) || false
 

@@ -1,6 +1,14 @@
 $(document).ready(function() {
 
-	$('.dice').click(function() {
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
+	$('.dice').on(on.click, function() {
 		$('.dice').removeClass('active');
 
 		var button = $(this);
@@ -24,7 +32,7 @@ $(document).ready(function() {
 		total.text(totalAmount);
 	});
 
-	$('#resetButton').click(function() {
+	$('#resetButton').on(on.click, function() {
 		$('.counter').text('');
 		$('.subtotal').text('');
 		$('.total').text('');
