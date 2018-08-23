@@ -30,7 +30,7 @@
 		overflow: hidden;
 	}
 
-	@media screen and (min-width: 700px) {
+	@media screen and (min-width: 600px) {
 		body {
 			background-color: lightgray;
 			margin: 25px;
@@ -44,14 +44,15 @@
 
 		#container {
 			position: absolute;
-			width: calc(100vh - 50px + 100px + 25px);
-			height: calc(100vh + 50px);
+			width: calc(90vh - 50px + 100px + 25px);
+			height: calc(90vh - 50px);
 			left: 50%;
-			transform: translateX(-50%);
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
 		}
 	}
 
-	@media screen and (max-width: 700px) {
+	@media screen and (max-width: 600px) {
 		body {
 			background-color: lightgray;
 			margin: 0px;
@@ -62,20 +63,20 @@
 
 		#container {
 			position: absolute;
-			width: calc(100vw - 50px);
+			width: calc(90vw - 50px);
 			height: auto;
 			left: 50%;
-			top: 25px;
+			top: 50%;
 			margin-bottom: 25px;
-			transform: translateX(-50%);
+			transform: translateX(-50%) translateY(-50%);
 		}
 	}
 
 /* puzzle */
-	@media screen and (min-width: 700px) {
+	@media screen and (min-width: 600px) {
 		#puzzle {
 			width: calc(100% - 125px);
-			height: calc(100% - 100px);
+			height: 100%;
 			border: 5px solid gray;
 			border-radius: 10px;
 			float: left;
@@ -83,10 +84,10 @@
 		}
 	}
 
-	@media screen and (max-width: 700px) {
+	@media screen and (max-width: 600px) {
 		#puzzle {
 			width: 100%;
-			height: calc(100vw - 50px);
+			height: calc(100vw - 90px);
 			border: 5px solid gray;
 			border-radius: 10px;
 			float: left;
@@ -147,11 +148,11 @@
 	}
 
 /* buttons */
-	@media screen and (min-width: 700px) {
+	@media screen and (min-width: 600px) {
 		#buttons {
 			float: left;
 			width: 100px;
-			max-height: calc(100% - 100px);
+			max-height: 100%;
 			border: 5px solid gray;
 			background-color: gray;
 			border-radius: 10px;
@@ -197,44 +198,54 @@
 		}
 	}
 
-	@media screen and (max-width: 700px) {
+	@media screen and (max-width: 600px) {
 		#buttons {
 			float: left;
-			min-height: 100px;
-			width: auto;
+			height: 70px;
+			width: calc(90vw - 50px);
 			border: 5px solid gray;
 			background-color: gray;
 			border-radius: 10px;
-			margin-bottom: 25px;
+			margin-bottom: 10px;
 			padding: 0px;
+			overflow-y: hidden;
+			overflow-x: auto;
+			list-style-type:none;
+			white-space:nowrap;
+		}
+
+		#buttons::-webkit-scrollbar {
+			display: none;
 		}
 
 		#counterOuter {
-			float: left;
+			display: inline-block;
 			border-radius: 10px;
-			width: 80px;
-			height: 80px;
+			width: 50px;
+			height: 50px;
 			margin: 5px;
 			border: 5px solid lightgray;
 			cursor: default;
 			background-color: gray;
 			padding: auto auto;
 			text-align: center;
+			vertical-align: bottom;
+			margin-bottom: 10px;
 		}
 
 		#counterInner {
 			text-align: center;
 			color: lightgray;
-			font-size: 50px;
+			font-size: 30px;
 			user-select: none;
 			-webkit-user-select: none;
 		}
 
 		.button {
-			float: left;
+			display: inline-block;
 			border-radius: 100%;
-			width: 80px;
-			height: 80px;
+			width: 50px;
+			height: 50px;
 			margin: auto auto;
 			margin: 5px;
 			cursor: pointer;
