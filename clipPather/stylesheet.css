@@ -25,7 +25,7 @@
 		height: calc(100vh - 20px);
 		background-color: lightgray;
 		position: absolute;
-		bottom: 10px;
+		top: 10px;
 		left: 10px;
 		text-align: left;
 		margin: 0px;
@@ -291,19 +291,20 @@
 
 		#selector, #transformers, .textbox {
 			width: 100%;
-			min-width: 100%;
-			max-width: 100%;
 			margin-right: 0px;
 		}
 
 		#container {
 			position: fixed;
+			top: calc(100% - 100vw + 10px);
 			right: 10px;
 			height: calc(100vw - 30px); 
 			width: calc(100vw - 30px); 
 		}
 
 		.textbox {
+			min-width: 100%;
+			max-width: 100%;
 			min-height: calc(100% - 100px);
 			max-height: calc(100% - 100px);
 		}
