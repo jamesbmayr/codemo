@@ -40,6 +40,8 @@
 		height: 100%;
 		overflow: hidden;
 		background-color: #dddddd;
+		user-select: none;
+		-webkit-user-select: none;
 	}
 
 /* field */
