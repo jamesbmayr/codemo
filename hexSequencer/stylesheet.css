@@ -21,12 +21,21 @@
 	}
 	
 /* page */
-	body {
-		position: absolute;
+	html {
+		position: fixed;
 		top: 0px;
 		left: 0px;
-		height: 100vh;
-		width: 100vw;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
 		margin: 0px;
 		padding: 0px;
 		background-color: #333333;
@@ -61,6 +70,10 @@
 	}
 
 	.wedge {
+		outline: none;
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-tap-highlight-color: transparent;
 		position: absolute;
 		top: 0px;
 		left: 50%;
@@ -167,6 +180,9 @@
 		border: 0px;
 		cursor: pointer;
 		outline: none;
+		user-select: none;
+		-webkit-user-select: none;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	#restart.shown:hover, #restart.shown:focus {
@@ -213,4 +229,11 @@
 	#magenta {
 		background-color: magenta;
 		transform: translateX(-50%) rotate(300deg);
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#j-logo, #game.play, #game.ai, #game.end, #restart.hidden, #restart.shown {
+			transition: 0s;
+		}
 	}

@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/* audio */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* globals */
 			var audio = null
 			var gain = null
@@ -42,7 +50,7 @@ window.onload = function() {
 			var colors = ["red", "yellow", "green", "cyan", "blue", "magenta"]
 
 		/* startGame */
-			document.getElementById("restart").addEventListener("click", startGame)
+			document.getElementById("restart").addEventListener(on.click, startGame)
 			function startGame() {
 				// create audio
 					if (!audio) {
@@ -146,7 +154,7 @@ window.onload = function() {
 
 		/* triggerWedge */
 			Array.from(document.getElementsByClassName("wedge")).forEach(function(w) {
-				w.addEventListener("click", triggerWedge)
+				w.addEventListener(on.click, triggerWedge)
 			})
 			function triggerWedge(event) {
 				if (event.target.className == "wedge inactive" && game.className == "play") {

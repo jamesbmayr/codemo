@@ -1,5 +1,13 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* onLoad */
 		randomColor()
 
@@ -28,7 +36,7 @@ window.onload = function() {
 
 
 	/* checkColor */
-		document.getElementById("check").addEventListener("click", checkColor)
+		document.getElementById("check").addEventListener(on.click, checkColor)
 		
 		function checkColor() {
 			var red = Math.max(Math.min(Number(document.getElementById("range-red").value) || 0, 255), 0)

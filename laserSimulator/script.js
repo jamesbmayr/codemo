@@ -38,16 +38,13 @@ window.onload = function() {
 			var context  = canvas.getContext("2d")
 
 		/* events */
-			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-				var down = "touchstart"
-				var move = "touchmove"
-				var up   = "touchend"
-			}
-			else {
-				var down = "mousedown"
-				var move = "mousemove"
-				var up   = "mouseup"
-			}
+			/* triggers */
+				if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+					var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+				}
+				else {
+					var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+				}
 
 		/* animation loop */
 			var canvasLoop = setInterval(function() {
@@ -107,10 +104,10 @@ window.onload = function() {
 			}
 
 		/* mousedown */
-			document.addEventListener(down, downMouse)
+			document.addEventListener(on.mousedown, downMouse)
 			function downMouse(event) {
-				position.x = event.clientX || event.touches[0].clientX
-				position.y = event.clientY || event.touches[0].clientY
+				position.x = event.touches ? event.touches[0].clientX : event.clientX
+				position.y = event.touches ? event.touches[0].clientY : event.clientY
 				pressing = true
 				holding  = new Date().getTime()
 
@@ -134,10 +131,10 @@ window.onload = function() {
 			}
 
 		/* mousemove */
-			document.addEventListener(move, moveMouse)
+			document.addEventListener(on.mousemove, moveMouse)
 			function moveMouse(event) {
-				position.x = (typeof event.clientX == "number") ? event.clientX : event.touches[0].clientX
-				position.y = (typeof event.clientY == "number") ? event.clientY : event.touches[0].clientY
+				position.x = event.touches ? event.touches[0].clientX : event.clientX
+				position.y = event.touches ? event.touches[0].clientY : event.clientY
 
 				if (pressing && selected.item == "controls") {
 					moveControls(event)
@@ -150,7 +147,7 @@ window.onload = function() {
 						endLine(event)
 					}
 					else if (tool == "cursor" && selected.item) {
-						if (holding && (new Date().getTime() - holding > 1000)) {
+						if (holding && (new Date().getTime() - holding > 500)) {
 							shifting = true
 						}
 
@@ -173,7 +170,7 @@ window.onload = function() {
 			}
 
 		/* mouseup */
-			document.addEventListener(up, upMouse)
+			document.addEventListener(on.mouseup, upMouse)
 			function upMouse(event) {
 				pressing = false
 				shifting = false
@@ -192,8 +189,8 @@ window.onload = function() {
 			function selectControls(event) {
 				selected = {
 					item: "controls",
-					x: event.offsetX,
-					y: event.offsetY
+					x: event.touches ? (event.touches[0].clientX - window.getComputedStyle(controls).left.replace("px",""))  : event.offsetX,
+					y: event.touches ? (event.touches[0].clientY - window.getComputedStyle(controls).top.replace( "px","")) : event.offsetY
 				}
 
 				controls.setAttribute("dragging", true)
@@ -201,6 +198,7 @@ window.onload = function() {
 
 		/* moveControls */
 			function moveControls(event) {
+				console.log(selected.x, selected.y)
 				controls.style.left = position.x - selected.x + "px"
 				controls.style.top  = position.y - selected.y + "px"
 			}
@@ -221,7 +219,7 @@ window.onload = function() {
 			}
 
 		/* selectTool */
-			controls.querySelectorAll("button").forEach(function (b) { b.addEventListener("click", selectTool) })
+			controls.querySelectorAll("button").forEach(function (b) { b.addEventListener(on.click, selectTool) })
 			function selectTool(event) {
 				document.querySelector("[selected]").removeAttribute("selected")
 				event.target.setAttribute("selected", true)

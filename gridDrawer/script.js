@@ -1,15 +1,11 @@
 window.onload = function() {
 	/*** globals ***/
-		/* events */
+		/* triggers */
 			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-				var down = "touchstart"
-				var move = "touchmove"
-				var up   = "touchend"
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
 			}
 			else {
-				var down = "mousedown"
-				var move = "mousemove"
-				var up   = "mouseup"
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
 			}
 
 		/* variables */
@@ -43,9 +39,9 @@ window.onload = function() {
 						x: 0,
 						y: 0,
 						closest: {
-							x: 0,
-							y: 0,
-							distance: 0
+							x: null,
+							y: null,
+							distance: null
 						}
 					},
 					live: {
@@ -104,7 +100,7 @@ window.onload = function() {
 
 		/* selectTool */
 			document.querySelectorAll("#tools button").forEach(function(button) {
-				button.addEventListener(down, selectTool)
+				button.addEventListener(on.mousedown, selectTool)
 			})
 			function selectTool(event) {
 				settings.cursor.tool = event.target.value
@@ -143,61 +139,111 @@ window.onload = function() {
 			}
 
 		/* downMouse */
-			canvas.addEventListener(down, downMouse)
+			canvas.addEventListener(on.mousedown, downMouse)
 			function downMouse(event) {
 				if (settings.cursor) {
 					settings.cursor.press = true
 					settings.cursor.since = new Date().getTime()
 
-					if (settings.cursor.tool == "draw") {
-						canvas.setAttribute("tool", "drawing")
-						startLine(event)
+					settings.cursor.x = event.touches ?  event.touches[0].clientX       :  event.clientX
+					settings.cursor.y = event.touches ? (event.touches[0].clientY - 50) : (event.clientY - 50)
+
+					if (event.touches) {
+						setTimeout(function() {
+							if (settings.cursor.tool == "draw") {
+								canvas.setAttribute("tool", "drawing")
+								console.log("starting")
+								console.log(settings.cursor.closest.x, settings.cursor.closest.y)
+								startLine(event)
+							}
+							else if (settings.cursor.tool == "erase") {
+								eraseLines(event)
+							}
+							else if (settings.cursor.tool == "drag") {
+								canvas.setAttribute("tool", "dragging")
+								startDrag(event)
+							}
+							else if (settings.cursor.tool == "zoom-in") {
+								zoomIn(event)
+							}
+							else if (settings.cursor.tool == "zoom-out") {
+								zoomOut(event)
+							}
+							else if (settings.cursor.tool == "music") {
+								playNotes(event)
+							}
+						}, 100)
 					}
-					else if (settings.cursor.tool == "erase") {
-						eraseLines(event)
-					}
-					else if (settings.cursor.tool == "drag") {
-						canvas.setAttribute("tool", "dragging")
-						startDrag(event)
-					}
-					else if (settings.cursor.tool == "zoom-in") {
-						zoomIn(event)
-					}
-					else if (settings.cursor.tool == "zoom-out") {
-						zoomOut(event)
-					}
-					else if (settings.cursor.tool == "music") {
-						playNotes(event)
+					else {
+							if (settings.cursor.tool == "draw") {
+								canvas.setAttribute("tool", "drawing")
+								startLine(event)
+							}
+							else if (settings.cursor.tool == "erase") {
+								eraseLines(event)
+							}
+							else if (settings.cursor.tool == "drag") {
+								canvas.setAttribute("tool", "dragging")
+								startDrag(event)
+							}
+							else if (settings.cursor.tool == "zoom-in") {
+								zoomIn(event)
+							}
+							else if (settings.cursor.tool == "zoom-out") {
+								zoomOut(event)
+							}
+							else if (settings.cursor.tool == "music") {
+								playNotes(event)
+							}
 					}
 				}
 			}
 
 		/* moveMouse */
-			canvas.addEventListener(move, moveMouse)
+			canvas.addEventListener(on.mousemove, moveMouse)
 			function moveMouse(event) {
 				if (settings.cursor) {
-					settings.cursor.x = ((event.clientX || event.touches[0].clientX)     )
-					settings.cursor.y = ((event.clientY || event.touches[0].clientY) - 50)
+					settings.cursor.x = event.touches ?  event.touches[0].clientX       :  event.clientX
+					settings.cursor.y = event.touches ? (event.touches[0].clientY - 50) : (event.clientY - 50)
 					settings.cursor.closest.distance = getDistance(settings.cursor.x, settings.cursor.y, settings.cursor.closest.x, settings.cursor.closest.y)
 
-					if (settings.cursor.tool == "erase" && settings.cursor.press) {
-						eraseLines(event)
+					if (event.touches) {
+						setTimeout(function() {
+							if (settings.cursor.tool == "erase" && settings.cursor.press) {
+								eraseLines(event)
+							}
+							else if (settings.cursor.tool == "drag" && settings.cursor.press) {
+								moveDrag(event)
+							}
+							else if (settings.cursor.tool == "draw" && settings.cursor.since && (new Date().getTime() - settings.cursor.since < 500)) {
+								settings.cursor.since = null
+								pickupLine(event)
+							}
+							else if (settings.cursor.tool == "music" && settings.cursor.press) {
+								playNotes(event)
+							}
+						}, 100)
 					}
-					else if (settings.cursor.tool == "drag" && settings.cursor.press) {
-						moveDrag(event)
-					}
-					else if (settings.cursor.tool == "draw" && settings.cursor.since && (new Date().getTime() - settings.cursor.since < 500)) {
-						settings.cursor.since = null
-						pickupLine(event)
-					}
-					else if (settings.cursor.tool == "music" && settings.cursor.press) {
-						playNotes(event)
+					else {
+							if (settings.cursor.tool == "erase" && settings.cursor.press) {
+								eraseLines(event)
+							}
+							else if (settings.cursor.tool == "drag" && settings.cursor.press) {
+								moveDrag(event)
+							}
+							else if (settings.cursor.tool == "draw" && settings.cursor.since && (new Date().getTime() - settings.cursor.since < 500)) {
+								settings.cursor.since = null
+								pickupLine(event)
+							}
+							else if (settings.cursor.tool == "music" && settings.cursor.press) {
+								playNotes(event)
+							}
 					}
 				}
 			}
 
-		/* upMouse */
-			canvas.addEventListener(up, upMouse)
+		/* upMouse */	
+			canvas.addEventListener(on.mouseup, upMouse)
 			function upMouse(event) {
 				if (settings.cursor) {
 					settings.cursor.press = false
@@ -539,7 +585,7 @@ window.onload = function() {
 
 		/* drawLiveLine */
 			function drawLiveLine() {
-				if (settings.cursor.tool == "draw" && settings.cursor.press) {
+				if (settings.cursor.tool == "draw" && settings.cursor.press && (settings.live.x !== null) && (settings.live.y !== null)) {
 					if (!settings.cursor.shift) {
 						drawLine(settings.live.x, settings.live.y, settings.cursor.x, settings.cursor.y, settings.cursor.color)
 					}
@@ -603,14 +649,14 @@ window.onload = function() {
 	/*** dragging ***/
 		/* startDrag */
 			function startDrag(event) {
-				settings.live.x = settings.canvas.x - ((event.clientX || event.touches[0].clientX)     )
-				settings.live.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 50)
+				settings.live.x = settings.canvas.x -  (event.touches ? event.touches[0].clientX : event.clientX)
+				settings.live.y = settings.canvas.y - ((event.touches ? event.touches[0].clientY : event.clientY) - 50)
 			}
 
 		/* moveDrag */
 			function moveDrag(event) {
-				settings.canvas.x = settings.live.x + ((event.clientX || event.touches[0].clientX)     )
-				settings.canvas.y = settings.live.y + ((event.clientY || event.touches[0].clientY) - 50)
+				settings.canvas.x = settings.live.x +  (event.touches ? event.touches[0].clientX : event.clientX)
+				settings.canvas.y = settings.live.y + ((event.touches ? event.touches[0].clientY : event.clientY) - 50)
 			}
 
 		/* endDrag */

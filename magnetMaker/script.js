@@ -1,58 +1,95 @@
 window.onload = function() {
 
 	/*** globals ***/
-		var state = {
-			paused: false,
-			selected: null,
-			changing: false,
-			changed: false,
-			held: false,
-			moved: false,
-			tips: ["doubleclick to create/remove an orb", "click to change an orb's polarity: red & blue attract", "hold & drag to move an orb", "hold an orb in place for 1 second to stop it", "shift-drag to change orb size", "press space to pause", "magnetMaker"],
-			magnetism: 0.005,
-			friction: 0,
-			elasticity: 1,
-			gravity: 0,
-			wind: 0,
-			maxspeed: 5,
-			density: 1
-		}
-		window.state = state
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
+		/* state */
+			var state = {
+				paused: false,
+				selected: null,
+				changing: false,
+				shifting: false,
+				changed: false,
+				held: false,
+				moved: false,
+				clicked: null,
+				tips: [
+					(on.click == "click" ? "doubleclick to create/remove an orb" : "doubletap to create/remove an orb"),
+					(on.click == "click" ? "click to change an orb's polarity: red & blue attract" : "tap to change an orb's polarity: red & blue attract"),
+					"hold & drag to move an orb",
+					"hold an orb in place to stop it",
+					(on.click == "click" ? "shift-drag to change orb size" : "hold and drag a stopped orb to change size"),
+					(on.click == "click" ? "press space to pause" : "tap pause to adjust settings"),
+					"magnetMaker"
+				],
+				magnetism: 0.005,
+				friction: 0,
+				elasticity: 1,
+				gravity: 0,
+				wind: 0,
+				maxspeed: 5,
+				density: 1
+			}
+			window.state = state
+
+		/* defaults */
+			document.addEventListener("dblclick", function(event) {
+				event.preventDefault()
+			})
+
+			document.addEventListener("contextmenu", function(event) {
+				event.preventDefault()
+			})
 	
 	/*** create / remove magnet ***/
 		/* createMagnet */
-			document.getElementById("field").addEventListener("dblclick", createMagnet)
+			document.getElementById("field").addEventListener(on.click, createMagnet)
 			function createMagnet(event) {
 				if (event.target.id == "field") {
-					// create element
-						var magnet = document.createElement("div")
-							magnet.className = "magnet"
-							magnet.id = generateId()
+					if (!state.clicked) {
+						state.clicked = new Date().getTime()
+					}
+					else if ((new Date().getTime()) - state.clicked < 250) {
+						state.clicked = null
 
-					// style and position
-							magnet.style.left   = event.clientX + "px"
-							magnet.style.bottom = (window.innerHeight - event.clientY) + "px"
-							magnet.style.height = "40px"
-							magnet.style.width  = "40px"
+						// create element
+							var magnet = document.createElement("div")
+								magnet.className = "magnet"
+								magnet.id = generateId()
 
-					// physics
-							magnet.setAttribute("x", event.clientX)
-							magnet.setAttribute("y", window.innerHeight - event.clientY)
-							magnet.setAttribute("vx", (Math.random() * 1) - 0.5)
-							magnet.setAttribute("vy", (Math.random() * 1) - 0.5)
-							magnet.setAttribute("r", 20)
-							magnet.setAttribute("p", 0)
-					
-					// event listeners & append
-							magnet.addEventListener("mousedown", selectMagnet)
-							magnet.addEventListener("mouseup", unselectMagnet)
-							magnet.addEventListener("dblclick", removeMagnet)
-						event.target.appendChild(magnet)
+						// style and position
+								magnet.style.left   = (event.touches ? event.touches[0].clientX : event.clientX) + "px"
+								magnet.style.bottom = (window.innerHeight - (event.touches ? event.touches[0].clientY : event.clientY)) + "px"
+								magnet.style.height = "40px"
+								magnet.style.width  = "40px"
 
-					// tips
-						if (state.tips.length == 6) {
-							updateInstructions()
-						}
+						// physics
+								magnet.setAttribute("x", (event.touches ? event.touches[0].clientX : event.clientX))
+								magnet.setAttribute("y", window.innerHeight - (event.touches ? event.touches[0].clientY : event.clientY))
+								magnet.setAttribute("vx", (Math.random() * 1) - 0.5)
+								magnet.setAttribute("vy", (Math.random() * 1) - 0.5)
+								magnet.setAttribute("r", 20)
+								magnet.setAttribute("p", 0)
+						
+						// event listeners & append
+								magnet.addEventListener(on.mousedown, selectMagnet)
+								magnet.addEventListener(on.mouseup, unselectMagnet)
+							event.target.appendChild(magnet)
+
+						// tips
+							if (state.tips.length == 6) {
+								updateInstructions()
+							}
+					}
+					else {
+						state.clicked = null
+					}
 				}
 			}
 
@@ -67,41 +104,63 @@ window.onload = function() {
 	/*** move magnet ***/
 		/* selectMagnet */
 			function selectMagnet(event) {
-				// unselect others
-					unselectMagnet()
+				if (state.clicked && (new Date().getTime()) - state.clicked < 250) {
+					state.clicked = null
 
-				if (event.target.className == "magnet") {
-					// select magnet
-						state.selected = event.target
-						state.selected.setAttribute("selected", true)
+					removeMagnet(event)
+				}
+				else {
+					// doubleclick timeout
+						state.clicked = new Date().getTime()
+						setTimeout(function() {
+							state.clicked = null
+						}, 250)
 
-					// style field
-						document.getElementById("field").setAttribute("dragging", true)
-						state.held = new Date().getTime()
+					// unselect others
+						unselectMagnet()
 
-					// tips
-						if (state.tips.length == 4) {
-							updateInstructions()
-						}
+					if (event.target.className == "magnet") {
+						// select magnet
+							state.selected = event.target
+							state.selected.setAttribute("selected", true)
+
+						// style field
+							document.getElementById("field").setAttribute("dragging", true)
+							state.held = new Date().getTime()
+							var thisHold = state.held
+
+						// longpress timeout
+							setTimeout(function() {
+								if (state.held == thisHold && state.selected
+								  && !Number(state.selected.getAttribute("vx")) && !Number(state.selected.getAttribute("vy"))) {
+									state.changing = true
+								}
+							}, 500)
+
+						// tips
+							if (state.tips.length == 4) {
+								updateInstructions()
+							}
+					}
 				}
 			}
 
 		/* moveMagnet */
-			document.addEventListener("mousemove", moveMagnet)
+			document.addEventListener(on.mousemove, moveMagnet)
 			function moveMagnet(event) {
 				// change mass
-					if (state.selected && state.changing) {
+					if (state.selected && (state.changing || state.shifting)) {
 						changeSize(event)
 					}
 
 				// move & set physics
 					else if (state.selected) {
 						state.moved = true
-						state.selected.style.left   = event.clientX + "px"
-						state.selected.style.bottom = (window.innerHeight - event.clientY) + "px"
+						state.selected.style.left   = (event.touches ? event.touches[0].clientX : event.clientX) + "px"
+						state.selected.style.bottom = (window.innerHeight - (event.touches ? event.touches[0].clientY : event.clientY)) + "px"
 
-						state.selected.setAttribute("x", event.clientX)
-						state.selected.setAttribute("y", window.innerHeight - event.clientY)
+						state.selected.setAttribute("x", (event.touches ? event.touches[0].clientX : event.clientX))
+						state.selected.setAttribute("y", window.innerHeight - (event.touches ? event.touches[0].clientY : event.clientY))
 
 						state.held = new Date().getTime()
 					}					
@@ -110,8 +169,8 @@ window.onload = function() {
 		/* unselectMagnet */
 			function unselectMagnet(event) {
 				if (state.selected) {
-					// held for 1 second --> v = 0
-						if (state.held && (new Date().getTime() - state.held > 1000)) {
+					// held for 0.5 second --> v = 0
+						if (state.held && (new Date().getTime() - state.held > 500)) {
 							state.selected.setAttribute("vx", 0)
 							state.selected.setAttribute("vy", 0)
 
@@ -128,11 +187,12 @@ window.onload = function() {
 					// reset stuff
 						state.selected.removeAttribute("selected")
 						state.selected = null
-						state.moved = false
-						state.changed = false
-
 						document.getElementById("field").removeAttribute("dragging")
 				}
+
+				state.moved = false
+				state.changed = false
+				state.changing = false
 			}
 
 	/*** alter magnet ***/
@@ -160,23 +220,11 @@ window.onload = function() {
 			function startChanging(event) {
 				if (event.keyCode == 16) { // SHIFT
 					// set changing
-						state.changing = true
+						state.shifting = true
 				}
 				else if (event.keyCode == 32) { // SPACE
 					// pause / unpause
-						if (state.paused) {
-							state.paused = false
-							document.getElementById("settings").removeAttribute("visible")
-						}
-						else {
-							state.paused = true
-							document.getElementById("settings").setAttribute("visible", true)
-						}
-					
-					// tips
-						if (state.tips.length == 1) {
-							updateInstructions()
-						}
+						pauseLoop()
 				}
 			}
 
@@ -185,7 +233,7 @@ window.onload = function() {
 			function stopChanging(event) {
 				if (event.keyCode == 16) { // SHIFT
 					// unset changing
-						state.changing = false
+						state.shifting = false
 				}
 			}
 
@@ -196,8 +244,8 @@ window.onload = function() {
 					var y = Number(state.selected.getAttribute("y"))
 
 				// calculate distance to cursor
-					var cx = event.clientX
-					var cy = window.innerHeight - event.clientY
+					var cx = (event.touches ? event.touches[0].clientX : event.clientX)
+					var cy = window.innerHeight - (event.touches ? event.touches[0].clientY : event.clientY)
 					var r = Math.abs(getScalar(getDifference(cx, x), getDifference(cy, y)))
 
 				// update size
@@ -211,6 +259,28 @@ window.onload = function() {
 						updateInstructions()
 					}				
 			}
+
+		/* pauseLoop */
+			document.getElementById("pause").addEventListener(on.click, pauseLoop)
+			function pauseLoop(event) {
+				// pause / unpause
+					if (state.paused) {
+						state.paused = false
+						document.getElementById("settings").removeAttribute("visible")
+						document.getElementById("pause"   ).removeAttribute("paused")
+					}
+					else {
+						state.paused = true
+						document.getElementById("settings").setAttribute("visible", true)
+						document.getElementById("pause"   ).setAttribute("paused",  true)
+					}
+				
+				// tips
+					if (state.tips.length == 1) {
+						updateInstructions()
+					}
+			}
+
 
 	/*** helpers ***/
 		/* generateId */

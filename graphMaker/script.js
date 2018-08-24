@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/* on load */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* globals */
 			var canvas = document.getElementById("graph")
 			var colors = ["black", "red", "green", "blue", "magenta", "yellow", "cyan"]
@@ -35,14 +43,18 @@ window.onload = function() {
 	/* move grid */
 		/* zoomGrid */
 			canvas.addEventListener("mousewheel", zoomGrid)
+			document.getElementById("zoom-in" ).addEventListener(on.click, zoomGrid)
+			document.getElementById("zoom-out").addEventListener(on.click, zoomGrid)
+
 			function zoomGrid(event) {
-				var x = event.clientX || event.targetTouches[0].clientX
-				var y = event.clientY || event.targetTouches[0].clientY
+				var x = event.touches ? (window.innerWidth  / 2) : event.clientX
+				var y = event.touches ? (window.innerHeight / 2) : event.clientY
 
 				var diffX = Math.floor(originX - (x * zoom))
 				var diffY = Math.floor(originY - (y * zoom))
 				
-				if (event.deltaY > 0) { // out
+				if (event.target.id == "zoom-out" || event.deltaY > 0) { // out
+					console.log("out")
 					if (zoom * 1.25 < 2) {
 						zoom = zoom * 125 / 100
 						originX =  Math.floor(originX * 125 / 100) - Math.floor(diffX * 25 / 100)
@@ -51,7 +63,8 @@ window.onload = function() {
 						resizeScreen()
 					}
 				}
-				else if (event.deltaY < 0) { // in
+				else if (event.target.id == "zoom-in" || event.deltaY < 0) { // in
+					console.log("in")
 					if (zoom * 0.8 > 0.25) {
 						zoom = zoom * 80 / 100
 						originX = Math.floor(originX * 80 / 100) + Math.floor(diffX * 20 / 100)
@@ -63,15 +76,15 @@ window.onload = function() {
 			}
 
 		/* selectGrid */
-			canvas.addEventListener("mousedown", selectGrid)
+			canvas.addEventListener(on.mousedown, selectGrid)
 			function selectGrid(event) {
 				moving = true
-				moveX = Math.floor((event.offsetX * zoom) - originX)
-				moveY = Math.floor((event.offsetY * zoom) - originY)
+				moveX = Math.floor(((event.touches ? event.touches[0].clientX : event.offsetX) * zoom) - originX)
+				moveY = Math.floor(((event.touches ? event.touches[0].clientY : event.offsetY) * zoom) - originY)
 			}
 
 		/* unselectGrid */
-			document.addEventListener("mouseup", unselectGrid)
+			document.addEventListener(on.mouseup, unselectGrid)
 			function unselectGrid(event) {
 				moving = false
 				moveX = null
@@ -79,11 +92,11 @@ window.onload = function() {
 			}
 
 		/* moveGrid */
-			document.addEventListener("mousemove", moveGrid)
+			document.addEventListener(on.mousemove, moveGrid)
 			function moveGrid(event) {
 				if (moving) {
-					var x = event.clientX || event.targetTouches[0].clientX
-					var y = event.clientY || event.targetTouches[0].clientY
+					var x = (event.touches ? event.touches[0].clientX : event.clientX)
+					var y = (event.touches ? event.touches[0].clientY : event.clientY)
 
 					originY = Math.floor((y * zoom) - moveY)
 					originX = Math.floor((x * zoom) - moveX)
@@ -93,17 +106,17 @@ window.onload = function() {
 
 	/* drag controls */
 		/* selectEquations */
-			document.getElementById("equations").addEventListener("mousedown", selectEquations)
+			document.getElementById("equations").addEventListener(on.mousedown, selectEquations)
 			function selectEquations(event) {
 				if (event.target.id == "equations") {
 					dragging = true
-					dragX = event.offsetX
-					dragY = event.offsetY
+					dragX = event.touches ? (event.touches[0].clientX - window.getComputedStyle(event.target).left.replace("px","")) : event.offsetX
+					dragY = event.touches ? (event.touches[0].clientY - window.getComputedStyle(event.target).top.replace( "px","")) : event.offsetY
 				}
 			}
 
 		/* unselectEquations */
-			document.addEventListener("mouseup", unselectEquations)
+			document.addEventListener(on.mouseup, unselectEquations)
 			function unselectEquations(event) {
 				dragging = false
 				dragX = null
@@ -111,11 +124,11 @@ window.onload = function() {
 			}
 
 		/* dragEquations */
-			document.addEventListener("mousemove", dragEquations)
+			document.addEventListener(on.mousemove, dragEquations)
 			function dragEquations(event) {
 				if (dragging) {
-					var x = event.clientX || event.targetTouches[0].clientX
-					var y = event.clientY || event.targetTouches[0].clientY
+					var x = (event.touches ? event.touches[0].clientX : event.clientX)
+					var y = (event.touches ? event.touches[0].clientY : event.clientY)
 
 					var equations = document.getElementById("equations")
 						equations.style.top = y - dragY + "px"
@@ -126,7 +139,7 @@ window.onload = function() {
 	/* create / remove */
 		/* removeEquation */
 			Array.from(document.querySelectorAll(".equation-remove")).forEach(function (b) {
-				b.addEventListener("click", removeEquation)
+				b.addEventListener(on.click, removeEquation)
 			})
 			function removeEquation(event) {
 				if (event.target.className == "equation-remove") {
@@ -136,7 +149,7 @@ window.onload = function() {
 			}
 
 		/* createEquation */
-			document.getElementById("equation-create").addEventListener("click", createEquation)
+			document.getElementById("equation-create").addEventListener(on.click, createEquation)
 			function createEquation(event) {
 				var y = document.createElement("div")
 					y.className = "equation-y"
@@ -161,7 +174,7 @@ window.onload = function() {
 				var remove = document.createElement("button")
 					remove.className = "equation-remove"
 					remove.innerText = "-"
-					remove.addEventListener("click", removeEquation)
+					remove.addEventListener(on.click, removeEquation)
 
 				var equation = document.createElement("div")
 					equation.className = "equation"

@@ -4,11 +4,20 @@
 		<title>gridDrawer</title>
 		<link rel="shortcut icon" href="https://cdn.onlinewebfonts.com/svg/img_437931.png"/>
 		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="gridDrawer is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="gridDrawer"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/gridDrawer/"/>
+		<meta property="og:description" content="gridDrawer is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<script src="audio.js"></script>
 		<script src="script.js"></script>
 	</head>
 	<body>
-		<div id="navbar" mode="creation">
+		<div id="navbar-outer">
+			<div id="navbar" mode="creation">
 			<form id="creation" method="post" action="javascript:;">
 				<select id="shape">
 					<option value="triangle-x">&#9650;</option>
@@ -50,6 +59,7 @@
 				<button id="music"    value="music"   >&#9834;</button>
 				<select id="instrument"></select>
 			</form>
+			</div>
 			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 		</div>
 		<canvas id="canvas"></canvas>
