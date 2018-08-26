@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* updateNumber */
 		$("input[type='range']").on("change",function() {
 			var input = $(this);
@@ -15,7 +23,7 @@ $(document).ready(function() {
 		});
 
 	/* selectOperator */
-		$(".operator").on("click",function() {
+		$(".operator").on(on.click,function() {
 			var operator = $(this);
 
 			if ($(operator).hasClass("selected")) {
@@ -47,7 +55,7 @@ $(document).ready(function() {
 
 	/* selectNegative */
 		/* selectOperator */
-		$(".negative").on("click",function() {
+		$(".negative").on(on.click,function() {
 			if (!$(this).hasClass("selected")) {
 				$(this).addClass("selected").text("-");
 			}
@@ -57,7 +65,7 @@ $(document).ready(function() {
 		});
 
 	/* crunchNumbers */
-		$("#equals").on("click",function() {
+		$("#equals").on(on.click,function() {
 			var operator = $(".operator.selected").attr("id");
 
 			if ((typeof operator == "undefined") || (!operator)) {

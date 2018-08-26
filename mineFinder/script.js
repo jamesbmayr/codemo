@@ -3,10 +3,19 @@ window.onload = function() {
 	/*** onload ***/
 		/* globals */
 			var modify = null
+			var hold   = null
+
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
 
 	/*** game ***/
 		/* startGame */
-			document.getElementById("menu-start").addEventListener("click", startGame)
+			document.getElementById("menu-start").addEventListener(on.click, startGame)
 			function startGame() {
 				// get parameters
 					var size = Number(document.getElementById("menu-size").value) || 10
@@ -59,7 +68,8 @@ window.onload = function() {
 								cell.className = "cell"
 								cell.id = "_" + x + "_" + y
 								cell.setAttribute("state", "?")
-								cell.addEventListener("click", selectCell)
+								cell.addEventListener(on.mousedown, selectCell)
+								cell.addEventListener(on.mouseup, unselectCell)
 								cell.style.width  = (100 / size) + "%"
 								cell.style.height = (100 / size) + "%"
 
@@ -127,15 +137,51 @@ window.onload = function() {
 				if (event.target.className == "cell") {
 					var cell = event.target
 
-					if (modify == 16) {
-						revealNeighbors(cell)
-					}
-					else if (modify) {
-						flagCell(cell)
+					if (on.click == "click") {
+						if (modify == 16) {
+							revealNeighbors(cell)
+						}
+						else if (modify) {
+							flagCell(cell)
+						}
+						else {
+							revealCell(cell)
+						}
 					}
 					else {
-						revealCell(cell)
+						event.preventDefault()
+						hold = new Date().getTime()
+
+						// no hold ? reveal
+							setTimeout(function() {
+								if (!hold) {
+									revealCell(cell)
+								}
+							}, 200)
+
+						// short hold ? flag
+							setTimeout(function() {
+								if (hold && cell.getAttribute("state") == "?" || cell.getAttribute("state") == "!") {
+									hold = null
+									flagCell(cell)
+								}
+							}, 500)
+
+						// long hold ? neighbors
+							setTimeout(function() {
+								if (hold && cell.getAttribute("state") == ".") {
+									hold = null
+									revealNeighbors(cell)
+								}
+							}, 1000)
 					}
+				}
+			}
+
+		/* unselectCell */
+			function unselectCell(event) {
+				if (hold) {
+					hold = null
 				}
 			}
 

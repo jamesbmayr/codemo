@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/*** onload ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* global variables */
 			var canvas = document.getElementById("canvas")
 			var drawing = false
@@ -19,14 +27,13 @@ window.onload = function() {
 
 	/*** drawing ***/
 		/* startDrawing */
-			canvas.addEventListener("mousedown", startDrawing)
-			canvas.addEventListener("touchstart", startDrawing)
+			canvas.addEventListener(on.mousedown, startDrawing)
 			function startDrawing(event) {
 				drawing = true
 				canvas.setAttribute("drawing", true)
 
-				var x = event.clientX || event.targetTouches[0].clientX
-				var y = event.clientY || event.targetTouches[0].clientY
+				var x = event.touches ? event.touches[0].clientX : event.clientX
+				var y = event.touches ? event.touches[0].clientY : event.clientY
 				
 				if (!erasing) {
 					paths.push({
@@ -38,20 +45,18 @@ window.onload = function() {
 			}
 
 		/* stopDrawing */
-			document.addEventListener("mouseup", stopDrawing)
-			document.addEventListener("touchend", stopDrawing)
+			document.addEventListener(on.mouseup, stopDrawing)
 			function stopDrawing(event) {
 				drawing = false
 				canvas.setAttribute("drawing", false)
 			}
 
 		/* moveDrawing */
-			canvas.addEventListener("mousemove", moveDrawing)
-			canvas.addEventListener("touchmove", moveDrawing)
+			canvas.addEventListener(on.mousemove, moveDrawing)
 			function moveDrawing(event) {
 				if (drawing) {
-					var x = event.clientX || event.targetTouches[0].clientX
-					var y = event.clientY || event.targetTouches[0].clientY
+					var x = event.touches ? event.touches[0].clientX : event.clientX
+					var y = event.touches ? event.touches[0].clientY : event.clientY
 
 					if (!erasing) {
 						paths[paths.length - 1].coordinates.push([x, y])
@@ -97,7 +102,7 @@ window.onload = function() {
 	/*** controls ***/
 		/* selectColor */
 			Array.from(document.querySelectorAll("#colors button")).forEach(function (button) {
-				button.addEventListener("click", selectColor)
+				button.addEventListener(on.click, selectColor)
 			})
 			function selectColor(event) {
 				Array.from(document.querySelectorAll("#colors button")).forEach(function (button) {
@@ -120,7 +125,7 @@ window.onload = function() {
 
 		/* selectSize */
 			Array.from(document.querySelectorAll("#sizes button")).forEach(function (button) {
-				button.addEventListener("click", selectSize)
+				button.addEventListener(on.click, selectSize)
 			})
 			function selectSize(event) {
 				Array.from(document.querySelectorAll("#sizes button")).forEach(function (button) {
@@ -133,7 +138,7 @@ window.onload = function() {
 			}
 
 		/* resetPaths */
-			document.getElementById("reset").addEventListener("click", resetPaths)
+			document.getElementById("reset").addEventListener(on.click, resetPaths)
 			function resetPaths(event) {
 				paths = []
 			}

@@ -21,8 +21,17 @@
 	}
 	
 /* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
 	body {
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		left: 0px;
 		margin: 0px;
@@ -30,15 +39,16 @@
 		background-color: #333333;
 		box-shadow: 0px 0px 20px #000000 inset;
 		overflow: hidden;
-		height: 100vh;
-		width: 100vw;
+		height: 100%;
+		width: 100%;
 	}
 
 /* end */
 	#end {
-		position: absolute;
-		top: calc(50% - 100px);
-		left: calc(50% - 100px);
+		position: fixed;
+		top: calc(50%);
+		left: calc(50%);
+		transform: translateX(-50%) translateY(-50%);
 		width: 180px;
 		height: 180px;
 		border-radius: 20px;
@@ -105,7 +115,7 @@
 
 /* board */
 	#board {
-		position: absolute;
+		position: fixed;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
@@ -226,4 +236,35 @@
 
 	.pusher:hover {
 		box-shadow: 0px 0px 20px #aaaaaa inset;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#board {
+			height: calc(100vh - 100px);
+			width:  calc(100vh - 100px);
+			max-height: calc(100vw - 100px);
+			max-width:  calc(100vw - 100px);
+		}
+
+		.pusher {
+			width: 50%;
+			height: 50%;
+		}
+
+		.pusher[side="right"] {
+			transform: translateY(-50%) translateX(25%);
+		}
+
+		.pusher[side="left"] {
+			transform: translateY(-50%) translateX(-25%);
+		}
+
+		.pusher[side="top"] {
+			transform: translateY(-25%) translateX(-50%);
+		}
+
+		.pusher[side="bottom"] {
+			transform: translateY(25%) translateX(-50%);
+		}
 	}

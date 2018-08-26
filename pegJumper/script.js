@@ -1,5 +1,13 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* onload */
 		var size = 0
 		var board = document.getElementById("board")
@@ -8,7 +16,7 @@ window.onload = function() {
 
 	/*** menu ***/
 		/* startGame */
-			document.getElementById("start").addEventListener("click", startGame)
+			document.getElementById("start").addEventListener(on.click, startGame)
 			function startGame() {
 				// hide menu & clean board
 					document.getElementById("menu").className = "hidden"
@@ -45,7 +53,7 @@ window.onload = function() {
 										peg.style.left   = 50 + "%"
 										peg.setAttribute("y", y)
 										peg.setAttribute("x", x)
-										peg.addEventListener("mousedown", selectPeg)
+										peg.addEventListener(on.mousedown, selectPeg)
 									cell.append(peg)
 								}
 						}
@@ -75,36 +83,40 @@ window.onload = function() {
 			}
 
 		/* movePeg */
-			document.addEventListener("mousemove", movePeg)
+			document.addEventListener(on.mousemove, movePeg)
 			function movePeg(event) {
 				if (playing && grabbing) {
 					// data
-						var leftEdge = (window.innerWidth  - 500) / 2
-						var topEdge  = (window.innerHeight - 500) / 2
+						var boardSize = window.getComputedStyle(board).width.replace("px","")
+						var leftEdge = (window.innerWidth  - boardSize) / 2
+						var topEdge  = (window.innerHeight - boardSize) / 2
 
-						var x = event.clientX
-						var y = event.clientY
+						var x = event.touches ? event.touches[0].clientX : event.clientX
+						var y = event.touches ? event.touches[0].clientY : event.clientY
 
 					// move
 						grabbing.style.left = x - leftEdge + "px"
-						grabbing.style.top  = y - topEdge + "px"
+						grabbing.style.top  = y - topEdge  + "px"
 				}
 			}
 
 		/* unselectPeg */
-			document.addEventListener("mouseup", unselectPeg)
+			document.addEventListener(on.mouseup, unselectPeg)
 			function unselectPeg(event) {
 				if (playing && grabbing) {
 					// data
-						var leftEdge = (window.innerWidth  - 500) / 2
-						var topEdge  = (window.innerHeight - 500) / 2
+						var boardSize = window.getComputedStyle(board).width.replace("px","")
+						var leftEdge = (window.innerWidth  - boardSize) / 2
+						var topEdge  = (window.innerHeight - boardSize) / 2
 
-						var x = event.clientX
-						var y = event.clientY
+						var x = event.changedTouches ? event.changedTouches[0].clientX : event.clientX
+						var y = event.changedTouches ? event.changedTouches[0].clientY : event.clientY
 
 					// get target
-						var cellX = Math.floor((x - leftEdge) / (500 / size))
-						var cellY = Math.floor((y - topEdge)  / (500 / size))
+						var cellX = Math.floor((x - leftEdge) / (boardSize / size))
+						var cellY = Math.floor((y - topEdge)  / (boardSize / size))
+
+						console.log(leftEdge, topEdge, x, y, cellX, cellY)
 
 						var legal = isLegal(grabbing, cellX, cellY)
 
@@ -122,7 +134,6 @@ window.onload = function() {
 					// end?
 						if (legal) {
 							var moves = findMoves()
-							console.log(moves)
 							if (!Object.keys(moves).length) {
 								document.getElementById("menu").className = ""
 							}
@@ -133,7 +144,6 @@ window.onload = function() {
 	/*** gameplay ***/
 		/* isLegal */
 			function isLegal(peg, cellX, cellY) {
-				console.log(peg)
 				// data
 					var pegX  = Number(peg.getAttribute("x"))
 					var pegY  = Number(peg.getAttribute("y"))
@@ -141,19 +151,16 @@ window.onload = function() {
 
 				// out of bounds?
 					if (cellX < 0 || cellY < 0 || cellX >= size || cellY >= size) {
-						console.log("out of bounds")
 						return false
 					}
 
 				// occupied?
 					else if (cell && cell.firstChild) {
-						console.log("occupied")
 						return false
 					}
 
 				// put back
 					else if (pegX == cellX && pegY == cellY) {
-						console.log("put back")
 						return true
 					}
 
@@ -183,7 +190,6 @@ window.onload = function() {
 
 				// others
 					else {
-						console.log("gap")
 						return false
 					}
 				
@@ -256,7 +262,6 @@ window.onload = function() {
 							}
 
 						// add to moves
-							console.log(possibilities)
 							if (possibilities.length) {
 								moves[pegX + "_" + pegY] = possibilities
 							}

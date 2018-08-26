@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/* on load */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* sizing */
 			var board = document.getElementById("board")
 			var marginX = null
@@ -27,7 +35,7 @@ window.onload = function() {
 
 	/* game */
 		/* startGame */
-			document.getElementById("play").addEventListener("click", startGame)
+			document.getElementById("play").addEventListener(on.click, startGame)
 			function startGame() {
 				buildPawns()
 
@@ -136,7 +144,7 @@ window.onload = function() {
 	/* play */
 		/* pushPawns */
 			Array.from(document.querySelectorAll(".pusher")).forEach(function (b) {
-				b.addEventListener("click", pushPawns)
+				b.addEventListener(on.click, pushPawns)
 			})
 			function pushPawns(event) {
 				if ((event.target.className == "pusher") && (board.getAttribute("pushable")) && (parseInt(event.target.getAttribute("p")) + parseInt(board.getAttribute("last")) !== 0)) {

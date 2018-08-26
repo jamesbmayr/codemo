@@ -688,6 +688,14 @@ window.onload = function() {
 				[ ["Flushing", "34th St-Hudson Yards"], ["40.755882", "-74.00191"], ["7", null, null, null, null, null, null, null, null, null, null] ]
 			]
 		
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* build and refresh */
 			window.refresh = setInterval(refreshTrains, 1000)
 			buildMap()
@@ -935,16 +943,16 @@ window.onload = function() {
 
 	/*** interact ***/
 		/* dragMap */
-			document.getElementById("map").addEventListener("mousedown", function(event) {
-				window.mapMouseXOffset = event.clientX - document.getElementById("map").getBoundingClientRect().left
-				window.mapMouseYOffset = event.clientY - document.getElementById("map").getBoundingClientRect().top
+			document.getElementById("map").addEventListener(on.mousedown, function(event) {
+				window.mapMouseXOffset = (event.touches ? event.touches[0].clientX : event.clientX) - document.getElementById("map").getBoundingClientRect().left
+				window.mapMouseYOffset = (event.touches ? event.touches[0].clientY : event.clientY) - document.getElementById("map").getBoundingClientRect().top
 			})
-			document.addEventListener("mouseup", function() {
+			document.addEventListener(on.mouseup, function() {
 				window.mapMouseXOffset = false
 				window.mapMouseYOffset = false
 			})
 
-			document.onmousemove = dragMap
+			document.addEventListener(on.mousemove, dragMap)
 			function dragMap(event) {
 				if (window.mapMouseXOffset || window.mapMouseYOffset) {
 					//get data
@@ -954,8 +962,8 @@ window.onload = function() {
 							var mapRadius = (map.getBoundingClientRect().bottom - map.getBoundingClientRect().top) / 2
 
 					//calculate new position
-						var newLeft = event.clientX - window.mapMouseXOffset
-						var newTop = event.clientY - window.mapMouseYOffset
+						var newLeft = (event.touches ? event.touches[0].clientX : event.clientX) - window.mapMouseXOffset
+						var newTop  = (event.touches ? event.touches[0].clientY : event.clientY) - window.mapMouseYOffset
 
 					//account for screen size
 						if (newLeft > container.getBoundingClientRect().left + 60) {
@@ -974,19 +982,19 @@ window.onload = function() {
 
 					//move map
 						document.getElementById("map").style.left = newLeft + "px"
-						document.getElementById("map").style.top = newTop + "px"
+						document.getElementById("map").style.top  = newTop  + "px"
 				}
 			}
 
 		/* zoomMap */
-			document.getElementById("zoom-in").addEventListener("click", function() { zoomMap(2) })
-			document.getElementById("zoom-out").addEventListener("click", function() { zoomMap(0.5) })
+			document.getElementById("zoom-in" ).addEventListener(on.click, function() { zoomMap(2) })
+			document.getElementById("zoom-out").addEventListener(on.click, function() { zoomMap(0.5) })
 
 			function zoomMap(factor) {
 				//get data
 					var container = document.getElementById("container")
-						var screenCenterX = (container.getBoundingClientRect().right - container.getBoundingClientRect().left) / 2
-						var screenCenterY = (container.getBoundingClientRect().bottom - container.getBoundingClientRect().top) / 2
+						var screenCenterX = (container.getBoundingClientRect().right  - container.getBoundingClientRect().left) / 2
+						var screenCenterY = (container.getBoundingClientRect().bottom - container.getBoundingClientRect().top ) / 2
 
 					var map = document.getElementById("map")
 						var mapRadius = (map.getBoundingClientRect().bottom - map.getBoundingClientRect().top) / 2
@@ -1003,7 +1011,7 @@ window.onload = function() {
 
 				//calculate new position
 					var newLeft = screenCenterX - (mapRadius * factor) - (mapCenterOffsetX * factor)
-					var newTop = screenCenterY - (mapRadius * factor) - (mapCenterOffsetY * factor)
+					var newTop  = screenCenterY - (mapRadius * factor) - (mapCenterOffsetY * factor)
 
 				//account for screen size
 					if (newLeft > container.getBoundingClientRect().left + 60) {
@@ -1022,9 +1030,9 @@ window.onload = function() {
 
 				//resize & reposition map
 					map.style.height = mapRadius * 2 * factor + "px"
-					map.style.width = mapRadius * 2 * factor + "px"
-					map.style.left = newLeft + "px"
-					map.style.top = newTop + "px"
+					map.style.width  = mapRadius * 2 * factor + "px"
+					map.style.left   = newLeft + "px"
+					map.style.top    = newTop  + "px"
 			}
 
 		/* clickStation */

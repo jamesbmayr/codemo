@@ -152,8 +152,6 @@ window.onload = function() {
 						setTimeout(function() {
 							if (settings.cursor.tool == "draw") {
 								canvas.setAttribute("tool", "drawing")
-								console.log("starting")
-								console.log(settings.cursor.closest.x, settings.cursor.closest.y)
 								startLine(event)
 							}
 							else if (settings.cursor.tool == "erase") {

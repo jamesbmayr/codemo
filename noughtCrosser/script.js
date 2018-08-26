@@ -1,16 +1,26 @@
 window.onload = function() {
 
 	/*** globals ***/
-		var turn    = null
-		var players = {
-			X: null,
-			O: null
-		}
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
+		/* game */
+			var turn    = null
+			var players = {
+				X: null,
+				O: null
+			}
+			window.players = players
 
 	/*** menu ***/
 		/* togglePlayer */
 			var toggles = Array.from(document.querySelectorAll(".toggle"))
-			for (var t in toggles) { toggles[t].addEventListener("click", togglePlayer) }
+			for (var t in toggles) { toggles[t].addEventListener(on.click, togglePlayer) }
 			function togglePlayer(event) {
 				if (event.target.className == "toggle") {
 					var player = event.target.id.split("-")[0]
@@ -22,7 +32,7 @@ window.onload = function() {
 			}
 
 		/* startGame */
-			document.getElementById("start").addEventListener("click", startGame)
+			document.getElementById("start").addEventListener(on.click, startGame)
 			function startGame() {
 				// initialize game
 					clearBoard()
@@ -61,7 +71,7 @@ window.onload = function() {
 	/*** player ***/
 		/* selectCell */
 			var cells = Array.from(document.querySelectorAll(".cell"))
-			for (var c in cells) { cells[c].addEventListener("click", selectCell) }
+			for (var c in cells) { cells[c].addEventListener(on.click, selectCell) }
 			function selectCell(event) {
 				if ((event.target.className == "cell") && (turn !== null)) {
 					var cell = event.target.id.split("-")[1]
@@ -394,7 +404,12 @@ window.onload = function() {
 		/* playOption */
 			function playOption(option) {
 				setTimeout(function() {
-					document.getElementById("cell-" + option).click()
+					if (on.click == "click") {
+						document.getElementById("cell-" + option).click()
+					}
+					else {
+						document.getElementById("cell-" + option).dispatchEvent(new TouchEvent("touchstart"))
+					}
 
 					var victory = checkVictory()
 					if (victory) {
