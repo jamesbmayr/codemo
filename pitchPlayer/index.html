@@ -2,9 +2,16 @@
 <html>
 	<head>
 		<title>pitchPlayer</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 		<link rel="shortcut icon" type="image/png" href="https://maxcdn.icons8.com/Share/icon/ios7/Music//tuning_fork1600.png"></link>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="pitchPlayer is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="pitchPlayer"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/pitchPlayer/"/>
+		<meta property="og:description" content="pitchPlayer is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<script type="text/javascript" src="audio.js"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
@@ -12,20 +19,24 @@
 		<div id="header">
 			<div id="header-inner">{{{ pitchPlayer }}}</div>
 		</div>
-		<div id="controls">
-			<button id="play">|></button>
-			<button id="pause">| |</button>
-			<button id="stop">[-]</button>
-			<button id="reset">{x}</button>
-			<label id="target-outer">[&nbsp;measures&nbsp;]<input id="target" type="number" max="256" min="1" step="1" value="32" placeholder="#"></input></label>
-			<label id="tempo-outer">[&nbsp;tempo&nbsp;]<input id="tempo" type="number" max="250" min="1" step="1" value="60" placeholder="bpm"></input></label>
-			<label id="volume-outer">[&nbsp;volume&nbsp;]<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
-			<label id="wave-outer">[&nbsp;wave&nbsp;]
-				<select id="wave">
-				</select>
-			</label>
-			upload&nbsp;<label id="upload-outer"><input id="upload" type="file">&#x21E7;</label>
-			download&nbsp;<button id="download">&#x21E9;</button>
+		<div id="navbar">
+			<div id="controls-outer">
+				<div id="controls">
+					<button id="play">|></button>
+					<button id="pause">| |</button>
+					<button id="stop">[-]</button>
+					<button id="reset">{x}</button>
+					<label id="target-outer">[&nbsp;measures&nbsp;]<input id="target" type="number" max="256" min="1" step="1" value="32" placeholder="#"></input></label>
+					<label id="tempo-outer">[&nbsp;tempo&nbsp;]<input id="tempo" type="number" max="250" min="1" step="1" value="60" placeholder="bpm"></input></label>
+					<label id="volume-outer">[&nbsp;volume&nbsp;]<input id="volume" type="number" max="100" min="0" step="1" value="50" placeholder="%"></input></label>
+					<label id="wave-outer">[&nbsp;wave&nbsp;]
+						<select id="wave">
+						</select>
+					</label>
+					upload&nbsp;<label id="upload-outer"><input id="upload" type="file">&#x21E7;</label>
+					download&nbsp;<button id="download">&#x21E9;</button>
+				</div>
+			</div>
 			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 		</div>
 		<div id="player">

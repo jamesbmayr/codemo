@@ -1,4 +1,12 @@
-$(document).ready(function() {
+$(document).ready(function() {	
+
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
 	
 	/* set up */
 		window.painting = false;
@@ -23,11 +31,11 @@ $(document).ready(function() {
 		$("#whiteboard").html(whiteboard);
 
 	/* paint */
-		$(document).on("mouseup",document,function() {
+		$(document).on(on.mouseup,document,function() {
 			window.painting = false;
 		});
 
-		$(document).on("mousedown",".cell",function() {
+		$(document).on(on.mousedown,".cell",function() {
 			window.painting = true;
 
 			if (window.erasing) {
@@ -92,6 +100,12 @@ $(document).ready(function() {
 						window.colors.push("magenta");
 					}
 				break;
+				case 75:
+					if (window.colors.indexOf("black") == -1) {
+						window.colors.push("black");
+					}
+				break;
+				case 87:
 				case 32:
 				case 16:
 				case 18:
@@ -128,6 +142,10 @@ $(document).ready(function() {
 				case 77:
 					window.colors.splice(window.colors.indexOf("magenta"),1);
 				break;
+				case 75:
+					window.colors.splice(window.colors.indexOf("black"),1);
+				break;
+				case 87:
 				case 32:
 				case 16:
 				case 18:
@@ -137,5 +155,42 @@ $(document).ready(function() {
 				break;
 			}
 		});
+
+
+	/* mobile */
+		document.addEventListener("touchmove", function(event) {
+			if (event.touches) {
+				var col = Math.ceil(event.touches[0].clientX / 10)
+				var row = Math.ceil(event.touches[0].clientY / 10)
+				var cell = document.querySelector(".row:nth-child(" + row + ") .cell:nth-child(" + col + ")")
+			}
+
+			if (window.painting && cell) {
+				if (window.erasing) {
+					$(cell).removeClass().addClass("cell");
+				}
+				else {
+					$(cell).removeClass().addClass("cell").addClass("painted").addClass(window.colors[window.colors.length - 1] || "black");
+				}
+			}
+		})
+
+		document.querySelectorAll(".color").forEach(function(b) {
+			b.addEventListener(on.click, setColor)
+		})
+		function setColor(event) {
+			document.querySelectorAll(".color").forEach(function(b) {
+				b.removeAttribute("selected")
+			})
+			event.target.setAttribute("selected", true)
+
+			if (event.target.id == "white") {
+				window.erasing = true
+			}
+			else {
+				window.erasing = false
+				window.colors = [event.target.id]
+			}
+		}
 
 });

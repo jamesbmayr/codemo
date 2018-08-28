@@ -1,6 +1,14 @@
 function ready() {
 
 	/*** onload ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* buildList */
 			buildList()
 			function buildList() {
@@ -15,13 +23,15 @@ function ready() {
 
 		/* globals */
 			var clickdown = false
+			var animateLoop = null
+			var scrolling = true
 			document.getElementById("wave").value = "honeyharp"
 
 		/* setMeasures */
 			setMeasures()
 			document.getElementById("target").addEventListener("change", setMeasures)
 			function setMeasures() {
-				clearInterval(window.animateLoop)
+				clearInterval(animateLoop)
 
 				document.getElementById("pause").style.display = "none"
 				document.getElementById("play").style.display = "inline-block"
@@ -48,7 +58,7 @@ function ready() {
 								var pitch = document.createElement("div")
 									pitch.className = "pitch pitch-" + p + " sound-off"
 									pitch.id = "measure-" + m + "-beat-" + b + "-pitch-" + p
-									pitch.addEventListener("mousedown", function() {
+									pitch.addEventListener(on.mousedown, function() {
 										togglePitch(this)
 									})
 									pitch.addEventListener("mouseenter", function() {
@@ -88,7 +98,7 @@ function ready() {
 
 	/*** changes ***/
 		/* changeInstrument */
-			document.addEventListener("click", function() {
+			document.addEventListener(on.click, function() {
 				if (window.audio && !window.instrument) { changeInstrument(); changeVolume() }
 			})
 			document.getElementById("wave").addEventListener("change", changeInstrument)
@@ -113,7 +123,7 @@ function ready() {
 				var data = toggle.id.split("-")
 					var pitch = data[5]
 
-				if (window.shift) {
+				if (shift) {
 					toggle.className = toggle.className.replace("sound-on", "sound-off")
 				}
 				else if (toggle.className.indexOf("sound-on") == -1) {
@@ -126,17 +136,16 @@ function ready() {
 			}
 
 		/* dragPitch */
-			window.shift = false
-			document.getElementById("player").addEventListener("mousedown", function () { clickdown = true })
-			document.addEventListener("mouseup", function () { clickdown = false })
-			document.addEventListener("keydown", function (event) { if (event.which == 16) { window.shift = true } })
-			document.addEventListener("keyup", function (event) { if (event.which == 16) { window.shift = false } })
+			var shift = false
+			document.getElementById("player").addEventListener(on.mousedown, function () { clickdown = true })
+			document.addEventListener(on.mouseup, function () { clickdown = false })
+			document.addEventListener("keydown", function (event) { if (event.which == 16) { shift = true } })
+			document.addEventListener("keyup", function (event) { if (event.which == 16) { shift = false } })
 
 		/* resetPitches */
-			document.getElementById("reset").addEventListener("click", resetPitches)
+			document.getElementById("reset").addEventListener(on.click, resetPitches)
 			function resetPitches() {
-				clearInterval(window.animateLoop)
-				window.music = []
+				clearInterval(animateLoop)
 
 				document.getElementById("pause").style.display = "none"
 				document.getElementById("play").style.display = "inline-block"
@@ -153,7 +162,7 @@ function ready() {
 
 	/*** controls ***/
 		/* playMusic */
-			document.getElementById("play").addEventListener("click", playMusic)
+			document.getElementById("play").addEventListener(on.click, playMusic)
 			function playMusic() {
 				document.getElementById("play").style.display = "none"
 				document.getElementById("pause").style.display = "inline-block"
@@ -163,7 +172,7 @@ function ready() {
 					tempo = Math.min(tempo, 250)
 					tempo = tempo * 4
 
-				window.animateLoop = setInterval(function() {		
+				animateLoop = setInterval(function() {
 					var scrollLeft = document.getElementById("staff").scrollLeft
 					var beat = Math.floor(scrollLeft / 16)
 					var measure = Math.floor(beat / 4) + 1
@@ -183,22 +192,24 @@ function ready() {
 						var pitch = pitches[p].id.replace("measure-" + measure + "-beat-" + beat + "-pitch-", "")
 						playNote(pitch)
 					}
-				}, 60 * 1000 / tempo)
+				}, (60 * 1000 / tempo))
 			}
 
 		/* pauseMusic */
-			document.getElementById("pause").addEventListener("click", pauseMusic)
+			document.getElementById("pause").addEventListener(on.click, pauseMusic)
 			function pauseMusic() {
-				clearInterval(window.animateLoop)
+				clearInterval(animateLoop)
+				animateLoop = null
 
 				document.getElementById("pause").style.display = "none"
 				document.getElementById("play").style.display = "inline-block"
 			}
 
 		/* stopMusic */
-			document.getElementById("stop").addEventListener("click", stopMusic)
+			document.getElementById("stop").addEventListener(on.click, stopMusic)
 			function stopMusic() {
-				clearInterval(window.animateLoop)
+				clearInterval(animateLoop)
+				animateLoop = null
 
 				document.getElementById("pause").style.display = "none"
 				document.getElementById("play").style.display = "inline-block"
@@ -208,35 +219,40 @@ function ready() {
 
 	/*** scroll ***/
 		/* scrollLeft */
-			document.getElementById("scroll-left").addEventListener("mousedown", scrollLeft)
+			document.getElementById("scroll-left").addEventListener(on.mousedown, scrollLeft)
 			function scrollLeft() {
-				clearInterval(window.animateLoop)
+				scrolling = true
+				clearInterval(animateLoop)
 
 				document.getElementById("pause").style.display = "none"
 				document.getElementById("play").style.display = "inline-block"
 
-				window.animateLoop = setInterval(function() {
+				animateLoop = setInterval(function() {
 					document.getElementById("staff").scrollLeft -= 16 + (document.getElementById("staff").scrollLeft % 16)
 				}, 50)
 			}
 
 		/* scrollRight */
-			document.getElementById("scroll-right").addEventListener("mousedown", scrollRight)
+			document.getElementById("scroll-right").addEventListener(on.mousedown, scrollRight)
 			function scrollRight() {
-				clearInterval(window.animateLoop)
+				scrolling = true
+				clearInterval(animateLoop)
 
 				document.getElementById("pause").style.display = "none"
 				document.getElementById("play").style.display = "inline-block"
 
-				window.animateLoop = setInterval(function() {
+				animateLoop = setInterval(function() {
 					document.getElementById("staff").scrollLeft += 16 + (-1 * (document.getElementById("staff").scrollLeft % 16))
 				}, 50)
 			}
 
 		/* stopScroll */
-			document.addEventListener("mouseup", stopScroll)
+			document.addEventListener(on.mouseup, stopScroll)
 			function stopScroll() {
-				clearInterval(window.animateLoop)
+				if (scrolling) {
+					scrolling = false
+					clearInterval(animateLoop)
+				}
 			}
 
 	/* playNote */
@@ -244,7 +260,7 @@ function ready() {
 			var keys = document.getElementsByClassName("key")
 				keys = Array.prototype.slice.call(keys)
 			for (var k in keys) {
-				keys[k].addEventListener("mousedown", function() {
+				keys[k].addEventListener(on.mousedown, function() {
 					playNote(Number(this.getAttribute("value")))
 				})
 				keys[k].addEventListener("mouseenter", function() {
@@ -285,7 +301,7 @@ function ready() {
 
 	/*** load ***/
 		/* downloadScore */
-			document.getElementById("download").addEventListener("click", downloadScore)
+			document.getElementById("download").addEventListener(on.click, downloadScore)
 			function downloadScore() {			
 				//build musicXML
 					var musicXML = ""
@@ -345,7 +361,7 @@ function ready() {
 						downloadLink.setAttribute("href", "data:" + musicXML)
 						downloadLink.setAttribute("download", "pitchPlayer_" + time + ".xml")
 
-					downloadLink.addEventListener("click", function() {
+					downloadLink.addEventListener(on.click, function() {
 						var downloadLink = document.getElementById("download-link")
 						document.body.removeChild(downloadLink)
 					})
@@ -371,7 +387,7 @@ function ready() {
 		/* mapNotes */
 			function mapNotes(xml) {
 				//stop everything
-					clearInterval(window.animateLoop)
+					clearInterval(animateLoop)
 
 					document.getElementById("pause").style.display = "none"
 					document.getElementById("play").style.display = "inline-block"
@@ -468,7 +484,7 @@ function ready() {
 								var pitch = document.createElement("div")
 									pitch.className = "pitch pitch-" + p + " sound-off"
 									pitch.id = "measure-" + m + "-beat-" + b + "-pitch-" + p
-									pitch.addEventListener("mousedown", function() {
+									pitch.addEventListener(on.mousedown, function() {
 										togglePitch(this)
 									})
 									pitch.addEventListener("mouseenter", function() {

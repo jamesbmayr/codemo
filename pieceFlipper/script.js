@@ -1,6 +1,14 @@
 window.onload = function() {
 
 	/*** onload ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* globals */
 			var turn = null
 			var players = {
@@ -11,7 +19,7 @@ window.onload = function() {
 
 	/*** game ***/
 		/* startGame */
-			document.getElementById("start").addEventListener("click", startGame)
+			document.getElementById("start").addEventListener(on.click, startGame)
 			function startGame() {
 				// hide menu
 					document.getElementById("menu").className = "hidden"
@@ -50,8 +58,8 @@ window.onload = function() {
 			}
 
 		/* switchPlayers */
-			document.getElementById("red").addEventListener("click", switchPlayers)
-			document.getElementById("blue").addEventListener("click", switchPlayers)
+			document.getElementById("red").addEventListener(on.click, switchPlayers)
+			document.getElementById("blue").addEventListener(on.click, switchPlayers)
 			function switchPlayers(event) {
 				if (event.target.className = "player") {
 					var type = event.target.getAttribute("player")
@@ -71,7 +79,7 @@ window.onload = function() {
 						var cell = document.createElement("div")
 							cell.id = "_" + x + "_" + y
 							cell.className = "cell"
-							cell.addEventListener("click", selectCell)
+							cell.addEventListener(on.click, selectCell)
 
 						if ((x + y) % 2 == 0) {
 							cell.setAttribute("color", "white")

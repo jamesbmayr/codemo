@@ -36,19 +36,41 @@
 	}
 
 /* controls */
+	#navbar {
+		width: 100vw;
+		height: 50px;
+		overflow: hidden;
+		background-color: #222222;
+	}
+
+	#controls-outer {
+		float: left;
+		width: calc(100vw - 50px);
+		border-radius: 10px;
+		height: 50px;
+		overflow-x: auto;
+		overflow-y: hidden;
+		box-shadow: 0px 0px 10px #111111 inset;
+	}
+
 	#controls {
 		float: left;
-		width: 100vw;
-		min-height: 40px;
-		height: 100%;
-		max-height: 100px;
-		background-color: #222222;
-		padding: 8px 0px 8px 0px;
+		width: 1165px;
+		height: 50px;
+		padding: 2px 0px 2px 0px;
 		text-align: center;
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-o-user-select: none;
+	}
+
+	::-webkit-scrollbar {
+		height: 0px !important;
+	}
+
+	::-o-scrollbar {
+		height: 0px !important;
 	}
 
 	#controls button, #upload-outer {
@@ -136,16 +158,15 @@
 
 /* j-logo */
 	#j-logo {
-		display: inline-block;
-		vertical-align: bottom;
+		float: right;
 		background-color: transparent;
 		background-image: url("../resources/j.png");
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center center;
-		height: 36px;
-		width: 36px;
-		margin: 4px;
+		height: 40px;
+		width: 40px;
+		margin: 5px;
 		cursor: pointer;
 		z-index: 1000;
 		outline: none;
@@ -369,10 +390,10 @@
 
 /* mobile */
 	@media screen and (max-width: 980px) {
-		#controls {
-			max-height: 128px;
+		#header {
+			display: none;
 		}
-
+		
 		#player {
 			zoom: 2;
 			margin: 0px;

@@ -1,7 +1,15 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* apiRequest */
-		document.querySelectorAll("#go")[0].addEventListener("click", apiRequest)
+		document.querySelectorAll("#go")[0].addEventListener(on.click, apiRequest)
 		function apiRequest() {
 			var request = new XMLHttpRequest()
 
