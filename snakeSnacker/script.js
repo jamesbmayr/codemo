@@ -1,7 +1,15 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* onload */
-		document.getElementById("refresh").addEventListener("click", newGame)
+		document.getElementById("refresh").addEventListener(on.click, newGame)
 
 	/* newGame */
 		function newGame() {
@@ -238,6 +246,38 @@ window.onload = function() {
 			}
 			else if (key == 37) {
 				window.arrow = "left"
+			}
+		}
+
+	/* touchClick */
+		document.getElementById("grid").addEventListener(on.mousedown, touchPress)
+		function touchPress(event) {
+			var x = event.touches ? event.touches[0].clientX : event.clientX
+			var y = event.touches ? event.touches[0].clientY : event.clientY
+
+			var head = document.querySelector(".snake-0")
+			var snakeX = head.getBoundingClientRect().x
+			var snakeY = head.getBoundingClientRect().y
+
+			var diffX = Math.abs(snakeX - x)
+			var diffY = Math.abs(snakeY - y)
+
+			if (diffX > diffY) {
+				console.log("here")
+				if (snakeX - x > 0) {
+					window.arrow = "left"
+				}
+				else {
+					window.arrow = "right"
+				}
+			}
+			else {
+				if (snakeY - y > 0) {
+					window.arrow = "up"
+				}
+				else {
+					window.arrow = "down"
+				}
 			}
 		}
 

@@ -1,5 +1,13 @@
 window.onload = function() {
 	/*** on load ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* globals */
 			var apikey = "FKKGHK14DXGKONS4"
 			var canvas = document.getElementById("chart")
@@ -19,7 +27,7 @@ window.onload = function() {
 
 	/*** interaction ***/
 		/* selectRecent */
-			Array.from(document.querySelectorAll(".item")).forEach(function (i) { i.addEventListener("click", selectRecent) })
+			Array.from(document.querySelectorAll(".item")).forEach(function (i) { i.addEventListener(on.click, selectRecent) })
 			function selectRecent(event) {
 				if (event.target.className == "item") {
 					var symbol = event.target.innerText
@@ -30,7 +38,7 @@ window.onload = function() {
 			}
 
 		/* fetchStock */
-			document.getElementById("fetch").addEventListener("click", fetchStock)
+			document.getElementById("fetch").addEventListener(on.click, fetchStock)
 			document.getElementById("search").addEventListener("keyup", function (event) { if (event.which == 13) { fetchStock() } })
 			function fetchStock() {
 				var symbol = document.getElementById("search").value.toUpperCase() || null
@@ -173,7 +181,7 @@ window.onload = function() {
 							var item = document.createElement("div")
 								item.className = "item"
 								item.innerText = list[l]
-								item.addEventListener("click", selectRecent)
+								item.addEventListener(on.click, selectRecent)
 							menu.append(item)
 						}
 				}

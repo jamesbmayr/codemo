@@ -1,6 +1,14 @@
 $(document).ready(function() {
 
 	/* * page * */
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* load */
 			startGame();
 
@@ -12,64 +20,8 @@ $(document).ready(function() {
 				}
 			}, 2000);
 
-			function is_touch_device() { // from http://stackoverflow.com/questions/4817029/whats-the-best-way-to-detect-a-touch-screen-device-using-javascript
-				return 'ontouchstart' in window		// works on most browsers 
-					|| navigator.maxTouchPoints;	// works on IE10/11 and Surface
-			};
-
-		/* desktop listeners */
-			if (!is_touch_device()) {
-				$(document).on("click",".endpoint",function() {
-					console.log("clicked");
-					if ($(this).hasClass("selected")) {
-						$(".endpoint").removeClass("selected");
-					}
-					else {
-						$(".endpoint").removeClass("selected");
-						$(this).addClass("selected");
-					}
-				});			
-
-				$(document).on("mouseenter",".overGrid_cell",function() {
-					if (window.playing) {
-						var cell_x = Number($(this).attr("x"));
-						var cell_y = Number($(this).attr("y"));
-						selectCell(cell_x,cell_y);
-					}
-				});
-
-				$(document).on("click","#pause",function() {
-					if ($("#pause").hasClass("reset")) {
-						console.log("starting");
-						startGame();
-
-						var timer = setInterval(function() {
-							//animateLines();
-							if (window.playing) {
-								moveRobots();
-								spawnRobots();
-							}
-						}, 2000);
-
-						$("#pause").removeClass("reset");
-					}
-					else if ($("#pause").hasClass("playing")) {
-						console.log("pause");
-						window.playing = false;
-						$("#pause").removeClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-play">');
-					}
-					else {
-						console.log("resume");
-						window.playing = true;
-						$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
-					}
-				});
-			}
-
-		/* mobile listeners */
-			if (is_touch_device()) {
-				$(document).on("touchstart",".endpoint",function() {
-					console.log("touched");
+		/* listeners */
+				$(document).on(on.mousedown,".endpoint",function() {
 					if ($(this).hasClass("selected")) {
 						$(".endpoint").removeClass("selected");
 					}
@@ -79,22 +31,21 @@ $(document).ready(function() {
 					}
 				});
 
-				$(document).on("touchstart",":not(.endpoint)",function() {
-					console.log("untouched");
-					$(".endpoint").removeClass("selected");
-				});
+				$(document).on(on.mousedown,".robot",function() {
+					console.log("robot")
+					if ($(this).find(".endpoint")) {
+						var endpoint = $(this).find(".endpoint")
+						if ($(endpoint).hasClass("selected")) {
+							$(".endpoint").removeClass("selected");
+						}
+						else {
+							$(".endpoint").removeClass("selected");
+							$(endpoint).addClass("selected");
+						}
+					}
+				});		
 
-				$(document).on("touchcancel",document,function() {
-					console.log("untouched");
-					$(".endpoint").removeClass("selected");
-				});
-
-				$(document).on("touchend",document,function() {
-					console.log("untouched");
-					$(".endpoint").removeClass("selected");
-				});
-
-				$(document).on("touchmove",".overGrid_cell",function() {
+				$(document).on(on.mousemove,".overGrid_cell",function() {
 					if (window.playing) {
 						var cell_x = Number($(this).attr("x"));
 						var cell_y = Number($(this).attr("y"));
@@ -102,13 +53,19 @@ $(document).ready(function() {
 					}
 				});
 
-				$(document).on("touchstart","#pause",function() {
+				$(document).on(on.mousedown,".overGrid_cell",function() {
+					if (window.playing) {
+						var cell_x = Number($(this).attr("x"));
+						var cell_y = Number($(this).attr("y"));
+						selectCell(cell_x,cell_y);
+					}
+				});
+
+				$(document).on(on.click,"#pause",function() {
 					if ($("#pause").hasClass("reset")) {
-						console.log("starting");
 						startGame();
 
 						var timer = setInterval(function() {
-							//animateLines();
 							if (window.playing) {
 								moveRobots();
 								spawnRobots();
@@ -118,17 +75,14 @@ $(document).ready(function() {
 						$("#pause").removeClass("reset");
 					}
 					else if ($("#pause").hasClass("playing")) {
-						console.log("pause");
 						window.playing = false;
 						$("#pause").removeClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-play">');
 					}
 					else {
-						console.log("resume");
 						window.playing = true;
 						$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
 					}
 				});
-			}
 
 	/* * actions * */
 		/* selectCell */
@@ -152,7 +106,7 @@ $(document).ready(function() {
 
 						//past a collector?
 							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-								console.log("no going beyond a collector");
+								// console.log("no going beyond a collector");
 							}
 							else {
 								//direction
@@ -201,7 +155,7 @@ $(document).ready(function() {
 
 						//backing out of a collector?
 							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-								console.log("no backing out of a collector");
+								// console.log("no backing out of a collector");
 							}
 							else {
 								//get previous cell
@@ -249,7 +203,7 @@ $(document).ready(function() {
 
 						//backing out of a collector?
 							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-								console.log("no backing out of a collector");
+								// console.log("no backing out of a collector");
 							}
 							else {
 								//reset
@@ -451,11 +405,8 @@ $(document).ready(function() {
 					$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
 			}
 
-		/* animateLines */
-
 		/* moveRobots */
 			function moveRobots() {
-				console.log("moving");
 				$(".robot").each(function() {
 					//starting point
 						var robot = $(this);
@@ -563,15 +514,13 @@ $(document).ready(function() {
 
 							//hijacking a path?
 								if (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) && (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) !== unit) && !$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-									console.log("hijacking");
-
 									//get info on path
 										var path = Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path"));
 										var path_endpoint = $("#endpoint_" + path).detach();
 										var path_endpoint_x = $(path_endpoint).attr("x");
 										var path_endpoint_y = $(path_endpoint).attr("y");
 
-										console.log(unit + " hijacking " + path + "'s path from " + end_x + "," + end_y + " to " + path_endpoint_x + "," + path_endpoint_y)
+										// console.log(unit + " hijacking " + path + "'s path from " + end_x + "," + end_y + " to " + path_endpoint_x + "," + path_endpoint_y)
 									
 									//move this robot's endpoint to the hijack spot
 										var endpoint = $("#endpoint_" + unit).detach();
@@ -625,7 +574,7 @@ $(document).ready(function() {
 												var uproot_y = uproot_coordinates[1];
 
 												$("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("path",unit);
-												console.log("uprooting: " + uproot_x + ", " + uproot_y + " ; abort: " + abort);
+												// console.log("uprooting: " + uproot_x + ", " + uproot_y + " ; abort: " + abort);
 												var uproot_from = $("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("from");
 												abort++;
 											}
@@ -658,7 +607,6 @@ $(document).ready(function() {
 
 		/* spawnRobots */
 			function spawnRobots() {
-				console.log("spawning");
 				
 				//parameters
 					var colors = ["red","green","blue"];

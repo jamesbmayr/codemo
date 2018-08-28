@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* load */
 		window.shapeCount = 1;
 		window.playing = false;
@@ -44,7 +52,7 @@ $(document).ready(function() {
 		};
 
 	/* file buttons */
-		$(document).on("click","#controls_download",function() {
+		$(document).on(on.click,"#controls_download",function() {
 			var data = {};
 
 			$(".control_shape").each(function(i) {
@@ -215,6 +223,11 @@ $(document).ready(function() {
 			}
 		});
 
+	/* collapse button */
+		$(document).on(on.click, "#collapse", function() {
+			$("#controls").toggleClass("collapsed")
+		})
+
 	/* header buttons */
 		$(document).on("change keyup", "#controls_background", function () {
 			var background = String($("#controls_background").val());
@@ -241,7 +254,7 @@ $(document).ready(function() {
 
 		});
 
-		$(document).on("click",".new_shape",function() {
+		$(document).on(on.click,".new_shape",function() {
 			if (!window.playing) {
 				var control_shape = $(this).closest(".control_shape");
 				var new_shape = $(this).find(".shape_options").val();
@@ -294,11 +307,11 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".shape_options",function(e) {
+		$(document).on(on.click,".shape_options",function(e) {
 			e.stopPropagation();
 		});
 
-		$(document).on("click",".remove_shape",function() {
+		$(document).on(on.click,".remove_shape",function() {
 			if (!window.playing) {
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 				$("#control_shape_" + id).remove();
@@ -306,7 +319,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".collapse_shape",function() {
+		$(document).on(on.click,".collapse_shape",function() {
 			if (!window.playing) {
 				$(this).closest(".control_shape").children().hide();
 				$(this).closest(".control_shape_header").show();
@@ -315,7 +328,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".expand_shape",function() {
+		$(document).on(on.click,".expand_shape",function() {
 			if (!window.playing) {
 				$(this).closest(".control_shape").children().show();
 				$(this).closest(".control_shape_header").find(".collapse_shape").show();
@@ -379,7 +392,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".new_animation",function() {
+		$(document).on(on.click,".new_animation",function() {
 			if (!window.playing) {
 				$(this).closest(".control_shape").append("\
 					<div class='animation'>\
@@ -396,7 +409,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".remove_animation",function() {
+		$(document).on(on.click,".remove_animation",function() {
 			if (!window.playing) {
 				$(this).closest(".animation").remove();
 			}
@@ -440,7 +453,7 @@ $(document).ready(function() {
 		});
 
 	/* preview animation controls */
-		$(document).on("click",".play:not(#controls_play)",function() {
+		$(document).on(on.click,".play:not(#controls_play)",function() {
 			if (!window.playing) {
 				window.queue = [];
 				window.endTime = 0;
@@ -520,7 +533,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".pause:not(#controls_pause)",function() {
+		$(document).on(on.click,".pause:not(#controls_pause)",function() {
 			if (!window.playing) {
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 				clearInterval(window.timeout[id]);
@@ -536,7 +549,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click",".restart:not(#controls_restart)",function() {
+		$(document).on(on.click,".restart:not(#controls_restart)",function() {
 			if (!window.playing) {
 				var id = Number(String($(this).closest(".control_shape").attr("id")).replace("control_shape_",""));
 				clearInterval(window.timeout[id]);
@@ -565,7 +578,7 @@ $(document).ready(function() {
 		});
 	
 	/* animation controls */
-		$(document).on("click","#controls_play",function() {
+		$(document).on(on.click,"#controls_play",function() {
 			if (window.endTime === 0) {
 				$(".shape").each(function(index) {
 					var id = Number(String($(this).attr("id")).replace("shape_",""));
@@ -639,7 +652,7 @@ $(document).ready(function() {
 
 						timestamp = Number((hours * 360) + (minutes * 60) + seconds) * 1000;
 
-						queue[queue.length] = [timestamp,id,animation,duration];
+						window.queue[window.queue.length] = [timestamp,id,animation,duration];
 
 						if ((timestamp + duration) > endTime) {
 							endTime = timestamp + duration;
@@ -657,16 +670,16 @@ $(document).ready(function() {
 				});
 		
 				var sorted_queue = [];
-				sorted_queue[0] = queue[0];
-				queue.splice(0,1);
+				sorted_queue[0] = window.queue[0];
+				window.queue.splice(0,1);
 
-				while (queue.length > 0) {
+				while (window.queue.length > 0) {
 					var placed = false;
 					var i = 0;
 					while ((!placed) && (i < sorted_queue.length)) {
-						if (Number(queue[0][0]) < Number(sorted_queue[i][0])) {
+						if (Number(window.queue[0][0]) < Number(sorted_queue[i][0])) {
 							sorted_queue.splice(i,0,queue[0]);
-							queue.splice(0,1);
+							window.queue.splice(0,1);
 							placed = true;
 						}
 						else {
@@ -674,11 +687,13 @@ $(document).ready(function() {
 						}
 					}
 					if (!placed) {
-						sorted_queue.push(queue[0]);
-						queue.splice(0,1);
+						sorted_queue.push(window.queue[0]);
+						window.queue.splice(0,1);
 						placed = true;
 					}
-				}				
+				}
+
+				console.log(window.queue)			
 
 				if (endTime) {
 					window.queue = sorted_queue;
@@ -779,7 +794,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click","#controls_pause",function() {
+		$(document).on(on.click,"#controls_pause",function() {
 			window.playing = false;
 
 			$(this).hide();
@@ -796,7 +811,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click","#controls_restart",function() {
+		$(document).on(on.click,"#controls_restart",function() {
 			window.playing = false;
 			window.queue = [];
 			window.endTime = 0;

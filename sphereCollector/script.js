@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	window.score = 0;
 	window.loopCount = 0;
 
@@ -102,7 +110,7 @@ $(document).ready(function() {
 
 	},100);
 
-	$(document).on("mouseenter",".sphere",function() {
+	$(document).on("mouseenter touchstart",".sphere",function() {
 		$(this).remove();
 		window.score++;
 		$("#score").text(window.score);

@@ -54,7 +54,7 @@ window.onload = function() {
 				document.getElementById("menu").className = ""
 				document.getElementById("board").setAttribute("turn", victory || "tie")
 				document.getElementById("board").setAttribute("state", "end")
-				document.getElementById("start").innerHTML = (victory ? (victory + " wins!") : "tie game!") + "<br>play again?"
+				document.getElementById("start").innerHTML = ((victory !== "tie") ? (victory + " wins!") : "tie game!") + "<br>play again?"
 			}
 
 		/* switchPlayers */
