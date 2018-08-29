@@ -21,7 +21,7 @@ $(document).ready(function() {
 				
 				$.ajax({
 					type: "POST",
-					url: "http://api.openweathermap.org/data/2.5/weather?appid=6459c6ca838c4552b161ae31df96d16a&units=metric&lat=" + latitude + "&lon=" + longitude,
+					url: "https://api.openweathermap.org/data/2.5/weather?appid=6459c6ca838c4552b161ae31df96d16a&units=metric&lat=" + latitude + "&lon=" + longitude,
 					success: function(data) {
 						if ((data) && (data.cod) && (data.cod == 200) && (data.name)) {
 							window.attempts = 0;
