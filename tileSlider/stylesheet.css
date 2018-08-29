@@ -21,6 +21,15 @@
 	}
 
 /* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
 	body {
 		background-color: lightgray;
 		padding: 0px;
@@ -30,7 +39,7 @@
 	}
 
 	#container {
-		position: absolute;
+		position: fixed;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
@@ -47,7 +56,7 @@
 
 /* controls */
 	#controls {
-		position: absolute;
+		position: fixed;
 		width: 100%;
 		height: calc(100% / 9);
 		background-color: #333333;
@@ -59,9 +68,9 @@
 	#url {
 		float: left;
 		padding: 10px;
-		font-size: 15px;
+		font-size: 25px;
 		color: #333333;
-		width: 70%;
+		width: 68%;
 		height: 100%;
 		border-radius: 5px 0px 0px 0px;
 		border: 0px;
@@ -72,8 +81,7 @@
 		padding: 5px;
 		color: lightgray;
 		background-color: #333333;
-		zoom: 2;
-		width: 20%;
+		width: 22%;
 		height: 100%;
 		border-radius: 0px;
 		border: 0px;
@@ -81,6 +89,7 @@
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
+		font-size: 25px;
 	}
 
 	#refresh {
@@ -170,4 +179,12 @@
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#gridSize, #refresh, #url {
+			padding: 2px;
+			font-size: 15px;
+		}
 	}

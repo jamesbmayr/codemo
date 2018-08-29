@@ -1,6 +1,14 @@
 window.addEventListener("load", function() {
 
 	/*** load ***/
+		/* triggers */
+			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			}
+			else {
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			}
+
 		/* globals */
 			var tool = null
 			var parameter = null
@@ -8,19 +16,20 @@ window.addEventListener("load", function() {
 			var defaults = window.getInstruments(true)
 
 		/* prevention */
-			document.body.ondragstart = function() { return false }
-			document.body.ondrop      = function() { return false }
+			document.body.ondragstart   = function() { return false }
+			document.body.ondrop        = function() { return false }
+			document.body.oncontextmenu = function() { return false }
 
 		/* builds */
 			buildTools()
-			document.addEventListener("click", function() {
+			document.addEventListener(on.click, function() {
 				if (window.audio && !window.instrument) { loadFile(null, "random") }
 			})
 			
 
 	/*** tools ***/
 		/* selectTool */
-			Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) { b.addEventListener("click", selectTool) })
+			Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) { b.addEventListener(on.click, selectTool) })
 			function selectTool(event) {
 				// deselect all tools & buttons
 					Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) {
@@ -164,8 +173,8 @@ window.addEventListener("load", function() {
 
 	/*** bars & inputs ***/
 		/* selectBar */
-			Array.from(document.querySelectorAll(".bar")  ).forEach(function (p) { p.addEventListener("mousedown", selectBar); p.addEventListener("touchstart", selectBar) })
-			Array.from(document.querySelectorAll(".shape")).forEach(function (p) { p.addEventListener("mousedown", selectBar); p.addEventListener("touchstart", selectBar) })
+			Array.from(document.querySelectorAll(".bar")  ).forEach(function (p) { p.addEventListener(on.mousedown, selectBar) })
+			Array.from(document.querySelectorAll(".shape")).forEach(function (p) { p.addEventListener(on.mousedown, selectBar) })
 			function selectBar(event) {
 				if (tool) {
 					parameter = event.target
@@ -177,8 +186,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* moveBar */
-			document.addEventListener("mousemove", moveBar)
-			document.addEventListener("touchmove", moveBar)
+			document.addEventListener(on.mousemove, moveBar)
 			function moveBar(event) {
 				if (tool && parameter) {
 					switch (tool.id) {
@@ -208,8 +216,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* deselectBar */
-			document.addEventListener("mouseup",  deselectBar)
-			document.addEventListener("touchend", deselectBar)
+			document.addEventListener(on.mouseup,  deselectBar)
 			function deselectBar(event) {
 				if (tool && parameter) {
 					if (tool.id == "tool-filter") {
@@ -255,7 +262,7 @@ window.addEventListener("load", function() {
 			}
 
 		/* changeToggle */
-			Array.from(document.querySelectorAll(".toggle")).forEach(function (t) { t.addEventListener("click", changeToggle) })
+			Array.from(document.querySelectorAll(".toggle")).forEach(function (t) { t.addEventListener(on.click, changeToggle) })
 			function changeToggle(event) {
 				if (tool) {
 					switch (tool.id) {
@@ -297,7 +304,7 @@ window.addEventListener("load", function() {
 						input.id = "tool-meta-download"
 						input.className = "button"
 						input.innerHTML = '<span class="fas fa-download"></span>'
-						input.addEventListener("click", downloadFile)
+						input.addEventListener(on.click, downloadFile)
 					element.appendChild(input)
 
 				// select
@@ -320,7 +327,7 @@ window.addEventListener("load", function() {
 						input.id = "tool-meta-upload"
 						input.className = "button"
 						input.innerHTML = '<input id="upload-link" type="file"><span class="fas fa-upload"></span>'
-						input.addEventListener("click", uploadFile)
+						input.addEventListener(on.click, uploadFile)
 					element.appendChild(input)
 
 				// power
@@ -393,20 +400,22 @@ window.addEventListener("load", function() {
 					else {
 						var custom = {}
 					}
-				
-				// package up
-					custom[name] = JSON.parse(JSON.stringify(window.instrument.parameters))
-					custom[name].imag = Array.from(window.instrument.parameters.imag)
-					custom[name].real = Array.from(window.instrument.parameters.real)
-				
-				// save
-					window.localStorage.synthesizers = JSON.stringify(custom)
 
-					if (!Array.from(document.querySelectorAll("#tool-meta-select option[value='" + name + "']")).length) {
-						var option = document.createElement("option")
-							option.value = option.innerText = name
-						document.getElementById("tool-meta-select").appendChild(option)
-					}
+				if (name !== "synthesizer") {
+					// package up
+						custom[name] = JSON.parse(JSON.stringify(window.instrument.parameters))
+						custom[name].imag = Array.from(window.instrument.parameters.imag)
+						custom[name].real = Array.from(window.instrument.parameters.real)
+					
+					// save
+						window.localStorage.synthesizers = JSON.stringify(custom)
+
+						if (!Array.from(document.querySelectorAll("#tool-meta-select option[value='" + name + "']")).length) {
+							var option = document.createElement("option")
+								option.value = option.innerText = name
+							document.getElementById("tool-meta-select").appendChild(option)
+						}
+				}
 			}
 
 		/* downloadFile */
@@ -422,7 +431,7 @@ window.addEventListener("load", function() {
 						downloadLink.id = "download-link"
 						downloadLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(file)))
 						downloadLink.setAttribute("download", "toneMaker_" + name + ".json")
-						downloadLink.addEventListener("click", function() {
+						downloadLink.addEventListener(on.click, function() {
 							var downloadLink = document.getElementById("download-link")
 							document.body.removeChild(downloadLink)
 						})
@@ -1084,8 +1093,7 @@ window.addEventListener("load", function() {
 				// baseline
 					var baseline = document.createElement("div")
 						baseline.id = "tool-filter-baseline"
-						baseline.addEventListener("mousedown",  createFilter)
-						baseline.addEventListener("touchstart", createFilter)
+						baseline.addEventListener(on.mousedown,  createFilter)
 					track.appendChild(baseline)
 			}
 
@@ -1133,8 +1141,7 @@ window.addEventListener("load", function() {
 					var shape = document.createElement("div")
 						shape.className = "shape square"
 						shape.id = "tool-filter-shape--low--" + num
-						shape.addEventListener("mousedown",  selectBar)
-						shape.addEventListener("touchstart", selectBar)
+						shape.addEventListener(on.mousedown,  selectBar)
 						shape.style.left = low + "%"
 						shape.style.top = "50%"
 					track.appendChild(shape)
@@ -1156,8 +1163,7 @@ window.addEventListener("load", function() {
 					var shape = document.createElement("div")
 						shape.className = "shape circle"
 						shape.id = "tool-filter-shape--gain--" + num
-						shape.addEventListener("mousedown",  selectBar)
-						shape.addEventListener("touchstart", selectBar)
+						shape.addEventListener(on.mousedown,  selectBar)
 						shape.style.left = ((low + high) / 2) + "%"
 						shape.style.top = (50 - gain) + "%"
 					track.appendChild(shape)
@@ -1184,8 +1190,7 @@ window.addEventListener("load", function() {
 					var shape = document.createElement("div")
 						shape.className = "shape square"
 						shape.id = "tool-filter-shape--high--" + num
-						shape.addEventListener("mousedown",  selectBar)
-						shape.addEventListener("touchstart", selectBar)
+						shape.addEventListener(on.mousedown,  selectBar)
 						shape.style.left = high + "%"
 						shape.style.top = "50%"
 					track.appendChild(shape)
@@ -1571,11 +1576,11 @@ window.addEventListener("load", function() {
 			}
 
 		/* pressKey */
-			Array.from(document.querySelectorAll(".key")).forEach(function (k) { k.addEventListener("mousedown", pressKey); k.addEventListener("touchstart", pressKey) })
+			Array.from(document.querySelectorAll(".key")).forEach(function (k) { k.addEventListener(on.mousedown, pressKey) })
 			document.addEventListener("keydown", pressKey)
 			function pressKey(event) {		
 				// keyboard or mouse?
-					if (event.type == "mousedown") {
+					if (event.type == on.mousedown) {
 						var press = event.target
 						key = press
 					}
@@ -1593,12 +1598,11 @@ window.addEventListener("load", function() {
 			}
 
 		/* liftKey */
-			document.addEventListener("mouseup",  liftKey)
-			document.addEventListener("touchend", liftKey)
+			document.addEventListener(on.mouseup,  liftKey)
 			document.addEventListener("keyup",    liftKey)
 			function liftKey(event) {
 				// keyboard or mouse?
-					if ((event.type == "mouseup") && key) {
+					if ((event.type == on.mouseup) && key) {
 						var lift = key
 						key = null
 					}

@@ -1,12 +1,20 @@
 $(document).ready(function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* on load */
 		window.attempts = 0;
 		fetch();
 
 	/* fetch */
 		function fetch() {
-			if (window.attempts < 3) {
+			if (window.attempts < 7) {
 				var latitude = (Math.random() * 130) - 60;
 				var longitude = (Math.random() * 360) - 180;
 				console.log(latitude + ", " + longitude);
@@ -196,7 +204,7 @@ $(document).ready(function() {
 		}
 
 	/* refresh */
-		$(document).on("click","#refresh",function() {
+		$(document).on(on.click,"#refresh",function() {
 			window.location = window.location;
 		});
 });

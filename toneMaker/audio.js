@@ -908,7 +908,7 @@ window.addEventListener("load", function() {
 						var high4 = Math.random() * -10 + 100
 
 						return {
-							name: "new synthesizer",
+							name: "synthesizer",
 							polysynth: {
 								"-12": !(Math.floor(Math.random() * 4 - 1)),
 								"-7":  !(Math.floor(Math.random() * 5 - 1)),

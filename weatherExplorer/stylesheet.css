@@ -20,12 +20,21 @@
 		filter: drop-shadow(0px 0px 4px #222222);
 	}
 
-/* page */
+/* page */	
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
 	body {
 		margin: 0px;
 		padding: 0px;
-		width: 100vw;
-		height: 100vh;
+		width: 100%;
+		height: 100%;
 		background-color: lightgray;
 		color: #222222;
 		font-family: Helvetica, Arial, sans;
@@ -59,7 +68,7 @@
 	}
 
 	#refresh {
-		position: absolute;
+		position: fixed;
 		top: 25px;
 		left: 25px;
 		border: 0px;
@@ -114,4 +123,36 @@
 
 	.data {
 		font-weight: bold;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#refresh {
+			top: 5px;
+			left: 5px;
+		}
+
+		#place_data {
+			font-size: 25px;
+		}
+
+		#coordinates_data {
+			font-size: 15px;
+		}
+
+		#info {
+			text-align: center;
+			width: 300px;
+		}
+
+		#status div {
+			height: 50px;
+			width: 50px;
+			font-size: 10px;
+			padding: 15px;
+		}
+
+		#status .fa {
+			font-size: 20px;
+		}
 	}

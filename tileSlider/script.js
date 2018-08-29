@@ -1,10 +1,18 @@
 $(document).ready(function() {
+
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
 	
 	/* load */
 		createPuzzle();
 
 	/* listeners */
-		$(document).on("click",".trigger",function() {
+		$(document).on(on.click,".trigger",function() {
 			if (window.playing) {
 				var coordinates = $(this).attr("value");
 					var x = Number(coordinates.split(",")[0]);
@@ -18,7 +26,7 @@ $(document).ready(function() {
 			}
 		});
 
-		$(document).on("click","#refresh",function() {
+		$(document).on(on.click,"#refresh",function() {
 			createPuzzle();
 		});
 

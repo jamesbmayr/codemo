@@ -1,6 +1,6 @@
 /*** page ***/
 	html, body {
-		position: absolute;
+		position: fixed;
 		top: 0px;
 		left: 0px;
 		height: 100%;
@@ -14,7 +14,7 @@
 	}
 
 	#container {
-		position: absolute;
+		position: fixed;
 		top: 0%;
 		left: 0%;
 		height: 100%;

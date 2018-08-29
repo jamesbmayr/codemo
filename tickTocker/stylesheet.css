@@ -149,3 +149,10 @@
 		-moz-user-select: none;
 		cursor: default;
 	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#title {
+			display: none;
+		}
+	}
