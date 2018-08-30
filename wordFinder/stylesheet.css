@@ -288,6 +288,33 @@
 		}
 
 /* mobile */
+	@media screen and (min-width: 501px) and (max-width: 800px) {
+		#controls {
+			height: 10vh;
+			font-size: 5px;
+		}
+
+		.button_frame {
+			width: 25%;
+		}
+
+		.button_frame:nth-Child(2) {
+			float: right;
+		}
+
+		#endGame {
+			width: calc(100% - 32px);
+		}
+
+		#j-logo {
+			width: 20px;
+		}
+
+		.letter {
+			font-size: 25px;
+		}
+	}
+
 	@media screen and (max-width: 500px) {
 		#controls {
 			height: 10vh;
