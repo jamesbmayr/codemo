@@ -1,8 +1,27 @@
 /* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
 	body {
 		padding: 0px;
 		margin: 0px;
 		background-color: rgba(150,140,125,1);
+	}
+
+	::-webkit-scrollbar {
+		height: 0px !important;
+		width: 0px !important;
+	}
+
+	::-o-scrollbar {
+		height: 0px !important;
+		width: 0px !important;
 	}
 
 	#container {
@@ -25,7 +44,7 @@
 			width: 100%;
 			height: 100%;
 			background-color: rgba(232,232,232,1);
-			overflow: none;
+			overflow: hidden;
 			border-radius: 5px;
 		}
 
@@ -266,3 +285,60 @@
 			transform: translateY(25%);
 			cursor: pointer;
 		}
+
+/* mobile */
+	@media screen and (max-width: 597px) {
+		#controls {
+			height: 10vh;
+			font-size: 10px;
+		}
+
+		.button_frame {
+			width: 25%;
+		}
+
+		.button_frame:nth-Child(2) {
+			float: right;
+		}
+
+		#endGame {
+			width: calc(100% - 32px);
+		}
+
+		#j-logo {
+			width: 20px;
+		}
+
+		#overlay, #box {
+			height: calc(100vw);
+			width: calc(100vw);
+		}
+
+		#game, #connectors {
+			height: calc(100vw - 2vh);
+			width: calc(100vw - 2vh);
+		}
+
+		.frame {
+			height: calc((100vw - 2vh) / 5);
+			width: calc((100vw - 2vh) / 5);
+		}
+
+		.letter {
+			font-size: 25px;
+		}
+
+		#connectors {
+			padding: calc((100vw - 2vh) / 20);
+		}
+
+		.connector_frame {
+			height: calc((100vw - 2vh) / 10);
+			width: calc((100vw - 2vh) / 10);
+		}
+
+		#pad {
+			width: 100vw;
+			height: calc(90vh - 100vw);
+		}
+	}

@@ -1,4 +1,14 @@
 $(document).ready(function() {
+
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
+		document.oncontextmenu = function() { return false }
 	
 	/* cubes */
 		var cubes = [
@@ -201,27 +211,27 @@ $(document).ready(function() {
 
 	/* listeners */
 		/* start game */
-			$(document).on("click", ".active#newGame", function() {
+			$(document).on(on.click, ".active#newGame", function() {
 				newGame();
 			});
 
 		/* pause game */
-			$(document).on("click", ".active#pauseGame", function() {
+			$(document).on(on.click, ".active#pauseGame", function() {
 				pauseGame();
 			});
 
 		/* resume game */
-			$(document).on("click", ".active#resumeGame", function() {
+			$(document).on(on.click, ".active#resumeGame", function() {
 				resumeGame();
 			});
 
 		/* end game */
-			$(document).on("click", ".active#endGame", function() {
+			$(document).on(on.click, ".active#endGame", function() {
 				endGame();
 			});
 
 		/* click letter */
-			$(document).on("click", ".active .cube" , function() {
+			$(document).on(on.click, ".active .cube" , function() {
 
 				var oldCube = Number(selectedCubes.slice(-1)[0]);
 				var newCube = Number($(this).attr("id"));
@@ -265,7 +275,7 @@ $(document).ready(function() {
 			});
 
 		/* submit word */
-			$(document).on("click", "#submitWord.active", function() {
+			$(document).on(on.click, "#submitWord.active", function() {
 
 				var allWordDivs = $(".oldWord");
 				var allWords = [];
@@ -316,7 +326,7 @@ $(document).ready(function() {
 			});
 
 		/* cancel word */
-			$(document).on("click", "#cancelWord.active", function () {
+			$(document).on(on.click, "#cancelWord.active", function () {
 
 				$(".newWord").empty();
 				$(".selected").removeClass("selected");
@@ -326,12 +336,12 @@ $(document).ready(function() {
 			});
 
 		/* delete word */
-			$(document).on("click", ".deleteWord", function() {
+			$(document).on(on.click, ".deleteWord", function() {
 				$(this).closest(".word").remove();
 			});
 
 		/* hover over complete words */
-			$(document).on("mouseenter", ".completeWord", function() {
+			$(document).on("mouseenter touchstart", ".completeWord", function() {
 				var chain = $(this).attr("value");
 				var chainArray = chain.split(",");
 
@@ -346,7 +356,7 @@ $(document).ready(function() {
 				}
 			});
 
-			$(document).on("mouseleave", ".completeWord", function() {
+			$(document).on("mouseleave touchend", ".completeWord", function() {
 				var chain = $(this).attr("value");
 				var chainArray = chain.split(",");
 

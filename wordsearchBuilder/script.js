@@ -1,5 +1,13 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/*** interaction ***/
 		/* submitForm */
 			document.getElementById("form").addEventListener("submit", submitForm)
@@ -108,7 +116,7 @@ window.onload = function() {
 			}
 
 		/* displayPrevious */
-			document.getElementById("left").addEventListener("click", displayPrevious)
+			document.getElementById("left").addEventListener(on.click, displayPrevious)
 			function displayPrevious() {
 				// get current
 					var current = Number(document.querySelector(".board").id.replace("_", ""))
@@ -126,7 +134,7 @@ window.onload = function() {
 			}
 
 		/* displayNext */
-			document.getElementById("right").addEventListener("click", displayNext)
+			document.getElementById("right").addEventListener(on.click, displayNext)
 			function displayNext() {
 				// get current
 					var current = Number(document.querySelector(".board").id.replace("_", ""))

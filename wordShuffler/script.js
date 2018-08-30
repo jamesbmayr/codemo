@@ -1,7 +1,15 @@
 window.onload = function() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* listeners */
-		document.querySelectorAll("#search")[0].addEventListener("click", findWords)
+		document.querySelectorAll("#search")[0].addEventListener(on.click, findWords)
 		document.querySelectorAll("#input")[0].addEventListener("keyup", function(event) {
 			if (event.which == 13) {
 				findWords()
@@ -61,12 +69,13 @@ window.onload = function() {
 		function buildWords(words, letters, stem) {
 			for (var l in letters) {
 				var word = stem + letters[l]
+				console.log(word)
 				if ((word.length > 1) && (window.dictionary[word[0]].indexOf(word) > -1)) {
 					words.push(word)
 				}
 
 				if (letters.length > 1) {
-					var otherLetters = letters
+					var otherLetters = letters.join("").split("")
 						otherLetters.splice(l, 1)
 					
 					words = buildWords(words, otherLetters, stem + letters[l])

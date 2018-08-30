@@ -1,6 +1,16 @@
 $(document).ready(function() {
-	window.data = [];
-	window.looping = false;
+	
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
+	/* globals */
+		window.data = [];
+		window.looping = false;
 
 	/* updateWeb */
 		window.updateWeb = function() {
@@ -278,7 +288,7 @@ $(document).ready(function() {
 
 	/* listeners */
 		/* circle */
-			$(document).on("click", ".circle", function() {
+			$(document).on(on.click, ".circle", function() {
 				if (!window.looping) {
 					if ($(this).hasClass("center")) {
 						$(".circle").removeClass("active from to center");
@@ -305,7 +315,7 @@ $(document).ready(function() {
 			});
 
 		/* toggle */
-			$(document).on("click", "#toggle", function() {
+			$(document).on(on.click, "#toggle", function() {
 				if ($("#overlay").css("display") == "none") {
 					$("#overlay").show();
 					$("#edit").hide();
@@ -321,7 +331,7 @@ $(document).ready(function() {
 			});
 
 		/* addRow */
-			$(document).on("click", "#addRow", function() {
+			$(document).on(on.click, "#addRow", function() {
 				$("#rows").append("<div class='row'>\
 					<input type='text' class='name' placeholder='name'/>\
 					<input type='text' class='points_to' placeholder='points to...'/>\
@@ -332,7 +342,7 @@ $(document).ready(function() {
 			});
 
 		/* removeRow */
-			$(document).on("click", ".removeRow", function() {
+			$(document).on(on.click, ".removeRow", function() {
 				var button = $(this);
 				var name = $(button).closest(".row").find("input.name").val();
 
@@ -344,7 +354,7 @@ $(document).ready(function() {
 			});
 
 		/* makeLines */
-			$(document).on("click", "#playpause", function() {
+			$(document).on(on.click, "#playpause", function() {
 				if ($("#play").css("display") == "none") { //clicking pause
 					$("#play").show();
 					$("#pause").hide();

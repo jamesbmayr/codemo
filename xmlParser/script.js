@@ -1,7 +1,15 @@
 function ready() {
 
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
 	/* displayResults */
-		document.getElementById("submit").addEventListener("click", function() {
+		document.getElementById("submit").addEventListener(on.click, function() {
 			var input = document.getElementById("input").value
 			if (input && input.length > 0) {
 				var results = parseXML(input)
