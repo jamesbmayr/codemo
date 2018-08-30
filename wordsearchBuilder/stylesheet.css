@@ -267,4 +267,8 @@
 		#left, #right {
 			margin-top: 0px;
 		}
+
+		#options {
+			font-size: 15px;
+		}
 	}

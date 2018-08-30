@@ -94,8 +94,7 @@ $(document).ready(function() {
 				$(".clock").text("3:00");
 				$("#game").empty().addClass("active");
 				$("#connectors").empty();
-				$("#myWords").empty().css("height","100%");
-				$("#score").empty().css("height","0%");
+				$("#myWords").empty().css("height","100%")
 
 				$("#submitWord").addClass("active");
 				$("#cancelWord").addClass("active");
@@ -203,10 +202,10 @@ $(document).ready(function() {
 				}
 
 			/* display score */
-				$("#score").text("score: " + score).css("height","15%");
+				$("#myWords").prepend("<div id='score'>score: " + score + "</div>");
 				$(".oldWord").addClass("completeWord");
 				$(".newWord").remove();
-				$("#myWords").css("height","85%");
+				
 		}
 
 	/* listeners */

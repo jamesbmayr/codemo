@@ -103,7 +103,7 @@
 		border: 2px solid #dddddd;
 		background-color: #dddddd;
 		width: calc(100vw - 20px);
-		height: calc(100vh - 20px);
+		height: calc(100% - 20px);
 		margin: 10px;
 	}
 
@@ -136,7 +136,7 @@
 	}
 
 	#rows {
-		max-height: calc(100vh - 140px);
+		max-height: calc(100% - 140px);
 		overflow: scroll;
 	}
 
@@ -191,7 +191,7 @@
 /* web */
 	#circles {
 		width: 100vw;
-		height: 100vh;
+		height: 100%;
 		position: absolute;
 		top: 50%;
 		left: 50%;
@@ -225,7 +225,7 @@
 
 	#lines {
 		width: 100vw;
-		height: 100vh;
+		height: 100%;
 		position: absolute;
 		top: 0;
 		left: 0;
