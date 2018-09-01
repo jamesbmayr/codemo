@@ -29,6 +29,12 @@ $(document).ready(function() {
 
 			$("#score").text("");
 			$("#restart").hide();
+			
+			if (window.endTimer) {
+				clearInterval(window.endTimer);
+				clearInterval(window.timer);
+				$(".balloon").remove();
+			}
 
 			window.timer = setInterval(function() {
 				moveBalloons();
@@ -45,7 +51,7 @@ $(document).ready(function() {
 				$(this).addClass("popped").css("background-color","rgba(000,000,000,0)").children().show();
 			});
 
-			setTimeout(function() {
+			window.endTimer = setTimeout(function() {
 				clearInterval(window.timer);
 				$(".balloon").remove();
 			},2000);
