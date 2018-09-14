@@ -114,6 +114,7 @@
 		cursor: pointer;
 		user-select: none;
 		transition: 0.5s;
+		opacity: 0.3;
 	}
 
 	#controls button:hover, #controls button:focus {
