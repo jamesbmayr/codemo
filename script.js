@@ -587,6 +587,14 @@ window.onload = function() {
 					description: "In robotDirector, players must guide simple bots to a color-coded collection point."
 				},
 				{
+					name: "runJumper",
+					size: "small",
+					tags: ["games","code"],
+					url: "https://rawgit.com/jamesbmayr/codemo/master/runJumper/",
+					date: "September 14, 2018",
+					description: "Help the robot collect energy orbs in runJumper, a randomly generated platformer."
+				},
+				{
 					name: "shapeAnimator",
 					size: "medium",
 					tags: ["code","art"],
