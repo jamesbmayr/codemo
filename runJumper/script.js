@@ -244,19 +244,15 @@ window.onload = function() {
 							if ((map[futureCells.left ][0] && map[futureCells.left ][0].top && futureCells.bottom <= map[futureCells.left ][0].top) 
 							 || (map[futureCells.right][0] && map[futureCells.right][0].top && futureCells.bottom <= map[futureCells.right][0].top)) {
 								futureCells.bottom++
-							 	futureCells.top++
-
-							 	player.current.vy = 0
-							 	player.current.y  = futureCells.bottom * 32
-							 	player.current.surface = true
-							 	player.controls.reset  = false
+								futureCells.top++
+								var collisionDown = true
 							}
 
 						// collision up
 							else if ((map[futureCells.left ][1] && map[futureCells.left ][1].bottom && futureCells.top >= map[futureCells.left ][1].bottom) 
 							      || (map[futureCells.right][1] && map[futureCells.right][1].bottom && futureCells.top >= map[futureCells.right][1].bottom)) {
 								futureCells.bottom--
-							 	futureCells.top--
+								futureCells.top--
 								player.current.vy = Math.min(0, player.current.vy)
 								player.current.y  = futureCells.bottom * 32
 							}
@@ -285,6 +281,17 @@ window.onload = function() {
 							}
 					}
 
+				// check collisionDown again (to avoid hitting the "surface" inside a wall)
+					if (collisionDown) {
+						if ((map[futureCells.left ][0] && map[futureCells.left ][0].top && futureCells.bottom - 1 <= map[futureCells.left ][0].top) 
+						 || (map[futureCells.right][0] && map[futureCells.right][0].top && futureCells.bottom - 1 <= map[futureCells.right][0].top)) {
+							player.current.vy = 0
+							player.current.y  = futureCells.bottom * 32
+							player.current.surface = true
+							player.controls.reset  = false
+						}
+					}
+
 				// dead ?
 					if (player.current.y <= -64) {
 						endGame()
@@ -300,17 +307,26 @@ window.onload = function() {
 
 				// collect orb
 					var matchingOrb = orbs.find(function(orb) {
-						return ((orb.column == current.left || orb.column == current.right)
-							&&  (orb.row    == current.top  || orb.row    == current.bottom || orb.row == current.middle))
+						return ((orb.column == current.left   || orb.column == current.right)
+							&&  (orb.row    == current.middle || orb.row    == current.bottom || orb.row == current.top))
 					})
 
 					if (matchingOrb) {
-						player.orbs++
-						player.energy = Math.max(0, Math.min(255, player.energy + matchingOrb.energy))
-						
-						game.orbs = orbs.filter(function(orb) {
-							return !((orb.column == matchingOrb.column) && (orb.row == matchingOrb.row))
-						})
+						var orbX  = (matchingOrb.column * 32) + 16
+						var orbY  = (matchingOrb.row    * 32) + 16
+						var headX = player.current.x + 16
+						var headY = player.current.y + 32 + 16
+						var bodyX = player.current.x + 16
+						var bodyY = player.current.y + 16
+
+						if (getDistance(orbX, orbY, headX, headY) < 24 || getDistance(orbX, orbY, bodyX, bodyY) < 24) {
+							player.orbs++
+							player.energy = Math.max(0, Math.min(255, player.energy + matchingOrb.energy))
+							
+							game.orbs = orbs.filter(function(orb) {
+								return !((orb.column == matchingOrb.column) && (orb.row == matchingOrb.row))
+							})
+						}
 					}
 
 				// deplete energy
@@ -423,7 +439,7 @@ window.onload = function() {
 
 						orbs.push({
 							column: (map.length - 1),
-							row:    Math.min(15, (column[0] ? column[0].top + 1 : 3) + Math.floor(Math.random() * 4)),
+							row:    Math.min(15, (column[0] ? column[0].top + 2 : 3) + Math.floor(Math.random() * 3)),
 							energy: game.cooldowns.orbs * 16
 						})
 					}
@@ -459,7 +475,20 @@ window.onload = function() {
 							if (column[0]) {
 								for (var y = 0; y < 16; y++) {
 									if (y >= column[0].bottom && y <= column[0].top) {
-										drawSquare(x - offset - startX, 512 - (y * 32), 32, "#222222")
+										if (y == column[0].top) {
+											var tl = (!game.map[Math.floor(x / 32) - 1][0] || game.map[Math.floor(x / 32) - 1][0].top < y) ? 8 : 0
+											var tr = (!game.map[Math.floor(x / 32) + 1][0] || game.map[Math.floor(x / 32) + 1][0].top < y) ? 8 : 0
+											
+											if (tl || tr) {
+												drawRoundedSquare(x - offset - startX, 512 - (y * 32), 32, "#222222", "#222222", {tl: tl, tr: tr, bl: 0, br: 0})
+											}
+											else {
+												drawSquare(x - offset - startX, 512 - (y * 32), 32, "#222222", "#222222")
+											}
+										}
+										else {
+											drawSquare(x - offset - startX, 512 - (y * 32), 32, "#222222", "#222222")
+										}
 									}
 								}
 							}
@@ -470,7 +499,7 @@ window.onload = function() {
 							})
 
 							if (matchingOrb) {
-								drawCircle(x - offset - startX + 8, 512 - (matchingOrb.row * 32) - 8, 8, "rgb(000, " + (matchingOrb.energy * 2) + ", " + (matchingOrb.energy / 2) + ")")
+								drawCircle(x - offset - startX + 8, 512 - (matchingOrb.row * 32) - 8, 8, "rgb(000, " + (matchingOrb.energy * 2) + ", " + (matchingOrb.energy / 2) + ")", "rgb(000, " + (matchingOrb.energy * 2) + ", " + (matchingOrb.energy / 2) + ")")
 							}
 					}
 			}
@@ -484,12 +513,12 @@ window.onload = function() {
 					var yOffset = player.current.vy > 0 ?  2 : player.current.vy < 0 ? -2 : 0
 
 				// draw
-					drawCircle(128,                512 - (player.current.y + 32                           ), 16, color)     // head
-					drawCircle(128 +  4 + xOffset, 512 - (player.current.y + 32 + 12            + yOffset ),  4, "#222222") // left eye
-					drawCircle(128 + 20 + xOffset, 512 - (player.current.y + 32 + 12            + yOffset ),  4, "#222222") // right eye
-					drawSquare(128,                512 - (player.current.y                                ), 32, color)     // body
-					drawSquare(128 + -2 + xOffset, 512 - (player.current.y + 12 +  6 * Math.max(0,yOffset)), 10, "#222222") // left hand
-					drawSquare(128 + 26 + xOffset, 512 - (player.current.y + 12 +  6 * Math.max(0,yOffset)), 10, "#222222") // right hand
+					drawCircle(       128,                512 - (player.current.y + 32                           ), 16, color,     "#222222")                               // head
+					drawCircle(       128 +  4 + xOffset, 512 - (player.current.y + 32 + 12            + yOffset ),  4, "#222222",      null)                               // left eye
+					drawCircle(       128 + 20 + xOffset, 512 - (player.current.y + 32 + 12            + yOffset ),  4, "#222222",      null)                               // right eye
+					drawRoundedSquare(128,                512 - (player.current.y                                ), 32, color,     "#222222", {tl: 8, tr: 8, br: 4, bl: 4}) // body
+					drawRoundedSquare(128 + -2 + xOffset, 512 - (player.current.y + 12 +  6 * Math.max(0,yOffset)), 10, "#222222", "#222222", {tl: 8, tr: 8, br: 2, bl: 2}) // left hand
+					drawRoundedSquare(128 + 26 + xOffset, 512 - (player.current.y + 12 +  6 * Math.max(0,yOffset)), 10, "#222222", "#222222", {tl: 8, tr: 8, br: 2, bl: 2}) // right hand
 			}
 
 		/* drawScore */
@@ -522,28 +551,63 @@ window.onload = function() {
 				}
 			}
 
+		/* getDistance */
+			function getDistance(x1, y1, x2, y2) {
+				return Math.floor(Math.pow(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2), 0.5))
+			}
+
 		/* clearCanvas */
 			function clearCanvas() {
 				context.clearRect(0, 0, canvas.width, canvas.height)
 			}
 
 		/* drawCircle */
-			function drawCircle(x,y,r,c) {
+			function drawCircle(x, y, r, c, s) {
 				context.beginPath()
 				context.fillStyle = c
 				context.lineWidth = 1
+				if (s) {
+					context.shadowBlur = 10
+					context.shadowColor = s
+				}
 
 				context.arc(x + r, y - r, r, 0, 2 * Math.PI, true)
 				context.fill()
 			}
 
 		/* drawSquare */
-			function drawSquare(x,y,l,c) {
+			function drawSquare(x, y, l, c, s) {
 				context.beginPath()
 				context.fillStyle = c
 				context.lineWidth = 1
+				if (s) {
+					context.shadowBlur = 10
+					context.shadowColor = s
+				}
 
 				context.fillRect(x, y - l, l, l)
-				context.stroke()
+			}
+
+		/* drawRoundedSquare */
+			function drawRoundedSquare(x,y,l,c,s,r) {
+				context.beginPath()
+				context.fillStyle = c
+				context.lineWidth = 1
+				if (s) {
+					context.shadowBlur = 10
+					context.shadowColor = s
+				}
+
+				context.moveTo(x + r.tl, y - l)
+				context.lineTo(x + l - r.tr, y - l)
+				context.quadraticCurveTo(x + l, y - l, x + l, y - l + r.tr)
+				context.lineTo(x + l, y - r.br)
+				context.quadraticCurveTo(x + l, y, x + l - r.br, y)
+				context.lineTo(x + r.bl, y)
+				context.quadraticCurveTo(x, y, x, y - r.bl)
+				context.lineTo(x, y - l + r.tl)
+				context.quadraticCurveTo(x, y - l, x + r.tl, y - l)
+				context.closePath()
+				context.fill()
 			}
 }
