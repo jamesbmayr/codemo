@@ -48,7 +48,6 @@ window.onload = function() {
 					maze = setEmpty(maze)
 					maze.settings.x =        Number(options.width.value)
 					maze.settings.y =        Number(options.height.value)
-					maze.settings.polarity  = Number(options.polarity.value)
 					maze.settings.blocks   = Number(options.blocks.value)
 					maze.settings.interval = Number(options.interval.value)
 				
@@ -64,7 +63,7 @@ window.onload = function() {
 					mazeLoop = setInterval(function() {
 						if (!isComplete(maze)) {
 							maze = setRandom(maze, maze.current.x, maze.current.y)
-							maze = setNext(maze, maze.current.x, maze.current.y, maze.current.s, maze.current.l, maze.current.p)
+							maze =   setNext(maze, maze.current.x, maze.current.y, maze.current.s, maze.current.l, maze.current.p)
 						}
 						else {
 							clearInterval(mazeLoop)
@@ -323,7 +322,6 @@ window.onload = function() {
 						settings: {
 							x: 20,
 							y: 20,
-							polarity: 8,
 							blocks: 1,
 							interval: 100
 						},
@@ -339,7 +337,8 @@ window.onload = function() {
 							l: 0,
 							p: 0,
 							b: 0
-						}
+						},
+						history: []
 					}
 
 				return maze
@@ -393,6 +392,7 @@ window.onload = function() {
 
 							if (!centerKeys.includes(x + "," + y)) {
 								maze.grid[x][y].c = 1
+								abort = 0
 								maze.current.b++
 
 								// ensure no black neighbors
@@ -447,7 +447,7 @@ window.onload = function() {
 		/* setRandom */
 			function setRandom(maze, x, y) {
 				// pick a color & set it
-					var color = Math.sign(Math.floor(Math.random() * maze.settings.polarity))
+					var color = Math.sign(Math.floor(Math.random() * 2))
 					maze.grid[x][y].c = color
 
 				// white ?
@@ -482,15 +482,40 @@ window.onload = function() {
 
 		/* setNext */
 			function setNext(maze, x, y, s, l, p, escape) {
-				if (escape && escape > (2 * (maze.settings.x + maze.settings.y) - 4)) {
-					return maze
-				}
-				else if (!escape) {
-					var escape = 0
-				}
+				// escape ?
+					if (escape && escape > (2 * (maze.settings.x + maze.settings.y) - 4)) {
+						return maze
+					}
+					else if (!escape) {
+						var escape = 0
+					}
+
+				// island --> go back
+					if (causesIsland(maze, x, y, 0)) {
+						// reset current
+							maze.grid[x][y].c = null
+
+						// reset previous
+							maze.current = JSON.parse(JSON.stringify(maze.history[maze.history.length - 2]))
+							maze.grid[maze.current.x][maze.current.y].c = null
+							maze.history.pop()
+							maze.history.pop()
+					}
+
+				// at center --> look for stragglers
+					else if (l >= (Math.min(maze.settings.x, maze.settings.y) / 2)) {
+						for (var row in maze.grid) {
+							for (var column in maze.grid[row]) {
+								if (maze.grid[row][column].c === null) {
+									maze.current.x = maze.grid[row][column].x
+									maze.current.y = maze.grid[row][column].y
+								}
+							}
+						}
+					}
 
 				// get next
-					if (s === 0) { // top
+					else if (s === 0) { // top
 						if (!p) { // move in
 							maze.current.x = getDiagonalIn(maze, x, "x")
 							maze.current.y = getDiagonalIn(maze, y, "y")
@@ -504,6 +529,8 @@ window.onload = function() {
 						else { // continue
 							maze.current.x = x + 1
 						}
+
+						maze.current.p--
 					}
 					else if (s === 1) { // right
 						if (!p) { // move in
@@ -519,6 +546,8 @@ window.onload = function() {
 						else { // continue
 							maze.current.y = y + 1
 						}
+
+						maze.current.p--
 					}
 					else if (s === 2) { // bottom
 						if (!p) { // move in
@@ -534,6 +563,8 @@ window.onload = function() {
 						else { // continue
 							maze.current.x = x - 1
 						}
+
+						maze.current.p--
 					}
 					else { // left
 						if (!p) { // move in
@@ -549,10 +580,12 @@ window.onload = function() {
 						else { // continue
 							maze.current.y = y - 1
 						}
+
+						maze.current.p--
 					}
 
-				// perimeter count down
-					maze.current.p--
+				// add to history
+					maze.history.push(JSON.parse(JSON.stringify(maze.current)))
 
 				// not empty ?
 					if (maze.grid[maze.current.x][maze.current.y].c !== null && !isComplete(maze)) {
