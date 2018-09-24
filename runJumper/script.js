@@ -122,8 +122,7 @@ window.onload = function() {
 									x: 320,
 									y: 80,
 									vx: 0,
-									vy: 0,
-									surface: true
+									vy: 0
 								},
 								energy: 255,
 								orbs: 0,
@@ -202,7 +201,7 @@ window.onload = function() {
 				// adjust vx
 					if (player.controls.left && player.controls.right) {
 						player.energy = Math.max(0, Math.min(255, player.energy - 1))
-						player.current.vx = Math.max(-12, Math.min(16, player.current.vx))
+						player.current.vx = Math.max(-12, Math.min(12, player.current.vx))
 					}
 					else if (player.controls.left) {
 						player.energy = Math.max(0, Math.min(255, player.energy - 1))
@@ -220,7 +219,6 @@ window.onload = function() {
 					if (player.controls.jump && !player.controls.reset) {
 						player.energy = Math.max(0, Math.min(255, player.energy - 4))
 						player.current.vy = Math.max(-16, Math.min(16, player.current.vy + 8))
-						player.current.surface = false
 
 						if (player.current.vy > 8) {
 							player.controls.reset = true
@@ -228,7 +226,6 @@ window.onload = function() {
 					}
 					else {
 						player.current.vy = Math.max(-24, Math.min(24, player.current.vy - 2))
-						player.current.surface = false
 						player.controls.reset = true
 					}
 
@@ -239,7 +236,7 @@ window.onload = function() {
 					var futureCells = getCells(player.current.x, player.current.y)
 					
 				// changing rows
-					if (currentCells.bottom !== futureCells.bottom || currentCells.top !== futureCells.top) {
+					if (currentCells.bottom !== futureCells.bottom && player.current.vy <= 0) {
 						// collision down
 							if ((map[futureCells.left ][0] && map[futureCells.left ][0].top && futureCells.bottom <= map[futureCells.left ][0].top) 
 							 || (map[futureCells.right][0] && map[futureCells.right][0].top && futureCells.bottom <= map[futureCells.right][0].top)) {
@@ -247,19 +244,10 @@ window.onload = function() {
 								futureCells.top++
 								var collisionDown = true
 							}
-
-						// collision up
-							else if ((map[futureCells.left ][1] && map[futureCells.left ][1].bottom && futureCells.top >= map[futureCells.left ][1].bottom) 
-							      || (map[futureCells.right][1] && map[futureCells.right][1].bottom && futureCells.top >= map[futureCells.right][1].bottom)) {
-								futureCells.bottom--
-								futureCells.top--
-								player.current.vy = Math.min(0, player.current.vy)
-								player.current.y  = futureCells.bottom * 32
-							}
 					}
 
 				// changing columns
-					if (currentCells.left !== futureCells.left || currentCells.right !== futureCells.right) {
+					if (currentCells.left !== futureCells.left) {
 						// collision left
 							if ((map[futureCells.left][0] && futureCells.top    >= map[futureCells.left][0].bottom && futureCells.top    <= map[futureCells.left][0].top) 
 							 || (map[futureCells.left][0] && futureCells.bottom >= map[futureCells.left][0].bottom && futureCells.bottom <= map[futureCells.left][0].top)) {
@@ -267,7 +255,6 @@ window.onload = function() {
 								futureCells.right++
 								player.current.vx = Math.max(0, player.current.vx)
 								player.current.x  = futureCells.left * 32 + 8
-								player.controls.reset  = true
 							}
 
 						// collision right
@@ -277,7 +264,6 @@ window.onload = function() {
 								futureCells.right--
 								player.current.vx = Math.min(0, player.current.vx)
 								player.current.x  = futureCells.right * 32 - 8
-								player.controls.reset  = true
 							}
 					}
 
@@ -287,7 +273,6 @@ window.onload = function() {
 						 || (map[futureCells.right][0] && map[futureCells.right][0].top && futureCells.bottom - 1 <= map[futureCells.right][0].top)) {
 							player.current.vy = 0
 							player.current.y  = futureCells.bottom * 32
-							player.current.surface = true
 							player.controls.reset  = false
 						}
 					}
