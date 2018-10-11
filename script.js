@@ -665,16 +665,24 @@ window.onload = function() {
 					url: "https://rawgit.com/jamesbmayr/codemo/master/xmlParser/",
 					date: "September 10, 2017",
 					description: "xmlParser is a Javascript web tool for converting XML into JSON."
+				},
+				{
+					name: "melodemons",
+					size: "large",
+					tags: ["games","code","music"],
+					url: "http://www.melodemons.com",
+					date: "October 9, 2018",
+					description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
 				}
 			]
 
 		/* controls */
-			var sizes = {
+			/*var sizes = {
 				"small":        "s",
 				"medium":       "m",
 				"large":        "l",
 				"extra-large":  "xl"
-			}
+			}*/
 
 			var tags  = {
 				"code":           "{}",
@@ -687,10 +695,10 @@ window.onload = function() {
 			
 			var sorts = {
 				"chronological":        chronologicalSort,
-				"reverseChronological": reverseChronologicalSort,
+				/*"reverseChronological": reverseChronologicalSort,
 				"alphabetical":         alphabeticalSort,
 				"reverseAlphabetical":  reverseAlphabeticalSort,
-				"thematic":             thematicSort
+				"thematic":             thematicSort*/
 			}
 
 	/*** build ***/
@@ -703,16 +711,18 @@ window.onload = function() {
 					})
 
 				// sort
-					var selectedSort  =  document.querySelector("#controls-sort .filter[selected]") || {}
-						selectedSort  =  selectedSort.value || "chronological"
-					var sortFunction = sorts[selectedSort] || noSort
+					/*var selectedSort  =  document.querySelector("#controls-sort .filter[selected]") || {}
+						selectedSort   =  selectedSort.value || "chronological"*/
+					var selectedSort   = "chronological"
+					var sortFunction   = sorts[selectedSort]/* || noSort*/
 					var sortedProjects = sortFunction(projects)
 
 				// sizes
-					var selectedSizes = Array.from(document.querySelectorAll("#controls-sizes .filter[selected]")) || []
+					/*var selectedSizes = Array.from(document.querySelectorAll("#controls-sizes .filter[selected]")) || []
 						selectedSizes = selectedSizes.map(function(button) {
 							return button.value
-						}) || Object.keys(sizes)
+						}) || Object.keys(sizes)*/
+					/*var selectedSizes = Object.keys(sizes)*/
 
 				// tags
 					var selectedTags  = Array.from(document.querySelectorAll("#controls-tags  .filter[selected]")) || []
@@ -730,12 +740,12 @@ window.onload = function() {
 							}
 						}
 
-						var sized  = false
+						/*var sized  = false
 						if (selectedSizes.includes(projects[p].size)) {
 							sized  = true
-						}
+						}*/
 
-						if (tagged && sized) {
+						if (tagged/* && sized*/) {
 							document.body.appendChild(buildProject(projects[p]))
 						}
 					}
@@ -749,7 +759,7 @@ window.onload = function() {
 						element.id = project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"")
 
 				// image
-					var image    = document.createElement("div")
+					var image   = document.createElement("div")
 						image.className = "image"
 						image.style["background-image"] = "url('logos/" + project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"") + ".png')"
 					element.appendChild(image)
@@ -760,17 +770,17 @@ window.onload = function() {
 					element.appendChild(content)
 
 				// name
-					var name     = document.createElement("div")
+					var name    = document.createElement("div")
 						name.className = "name"
 					content.appendChild(name)
 
-					var innerN   = document.createElement("h2")
+					var innerN  = document.createElement("h2")
 						innerN.className = "name-inner"
 						innerN.innerText = project.name
 					name.appendChild(innerN)
 
 				// summary
-					var summary  = document.createElement("div")
+					var summary = document.createElement("div")
 						summary.className = "summary"
 					content.appendChild(summary)
 
@@ -784,11 +794,11 @@ window.onload = function() {
 						tagBlock.className = "tags"
 					content.appendChild(tagBlock)
 
-					var size = document.createElement("div")
+					/*var size = document.createElement("div")
 						size.className = "size"
 						size.innerHTML = sizes[project.size]
 						size.title     = project.size
-					tagBlock.appendChild(size)
+					tagBlock.appendChild(size)*/
 
 					for (var t in project.tags) {
 						var tag = document.createElement("div")
@@ -800,7 +810,7 @@ window.onload = function() {
 
 					var date = document.createElement("div")
 						date.className = "date"
-						date.innerHTML = String(new Date(project.date).getMonth() + 1) + "-" + String(new Date(project.date).getYear() + 1900).slice(-2)
+						date.innerHTML = ("0" + String(new Date(project.date).getMonth() + 1)).slice(-2) + "/" + String(new Date(project.date).getYear() + 1900)
 						date.title     = project.date
 					tagBlock.appendChild(date)
 
@@ -819,9 +829,11 @@ window.onload = function() {
 
 	/*** filter ***/
 		/* selectFilter */
-			Array.from(document.querySelectorAll("#controls-sizes .filter")).concat(Array.from(document.querySelectorAll("#controls-tags .filter"))).forEach(function(element) {
-				element.addEventListener("click", selectFilter)
-			})
+			var filterArray = Array.from(document.querySelectorAll("#controls-tags .filter"))
+				/*filterArray = filterArray.concat(Array.from(document.querySelectorAll("#controls-sizes .filter")))*/
+				filterArray.forEach(function(element) {
+					element.addEventListener("click", selectFilter)
+				})
 			function selectFilter(event) {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
@@ -835,33 +847,33 @@ window.onload = function() {
 
 	/*** sort ***/
 		/* selectSort */
-			Array.from(document.querySelectorAll("#controls-sort .filter")).forEach(function(element) {
+			/*Array.from(document.querySelectorAll("#controls-sort .filter")).forEach(function(element) {
 				element.addEventListener("click", selectSort)
-			})
-			function selectSort(event) {
+			})*/
+			/*function selectSort(event) {
 				Array.from(document.querySelectorAll("#controls-sort .filter[selected]")).forEach(function(element) {
 					element.removeAttribute("selected")
 				})
 
 				event.target.setAttribute("selected", true)
 				buildGrid()
-			}
+			}*/
 
 		/* noSort */
-			function noSort(arr) {
+			/*function noSort(arr) {
 				return arr
-			}
+			}*/
 
 		/* thematicSort */
-			function thematicSort(arr) {
+			/*function thematicSort(arr) {
 				var tagList = Object.keys(tags)
 				return arr.sort(function(a, b) {
 					return tagList.indexOf(a.tags[0]) - tagList.indexOf(b.tags[0])
 				})
-			}
+			}*/
 
 		/* alphabeticalSort */
-			function alphabeticalSort(arr) {
+			/*function alphabeticalSort(arr) {
 				var names = arr.map(function (project) {
 					return project.name.toLowerCase()
 				})
@@ -871,10 +883,10 @@ window.onload = function() {
 				return arr.sort(function(a, b) {
 					return names.indexOf(b.name.toLowerCase()) - names.indexOf(a.name.toLowerCase())
 				})
-			}
+			}*/
 
 		/* reverseAlphabeticalSort */
-			function reverseAlphabeticalSort(arr) {
+			/*function reverseAlphabeticalSort(arr) {
 				var names = arr.map(function (project) {
 					return project.name.toLowerCase()
 				})
@@ -883,7 +895,7 @@ window.onload = function() {
 				return arr.sort(function(a, b) {
 					return names.indexOf(b.name.toLowerCase()) - names.indexOf(a.name.toLowerCase())
 				})
-			}
+			}*/
 
 		/* chronologicalSort */
 			function chronologicalSort(arr) {
@@ -893,10 +905,10 @@ window.onload = function() {
 			}
 
 		/* reverseChronologicalSort */
-			function reverseChronologicalSort(arr) {
+			/*function reverseChronologicalSort(arr) {
 				return arr.sort(function(a, b) {
 					return ((new Date(a.date).getTime()) - (new Date(b.date).getTime()))
 				})
-			}
+			}*/
 
 }
