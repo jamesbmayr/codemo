@@ -367,6 +367,9 @@ window.onload = function() {
 						}
 						else if (random < 10) { // 12.5% chance of pit
 							column = []
+							if (!map[map.length - 1][0] && !map[map.length - 2][0] && !map[map.length - 3][0] && !map[map.length - 4][0]) { // cap pits at 4
+								column = [{bottom: 0, top: 1}]
+							}
 						}
 						else if (random < 12) { // 12.5% chance of plains
 							column = [{bottom: 0, top: 1}]

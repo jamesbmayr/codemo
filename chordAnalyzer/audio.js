@@ -852,6 +852,7 @@ window.addEventListener("load", function() {
 							i.envelopes[pitch].gain.cancelScheduledValues(now)
 							i.envelopes[pitch].gain.setValueAtTime(i.envelopes[pitch].gain.value, now)
 							i.envelopes[pitch].gain.exponentialRampToValueAtTime(0.001, now + (i.parameters.envelope.release || 0))
+							i.envelopes[pitch].gain.linearRampToValueAtTime(0, now + (i.parameters.envelope.release || 0) + 0.001)
 
 						// delete
 							i.timeouts[pitch] = setTimeout(function() {
@@ -1439,6 +1440,43 @@ window.addEventListener("load", function() {
 							}
 						}
 					break
+					case "sharpsichord":
+						return {
+							"name":"sharpsichord",
+							"polysynth":{
+								"0":true
+							},
+							"imag":[0,1,0.18338973820209503,0.06164489686489105,0.16505765914916992,0.05308644846081734,0.0630641058087349,0.03404829651117325,0.05037868767976761,0.09803289920091629,0.04073476791381836,0.06083011254668236,0.027402449399232864,0.008078854531049728,0.0028261858969926834,0.04333797097206116,0.04956173896789551,0.033073946833610535,0.028376849368214607,0.022788777947425842,0.011428376659750938,0.02052171155810356,0.005210720002651215,0.0385330505669117,0.03903305158019066,0.011357864364981651,0.025470439344644547,0.0014464398846030235,0.018127329647541046,0.01408306136727333,0.013367714360356331,0.0005558114498853683,0.015808377414941788,0.018298164010047913],
+							"envelope":{
+								"attack":0.0010819334770028426,
+								"decay":0.3011093120255117,
+								"sustain":0,
+								"release":0.8948628416772253
+							},
+							"bitcrusher":{
+								"bits":64,
+								"norm":0.8875034167880647
+							},
+							"filters":{
+								"0":{
+									"low":3223.3996504974443,
+									"mid":8543.374424708145,
+									"high":20000,
+									"gain":10.024587985114302
+								},
+								"1":{
+									"low":11.98732795784056,
+									"mid":32.70319566257483,
+									"high":89.21913292988074,
+									"gain":-22.936602870813402
+								}
+							},
+							"echo":{
+								"delay":0.13033631290023645,
+								"feedback":0.3335722262314059
+							}
+						}
+					break
 					default:
 						if (window.localStorage.synthesizers) {
 							var custom = JSON.parse(window.localStorage.synthesizers)
@@ -1463,7 +1501,7 @@ window.addEventListener("load", function() {
 		window.getInstruments = getInstruments
 		function getInstruments(defaults) {
 			try {
-				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "accordienne", "glassical", "clarinaut", "qube"]
+				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "accordienne", "glassical", "clarinaut", "qube", "sharpsichord"]
 
 				if (!defaults) {
 					if (window.localStorage.synthesizers) {
