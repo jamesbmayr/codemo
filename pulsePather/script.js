@@ -158,7 +158,7 @@ window.addEventListener("load", function() {
 					var key = document.createElement("button")
 						key.id = "keyboard-null"
 						key.className = "keyboard-white"
-						key.value = ""
+						key.value = "x"
 						key.innerText = "[x]"
 						key.addEventListener(on.click, closeKeyboard)
 					document.getElementById("keyboard").appendChild(key)
@@ -202,29 +202,39 @@ window.addEventListener("load", function() {
 			}
 
 		/* closeKeyboard */
+			document.getElementById("keyboard-close").addEventListener(on.click, closeKeyboard)
 			function closeKeyboard(event) {
-				// values
-					var octave = Number(document.getElementById("keyboard-octave").value)
-					var pitch = event.target.value + "\n" + octave
-					selected.value = pitch
-					selected.innerText = event.target.value || ""
+				if (event.target.className == "keyboard-white" || event.target.className == "keyboard-black") {
+					// values
+						var octave = Number(document.getElementById("keyboard-octave").value)
+						var pitch = event.target.value + "\n" + octave
+						selected.value = pitch
+						selected.innerText = event.target.value || ""
 
-				// sound
-					if (event.target.value) {
-						selected.style["background-color"] = notes[event.target.value][1]
-						selected.style["filter"] = "brightness(" + (50 + octave * 25) + "%)"
-						selected.setAttribute("sound", true)
-					}
-					else {
-						selected.style["background-color"] = "#222222"
-						selected.style["filter"] = "brightness(100%)"
-						selected.removeAttribute("sound")
-					}
+					// sound
+						if (event.target.value == "x") {
+							selected.style["background-color"] = "#222222"
+							selected.style["filter"] = "brightness(100%)"
+							selected.removeAttribute("sound")
+							selected.innerText = selected.value = ""
+						}
+						else if (event.target.value) {
+							selected.style["background-color"] = notes[event.target.value][1]
+							selected.style["filter"] = "brightness(" + (50 + octave * 25) + "%)"
+							selected.setAttribute("sound", true)
+						}
 
-				// reset
-					selected = null
-					document.getElementById("keyboard").setAttribute("hidden", true)
-					document.getElementById("grid").removeAttribute("blur")
+					// reset
+						selected = null
+						document.getElementById("keyboard").setAttribute("hidden", true)
+						document.getElementById("grid").removeAttribute("blur")
+				}
+				else if (event.target.id == "keyboard-close") {
+					// reset
+						selected = null
+						document.getElementById("keyboard").setAttribute("hidden", true)
+						document.getElementById("grid").removeAttribute("blur")
+				}
 			}
 
 		/* changeOctave */

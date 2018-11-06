@@ -18,17 +18,18 @@
 	<body>
 		<div id="grid" blur></div>
 		<button id="menu-open" hidden>?</button>
+		<button id="menu-play" hidden>&gt;</button>
+		<button id="menu-pause">||</button>
 		<div id="menu">
 			<div id="menu-title">pulsePather</div>
 			<button id="menu-close">x</button>
-			<button id="menu-play" hidden>&gt;</button>
-			<button id="menu-pause">||</button>
 			<label>volume<input  id="menu-volume"        type="range"  min="0"  max="0.5"   step="0.05" value="0.5"/></label>
 			<label>tempo<input   id="menu-tempo"         type="number" min="60" max="240" step="1"   value="120"/></label>
 			<label>time<input    id="menu-timesignature" type="number" min="1"  max="8"   step="1"   value="4"/></label>
 			<label>tone<select   id="menu-instrument"></select>
 		</div>
 		<div id="keyboard" hidden>
+			<button id="keyboard-close">x</button>
 			<label>octave<input  id="keyboard-octave"    type="range"  min="1"  max="8"   step="1"   value="4"/></label>
 		</div>
 		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
