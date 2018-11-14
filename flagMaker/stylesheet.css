@@ -49,6 +49,7 @@
 		overflow-x: hidden;
 		overflow-y: scroll;
 		padding: 10px;
+		outline: 2px solid #dddddd;
 	}
 
 	#title {
@@ -58,6 +59,7 @@
 		text-align: center;
 		padding: 20px 0px 10px 0px;
 		margin: 0px;
+		user-select: none;
 	}
 
 	/* components */
@@ -108,6 +110,7 @@
 			font-weight: bold;
 			font-size: 35px;
 			margin: 30px 0px 5px 0px;
+			user-select: none;
 		}
 
 		#menu label {
@@ -119,6 +122,7 @@
 			width: calc(100% - 20px);
 			margin: 5px;
 			line-height: 1.5;
+			user-select: none;
 		}
 
 		#menu select {
@@ -187,7 +191,7 @@
 		height: 40vw;
 		width: 60vw;
 		overflow: hidden;
-		outline: 2px solid white;
+		outline: 2px solid #dddddd;
 	}
 
 	#flag {
@@ -199,8 +203,8 @@
 /*** mobile ***/
 	@media screen and (max-width: 600px) {
 		#menu {
-			width: 100%;
-			height: 50%;
+			width: calc(100% - 20px);
+			height: calc(50% - 20px);
 		}
 
 		#display {
