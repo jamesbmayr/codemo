@@ -59,7 +59,7 @@ window.addEventListener("load", function() {
 				cross: 			"40% 40%, 40% -150%, 60% -150%, 60% 40%, 250% 40%, 250% 60%, 60% 60%, 60% 250%, 40% 250%, 40% 60%, -150% 60%, -150% 40%, 40% 40%",
 				x: 				"-170% -150%, -150% -170%, 50% 30%, 250% -170%, 270% -150%, 70% 50%, 270% 250%, 250% 270%, 50% 70%, -150% 270%, -170% 250%, 30% 50%",
 				jack:           "-170% -150%, -150% -170%, 50% 30%, 250% -170%, 270% -150%, 70% 50%, 270% 250%, 250% 270%, 50% 70%, -150% 270%, -170% 250%, 30% 50%, 40% 40%, 40% -150%, 60% -150%, 60% 40%, 250% 40%, 250% 60%, 60% 60%, 60% 250%, 40% 250%, 40% 60%, -150% 60%, -150% 40%, 40% 40%, 30% 50%",
-				arrow: 			"50% 0, 50% 33%, 100% 33%, 100% 67%, 50% 67%, 50% 100%, 0% 50%",	
+				arrow: 			"100% 50%, 67% 50%, 67% 100%, 33% 100%, 33% 50%, 0% 50%, 50% 0%",	
 				rabbit: 		"29% 6%, 30% 13%, 30% 18%, 30% 23%, 30% 30%, 31% 36%, 34% 42%, 36% 49%, 34% 57%, 31% 65%, 30% 72%, 31% 80%, 34% 86%, 39% 90%, 45% 94%, 50% 95%, 55% 94%, 61% 90%, 66% 86%, 69% 80%, 70% 72%, 69% 65%, 66% 57%, 64% 49%, 66% 42%, 69% 36%, 70% 30%, 70% 23%, 70% 18%, 70% 13%, 71% 6%, 70.5% 5%, 69.5% 4%, 69% 4%, 66% 7%, 64% 11%, 61% 18%, 57% 27%, 56% 32%, 55% 39%, 54% 45%, 53% 44.5%, 50% 44%, 47% 44.5%, 46% 45%, 45% 39%, 44% 32%, 43% 27%, 39% 18%, 36% 11%, 34% 7%, 31% 4%, 30.5% 4%, 29.5% 5%",
 				cat: 			"24% 10%, 17% 38%, 13% 46%, 13% 57%, 17% 65%, 25% 74%, 35% 82%, 47% 85%, 53% 85%, 65% 82%, 75% 74%, 83% 65%, 87% 57%, 87% 46%, 83% 38%, 76% 10%, 60% 31%, 40% 31%",
 				dog: 			"46% 19%, 54% 19%, 57.75% 20%, 58% 19.5%, 60% 18.25%, 61% 18%, 74% 19.5%, 85% 18%, 88% 20%, 89.75% 22%, 87% 40%, 88% 54%, 87% 57%, 85% 58%, 81.75% 57.5%, 78.5% 55%, 79% 59%, 78.5% 62%, 71% 77%, 70% 80%, 69% 84%, 67% 87%, 64% 88.5%, 62% 88.8%, 61% 89%, 56% 88%, 50.13% 90.05% , 44% 88%, 39% 89%, 38% 88.8%, 36% 88.5%, 33% 87%, 31% 84%, 30% 80%, 29% 77%, 21.5% 62%, 21% 59%, 21.5% 55%, 19.25% 57.5%, 15% 58%, 13% 57%, 12% 54%, 13% 40%, 10.25% 22%, 12% 20%, 15% 18%, 26% 19.5%, 39% 18%, 40% 18.25%, 42% 19.5%, 42.25% 20%",
@@ -497,9 +497,11 @@ window.addEventListener("load", function() {
 								elements.forEach(function(element) {
 									if (coordinates.includes(element.value)) {
 										element.setAttribute("checked", true)
+										element.checked = true
 									}
 									else {
 										element.removeAttribute("checked")
+										element.checked = false
 									}
 								})
 						}
@@ -653,7 +655,7 @@ window.addEventListener("load", function() {
 					])
 
 				// ring
-					data.ringSymbol = Math.floor(Math.random() * 4) ? "none" : chooseRandom(Object.keys(symbols))
+					data.ringSymbol = Math.floor(Math.random() * 6) ? "none" : chooseRandom(Object.keys(symbols))
 					data.ringHue = chooseRandom(hues)
 					data.ringShade = data.ringHue[1]
 					data.ringHue = data.ringHue[0]
@@ -1138,25 +1140,27 @@ window.addEventListener("load", function() {
 						var y = Number(data.ringPositions[i].split(",")[1]) * (canvas.height / 7) + (canvas.height / 14)
 						var color = colors[data.ringHue][data.ringShade]
 
-						for (var i = 1; i <= data.ringCount; i++) {
-							var rotation = 360 / data.ringCount * i
+						rotateCanvas(x, canvas.height - y, data.ringRotation, function() {
+							for (var i = 1; i <= data.ringCount; i++) {
+								var rotation = 360 / data.ringCount * i
 
-								context.translate(-(data.ringRadius / 2), -(data.ringRadius / 2))
-								rotateCanvas(x + (data.ringRadius / 2), canvas.height - y + (data.ringRadius / 2), rotation, function() {
-									rotateCanvas(x, canvas.height - y, rotation + data.ringRotation, function() {
-										if (data.ringSymbol == "circle") {
-											drawCircle(x, y, (data.ringSize / 2), {color: color})
-										}
-										else if (data.ringSymbol == "ring") {
-											drawCircle(x, y, (data.ringSize / 2), {color: color, border: data.ringSize / 14})
-										}
-										else {
-											drawShape(x - (data.ringSize / 2), canvas.height - (y + (data.ringSize / 2)), data.ringSize, data.ringSize, {color: color, coordinates: symbols[data.ringSymbol]})
-										}
+									context.translate(-(data.ringRadius / 2), -(data.ringRadius / 2))
+									rotateCanvas(x + (data.ringRadius / 2), canvas.height - y + (data.ringRadius / 2), rotation, function() {
+										rotateCanvas(x, canvas.height - y, 360 / data.ringCount, function() {
+											if (data.ringSymbol == "circle") {
+												drawCircle(x, y, (data.ringSize / 2), {color: color})
+											}
+											else if (data.ringSymbol == "ring") {
+												drawCircle(x, y, (data.ringSize / 2), {color: color, border: data.ringSize / 14})
+											}
+											else {
+												drawShape(x - (data.ringSize / 2), canvas.height - (y + (data.ringSize / 2)), data.ringSize, data.ringSize, {color: color, coordinates: symbols[data.ringSymbol]})
+											}
+										})
 									})
-								})
-								context.translate((data.ringRadius / 2), (data.ringRadius / 2))
-						}
+									context.translate((data.ringRadius / 2), (data.ringRadius / 2))
+							}
+						})
 					}
 				}
 			}
