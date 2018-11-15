@@ -73,34 +73,35 @@
 		#menu label#upload-outer {
 			float: left;
 			margin: 5px;
-			width: calc(25% - 20px);
-			height: 35px;
+			width: calc(100% / 3 - 20px);
+			height: 30px;
 			border-radius: 5px;
 			border: 0px;
 			background-color: #333333;
 			color: #dddddd;
-			font-weight: bold;
-			font-size: 25px;
+			font-size: 20px;
 			cursor: pointer;
 			user-select: none;
 			text-align: center;
+			overflow: hidden;
+			line-height: 1.7;
 		}
 
 		#menu button {
 			float: left;
 			padding: 5px;
 			margin: 5px;
-			width: calc(25% - 10px);
-			height: 45px;
+			width: calc(100% / 3 - 10px);
+			height: 40px;
 			border-radius: 5px;
 			border: 0px;
 			background-color: #333333;
 			color: #dddddd;
-			font-weight: bold;
-			font-size: 25px;
+			font-size: 20px;
 			cursor: pointer;
 			user-select: none;
 			outline: none;
+			overflow: hidden;
 		}
 
 		#menu h2 {
@@ -113,7 +114,7 @@
 			user-select: none;
 		}
 
-		#menu label {
+		#menu label, #menu .positions {
 			float: left;
 			padding: 5px;
 			font-size: 25px;
@@ -150,13 +151,13 @@
 		}
 
 		#menu input[type="checkbox"] {
-			width: calc(100% / 7);
+			width: calc(100% / 9);
 			font-size: 25px;
 			border: 0px;
 			outline: 0px;
 			cursor: pointer;
-			margin-left: 15px;
-			margin-right: -15px;
+			margin-left: 10px;
+			margin-right: -10px;
 		}
 
 		#menu input[type="range"]:hover, #menu input[type="range"]:focus, #menu input[type="number"]:hover, #menu input[type="number"]:focus, #menu select:hover, #menu select:focus, #menu button:hover, #menu button:focus, #upload-outer:hover, #upload-outer:focus {

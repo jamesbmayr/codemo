@@ -9,9 +9,10 @@ window.addEventListener("load", function() {
 			}
 
 		/* canvas */
-			var canvas  = document.getElementById("flag")
-			var context = canvas.getContext("2d")
-			var data    = {}
+			var canvas   = document.getElementById("flag")
+			var context  = canvas.getContext("2d")
+			var data     = {}
+			var previous = []
 
 		/* colors */
 			var colorSlots = ["primary", "secondary", "tertiary", "quarternary", "quintary"]
@@ -40,14 +41,14 @@ window.addEventListener("load", function() {
 				none:           null,
 				circle:         null,
 				ring:           null,
-				triangle: 		"50% 15%, 0% 100%, 100% 100%",
+				triangle: 		"50% 7%, 0% 93%, 100% 93%",
 				square: 		"0% 0%, 100% 0%, 100% 100%, 0% 100%",
 				diamond: 		"50% 0%, 100% 50%, 50% 100%, 0% 50%",
 				parallelogram: 	"25% 0%, 100% 0%, 75% 100%, 0% 100%",
 				rectangle: 		"0% 20%, 100% 20%, 100% 80%, 0% 80%",
 				trapezoid: 		"20% 0%, 80% 0%, 100% 100%, 0% 100%",
-				pentagon: 		"50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%",
-				hexagon: 		"50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%",
+				pentagon: 		"50% 1.5%, 100% 38%, 81% 96.5%, 19% 96.5%, 0% 38%",
+				hexagon: 		"50% 0%, 93.5% 25%, 93.5% 75%, 50% 100%, 6.5% 75%, 6.5% 25%",
 				septagon: 		"50% 0%, 90% 20%, 100% 60%, 75% 100%, 25% 100%, 0% 60%, 10% 20%",
 				octagon: 		"30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%",
 				nonagon: 		"50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%",
@@ -78,7 +79,31 @@ window.addEventListener("load", function() {
 			}
 
 		/* patterns */
-			var structures   = ["solid", "horizontal-stripes", "vertical-stripes", "wedge-stripes", "diamond", "square", "rings", "x", "cross", "jack", "checkers"]
+			var structures = ["solid", "horizontal-stripes", "vertical-stripes", "wedge-stripes", "diamond", "square", "rings", "x", "cross", "jack", "checkers"]
+			var angles     = [0,0,0,0,30,45,60,90,90,180,180,270,270,300,315,330]
+			var positions  = [
+				["4,4"],
+				["4,4"],
+				["4,4"],
+				["4,4"],
+				["0,8","8,8","1,7","7,7","2,6","6,6","3,5","5,5","4,4","3,3","5,3","2,2","6,2","1,1","7,1","0,0","8,0"],
+				["4,8","4,7","4,6","4,5","0,4","1,4","2,4","3,4","4,4","5,4","6,4","7,4","8,4","4,3","4,2","4,1","4,0"],
+				["0,8","8,8","1,7","7,7","2,6","6,6","3,5","5,5","4,4","3,3","5,3","2,2","6,2","1,1","7,1","0,0","8,0","4,8","4,7","4,6","4,5","0,4","1,4","2,4","3,4","5,4","6,4","7,4","8,4","4,3","4,2","4,1","4,0"],
+				["3,5","4,5","5,5","3,4","4,4","5,4","3,3","4,3","5,3"],
+				["0,8","2,8","4,8","6,8","8,8","1,7","3,7","5,7","7,7","0,6","2,6","4,6","6,6","8,6","1,5","3,5","5,5","7,5","0,4","2,4","4,4","6,4","8,4","1,3","3,3","5,3","7,3","0,2","2,2","4,2","6,2","8,2","1,1","3,1","5,1","7,1","0,0","2,0","4,0","6,0","8,0"],
+				["4,6","3,5","4,5","5,5","2,4","3,4","4,4","5,4","6,4","3,3","4,3","5,3","4,2"],
+				["4,6","2,4","4,4","6,4","4,2"],
+				["4,6","2,4","6,4","4,2"],
+				["0,8","1,8","2,8","3,8","0,7","1,7","2,7","3,7","0,6","1,6","2,6","3,6","0,5","1,5","2,5","3,5"],
+				["0,7","0,6","1,6","0,5","1,5","2,5","0,4","1,4","2,4","3,4","0,3","1,3","2,3","0,2","1,2","0,1"],
+				["1,6"],
+				["1,4"],
+				["2,6","6,6","4,4","2,2","6,2"],
+				["2,6","6,6","2,2","6,2"],
+				["1,7","7,7","4,4","1,1","7,1"],
+				["1,7","7,7","1,1","7,1"],
+				["1,8","3,8","5,8","7,8","0,7","2,7","4,7","6,7","8,7","1,6","3,6","5,6","7,6","0,5","2,5","4,5","6,5","8,5","1,4","3,4","5,4","7,4","0,3","2,3","4,3","6,3","8,3","1,2","3,2","5,2","7,2","0,1","2,1","4,1","6,1","8,1","1,0","3,0","5,0","7,0"]
+			]
 
 	/*** menu ***/
 		/* buildMenu */
@@ -271,13 +296,14 @@ window.addEventListener("load", function() {
 						input.step = 1
 					label.appendChild(input)
 
-					var label  = document.createElement("label")
-						label.innerText = "positions"
-					menu.appendChild(label)
+					var div  = document.createElement("div")
+						div.innerText = "positions"
+						div.className = "positions"
+					menu.appendChild(div)
 					var element = document.createElement("div")
 						element.id = "sealPositionsContainer"
-					for (var y = 6; y >= 0; y--) {
-						for (var x = 0; x < 7; x++) {
+					for (var y = 8; y >= 0; y--) {
+						for (var x = 0; x < 9; x++) {
 							var checkbox = document.createElement("input")
 								checkbox.type = "checkbox"
 								checkbox.name = "sealPositionsCheckbox"
@@ -286,7 +312,7 @@ window.addEventListener("load", function() {
 							element.appendChild(checkbox)
 						}
 					}
-					label.appendChild(element)
+					div.appendChild(element)
 
 					var hr = document.createElement("hr")
 					menu.appendChild(hr)
@@ -300,7 +326,7 @@ window.addEventListener("load", function() {
 						label.innerText = "shape"
 					menu.appendChild(label)
 					var select = document.createElement("select")
-						select.id = "ringSymbolSelect"
+						select.id = "ringSelect"
 						select.addEventListener("change", updateData)
 					for (var s in symbols) {
 						var option = document.createElement("option")
@@ -376,13 +402,14 @@ window.addEventListener("load", function() {
 						input.step = 1
 					label.appendChild(input)
 
-					var label  = document.createElement("label")
-						label.innerText = "positions"
-					menu.appendChild(label)
+					var div  = document.createElement("div")
+						div.innerText = "positions"
+						div.className = "positions"
+					menu.appendChild(div)
 					var element = document.createElement("div")
 						element.id = "ringPositionsContainer"
-					for (var y = 6; y >= 0; y--) {
-						for (var x = 0; x < 7; x++) {
+					for (var y = 8; y >= 0; y--) {
+						for (var x = 0; x < 9; x++) {
 							var checkbox = document.createElement("input")
 								checkbox.type = "checkbox"
 								checkbox.name = "ringPositionsCheckbox"
@@ -391,21 +418,21 @@ window.addEventListener("load", function() {
 							element.appendChild(checkbox)
 						}
 					}
-					label.appendChild(element)
+					div.appendChild(element)
 
 					var hr = document.createElement("hr")
 					menu.appendChild(hr)
 
-				// symbol
+				// emblem
 					var header  = document.createElement("h2")
-						header.id = header.innerText = "symbol"
+						header.id = header.innerText = "emblem"
 					menu.appendChild(header)
 
 					var label  = document.createElement("label")
 						label.innerText = "shape"
 					menu.appendChild(label)
 					var select = document.createElement("select")
-						select.id = "symbolSelect"
+						select.id = "emblemSelect"
 						select.addEventListener("change", updateData)
 					for (var s in symbols) {
 						var option = document.createElement("option")
@@ -418,7 +445,7 @@ window.addEventListener("load", function() {
 						label.innerText = "color"
 					menu.appendChild(label)
 					var select = document.createElement("select")
-						select.id = "symbolHueSelect"
+						select.id = "emblemHueSelect"
 						select.addEventListener("change", updateData)
 					for (var c in colors) {
 						var option = document.createElement("option")
@@ -428,7 +455,7 @@ window.addEventListener("load", function() {
 					label.appendChild(select)
 
 					var input = document.createElement("input")
-						input.id = "symbolShadeInput"
+						input.id = "emblemShadeInput"
 						input.addEventListener("change", updateData)
 						input.type = "range"
 						input.min = 0
@@ -440,7 +467,7 @@ window.addEventListener("load", function() {
 						label.innerText = "size"
 					menu.appendChild(label)
 					var input = document.createElement("input")
-						input.id = "symbolSizeInput"
+						input.id = "emblemSizeInput"
 						input.addEventListener("change", updateData)
 						input.type = "number"
 						input.min = 0
@@ -452,7 +479,7 @@ window.addEventListener("load", function() {
 						label.innerText = "rotation"
 					menu.appendChild(label)
 					var input = document.createElement("input")
-						input.id = "symbolRotationInput"
+						input.id = "emblemRotationInput"
 						input.addEventListener("change", updateData)
 						input.type = "number"
 						input.min = 0
@@ -460,22 +487,23 @@ window.addEventListener("load", function() {
 						input.step = 1
 					label.appendChild(input)
 
-					var label  = document.createElement("label")
-						label.innerText = "positions"
-					menu.appendChild(label)
+					var div  = document.createElement("div")
+						div.innerText = "positions"
+						div.className = "positions"
+					menu.appendChild(div)
 					var element = document.createElement("div")
-						element.id = "symbolPositionsContainer"
-					for (var y = 6; y >= 0; y--) {
-						for (var x = 0; x < 7; x++) {
+						element.id = "emblemPositionsContainer"
+					for (var y = 8; y >= 0; y--) {
+						for (var x = 0; x < 9; x++) {
 							var checkbox = document.createElement("input")
 								checkbox.type = "checkbox"
-								checkbox.name = "symbolPositionsCheckbox"
+								checkbox.name = "emblemPositionsCheckbox"
 								checkbox.value = x + "," + y
 								checkbox.addEventListener("change", updateData)
 							element.appendChild(checkbox)
 						}
 					}
-					label.appendChild(element)
+					div.appendChild(element)
 
 					var hr = document.createElement("hr")
 					menu.appendChild(hr)
@@ -491,7 +519,7 @@ window.addEventListener("load", function() {
 				var keys = Object.keys(data)
 				for (var k in keys) {
 					// checkboxes
-						if (["sealPositions", "ringPositions", "symbolPositions"].includes(keys[k])) {
+						if (["sealPositions", "ringPositions", "emblemPositions"].includes(keys[k])) {
 							var coordinates = data[keys[k]]
 							var elements = document.querySelectorAll("input[name='" + keys[k] + "Checkbox']")
 								elements.forEach(function(element) {
@@ -520,14 +548,18 @@ window.addEventListener("load", function() {
 		/* clearData */
 			document.getElementById("clear").addEventListener(on.click, clearData)
 			function clearData() {
+				if (Object.keys(data).length) {
+					previous.push(JSON.stringify(data))
+				}
+
 				data = {
 					// field
 						fieldHue:  "transparent",
-						fieldShade: 3,
+						fieldShade: 0,
 
 					// structure
 						structure: "solid",
-						sectionCount: 1,
+						sectionCount: 0,
 						sectionFactor: 0,
 						sectionRotation: 0,
 
@@ -547,32 +579,44 @@ window.addEventListener("load", function() {
 						seal: "none",
 						sealHue: "transparent",
 						sealShade: 0,
-						sealSize: 100,
-						sealLayers: 1,
+						sealSize: 0,
+						sealLayers: 0,
 						sealRotation: 0,
 						sealPositions: [],
 
 					// ring
-						ringSymbol:  "none",
-						ringHue:  "transparent",
+						ring: "none",
+						ringHue: "transparent",
 						ringShade: 0,
-						ringCount: 8,
-						ringSize: 50,
-						ringRadius: 50,
+						ringCount: 0,
+						ringSize: 0,
+						ringRadius: 0,
 						ringRotation: 0,
 						ringPositions: [],
 
-					// symbols
-						symbol: "none",
-						symbolHue: "transparent",
-						symbolShade: 0,
-						symbolSize: 50,
-						symbolRotation: 0,
-						symbolPositions: [],
+					// emblem
+						emblem: "none",
+						emblemHue: "transparent",
+						emblemShade: 0,
+						emblemSize: 0,
+						emblemRotation: 0,
+						emblemPositions: [],
 				}
 
 				updateMenu()
 				createFlag()
+			}
+
+		/* previousData */
+			document.getElementById("previous").addEventListener(on.click, previousData)
+			function previousData() {
+				if (previous.length) {
+					data = JSON.parse(previous[previous.length - 1])
+					previous.pop()
+
+					updateMenu()
+					createFlag()
+				}
 			}
 
 		/* randomizeData */
@@ -590,7 +634,10 @@ window.addEventListener("load", function() {
 						[chooseRandom(Object.keys(colors)), Math.floor(Math.random() * 5)],
 						[chooseRandom(Object.keys(colors)), Math.floor(Math.random() * 5)]
 					]
-			
+
+				// position
+					var position = chooseRandom(positions)
+
 				// field
 					data.fieldHue = chooseRandom(hues)
 					data.fieldShade = data.fieldHue[1]
@@ -598,9 +645,9 @@ window.addEventListener("load", function() {
 
 				// structure
 					data.structure = chooseRandom(structures)
-					data.sectionCount = (data.structure == "solid") ? 1 : data.structure.includes("stripes") ? (Math.floor(Math.random() * 11) + 2) : (data.structure == "checkers") ? Math.pow((Math.floor(Math.random() * 6) + 2), 2) : (Math.floor(Math.random() * 4) + 1)
+					data.sectionCount = (data.structure == "solid") ? 1 : data.structure.includes("stripes") ? (Math.floor(Math.random() * 7) + 2) * (data.structure == "wedge-stripes" ? 2 : 1) : (data.structure == "checkers") ? Math.pow((Math.floor(Math.random() * 6) + 2), 2) : (Math.floor(Math.random() * 4) + 1)
 					data.sectionFactor = Math.floor(Math.random() * 7) - 3
-					data.sectionRotation = chooseRandom([0,0,0,0,30,45,60,90,90,180,180,270,270,300,315,330])
+					data.sectionRotation = chooseRandom(angles)
 
 				// colors
 					data.primaryHue = chooseRandom(hues)
@@ -624,59 +671,46 @@ window.addEventListener("load", function() {
 					data.quintaryHue = data.quintaryHue ? data.quintaryHue[0] : "transparent"
 
 				// seal
-					data.seal = Math.floor(Math.random() * 2) ? "none" : chooseRandom(Object.keys(symbols))
-					data.sealHue = chooseRandom(hues)
-					data.sealShade = data.sealHue[1]
-					data.sealHue = data.sealHue[0]
-					data.sealLayers = Math.floor(Math.random() * 2) + 1
-					data.sealSize = Math.floor(Math.random() * 5) * 50 + 50
-					data.sealRotation = chooseRandom([0,0,0,0,30,45,60,90,90,180,180,270,270,300,315,330])
-					data.sealPositions = chooseRandom([
-						[],
-						[],
-						[],
-						[],
-						["3,3"],
-						["3,3"],
-						["3,3"],
-						["3,3"],
-						["1,5"],
-						["0,6","3,6","6,6","1,5","3,5","5,5","2,4","3,4","4,4","0,3","1,3","2,3","3,3","4,3","5,3","6,3","2,2","3,2","4,2","1,1","3,1","5,1","0,0","3,0","6,0"],
-						["0,6","6,6","1,5","5,5","2,4","4,4","3,3","2,2","4,2","1,1","5,1","0,0","6,0"],
-						["3,6","3,5","3,4","0,3","1,3","2,3","3,3","4,3","5,3","6,3","3,2","3,1","3,0"],
-						["0,6","2,6","4,6","6,6","1,5","3,5","5,5","0,4","2,4","4,4","6,4","1,3","3,3","5,3","0,2","2,2","4,2","6,2","1,1","3,1","5,1","0,0","2,0","4,0","6,0"],
-						["1,5","5,5","3,3","1,1","5,1"],
-						["3,5","1,3","5,3","3,1"],
-						["1,3"],
-						["0,4","1,4","2,4","0,3","1,3","2,3","0,2","1,2","2,2"],
-						["0,6","1,6","2,6","0,5","1,5","2,5","0,4","1,4","2,4"],
-						["2,4","3,4","4,4","2,3","3,3","4,3","2,2","3,2","4,2"],
-						["3,5","2,4","3,4","4,4","1,3","2,3","3,3","4,3","5,3","2,2","3,2","4,2","3,1"]
-					])
+					data.seal = Math.floor(Math.random() * 3) ? "none" : chooseRandom(Object.keys(symbols))
+					data.sealHue = data.seal == "none" ? "transparent" : chooseRandom(hues)
+					data.sealShade = data.seal == "none" ? 0 : data.sealHue[1]
+					data.sealHue = data.seal == "none" ? "transparent" : data.sealHue[0]
+					data.sealLayers = data.seal == "none" ? 0 : Math.floor(Math.random() * 2) + 1
+					data.sealSize = data.seal == "none" ? 0 : Math.floor(Math.random() * 5) * 50 + 50
+					data.sealRotation = data.seal == "none" ? 0 : chooseRandom(angles)
+					data.sealPositions = data.seal == "none" ? [] : position
 
 				// ring
-					data.ringSymbol = Math.floor(Math.random() * 6) ? "none" : chooseRandom(Object.keys(symbols))
-					data.ringHue = chooseRandom(hues)
-					data.ringShade = data.ringHue[1]
-					data.ringHue = data.ringHue[0]
-					data.ringCount = Math.floor(Math.random() * 25)
-					data.ringSize = Math.floor(Math.random() * 5) * 50 + 50
-					data.ringRadius = Math.floor(Math.random() * 5) * 50 + 50
-					data.ringRotation = chooseRandom([0,0,0,0,30,45,60,90,90,180,180,270,270,300,315,330])
-					data.ringPositions = data.sealPositions
+					data.ring = Math.floor(Math.random() * 5) ? "none" : chooseRandom(Object.keys(symbols))
+					data.ringHue = data.ring == "none" ? "transparent" : chooseRandom(hues)
+					data.ringShade = data.ring == "none" ? 0 : data.ringHue[1]
+					data.ringHue = data.ring == "none" ? "transparent" : data.ringHue[0]
+					data.ringCount = data.ring == "none" ? 0 : Math.floor(Math.random() * 20) + 4
+					data.ringSize = data.ring == "none" ? 0 : Math.floor(Math.random() * 3) * 50 + 50
+					data.ringRadius = data.ring == "none" ? 0 : Math.floor(Math.random() * 2) * 50 + 100
+					data.ringRotation = data.ring == "none" ? 0 : chooseRandom(angles)
+					data.ringPositions = data.ring == "none" ? [] : position
 
-				// symbols
-					data.symbol = Math.floor(Math.random() * 2) ? "none" : chooseRandom(Object.keys(symbols))
-					data.symbolHue = chooseRandom(hues)
-					data.symbolShade = data.symbolHue[1]
-					data.symbolHue = data.symbolHue[0]
-					data.symbolSize = Math.floor(Math.random() * 5) * 50 + 50
-					data.symbolRotation = chooseRandom([0,0,0,0,30,45,60,90,90,180,180,270,270,300,315,330])
-					data.symbolPositions = data.sealPositions
+				// emblems
+					data.emblem = Math.floor(Math.random() * 4) ? "none" : chooseRandom(Object.keys(symbols))
+					data.emblemHue = data.emblem == "none" ? "transparent" : chooseRandom(hues)
+					data.emblemShade = data.emblem == "none" ? 0 : data.emblemHue[1]
+					data.emblemHue = data.emblem == "none" ? "transparent" : data.emblemHue[0]
+					data.emblemSize = data.emblem == "none" ? 0 : Math.floor(Math.random() * 4) * 50 + 50
+					data.emblemRotation = data.emblem == "none" ? 0 : chooseRandom(angles)
+					data.emblemPositions = data.emblem == "none" ? [] : position
 
 				// next steps
-					updateMenu()
-					createFlag()
+					if ((data.structure == "solid" ||  data.secondaryHue == data.primaryHue || data.sectionCount == 1 || data.secondaryHue == "transparent")
+					&& ((data.seal      == "none") || (data.sealHue      == data.primaryHue && data.sectionCount == 1))
+					&& ((data.ring      == "none") || (data.ringHue      == data.primaryHue && data.sectionCount == 1))
+					&& ((data.emblem    == "none") || (data.emblemHue    == data.primaryHue && data.sectionCount == 1))) {
+						randomizeData()
+					}
+					else {
+						updateMenu()
+						createFlag()
+					}
 			}
 
 		/* updateData */
@@ -712,7 +746,7 @@ window.addEventListener("load", function() {
 					data.sealPositions      = Array.from(document.querySelectorAll("input[name='sealPositionsCheckbox']:checked")).map(function(element) { return element.value })
 
 				// ring
-					data.ringSymbol         =        document.getElementById("ringSymbolSelect").value
+					data.ring               =        document.getElementById("ringSelect").value
 					data.ringHue            =        document.getElementById("ringHueSelect").value
 					data.ringShade          = Number(document.getElementById("ringShadeInput").value)
 					data.ringCount          = Number(document.getElementById("ringCountInput").value)
@@ -721,35 +755,59 @@ window.addEventListener("load", function() {
 					data.ringRotation       = Number(document.getElementById("ringRotationInput").value)
 					data.ringPositions      = Array.from(document.querySelectorAll("input[name='ringPositionsCheckbox']:checked")).map(function(element) { return element.value })
 
-				// symbols
-					data.symbol             =        document.getElementById("symbolSelect").value
-					data.symbolHue          =        document.getElementById("symbolHueSelect").value
-					data.symbolShade        = Number(document.getElementById("symbolShadeInput").value)
-					data.symbolSize         = Number(document.getElementById("symbolSizeInput").value)
-					data.symbolRotation     = Number(document.getElementById("symbolRotationInput").value)
-					data.symbolPositions    = Array.from(document.querySelectorAll("input[name='symbolPositionsCheckbox']:checked")).map(function(element) { return element.value })
+				// emblems
+					data.emblem             =        document.getElementById("emblemSelect").value
+					data.emblemHue          =        document.getElementById("emblemHueSelect").value
+					data.emblemShade        = Number(document.getElementById("emblemShadeInput").value)
+					data.emblemSize         = Number(document.getElementById("emblemSizeInput").value)
+					data.emblemRotation     = Number(document.getElementById("emblemRotationInput").value)
+					data.emblemPositions    = Array.from(document.querySelectorAll("input[name='emblemPositionsCheckbox']:checked")).map(function(element) { return element.value })
 
 				// draw
 					createFlag()
 			}
 
 	/*** files ***/
-		/* downloadFile */
-			document.getElementById("download").addEventListener(on.click, downloadFile)
-			function downloadFile() {
-				//  package up
-					var downloadLink = document.createElement("a")
-						downloadLink.id = "download-link"
-						downloadLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data)))
-						downloadLink.setAttribute("download", "flagMaker_" + (new Date().getTime()) + ".json")
-						downloadLink.addEventListener(on.click, function() {
-							var downloadLink = document.getElementById("download-link")
-							document.body.removeChild(downloadLink)
+		/* saveCode */
+			document.getElementById("save").addEventListener(on.click, saveCode)
+			function saveCode() {
+				// save to previous
+					previous.push(JSON.stringify(data))
+
+				// package up
+					var saveLink = document.createElement("a")
+						saveLink.id = "save-link"
+						saveLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data)))
+						saveLink.setAttribute("download", "flagMaker_" + (new Date().getTime()) + ".json")
+						saveLink.addEventListener(on.click, function() {
+							var saveLink = document.getElementById("save-link")
+							document.body.removeChild(saveLink)
 						})
 				
 				// click
-					document.body.appendChild(downloadLink)
-					document.getElementById("download-link").click()
+					document.body.appendChild(saveLink)
+					document.getElementById("save-link").click()
+			}
+
+		/* exportImage */
+			document.getElementById("export").addEventListener(on.click, exportImage)
+			function exportImage() {
+				// save to previous
+					previous.push(JSON.stringify(data))
+
+				//  package up
+					var exportLink = document.createElement("a")
+						exportLink.id = "export-link"
+						exportLink.setAttribute("href", canvas.toDataURL("image/png"))
+						exportLink.setAttribute("download", "flagMaker_" + (new Date().getTime()) + ".png")
+						exportLink.addEventListener(on.click, function() {
+							var exportLink = document.getElementById("export-link")
+							document.body.removeChild(exportLink)
+						})
+				
+				// click
+					document.body.appendChild(exportLink)
+					document.getElementById("export-link").click()
 			}
 
 		/* uploadFile */
@@ -980,8 +1038,8 @@ window.addEventListener("load", function() {
 				// ring
 					addRing(data)
 
-				// symbols
-					addSymbols(data)
+				// emblems
+					addEmblems(data)
 			}
 
 		/* addField */
@@ -1111,8 +1169,8 @@ window.addEventListener("load", function() {
 			function addSeals(data) {
 				if (data.seal !== "none") {
 					for (var i in data.sealPositions) {
-						var x = Number(data.sealPositions[i].split(",")[0]) * (canvas.width  / 7) + (canvas.width  / 14)
-						var y = Number(data.sealPositions[i].split(",")[1]) * (canvas.height / 7) + (canvas.height / 14)
+						var x = Number(data.sealPositions[i].split(",")[0]) * (canvas.width  / 9) + (canvas.width  / 18)
+						var y = Number(data.sealPositions[i].split(",")[1]) * (canvas.height / 9) + (canvas.height / 18)
 
 						rotateCanvas(x, canvas.height - y, data.sealRotation, function() {
 							for (var l = 1; l <= data.sealLayers; l++) {
@@ -1134,10 +1192,10 @@ window.addEventListener("load", function() {
 
 		/* addRing */
 			function addRing(data) {
-				if (data.ringSymbol !== "none") {
+				if (data.ring !== "none") {
 					for (var i in data.ringPositions) {
-						var x = Number(data.ringPositions[i].split(",")[0]) * (canvas.width  / 7) + (canvas.width  / 14)
-						var y = Number(data.ringPositions[i].split(",")[1]) * (canvas.height / 7) + (canvas.height / 14)
+						var x = Number(data.ringPositions[i].split(",")[0]) * (canvas.width  / 9) + (canvas.width  / 18)
+						var y = Number(data.ringPositions[i].split(",")[1]) * (canvas.height / 9) + (canvas.height / 18)
 						var color = colors[data.ringHue][data.ringShade]
 
 						rotateCanvas(x, canvas.height - y, data.ringRotation, function() {
@@ -1147,14 +1205,14 @@ window.addEventListener("load", function() {
 									context.translate(-(data.ringRadius / 2), -(data.ringRadius / 2))
 									rotateCanvas(x + (data.ringRadius / 2), canvas.height - y + (data.ringRadius / 2), rotation, function() {
 										rotateCanvas(x, canvas.height - y, 360 / data.ringCount, function() {
-											if (data.ringSymbol == "circle") {
+											if (data.ring == "circle") {
 												drawCircle(x, y, (data.ringSize / 2), {color: color})
 											}
-											else if (data.ringSymbol == "ring") {
-												drawCircle(x, y, (data.ringSize / 2), {color: color, border: data.ringSize / 14})
+											else if (data.ring == "ring") {
+												drawCircle(x, y, (data.ringSize / 2), {color: color, border: data.ringSize / 10})
 											}
 											else {
-												drawShape(x - (data.ringSize / 2), canvas.height - (y + (data.ringSize / 2)), data.ringSize, data.ringSize, {color: color, coordinates: symbols[data.ringSymbol]})
+												drawShape(x - (data.ringSize / 2), canvas.height - (y + (data.ringSize / 2)), data.ringSize, data.ringSize, {color: color, coordinates: symbols[data.ring]})
 											}
 										})
 									})
@@ -1165,23 +1223,23 @@ window.addEventListener("load", function() {
 				}
 			}
 
-		/* addSymbols */
-			function addSymbols(data) {
-				if (data.symbol !== "none") {
-					for (var i in data.symbolPositions) {
-						var x = Number(data.symbolPositions[i].split(",")[0]) * (canvas.width  / 7) + (canvas.width  / 14)
-						var y = Number(data.symbolPositions[i].split(",")[1]) * (canvas.height / 7) + (canvas.height / 14)
-						var color = colors[data.symbolHue][data.symbolShade]
+		/* addEmblems */
+			function addEmblems(data) {
+				if (data.emblem !== "none") {
+					for (var i in data.emblemPositions) {
+						var x = Number(data.emblemPositions[i].split(",")[0]) * (canvas.width  / 9) + (canvas.width  / 18)
+						var y = Number(data.emblemPositions[i].split(",")[1]) * (canvas.height / 9) + (canvas.height / 18)
+						var color = colors[data.emblemHue][data.emblemShade]
 
-						rotateCanvas(x, canvas.height - y, data.symbolRotation, function() {
-							if (data.symbol == "circle") {
-								drawCircle(x, y, (data.symbolSize / 2), {color: color})
+						rotateCanvas(x, canvas.height - y, data.emblemRotation, function() {
+							if (data.emblem == "circle") {
+								drawCircle(x, y, (data.emblemSize / 2), {color: color})
 							}
-							else if (data.symbol == "ring") {
-								drawCircle(x, y, (data.symbolSize / 2), {color: color, border: data.symbolSize / 14})
+							else if (data.emblem == "ring") {
+								drawCircle(x, y, (data.emblemSize / 2), {color: color, border: data.emblemSize / 10})
 							}
 							else {
-								drawShape(x - (data.symbolSize / 2), canvas.height - (y + (data.symbolSize / 2)), data.symbolSize, data.symbolSize, {color: color, coordinates: symbols[data.symbol]})
+								drawShape(x - (data.emblemSize / 2), canvas.height - (y + (data.emblemSize / 2)), data.emblemSize, data.emblemSize, {color: color, coordinates: symbols[data.emblem]})
 							}
 						})
 					}
