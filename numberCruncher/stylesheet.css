@@ -1,0 +1,346 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+	
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: gray;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		padding: 0px;
+		margin: 0px;
+		box-shadow: 0px 0px 10px #222222 inset;
+	}
+
+	#container {
+		width: 600px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		text-align: center;
+	}
+
+/* scale */
+	#scale {
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 0;
+		height: 378px;
+		background-color: gray;
+		padding: 22px 20px 0px 20px;
+	}
+
+	hr {
+		width: 550px;
+		height: 14px;
+	}
+
+/* abacus */
+	#abacus {
+		transform: rotate(-90deg);
+		z-index: 1;
+		width: 400px;
+		height: 400px;
+		padding: 20px;
+	}
+
+	#values {
+		width: 350px;
+	}
+
+	.value {
+		color: #222222;
+		font-size: 20px;
+		display: inline-block;
+		margin-left: 10px;
+		transform: rotate(90deg);
+		background-color: #cccccc;
+		box-shadow: 0px 0px 5px #222222 inset;
+		border-radius: 5px;
+		padding: 0px 5px 0px 5px;
+	}
+
+	input[type=range] {
+		-webkit-appearance: none;
+		width: 100%;
+		background: transparent;
+		cursor: pointer;
+	}
+
+	input[type=range]:focus {
+		outline: none;
+	}
+
+	input[type=range]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		height: 30px;
+		width: 30px;
+		margin-top: -5px;
+		border-radius: 5px;
+		background-color: #333333;
+		box-shadow: 0px 0px 5px #111111 inset;
+	}
+
+	input[type=range]:focus::-webkit-slider-thumb {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+	input[type=range]::-moz-range-thumb {
+		height: 25px;
+		width: 25px;
+		border-radius: 5px;
+		background-color: #333333;
+		box-shadow: 0px 0px 5px #111111 inset;
+	}
+
+	input[type=range]:focus::-moz-range-thumb {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+	input[type=range]::-ms-thumb {
+		height: 25px;
+		width: 25px;
+		border-radius: 5px;
+		background-color: #333333;
+		box-shadow: 0px 0px 5px #111111 inset;
+	}
+
+	input[type=range]:focus::-ms-thumb {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+	input[type=range]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 20px;
+		margin: 10px;
+		box-shadow: 0px 0px 5px #222222 inset;
+		background-color: #666666;
+		border-radius: 5px;
+		opacity: 0.7;
+	}
+
+	input[type=range]:focus::-webkit-slider-runnable-track {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+	input[type=range]::-moz-range-track {
+		width: 100%;
+		height: 20px;
+		margin: 10px;
+		box-shadow: 0px 0px 5px #222222 inset;
+		background-color: #666666;
+		border-radius: 5px;
+		opacity: 0.7;
+	}
+
+	input[type=range]:focus::-moz-range-track {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+	input[type=range]::-ms-track {
+		width: 100%;
+		height: 20px;
+		margin: 10px;
+		background: transparent; 
+		border-color: transparent;
+		color: transparent;
+	}
+
+	input[type=range]::-ms-fill-lower {
+		background-color: #666666;
+		border-radius: 5px;
+		box-shadow: 0px 0px 5px #222222 inset;
+		opacity: 0.7;
+	}
+
+	input[type=range]:focus::-ms-fill-lower {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+	input[type=range]::-ms-fill-upper {
+		background-color: #666666;
+		border-radius: 5px;
+		box-shadow: 0px 0px 5px #222222 inset;
+		opacity: 0.7;
+	}
+
+	input[type=range]:focus::-ms-fill-upper {
+		box-shadow: 0px 0px 5px #cccccc;
+	}
+
+/* numbers */
+	.numbers {
+		padding-left: 20px;
+		margin-top: -20px;
+		width: 570px;
+	}
+
+	.digit {
+		display: inline-block;
+		background-color: #666666;
+		box-shadow: 0px 0px 5px #222222 inset;
+		color: #cccccc;
+		border-radius: 5px;
+		width: 30px;
+		height: 30px;
+		margin: 4.9px;
+		padding: 2px;
+		text-align: center;
+		font-size: 20px;
+		text-shadow: 0px 0px 10px #333333;
+	}
+
+	.spacer {
+		display: inline-block;
+		color: #cccccc;
+		font-size: 25px;
+		width: 25px;
+		height: 30px;
+		margin: 3px;
+		padding: 5px;
+		text-align: center;
+	}
+
+/* negatives */
+	.negative {
+		border-radius: 5px;
+		background-color: #cccccc;
+		text-align: center;
+		font-size: 20px;
+		color: #333333;
+		box-shadow: 0px 0px 5px #222222 inset;
+		border: 0px;
+		width: 20px;
+		height: 30px;
+		margin-top: -10px;
+		margin-left: -20px;
+		padding: 0px;
+	}
+
+	.negative:focus {
+		outline: none;
+	}
+
+	.negative:hover {
+		background-color: #aaaaaa;
+	}
+
+	.negative.selected {
+		color: #cccccc;
+		background-color: #333333;
+		box-shadow: 0px 0px 5px #cccccc inset;
+	}
+
+/* operators */
+	#operators {
+		padding-left: 20px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		width: 570px;
+		text-align: center;
+	}
+
+	.operator {
+		border-radius: 5px;
+		background-color: #cccccc;
+		text-align: center;
+		font-size: 20px;
+		color: #333333;
+		box-shadow: 0px 0px 5px #222222 inset;
+		text-shadow: 0px 0px 10px #333333;
+		border: 0px;
+		width: 60px;
+		height: 40px;
+		margin: 0px 10px 0px 10px;
+		padding: 0px;
+	}
+
+	.operator:focus {
+		outline: none;
+	}
+
+	.operator:hover {
+		background-color: #aaaaaa;
+	}
+
+	.operator.selected {
+		color: #cccccc;
+		background-color: #333333;
+		box-shadow: 0px 0px 5px #cccccc inset;
+	}
+
+	.operator.selected:hover {
+		color: #cccccc;
+		background-color: #333333;
+	}
+
+/* equals */
+	#equals_outer {
+		padding-left: 20px;
+		margin-top: 10px;
+		margin-bottom: 20px;
+		width: 570px;
+		text-align: center;
+	}
+
+	#equals {
+		border-radius: 5px;
+		background-color: #cccccc;
+		text-align: center;
+		font-size: 40px;
+		color: #333333;
+		box-shadow: 0px 0px 5px #222222 inset;
+		border: 0px;
+		width: 540px;
+		height: 60px;
+		margin: 5px;
+		padding-bottom: 50px;
+		vertical-align: top;
+		text-shadow: 0px 0px 10px #333333;
+	}
+
+	#equals:focus {
+		outline: none;
+	}
+
+	#equals:hover {
+		background-color: #aaaaaa;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#j-logo {
+			zoom: 2;
+		}
+	}

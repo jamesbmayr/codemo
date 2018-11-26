@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>shapeAnimator</title>
+		<link rel="shortcut icon" href="https://cdn.pixabay.com/photo/2012/04/11/11/21/shapes-27522_960_720.png"></link>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="shapeAnimator is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="shapeAnimator"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/shapeAnimator/"/>
+		<meta property="og:description" content="shapeAnimator is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script>
+			/* touch punch */
+			!function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
+		</script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="zone"></div>
+		<video id="background_video">
+			<source/>
+		</video>
+		<div id="controls">
+			<div id="controls_handle">
+				<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+				<button id="collapse">
+					<span class="glyphicon glyphicon-resize-small" id="close"></span>
+					<span class="glyphicon glyphicon-resize-full"  id="open"></span>
+				</button>
+				<div id="controls_file">
+					<button id="controls_download" href="#"><span class="glyphicon glyphicon-download"><span></button>
+					<input type="file" name="file_chooser" id="file_chooser"/>
+					<label id="controls_upload" for="file_chooser"><span class="glyphicon glyphicon-upload"><span></label>
+				</div>
+			</div>
+			<div id="controls_animation">
+				<div id="controls_clock">00:00.00</div>
+				<button id="controls_play" class="play"><span class="glyphicon glyphicon-play"></span></button>
+				<button id="controls_pause" class="pause"><span class="glyphicon glyphicon-pause"></span></button>
+				<button id="controls_restart" class="restart"><span class="glyphicon glyphicon-refresh"></span></button>
+			</div>
+			<div id="controls_scroll">
+				<input id="controls_background" type="text" placeholder="background"/>
+				<div id="control_shape_1" class="control_shape">
+					<button class="new_shape"><span class="glyphicon glyphicon-plus"></span></button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

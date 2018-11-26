@@ -1,0 +1,180 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		background-color: #dddddd;
+		box-shadow: 0px 0px 20px #333333 inset;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+	button, input, select {
+		display: inline-block;
+		font-family: monospace;
+		outline: none;
+		cursor: pointer;
+		user-select: none;
+		margin: 5px;
+		padding: 5px;
+		border-radius: 5px;
+		border: none;
+		height: 40px;
+		width: 50px;
+		background-color: #444444;
+		color: #dddddd;
+		font-size: 20px;
+		vertical-align: bottom;
+	}
+
+	button:hover, input:hover, select:hover, button:focus, input:focus, select:focus {
+		box-shadow: 0px 0px 5px #aaaaaa;
+	}
+
+	#canvas {
+		position: fixed;
+		top: 50px;
+		left: 0px;
+		height: calc(100% - 50px);
+		width: 100%;
+		overflow: hidden;
+	}
+
+	#canvas[tool="draw"] {
+		cursor: pointer;
+	}
+
+	#canvas[tool="drawing"] {
+		cursor: -webkit-grabbing;
+		cursor: grabbing;
+	}
+
+	#canvas[tool="erase"] {
+		cursor: no-drop;
+	}
+
+	#canvas[tool="drag"] {
+		cursor: -webkit-grab;
+		cursor: grab;
+	}
+
+	#canvas[tool="dragging"] {
+		cursor: -webkit-grabbing;
+		cursor: grabbing;
+	}
+
+	#canvas[tool="zoom-in"] {
+		cursor: -webkit-zoom-in;
+		cursor: zoom-in;
+	}
+
+	#canvas[tool="zoom-out"] {
+		cursor: -webkit-zoom-out;
+		cursor: zoom-out;
+	}
+
+/*** navbar ***/
+	#navbar-outer {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		height: 50px;
+		width: 100%;
+		background-color: #222222;
+	}
+
+	::-webkit-scrollbar {
+		width: 0px;
+		height: 0px;
+	}
+
+	#navbar {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		height: 50px;
+		width: calc(100% - 40px);
+		overflow-y: hidden;
+		overflow-x: auto;
+		list-style-type: none;
+		white-space: nowrap;
+		font-size: 0;
+		border-radius: 0px 15px 15px 0px;
+		user-select: none;
+	}
+
+	.spacer {
+		display: inline-block;
+		width: 20px;
+		height: 50px;
+	}
+
+	/* creation */
+		#creation {
+			display: inline-block;
+			height: 50px;
+		}
+
+		#shape {
+			font-size: 25px;
+		}
+
+		#spacing {
+			height: 40px;
+			width: 50px;
+		}
+
+	/* tools */
+		#tools {
+			display: inline-block;
+			height: 50px;
+			width: auto;
+		}
+
+		#navbar:not([mode="tools"]) #tools {
+			display: none;
+		}
+
+		#tools button[selected] {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+		#instrument {
+			height: 40px;
+			width: 150px;
+		}
+
+	/* j-logo */
+		#j-logo {
+			position: absolute;
+			top: 10px;
+			right: 4px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 3px #dddddd);
+		}

@@ -1,0 +1,244 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #000000);
+	}
+	
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		margin: 0px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background-color: #333333;
+	}
+
+	.hidden {
+		opacity: 0;
+		pointer-events: none;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+/* controls */
+	#controls {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 200px;
+		width: 200px;
+		font-size: 150px;
+		background-color: #111111;
+		color: #dddddd;
+		box-shadow: 0px 0px 5px #dddddd inset;
+		filter: drop-shadow(0px 0px 50px #000000);
+		z-index: 10;
+		transition: 2s;
+		border-radius: 20px;
+		padding: 10px;
+	}
+
+	#controls:not(.hidden) {
+		opacity: 1;
+	}
+
+	#controls button {
+		cursor: pointer;
+		outline: none;
+		border: 0px;
+		font-family: sans-serif;
+	}
+
+	/* start */
+		#start {
+			float: left;
+			font-size: 50px;
+			width: calc(100% - 10px);
+			height: calc(50% - 10px);
+			margin: 5px 5px 10px 5px;
+			filter: drop-shadow(0px 0px 10px #777777);
+			box-shadow: 0px 0px 20px #111111 inset;
+			border-radius: 10px;
+		}
+
+		#start:hover {
+			box-shadow: 0px 0px 50px #000000 inset;
+			transition: 0.5s;
+		}
+
+	/* toggles */
+		.toggle {
+			font-size: 20px;
+			width: calc(50% - 10px);
+			margin: 0px 5px 0px 5px;
+			height: calc(25% - 5px);
+			float: left;
+			filter: drop-shadow(0px 0px 1px #777777);
+		}
+
+		.toggle:hover {
+			box-shadow: 0px 0px 25px #555555 inset;
+			transition: 0.5s;
+		}
+
+		.toggle[active="true"] {
+			filter: drop-shadow(0px 0px 1px #dddddd);
+			box-shadow: 0px 0px 15px #555555 inset;
+			font-weight: bold;
+		}
+
+		.toggle[color="white"] {
+			color: #111111;
+			background-color: #dddddd;
+		}
+
+		.toggle[color="black"] {
+			color: #dddddd;
+			background-color: #111111;
+		}
+
+		.toggle[player="human"] {
+			border-radius: 10px 10px 0px 0px;
+		}
+
+		.toggle[player="ai"] {
+			border-radius: 0px 0px 10px 10px;
+		}
+
+/* game */
+	#game {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		height: calc(100vw - 100px);
+		width: calc(100vw - 100px);
+		max-height: calc(100vh - 100px);
+		max-width: calc(100vh - 100px);
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 20px;
+		background-color: #111111;
+		padding: 20px;
+	}
+
+	/* turns */
+		#game[turn=""] {
+			filter: blur(5px);
+			transition: 2s;
+		}
+
+		#game[turn="white"] {
+			box-shadow: 0px 0px 100px #dddddd;
+			transition: 2s;
+		}
+
+		#game[turn="black"] {
+			box-shadow: 0px 0px 200px #000000;
+			transition: 2s;
+		}
+
+/* board */
+	#board {
+		position: absolute;
+		top: 20px;
+		left: 20px;
+		width: calc(100% - 40px);
+		height: calc(100% - 40px);
+		background-color: #111111;
+		border-radius: 10px;
+	}
+
+	/* squares */
+		.square {
+			position: absolute;
+			width: 12.5%;
+			height: 12.5%;
+			margin: 0px;
+			border-radius: 5px;
+		}
+
+		.square[color="white"] {
+			background-color: #dddddd;
+		}
+
+		.square[color="black"] {
+			background-color: #111111;
+		}
+
+/* checkers */
+	.checker {
+		position: absolute;
+		border-radius: 100%;
+		filter: drop-shadow(0px 0px 5px #111111);
+		height: 10%;
+		width: 10%;
+		z-index: 2;
+		transform: translateX(-50%) translateY(-50%);
+	}
+
+	/* statuses */
+		.checker[color="white"] {
+			background-color: #dddddd;
+			box-shadow: 0px 0px 10px #777777 inset;
+		}
+
+		.checker[color="black"] {
+			background-color: #111111;
+			box-shadow: 0px 0px 20px #777777 inset;
+		}
+
+		.checker[king="true"] {
+			border-radius: 25%;
+		}
+
+		.checker[active="true"] {
+			filter: drop-shadow(0px 0px 20px #111111);
+			z-index: 3;
+		}
+
+	/* turns */
+		#game[turn="white"] .checker[color="white"] {
+			cursor: pointer;
+		}
+
+		#game[turn="black"] .checker[color="black"] {
+			cursor: pointer;
+		}
+
+		#game[turn="white"] .checker[color="black"] {
+			cursor: not-allowed;
+		}
+
+		#game[turn="black"] .checker[color="white"] {
+			cursor: not-allowed;
+		}

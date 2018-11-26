@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordFinder</title>
+		<link rel="shortcut icon" href="https://cdn3.iconfinder.com/data/icons/random-outline-2-1/64/letter_a_find_search_document-512.png"/>
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+		<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="wordFinder is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="wordFinder"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/wordFinder/"/>
+		<meta property="og:description" content="wordFinder is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="header"></div>
+		<div id="container">
+			<div id="controls">
+				<div id="buttons">
+					<div class="button_frame">
+						<button id="newGame" class="button active">new</button>
+						<button id="pauseGame" class="button hidden">pause <span id="clock" class="clock"></span></button>
+						<button id="resumeGame" class="button hidden">resume <span class="clock"></span></button>
+					</div>
+					<div class="button_frame">
+						<button id="endGame" class="button">end</button>
+						<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+					</div>
+					<div class="button_frame">
+						<button id="submitWord" class="button">submit</button>
+					</div>
+					<div class="button_frame">
+						<button id="cancelWord" class="button">cancel</button>
+					</div>
+				</div>
+			</div>
+			<div id="overlay">
+				<div id="overlay_text">wordfinder</div>
+			</div>
+			<div id="box">
+				<div id="game"></div>
+				<div id="connectors"></div>
+			</div>
+			<div id="pad">
+				<div id="myWords">
+				</div>
+			</div>
+		</div>
+		<div id="footer"></div>
+	</body>
+</html>

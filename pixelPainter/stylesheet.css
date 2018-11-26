@@ -1,0 +1,157 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #eeeeee;
+		width: 100%;
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+/* whiteboard */
+	#whiteboard {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		cursor: pointer;
+		cursor: copy;
+	}
+
+	#whiteboard.erasing {
+		cursor: default;
+		cursor: not-allowed;
+	}
+
+	.row {
+		width: 100vw;
+		height: 10px;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.cell {
+		width: 10px;
+		height: 10px;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+		opacity: 0;
+	}
+
+	.painted {
+		opacity: 1;
+	}
+
+/* colors */
+	#red, .red {
+		background-color: red;
+	}
+
+	#orange, .orange {
+		background-color: orange;
+	}
+
+	#yellow, .yellow {
+		background-color: yellow;
+	}
+
+	#green, .green {
+		background-color: green;
+	}
+
+	#blue, .blue {
+		background-color: blue;
+	}
+
+	#purple, .purple {
+		background-color: purple;
+	}
+
+	#cyan, .cyan {
+		background-color: cyan;
+	}
+
+	#magenta, .magenta {
+		background-color: magenta;
+	}
+
+	#black, .black {
+		background-color: black;
+	}
+
+	#white, .white {
+		background-color: white;
+	}
+
+/* buttons */
+	#colors {
+		position: fixed;
+		right: 8px;
+		top: 60px;
+		width: 28px;
+		height: auto;
+	}
+
+	.color {
+		float: left;
+		border-radius: 100%;
+		height: 28px;
+		width: 28px;
+		padding: 2px;
+		outline: none;
+		cursor: pointer;
+		margin-bottom: 5px;
+		font-family: monospace;
+		font-size: 15px;
+		color: black;
+		border: 2px solid black;
+		font-weight: bold;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.color#black {
+		color: white;
+	}
+
+	.color:focus, .color:hover {
+		box-shadow: 0px 0px 10px black;
+	}
+
+	.color[selected] {
+		box-shadow: 0px 0px 10px black;
+	}

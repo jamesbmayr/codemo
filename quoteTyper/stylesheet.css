@@ -1,0 +1,251 @@
+/* j-logo */
+	#j-logo {
+		position: fixed;
+		top: 114px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}
+
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		margin: 0px;
+		border: 0px;
+		padding: 0px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background-color: #333333;
+		box-shadow: 0px 0px 10px #111111 inset;
+	}
+
+	#header {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100px;
+		padding: auto auto;
+		text-align: center;
+		color: #dddddd;
+		font-size: 60px;
+		font-family: Courier, monospace;
+		font-weight: bold;
+		background-color: #222222;
+		box-shadow: 0px 0px 50px white;
+	}
+
+/* title */
+	#title {
+		float: left;
+		height: 80px;
+		width: auto;
+		padding: 10px;
+	}
+
+/* controls */
+	#controls {
+		position: fixed;
+		top: 0px;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 80px;
+		width: auto;
+		padding: 10px;
+	}
+
+	#go {
+		position: fixed;
+		top: 50%;
+		transform: translateY(-50%);
+		height: 80px;
+		width: 80px;
+		border: 0px;
+		border-radius: 100%;
+		background-color: #dddddd;
+		color: #333333;
+		padding: auto auto;
+		box-shadow: 0px 0px 20px #dddddd;
+		cursor: pointer;
+		outline: none;
+		font-size: 50px;
+		font-weight: bold;
+	}
+
+	#go:hover, #go:focus {
+		background-color: #eeeeee;
+		box-shadow: 0px 0px 50px #dddddd;
+	}
+
+/* speed */
+	#speed-outer {
+		float: right;
+		height: 80px;
+		width: auto;
+		padding: 10px;
+	}
+
+	#speed, #units {
+		float: left;
+		height: 80px;
+		width: auto;
+		border: 0px;
+		margin: 0px;
+	}
+
+/* quote */
+	#quote-outer {
+		position: fixed;
+		top: 125px;
+		height: 100px;
+		width: calc(100vw - 50px);
+		padding: 25px;
+		text-align: center;
+		font-size: 25px;
+		font-family: Arial, sans-serif;
+		color: #dddddd;
+		cursor: default;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	#quote {
+		width: calc(100vw - 70px);
+		padding: 10px;
+		border: 0px;
+		border-radius: 10px;
+	}
+
+	.complete {
+		box-shadow: 0px 0px 10px #dddddd;
+	}
+
+	.correct {
+		color: #87CEEB;
+		text-shadow: 0px 0px 10px #87CEEB;
+	}
+	
+	.incorrect {
+		color: #DC143C;
+		text-shadow: 0px 0px 10px #DC143C;
+	}
+
+/* input */
+	#input-outer {
+		position: fixed;
+		bottom: 0px;
+		left: 0px;
+		width: calc(100vw - 50px);
+		height: calc(100vh - 350px);
+		padding: 0px 25px 25px 25px;
+		margin: 0px;
+	}
+
+	#input {
+		min-width: calc(100vw - 100px);
+		max-width: calc(100vw - 100px);
+		min-height: calc(100vh - 400px);
+		max-height: calc(100vh - 400px);
+		border-radius: 10px;
+		padding: 25px;
+		background-color: #dddddd;
+		color: #111111;
+		font-size: 25px;
+		font-family: Arial, sans-serif;
+		border: 0px;
+		outline: none;
+	}
+
+	#input:focus {
+		box-shadow: 0px 0px 25px #dddddd;
+	}
+
+	#input[disabled] {
+		background-color: #aaaaaa;
+		color: #666666;
+		cursor: not-allowed;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#title {
+			display: none;
+		}
+
+		#header {
+			height: 60px;
+			padding: 0px;
+			font-size: 30px;
+		}
+
+		#controls {
+			transform: translateX(0px);
+			left: 0px;
+			width: 50px;
+			height: 40px;
+		}
+
+		#go {
+			transform: translateY(-50%) translateX(-50%);
+			height: 50px;
+			width: 50px;
+			font-size: 30px;
+		}
+
+		#speed-outer, #speed, #units {
+			height: 40px;
+		}
+
+		#speed-outer {
+			position: fixed;
+			right: 36px;
+		}
+
+		#j-logo {
+			position: fixed;
+			top: 15px;
+		}
+
+		#quote-outer {
+			top: 60px;
+		}
+
+		#input-outer {
+			height: auto;
+			padding: 2px;
+			width: calc(100vw - 4px);
+		}
+
+		#input {
+			width: calc(100vw - 54px);
+			min-width: calc(100vw - 54px);
+			max-width: calc(100vw - 54px);
+		}
+	}

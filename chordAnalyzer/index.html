@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>chordAnalyzer</title>
+		<link rel="shortcut icon" href="https://www.freeiconspng.com/uploads/audio-music-notation-note-notes-icon-9.png"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="chordAnalyzer is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="chordAnalyzer"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/chordAnalyzer/"/>
+		<meta property="og:description" content="chordAnalyzer is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="audio.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="case">
+			<div id="screen">
+				<div id="analysis">
+					<div id="bigOutput">click the keys below</div>
+					<div id="smallOutput">or use your QWERTY keyboard & spacebar</div>
+				</div>
+				<select id="instruments"></select>
+			</div>
+		</div>
+		<div id="keyboard">
+			<div id="blackKeys"></div>
+			<div id="whiteKeys"></div>
+		</div>
+		<div id="sustain" title="spacebar"><div id="sustainText">sustain</div></div>
+		<div id="tones"></div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

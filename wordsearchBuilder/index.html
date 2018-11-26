@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordsearchBuilder</title>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="https://d30y9cdsu7xlg0.cloudfront.net/png/1176719-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="wordsearchBuilder is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="wordsearchBuilder"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/wordsearchBuilder/"/>
+		<meta property="og:description" content="wordsearchBuilder is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<header id="header">wordsearchBuilder</header>
+		<form id="form" action="javascript:;">
+			<textarea id="words" placeholder="word1, word2, word3..."></textarea>
+			<div id="options">
+				<label><input id="fill" type="checkbox" checked>fill</label>
+				<label><input id="diagonal" type="checkbox">diagonal</label>
+				<button id="submit">go</button>
+			</div>
+		</form>
+		<div id="display" style="font-family: monospace; font-size: 10px;">
+			<button id="left"><</button>
+			<div id="viewer"></div>
+			<button id="right">></button>
+		</div>
+		<div id="count"><span id="index">0</span>/<span id="total">0</span></div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

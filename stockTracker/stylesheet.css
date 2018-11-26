@@ -1,0 +1,203 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+		background-color: #111111;
+	}
+
+/*** controls ***/
+	#controls {
+		float: left;
+		height: 60px;
+		width: 100%;
+		z-index: 2;
+		background-color: #111111;
+		color: #dddddd;
+		padding: 0px;
+	}
+
+	/* recent */
+		#recent {
+			float: left;
+			height: 60px;
+			width: 20px;
+			padding: 0px 10px 0px 10px;
+			outline: none;
+			cursor: pointer;
+			font-family: sans-serif;
+			z-index: 2;
+		}
+
+		#recent summary {
+			height: 60px;
+			color: #777777;
+			text-align: center;
+			outline: none;
+			font-size: 40px;
+			line-height: 1.4;
+		}
+
+		#recent[open] summary {
+			color: #dddddd;
+		}
+
+		#recent .item {
+			color: #777777;
+			font-size: 25px;
+			height: 30px;
+			width: auto;
+			text-transform: uppercase;
+			cursor: pointer;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		#recent .item:hover {
+			color: #dddddd;
+		}
+
+	/* fetch */
+		#fetch {
+			float: left;
+			height: 60px;
+			width: 50px;
+			padding: 0px;
+			background-color: transparent;
+			transform: rotate(180deg);
+			color: #777777;
+			border: 0px;
+			cursor: pointer;
+			font-size: 60px;
+			line-height: 1;
+			vertical-align: top;
+			outline: none;
+			border-radius: 100%;
+			font-weight: bold;
+			z-index: 2;
+		}
+
+		#fetch:hover {
+			color: #dddddd;
+		}
+
+	/* search */
+		#search {
+			float: left;
+			height: 40px;
+			padding: 10px 0px 10px 0px;
+			background-color: transparent;
+			color: lightblue;
+			font-size: 30px;
+			border: 0px;
+			outline: none;
+			width: calc(100% - 40px - 40px - 100px - 50px);
+			font-family: sans-serif;
+			text-transform: uppercase;
+			z-index: 2;
+		}
+
+		#search::placeholder {
+			color: #555555;
+		}
+
+	/* yoy */
+		#yoy {
+			float: left;
+			height: 40px;
+			width: 100px;
+			padding: 10px 0px 10px 0px;
+			font-size: 30px;
+			text-align: right;
+			font-family: sans-serif;
+			text-transform: uppercase;
+			z-index: 2;
+		}
+
+		#yoy.positive {
+			color: lightgreen;
+		}
+
+		#yoy.negative {
+			color: crimson;
+		}
+
+		#yoy.neutral {
+			color: lightblue;
+		}
+
+	/* j-logo */
+		#j-logo {
+			float: left;
+			height: 30px;
+			width: 20px;
+			margin: 15px 10px 15px 10px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			opacity: 0.5;
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 4px #dddddd);
+		}
+
+/*** charts ***/
+	#chart {
+		position: fixed;
+		top: 80px;
+		left: 20px;
+		height: calc(100% - 100px);
+		width: calc(100% - 40px);
+		padding: 0px;
+		margin: 0px;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	#spinner {
+		position: fixed;
+		top: calc(50% - 49px);
+		left: calc(50% - 46px);
+		height: 99px;
+		width: 92px;
+		font-size: 100px;
+		line-height: 0.85;
+		color: #777777;
+		animation-name: spinner;
+		animation-duration: 1.25s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+	}
+
+	#spinner.hidden {
+		display: none;
+		pointer-events: none;
+	}
+
+	@keyframes spinner {
+		0%   {transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}

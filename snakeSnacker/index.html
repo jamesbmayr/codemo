@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>snakeSnacker</title>
+		<link rel="shortcut icon" type="image/png" href="https://d30y9cdsu7xlg0.cloudfront.net/png/26096-200.png"/>
+		<style id="factor">:root {--factor: 25; }</style>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="snakeSnacker is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="snakeSnacker"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/snakeSnacker/"/>
+		<meta property="og:description" content="snakeSnacker is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="game">
+			<div id="grid"></div>
+			<div id="game-over" class="shown">
+				<div id="game-over-inner">
+					<div id="message">snake&nbsp;Snacker</div>
+					<select id="size">
+						<option value="9">small</option>
+						<option value="15" selected>medium</option>
+						<option value="21">large</option>
+					</select>
+					<select id="speed">
+						<option value="500">slow</option>
+						<option value="250" selected>moderate</option>
+						<option value="125">fast</option>
+					</select>
+					<button id="refresh"> &#8635; </div>
+				</div>
+			</div>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

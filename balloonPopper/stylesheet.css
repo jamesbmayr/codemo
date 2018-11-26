@@ -1,0 +1,184 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: lightgray;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	#container {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	#info {
+		font-size: 100px;
+		font-weight: bold;
+		text-transform: uppercase;
+		color: darkgray;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		text-align: center;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: default;
+	}
+
+	#restart {
+		border: 0px;
+		border-radius: 100%;
+		font-size: 100px;
+		width: 130px;
+		height: 130px;
+		background-color: lightgray;
+		color: darkgray;
+		outline: none;
+	}
+
+	#restart:hover {
+		background-color: darkgray;
+		color: lightgray;
+	}
+
+/* balloons */
+	.balloon {
+		border-radius: 100%;
+		width: 100px;
+		height: 100px;
+		border: 0px;
+		position: absolute;
+		top: calc(100% + 50px);
+		box-shadow: 5px 5px solid darkgray;
+		cursor: pointer;
+	}
+
+	.string_0 {
+		clip-path: polygon(51% 0%, 51.5% 5%, 54.5% 28%, 55% 33%, 54.5% 38%, 47.5% 61%, 47% 66%, 47.5% 71%, 50.5% 95%, 51% 100%, 49% 100%, 48.5% 95%, 45.5% 71%, 45% 66%, 45.5% 61%, 52.5% 38%, 53% 33%, 52.5% 28%, 49.5% 5%, 49% 0%);
+		background-color: darkgray;
+		position: relative;
+		top: 100px;
+		left: 0;
+		height: 150px;
+		width: 100px;
+		cursor: default;
+		pointer-events: none;
+	}
+
+	.string_1 {
+		clip-path: polygon(51% 0%, 51.5% 5%, 54.5% 28%, 55% 33%, 54.5% 38%, 47.5% 61%, 47% 66%, 47.5% 71%, 50.5% 95%, 51% 100%, 49% 100%, 48.5% 95%, 45.5% 71%, 45% 66%, 45.5% 61%, 52.5% 38%, 53% 33%, 52.5% 28%, 49.5% 5%, 49% 0%);
+		background-color: darkgray;
+		position: relative;
+		top: 100px;
+		left: 0;
+		height: 150px;
+		width: 100px;
+		cursor: default;
+		pointer-events: none;
+		transform: scaleX(-1);
+	}
+
+	.popped {
+		pointer-events: none;
+		cursor: default;
+	}
+
+	.popped-part {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		display: none;
+		pointer-events: none;
+	}
+
+	.top-left {
+		clip-path: polygon(10% 10%, 10% 15%, 25% 30%, 30% 30%, 30% 25%, 15% 10%);
+	}
+
+	.top-right {
+		clip-path: polygon(90% 10%, 90% 15%, 75% 30%, 70% 30%, 70% 25%, 85% 10%);
+	}
+
+	.bottom-left {
+		clip-path: polygon(10% 90%, 10% 85%, 25% 70%, 30% 70%, 30% 75%, 15% 90%);
+	}
+
+	.bottom-right {
+		clip-path: polygon(90% 90%, 90% 85%, 75% 70%, 70% 70%, 70% 75%, 85% 90%);
+	}
+
+/* colors */
+	.red {
+		background-color: rgba(255,0,0,.5);
+	}
+
+	.orange {
+		background-color: rgba(255,153,0,.5);
+	}
+
+	.yellow {
+		background-color: rgba(255,255,0,.5);
+	}
+
+	.green {
+		background-color: rgba(0,255,0,.5);
+	}
+
+	.blue {
+		background-color: rgba(0,0,255,.5);
+	}
+
+	.purple {
+		background-color: rgba(128,0,128,.5);
+	}
+
+	.magenta {
+		background-color: rgba(255,0,255,.5);
+	}
+
+	.cyan {
+		background-color: rgba(0,255,255,.5);
+	}
+
+	.gray {
+		background-color: rgba(125,125,125,.5);
+	}

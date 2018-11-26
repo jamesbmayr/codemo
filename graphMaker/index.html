@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>graphMaker</title>
+		<link rel="shortcut icon" type="image/png" href="https://icons.iconarchive.com/icons/iconsmind/outline/128/Formula-icon.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="graphMaker is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="graphMaker"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/graphMaker/"/>
+		<meta property="og:description" content="graphMaker is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<details id="equations">
+			<summary id="equations-toggle"></summary>
+			<div class="equation">
+				<div class="equation-y">y =</div>
+				<input class="equation-x" type="text" placeholder="...">
+				<select class="equation-hue">
+					<option value="black">black</option>
+					<option value="red">red</option>
+					<option value="green">green</option>
+					<option value="blue">blue</option>
+					<option value="magenta">magenta</option>
+					<option value="yellow">yellow</option>
+					<option value="cyan">cyan</option>
+				</select>
+				<button class="equation-remove">-</button>
+			</div>
+			<button id="equation-create">+</button>
+		</details>
+		<canvas id="graph"></canvas>
+		<button id="zoom-in" >+</button>
+		<button id="zoom-out">-</button>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

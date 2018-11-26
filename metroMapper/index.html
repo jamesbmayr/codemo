@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>metroMapper</title>
+		<link rel="shortcut icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/BSicon_lDAMPF.svg/500px-BSicon_lDAMPF.svg.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="metroMapper is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="metroMapper"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/metroMapper/"/>
+		<meta property="og:description" content="metroMapper is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="header">
+			<div id="title">metroMapper</div>
+			<button id="zoom-in">[+]</button>
+			<button id="zoom-out">[-]</button>
+		</div>
+		<div id="container">
+			<div id="map">
+				<svg id="lines" viewBox="0 0 10000 10000" height="10000" width="10000" preserveAspectRatio="none"></svg>
+				<svg id="stations" viewBox="0 0 10000 10000" height="10000" width="10000" preserveAspectRatio="none"><text id="station-info" x="0" y="0"></text></svg>
+				<svg id="trains" viewBox="0 0 10000 10000" height="10000" width="10000" preserveAspectRatio="none"><text id="train-info" x="0" y="0"></text></svg>
+			</div>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

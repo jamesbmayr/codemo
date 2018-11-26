@@ -1,0 +1,190 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: lightgray;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		overflow: hidden;
+	}
+
+	#container {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 10px;
+		border: 10px solid #333333;
+		background-color: #333333;
+		padding: 0px;
+		margin: 0px;
+		height: calc(90vh + 20px);
+		width: calc(80vh + 20px);
+		max-height: calc(90vw + 20px);
+		max-width: calc(80vw + 20px);
+	}
+
+/* controls */
+	#controls {
+		position: fixed;
+		width: 100%;
+		height: calc(100% / 9);
+		background-color: #333333;
+		border: 0px;
+		margin: 0px;
+		padding-bottom: 10px;
+	}
+
+	#url {
+		float: left;
+		padding: 10px;
+		font-size: 25px;
+		color: #333333;
+		width: 68%;
+		height: 100%;
+		border-radius: 5px 0px 0px 0px;
+		border: 0px;
+	}
+
+	#gridSize {
+		float: left;
+		padding: 5px;
+		color: lightgray;
+		background-color: #333333;
+		width: 22%;
+		height: 100%;
+		border-radius: 0px;
+		border: 0px;
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		font-size: 25px;
+	}
+
+	#refresh {
+		float: left;
+		background-color: #333333;
+		color: lightgray;
+		width: 10%;
+		height: 100%;
+		border: 0px;
+		border-radius: 0px 5px 0px 0px;
+		font-size: 25px;
+		padding: 5px;
+		overflow: hidden;
+		cursor: pointer;
+	}
+
+	#refresh:hover {
+		background-color: darkgray;
+		color: #333333;
+	}
+
+/* tiles */
+	#tiles {
+		z-index: 1;
+		position: absolute;
+		height: calc(100% - (100% / 9));
+		width: 100%;
+		top: calc(100% / 9);
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.tile {
+		background-repeat: no-repeat;
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center center;
+	}
+
+/* triggers */
+	#triggers {
+		z-index: 2;
+		position: absolute;
+		height: calc(100% - (100% / 9));
+		width: 100%;
+		top: calc(100% / 9);
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.trigger {
+		position: absolute;
+		top: 0;
+		left: 0;
+		padding: 0px;
+		margin: 0px;
+		border: 0px;
+		background-color: rgba(000,000,000,0);
+	}
+
+/* victory */
+	#victoryOuter {
+		position: absolute;
+		height: calc(100% - (100% / 9));
+		width: 100%;
+		top: calc(100% / 9);
+		opacity: 0;
+	}
+
+	#victoryInner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		color: darkgray;
+		font-size: 50px;
+		font-weight: bold;
+		text-align: center;
+		cursor: default;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#gridSize, #refresh, #url {
+			padding: 2px;
+			font-size: 15px;
+		}
+	}

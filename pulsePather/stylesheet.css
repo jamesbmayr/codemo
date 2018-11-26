@@ -1,0 +1,374 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #222222;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		font-family: monospace;
+		font-size: 20px;
+		color: #dddddd;
+	}
+
+	/* effects */
+		[hidden] {
+			display: none;
+		}
+
+		[blur] {
+			filter: blur(5px);
+		}
+
+		.cell[sound] {
+			margin: 0.5% 0.5%;
+			padding: 0px;
+			border: 0px;
+			height: 3%;
+			width: 3%;
+		}
+
+		.cell[pulse] {
+			border: 1px solid #dddddd;
+			color: #dddddd;
+		}
+
+		.cell[fade] {
+		}
+
+/*** grid ***/
+	#grid {
+		width: 90vh;
+		height: 90vh;
+		max-width: 90vw;
+		max-height: 90vw;
+		border-radius: 10px;
+		border: 5px solid #222222;
+		background-color: #222222;
+		overflow: hidden;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		box-shadow: 0px 0px 10px #dddddd;
+	}
+
+	/* cells */
+		.cell {
+			float: left;
+			height: 1%;
+			width: 1%;
+			margin: 1.5% 1.5%;
+			padding: 0px;
+			font-size: 10px;
+			overflow: hidden;
+			text-align: center;
+			box-shadow: 0px 0px 1px #dddddd inset;
+			user-select: none;
+			border-radius: 100%;
+			border: 0px;
+			cursor: pointer;
+			outline: none;
+			color: #222222;
+			font-family: monospace;
+			font-weight: bold;
+			text-shadow: 0px 0px 2px #dddddd;
+			user-select: none;
+		}
+
+		.cell:hover, .cell:focus {
+			box-shadow: 0px 0px 20px #dddddd inset;
+		}
+
+		.origin, .origin[sound] {
+			border-radius: 0%;
+		}
+
+/*** menu ***/
+	#menu {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		background-color: #222222;
+		padding: 25px;
+		border-radius: 5px;
+		height: 250px;
+		max-height: 75vh;
+		width: 200px;
+		max-width: 80vw;
+		box-shadow: 0px 0px 10px #dddddd;
+		text-align: center;
+		user-select: none;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	#menu-title {
+		text-align: center;
+		font-weight: bold;
+		font-size: 25px;
+		padding: 10px 0px 10px 0px;
+		margin-bottom: 20px;
+		float: left;
+		width: 100%;
+		user-select: none;
+	}
+
+	/* open / close */
+		#menu-open, #menu-close {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			border: 0px;
+			border-radius: 100%;
+			text-align: center;
+			background-color: #222222;
+			color: #dddddd;
+			font-weight: bold;
+			padding: 0px;
+			height: 25px;
+			width: 25px;
+			font-size: 15px;
+			cursor: pointer;
+			outline: none;
+			line-height: 1;
+			font-family: monospace;
+			user-select: none;
+			box-shadow: 0px 0px 5px #aaaaaa;
+		}
+
+		#menu-open {
+			left: 40px;
+		}
+
+		#menu-open:hover, #menu-open:focus, #menu-close:hover, #menu-close:focus {			
+			background-color: #111111;
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* play / pause */
+		#menu-play, #menu-pause {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			font-family: monospace;
+			height: 25px;
+			width: 25px;
+			border-radius: 100%;
+			border: 0px;
+			background-color: #222222;
+			box-shadow: 0px 0px 5px #aaaaaa;
+			color: #dddddd;
+			font-weight: bold;
+			font-size: 15px;
+			padding: 2px;
+			cursor: pointer;
+			user-select: none;
+			outline: none;
+			line-height: 1;
+		}
+
+		#menu-play:hover, #menu-pause:hover, #menu-play:focus, #menu-pause:focus {
+			background-color: #111111;
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* labels & inputs */
+		#menu label {
+			float: left;
+			width: 100%;
+			font-size: 15px;
+			text-align: left;
+			margin-top: 15px;
+			line-height: 2;
+			user-select: none;
+		}
+
+		#menu input, #menu select {
+			float: right;
+			border-radius: 5px;
+			border: 0px;
+			background-color: #333333;
+			font-family: monospace;
+			font-size: 15px;
+			padding: 5px;
+			color: #dddddd;
+			outline: none;
+			height: 20px;
+			width: 100px;
+			cursor: pointer;
+			overflow: hidden;
+			margin: 0px;
+		}
+
+		#menu select {
+			height: 30px;
+			width: 110px;
+		}
+
+		#menu input:hover, #menu select:hover, #menu input:focus, #menu select:focus {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+/*** keyboard ***/
+	#keyboard {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		background-color: #222222;
+		padding: 25px;
+		border-radius: 5px;
+		height: 200px;
+		max-height: 50vh;
+		width: 400px;
+		max-width: 80vw;
+		box-shadow: 0px 0px 10px #dddddd;
+		user-select: none;
+	}
+
+	/* close */
+		#keyboard-close {
+			position: absolute;
+			top: 5px;
+			left: 5px;
+			border: 0px;
+			border-radius: 100%;
+			text-align: center;
+			background-color: #222222;
+			color: #dddddd;
+			font-weight: bold;
+			padding: 0px;
+			height: 25px;
+			width: 25px;
+			font-size: 15px;
+			cursor: pointer;
+			outline: none;
+			line-height: 1;
+			font-family: monospace;
+			user-select: none;
+			box-shadow: 0px 0px 5px #aaaaaa;
+		}
+
+		#menu-close:hover, #menu-close:focus {			
+			background-color: #111111;
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* octave */
+		#keyboard label {
+			float: left;
+			text-align: left;
+			width: 100%;
+			margin-top: 5px;
+			margin-bottom: 15px;
+			user-select: none;
+		}
+
+		#keyboard-octave {
+			float: right;
+			border-radius: 5px;
+			border: 0px;
+			background-color: #333333;
+			font-family: monospace;
+			font-size: 15px;
+			padding: 5px;
+			color: #dddddd;
+			outline: none;
+			height: 20px;
+			cursor: pointer;
+			overflow: hidden;
+			margin: 0px;
+			width: calc(100% - 100px);
+		}
+
+		#keyboard-octave:hover, #keyboard-octave:focus {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* keys */
+		.keyboard-white {
+			height: 75%;
+			width: 12.5%;
+			position: relative;
+			border-radius: 0px 0px 5px 5px;
+			border: 0px;
+			color: #222222;
+			text-shadow: 0px 0px 2px #dddddd;
+			font-family: monospace;
+			font-size: 20px;
+			font-weight: bold;
+			outline: none;
+			cursor: pointer;
+			z-index: 1;
+			padding: 0px;
+			user-select: none;
+		}
+
+		.keyboard-white:last-child {
+			border-radius: 0px 5px 5px 5px;
+		}
+
+		.keyboard-black {
+			position: relative;
+			vertical-align: top;
+			width: 8%;
+			height: 50%;
+			border: 0px;
+			color: #222222;
+			text-shadow: 0px 0px 2px #dddddd;
+			border-radius: 0px 0px 5px 5px;
+			font-family: monospace;
+			font-size: 20px;
+			font-weight: bold;
+			outline: none;
+			cursor: pointer;
+			margin-left: -4%;
+			margin-right: -4%;
+			z-index: 2;
+			padding: 0px;
+			user-select: none;
+		}
+
+		.keyboard-white:hover, .keyboard-white:focus, .keyboard-black:hover, .keyboard-black:focus {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+		#keyboard-null {
+			background-color: #333333;
+			border-radius: 5px 0px 5px 5px;
+		}
+
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}

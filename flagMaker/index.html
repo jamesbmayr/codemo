@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>flagMaker</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/1526-200.png"></link>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="flagMaker is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="flagMaker"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/flagMaker/"/>
+		<meta property="og:description" content="flagMaker is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="display">
+			<div id="flag-outer">
+				<canvas id="flag" height="1000" width="1500"></canvas>
+			</div>
+		</div>
+		<div id="menu">
+			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+			<h1 id="title">flagMaker</h1>
+			<button id="random" title="create a random flag">new</button>
+			<button id="previous" title="recreate the last flag">back</button>
+			<button id="clear" title="clear all parameters">reset</button>
+			<label  id="upload-outer" title="upload a flag as JSON"><input id="upload" type="file">load &uarr;</label>
+			<button id="save" title="save this flag as JSON">save &darr;</button>
+			<button id="export" title="export this image as PNG">export &darr;</button>
+			<hr>
+		</div>
+	</body>
+</html>

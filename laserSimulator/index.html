@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>laserSimulator</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="shortcut icon" href="https://d30y9cdsu7xlg0.cloudfront.net/png/898064-200.png"/>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="laserSimulator is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="laserSimulator"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/laserSimulator/"/>
+		<meta property="og:description" content="laserSimulator is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="controls" color="#ffffff">
+			<label>
+				<select id="color"     title="color">
+					<option value="#ffffff">W</option>
+					<option value="#ff0000">R</option>
+					<option value="#00ff00">G</option>
+					<option value="#0000ff">B</option>
+				</select>
+				color
+			</label>
+			<label><button id="cursor"    title="cursor"          ><span class="fas fa-mouse-pointer"       ></span></button>cursor</label>
+			<label><button id="eraser"    title="eraser"          ><span class="fas fa-eraser"              ></span></button>eraser</label>
+			<label><button id="emitter"   title="emitter" selected><span class="fas fa-magic"               ></span></button>emitter</label>
+			<label><button id="prism"     title="prism"           ><span class="fas fa-exclamation-triangle"></span></button>prism</label>
+			<label><button id="refractor" title="refractor"       ><span class="fas fa-tint"                ></span></button>refractor</label>
+			<label><button id="filter"    title="filter"          ><span class="fas fa-filter"              ></span></button>filter</label>
+			<label><button id="mirror"    title="mirror"          ><span class="fas fa-project-diagram"     ></span></button>mirror</label>
+			<label><button id="block"     title="wall"            ><span class="fas fa-stop"                ></span></button>wall</label>
+		</div>
+		<canvas id="canvas"></canvas>
+		<div id="message"></div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

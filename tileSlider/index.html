@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>tileSlider</title>
+		<link rel="shortcut icon" type="image" href="https://cdn0.iconfinder.com/data/icons/faticons-2/26/tiles-512.png"></link>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"></link>
+		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="tileSlider is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="tileSlider"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/tileSlider/"/>
+		<meta property="og:description" content="tileSlider is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="controls">
+				<input type="text" id="url" placeholder="enter an image url..."></input>
+				<select id="gridSize">
+					<option value="3">3 x 3</option>
+					<option value="4" selected>4 x 4</option>
+					<option value="5">5 x 5</option>
+					<option value="6">6 x 6</option>
+					<option value="7">7 x 7</option>
+					<option value="8">8 x 8</option>
+				</select>
+				<button id="refresh"><span class="glyphicon glyphicon-refresh"></span></button>
+			</div>
+			<div id="tiles"></div>
+			<div id="triggers"></div>
+			<div id='victoryOuter'>
+				<div id='victoryInner'>
+					<div id='message'>victory</div>
+					<div id='moveCount'></div>
+				</div>
+			</div>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

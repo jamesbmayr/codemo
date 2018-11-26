@@ -1,0 +1,105 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+	
+/* page */
+	body {
+		font-family: sans-serif;
+		background-color: lightgray;
+	}
+
+/* maze */
+	#outerwall {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+		background-color: #333333;
+		padding: 40px;
+		border-radius: 20px;
+		text-align: center;
+	}
+
+	.maze {
+		border: 0;
+		margin: 0;
+	}
+
+	.black {
+		background-color: #333333;
+		float: left;
+	}
+
+	.white {
+		background-color: lightgray;
+		float: left;
+	}
+
+/* game */
+	#player {
+		position: absolute;
+		top: 40px;
+		left: 40px;
+		display: block;
+		border: 0;
+		margin: 0;
+		z-index: 1;
+		border-radius: 100%;
+		background-color: #314dea;
+	}
+
+	#keyCounter {
+		text-align: center;
+		font-family: sans-serif;
+		color: lightgray;
+		vertical-align: middle;
+	}
+
+	#clickCounter {
+		text-align: center;
+		font-family: sans-serif;
+		color: lightgray;
+		vertical-align: middle;
+	}
+
+	.special {
+		background-color: gray;
+	}
+
+/* victory */
+	#victory {
+		border: 0;
+		border-radius: 20px;
+		background-color: lightgray;
+		color: #333333;
+		text-align: center;
+		padding: 20px;
+		-webkit-user-select: none;      
+		-moz-user-select: none;
+		-ms-user-select: none;
+		text-decoration: none;
+		font-size: 50px;
+	}
+
+	#victory:hover {
+		background-color: gray;
+		color: lightgray;
+	}

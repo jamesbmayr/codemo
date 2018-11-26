@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>codeRunner</title>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+		<link rel="shortcut icon" href="https://png.icons8.com/metro/1600/engine.png"/>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="codeRunner is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="codeRunner"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/codeRunner/"/>
+		<meta property="og:description" content="codeRunner is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="content">
+				<div class="bracketer_top"><span class="greentext">code</span><span class="redtext"> = </span><span class="bluetext">function</span><span class="whitetext">(</span><span class="field_frame active"><span class="orangetext field" id="inputs" value='' contenteditable=true></span></span><span class="whitetext">) {</span></div>
+				<div class="megasection">
+					<div class="indented">
+						<div class="field_frame active" id="code_outer"><div class="whitetext field" id="code" value='' contenteditable=true></div></div>
+					</div>
+				</div>
+				<div class="bracketer_bottom"><span class="whitetext">}</span></div>
+				<br>
+				<div class="section">
+					<form method="post" action="javascript:;" onsubmit="window.eval_code();" class="whitetext">
+						<button class="whitetext" id="eval_code" name="action" value="eval_code"><span class="bluetext">eval</span>(<span class="greentext">code</span></button>(<span class="field_frame active"><span class="orangetext field" id="values" value='' contenteditable=true></span></span>))<span class="redtext"> = </span>
+						<div class="yellowtext"><span id="output"></span></div>
+					</form>
+				</div>
+				<br>
+				<details class="graytext" open><summary>//console</summary><div id="console"></div></details>
+			</div>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>

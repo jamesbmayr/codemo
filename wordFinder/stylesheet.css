@@ -1,0 +1,382 @@
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		padding: 0px;
+		margin: 0px;
+		background-color: rgba(150,140,125,1);
+	}
+
+	::-webkit-scrollbar {
+		height: 0px !important;
+		width: 0px !important;
+	}
+
+	::-o-scrollbar {
+		height: 0px !important;
+		width: 0px !important;
+	}
+
+	#container {
+		height: 100%;
+		width: 100%;
+		padding: 0px;
+		background-color: rgba(150,140,125,1);
+	}
+
+/* controls */
+	#controls {
+		height: 18vh;
+		border: 1vh solid rgba(150,140,125,1);
+		background-color: rgba(255,255,255,0);
+		border-radius: 5px;
+	}
+
+	/* buttons */
+		#buttons {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(232,232,232,1);
+			overflow: hidden;
+			border-radius: 5px;
+		}
+
+		.button_frame {
+			float: left;
+			background-color: rgba(232,232,232,1);
+			width: 50%;
+			height: 8vh;
+			border-radius: 5px;
+			padding: 5px;
+		}
+
+		.button {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(200,180,150,1);
+			color: rgba(255,255,255,1);
+			text-transform: uppercase;
+			border: 0px;
+			border-radius: 5px;
+		}
+
+		.button:hover {
+			background-color: rgba(150,140,125,1);
+		}
+
+		.clock {
+			display: inline-block;
+			background-color: rgba(232,232,232,1);
+			color: rgba(150,140,125,1);
+			font-weight: bold;
+			padding: 2px;
+			border-radius: 3px;
+		}
+
+		#endGame {
+			width: calc(100% - 44px);
+		}
+
+	/* j-logo */
+		#j-logo {
+			float: right;
+			margin: 4px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: contain;
+			background-position: center center;
+			height: calc(100% - 8px);
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 4px #222222);
+		}
+
+/* game */
+		#overlay {
+			height: 82vh;
+			width: 100%;
+			background-color: rgba(150,140,125,1);
+			z-index: 3;
+			position: absolute;
+			text-align: center;
+		}
+
+		#overlay_text {
+			position: relative;
+			top: 50%;
+			transform: translateY(-50%);
+			color: rgba(255,255,255,1);
+			text-transform: uppercase;
+			font-size: 50px;
+			font-weight: bold;
+		}
+
+		#box {
+			float: left;
+			border: 1vh solid rgba(150,140,125,1);
+			border-radius: 5px;
+			padding: 0px;
+			height: 82vh;
+			width: 82vh;
+		}
+
+	/* cubes */
+		#game {
+			position: absolute;
+			width: 80vh;
+			height: 80vh;
+			z-index: 2;
+			border-radius: 5px;
+		}
+
+		.frame {
+			float: left;
+			height: 16vh;
+			width: 16vh;
+			padding: 1vh;
+			background-color: rgba(255,255,255,0);
+		}
+
+		.cube {
+			height: 100%;
+			width: 100%;
+			background-color: rgba(200,180,150,1);
+			color: rgba(255,255,255,1);
+			border-radius: 3px;
+			cursor: pointer;
+		}
+
+		.cube:hover {
+			background-color: rgba(150,140,125,1);
+		}
+
+		.letter {
+			text-align: center;
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			font-size: 50px;
+			font-weight: bold;
+			text-transform: capitalize;
+			user-select: none;
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+		}
+
+		.selected {
+			background-color: rgba(150,140,125,1);
+		}
+
+	/* connectors */
+		#connectors {
+			position: absolute;
+			width: 80vh;
+			height: 80vh;
+			z-index: 1;
+			padding: 4vh;
+			background-color: rgba(232,232,232,1);
+			border-radius: 5px;
+		}
+
+		.connector_frame {
+			float: left;
+			height: 8vh;
+			width: 8vh;
+			padding: 1vh;
+		}
+
+		.connector {
+			height: 100%;
+			width: 100%;
+			background-color: rgba(150,140,125,1);
+			border-radius: 0px;
+			cursor: pointer;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+/* scorepad */
+		#pad {
+			float: left;
+			border: 1vh solid rgba(150,140,125,1);
+			border-radius: 0px 5px 5px 0px;
+			background-color: rgba(150,140,125,1);
+			height: 82vh;
+			width: calc(100% - 82vh);
+		}
+
+	/* score */
+		#score {
+			text-align: center;
+			width: 100%;
+			background-color: rgba(150,140,125,1);
+			font-size: 50px;
+			font-weight: bold;
+			color: rgba(255,255,255,1);
+			text-transform: uppercase;
+			border-radius: 5px;
+			height: auto;
+		}
+
+	/* words */
+		#myWords {
+			padding: 1vh;
+			overflow: scroll;
+			height: 100%;
+			width: 100%;
+			border-radius: 5px;
+			background-color: rgba(232,232,232,1);
+		}
+
+		.word {
+			width: 100%;
+			font-size: 17px;
+			margin-bottom: 5px;
+			float: left;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		.newWord {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(150,140,125,1);
+			border: 0px;
+			border-radius: 5px;
+			float: left;
+			color: rgba(255,255,255,1);
+			padding: 5px;
+		}
+
+		.oldWord {
+			width: 95%;
+			height: 100%;
+			background-color: rgba(200,180,150,1);
+			border: 0px;
+			border-radius: 5px;
+			float: left;
+			color: rgba(255,255,255,1);
+			padding: 5px;
+		}
+
+		.deleteWord {
+			text-align: center;
+			float: left;
+			width: 5%;
+			height: 100%;
+			color: rgba(150,140,125,1);
+			transform: translateY(25%);
+			cursor: pointer;
+		}
+
+/* mobile */
+	@media screen and (min-width: 501px) and (max-width: 800px) {
+		#controls {
+			height: 10vh;
+			font-size: 5px;
+		}
+
+		.button_frame {
+			width: 25%;
+		}
+
+		.button_frame:nth-Child(2) {
+			float: right;
+		}
+
+		#endGame {
+			width: calc(100% - 32px);
+		}
+
+		#j-logo {
+			width: 20px;
+		}
+
+		.letter {
+			font-size: 25px;
+		}
+	}
+
+	@media screen and (max-width: 500px) {
+		#controls {
+			height: 10vh;
+			font-size: 10px;
+		}
+
+		.button_frame {
+			width: 25%;
+		}
+
+		.button_frame:nth-Child(2) {
+			float: right;
+		}
+
+		#endGame {
+			width: calc(100% - 32px);
+		}
+
+		#j-logo {
+			width: 20px;
+		}
+
+		#overlay, #box {
+			height: calc(100vw);
+			width: calc(100vw);
+		}
+
+		#game, #connectors {
+			height: calc(100vw - 2vh);
+			width: calc(100vw - 2vh);
+		}
+
+		.frame {
+			height: calc((100vw - 2vh) / 5);
+			width: calc((100vw - 2vh) / 5);
+		}
+
+		.letter {
+			font-size: 25px;
+		}
+
+		#connectors {
+			padding: calc((100vw - 2vh) / 20);
+		}
+
+		.connector_frame {
+			height: calc((100vw - 2vh) / 10);
+			width: calc((100vw - 2vh) / 10);
+		}
+
+		#pad {
+			width: 100vw;
+			height: calc(90vh - 100vw);
+		}
+
+		#score {
+			font-size: 25px;
+			border-radius: 5px;
+			height: auto;
+		}
+
+		.word:last-child {
+			margin-bottom: 50px;
+		}
+	}

@@ -1,0 +1,342 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+	
+/* document */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	@media screen and (min-width: 500px) {
+		body {
+			background-color: lightgray;
+			margin: 25px;
+			padding: 0px;
+			border: 0px;
+			text-align: center;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+		}
+
+		#container {
+			position: absolute;
+			width: calc(90vh - 50px + 100px + 25px);
+			height: calc(90vh - 50px);
+			left: 50%;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+		}
+	}
+
+	@media screen and (max-width: 500px) {
+		body {
+			background-color: lightgray;
+			margin: 0px;
+			padding: 0px;
+			border: 0px;
+			text-align: center;
+		}
+
+		#container {
+			position: absolute;
+			width: calc(90vw - 50px);
+			height: auto;
+			left: 50%;
+			top: 50%;
+			margin-bottom: 25px;
+			transform: translateX(-50%) translateY(-50%);
+		}
+	}
+
+/* puzzle */
+	@media screen and (min-width: 500px) {
+		#puzzle {
+			width: calc(100% - 125px);
+			height: 100%;
+			border: 5px solid gray;
+			border-radius: 10px;
+			float: left;
+			background-color: gray;
+		}
+	}
+
+	@media screen and (max-width: 500px) {
+		#puzzle {
+			width: 100%;
+			height: calc(100vw - 90px);
+			border: 5px solid gray;
+			border-radius: 10px;
+			float: left;
+			background-color: gray;
+		}
+	}
+
+	.row {
+		width: 100%;
+		height: 10%;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+	.cell {
+		width: 10%;
+		height: 100%;
+		float: left;
+		margin: 0px;
+		padding: 0px;
+		border: 5px solid rgba(000,000,000,0);
+		cursor: pointer;
+	}
+
+	.cell:hover {
+		border: 5px solid lightgray;
+	}
+
+/* colors */
+	.red {
+		background-color: #f22d13;
+	}
+
+	.yellow {
+		background-color: #e9ef2d;
+	}
+
+	.green {
+		background-color: #14c920;
+	}
+
+	.blue {
+		background-color: #314dea;
+	}
+
+	.cyan {
+		background-color: #2bbac4;
+	}
+
+	.magenta {
+		background-color: #ce35c1;
+	}
+
+	.black {
+		background-color: #333333;
+	}
+
+/* buttons */
+	@media screen and (min-width: 500px) {
+		#buttons {
+			float: left;
+			width: 100px;
+			max-height: 100%;
+			border: 5px solid gray;
+			background-color: gray;
+			border-radius: 10px;
+			margin-right: 25px;
+			padding: 5px;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+
+		#buttons::-webkit-scrollbar {
+			display: none;
+		}
+
+		#counterOuter {
+			border-radius: 10px;
+			width: 80px;
+			height: 80px;
+			margin: auto auto;
+			margin-bottom: 10px;
+			border: 5px solid lightgray;
+			cursor: default;
+			background-color: gray;
+			padding: auto auto;
+			text-align: center;
+		}
+
+		#counterInner {
+			text-align: center;
+			color: lightgray;
+			font-size: 50px;
+			user-select: none;
+			-webkit-user-select: none;
+		}
+
+		.button {
+			border-radius: 100%;
+			width: 80px;
+			height: 80px;
+			margin: auto auto;
+			margin-top: 5px;
+			cursor: pointer;
+			border: 5px solid gray;
+		}
+	}
+
+	@media screen and (max-width: 500px) {
+		#buttons {
+			float: left;
+			height: 70px;
+			width: calc(90vw - 50px);
+			border: 5px solid gray;
+			background-color: gray;
+			border-radius: 10px;
+			margin-bottom: 10px;
+			padding: 0px;
+			overflow-y: hidden;
+			overflow-x: auto;
+			list-style-type:none;
+			white-space:nowrap;
+		}
+
+		#buttons::-webkit-scrollbar {
+			display: none;
+		}
+
+		#counterOuter {
+			display: inline-block;
+			border-radius: 10px;
+			width: 50px;
+			height: 50px;
+			margin: 5px;
+			border: 5px solid lightgray;
+			cursor: default;
+			background-color: gray;
+			padding: auto auto;
+			text-align: center;
+			vertical-align: bottom;
+			margin-bottom: 10px;
+		}
+
+		#counterInner {
+			text-align: center;
+			color: lightgray;
+			font-size: 30px;
+			user-select: none;
+			-webkit-user-select: none;
+		}
+
+		.button {
+			display: inline-block;
+			border-radius: 100%;
+			width: 50px;
+			height: 50px;
+			margin: auto auto;
+			margin: 5px;
+			cursor: pointer;
+			border: 5px solid gray;
+		}
+	}
+
+	.button:hover {
+		border: 5px solid lightgray;
+	}
+
+	.button.active {
+		border: 5px solid lightgray;
+	}
+
+/* victory */
+	#victory {
+		width: 100%;
+		text-align: center;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: default;
+	}
+
+	#message {
+		font-size: 50px;
+		text-transform: uppercase;
+		font-weight: bold;
+		color: lightgray;
+	}
+
+	#parametersOuter {
+		width: 100%;
+		padding: 10px;
+		height: 100px;
+	}
+
+	#parametersInner {
+		width: 100%;
+		height: 100%;
+		border: 5px solid gray;
+		background-color: gray;
+		border-radius: 10px;
+	}
+
+	#newColorCount {
+		width: 40%;
+		height: 100%;
+		float: left;
+		border: 0px;
+		padding: 5px;
+		text-align: center;
+		font-size: 20px;
+		color: gray;
+		zoom: 2;
+	}
+
+	#newGridCount {
+		width: 40%;
+		height: 100%;
+		float: left;
+		border: 0px;
+		padding: 5px;
+		text-align: center;
+		font-size: 20px;
+		color: gray;
+		zoom: 2;
+	}
+
+	#refreshOuter {
+		background-color: lightgray;
+		color: gray;
+		width: 20%;
+		height: 100%;
+		font-size: 35px;
+		float: left;
+		cursor: pointer;
+	}
+
+	#refreshInner {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		cursor: pointer;
+	}
+
+	#refreshOuter:hover {
+		background-color: gray;
+		color: lightgray;
+	}

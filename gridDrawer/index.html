@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>gridDrawer</title>
+		<link rel="shortcut icon" href="https://cdn.onlinewebfonts.com/svg/img_437931.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="gridDrawer is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="gridDrawer"/>
+		<meta property="og:url" content="https://rawgit.com/jamesbmayr/codemo/master/gridDrawer/"/>
+		<meta property="og:description" content="gridDrawer is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://rawgit.com/jamesbmayr/codemo/master/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="audio.js"></script>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="navbar-outer">
+			<div id="navbar" mode="creation">
+			<form id="creation" method="post" action="javascript:;">
+				<select id="shape">
+					<option value="triangle-x">&#9650;</option>
+					<option value="triangle-y">&#9654;</option>
+					<option value="square">&#9724;</option>
+					<option value="rectangle-x">&#9644;</option>
+					<option value="rectangle-y">&#9646;</option>
+					<option value="hexagon-x">&#11043;</option>
+					<option value="hexagon-y">&#11042;</option>
+				</select>
+				<select id="spacing">
+					<option value="20">s</option>
+					<option value="30">m</option>
+					<option value="50">l</option>
+					<option value="80">xl</option>
+				</select>
+				<button id="create" type="submit">&#x279C;</button>
+			</form>
+			<div class="spacer"></div>
+			<form id="tools" method="post" action="javascript:;">
+				<select id="color" style="color: orange">
+					<option value="red">r</option>
+					<option value="orange" selected>o</option>
+					<option value="yellow">y</option>
+					<option value="green">g</option>
+					<option value="cyan">c</option>
+					<option value="blue">b</option>
+					<option value="purple">p</option>
+					<option value="magenta">m</option>
+					<option value="black">k</option>
+				</select>
+				<button id="draw"     value="draw" style="color: orange">&#10000;</button>
+				<button id="erase"    value="erase"   >&#x2704;</button>
+				<div class="spacer"></div>
+				<button id="drag"     value="drag"    >&#x2725;</button>
+				<button id="zoom-in"  value="zoom-in" >&#8853;</button>
+				<button id="zoom-out" value="zoom-out">&#8854;</button>
+				<div class="spacer"></div>
+				<button id="music"    value="music"   >&#9834;</button>
+				<select id="instrument"></select>
+			</form>
+			</div>
+			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		</div>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>

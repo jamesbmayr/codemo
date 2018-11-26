@@ -1,0 +1,272 @@
+/* j-logo */
+	#j-logo {
+		position: absolute;
+		top: 16px;
+		right: 12px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+	
+/* page */
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: darkgray;
+		margin: 0px;
+		padding: 0px;
+		margin-bottom: 20px;
+		overflow: hidden;
+	}
+
+	::-webkit-scrollbar { 
+		display: none; 
+	}
+
+/* screen */
+	#case {
+		display: block;
+		text-align: center;
+		height: 200px;
+		width: 100vw;
+		background-color: #333333;
+		padding: 10px;
+	}
+
+	#screen {
+		margin: 0px;
+		background-color: #eeeeee;
+		border-radius: 10px;
+		height: 180px;
+		width: calc(100vw - 20px);
+	}
+
+	#analysis {
+		position: absolute;
+		top: 25px;
+		left: 50%;
+		width: calc(100% - 20px);
+		transform: translateX(-50%);
+		color: #333333;
+		text-align: center;
+	}
+
+	#bigOutput {
+		display: block;
+		font-size: 40px;
+		cursor: default;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+	}
+
+	#smallOutput {
+		display: block;
+		font-size: 25px;
+		cursor: default;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+	}
+
+	#instruments {
+		position: absolute;
+		top: 150px;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 2;
+		font-size: 25px;
+		cursor: pointer;
+		outline: 0px;
+		border: 0px;
+		font-size: 20px;
+		border-radius: 25px;
+		height: 30px;
+		width: 200px;
+	}
+
+/* keyboard */
+	#keyboard {
+		display: block;
+		border: 5px solid #333333;
+		height: calc(100vh - 300px);
+		width: 100vw;
+		margin: 0px;
+		padding: 0px 1px 1px 1px;
+		border-radius: 0px 0px 10px 10px;
+	}
+
+	#blackKeys {
+		height: calc(calc(100vh - 300px) * (2 / 3));
+		z-index: 2;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	#whiteKeys {
+		height: calc((100vh - 300px) - 12px);
+		z-index: 1;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	.key {
+		margin: 0px 1px 1px 1px;
+		border-radius: 0px 0px 4px 4px;
+		cursor: pointer;
+		padding-top: 10px;
+		font-weight: bold;
+		float: left;
+		pointer-events: all;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+	}
+
+	.name {
+		position: absolute;
+		bottom: 0px;
+		text-align: center;
+		padding: 1.5%;
+		width: inherit;
+	}
+
+	.black {
+		background-color: #333333;
+		color: #eeeeee;
+		height: 100%;
+		width: calc((100vw - 42px) / 15);
+		vertical-align: top;
+	}
+
+	.white {
+		background-color: #eeeeee;
+		color: #333333;
+		width: calc((100vw - 42px) / 15);
+		height: 100%;
+		display: table-cell;
+		vertical-align: bottom;
+	}
+
+	.black.left {
+		margin-left: calc(((100vw - 11px) / 15 / 2) + 1px);
+	}
+
+	.black.right {
+		margin-right: calc(((100vw - 11px) / 15 / 2) + 1px);
+	}
+
+/* active */
+	.black.active {
+		background: linear-gradient(#333333, #185A8B);
+	}
+
+	.white.active {
+		background: linear-gradient(#eeeeee, #185A8B);
+	}
+
+/* sustain */
+	#sustain {
+		width: 72vw;
+		margin: 20px 14vw 20px 14vw;
+		height: 50px;
+		background-color: #333333;
+		border-radius: 10px;
+		cursor: pointer;
+		color: #eeeeee;
+	}
+
+	#sustain.sustaining {
+		background: linear-gradient(#333333, #185A8B);
+		color: #88BAEB;
+		text-shadow: 0px 0px 25px #eeeeee;
+	}
+
+	#sustain:hover {
+		background: linear-gradient(#333333, #185A8B);
+	}
+
+	#sustainText {
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+		text-align: center;
+		font-size: 20px;
+		font-weight: bold;
+		text-transform: uppercase;
+		user-select: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+	}
+
+/* tones */
+	#tones {
+		width: 0px;
+		height: 0px;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+/* mobile */
+	@media screen and (max-width: 800px) {
+		#case {
+			height: 100px;
+		}
+
+		#screen {
+			height: 80px;
+		}
+
+		#bigOutput {
+			font-size: 20px;
+		}
+
+		#smallOutput {
+			font-size: 15px;
+		}
+
+		#instruments {
+			top: 82px;
+			font-size: 15px;
+			padding: 0px 5px 0px 5px;
+			z-index: 10;
+			border: 5px solid #333333;
+			box-shadow: 0px 0px 5px #dddddd;
+		}
+
+		#keyboard {
+			height: calc(100vh - 250px);
+			font-size: 10px;
+		}
+
+		#blackKeys {
+			height: calc(calc(100vh - 250px) * (2 / 3));
+			z-index: 2;
+			position: absolute;
+			pointer-events: none;
+		}
+
+		#whiteKeys {
+			height: calc((100vh - 250px) - 12px);
+		}
+	}

@@ -1,0 +1,128 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #111111;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #222222);
+	}
+
+/*** game ***/
+	canvas {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		height: 90vw;
+		width: 90vw;
+		max-height: 90vh;
+		max-width: 90vh;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 8px;
+		box-shadow: 0px 0px 16px #000000 inset;
+	}
+
+	#reset {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 96px;
+		width: 96px;
+		border-radius: 100%;
+		padding: 0px;
+		border: 0px;
+		outline: 0px;
+		font-family: monospace;
+		font-size: 64px;
+		color: #dddddd;
+		font-weight: bold;
+		background-color: #333333;
+		cursor: pointer;
+		user-select: none;
+		transition: 1.5s;
+		box-shadow: 0px 0px 8px #000000;
+	}
+
+	#reset:hover, #reset:active {
+		background-color: #222222;
+	}
+
+	#reset[gameover] {
+		opacity: 1;
+	}
+
+	#reset:not([gameover]) {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+/*** controls ***/
+	#controls {
+		position: fixed;
+		bottom: 0px;
+		width: 100%;
+		height: 64px;
+		display: flex;
+		flex-grow: 1;
+		flex-direction: columns;
+		box-shadow: 0px 0px 8px #000000;
+	}
+
+	#controls button {
+		flex-grow: 1;
+		padding: 0px;
+		border: 0px;
+		outline: 0px;
+		font-family: monospace;
+		font-size: 64px;
+		color: #dddddd;
+		font-weight: bold;
+		background-color: #333333;
+		cursor: pointer;
+		user-select: none;
+		transition: 0.5s;
+		opacity: 0.3;
+	}
+
+	#controls button:hover, #controls button:focus {
+		background-color: #222222;
+	}
+
+	@media screen and (min-width: 600px) {
+		#controls {
+			display: none;
+		}
+	}
