@@ -681,6 +681,14 @@ window.onload = function() {
 					url: "https://jamesmayr.com/flagMaker/",
 					date: "November 15, 2018",
 					description: "With flagMaker, randomly generate amazing flags - or build your own."
+				},
+				{
+					name: "The Council",
+					size: "medium",
+					tags: ["game","code"],
+					url: "https://thecouncilgame.herokuapp.com",
+					date: "November 30, 2018",
+					description: "Keep the republic from crumbling - rule the fantasy realm together in The Council, a game of politics and persuasion."
 				}
 			]
 
