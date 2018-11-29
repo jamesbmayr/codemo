@@ -326,7 +326,7 @@ window.onload = function() {
 					name: "Memory",
 					size: "medium",
 					tags: ["collaborations","code","games"],
-					url: "https://rawgit.com/purplegreenprojects/memory/master/",
+					url: "https://jamesmayr.com/memory",
 					date: "August 20, 2017",
 					description: "Coded in collaboration with Liz Ford, Memory is a fully customizable card game for two or more brains."
 				},
@@ -406,7 +406,7 @@ window.onload = function() {
 					name: "Chess",
 					size: "large",
 					tags: ["collaborations","code","games"],
-					url: "https://rawgit.com/jamesbmayr/chess/master/",
+					url: "https://jamesmayr.com/chess/",
 					date: "July 5, 2018",
 					description: "This PVP chess clone was built in collaboration with Max Pekarsky."
 				},
