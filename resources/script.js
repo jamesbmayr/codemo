@@ -278,7 +278,7 @@ window.onload = function() {
 					name: "chordAnalyzer",
 					size: "medium",
 					tags: ["code","music"],
-					url: "https://jamesmayr.com/chordAnalyzer/",
+					url: "https://jamesmayr.com/chordanalyzer/",
 					date: "January 6, 2017",
 					description: "Coded now as a playable javascript piano, chordAnalyzer was once a Wolfram Mathematica function made to do my music theory homework."
 				},
@@ -366,7 +366,7 @@ window.onload = function() {
 					name: "chromaCreatures",
 					size: "medium",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/chromaCreatures/",
+					url: "https://jamesmayr.com/chromacreatures/",
 					date: "January 2, 2018",
 					description: "chromaCreatures is a challenging shoot-em-up arcade game - players use a monochromatic blaster to fend off hybrid-hued enemies."
 				},
@@ -382,7 +382,7 @@ window.onload = function() {
 					name: "toneMaker",
 					size: "large",
 					tags: ["code","music"],
-					url: "https://jamesmayr.com/toneMaker/",
+					url: "https://jamesmayr.com/tonemaker/",
 					date: "February 14, 2018",
 					description: "Use the toneMaker synthesizer tool to craft your own sounds, tinkering with parameters in audio visualizations."
 				},
@@ -430,7 +430,7 @@ window.onload = function() {
 					name: "balloonPopper",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/balloonPopper/",
+					url: "https://jamesmayr.com/balloonpopper/",
 					date: "Februray 8, 2017",
 					description: "balloonPopper is a simple web game - pop the balloons before they float away!"
 				},
@@ -438,7 +438,7 @@ window.onload = function() {
 					name: "bladesDodger",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/bladesDodger/",
+					url: "https://jamesmayr.com/bladesdodger/",
 					date: "June 20, 2017",
 					description: "bladesDodger is a simple web game - click the dots, but dodge the spinning blades!"
 				},
@@ -446,7 +446,7 @@ window.onload = function() {
 					name: "blockDescender",
 					size: "small",
 					tags: ["code"],
-					url: "https://jamesmayr.com/blockDescender/",
+					url: "https://jamesmayr.com/blockdescender/",
 					date: "October 4, 2017",
 					description: "blockDescender is a web clone of Tetris, where players must fit colored blocks together."
 				},
@@ -454,7 +454,7 @@ window.onload = function() {
 					name: "checkersPlayer",
 					size: "medium",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/checkersPlayer/",
+					url: "https://jamesmayr.com/checkersplayer/",
 					date: "November 21, 2017",
 					description: "checkersPlayer is a Javascript web clone featuring PVP and AI match-ups."
 				},
@@ -462,7 +462,7 @@ window.onload = function() {
 					name: "clipPather",
 					size: "medium",
 					tags: ["code","art"],
-					url: "https://jamesmayr.com/clipPather/",
+					url: "https://jamesmayr.com/clippather/",
 					date: "April 22, 2016",
 					description: "clipPather is a constantly evolving Javascript tool for drawing with CSS clip-paths."
 				},
@@ -470,7 +470,7 @@ window.onload = function() {
 					name: "colorFlooder",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/colorFlooder/",
+					url: "https://jamesmayr.com/colorflooder/",
 					date: "January 19, 2017",
 					description: "colorFlooder is a web game where players click squares to collapse a grid to one color."
 				},
@@ -478,7 +478,7 @@ window.onload = function() {
 					name: "graphMaker",
 					size: "medium",
 					tags: ["code"],
-					url: "https://jamesmayr.com/graphMaker/",
+					url: "https://jamesmayr.com/graphmaker/",
 					date: "November 26, 2017",
 					description: "Use graphMaker to plot mathematical functions on a Cartesian grid."
 				},
@@ -486,7 +486,7 @@ window.onload = function() {
 					name: "gridDrawer",
 					size: "medium",
 					tags: ["code","art","music"],
-					url: "https://jamesmayr.com/gridDrawer/",
+					url: "https://jamesmayr.com/griddrawer/",
 					date: "August 7, 2018",
 					description: "gridDrawer is a tool for art and music - draw strings on a pegboard, then play them!"
 				},
@@ -494,7 +494,7 @@ window.onload = function() {
 					name: "hexSequencer",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/hexSequencer/",
+					url: "https://jamesmayr.com/hexsequencer/",
 					date: "November 20, 2017",
 					description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
 				},
@@ -502,7 +502,7 @@ window.onload = function() {
 					name: "hueMatcher",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/hueMatcher/",
+					url: "https://jamesmayr.com/huematcher/",
 					date: "September 14, 2017",
 					description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
 				},
@@ -510,7 +510,7 @@ window.onload = function() {
 					name: "laserSimulator",
 					size: "large",
 					tags: ["code","art"],
-					url: "https://jamesmayr.com/laserSimulator/",
+					url: "https://jamesmayr.com/lasersimulator/",
 					date: "June 28, 2018",
 					description: "With laserSimulator, manipulate light using prisms, refractors, mirrors, and more."
 				},
@@ -518,7 +518,7 @@ window.onload = function() {
 					name: "magnetMaker",
 					size: "large",
 					tags: ["code"],
-					url: "https://jamesmayr.com/magnetMaker/",
+					url: "https://jamesmayr.com/magnetmaker/",
 					date: "April 25, 2018",
 					description: "magnetMaker is a pseudo-realistic physics simulator with magnetic spheres and tons of forces."
 				},
@@ -526,7 +526,7 @@ window.onload = function() {
 					name: "metroMapper",
 					size: "medium",
 					tags: ["code","art"],
-					url: "https://jamesmayr.com/metroMapper/",
+					url: "https://jamesmayr.com/metromapper/",
 					date: "October 3, 2017",
 					description: "metroMapper is a live map of the NYC subway system, with data sourced from MTA schedules."
 				},
@@ -534,7 +534,7 @@ window.onload = function() {
 					name: "mineFinder",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/mineFinder/",
+					url: "https://jamesmayr.com/minefinder/",
 					date: "December 30, 2017",
 					description: "In mineFinder, sweep the randomly generated board flagging mines before you click them!"
 				},
@@ -542,7 +542,7 @@ window.onload = function() {
 					name: "pawnPusher",
 					size: "medium",
 					tags: ["games","code"],
-					url: "https://jamesmayr.com/pawnPusher/",
+					url: "https://jamesmayr.com/pawnpusher/",
 					date: "November 28, 2017",
 					description: "An original game, on both cardstock and the web, pawnPusher is about knocking your opponent off the board."
 				},
@@ -550,7 +550,7 @@ window.onload = function() {
 					name: "pieceFlipper",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/pieceFlipper/",
+					url: "https://jamesmayr.com/pieceflipper/",
 					date: "December 31, 2017",
 					description: "An Othello/Reversi clone, pieceFlipper features both PVP and human-vs.-AI games."
 				},
@@ -558,7 +558,7 @@ window.onload = function() {
 					name: "pitchPlayer",
 					size: "medium",
 					tags: ["code","music"],
-					url: "https://jamesmayr.com/pitchPlayer/",
+					url: "https://jamesmayr.com/pitchplayer/",
 					date: "September 7, 2017",
 					description: "With pitchPlayer and the audio API, composers can sequence notes like a player piano."
 				},
@@ -566,7 +566,7 @@ window.onload = function() {
 					name: "pixelPainter",
 					size: "small",
 					tags: ["code","art"],
-					url: "https://jamesmayr.com/pixelPainter/",
+					url: "https://jamesmayr.com/pixelpainter/",
 					date: "June 10, 2017",
 					description: "With pixelPainter, blocky 8-bit art is just a click-and-drag away."
 				},
@@ -574,7 +574,7 @@ window.onload = function() {
 					name: "quoteTyper",
 					size: "small",
 					tags: ["code"],
-					url: "https://jamesmayr.com/quoteTyper/",
+					url: "https://jamesmayr.com/quotetyper/",
 					date: "September 18, 2017",
 					description: "quoteTyper measures your typing speed, pulling text from the Quotes on Design API."
 				},
@@ -582,7 +582,7 @@ window.onload = function() {
 					name: "robotDirector",
 					size: "medium",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/robotDirector/",
+					url: "https://jamesmayr.com/robotdirector/",
 					date: "January 25, 2017",
 					description: "In robotDirector, players must guide simple bots to a color-coded collection point."
 				},
@@ -590,7 +590,7 @@ window.onload = function() {
 					name: "runJumper",
 					size: "small",
 					tags: ["games","code"],
-					url: "https://jamesmayr.com/runJumper/",
+					url: "https://jamesmayr.com/runjumper/",
 					date: "September 14, 2018",
 					description: "Help the robot collect energy orbs in runJumper, a randomly generated platformer."
 				},
@@ -598,7 +598,7 @@ window.onload = function() {
 					name: "shapeAnimator",
 					size: "medium",
 					tags: ["code","art"],
-					url: "https://jamesmayr.com/shapeAnimator/",
+					url: "https://jamesmayr.com/shapeanimator/",
 					date: "February 9, 2017",
 					description: "Use shapeAnimator to create, style, and sequence animations for polygons."
 				},
@@ -606,7 +606,7 @@ window.onload = function() {
 					name: "snakeSnacker",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/snakeSnacker/",
+					url: "https://jamesmayr.com/snakesnacker/",
 					date: "September 26, 2017",
 					description: "snakeSnacker is a web clone of the classic arcade game."
 				},
@@ -614,7 +614,7 @@ window.onload = function() {
 					name: "stockTracker",
 					size: "medium",
 					tags: ["code"],
-					url: "https://jamesmayr.com/stockTracker/",
+					url: "https://jamesmayr.com/stocktracker/",
 					date: "December 25, 2017",
 					description: "Use the AlphaVantage API to measure a stock's success over 12 months with stockTracker."
 				},
@@ -622,7 +622,7 @@ window.onload = function() {
 					name: "tickTocker",
 					size: "small",
 					tags: ["code"],
-					url: "https://jamesmayr.com/tickTocker/",
+					url: "https://jamesmayr.com/ticktocker/",
 					date: "January 22, 2017",
 					description: "tickTocker is a clock."
 				},
@@ -630,7 +630,7 @@ window.onload = function() {
 					name: "tileSlider",
 					size: "small",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/tileSlider/",
+					url: "https://jamesmayr.com/tileslider/",
 					date: "Januarey 23, 2017",
 					description: "tileSlider is an online version of the 15-puzzle sliding game."
 				},
@@ -638,7 +638,7 @@ window.onload = function() {
 					name: "weatherExplorer",
 					size: "medium",
 					tags: ["code"],
-					url: "https://jamesmayr.com/weatherExplorer/",
+					url: "https://jamesmayr.com/weatherexplorer/",
 					date: "June 10, 2017",
 					description: "Using the OpenWeather and Google Places APIs, weatherExplorer can take you anywhere in the world - randomly."
 				},
@@ -646,7 +646,7 @@ window.onload = function() {
 					name: "wordFinder",
 					size: "medium",
 					tags: ["code","games"],
-					url: "https://jamesmayr.com/wordFinder/",
+					url: "https://jamesmayr.com/wordfinder/",
 					date: "July 9, 2016",
 					description: "wordFinder is a web game in the style of Boggle, using an online dictionary."
 				},
@@ -654,7 +654,7 @@ window.onload = function() {
 					name: "wordsearchBuilder",
 					size: "small",
 					tags: ["code"],
-					url: "https://jamesmayr.com/wordsearchBuilder/",
+					url: "https://jamesmayr.com/wordsearchbuilder/",
 					date: "April 14, 2018",
 					description: "Generate puzzles in wordsearchBuilder, a web workers-powered Javascript tool."
 				},
@@ -662,7 +662,7 @@ window.onload = function() {
 					name: "xmlParser",
 					size: "small",
 					tags: ["code"],
-					url: "https://jamesmayr.com/xmlParser/",
+					url: "https://jamesmayr.com/xmlparser/",
 					date: "September 10, 2017",
 					description: "xmlParser is a Javascript web tool for converting XML into JSON."
 				},
@@ -678,7 +678,7 @@ window.onload = function() {
 					name: "flagMaker",
 					size: "medium",
 					tags: ["art","code"],
-					url: "https://jamesmayr.com/flagMaker/",
+					url: "https://jamesmayr.com/flagmaker/",
 					date: "November 15, 2018",
 					description: "With flagMaker, randomly generate amazing flags - or build your own."
 				},
@@ -702,10 +702,6 @@ window.onload = function() {
 				"collaborations": "&#8258;"
 			}
 			
-			var sorts = {
-				"chronological":  chronologicalSort
-			}
-
 	/*** build ***/
 		/* buildGrid */
 			buildGrid()
@@ -716,9 +712,7 @@ window.onload = function() {
 					})
 
 				// sort
-					var selectedSort   = "chronological"
-					var sortFunction   = sorts[selectedSort]
-					var sortedProjects = sortFunction(projects)
+					var sortedProjects = chronologicalSort(projects)
 
 				// tags
 					var selectedTags  = Array.from(document.querySelectorAll("#controls-tags  .filter[selected]")) || []
