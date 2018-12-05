@@ -3,14 +3,6 @@ window.onload = function() {
 		/* projects */
 			var projects = [	
 				{
-					name: "Lampposts of the World",
-					size: "small",
-					tags: ["art"],
-					url: "#",
-					date: "August 1, 2004",
-					description: "After failing at photography, I started a tradition of snapping shots with famous landmarks obscured by lampposts."
-				},
-				{
 					name: "Complete Takeover",
 					size: "large",
 					tags: ["games"],
@@ -126,7 +118,7 @@ window.onload = function() {
 					name: "Adventure",
 					size: "large",
 					tags: ["games"],
-					url: "#",
+					url: "https://docs.google.com/document/d/1RQF1dKAb19yVgWsmagPAzSqaGjjm2ZPHnCLDD-FyQXw/edit?usp=sharing",
 					date: "September 1, 2012",
 					description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
 				},
@@ -177,14 +169,6 @@ window.onload = function() {
 					url: "https://sites.google.com/site/dreamhatchergames/",
 					date: "April 1, 2014",
 					description: "DreamHatcher offers dozens of free print-and-play tabletop games - and tons of templates to help aspiring designers craft their own."
-				},
-				{
-					name: "D-Day Walk",
-					size: "medium",
-					tags: ["collaborations"],
-					url: "#",
-					date: "July 11, 2014",
-					description: "The D-Day Walk was a 30-mile trek through the heart of New York along the D subway line, stopping at every station."
 				},
 				{
 					name: "Apollo",
@@ -262,7 +246,7 @@ window.onload = function() {
 					name: "Boss Fight",
 					size: "medium",
 					tags: ["collaborations","code","games"],
-					url: "http://bossfightgame.com/",
+					url: "#",
 					date: "June 26, 2016",
 					description: "Coded in collaboration with Max Pekarsky, Boss Fight is a turn-based co-op game where players must stay a dragon."
 				},
