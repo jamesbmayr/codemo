@@ -720,7 +720,7 @@ window.addEventListener("load", function() {
 							}
 						}
 
-					} catch (error) {}
+					} catch (error) { }
 				}
 
 			/* press */
@@ -836,7 +836,7 @@ window.addEventListener("load", function() {
 								i.envelopes[pitch].connect(i.bitcrushers[pitch])
 							}
 
-					} catch (error) {}
+					} catch (error) { }
 				}
 
 			/* lift */
@@ -889,7 +889,7 @@ window.addEventListener("load", function() {
 								})								
 							}, ((Number(when) || 0) + (i.parameters.envelope.release || 0)) * 1000)
 
-					} catch (error) {}
+					} catch (error) { }
 				}
 			
 			// start
@@ -1491,10 +1491,7 @@ window.addEventListener("load", function() {
 						}
 					break
 				}
-			}
-			catch (error) {
-				console.log(error)
-			}
+			} catch (error) { }
 		}
 
 		window.getInstruments = getInstruments
@@ -1503,116 +1500,115 @@ window.addEventListener("load", function() {
 				var array = ["random", "sine", "square", "triangle", "sawtooth", "shimmer", "jangle", "chordstrum", "lazerz", "darkflute", "buzzorgan", "swello", "honeyharp", "reedles", "boombash", "accordienne", "glassical", "clarinaut", "qube", "sharpsichord"]
 
 				if (!defaults) {
-					if (window.localStorage.synthesizers) {
-						var custom = JSON.parse(window.localStorage.synthesizers)
-						if (typeof custom == "object") {
-							array = array.concat(Object.keys(custom))
+					try {
+						if (window.localStorage.synthesizers) {
+							var custom = JSON.parse(window.localStorage.synthesizers)
+							if (typeof custom == "object") {
+								array = array.concat(Object.keys(custom))
+							}
 						}
-					}
+					} catch (error) { }
 				}
 
 				return array || []
-			}
-			catch (error) {
-				console.log(error)
-			}
+			} catch (error) { }
 		}
 
 	/*** buildMidi ***/
 		buildMidi()
 		window.buildMidi = buildMidi
 		function buildMidi() {
-			navigator.requestMIDIAccess().then(function(midi) {
-				// create midi object
-					window.midi = midi || {}
-					window.midi.controllers = {}
-					window.midi.consumers   = {}
-					window.midi.onstatechange = function(event) {
-						console.log(event.port.name + " " + event.port.manufacturer + " " + event.port.state)
+			try {
+				navigator.requestMIDIAccess().then(function(midi) {
+					// create midi object
+						window.midi = midi || {}
+						window.midi.controllers = {}
+						window.midi.consumers   = {}
+						window.midi.onstatechange = function(event) {
+							console.log(event.port.name + " " + event.port.manufacturer + " " + event.port.state)
 
+							updateMidiInputs()
+							updateMidiOutputs()
+						}
+					
+					// update controllers
 						updateMidiInputs()
-						updateMidiOutputs()
-					}
-				
-				// update controllers
-					updateMidiInputs()
-					function updateMidiInputs() {
-						// delete existing
-							var keys = Object.keys(window.midi.controllers)
-							for (var k in keys) {
-								delete window.midi.controllers[keys[k]]
-							}
+						function updateMidiInputs() {
+							// delete existing
+								var keys = Object.keys(window.midi.controllers)
+								for (var k in keys) {
+									delete window.midi.controllers[keys[k]]
+								}
 
-						// add new
-							var inputs = window.midi.inputs.values()
-							for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
-								window.midi.controllers[input.value.name + input.value.id] = input.value
-								window.midi.controllers[input.value.name + input.value.id].onmidimessage = function(event) {
-									try {
-										console.log(event.data)
-										// press key
-											if (instrument && (event.data[0] == 144) && event.data[2]) {
-												instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
+							// add new
+								var inputs = window.midi.inputs.values()
+								for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+									window.midi.controllers[input.value.name + input.value.id] = input.value
+									window.midi.controllers[input.value.name + input.value.id].onmidimessage = function(event) {
+										try {
+											console.log(event.data)
+											// press key
+												if (instrument && (event.data[0] == 144) && event.data[2]) {
+													instrument.press(window.getFrequency(event.data[1])[0], 0, event.data[2] / 64)
 
-												if (pedal && sustained[event.data[1]]) {
-													delete sustained[event.data[1]]
-												}
-											}
-
-										// lift key
-											else if (instrument && ((event.data[0] == 128) || (event.data[0] == 144))) {
-												if (!pedal) {
-													instrument.lift(window.getFrequency(event.data[1])[0])
-												}
-												else {
-													sustained[event.data[1]] = true
-												}
-											}
-
-										// press pedal
-											else if (instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64) && event.data[2]) {
-												if (!pedal) {
-													pedal = true
-												}
-											}
-
-										// lift pedal
-											else if (instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64)) {
-												if (pedal) {
-													pedal = null
-
-													for (var s in sustained) {
-														instrument.lift(window.getFrequency(s)[0])
+													if (pedal && sustained[event.data[1]]) {
+														delete sustained[event.data[1]]
 													}
-
-													sustained = {}
 												}
-											}
 
-									} catch (error) {
-										console.log(error)
+											// lift key
+												else if (instrument && ((event.data[0] == 128) || (event.data[0] == 144))) {
+													if (!pedal) {
+														instrument.lift(window.getFrequency(event.data[1])[0])
+													}
+													else {
+														sustained[event.data[1]] = true
+													}
+												}
+
+											// press pedal
+												else if (instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64) && event.data[2]) {
+													if (!pedal) {
+														pedal = true
+													}
+												}
+
+											// lift pedal
+												else if (instrument && (event.data[0] == 176 || event.data[0] == 177) && (event.data[1] == 64)) {
+													if (pedal) {
+														pedal = null
+
+														for (var s in sustained) {
+															instrument.lift(window.getFrequency(s)[0])
+														}
+
+														sustained = {}
+													}
+												}
+
+										} catch (error) { console.log(error) }
 									}
 								}
-							}
-					}
+						}
 
-				// update consumers
-					updateMidiOutputs()
-					function updateMidiOutputs() {
-						// delete existing
-							var keys = Object.keys(window.midi.consumers)
-							for (var k in keys) {
-								delete window.midi.consumers[keys[k]]
-							}
+					// update consumers
+						updateMidiOutputs()
+						function updateMidiOutputs() {
+							// delete existing
+								var keys = Object.keys(window.midi.consumers)
+								for (var k in keys) {
+									delete window.midi.consumers[keys[k]]
+								}
 
-						// add new
-							var outputs = window.midi.outputs.values()
-							for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
-								window.midi.consumers[output.value.name + output.value.id] = output.value
-								//window.midi.consumers[output.value.name + output.value.id].send([0x90, 60, 0x7f])
-							}
-					}
-			})
+							// add new
+								var outputs = window.midi.outputs.values()
+								for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
+									window.midi.consumers[output.value.name + output.value.id] = output.value
+									//window.midi.consumers[output.value.name + output.value.id].send([0x90, 60, 0x7f])
+								}
+						}
+				})
+			} catch (error) { console.log(error) }
 		}
 
 })

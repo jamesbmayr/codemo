@@ -520,6 +520,7 @@
 			left: 0px;
 			height: 100%;
 			clip-path: polygon(100% 100%, 100% 0%, 0% 100%);
+			-webkit-clip-path: polygon(100% 100%, 100% 0%, 0% 100%);
 			max-width: 25%;
 			min-width: 2%;
 		}
@@ -539,6 +540,7 @@
 		#tool-envelope-shape--release {
 			right: 0px;
 			clip-path: polygon(0% 0%, 0% 100%, 100% 100%);
+			-webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%);
 			max-width: 25%;
 			min-width: 2%;
 			min-height: 3%;
@@ -563,6 +565,7 @@
 			display: block;
 			line-height: 1;
 			font-size: 15px;
+			pointer-events: none;
 		}
 
 	/* norm */

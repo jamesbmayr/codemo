@@ -26,7 +26,6 @@ window.addEventListener("load", function() {
 				if (window.audio && !window.instrument) { loadFile(null, "random") }
 			})
 			
-
 	/*** tools ***/
 		/* selectTool */
 			Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) { b.addEventListener(on.click, selectTool) })
@@ -165,10 +164,7 @@ window.addEventListener("load", function() {
 							adjustEchoToolInput({target: target}, setup)
 						}
 				
-				}
-				catch (error) {
-					console.log(error)
-				}
+				} catch (error) { }
 			}
 
 	/*** bars & inputs ***/
@@ -391,15 +387,17 @@ window.addEventListener("load", function() {
 			function saveFile(event) {
 				// get data
 					var name = document.getElementById("tool-meta-name").value
-					if (window.localStorage.synthesizers) {
-						var custom = JSON.parse(window.localStorage.synthesizers)
-						if (!custom) {
-							custom = {}
+					try {
+						if (window.localStorage.synthesizers) {
+							var custom = JSON.parse(window.localStorage.synthesizers)
+							if (!custom) {
+								custom = {}
+							}
 						}
-					}
-					else {
-						var custom = {}
-					}
+						else {
+							var custom = {}
+						}
+					} catch (error) { }
 
 				if (name !== "synthesizer") {
 					// package up
@@ -408,7 +406,9 @@ window.addEventListener("load", function() {
 						custom[name].real = Array.from(window.instrument.parameters.real)
 					
 					// save
-						window.localStorage.synthesizers = JSON.stringify(custom)
+						if (custom) {
+							window.localStorage.synthesizers = JSON.stringify(custom)
+						}
 
 						if (!Array.from(document.querySelectorAll("#tool-meta-select option[value='" + name + "']")).length) {
 							var option = document.createElement("option")
@@ -443,6 +443,14 @@ window.addEventListener("load", function() {
 
 		/* loadFile */
 			function loadFile(event, name) {
+				// kill notes
+					if (window.instrument) {
+						document.querySelectorAll(".key").forEach(function(k) {
+							k.removeAttribute("selected")
+							window.instrument.lift(window.getFrequency(k.value)[0])
+						})
+					}
+
 				// data
 					var name = name || document.getElementById("tool-meta-select").value
 					setInstrument((window.getInstrument(name) || {}), true)
@@ -457,14 +465,20 @@ window.addEventListener("load", function() {
 						var reader = new FileReader()
 							reader.readAsText(event.target.files[0])
 						reader.onload = function(event) {
-							var obj = String(event.target.result)
-							try {
-								obj = JSON.parse(obj)
-								setInstrument(obj, true)
-							}
-							catch (error) {
-								console.log(error)
-							}
+							// kill notes
+								if (window.instrument) {
+									document.querySelectorAll(".key").forEach(function(k) {
+										k.removeAttribute("selected")
+										window.instrument.lift(window.getFrequency(k.value)[0])
+									})
+								}
+
+							// data
+								var obj = String(event.target.result)
+								try {
+									obj = JSON.parse(obj)
+									setInstrument(obj, true)
+								} catch (error) { }
 						}
 					}
 				})
@@ -474,11 +488,21 @@ window.addEventListener("load", function() {
 			function adjustPowerToolToggle(event) {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
-					if (window.instrument) { window.instrument.setParameters({ power: 0 }) }
+					if (window.audio) {
+						window.audio.close().then(function() {
+							window.buildAudio()
+							if (window.instrument) {
+								window.instrument = buildInstrument(window.instrument.parameters)
+								window.instrument.setParameters({ power: 0 })
+							}
+						})
+					}
 				}
 				else {
 					event.target.setAttribute("selected", true)
-					if (window.instrument) { window.instrument.setParameters({ power: 1 }) }
+					if (window.instrument) {
+						window.instrument.setParameters({ power: 1 })
+					}
 				}
 			}
 
@@ -487,7 +511,7 @@ window.addEventListener("load", function() {
 				// display
 					var rectangle  = document.getElementById("tool-meta-volume-track").getBoundingClientRect()
 					var input = document.getElementById("tool-meta-volume-input")
-					var x = event.x || event.targetTouches[0].clientX
+					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 
 					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 						percentage = Math.min(100, Math.max(0, percentage))
@@ -631,7 +655,7 @@ window.addEventListener("load", function() {
 					var harmonic   = parameter.id.split("--")[1]
 					var rectangle  = document.getElementById("tool-wave-track--" + harmonic).getBoundingClientRect()
 					var input = document.getElementById("tool-wave-input--" + harmonic)
-					var y = event.y || event.targetTouches[0].clientY
+					var y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 
 					var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
 						percentage = Math.min(100, Math.max(0, percentage))
@@ -708,7 +732,7 @@ window.addEventListener("load", function() {
 					var type = parameter.id.split("--")[1]
 					var rectangle  = document.getElementById("tool-noise-volume-track--" + type).getBoundingClientRect()
 					var input = document.getElementById("tool-noise-volume-input--" + type)
-					var x = event.x || event.targetTouches[0].clientX
+					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 
 					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 						percentage = Math.min(100, Math.max(0, percentage))
@@ -775,6 +799,7 @@ window.addEventListener("load", function() {
 						decay.style.width = "2%"
 						decay.innerHTML = "&#8672;decay&#8674;"
 						decay.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%)"
+						decay.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%)"
 					track.appendChild(decay)
 
 					var input = document.createElement("input")
@@ -834,8 +859,8 @@ window.addEventListener("load", function() {
 					var shape     = parameter.getBoundingClientRect()
 					var type      = parameter.id.split("--")[1]
 					var input     = document.getElementById("tool-envelope-input--" + type)
-					var x = event.x || event.targetTouches[0].clientX
-					var y = event.y || event.targetTouches[0].clientY
+					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					var y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 					
 					switch (type) {
 						case "attack":
@@ -890,6 +915,7 @@ window.addEventListener("load", function() {
 					attackShape.style.width   = Math.max(2, attackValue) + "%"
 					
 					decayShape.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (100 - sustainValue) + "%)"
+					decayShape.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (100 - sustainValue) + "%)"
 					decayShape.style.width    = Math.max(2, decayValue) + "%"
 					decayShape.style.left     = Math.max(2, attackValue) + "%"
 					decayInput.style.left     = Math.max(2, attackValue) + "%"
@@ -1029,7 +1055,7 @@ window.addEventListener("load", function() {
 				// display
 					var rectangle  = document.getElementById("tool-bitcrusher-norm-track").getBoundingClientRect()
 					var input = document.getElementById("tool-bitcrusher-norm-input")
-					var x = event.x || event.targetTouches[0].clientX
+					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 
 					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 						percentage = Math.min(100, Math.max(0, percentage))
@@ -1107,7 +1133,7 @@ window.addEventListener("load", function() {
 					if (!options) {
 						// display
 							var rectangle = track.getBoundingClientRect()
-							var x = event.x || event.targetTouches[0].clientX
+							var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 							var percentage = (x - rectangle.left) * 100 / (rectangle.width)
 								percentage = Math.min(100, Math.max(0, percentage))
 
@@ -1135,6 +1161,7 @@ window.addEventListener("load", function() {
 						blob.className = "blob"
 						blob.id = "tool-filter-blob--" + num
 						blob.style["clip-path"] = "polygon(" + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
+						blob.style["-webkit-clip-path"] = "polygon(" + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
 					track.appendChild(blob)
 
 				// low
@@ -1218,8 +1245,8 @@ window.addEventListener("load", function() {
 					var num       = parameter.id.split("--")[2]
 					var input     = document.getElementById("tool-filter-input--" + type + "--" + num)
 					var blob      = document.getElementById("tool-filter-blob--" + num)
-					var x         = event.x || event.targetTouches[0].clientX
-					var y         = event.y || event.targetTouches[0].clientY
+					var x         = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					var y         = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 				
 				// gain
 					if (type == "gain") {
@@ -1290,6 +1317,7 @@ window.addEventListener("load", function() {
 
 				// display
 					blob.style["clip-path"] = "polygon(" + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
+					blob.style["-webkit-clip-path"] = "polygon(" + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
 					document.getElementById("tool-filter-shape--low--"  + num).style.left = lowValue  + "%"
 					document.getElementById("tool-filter-shape--high--" + num).style.left = highValue + "%"
 					document.getElementById("tool-filter-shape--gain--" + num).style.left = ((highValue + lowValue) / 2) + "%"
@@ -1357,7 +1385,7 @@ window.addEventListener("load", function() {
 					var input = document.createElement("input")
 						input.setAttribute("type", "number")
 						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
+						input.setAttribute("max", 90)
 						input.className = "input"
 						input.id = "tool-echo-input--feedback"
 						input.value = 0
@@ -1410,13 +1438,13 @@ window.addEventListener("load", function() {
 					var shape     = parameter.getBoundingClientRect()
 					var rectangle = document.getElementById("tool-echo-track--" + type).getBoundingClientRect()
 					var input     = document.getElementById("tool-echo-input--" + type)
-					var x         = event.x || event.targetTouches[0].clientX
-					var y         = event.y || event.targetTouches[0].clientY
+					var x         = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					var y         = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 
 					switch (type) {
 						case "feedback":
 							var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
-								percentage = Math.min(100, Math.max(0, percentage))
+								percentage = Math.min(90, Math.max(0, percentage))
 							parameter.style.height = percentage + "%"
 							input.value = percentage
 						break
@@ -1444,7 +1472,7 @@ window.addEventListener("load", function() {
 					var beams         = Array.from(document.querySelectorAll("#tool-echo .beam"))
 
 				// values
-					var feedbackValue = Math.min(100, Math.max(0, feedbackInput.value))
+					var feedbackValue = Math.min(90, Math.max(0, feedbackInput.value))
 					var delayValue    = Math.min(100, Math.max(0, delayInput.value   ))
 
 				// display
@@ -1611,9 +1639,17 @@ window.addEventListener("load", function() {
 							var lift = document.getElementById("key--" + getKey(event.which))
 						}
 					}
+
+				// mobile deselection
+					if (event.type == on.mouseup && on.mouseup == "touchend" && window.instrument) {
+						document.querySelectorAll(".key").forEach(function(k) {
+							k.removeAttribute("selected")
+							window.instrument.lift(window.getFrequency(k.value)[0])
+						})
+					}
 				
-				// deselect			
-					if (lift && window.instrument) {
+				// deselect
+					else if (lift && window.instrument) {
 						lift.removeAttribute("selected")
 						window.instrument.lift(window.getFrequency(lift.value)[0])
 					}
