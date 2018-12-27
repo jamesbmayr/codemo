@@ -112,7 +112,7 @@ window.onload = function() {
 					tags: ["writing"],
 					url: "#",
 					date: "May 31, 2012",
-					description: "wɪ[lin][loug] is a constructive language that builds complex words out of classical roots in predictable patterns"
+					description: "wɪ[lin][loug] is a constructive language that builds complex words out of classical roots in predictable patterns."
 				},
 				{
 					name: "Adventure",
@@ -297,14 +297,6 @@ window.onload = function() {
 					url: "https://itunes.apple.com/us/album/passenger-ep/id1258446913?app=itunes&ign-mpt=uo%3D4",
 					date: "June 1, 2017",
 					description: "Underblue's debut EP, Passenger includes five songs, including one I composed, in which I play piano."
-				},
-				{
-					name: "graphemecolorer",
-					size: "small",
-					tags: ["code"],
-					url: "#",
-					date: "July 13, 2017",
-					description: "graphemeColorer is a Google Chrome extension that displays text as a grapheme-color synesthete might see it."
 				},
 				{
 					name: "Memory",
@@ -673,6 +665,14 @@ window.onload = function() {
 					url: "https://thecouncilgame.herokuapp.com",
 					date: "November 30, 2018",
 					description: "Keep the republic from crumbling - rule the fantasy realm together in The Council, a game of politics and persuasion."
+				},
+				{
+					name: "beambouncer",
+					size: "small",
+					tags: ["game","code"],
+					url: "https://beambouncer.herokuapp.com",
+					date: "December 26, 2018",
+					description: "BeamBouncer is a 2-player co-op radial pong game - keep the colored beams inside the arena!"
 				}
 			]
 
