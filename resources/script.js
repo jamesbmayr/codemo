@@ -661,7 +661,7 @@ window.onload = function() {
 				{
 					name: "The Council",
 					size: "medium",
-					tags: ["game","code"],
+					tags: ["games","code"],
 					url: "https://thecouncilgame.herokuapp.com",
 					date: "November 30, 2018",
 					description: "Keep the republic from crumbling - rule the fantasy realm together in The Council, a game of politics and persuasion."
@@ -669,7 +669,7 @@ window.onload = function() {
 				{
 					name: "beambouncer",
 					size: "small",
-					tags: ["game","code"],
+					tags: ["games","code"],
 					url: "https://beambouncer.herokuapp.com",
 					date: "December 26, 2018",
 					description: "BeamBouncer is a 2-player co-op radial pong game - keep the colored beams inside the arena!"
