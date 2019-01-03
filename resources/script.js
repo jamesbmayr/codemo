@@ -243,14 +243,6 @@ window.onload = function() {
 					description: "After a long hiatus, 2016's Singles saw my return to composition with an emotional journey told through 16 alternative rock songs."
 				},
 				{
-					name: "Boss Fight",
-					size: "medium",
-					tags: ["collaborations","code","games"],
-					url: "#",
-					date: "June 26, 2016",
-					description: "Coded in collaboration with Max Pekarsky, Boss Fight is a turn-based co-op game where players must stay a dragon."
-				},
-				{
 					name: "The Anthology Symphony",
 					size: "large",
 					tags: ["collaborations","music"],
@@ -607,7 +599,7 @@ window.onload = function() {
 					size: "small",
 					tags: ["code","games"],
 					url: "https://jamesmayr.com/tileslider/",
-					date: "Januarey 23, 2017",
+					date: "January 23, 2017",
 					description: "tileSlider is an online version of the 15-puzzle sliding game."
 				},
 				{
@@ -673,6 +665,14 @@ window.onload = function() {
 					url: "https://beambouncer.herokuapp.com",
 					date: "December 26, 2018",
 					description: "BeamBouncer is a 2-player co-op radial pong game - keep the colored beams inside the arena!"
+				},
+				{
+					name: "snowflakeMaker",
+					size: "small",
+					tags: ["art","code"],
+					url: "https://jamesmayr.com/snowflakemaker/",
+					date: "January 1, 2019",
+					description: "Draw hexagonally symmetrical snowflakes in this canvas-powered web app."
 				}
 			]
 

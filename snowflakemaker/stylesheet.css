@@ -1,0 +1,100 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #222222;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	/* conditions */
+		button[selected] {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+/*** menu ***/
+	#menu {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		padding: 10px;
+		width: 32px;
+		height: auto;
+	}
+
+	/* j-logo */
+		#j-logo {
+			float: right;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			box-shadow: 0px 0px 0px;
+			filter: drop-shadow(0px 0px 2px #aaaaaa);
+		}
+
+		#j-logo:hover {
+			filter: drop-shadow(0px 0px 5px #dddddd);
+		}
+
+	/* buttons */
+		.menu-button {
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			filter: drop-shadow(0px 0px 2px #aaaaaa);
+			outline: none;
+			margin-bottom: 10px;
+			user-select: none;
+			color: #dddddd;
+			background-color: transparent;
+			font-family: monospace;
+			border-radius: 100%;
+			font-size: 15px;
+		}
+
+		.menu-button:hover {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* mobile */
+		@media screen and (max-width: 600px) {
+			#menu {
+				left: 0px;
+				width: calc(100% - 20px);
+				text-align: center;
+			}
+
+			.menu-button {
+				margin-right: 10px;
+				height: 60px;
+				width: 60px;
+				font-size: 35px;
+			}
+		}
+
+/*** canvas ***/
+	#canvas {
+		border-radius: 100%;
+		height: 90vw;
+		width: 90vw;
+		max-height: 90vh;
+		max-width: 90vh;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		box-shadow: 0px 0px 10px #aaaaaa;
+	}
