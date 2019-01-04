@@ -259,14 +259,6 @@ window.onload = function() {
 					description: "Coded now as a playable javascript piano, chordAnalyzer was once a Wolfram Mathematica function made to do my music theory homework."
 				},
 				{
-					name: "Harmony",
-					size: "small",
-					tags: ["collaborations","code","music"],
-					url: "http://rawgit.com/jamessullivan77/Spotify-Group-Sharing/master/",
-					date: "January 21, 2017",
-					description: "Coded in collaboration with many others at a Spotify hackathon, Harmony is a collaborative music experience where chords are tied to time."
-				},
-				{
 					name: "Diamond Checkers",
 					size: "large",
 					tags: ["games","code"],
@@ -673,6 +665,14 @@ window.onload = function() {
 					url: "https://jamesmayr.com/snowflakemaker/",
 					date: "January 1, 2019",
 					description: "Draw hexagonally symmetrical snowflakes in this canvas-powered web app."
+				},
+				{
+					name: "spriteMaker",
+					size: "small",
+					tags: ["art","code"],
+					url: "https://jamesmayr.com/spritemaker/",
+					date: "January 3, 2019",
+					description: "Create colored videogame sprites to export as images or canvas coordinates."
 				}
 			]
 

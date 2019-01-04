@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>spriteMaker</title>
+		<link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/proglyphs-free/512/Invader_3-512.png"></link>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="spriteMaker is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="spriteMaker"/>
+		<meta property="og:url" content="https://jamesmayr.com/spritemaker/"/>
+		<meta property="og:description" content="spriteMaker is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="left-column">
+				<div id="left-menu">
+					<button id="erase" class="menu-button">x</button>
+					<input type="color" id="color" value="#ffffff" selected>
+					<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+				</div>
+			</div>
+			<div id="right-column">
+				<canvas id="canvas" height="1600" width="1600"></canvas>
+				<div id="bottom-menu">
+					<input type="range" id="slider-y" min="0" max="16" step="1" value="8">
+					<input type="range" id="slider-x" min="0" max="16" step="1" value="8">
+					<button id="reset" class="menu-button">reset</button>
+					<label id="upload-outer" class="menu-button">load<input type="file" id="upload"></label>
+					<button id="save" class="menu-button">save</button>
+					<button id="export" class="menu-button">export</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,273 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #222222;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	/* structure */
+		#container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 90vw;
+			width: 90vw;
+			max-height: 90vh;
+			max-width: 90vh;
+			user-select: none;
+		}
+
+		#left-column {
+			float: left;
+			height: 100%;
+			width: 100px;
+		}
+
+		#right-column {
+			float: left;
+			height: 100%;
+			width: calc(100% - 100px);
+		}
+
+	/* mobile */
+		@media screen and (max-width: 600px) {
+			#container {
+				height: auto;
+			}
+
+			#left-column {
+				height: 80px;
+				width: 100%;
+			}
+
+			#right-column {
+				height: calc(100% - 80px);
+				width: 100%;
+			}
+		}
+
+/*** left-menu ***/
+	#left-menu {
+		float: left;
+		height: 100%;
+		width: 80px;
+		padding: 0px 10px 0px 10px;
+	}
+
+	/* erase */
+		#erase {
+			float: left;
+			width: 50px;
+			height: 50px;
+			margin-bottom: 10px;
+		}
+
+		#erase[selected] {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* color */
+		#color {
+			float: left;
+			height: calc(100% - 165px);
+			width: 46px;
+			border-radius: 10px;
+			outline: none;
+			cursor: pointer;
+			border: 0px;
+		}
+
+		#color:hover, #color[selected] {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* j-logo */
+		#j-logo {
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 50px;
+			width: 50px;
+			user-select: none;
+			cursor: pointer;
+			filter: drop-shadow(0px 0px 2px #aaaaaa);
+		}
+
+		#j-logo:hover {
+			filter: drop-shadow(0px 0px 5px #dddddd);
+		}
+
+	/* mobile */
+		@media screen and (max-width: 600px) {
+			#left-menu {
+				padding: 10px 0px 10px 0px;
+				width: 100%;
+				height: calc(100% - 20px);
+			}
+
+			#erase {
+				margin-right: 10px;
+			}
+
+			#color {
+				height: 50px;
+				width: calc(100% - 120px);
+			}
+
+			#j-logo {
+				position: absolute;
+				top: 10px;
+				left: calc(100% - 50px);
+			}
+		}
+
+/*** canvas ***/
+	#canvas {
+		float: left;
+		height: calc(100% - 100px);
+		width: 100%;
+		box-shadow: 0px 0px 5px #aaaaaa;
+		border-radius: 5px;
+		cursor: default;
+	}
+
+	#canvas[erasing] {
+		cursor: not-allowed;
+	}
+
+	@media screen and (max-width: 600px) {
+		#canvas {
+			height: calc(100% - 125px);
+			width: calc(100% - 25px);
+			margin-left: 25px;
+		}
+	}
+
+/*** bottom-menu ***/
+	#bottom-menu {
+		float: left;
+		height: 80px;
+		padding: 10px 0px 10px 0px;
+		width: 100%;
+	}
+
+	/* sliders */
+		#slider-y {
+			position: absolute;
+			top: 50%;
+			left: 0%;
+			transform: rotate(-90deg) translateX(calc(-50% + 50px)) translateY(calc(-150% + 100px));
+			transform-origin: 0% 0%;
+			width: calc(90vw - 100px);
+			max-width: calc(90vh - 100px);
+			height: 20px;
+			border: 0px;
+			margin: 0px;
+			padding: 0px;
+			margin-bottom: 10px;
+			cursor: pointer;
+			outline: none;
+			border-radius: 10px;
+		}
+
+		#slider-x {
+			width: 100%;
+			height: 20px;
+			border: 0px;
+			margin: 0px;
+			padding: 0px;
+			margin-bottom: 10px;
+			cursor: pointer;
+			outline: none;
+			border-radius: 10px;
+		}
+
+		#slider-x:hover, #slider-y:hover {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* buttons */
+		.menu-button {
+			float: left;
+			height: 50px;
+			width: calc(25% - 5px);
+			padding: 10px;
+			border-radius: 10px;
+			font-family: monospace;
+			font-size: 20px;
+			background-color: #111111;
+			border: 0px;
+			outline: none;
+			cursor: pointer;
+			user-select: none;
+			text-align: center;
+			margin-right: 5px;
+			color: #dddddd;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.menu-button:hover {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+	/* upload */
+		#upload-outer {
+			padding: 13px 0px 0px 0px;
+			height: 37px;
+		}
+
+		#upload {
+			display: none;
+			height: 0px;
+			width: 0px;
+			pointer-events: none;
+			visibility: hidden;
+			opacity: 0;
+		}
+
+	/* mobile */
+		@media screen and (max-width: 600px) {
+			#bottom-menu {
+				height: auto;
+			}
+
+			.menu-button {
+				height: 45px;
+			}
+
+			#upload-outer {
+				padding: 11px 0px 0px 0px;
+				height: 34px;
+			}
+
+			#slider-x {
+				width: calc(100% - 25px);
+				margin-left: 25px;
+			}
+
+			#slider-y {
+				width: calc(100% - 25px);
+				max-width: calc(100% - 25px);
+				transform: rotate(-90deg) translateX(calc(-50% + 8px)) translateY(calc(-100% + 15px));
+			}
+		}
