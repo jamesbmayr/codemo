@@ -44,7 +44,7 @@
 		}
 
 	/* mobile */
-		@media screen and (max-width: 600px) {
+		@media screen and (max-width: 500px) {
 			#container {
 				height: auto;
 			}
@@ -117,7 +117,7 @@
 		}
 
 	/* mobile */
-		@media screen and (max-width: 600px) {
+		@media screen and (max-width: 500px) {
 			#left-menu {
 				padding: 10px 0px 10px 0px;
 				width: 100%;
@@ -154,7 +154,7 @@
 		cursor: not-allowed;
 	}
 
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 500px) {
 		#canvas {
 			height: calc(100% - 125px);
 			width: calc(100% - 25px);
@@ -246,7 +246,7 @@
 		}
 
 	/* mobile */
-		@media screen and (max-width: 600px) {
+		@media screen and (max-width: 500px) {
 			#bottom-menu {
 				height: auto;
 			}
