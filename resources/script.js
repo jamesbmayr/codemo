@@ -14,7 +14,7 @@ window.onload = function() {
 					name: "Eternal Horizon",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "June 1, 2007",
 					description: "Eternal Horizon was the first album I composed - in 2007 - and it set the standard: 16 songs and 1 hour."
 				},
@@ -22,7 +22,7 @@ window.onload = function() {
 					name: "Skyburst",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "May 1, 2008",
 					description: "I composed Skyburst in 2008; this album reflects a wild exploration of melody without much structure."
 				},
@@ -38,7 +38,7 @@ window.onload = function() {
 					name: "Shadow Valley",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "December 1, 2009",
 					description: "Shadow Valley, completed in 2009, was composed at the beginning stages of my music theory and history education."
 				},
@@ -54,7 +54,7 @@ window.onload = function() {
 					name: "Drafts Adrift",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "December 1, 2010",
 					description: "The first Drafts Adrift, in 2010, represents my love of video game music, from catchy melodies to looping scenic soundtracks."
 				},
@@ -70,7 +70,7 @@ window.onload = function() {
 					name: "Cascade",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "February 15, 2011",
 					description: "Cascade, released in 2011 after completing the titular \"symphony,\" shows music composed with a particular ensemble in mind: Explorchestra."
 				},
@@ -94,7 +94,7 @@ window.onload = function() {
 					name: "Drafts Adrift 2",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "December 1, 2011",
 					description: "2011's Drafts Adrift 2 is a combination of various projects - including video game soundtracks and avant garde experiments."
 				},
@@ -102,7 +102,7 @@ window.onload = function() {
 					name: "Captain Chrono",
 					size: "large",
 					tags: ["music"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "April 1, 2012",
 					description: "In 2012, I put my ethnomusicology knowledge to the test, setting out to explore time and space with Captain Chrono."
 				},
@@ -126,7 +126,7 @@ window.onload = function() {
 					name: "Penduluminous",
 					size: "large",
 					tags: ["music","writing"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "November 1, 2012",
 					description: "The 2012 album Penduluminous is all about swing - with 16 vocal tracks all set in different genres."
 				},
@@ -158,7 +158,7 @@ window.onload = function() {
 					name: "The Deathmakers' Symphony",
 					size: "large",
 					tags: ["music","writing"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "May 1, 2013",
 					description: "The Deathmakers' Symphony is an epic adventure set to sweeping orchestral music, released in 2013 with a corresponding poem."
 				},
@@ -238,7 +238,7 @@ window.onload = function() {
 					name: "Singles",
 					size: "large",
 					tags: ["music","writing"],
-					url: "http://rawgit.com/jamesbmayr/music/master/",
+					url: "https://jamesmayr.com/music/",
 					date: "May 30, 2016",
 					description: "After a long hiatus, 2016's Singles saw my return to composition with an emotional journey told through 16 alternative rock songs."
 				},

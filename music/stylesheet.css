@@ -1,0 +1,271 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #222222;
+		border: 0px;
+		padding: 0px;
+		margin: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	/* scrollbars */
+		::-webkit-scrollbar {
+			width: 0 !important;
+			height: 0 !important;
+		}
+
+		::-moz-scrollbar {
+			width: 0 !important;
+			height: 0 !important;
+		}
+
+		::-ms-scrollbar {
+			width: 0 !important;
+			height: 0 !important;
+		}
+
+		::-o-scrollbar {
+			width: 0 !important;
+			height: 0 !important;
+		}
+
+	/* summary */
+		::-webkit-details-marker {
+			display:none;
+		}
+
+		::-moz-details-marker {
+			display:none;
+		}
+
+		::-ms-details-marker {
+			display:none;
+		}
+
+		::-o-details-marker {
+			display:none;
+		}
+
+/*** header ***/
+	#header {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 80px;
+		background-color: #f1f3f4;
+		box-shadow: 0px 0px 10px #111111;
+	}
+
+	/* player */
+		#player {
+			float: left;
+			width: calc(100% - 40px);
+			height: 40px;
+			cursor: pointer;
+			outline: none;
+		}
+
+		#player:hover {
+			filter: drop-shadow(0px 0px 5px #111111);
+		}
+
+	/* j-logo */
+		#j-logo {
+			float: left;
+			height: 30px;
+			width: 30px;
+			margin: 5px;
+			background-color: transparent;
+			background-image: url("https://jamesmayr.com/resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			filter: drop-shadow(0px 0px 2px #aaaaaa);
+		}
+
+		#j-logo:hover {
+			filter: drop-shadow(0px 0px 5px #111111);
+		}
+
+	/* now-playing */
+		#now-playing {
+			float: left;
+			width: calc(100% - 10px);
+			height: 30px;
+			padding: 5px;
+			font-size: 25px;
+			font-family: monospace;
+			color: #333333;
+			user-select: none;
+		}
+
+		#now-playing-track {
+			float: left;
+			font-weight: bold;
+			max-width: 50%;
+			height: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: left;
+		}
+
+		#now-playing-album {
+			float: right;
+			font-style: italic;
+			max-width: 50%;
+			height: 30px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			text-align: right;
+		}
+
+/*** container ***/
+	#container {
+		position: absolute;
+		top: 80px;
+		height: calc(100% - 80px);
+		width: 100%;
+		box-shadow: 0px 0px 20px #111111 inset;
+		overflow: hidden;
+	}
+
+	/* artwork */
+		#artwork {
+			float: right;
+			height: 100%;
+			width: calc(100% - 300px);
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+			background-image: url(https://raw.githubusercontent.com/jamesbmayr/music/master/artwork/sounddrawn.png);
+			box-shadow: 0px 0px 20px #111111 inset;
+		}
+
+	/* discography */
+		#discography {
+			float: left;
+			height: calc(100% - 10px);
+			width: 290px;
+			padding: 5px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		#discography details {
+			background-color: #111111;
+			border-radius: 5px;
+			padding: 5px;
+			user-select: none;
+			margin-bottom: 5px;
+		}
+
+	/* albums */
+		#discography summary {
+			outline: none;
+			cursor: pointer;
+			height: 90px;
+		}
+
+		#discography details:hover {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+		#discography summary .cover {
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: center center;
+			background-size: cover;
+			height: 90px;
+			width: 90px;
+			float: left;
+			border-radius: 3px;
+		}
+
+		#discography summary h2 {
+			float: left;
+			margin: 0px 0px 0px 5px;
+			width: calc(100% - 95px);
+			font-size: 20px;
+			height: auto;
+			max-height: 65px;
+			overflow: hidden;
+			color: #dddddd;
+			font-family: monospace;
+			line-height: 1;
+			margin-bottom: 5px;
+		}
+
+		#discography summary h3 {
+			float: left;
+			margin: 0px 0px 0px 5px;
+			width: calc(100% - 95px);
+			font-size: 15px;
+			color: #777777;
+			height: 20px;
+			font-family: monospace;
+		}
+
+	/* tracks */
+		#discography ol {
+			margin: 0px;
+			padding: 10px 10px 5px 40px;
+		}
+
+		#discography ol li {
+			user-select: none;
+			cursor: pointer;
+			font-family: monospace;
+			font-size: 15px;
+			color: #dddddd;
+		}
+
+		#discography ol li:hover {
+			text-shadow: 0px 0px 10px #dddddd;
+		}
+
+		#discography ol li[selected] {
+			font-weight: bold;
+			text-shadow: 0px 0px 10px #dddddd;
+		}
+
+/*** mobile ***/
+	@media screen and (max-width: 600px) {
+		#container {
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		#artwork {
+			float: left;
+			width: 100%;
+			height: 100vw;
+		}
+
+		#discography {
+			height: auto;
+			width: calc(100% - 10px);
+		}
+	}
+
+/*** big screens ***/
+	@media screen and (min-width: 1000px) {
+		#artwork {
+			width: calc(100% - 500px);
+		}
+
+		#discography {
+			width: 490px;
+		}
+	}
