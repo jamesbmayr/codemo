@@ -231,10 +231,12 @@ window.onload = function() {
 		/* buildMenu */
 			buildMenu()
 			function buildMenu() {
-				for (var a in music) {
+				var keys = Object.keys(music)
+					keys = keys.reverse()
+				for (var k in keys) {
 					// container
 						var album = document.createElement("details")
-							album.id = music[a].id
+							album.id = music[keys[k]].id
 						discography.appendChild(album)
 
 					// heading
@@ -243,15 +245,15 @@ window.onload = function() {
 
 						var cover = document.createElement("div")
 							cover.className = "cover"
-							cover.style["background-image"] = "url(https://raw.githubusercontent.com/jamesbmayr/music/master/artwork/" + music[a].image + ")"
+							cover.style["background-image"] = "url(https://raw.githubusercontent.com/jamesbmayr/music/master/artwork/" + music[keys[k]].image + ")"
 						summary.appendChild(cover)
 
 						var name = document.createElement("h2")
-							name.innerText = music[a].name
+							name.innerText = music[keys[k]].name
 						summary.appendChild(name)
 
 						var year = document.createElement("h3")
-							year.innerText = music[a].year
+							year.innerText = music[keys[k]].year
 						summary.appendChild(year)
 
 					// track listing
@@ -259,9 +261,9 @@ window.onload = function() {
 							list.setAttribute("start", 1)
 						album.appendChild(list)
 
-						for (var t in music[a].tracks) {
+						for (var t in music[keys[k]].tracks) {
 							var item = document.createElement("li")
-								item.innerText = music[a].tracks[t].name
+								item.innerText = music[keys[k]].tracks[t].name
 								item.setAttribute("index", t)
 								item.addEventListener(on.click, selectTrack)
 							list.appendChild(item)
@@ -292,11 +294,11 @@ window.onload = function() {
 						var keys = Object.keys(music)
 						var albumIndex = keys.indexOf(currentSong.album)
 
-						if (albumIndex < keys.length) {
-							currentSong.album = keys[albumIndex + 1]
+						if (albumIndex > 0) {
+							currentSong.album = keys[albumIndex - 1]
 						}
 						else {
-							currentSong.album = keys[0]
+							currentSong.album = keys[keys.length - 1]
 						}
 					}
 
@@ -304,14 +306,49 @@ window.onload = function() {
 					updatePlayer()
 			}
 
+		/* loadPlayer */
+			loadPlayer()
+			function loadPlayer() {
+				// querystring
+					var get = {}
+					var querystring = location.search.substring(1)
+					if (querystring) {
+						querystring = querystring.split("&")
+						querystring.forEach(function(pair) {
+							pair = pair.split("=")
+							get[pair[0]] = pair[1]
+						})
+					}
+
+				// album ?
+					var keys = Object.keys(music)
+					if (get.album && music[get.album.toLowerCase()]) {
+						currentSong.album = get.album.toLowerCase()
+						currentSong.index = 0
+					}
+					else {
+						currentSong.album = keys[Math.floor(Math.random() * keys.length)]
+						currentSong.index = Math.floor(Math.random() * music[currentSong.album].tracks.length)
+					}
+						
+					document.getElementById(currentSong.album).setAttribute("open", true)
+					discography.scrollTop = 105 * keys.reverse().indexOf(currentSong.album)
+
+				// update player
+					updatePlayer(true)
+			}
+
 		/* updatePlayer */
-			function updatePlayer() {
+			function updatePlayer(firstLoad) {
 				// reset music
 					player.pause()
 					player.currentTime = 0
 					source.setAttribute("src", "https://raw.githubusercontent.com/jamesbmayr/music/master/music/" + music[currentSong.album].tracks[currentSong.index].audio)
 					player.load()
-					player.play()
+
+					if (!firstLoad) {
+						player.play()
+					}
 
 				// update text & picture
 					artwork.style["background-image"] = "url(https://raw.githubusercontent.com/jamesbmayr/music/master/artwork/" + music[currentSong.album].image + ")"
