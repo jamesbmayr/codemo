@@ -22,9 +22,27 @@ window.addEventListener("load", function() {
 			var context  = canvas.getContext("2d")
 
 		/* data */
-			var color   = "#ffffff"
-			var sprite  = null
+			var color    = "#ffffff"
+			var shifting = false
+			var sprites  = []
 			resetSprite()
+
+	/*** shift ***/
+		/* downShift */
+			document.addEventListener("keydown", downShift)
+			function downShift(event) {
+				if (event.key == "Shift") {
+					shifting = true
+				}
+			}
+
+		/* upShift */
+			document.addEventListener("keyup", upShift)
+			function upShift(event) {
+				if (event.key == "Shift") {
+					shifting = false
+				}
+			}
 
 	/*** file menu ***/
 		/* resetSprite */
@@ -34,10 +52,10 @@ window.addEventListener("load", function() {
 					var columns = Math.max(1, Math.min(16, Number(document.getElementById("slider-x").value)))
 					var rows    = Math.max(1, Math.min(16, Number(document.getElementById("slider-y").value)))
 					
-					sprite = createSprite(columns, rows)
+					sprites = [createSprite(columns, rows)]
 
 				// draw
-					drawSprite(sprite)
+					drawSprite(sprites[sprites.length - 1])
 			}
 
 		/* uploadCode */
@@ -51,10 +69,10 @@ window.addEventListener("load", function() {
 							reader.readAsText(event.target.files[0])
 							reader.onload = function(event) {
 								try {
-									document.getElementById("slider-x").value = Math.max(1, Math.min(16, Number(sprite.columns)))
-									document.getElementById("slider-y").value = Math.max(1, Math.min(16, Number(sprite.rows)))
-									sprite = JSON.parse(String(event.target.result))
-									drawSprite(sprite)
+									sprites = [JSON.parse(String(event.target.result))]
+									document.getElementById("slider-x").value = Math.max(1, Math.min(16, Number(sprites[0].columns)))
+									document.getElementById("slider-y").value = Math.max(1, Math.min(16, Number(sprites[0].rows)))
+									drawSprite(sprites[0])
 								}
 								catch (error) { console.log(error) }
 							}
@@ -68,7 +86,7 @@ window.addEventListener("load", function() {
 				// package up
 					var saveLink = document.createElement("a")
 						saveLink.id = "save-link"
-						saveLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sprite)))
+						saveLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sprites[sprites.length - 1])))
 						saveLink.setAttribute("download", "spriteMaker_" + (new Date().getTime()) + ".json")
 						saveLink.addEventListener(on.click, function() {
 							var saveLink = document.getElementById("save-link")
@@ -85,12 +103,12 @@ window.addEventListener("load", function() {
 			function exportImage(event) {
 				// secondary canvas
 					canvas  = document.createElement("canvas")
-					canvas.setAttribute("width",  100 * sprite.columns)
-					canvas.setAttribute("height", 100 * sprite.rows)
+					canvas.setAttribute("width",  100 * sprites[sprites.length - 1].columns)
+					canvas.setAttribute("height", 100 * sprites[sprites.length - 1].rows)
 					document.body.appendChild(canvas)
 					
 					context = canvas.getContext("2d")
-					drawSprite(sprite, true)
+					drawSprite(sprites[sprites.length - 1], true)
 
 				// package up
 					var exportLink = document.createElement("a")
@@ -113,6 +131,23 @@ window.addEventListener("load", function() {
 			}
 
 	/*** drawing menu ***/
+		/* undoLast */
+			document.getElementById("undo").addEventListener(on.click, undoLast)
+			function undoLast(event) {
+				// delete last version
+					if (sprites.length > 1) {
+						sprites.pop()
+					}
+
+				// no last version? --> reset 
+					else {
+						resetSprite()
+					}
+
+				// draw
+					drawSprite(sprites[sprites.length - 1])
+			}
+
 		/* setErase */
 			document.getElementById("erase").addEventListener(on.click, setErase)
 			function setErase(event) {
@@ -154,52 +189,52 @@ window.addEventListener("load", function() {
 			document.getElementById("slider-x").addEventListener("change", setX)
 			function setX(event) {
 				// set x
-					sprite.columns = Math.max(1, Math.min(16, Number(event.target.value)))
+					sprites[sprites.length - 1].columns = Math.max(1, Math.min(16, Number(event.target.value)))
 
 				// remove excess
-					while (sprite.squares.length > sprite.columns) {
-						sprite.squares.pop()
+					while (sprites[sprites.length - 1].squares.length > sprites[sprites.length - 1].columns) {
+						sprites[sprites.length - 1].squares.pop()
 					}
 
 				// add needed
 					var size = canvas.width / 16
-					while (sprite.squares.length < sprite.columns) {
+					while (sprites[sprites.length - 1].squares.length < sprites[sprites.length - 1].columns) {
 						var column = []
 
-						while (column.length < sprite.rows) {
-							column.push(createSquare(size, sprite.squares.length, column.length))
+						while (column.length < sprites[sprites.length - 1].rows) {
+							column.push(createSquare(size, sprites[sprites.length - 1].squares.length, column.length))
 						}
 
-						sprite.squares.push(column)
+						sprites[sprites.length - 1].squares.push(column)
 					}
 
 				// draw
-					drawSprite(sprite)
+					drawSprite(sprites[sprites.length - 1])
 			}
 
 		/* setY */
 			document.getElementById("slider-y").addEventListener("change", setY)
 			function setY(event) {
 				// set y
-					sprite.rows = Math.max(1, Math.min(16, Number(event.target.value)))
+					sprites[sprites.length - 1].rows = Math.max(1, Math.min(16, Number(event.target.value)))
 
 				// remove excess
-					for (var i in sprite.squares) {
-						while (sprite.squares[i].length > sprite.rows) {
-							sprite.squares[i].pop()
+					for (var i in sprites[sprites.length - 1].squares) {
+						while (sprites[sprites.length - 1].squares[i].length > sprites[sprites.length - 1].rows) {
+							sprites[sprites.length - 1].squares[i].pop()
 						}
 					}
 
 				// add needed
 					var size = canvas.width / 16
-					for (var i in sprite.squares) {
-						while (sprite.squares[i].length < sprite.rows) {
-							sprite.squares[i].push(createSquare(size, Number(i), sprite.squares[i].length))
+					for (var i in sprites[sprites.length - 1].squares) {
+						while (sprites[sprites.length - 1].squares[i].length < sprites[sprites.length - 1].rows) {
+							sprites[sprites.length - 1].squares[i].push(createSquare(size, Number(i), sprites[sprites.length - 1].squares[i].length))
 						}
 					}
 
 				// draw
-					drawSprite(sprite)
+					drawSprite(sprites[sprites.length - 1])
 			}
 
 	/*** creates ***/
@@ -284,6 +319,7 @@ window.addEventListener("load", function() {
 					y = canvas.height - (((y - rect.top) / rect.height) * canvas.height)
 
 				// setTriangles
+					sprites.push(JSON.parse(JSON.stringify(sprites[sprites.length - 1])))
 					setTriangles(x, y, color)
 			}
 
@@ -296,61 +332,49 @@ window.addEventListener("load", function() {
 					var square = null
 
 				// get square
-					if (!sprite.squares[column] || !sprite.squares[column][row]) {
+					if (!sprites[sprites.length - 1].squares[column] || !sprites[sprites.length - 1].squares[column][row]) {
 						return false
 					}
 					else {
-						var square = sprite.squares[column][row]
+						var square = sprites[sprites.length - 1].squares[column][row]
 					}
 
-				// points
-					var points = getPoints(size, column, row)
-
-				// distances
-					var distances = {}
-					for (var i in points) {
-						distances[i] = getDistance(x, y, points[i][0], points[i][1])
+				// whole square ?
+					if (shifting) {
+						square.top.color    = color || "transparent"
+						square.right.color  = color || "transparent"
+						square.bottom.color = color || "transparent"
+						square.left.color   = color || "transparent"
 					}
 
-				// closest
-					var distance = 10000
-					var closest = null
-					for (var i in distances) {
-						if (distances[i] < distance) {
-							closest = i
-							distance = distances[i]
-						}
-					}
-
-				// color triangles
-					if (closest == "center") {
-						square.top.color      = color || "transparent"
-						square.right.color    = color || "transparent"
-						square.bottom.color   = color || "transparent"
-						square.left.color     = color || "transparent"
-					}
-					else if (closest == "topLeft") {
-						square.top.color      = color || "transparent"
-						square.left.color     = color || "transparent"
-					}
-					else if (closest == "topRight") {
-						square.top.color      = color || "transparent"
-						square.right.color    = color || "transparent"
-					}
-					else if (closest == "bottomRight") {
-						square.bottom.color   = color || "transparent"
-						square.right.color    = color || "transparent"
-					}
-					else if (closest == "bottomLeft") {
-						square.bottom.color   = color || "transparent"
-						square.left.color     = color || "transparent"
-					}
+				// closest triangle ?
 					else {
-						square[closest].color = color || "transparent"
+						// points
+							var points = getPoints(size, column, row)
+
+						// distances
+							var distances = {}
+							var directions = ["top","right","bottom","left"]
+							for (var i in directions) {
+								distances[directions[i]] = getDistance(x, y, points[directions[i]][0], points[directions[i]][1])
+							}
+
+						// closest
+							var distance = 10000
+							var closest = null
+							for (var i in distances) {
+								if (distances[i] < distance) {
+									closest = i
+									distance = distances[i]
+								}
+							}
+
+						// color triangle
+							square[closest].color = color || "transparent"
 					}
 
 				// draw
-					drawSprite(sprite)
+					drawSprite(sprites[sprites.length - 1])
 			}
 
 		/* getDistance */

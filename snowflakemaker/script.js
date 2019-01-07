@@ -20,42 +20,32 @@ window.addEventListener("load", function() {
 		/* elements */
 			var canvas   = document.getElementById("canvas")
 			var context  = canvas.getContext("2d")
-			var draw     = document.getElementById("draw")
-			var erase    = document.getElementById("erase")
+			var undo     = document.getElementById("undo")
 			var clear    = document.getElementById("clear")
 			var download = document.getElementById("download")
 
 		/* data */
 			var lines       = []
 			var drawing     = false
-			var erasing     = false
 			var cursor      = {x: 500, y: 500}
 
 	/*** menu ***/
-		/* selectTool */
-			draw.addEventListener(on.click, selectTool)
-			erase.addEventListener(on.click, selectTool)
-			clear.addEventListener(on.click, selectTool)
-			function selectTool(event) {
-				switch (event.target.id) {
-					case "draw":
-						erasing = false
-						erase.removeAttribute("selected")
-						draw.setAttribute("selected", true)
-					break
-					case "erase":
-						erasing = true
-						draw.removeAttribute("selected")
-						erase.setAttribute("selected", true)
-					break
-					case "clear":
-						lines = []
-						drawSnowflake()
-						erasing = false
-						erase.removeAttribute("selected")
-						draw.setAttribute("selected", true)
-					break
+		/* selectUndo */
+			undo.addEventListener(on.click, selectUndo)
+			function selectUndo(event) {
+				var i = 12
+				while (lines.length && i) {
+					lines.pop()
+					i--
 				}
+				drawSnowflake()
+			}
+
+		/* selectClear */
+			clear.addEventListener(on.click, selectClear)
+			function selectClear(event) {
+				lines = []
+				drawSnowflake()
 			}
 
 		/* downloadImage */
@@ -105,13 +95,8 @@ window.addEventListener("load", function() {
 					cursor.y = canvas.height - (((y - rect.top) / rect.height) * canvas.height)
 
 				// add
-					if (drawing && !erasing) {
+					if (drawing) {
 						addPoint(cursor.x, cursor.y)
-					}
-
-				// remove
-					else if (drawing && erasing) {
-						removeLine(cursor.x, cursor.y)
 					}
 			}
 
@@ -128,28 +113,6 @@ window.addEventListener("load", function() {
 								lines[lines.length - (i + 1)].push(getRotatedPoint(canvas.width - x, y, getRadians((i + 1) * 30)))
 							}
 						}
-					}
-
-				// draw
-					drawSnowflake()
-			}
-
-		/* removeLine */
-			function removeLine(x, y) {
-				// loop through lines
-					for (var l in lines) {
-
-						// find all close points
-							var points = lines[l]
-							for (var p in points) {
-
-								if (getDistance(x, y, points[p].x, points[p].y) < 10) {
-									lines.splice(l - (l % 12), 12)
-									
-									l -= 12
-									break
-								}
-							}
 					}
 
 				// draw

@@ -69,21 +69,21 @@
 	}
 
 	/* erase */
-		#erase {
+		#erase, #undo {
 			float: left;
 			width: 50px;
 			height: 50px;
 			margin-bottom: 10px;
 		}
 
-		#erase[selected] {
+		#erase[selected], #undo[selected] {
 			box-shadow: 0px 0px 10px #dddddd;
 		}
 
 	/* color */
 		#color {
 			float: left;
-			height: calc(100% - 165px);
+			height: calc(100% - 221px);
 			width: 46px;
 			border-radius: 10px;
 			outline: none;
@@ -124,13 +124,13 @@
 				height: calc(100% - 20px);
 			}
 
-			#erase {
+			#erase, #undo {
 				margin-right: 10px;
 			}
 
 			#color {
 				height: 50px;
-				width: calc(100% - 120px);
+				width: calc(100% - 175px);
 			}
 
 			#j-logo {
