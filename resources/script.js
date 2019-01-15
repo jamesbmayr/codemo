@@ -75,14 +75,6 @@ window.onload = function() {
 					description: "Cascade, released in 2011 after completing the titular \"symphony,\" shows music composed with a particular ensemble in mind: Explorchestra."
 				},
 				{
-					name: "Souls of War",
-					size: "medium",
-					tags: ["music","collaborations"],
-					url: "https://twitter.com/soulsofwar",
-					date: "April 20, 2011",
-					description: "I composed a soundtrack for Souls of War, a never-built mobile game set in WWII with different themes for each nation."
-				},
-				{
 					name: "Epic of Koranames",
 					size: "extra-large",
 					tags: ["writing"],
@@ -673,6 +665,14 @@ window.onload = function() {
 					url: "https://jamesmayr.com/spritemaker/",
 					date: "January 3, 2019",
 					description: "Create colored videogame sprites to export as images or canvas coordinates."
+				},
+				{
+					name: "meteoriteMiner",
+					size: "small",
+					tags: ["games","code"],
+					url: "https://jamesmayr.com/meteoriteminer/",
+					date: "January 14, 2019",
+					description: "Liz Ford & I built a local 2-player minigame where lunar rovers race to collect falling space rocks."
 				}
 			]
 
