@@ -669,7 +669,7 @@ window.onload = function() {
 				{
 					name: "meteoriteMiner",
 					size: "small",
-					tags: ["games","code"],
+					tags: ["collaborations","games","code"],
 					url: "https://jamesmayr.com/meteoriteminer/",
 					date: "January 14, 2019",
 					description: "Liz Ford & I built a local 2-player minigame where lunar rovers race to collect falling space rocks."
