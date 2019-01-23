@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>polyhedronPlayer</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/531844-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="polyhedronPlayer is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="polyhedronPlayer"/>
+		<meta property="og:url" content="https://jamesmayr.com/polyhedronplayer/"/>
+		<meta property="og:description" content="polyhedronPlayer is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="canvas-outer">
+			<canvas id="canvas" height="1000" width="1000"></canvas>
+		</div>
+		<div id="settings">
+			<div id="header" class="section">
+				<div id="title">polyhedronPlayer</div>
+				<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+			</div>
+			<div id="p" class="section">
+				<div class="row">faces</div>
+				<button id="p-tetrahedron">4</button>
+				<button id="p-cube">6</button>
+				<button id="p-octahedron">8</button>
+				<button id="p-dodecahedron" selected="true">12</button>
+				<button id="p-icosahedron">20</button>
+			</div>
+			<div id="x" class="section">
+				<div class="row">x</div>
+				<div class="row">
+					<button id="x-rotation-minus">&orarr;</button>
+					<button id="x-rotation-auto-minus" selected="true">auto</button>
+					<input  id="x-rotation" type="number" placeholder="θx" value="0" step="1"/>
+					<button id="x-rotation-auto-plus">auto</button>
+					<button id="x-rotation-plus">&olarr;</button>
+				</div>
+				<div class="row">
+					<button id="x-position-minus">-</button>
+					<button id="x-position-auto-minus">auto</button>
+					<input  id="x-position" type="number" placeholder="x" value="0" step="1"/>
+					<button id="x-position-auto-plus">auto</button>
+					<button id="x-position-plus">+</button>
+				</div>
+			</div>
+			<div id="y" class="section">
+				<div class="row">y</div>
+				<div class="row">
+					<button id="y-rotation-minus">&orarr;</button>
+					<button id="y-rotation-auto-minus">auto</button>
+					<input  id="y-rotation" type="number" placeholder="θy" value="0" step="1"/>
+					<button id="y-rotation-auto-plus" selected="true">auto</button>
+					<button id="y-rotation-plus">&olarr;</button>
+				</div>
+				<div class="row">
+					<button id="y-position-minus">-</button>
+					<button id="y-position-auto-minus">auto</button>
+					<input  id="y-position" type="number" placeholder="y" value="0" step="1"/>
+					<button id="y-position-auto-plus">auto</button>
+					<button id="y-position-plus">+</button>
+				</div>
+			</div>
+			<div id="z" class="section">
+				<div class="row">z</div>
+				<div class="row">
+					<button id="z-rotation-minus">&orarr;</button>
+					<button id="z-rotation-auto-minus" selected="true">auto</button>
+					<input  id="z-rotation" type="number" placeholder="θz" value="0" step="1"/>
+					<button id="z-rotation-auto-plus">auto</button>
+					<button id="z-rotation-plus">&olarr;</button>
+				</div>
+				<div class="row">
+					<button id="z-position-minus">-</button>
+					<button id="z-position-auto-minus">auto</button>
+					<input  id="z-position" type="number" placeholder="z" value="0" step="1"/>
+					<button id="z-position-auto-plus">auto</button>
+					<button id="z-position-plus">+</button>
+				</div>
+			</div>
+			<div id="o" class="section">
+				<div class="row">opacity</div>
+				<div class="row">
+					<button id="opacity-minus">-</button>
+					<button id="opacity-auto-minus">auto</button>
+					<input  id="opacity" type="number" placeholder="o" value="0.8" step="0.01" min="0" max="1"/>
+					<button id="opacity-auto-plus">auto</button>
+					<button id="opacity-plus">+</button>
+				</div>
+			</div>
+			<div id="c" class="section">
+				<div class="row">camera</div>
+				<div class="row">
+					<button id="orthagonal">orthagonal</button>
+				</div>
+				<div class="row">
+					<button id="c-power-minus">-</button>
+					<button id="c-power-auto-minus">auto</button>
+					<input  id="c-power" type="number" placeholder="c" value="3" step="0.01" min="1" max="7"/>
+					<button id="c-power-auto-plus">auto</button>
+					<button id="c-power-plus">+</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

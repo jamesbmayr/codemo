@@ -80,7 +80,7 @@ window.onload = function() {
 					tags: ["writing"],
 					url: "#",
 					date: "October 18, 2011",
-					description: "I wrote (and rewrote) an epic poem - the Epic of Koranames - 5000 lines of rhythmic and rhyming fantasy adventure."
+					description: "I wrote an epic poem - the Epic of Koranames - 5000 lines of rhythmic and rhyming fantasy adventure."
 				},
 				{
 					name: "Drafts Adrift 2",
@@ -235,14 +235,6 @@ window.onload = function() {
 					description: "After a long hiatus, 2016's Singles saw my return to composition with an emotional journey told through 16 alternative rock songs."
 				},
 				{
-					name: "The Anthology Symphony",
-					size: "large",
-					tags: ["collaborations","music"],
-					url: "#",
-					date: "November 1, 2016",
-					description: "A musical experiment, the Anthology Symphony challenged 10 friends to write, rehearse, and record a symphony built on common themes."
-				},
-				{
 					name: "chordAnalyzer",
 					size: "medium",
 					tags: ["code","music"],
@@ -281,14 +273,6 @@ window.onload = function() {
 					url: "https://jamesmayr.com/memory",
 					date: "August 20, 2017",
 					description: "Coded in collaboration with Liz Ford, Memory is a fully customizable card game for two or more brains."
-				},
-				{
-					name: "Book vs. Movie",
-					size: "medium",
-					tags: ["collaborations","code"],
-					url: "https://bookvsmovie.herokuapp.com",
-					date: "September 9, 2017",
-					description: "Coded in collaboration with Max Pekarsky, Book vs. Movie is a simple tool to answer the age old question: which was better?"
 				},
 				{
 					name: "Pros & Console",
@@ -673,6 +657,22 @@ window.onload = function() {
 					url: "https://jamesmayr.com/meteoriteminer/",
 					date: "January 14, 2019",
 					description: "Liz Ford & I built a local 2-player minigame where lunar rovers race to collect falling space rocks."
+				},
+				{
+					name: "pitchMatcher",
+					size: "small",
+					tags: ["code","music"],
+					url: "https://jamesmayr.com/pitchmatcher/",
+					date: "January 19, 2019",
+					description: "Match pure tones by whistling or singing into the mic in this canvas / webaudio demo."
+				},
+				{
+					name: "polyhedronPlayer",
+					size: "small",
+					tags: ["code","art"],
+					url: "https://jamesmayr.com/polyhedronplayer/",
+					date: "January 22, 2019",
+					description: "Project 3D down to 2D in this canvas-powered Platonic solids visualizer."
 				}
 			]
 
