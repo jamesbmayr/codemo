@@ -285,10 +285,21 @@ window.onload = function() {
 						break
 
 					// polyhedrons
+						case "p-sphere":
+							event.target.setAttribute("selected", true)
+							data.settings.polyhedron = "sphere"
+
+							document.getElementById("p-tetrahedron").removeAttribute("selected")
+							document.getElementById("p-cube").removeAttribute("selected")
+							document.getElementById("p-octahedron").removeAttribute("selected")
+							document.getElementById("p-dodecahedron").removeAttribute("selected")
+							document.getElementById("p-icosahedron").removeAttribute("selected")
+						break
 						case "p-tetrahedron":
 							event.target.setAttribute("selected", true)
 							data.settings.polyhedron = "tetrahedron"
 
+							document.getElementById("p-sphere").removeAttribute("selected")
 							document.getElementById("p-cube").removeAttribute("selected")
 							document.getElementById("p-octahedron").removeAttribute("selected")
 							document.getElementById("p-dodecahedron").removeAttribute("selected")
@@ -298,6 +309,7 @@ window.onload = function() {
 							event.target.setAttribute("selected", true)
 							data.settings.polyhedron = "cube"
 
+							document.getElementById("p-sphere").removeAttribute("selected")
 							document.getElementById("p-tetrahedron").removeAttribute("selected")
 							document.getElementById("p-octahedron").removeAttribute("selected")
 							document.getElementById("p-dodecahedron").removeAttribute("selected")
@@ -307,6 +319,7 @@ window.onload = function() {
 							event.target.setAttribute("selected", true)
 							data.settings.polyhedron = "octahedron"
 
+							document.getElementById("p-sphere").removeAttribute("selected")
 							document.getElementById("p-tetrahedron").removeAttribute("selected")
 							document.getElementById("p-cube").removeAttribute("selected")
 							document.getElementById("p-dodecahedron").removeAttribute("selected")
@@ -316,6 +329,7 @@ window.onload = function() {
 							event.target.setAttribute("selected", true)
 							data.settings.polyhedron = "dodecahedron"
 
+							document.getElementById("p-sphere").removeAttribute("selected")
 							document.getElementById("p-tetrahedron").removeAttribute("selected")
 							document.getElementById("p-cube").removeAttribute("selected")
 							document.getElementById("p-octahedron").removeAttribute("selected")
@@ -325,11 +339,36 @@ window.onload = function() {
 							event.target.setAttribute("selected", true)
 							data.settings.polyhedron = "icosahedron"
 
+							document.getElementById("p-sphere").removeAttribute("selected")
 							document.getElementById("p-tetrahedron").removeAttribute("selected")
 							document.getElementById("p-cube").removeAttribute("selected")
 							document.getElementById("p-octahedron").removeAttribute("selected")
 							document.getElementById("p-dodecahedron").removeAttribute("selected")
 						break
+
+					// mode
+						case "m-vertices":
+							event.target.setAttribute("selected", true)
+							data.settings.mode = "vertices"
+
+							document.getElementById("m-edges").removeAttribute("selected")
+							document.getElementById("m-faces").removeAttribute("selected")
+						break
+						case "m-edges":
+							event.target.setAttribute("selected", true)
+							data.settings.mode = "edges"
+
+							document.getElementById("m-vertices").removeAttribute("selected")
+							document.getElementById("m-faces").removeAttribute("selected")
+						break
+						case "m-faces":
+							event.target.setAttribute("selected", true)
+							data.settings.mode = "faces"
+
+							document.getElementById("m-vertices").removeAttribute("selected")
+							document.getElementById("m-edges").removeAttribute("selected")
+						break
+
 
 					// special
 						case "orthagonal":
@@ -409,8 +448,83 @@ window.onload = function() {
 				context.clearRect(0, 0, canvas.width, canvas.height)
 			}
 
-		/* projectPolyhedron */
-			function projectPolyhedron(options) {
+		/* projectVertices */
+			function projectVertices(options) {
+				// parameters
+					options = options || {}
+					context.beginPath()
+					context.fillStyle   = options.color || "transparent"
+					context.lineWidth   = options.border || 1
+					context.shadowBlur  = options.blur ? options.blur : 0
+					context.shadowColor = options.shadow ? options.shadow : "transparent"
+					context.globalAlpha = options.opacity || data.settings.opacity.value || 0
+
+				// draw
+					for (var c in options.coordinates) {
+						// get coordinates
+							var x = options.coordinates[0]
+							var y = options.coordinates[1]
+							var z = options.coordinates[2]
+
+						// projection
+							if (!data.settings.camera.orthagonal) {
+								var projection = data.settings.camera.position / Math.abs(data.settings.camera.position - z)
+								x = x * projection
+								y = y * projection
+							}
+
+						// translate origin to center
+							x = x + (canvas.width  / 2)
+							y = y + (canvas.height / 2)
+
+						// draw circle
+							context.arc(x, canvas.height - y, 2, 0, 2 * Math.PI)
+							context.fill()
+					}
+			}
+
+		/* projectEdge */
+			function projectEdge(options) {
+				// parameters
+					options = options || {}
+					context.beginPath()
+					context.strokeStyle   = options.color || "transparent"
+					context.lineWidth   = options.border || 1
+					context.shadowBlur  = options.blur ? options.blur : 0
+					context.shadowColor = options.shadow ? options.shadow : "transparent"
+					context.globalAlpha = options.opacity || data.settings.opacity.value || 0
+
+				// draw
+					for (var c in options.coordinates) {
+						// get coordinates
+							var x = options.coordinates[c][0]
+							var y = options.coordinates[c][1]
+							var z = options.coordinates[c][2]
+
+						// projection
+							if (!data.settings.camera.orthagonal) {
+								var projection = data.settings.camera.position / Math.abs(data.settings.camera.position - z)
+								x = x * projection
+								y = y * projection
+							}
+
+						// translate origin to center
+							x = x + (canvas.width  / 2)
+							y = y + (canvas.height / 2)
+
+						// draw points
+							if (!c) {
+								context.moveTo(x, canvas.height - y)
+							}
+							else {
+								context.lineTo(x, canvas.height - y)
+							}
+							context.stroke()
+					}
+			}
+
+		/* projectFace */
+			function projectFace(options) {
 				// parameters
 					options = options || {}
 					context.beginPath()
@@ -458,6 +572,7 @@ window.onload = function() {
 				return {
 					settings: {
 						polyhedron: "dodecahedron",
+						mode: "faces",
 						x: {
 							rotation: 0,
 							position: 0,
@@ -488,219 +603,330 @@ window.onload = function() {
 						}
 					},
 					polyhedrons: {
-						tetrahedron: [
-							{
-								color: "red",
-								coordinates: [[100, 100, 100], [100, -100, -100], [-100, -100, 100]]
-							},
-							{
-								color: "yellow",
-								coordinates: [[100, 100, 100], [100, -100, -100], [-100, 100, -100]]
-							},
-							{
-								color: "green",
-								coordinates: [[100, 100, 100], [-100, -100, 100], [-100, 100, -100]]
-							},
-							{
-								color: "blue",
-								coordinates: [[100, -100, -100], [-100, -100, 100], [-100, 100, -100]]
-							}
-						],
-						cube: [
-							{
-								color: "red",
-								coordinates: [[100, 100, 100],[-100, 100, 100],[-100, -100, 100],[100, -100, 100]]
-							},
-							{
-								color: "orange",
-								coordinates: [[100, 100, -100],[-100, 100, -100],[-100, -100, -100],[100, -100, -100]]
-							},
-							{
-								color: "white",
-								coordinates: [[100, 100, 100],[100, 100, -100],[-100, 100, -100],[-100, 100, 100]]
-							},
-							{
-								color: "yellow",
-								coordinates: [[100, -100, 100],[100, -100, -100],[-100, -100, -100],[-100, -100, 100]]
-							},
-							{
-								color: "blue",
-								coordinates: [[100, 100, 100],[100, 100, -100],[100, -100, -100],[100, -100, 100]]
-							},
-							{
-								color: "green",
-								coordinates: [[-100, 100, 100],[-100, 100, -100],[-100, -100, -100],[-100, -100, 100]]
-							}
-						],
-						octahedron: [
-							{
-								color: "red",
-								coordinates: [[200, 0, 0],[0, 200, 0],[0, 0, 200]]
-							},
-							{
-								color: "yellow",
-								coordinates: [[-200, 0, 0],[0, 200, 0],[0, 0, 200]]
-							},
-							{
-								color: "blue",
-								coordinates: [[-200, 0, 0],[0, -200, 0],[0, 0, 200]]
-							},
-							{
-								color: "white",
-								coordinates: [[200, 0, 0],[0, -200, 0],[0, 0, 200]]
-							},
-							{
-								color: "purple",
-								coordinates: [[200, 0, 0],[0, 200, 0],[0, 0, -200]]
-							},
-							{
-								color: "green",
-								coordinates: [[-200, 0, 0],[0, 200, 0],[0, 0, -200]]
-							},
-							{
-								color: "orange",
-								coordinates: [[-200, 0, 0],[0, -200, 0],[0, 0, -200]]
-							},
-							{
-								color: "cyan",
-								coordinates: [[200, 0, 0],[0, -200, 0],[0, 0, -200]]
-							}
-						],
-						dodecahedron: [
-							{
-								color: "red",
-								coordinates: [[100, 100, 100], [61.803398875, 161.803398875, 0], [100, 100, -100], [161.803398875, 0, -61.803398875], [161.803398875, 0, 61.803398875]]
-							},
-							{
-								color: "yellow",
-								coordinates: [[100, 100, -100], [161.803398875, 0, -61.803398875], [100, -100, -100], [0, -61.803398875, -161.803398875], [0, 61.803398875, -161.803398875]]
-							},
-							{
-								color: "blue",
-								coordinates: [[61.803398875, 161.803398875, 0], [-61.803398875, 161.803398875, 0], [-100, 100, -100], [0, 61.803398875, -161.803398875], [100, 100, -100]]
-							},
-							{
-								color: "white",
-								coordinates: [[0, 61.803398875, -161.803398875], [-100, 100, -100], [-161.803398875, 0, -61.803398875], [-100, -100, -100], [0, -61.803398875, -161.803398875]]
-							},
-							{
-								color: "purple",
-								coordinates: [[0, -61.803398875, -161.803398875], [100, -100, -100], [61.803398875, -161.803398875, 0], [-61.803398875, -161.803398875, 0], [-100, -100, -100]]
-							},
-							{
-								color: "green",
-								coordinates: [[161.803398875, 0, 61.803398875], [161.803398875, 0, -61.803398875], [100, -100, -100], [61.803398875, -161.803398875, 0], [100, -100, 100]]
-							},
-							{
-								color: "orange",
-								coordinates: [[-61.803398875, 161.803398875, 0], [-100, 100, -100], [-161.803398875, 0, -61.803398875], [-161.803398875, 0, 61.803398875], [-100, 100, 100]]
-							},
-							{
-								color: "cyan",
-								coordinates: [[100, 100, 100], [161.803398875, 0, 61.803398875], [100, -100, 100], [0, -61.803398875, 161.803398875], [0, 61.803398875, 161.803398875]]
-							},
-							{
-								color: "magenta",
-								coordinates: [[0, -61.803398875, 161.803398875], [-100, -100, 100], [-61.803398875, -161.803398875, 0], [61.803398875, -161.803398875, 0], [100, -100, 100]]
-							},
-							{
-								color: "black",
-								coordinates: [[-61.803398875, 161.803398875, 0], [61.803398875, 161.803398875, 0], [100, 100, 100], [0, 61.803398875, 161.803398875], [-100, 100, 100]]
-							},
-							{
-								color: "brown",
-								coordinates: [[-161.803398875, 0, 61.803398875], [-161.803398875, 0, -61.803398875], [-100, -100, -100], [-61.803398875, -161.803398875, 0], [-100, -100, 100]]
-							},
-							{
-								color: "gray",
-								coordinates: [[-100, 100, 100], [0, 61.803398875, 161.803398875], [0, -61.803398875, 161.803398875], [-100, -100, 100], [-161.803398875, 0, 61.803398875]]
-							}
-						],
-						icosahedron: [
-							{
-								color: "red",
-								coordinates: [[0, 161.803398875, 100], [100, 0, 161.803398875], [161.803398875, 100, 0]]
-							},
-							{
-								color: "yellow",
-								coordinates: [[0, 161.803398875, 100], [0, 161.803398875, -100], [161.803398875, 100, 0]]
-							},
-							{
-								color: "blue",
-								coordinates: [[0, 161.803398875, 100], [0, 161.803398875, -100], [-161.803398875, 100, 0]]
-							},
-							{
-								color: "white",
-								coordinates: [[0, 161.803398875, 100], [-100, 0, 161.803398875], [-161.803398875, 100, 0]]
-							},
-							{
-								color: "purple",
-								coordinates: [[0, 161.803398875, 100], [-100, 0, 161.803398875], [100, 0, 161.803398875]]
-							},
-							{
-								color: "green",
-								coordinates: [[0, -161.803398875, -100], [100, 0, -161.803398875], [-100, 0, -161.803398875]]
-							},
-							{
-								color: "orange",
-								coordinates: [[0, -161.803398875, -100], [-161.803398875, -100, 0], [-100, 0, -161.803398875]]
-							},
-							{
-								color: "cyan",
-								coordinates: [[0, -161.803398875, -100], [-161.803398875, -100, 0], [0, -161.803398875, 100]]
-							},
-							{
-								color: "magenta",
-								coordinates: [[0, -161.803398875, -100], [161.803398875, -100, 0], [0, -161.803398875, 100]]
-							},
-							{
-								color: "black",
-								coordinates: [[0, -161.803398875, -100], [161.803398875, -100, 0], [100, 0, -161.803398875]]
-							},
-							{
-								color: "brown",
-								coordinates: [[0, 161.803398875, -100], [161.803398875, 100, 0], [100, 0, -161.803398875]]
-							},
-							{
-								color: "gray",
-								coordinates: [[161.803398875, 100, 0], [100, 0, -161.803398875], [161.803398875, -100, 0]]
-							},
-							{
-								color: "chartreuse",
-								coordinates: [[161.803398875, -100, 0], [161.803398875, 100, 0], [100, 0, 161.803398875]]
-							},
-							{
-								color: "gold",
-								coordinates: [[100, 0, 161.803398875], [161.803398875, -100, 0], [0, -161.803398875, 100]]
-							},
-							{
-								color: "navy",
-								coordinates: [[0, -161.803398875, 100], [100, 0, 161.803398875], [-100, 0, 161.803398875]]
-							},
-							{
-								color: "maroon",
-								coordinates: [[-100, 0, 161.803398875], [0, -161.803398875, 100], [-161.803398875, -100, 0]]
-							},
-							{
-								color: "salmon",
-								coordinates: [[-161.803398875, -100, 0], [-100, 0, 161.803398875], [-161.803398875, 100, 0]]
-							},
-							{
-								color: "fuchsia",
-								coordinates: [[-161.803398875, 100, 0], [-161.803398875, -100, 0], [-100, 0, -161.803398875]]
-							},
-							{
-								color: "indigo",
-								coordinates: [[-100, 0, -161.803398875], [-161.803398875, 100, 0], [0, 161.803398875, -100]]
-							},
-							{
-								color: "teal",
-								coordinates: [[0, 161.803398875, -100], [-100, 0, -161.803398875], [100, 0, -161.803398875]]
-							}
-						]
+						sphere: createSphere(),
+						tetrahedron: {
+							vertices: [[100, 100, 100], [100, -100, -100], [-100, -100, 100], [-100, 100, -100]],
+							edges: [[0,1], [1,2], [2,3], [3,0], [1,3], [2,0]],
+							faces: [
+								{
+									color: "red",
+									coordinates: [0,1,2]
+								},
+								{
+									color: "yellow",
+									coordinates: [0,1,3]
+								},
+								{
+									color: "green",
+									coordinates: [0,2,3]
+								},
+								{
+									color: "blue",
+									coordinates: [1,2,3]
+								}
+							]
+						},
+						cube: {
+							vertices: [[100, 100, 100], [-100, 100, 100], [-100, -100, 100], [100, -100, 100], [100, 100, -100], [-100, 100, -100], [-100, -100, -100], [100, -100, -100]],
+							edges: [[0,1], [1,2], [2,3], [3,0], [4,5], [5,6], [6,7], [7,4], [0,4], [5,1], [3,7], [6,2]],
+							faces: [
+								{
+									color: "red",
+									coordinates: [0,1,2,3]
+								},
+								{
+									color: "orange",
+									coordinates: [4,5,6,7]
+								},
+								{
+									color: "white",
+									coordinates: [0,4,5,1]
+								},
+								{
+									color: "yellow",
+									coordinates: [3,7,6,2]
+								},
+								{
+									color: "blue",
+									coordinates: [0,4,7,3]
+								},
+								{
+									color: "green",
+									coordinates: [1,5,6,2]
+								}
+							]
+						},
+						octahedron: {
+							vertices: [[200, 0, 0], [0, 200, 0], [0, 0, 200], [-200, 0, 0], [0, -200, 0], [0, 0, -200]],
+							edges: [[0,1], [1,2], [2,0], [3,1], [2,3], [3,4], [4,2], [0,4], [1,5], [5,0], [5,3], [4,5]],
+							faces: [
+								{
+									color: "red",
+									coordinates: [0,1,2]
+								},
+								{
+									color: "yellow",
+									coordinates: [3,1,2]
+								},
+								{
+									color: "blue",
+									coordinates: [3,4,2]
+								},
+								{
+									color: "white",
+									coordinates: [0,4,2]
+								},
+								{
+									color: "purple",
+									coordinates: [0,1,5]
+								},
+								{
+									color: "green",
+									coordinates: [3,1,5]
+								},
+								{
+									color: "orange",
+									coordinates: [3,4,5]
+								},
+								{
+									color: "cyan",
+									coordinates: [0,4,5]
+								}
+							]
+						},
+						dodecahedron: {
+							vertices: [[100, 100, 100], [61.803398875, 161.803398875, 0], [100, 100, -100], [161.803398875, 0, -61.803398875], [161.803398875, 0, 61.803398875], [100, -100, -100], [0, -61.803398875, -161.803398875], [0, 61.803398875, -161.803398875], [-61.803398875, 161.803398875, 0], [-100, 100, -100], [-161.803398875, 0, -61.803398875], [-100, -100, -100], [61.803398875, -161.803398875, 0], [-61.803398875, -161.803398875, 0], [100, -100, 100], [-161.803398875, 0, 61.803398875], [-100, 100, 100], [0, -61.803398875, 161.803398875], [0, 61.803398875, 161.803398875], [-100, -100, 100]],
+							edges: [[0,1], [1,2], [2,3], [3,4], [4,0], [3,5], [5,6], [6,7], [7,2], [1,8], [8,9], [9,7], [9,10], [10,11], [11,6], [5,12], [12,13], [13,11], [12,14], [14,4], [10,15], [15,16], [16,8], [14,17], [17,18], [18,0], [17,19], [19,13], [18,16], [19,15]],
+							faces: [
+								{
+									color: "red",
+									coordinates: [0, 1, 2, 3, 4]
+								},
+								{
+									color: "yellow",
+									coordinates: [2, 3, 5, 6, 7]
+								},
+								{
+									color: "blue",
+									coordinates: [1, 8, 9, 7, 2]
+								},
+								{
+									color: "white",
+									coordinates: [7, 9, 10, 11, 6]
+								},
+								{
+									color: "purple",
+									coordinates: [6, 5, 12, 13, 11]
+								},
+								{
+									color: "green",
+									coordinates: [4, 3, 5, 12, 14]
+								},
+								{
+									color: "orange",
+									coordinates: [8, 9, 10, 15, 16]
+								},
+								{
+									color: "cyan",
+									coordinates: [0, 4, 14, 17, 18]
+								},
+								{
+									color: "magenta",
+									coordinates: [17, 19, 13, 12, 14]
+								},
+								{
+									color: "black",
+									coordinates: [8, 1, 0, 18, 16]
+								},
+								{
+									color: "brown",
+									coordinates: [15, 10, 11, 13, 19]
+								},
+								{
+									color: "gray",
+									coordinates: [16, 18, 17, 19, 15]
+								}
+							]
+						},
+						icosahedron: {
+							vertices: [[0, 161.803398875, 100], [100, 0, 161.803398875], [161.803398875, 100, 0], [0, 161.803398875, -100], [-161.803398875, 100, 0], [-100, 0, 161.803398875], [0, -161.803398875, -100], [100, 0, -161.803398875], [-100, 0, -161.803398875], [-161.803398875, -100, 0], [0, -161.803398875, 100], [161.803398875, -100, 0]],
+							edges: [[0,1], [1,2], [2,0], [0,3], [3,2], [3,4], [4,0], [0,5], [5,4], [5,1], [6,7], [7,8], [8,6], [6,9], [9,8], [9,10], [10,6], [6,11], [11,10], [11,7], [2,7], [7,3], [11,2], [1,11], [10,1], [5,10], [9,5], [4,9], [8,4], [3,8]],
+							faces: [
+								{
+									color: "red",
+									coordinates: [0, 1, 2]
+								},
+								{
+									color: "yellow",
+									coordinates: [0, 3, 2]
+								},
+								{
+									color: "blue",
+									coordinates: [0, 3, 4]
+								},
+								{
+									color: "white",
+									coordinates: [0, 5, 4]
+								},
+								{
+									color: "purple",
+									coordinates: [0, 5, 1]
+								},
+								{
+									color: "green",
+									coordinates: [6, 7, 8]
+								},
+								{
+									color: "orange",
+									coordinates: [6, 9, 8]
+								},
+								{
+									color: "cyan",
+									coordinates: [6, 9, 10]
+								},
+								{
+									color: "magenta",
+									coordinates: [6, 11, 10]
+								},
+								{
+									color: "black",
+									coordinates: [6, 11, 7]
+								},
+								{
+									color: "brown",
+									coordinates: [3, 2, 7]
+								},
+								{
+									color: "gray",
+									coordinates: [2, 7, 11]
+								},
+								{
+									color: "chartreuse",
+									coordinates: [11, 2, 1]
+								},
+								{
+									color: "gold",
+									coordinates: [1, 11, 10]
+								},
+								{
+									color: "navy",
+									coordinates: [10, 1, 5]
+								},
+								{
+									color: "maroon",
+									coordinates: [5, 10, 9]
+								},
+								{
+									color: "salmon",
+									coordinates: [9, 5, 4]
+								},
+								{
+									color: "fuchsia",
+									coordinates: [4, 9, 8]
+								},
+								{
+									color: "indigo",
+									coordinates: [8, 4, 3]
+								},
+								{
+									color: "teal",
+									coordinates: [3, 8, 7]
+								}
+							]
+						}
 					},
 					loop: setInterval(function() { updateData(data) }, 100)
 				}
+			}
+
+		/* createSphere */
+			function createSphere() {
+				// angle
+					var radius = 200
+					var sectors = 40
+					var angle = 360 / sectors
+
+				// vertices
+					var vertices = []
+
+					// south pole
+						vertices.push([0, 0, -radius])
+
+					// body
+						for (var z = -90 + angle; z < 90; z += angle) {
+							var cos = Math.cos(getRadians(z)) * radius
+							var sin = Math.sin(getRadians(z)) * radius
+							
+							for (var i = 0; i < 360; i += angle) {
+								vertices.push([cos * Math.cos(getRadians(i)), cos * Math.sin(getRadians(i)), sin])
+							}
+						}
+
+					// north pole
+						vertices.push([0, 0, radius])
+
+				// edges
+					var edges = []
+
+					// south pole
+						for (var i = 0; i < sectors - 1; i++) {
+							edges.push([0, i + 1])
+							edges.push([i + 1, i + 2])
+						}
+						edges.push([0, i + 1])
+						edges.push([i + 1, 1])
+
+					// body
+						for (var z = 0; z < sectors / 2 - 2; z++) {
+							for (var i = 0; i < sectors - 1; i++) {
+								edges.push([i + (sectors * (z + 1)) + 1, i + (sectors * (z + 1)) + 2])
+								edges.push([i + (sectors *  z)      + 1, i + (sectors * (z + 1)) + 1])
+							}
+							edges.push([i + (sectors * (z + 1)) + 1, (sectors * (z + 1)) + 1])
+							edges.push([i + (sectors * (z + 1)) + 1, (sectors * (z + 1))    ])
+						}
+
+					// north pole
+						var final = vertices.length - 1
+						for (var i = 0; i < sectors - 1; i++) {
+							edges.push([final - 0, final - (i + 1)])
+						}
+						edges.push([final - 0, final - (i + 1)])
+
+				// faces
+					var faces = []
+					var r = 15
+					var b = 255
+
+					// south pole
+						for (var i = 0; i < sectors - 1; i++) {
+							faces.push({color: "rgb(" + r + "," + (i <= (sectors / 2) ? i * (240 / sectors * 2) + 15 : (sectors - i) * (240 / sectors * 2) + 15) + "," + b + ")", coordinates: [0, i + 1, i + 2]})
+						}
+							faces.push({color: "rgb(" + r + "," + (i <= (sectors / 2) ? i * (240 / sectors * 2) + 15 : (sectors - i) * (240 / sectors * 2) + 15) + "," + b + ")", coordinates: [0, sectors, 1]})
+
+					// body
+						for (var z = 0; z < sectors / 2 - 2; z++) {
+							r += 240 / (sectors / 2 - 1)
+							b -= 240 / (sectors / 2 - 1)
+							
+							for (var i = 0; i < sectors - 1; i++) {
+								faces.push({color: "rgb(" + r + "," + (i <= (sectors / 2) ? i * (240 / sectors * 2) + 15 : (sectors - i) * (240 / sectors * 2) + 15) + "," + b + ")", coordinates: [i + (sectors * z) + 1, i + (sectors * z) + 2, i + sectors * (z + 1) + 2, i + sectors * (z + 1) + 1]})
+							}
+								faces.push({color: "rgb(" + r + "," + (i <= (sectors / 2) ? i * (240 / sectors * 2) + 15 : (sectors - i) * (240 / sectors * 2) + 15) + "," + b + ")", coordinates: [     sectors * (z + 1),    (sectors * z) + 1,     sectors * (z + 1) + 1,     sectors * (z + 2)    ]})
+						}
+
+					// north pole
+						for (var i = 0; i < sectors - 1; i++) {
+							faces.push({color: "rgb(" + r + "," + (i <= (sectors / 2) ? i * (240 / sectors * 2) + 15 : (sectors - i) * (240 / sectors * 2) + 15) + "," + b + ")", coordinates: [vertices.length - 1, i + (sectors * z) + 1, i + (sectors * z) + 2]})
+						}
+							faces.push({color: "rgb(" + r + "," + (i <= (sectors / 2) ? i * (240 / sectors * 2) + 15 : (sectors - i) * (240 / sectors * 2) + 15) + "," + b + ")", coordinates: [vertices.length - 1, (sectors * (z + 1)), (sectors * z) + 1]})
+
+				// package up
+					return {
+						vertices: vertices,
+						edges: edges,
+						faces: faces
+					}
 			}
 
 		/* translatePolyhedrons */
@@ -712,13 +938,11 @@ window.onload = function() {
 
 				// polyhedrons
 					for (var p in data.polyhedrons) {
-						for (var f in data.polyhedrons[p]) {
-							for (var c in data.polyhedrons[p][f].coordinates) {
-								var coords = data.polyhedrons[p][f].coordinates[c]
-									coords[0] += x
-									coords[1] += y
-									coords[2] += z
-							}
+						for (var v in data.polyhedrons[p].vertices) {
+							var coords = data.polyhedrons[p].vertices[v]
+								coords[0] += x
+								coords[1] += y
+								coords[2] += z
 						}
 					}
 			}
@@ -735,13 +959,11 @@ window.onload = function() {
 						data.settings.x.rotation = getMinDegrees(data.settings.x.rotation + degrees)
 
 						for (var p in data.polyhedrons) {
-							for (var f in data.polyhedrons[p]) {
-								for (var c in data.polyhedrons[p][f].coordinates) {
-									var y = data.polyhedrons[p][f].coordinates[c][1]
-									var z = data.polyhedrons[p][f].coordinates[c][2]
-									data.polyhedrons[p][f].coordinates[c][2] = (z * cos) - (y * sin)
-									data.polyhedrons[p][f].coordinates[c][1] = (y * cos) + (z * sin)
-								}
+							for (var v in data.polyhedrons[p].vertices) {
+								var y = data.polyhedrons[p].vertices[v][1]
+								var z = data.polyhedrons[p].vertices[v][2]
+								data.polyhedrons[p].vertices[v][2] = (z * cos) - (y * sin)
+								data.polyhedrons[p].vertices[v][1] = (y * cos) + (z * sin)
 							}
 						}
 					}
@@ -749,13 +971,11 @@ window.onload = function() {
 						data.settings.y.rotation = getMinDegrees(data.settings.y.rotation + degrees)
 
 						for (var p in data.polyhedrons) {
-							for (var f in data.polyhedrons[p]) {
-								for (var c in data.polyhedrons[p][f].coordinates) {
-									var x = data.polyhedrons[p][f].coordinates[c][0]
-									var z = data.polyhedrons[p][f].coordinates[c][2]
-									data.polyhedrons[p][f].coordinates[c][0] = (x * cos) - (z * sin)
-									data.polyhedrons[p][f].coordinates[c][2] = (z * cos) + (x * sin)
-								}
+							for (var v in data.polyhedrons[p].vertices) {
+								var x = data.polyhedrons[p].vertices[v][0]
+								var z = data.polyhedrons[p].vertices[v][2]
+								data.polyhedrons[p].vertices[v][0] = (x * cos) - (z * sin)
+								data.polyhedrons[p].vertices[v][2] = (z * cos) + (x * sin)
 							}
 						}
 					}
@@ -763,13 +983,11 @@ window.onload = function() {
 						data.settings.z.rotation = getMinDegrees(data.settings.z.rotation + degrees)
 
 						for (var p in data.polyhedrons) {
-							for (var f in data.polyhedrons[p]) {
-								for (var c in data.polyhedrons[p][f].coordinates) {
-									var x = data.polyhedrons[p][f].coordinates[c][0]
-									var y = data.polyhedrons[p][f].coordinates[c][1]
-									data.polyhedrons[p][f].coordinates[c][0] = (x * cos) - (y * sin)
-									data.polyhedrons[p][f].coordinates[c][1] = (y * cos) + (x * sin)
-								}
+							for (var v in data.polyhedrons[p].vertices) {
+								var x = data.polyhedrons[p].vertices[v][0]
+								var y = data.polyhedrons[p].vertices[v][1]
+								data.polyhedrons[p].vertices[v][0] = (x * cos) - (y * sin)
+								data.polyhedrons[p].vertices[v][1] = (y * cos) + (x * sin)
 							}
 						}
 					}
@@ -857,35 +1075,73 @@ window.onload = function() {
 				// get the polyhedron
 					var solid = data.polyhedrons[data.settings.polyhedron]
 
-				// find the maximum Z for each face
-					var faces = []
-					for (var f in solid) {
-						faces.push(solid[f])
-
-						faces[f].maxD = 0
-						faces[f].sumD = 0
-						for (var c in faces[f].coordinates) {
-							var d = getScalar(faces[f].coordinates[c][0], faces[f].coordinates[c][1], data.settings.camera.position - faces[f].coordinates[c][2])
-							faces[f].sumD += d
-							if (d > faces[f].maxD) {
-								faces[f].maxD = d
+				// vertices
+					if (data.settings.mode == "vertices") {
+						// draw each point
+							for (var v = 0; v < solid.vertices.length; v++) {
+								projectVertices({color: "#dddddd", opacity: data.settings.opacity.value, coordinates: solid.vertices[v]})
 							}
-						}
-						faces[f].averageD = faces[f].sumD / faces[f].coordinates.length
 					}
 
-				// sort the faces
-					faces = faces.sort(function(a, b) {
-						return (a.maxD - b.maxD)
-					})
+				// edges
+					else if (data.settings.mode == "edges") {
+						// draw each edge
+							for (var e = 0; e < solid.edges.length; e++) {
+								projectEdge({color: "#dddddd", opacity: data.settings.opacity.value, coordinates: [solid.vertices[solid.edges[e][0]], solid.vertices[solid.edges[e][1]]]})
+							}
+					}
 
-					faces = faces.sort(function(a, b) {
-						return (a.averageD - b.averageD)
-					})
+				// faces
+					else if (data.settings.mode == "faces") {
+						// copy faces
+							var faces = []
+							for (var f in solid.faces) {
+								// create face
+									var face = {
+										color: solid.faces[f].color,
+										coordinates: []
+									}
 
-				// draw each face, farthest first
-					for (var f = faces.length - 1; f > -1; f--) {
-						projectPolyhedron(faces[f])
+								// copy coordinate values
+									for (var c in solid.faces[f].coordinates) {
+										face.coordinates[c] = [
+											solid.vertices[solid.faces[f].coordinates[c]][0], 
+											solid.vertices[solid.faces[f].coordinates[c]][1],
+											solid.vertices[solid.faces[f].coordinates[c]][2]
+										]
+									}
+
+								// find the maximum & average distance from camera for all points in a face
+									face.maxD = 0
+									face.sumD = 0
+									for (var c in face.coordinates) {
+										var d = getScalar(face.coordinates[c][0], face.coordinates[c][1], data.settings.camera.position - face.coordinates[c][2])
+										
+										face.sumD += d
+										if (d > face.maxD) {
+											face.maxD = d
+										}
+									}
+									face.averageD = face.sumD / face.coordinates.length
+
+								// add face to faces
+									faces.push(face)
+							}
+
+						// sort the faces by maximum distance from camera
+							faces = faces.sort(function(a, b) {
+								return (a.maxD - b.maxD)
+							})
+
+						// sort the faces by average distance from camera
+							faces = faces.sort(function(a, b) {
+								return (a.averageD - b.averageD)
+							})
+
+						// draw each face, farthest first
+							for (var f = faces.length - 1; f > -1; f--) {
+								projectFace(faces[f])
+							}
 					}
 			}
 

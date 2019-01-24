@@ -161,8 +161,12 @@
 			box-shadow: 0px 0px 10px #dddddd;
 		}
 
-		#p button {
-			width: calc(20% - 4px);
+		#settings #p button {
+			width: calc((100% / 6) - 4px);
+		}
+
+		#settings #m button {
+			width: calc((100% / 3) - 4px);
 		}
 
 /*** mobile ***/
