@@ -524,7 +524,7 @@ window.onload = function() {
 							"sight", "sound", "scent", "taste", "touch", "internal_clock", "perfect_pitch", "color_sense", "night_vision", "infrared_vision", "internal_compass"
 						],
 						memory: [
-							"alchemy", "astronomy", "botany", "cooking", "facial_recognition", "geography", "history", "leatherworking", "lip_reading", "medicine", "metalworking", "woodworking", "voice_recognition", "zoology",
+							"alchemy", "astronomy", "botany", "cooking", "facial_recognition", "geography", "history", "leatherworking", "linguistics", "lip_reading", "medicine", "metalworking", "woodworking", "voice_recognition", "zoology",
 							"lang_human", "lang_elf", "lang_dwarf", "lang_halfling", "lang_gnome", "lang_goblin", "lang_orc", "lang_bhios", "lang_mellifax", "lang_preas", "lang_winge", "lang_lizardfolk"
 						],
 						logic: [
