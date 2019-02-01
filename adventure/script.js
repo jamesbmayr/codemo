@@ -16,7 +16,7 @@ window.onload = function() {
 			document.addEventListener("contextmenu", function(event) {
 				event.preventDefault()
 			})
-		
+
 		/* generateRandom */
 			function generateRandom() {
 				try {
@@ -28,6 +28,18 @@ window.onload = function() {
 					}
 
 					return random
+				} catch (error) {}
+			}
+
+		/* duplicateObject */
+			function duplicateObject(obj) {
+				try {
+					if (typeof obj == "object") {
+						return JSON.parse(JSON.stringify(obj))
+					}
+					else {
+						return obj
+					}
 				} catch (error) {}
 			}
 
@@ -537,10 +549,10 @@ window.onload = function() {
 							"catch", "crafting", "drawing", "escape_bonds", "knifing", "lock_picking", "martial_arts", "missile", "musicianship", "penmanship", "performance", "ride_animals", "sneak"
 						],
 						immunity: [
-							"alcohol_tolerance", "allergy_resistance", "hold_breath", "infection_resistance", "metabolism", "pain_tolerance", "poison_resistance", "recover", "sleep_resistance"
+							"alcohol_tolerance", "allergy_resistance", "defend", "hold_breath", "infection_resistance", "metabolism", "pain_tolerance", "poison_resistance", "recover", "sleep_resistance"
 						],
 						speed: [
-							"dodge", "jump", "kick", "run", "swim"
+							"dodge", "fly", "jump", "kick", "run", "swim"
 						]
 					}
 
@@ -1752,14 +1764,14 @@ window.onload = function() {
 								count: 1,
 								weight: 2,
 								fuel: 3,
-								description: "generally 10, 25, or 50 feet"
+								description: "10 feet"
 							},
 							{
 								name: "chain",
 								count: 1,
 								weight: 10,
 								magnetic: true,
-								description: "generally 10, 25, or 50 feet"
+								description: "10 feet"
 							},
 							{
 								name: "grappling hook",
@@ -1854,6 +1866,13 @@ window.onload = function() {
 								description: ""
 							},
 							{
+								name: "book",
+								count: 1,
+								weight: 0.5,
+								fuel: 1,
+								description: ""
+							},
+							{
 								name: "compass",
 								count: 1,
 								weight: 0.05,
@@ -1873,8 +1892,29 @@ window.onload = function() {
 								description: ""
 							},
 							{
-								name: "...",
+								name: "hourglass",
 								count: 1,
+								weight: 1,
+								description: ""
+							},
+							{
+								name: "small item",
+								count: 1,
+								weight: 1,
+								d6: 1,
+								description: "..."
+							},
+							{
+								name: "medium item",
+								count: 1,
+								weight: 5,
+								d6: 1,
+								description: "..."
+							},
+							{
+								name: "large item",
+								count: 1,
+								weight: 10,
 								d6: 1,
 								description: "..."
 							}
@@ -2944,9 +2984,9 @@ window.onload = function() {
 						var name = event.target.value
 						var category = event.target.querySelector("[value='" + event.target.value + "']").parentNode.label
 
-						character.inventory.push(data.items[category].find(function(i) {
+						character.inventory.push(duplicateObject(data.items[category].find(function(i) {
 							return i.name == name
-						}))
+						})))
 						character.inventory[character.inventory.length - 1].id = generateRandom()
 
 					// display item
