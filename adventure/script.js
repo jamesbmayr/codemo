@@ -1898,6 +1898,18 @@ window.onload = function() {
 								description: ""
 							},
 							{
+								name: "coins",
+								count: 0,
+								weight: 0.01,
+								description: ""
+							},
+							{
+								name: "gems",
+								count: 0,
+								weight: 0.01,
+								description: ""
+							},
+							{
 								name: "small item",
 								count: 1,
 								weight: 1,
