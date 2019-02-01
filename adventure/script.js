@@ -768,7 +768,7 @@ window.onload = function() {
 								weight: 1,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "ring blade",
@@ -780,7 +780,7 @@ window.onload = function() {
 								weight: 1,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "spear",
@@ -797,7 +797,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 4
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "pike",
@@ -814,7 +814,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 4
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "sling",
@@ -826,7 +826,7 @@ window.onload = function() {
 								weight: 1,
 								hands: 1,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "bomb",
@@ -882,7 +882,7 @@ window.onload = function() {
 								weight: 2,
 								hands: 1,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "dagger",
@@ -894,7 +894,7 @@ window.onload = function() {
 								weight: 1,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "sickle",
@@ -906,7 +906,7 @@ window.onload = function() {
 								weight: 2,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "short staff",
@@ -918,7 +918,7 @@ window.onload = function() {
 								weight: 4,
 								hands: 1,
 								fuel: 3,
-								description: ""
+								description: " "
 							},
 							{
 								name: "club",
@@ -930,7 +930,7 @@ window.onload = function() {
 								weight: 4,
 								hands: 1,
 								fuel: 3,
-								description: ""
+								description: " "
 							},
 							{
 								name: "whip",
@@ -942,7 +942,7 @@ window.onload = function() {
 								weight: 3,
 								hands: 1,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "spiked club",
@@ -954,7 +954,7 @@ window.onload = function() {
 								weight: 5,
 								hands: 1,
 								fuel: 3,
-								description: ""
+								description: " "
 							},
 							{
 								name: "short sword",
@@ -966,7 +966,7 @@ window.onload = function() {
 								weight: 2,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "axe",
@@ -978,7 +978,7 @@ window.onload = function() {
 								weight: 2,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "mace",
@@ -990,7 +990,7 @@ window.onload = function() {
 								weight: 4,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "morningstar",
@@ -1002,7 +1002,7 @@ window.onload = function() {
 								weight: 4,
 								hands: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "long staff",
@@ -1014,7 +1014,7 @@ window.onload = function() {
 								weight: 6,
 								hands: 2,
 								fuel: 4,
-								description: ""
+								description: " "
 							},
 							{
 								name: "club",
@@ -1026,7 +1026,7 @@ window.onload = function() {
 								weight: 6,
 								hands: 2,
 								fuel: 4,
-								description: ""
+								description: " "
 							},
 							{
 								name: "spiked club",
@@ -1038,7 +1038,7 @@ window.onload = function() {
 								weight: 7,
 								hands: 2,
 								fuel: 4,
-								description: ""
+								description: " "
 							},
 							{
 								name: "flail",
@@ -1050,7 +1050,7 @@ window.onload = function() {
 								weight: 5,
 								hands: 2,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "warhammer",
@@ -1062,7 +1062,7 @@ window.onload = function() {
 								weight: 6,
 								hands: 2,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "long sword",
@@ -1074,7 +1074,7 @@ window.onload = function() {
 								weight: 5,
 								hands: 2,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "large axe",
@@ -1086,7 +1086,7 @@ window.onload = function() {
 								weight: 5,
 								hands: 2,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "bow",
@@ -1097,7 +1097,7 @@ window.onload = function() {
 								weight: 2,
 								hands: 2,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "crossbow",
@@ -1108,7 +1108,7 @@ window.onload = function() {
 								weight: 3,
 								hands: 2,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "blowgun",
@@ -1119,7 +1119,7 @@ window.onload = function() {
 								weight: 1,
 								hands: 1,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "stonebow",
@@ -1130,7 +1130,7 @@ window.onload = function() {
 								weight: 3,
 								hands: 2,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "gauss pistol",
@@ -1141,7 +1141,7 @@ window.onload = function() {
 								weight: 2,
 								hands: 1,
 								fuel: 2,
-								description: ""
+								description: " "
 							}
 						],
 						ammunition: [
@@ -1198,7 +1198,7 @@ window.onload = function() {
 									skill: "knifing",
 									d6: 1
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "poison dart",
@@ -1248,7 +1248,7 @@ window.onload = function() {
 								weight: 0.05,
 								d6: 3,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "rock orb",
@@ -1257,7 +1257,7 @@ window.onload = function() {
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
 								weight: 0.05,
 								d6: 3,
-								description: ""
+								description: " "
 							},
 							{
 								name: "glass orb",
@@ -1286,7 +1286,7 @@ window.onload = function() {
 								weight: 0.05,
 								d6: 3,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "glass flash orb",
@@ -1356,7 +1356,7 @@ window.onload = function() {
 								d6: 1,
 								weight: 3,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "leather armor",
@@ -1365,7 +1365,7 @@ window.onload = function() {
 								d6: 3,
 								weight: 15,
 								fuel: 2,
-								description: ""
+								description: " "
 							},
 							{
 								name: "wooden armor",
@@ -1374,7 +1374,7 @@ window.onload = function() {
 								d6: 4,
 								weight: 40,
 								fuel: 4,
-								description: ""
+								description: " "
 							},
 							{
 								name: "chainmail armor",
@@ -1383,7 +1383,7 @@ window.onload = function() {
 								d6: 4,
 								weight: 40,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "scalemail armor",
@@ -1391,7 +1391,7 @@ window.onload = function() {
 								type: "armor",
 								d6: 4,
 								weight: 50,
-								description: ""
+								description: " "
 							},
 							{
 								name: "platemail armor",
@@ -1400,7 +1400,7 @@ window.onload = function() {
 								d6: 5,
 								weight: 60,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "stonemail armor",
@@ -1408,7 +1408,7 @@ window.onload = function() {
 								type: "armor",
 								d6: 6,
 								weight: 80,
-								description: ""
+								description: " "
 							}
 						],
 						shields: [
@@ -1424,7 +1424,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 2
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "wooden shield",
@@ -1438,7 +1438,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 3
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "bone / scale shield",
@@ -1451,7 +1451,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 3
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "metal shield",
@@ -1465,7 +1465,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 3
 								},
-								description: ""
+								description: " "
 							},
 							{
 								name: "stone shield",
@@ -1478,7 +1478,7 @@ window.onload = function() {
 									skill: "melee",
 									d6: 4
 								},
-								description: ""
+								description: " "
 							}
 						],
 						potions: [
@@ -1778,7 +1778,7 @@ window.onload = function() {
 								count: 1,
 								weight: 1,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "climbing gear",
@@ -1818,13 +1818,13 @@ window.onload = function() {
 								name: "whistle",
 								count: 1,
 								weight: 0.05,
-								description: ""
+								description: " "
 							},
 							{
 								name: "mirror",
 								count: 1,
 								weight: 0.5,
-								description: ""
+								description: " "
 							},
 							{
 								name: "cloth",
@@ -1849,65 +1849,65 @@ window.onload = function() {
 								name: "quill pens, ink",
 								count: 1,
 								weight: 0.05,
-								description: ""
+								description: " "
 							},
 							{
 								name: "paper / parchment",
 								count: 1,
 								weight: 0.05,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "map",
 								count: 1,
 								weight: 0.1,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "book",
 								count: 1,
 								weight: 0.5,
 								fuel: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "compass",
 								count: 1,
 								weight: 0.05,
 								magnetic: true,
-								description: ""
+								description: " "
 							},
 							{
 								name: "astrolabe",
 								count: 1,
 								weight: 0.5,
-								description: ""
+								description: " "
 							},
 							{
 								name: "sextant",
 								count: 1,
 								weight: 0.5,
-								description: ""
+								description: " "
 							},
 							{
 								name: "hourglass",
 								count: 1,
 								weight: 1,
-								description: ""
+								description: " "
 							},
 							{
 								name: "coins",
 								count: 0,
 								weight: 0.01,
-								description: ""
+								description: " "
 							},
 							{
 								name: "gems",
 								count: 0,
 								weight: 0.01,
-								description: ""
+								description: " "
 							},
 							{
 								name: "small item",
@@ -1957,7 +1957,7 @@ window.onload = function() {
 								height: 0,
 								weight: 0
 							},
-							description: "",
+							description: " ",
 							status: {
 								points: 20,
 								burden: 0,
@@ -3061,7 +3061,8 @@ window.onload = function() {
 
 					// description
 						else if (event.target.className.includes("item-description")) {
-							item.description = event.target.value
+							var list = event.target.value.split(" • ")
+							item.description = list[list.length - 1]
 						}
 
 					// skill
