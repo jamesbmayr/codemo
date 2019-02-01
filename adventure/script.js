@@ -2680,6 +2680,7 @@ window.onload = function() {
 					// update value
 						var old = character.statistics[statistic].maximum
 						character.statistics[statistic].maximum = Math.min(20, Math.max(0, Math.round(Number(event.target.value))))
+						event.target.closest(".statistic").querySelector(".statistic-current").value = Math.max(0, character.statistics[statistic].maximum + character.statistics[statistic].damage + character.statistics[statistic].condition)
 					
 					// update points
 						var cost = (old - character.statistics[statistic].maximum) * 20
