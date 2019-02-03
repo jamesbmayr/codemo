@@ -2245,6 +2245,11 @@ window.onload = function() {
 			function rolld20(event) {
 				try {
 					if (document.body.getAttribute("mode") == "play") {
+						// spacer
+							var spacer = document.createElement("div")
+								spacer.className = "spacer"
+							document.getElementById("history").prepend(spacer)
+
 						// within an item ?
 							if (event.target.closest(".item")) {
 								// item
@@ -2357,6 +2362,11 @@ window.onload = function() {
 			function rolld6(event) {
 				try {
 					if (document.body.getAttribute("mode") == "play" || document.body.getAttribute("mode") == "damage") {
+						// spacer
+							var spacer = document.createElement("div")
+								spacer.className = "spacer"
+							document.getElementById("history").prepend(spacer)
+
 						// within an item ?
 							if (event.target.closest(".item")) {
 								// item
@@ -2428,8 +2438,8 @@ window.onload = function() {
 								type = "healing"
 							}
 
-						// ammunition?
-							if (item && item.type == "ammunition" && !skill) {
+						// ammunition? potion? healing?
+							if (item && !skill && ["ammunition", "potion", "healing"].includes(item.type)) {
 								item.count = Math.max(0, item.count - 1)
 								event.target.closest(".item").querySelector(".item-count").value = item.count
 
@@ -2712,6 +2722,13 @@ window.onload = function() {
 						document.getElementById("info-carry").value = Math.max(0, ((character.statistics.strength.maximum + character.statistics.strength.damage + character.statistics.strength.condition) + (carry.maximum + carry.condition)) * 10)
 						document.getElementById("info-throw").value = Math.max(0, ((character.statistics.strength.maximum + character.statistics.strength.damage + character.statistics.strength.condition) + (thro.maximum  + thro.condition )) * 10)
 
+						if (character.info.status.burden > document.getElementById("info-carry").value) {
+							document.getElementById("info-burden").setAttribute("overburdened", true)
+						}
+						else {
+							document.getElementById("info-burden").removeAttribute("overburdened")
+						}
+
 					// defend
 						if (character.statistics.immunity.skills.find(function(s) { return s.name == "defend" })) {
 							document.getElementById("info-defend").setAttribute("shown", true)
@@ -2941,19 +2958,19 @@ window.onload = function() {
 							maximum.addEventListener("change", changeSkill)
 						right.appendChild(maximum)
 
-						var damage = document.createElement("input")
-							damage.type = "number"
-							damage.setAttribute("readonly", true)
-							damage.className = "skill-damage"
-							damage.value = ""
-						right.appendChild(damage)
-
 						var condition = document.createElement("input")
 							condition.type = "number"
 							condition.setAttribute("readonly", true)
 							condition.className = "skill-condition"
 							condition.value = Math.max(-99, Math.min(99, skill.condition)) || ""
 						right.appendChild(condition)
+
+						var damage = document.createElement("input")
+							damage.type = "number"
+							damage.setAttribute("readonly", true)
+							damage.className = "skill-damage"
+							damage.value = ""
+						right.appendChild(damage)
 
 						var current = document.createElement("input")
 							current.type = "number"
@@ -3059,12 +3076,6 @@ window.onload = function() {
 							item.name = event.target.value
 						}
 
-					// description
-						else if (event.target.className.includes("item-description")) {
-							var list = event.target.value.split(" • ")
-							item.description = list[list.length - 1]
-						}
-
 					// skill
 						else if (event.target.className.includes("item-usage-skill")) {
 							var statistic = Object.keys(data.skills).find(function(stat) {
@@ -3106,6 +3117,58 @@ window.onload = function() {
 
 							item.conditions[event.target.value] = item.conditions[Object.keys(item.conditions)[x]]
 							delete item.conditions[Object.keys(item.conditions)[x]]
+						}
+
+					// description
+						else if (event.target.className.includes("item-description")) {
+							item.magnetic = false
+							var description = []
+							
+							var list = event.target.value.split(" | ")
+							for (var l in list) {
+								if (list[l].toLowerCase().includes("lb")) {
+									var weight = Number(list[l].toLowerCase().replace(/lbs|lb/g, "").trim())
+									if (typeof weight == "number") {
+										item.weight = weight
+									}
+								}
+								else if (list[l].toLowerCase().includes("-handed")) {
+									var hands = Number(list[l].toLowerCase().replace("handed", "").replace("-", "").trim())
+									if (typeof hands == "number") {
+										item.hands = hands
+									}
+								}
+								else if (list[l].toLowerCase().includes("for use with")) {
+									var weapons = list[l].toLowerCase().replace("for use with", "").split(",")
+										for (var w in weapons) {
+											weapons[w] = weapons[w].trim()
+										}
+									item.weapons = weapons
+								}
+								else if (list[l].trim().toLowerCase() == "magnetic") {
+									item.magnetic = true
+								}
+								else if (list[l].toLowerCase().includes("fuels fire for")) {
+									var fuel = Number(list[l].toLowerCase().replace("fuels fire for ", "").replace(" rounds", "").trim())
+									if (typeof fuel == "number") {
+										item.fuel = fuel
+									}
+								}
+								else if (list[l].toLowerCase().includes("recipe:")) {
+									var recipe = list[l].toLowerCase().replace("recipe:", "").trim().split(", ")
+									item.recipe = {}
+									for (var r in recipe) {
+										recipe[r] = recipe[r].trim()
+										if (["w", "r", "g", "b"].includes(recipe[r][0])) {
+											item.recipe[recipe[r][0]] = Number(recipe[r].slice(1))
+										}
+									}
+								}
+								else {
+									description.push(list[l])
+								}
+							}
+							item.description = description.join(" | ")
 						}
 
 					// reopen inventory
@@ -3234,16 +3297,27 @@ window.onload = function() {
 								d20.addEventListener(on.click, rolld20)
 							usage.appendChild(d20)
 
-							var text = document.createElement("input")
-								text.type = "text"
-								if (!enable) {
-									text.setAttribute("readonly", true)
+							var select = document.createElement("select")
+								for (var s in data.skills) {
+									var optgroup = document.createElement("optgroup")
+										optgroup.label = s
+									select.appendChild(optgroup)
+
+									for (var k in data.skills[s]) {
+										var option = document.createElement("option")
+											option.value = data.skills[s][k]
+											option.innerText = data.skills[s][k].replace(/_/g, " ")
+										optgroup.appendChild(option)
+									}
 								}
-								text.className = "item-usage-skill editable"
-								text.placeholder = "skill"
-								text.value = item.skill.replace(/_/g, " ") || ""
-								text.addEventListener("change", changeItem)
-							usage.appendChild(text)
+								if (!enable) {
+									select.setAttribute("disabled", true)
+								}
+								select.className = "item-usage-skill editable"
+								select.placeholder = "skill"
+								select.value = item.skill
+								select.addEventListener("change", changeItem)
+							usage.appendChild(select)
 						}
 
 					// d6
@@ -3287,16 +3361,27 @@ window.onload = function() {
 								d20.addEventListener(on.click, rolld20)
 							usage.appendChild(d20)
 
-							var text = document.createElement("input")
-								text.type = "text"
-								if (!enable) {
-									text.setAttribute("readonly", true)
+							var select = document.createElement("select")
+								for (var s in data.skills) {
+									var optgroup = document.createElement("optgroup")
+										optgroup.label = s
+									select.appendChild(optgroup)
+
+									for (var k in data.skills[s]) {
+										var option = document.createElement("option")
+											option.value = data.skills[s][k]
+											option.innerText = data.skills[s][k].replace(/_/g, " ")
+										optgroup.appendChild(option)
+									}
 								}
-								text.className = "item-usage-skill editable"
-								text.addEventListener("change", changeItem)
-								text.placeholder = "skill"
-								text.value = item.alternative.skill.replace(/_/g, " ") || ""
-							usage.appendChild(text)
+								if (!enable) {
+									select.setAttribute("disabled", true)
+								}
+								select.className = "item-usage-skill editable"
+								select.addEventListener("change", changeItem)
+								select.placeholder = "skill"
+								select.value = item.alternative.skill
+							usage.appendChild(select)
 
 							var d6 = document.createElement("input")
 								d6.type = "number"
@@ -3368,13 +3453,13 @@ window.onload = function() {
 							description.value = ""
 						block.appendChild(description)
 						
-						if (item.weight)      { description.value += " • " + item.weight + " lbs"             }
-						if (item.hands)       { description.value += " • " + item.hands  + "-handed"             }
-						if (item.weapons)     { description.value += " • for " + item.weapons.join(",")          }
-						if (item.magnetic)    { description.value += " • magnetic"                               }
-						if (item.fuel)        { description.value += " • fuels fire for " + item.fuel + " rounds"}
-						if (item.recipe)      { description.value += " • " + JSON.stringify(item.recipe).replace(/{|}|"/g,"").replace(/,/g,", ")}
-						if (item.description) { description.value += " • " + item.description                    }
+						if (item.weight)      { description.value += " | " + item.weight + " lbs"                }
+						if (item.hands)       { description.value += " | " + item.hands  + "-handed"             }
+						if (item.weapons)     { description.value += " | for use with " + item.weapons.join(", ")}
+						if (item.magnetic)    { description.value += " | magnetic"                               }
+						if (item.fuel)        { description.value += " | fuels fire for " + item.fuel + " rounds"}
+						if (item.recipe)      { description.value += " | recipe: " + JSON.stringify(item.recipe).replace(/{|}|"|:/g,"").replace(/,/g,", ")}
+						if (item.description) { description.value += " | " + item.description                    }
 
 						description.value = description.value.slice(3)
 				} catch (error) {}
@@ -3523,6 +3608,11 @@ window.onload = function() {
 			document.getElementById("info-defend").addEventListener(on.click, recoverDamage)
 			function recoverDamage(event) {
 				try {
+					// spacer
+						var spacer = document.createElement("div")
+							spacer.className = "spacer"
+						document.getElementById("history").prepend(spacer)
+
 					// recover only
 						if (event.target.id == "info-recover") {
 							// roll d20
@@ -3589,6 +3679,13 @@ window.onload = function() {
 
 					// change damage
 						character.info.status.damage += difference
+						var outstandingDamage = 0
+						for (var s in character.statistics) {
+							outstandingDamage += character.statistics[s].damage
+						}
+						if (!outstandingDamage) {
+							character.info.status.damage = 0
+						}
 						document.getElementById("info-damage").value = character.info.status.damage
 
 					// redisplay

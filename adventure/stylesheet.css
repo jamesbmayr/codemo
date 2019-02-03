@@ -100,6 +100,12 @@
 			filter: drop-shadow(0px 0px 5px #dddddd);
 		}
 
+		.spacer {
+			display: inline-block;
+			height: 100%;
+			width: 20px;
+		}
+
 /*** header ***/
 	/* top level */
 		#header {
@@ -281,6 +287,20 @@
 			background-color: #333333;
 		}
 
+		#info .column-left, #info .column-right {
+			float: left;
+			height: 100%;
+			width: calc(50% - 12.5px);
+			margin-right: 5px;
+			background-color: #222222;
+			border-radius: 5px;
+			padding: 5px;
+		}
+
+		#info .column-right {
+			margin-right: 0px;
+		}
+
 	/* name */
 		#info-name {
 			font-size: 40px;
@@ -315,9 +335,7 @@
 			font-size: 25px;
 			margin: 0px 0px 5px 0px;
 			float: left;
-			width: calc(100% - 10px);
-			padding: 5px;
-			background-color: #222222;
+			width: 100%;
 			color: #aaaaaa;
 			border-radius: 5px;
 		}
@@ -325,10 +343,9 @@
 		#info-demographics label {
 			float: left;
 			color: #aaaaaa;
-			width: calc(50% - 10px);
+			width: 100%;
 			height: 30px;
 			text-align: left;
-			padding: 5px;
 			font-size: 20px;
 			line-height: 1.5;
 			vertical-align: bottom;
@@ -346,6 +363,7 @@
 			border: 0px;
 			text-align: right;
 			outline: none;
+			overflow: hidden;
 		}
 
 		#info-race {
@@ -362,14 +380,16 @@
 			vertical-align: top;
 		}
 
+		#info .column-left label:nth-child(2), #info .column-right label:nth-child(2) {
+			padding: 5px 0px 5px 0px;
+		}
+
 	/* abilities */
 		#info-abilities {
 			font-size: 25px;
 			margin: 0px 0px 5px 0px;
 			float: left;
-			width: calc(100% - 10px);
-			padding: 5px;
-			background-color: #222222;
+			width: 100%;
 			color: #aaaaaa;
 			border-radius: 5px;
 		}
@@ -377,10 +397,9 @@
 		#info-abilities label {
 			float: left;
 			color: #aaaaaa;
-			width: calc(50% - 10px);
+			width: 100%;
 			height: 30px;
 			text-align: left;
-			padding: 5px;
 			font-size: 20px;
 			line-height: 1.5;
 			vertical-align: bottom;
@@ -405,6 +424,10 @@
 		#info-abilities input#info-burden {
 			width: 35px;
 			padding: 5px 0px 5px 5px;
+		}
+
+		#info-abilities input#info-burden[overburdened] {
+			color: #dd7777;
 		}
 
 		#info-abilities label span {
@@ -865,7 +888,7 @@
 
 		.item-usage-skill {
 			float: left;
-			height: 30px;
+			height: 40px;
 			padding: 5px;
 			overflow: hidden;
 			background-color: transparent;
@@ -876,11 +899,11 @@
 			outline: none;
 			word-break: break-all;
 			text-overflow: ellipsis;
-			width: calc(100% - 140px);
+			width: calc(100% - 40px);
 		}
 
 		.item-usage .d20 + .item-usage-skill {
-			width: calc(100% - 90px);
+			width: calc(100% - 80px);
 		}
 
 		.item-usage .d6 {

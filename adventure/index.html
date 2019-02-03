@@ -43,22 +43,30 @@
 			</summary>
 			<input readonly class="editable" type="text" id="info-name-text" placeholder="name">
 			<div id="info-demographics">
-				<label>race<select disabled class="editable" type="text" id="info-race" dir="rtl">
-					<option id="race-disabled" disabled selected>...</option>
-				</select></label>
-				<label>exp<input readonly class="editable" type="number" step="1" id="info-points" placeholder="exp"></label>
-				<label>sex<input readonly class="editable" type="text" id="info-sex"></label>
-				<label>age<input readonly class="editable" type="number" step="1" min="0" id="info-age" placeholder="y"></label>
-				<label>height<input readonly class="editable" type="number" step="1" min="0" id="info-height" placeholder="ft"></label>
-				<label>weight<input readonly class="editable" type="number" step="1" min="0" id="info-weight" placeholder="lb"></label>
+				<div class="column-left">
+					<label>race<select disabled class="editable" type="text" id="info-race" dir="rtl">
+						<option id="race-disabled" disabled selected>...</option>
+					</select></label>
+					<label>sex<input readonly class="editable" type="text" id="info-sex"></label>
+					<label>age<input readonly class="editable" type="number" step="1" min="0" id="info-age" placeholder="y"></label>
+				</div>
+				<div class="column-right">
+					<label>height<input readonly class="editable" type="number" step="1" min="0" id="info-height" placeholder="ft"></label>
+					<label>weight<input readonly class="editable" type="number" step="1" min="0" id="info-weight" placeholder="lb"></label>
+					<label>exp<input readonly class="editable" type="number" step="1" id="info-points" placeholder="exp"></label>
+				</div>
 			</div>
 			<div id="info-abilities">
-				<label>run (mph)<input readonly type="number" id="info-run"></label>
-				<label>carry (lb)<input readonly type="number" id="info-carry"><span>/</span><input readonly type="number" id="info-burden"></label>
-				<label>move (sq)<input readonly type="number" id="info-move"></label>
-				<label>throw (ft-lb)<input readonly type="number" id="info-throw"></label>
-				<label>swim (mph)<input readonly type="number" id="info-swim"></label>
-				<label>jump (in)<input readonly type="number" id="info-jump"></label>
+				<div class="column-left">
+					<label>run (mph)<input readonly type="number" id="info-run"></label>
+					<label>move (sq)<input readonly type="number" id="info-move"></label>
+					<label>swim (mph)<input readonly type="number" id="info-swim"></label>
+				</div>
+				<div class="column-right">
+					<label>carry (lb)<input readonly type="number" id="info-carry"><span>/</span><input readonly type="number" id="info-burden"></label>
+					<label>throw (ft-lb)<input readonly type="number" id="info-throw"></label>
+					<label>jump (in)<input readonly type="number" id="info-jump"></label>
+				</div>
 			</div>
 			<textarea id="info-racial-ability" readonly></textarea>
 			<textarea id="info-description" readonly class="editable" placeholder="description"></textarea>
@@ -70,8 +78,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
@@ -87,8 +95,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
@@ -104,8 +112,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
@@ -121,8 +129,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
@@ -138,8 +146,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
@@ -155,8 +163,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
@@ -172,8 +180,8 @@
 				</div>
 				<div class="column-right">
 					<input readonly type="number" step="1" min="0" class="statistic-maximum editable" placeholder="↑">
-					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-condition">
+					<input readonly type="number" step="1" class="statistic-damage">
 					<input readonly type="number" step="1" class="statistic-current d20">
 				</div>
 			</summary>
