@@ -14,7 +14,7 @@ window.onload = function() {
 					name: "Eternal Horizon",
 					size: "large",
 					tags: ["music"],
-					url: "https://jamesmayr.com/music/?album=etrernalhorizon",
+					url: "https://jamesmayr.com/music/?album=eternalhorizon",
 					date: "June 1, 2007",
 					description: "Eternal Horizon was the first album I composed - in 2007 - and it set the standard: 16 songs and 1 hour."
 				},

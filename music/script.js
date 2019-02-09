@@ -43,7 +43,9 @@ window.onload = function() {
 					{name: "A Drop of Death", audio: "adropofdeath.mp3"},
 					{name: "Sitting at a Stone Table", audio: "sittingatastonetable.mp3"},
 					{name: "Breaking Open the Box", audio: "breakingopenthebox.mp3"},
-					{name: "Mischief", audio: "mischief.mp3"}
+					{name: "Mischief", audio: "mischief.mp3"},
+					{name: "Four-oh-Four!", audio: "fourohfour.mp3"},
+					{name: "Everything Is Reel; Please Do Not Question This", audio: "everythingisreelpleasedonotquestionthis.mp3"}
 				]},
 				eternalhorizon: {id: "eternalhorizon", image: "eternalhorizon.png", name: "Eternal Horizon", year: 2007, tracks: [
 					{name: "Eternal Horizon", audio: "eternalhorizon.mp3"},
