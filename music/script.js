@@ -45,6 +45,7 @@ window.onload = function() {
 					{name: "Breaking Open the Box", audio: "breakingopenthebox.mp3"},
 					{name: "Mischief", audio: "mischief.mp3"},
 					{name: "Four-oh-Four!", audio: "fourohfour.mp3"},
+					{name: "Melodemons soundtrack", audio: "melodemonssoundtrack.mp3"},
 					{name: "Everything Is Reel; Please Do Not Question This", audio: "everythingisreelpleasedonotquestionthis.mp3"}
 				]},
 				eternalhorizon: {id: "eternalhorizon", image: "eternalhorizon.png", name: "Eternal Horizon", year: 2007, tracks: [
