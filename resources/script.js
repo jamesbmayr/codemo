@@ -571,14 +571,6 @@ window.onload = function() {
 					description: "tileSlider is an online version of the 15-puzzle sliding game."
 				},
 				{
-					name: "weatherExplorer",
-					size: "medium",
-					tags: ["code"],
-					url: "https://jamesmayr.com/weatherexplorer/",
-					date: "June 10, 2017",
-					description: "Using the OpenWeather and Google Places APIs, weatherExplorer can take you anywhere in the world - randomly."
-				},
-				{
 					name: "wordFinder",
 					size: "medium",
 					tags: ["code","games"],
@@ -673,6 +665,14 @@ window.onload = function() {
 					url: "https://jamesmayr.com/polyhedronplayer/",
 					date: "January 22, 2019",
 					description: "Project 3D down to 2D in this canvas-powered Platonic solids visualizer."
+				},
+				{
+					name: "nimbusNotes",
+					size: "small",
+					tags: ["collaborations", "code","art", "music"],
+					url: "https://nimbusnotes.herokuapp.com",
+					date: "February 2, 2019",
+					description: "This web-audio / canvas / websockets raincloud soundscape was built with Liz Ford at a hackathon."
 				}
 			]
 
