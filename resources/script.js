@@ -254,7 +254,7 @@ window.onload = function() {
 					name: "AI Arenas",
 					size: "extra-large",
 					tags: ["code","games"],
-					url: "http://www.aiarenas.com",
+					url: "https://aiarenas.herokuapp.com",
 					date: "May 1, 2017",
 					description: "AI Arenas is a web game where javascript robots battle for cubes in a competitive coding arena."
 				},
