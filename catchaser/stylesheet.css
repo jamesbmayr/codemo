@@ -1,0 +1,222 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #dddddd;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+	}
+
+	/* j-logo */
+		#j-logo {
+			position: absolute;
+			top: 14px;
+			right: 8px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 0;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 4px #222222);
+		}
+
+/*** cat ***/
+	#cat {
+		position: absolute;
+		transform: translateX(-50%) translateY(-50%);
+		height: 96px;
+		width: 64px;
+		background-repeat: no-repeat;
+		background-size: 192px 384px;
+		z-index: 2;
+	}
+
+	/* colors */
+		#cat[color="white"] {
+			background-image: url(cat_white.png);
+		}
+
+		#cat[color="black"] {
+			background-image: url(cat_black.png);
+		}
+
+		#cat[color="brown"] {
+			background-image: url(cat_brown.png);
+		}
+
+		#cat[color="orange"] {
+			background-image: url(cat_orange.png);
+		}
+
+	/* up */
+		#cat[direction="up"][step="0"], #cat[direction="up"][step="1"], #cat[direction="up"][step="2"], #cat[direction="up"][step="3"] {
+			background-position: 0px 0px;
+		}
+
+		#cat[direction="up"][step="4"], #cat[direction="up"][step="5"], #cat[direction="up"][step="6"], #cat[direction="up"][step="7"],
+		#cat[direction="up"][step="12"], #cat[direction="up"][step="13"], #cat[direction="up"][step="14"], #cat[direction="up"][step="15"] {
+			background-position: -64px 0px;
+		}
+
+		#cat[direction="up"][step="8"], #cat[direction="up"][step="9"], #cat[direction="up"][step="10"], #cat[direction="up"][step="11"] {
+			background-position: -128px 0px;
+		}
+
+	/* right */
+		#cat[direction="right"][step="0"], #cat[direction="right"][step="1"], #cat[direction="right"][step="2"], #cat[direction="right"][step="3"] {
+			background-position: 0px -96px;
+		}
+
+		#cat[direction="right"][step="4"], #cat[direction="right"][step="5"], #cat[direction="right"][step="6"], #cat[direction="right"][step="7"],
+		#cat[direction="right"][step="12"], #cat[direction="right"][step="13"], #cat[direction="right"][step="14"], #cat[direction="right"][step="15"] {
+			background-position: -64px -96px;
+		}
+
+		#cat[direction="right"][step="8"], #cat[direction="right"][step="9"], #cat[direction="right"][step="10"], #cat[direction="right"][step="11"] {
+			background-position: -128px -96px;
+		}
+
+	/* down */
+		#cat[direction="down"][step="0"], #cat[direction="down"][step="1"], #cat[direction="down"][step="2"], #cat[direction="down"][step="3"] {
+			background-position: 0px -192px;
+		}
+
+		#cat[direction="down"][step="4"], #cat[direction="down"][step="5"], #cat[direction="down"][step="6"], #cat[direction="down"][step="7"],
+		#cat[direction="down"][step="12"], #cat[direction="down"][step="13"], #cat[direction="down"][step="14"], #cat[direction="down"][step="15"] {
+			background-position: -64px -192px;
+		}
+
+		#cat[direction="down"][step="8"], #cat[direction="down"][step="9"], #cat[direction="down"][step="10"], #cat[direction="down"][step="11"] {
+			background-position: -128px -192px;
+		}
+
+	/* left */
+		#cat[direction="left"][step="0"], #cat[direction="left"][step="1"], #cat[direction="left"][step="2"], #cat[direction="left"][step="3"] {
+			background-position: 0px -288px;
+		}
+
+		#cat[direction="left"][step="4"], #cat[direction="left"][step="5"], #cat[direction="left"][step="6"], #cat[direction="left"][step="7"],
+		#cat[direction="left"][step="12"], #cat[direction="left"][step="13"], #cat[direction="left"][step="14"], #cat[direction="left"][step="15"] {
+			background-position: -64px -288px;
+		}
+
+		#cat[direction="left"][step="8"], #cat[direction="left"][step="9"], #cat[direction="left"][step="10"], #cat[direction="left"][step="11"] {
+			background-position: -128px -288px;
+		}
+
+/*** score ***/
+	#score {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		font-family: monospace;
+		font-size: 50px;
+		text-align: center;
+		color: #777777;
+	}
+
+/*** holes ***/
+	.hole {
+		position: absolute;
+		transform: translateX(-50%) translateY(-50%);
+		height: 32px;
+		width: 32px;
+		border-radius: 100%;
+		box-shadow: 0px 0px 10px #333333 inset;
+		background-color: #111111;
+		z-index: 0;
+	}
+
+/*** rat ***/
+	.rat {
+		position: absolute;
+		transform: translateX(-50%) translateY(-50%);
+		height: 32px;
+		width: 32px;
+		background-repeat: no-repeat;
+		background-size: 96px 128px;
+		z-index: 1;
+	}
+
+	/* colors */
+		.rat[color="gray"] {
+			background-image: url(rat_gray.png);
+		}
+
+		.rat[color="brown"] {
+			background-image: url(rat_brown.png);
+		}
+
+	/* up */
+		.rat[direction="up"][step="0"], .rat[direction="up"][step="1"], .rat[direction="up"][step="2"], .rat[direction="up"][step="3"] {
+			background-position: 0px 0px;
+		}
+
+		.rat[direction="up"][step="4"], .rat[direction="up"][step="5"], .rat[direction="up"][step="6"], .rat[direction="up"][step="7"],
+		.rat[direction="up"][step="12"], .rat[direction="up"][step="13"], .rat[direction="up"][step="14"], .rat[direction="up"][step="15"] {
+			background-position: -32px 0px;
+		}
+
+		.rat[direction="up"][step="8"], .rat[direction="up"][step="9"], .rat[direction="up"][step="10"], .rat[direction="up"][step="11"] {
+			background-position: -64px 0px;
+		}
+
+	/* right */
+		.rat[direction="right"][step="0"], .rat[direction="right"][step="1"], .rat[direction="right"][step="2"], .rat[direction="right"][step="3"] {
+			background-position: 0px -32px;
+		}
+
+		.rat[direction="right"][step="4"], .rat[direction="right"][step="5"], .rat[direction="right"][step="6"], .rat[direction="right"][step="7"],
+		.rat[direction="right"][step="12"], .rat[direction="right"][step="13"], .rat[direction="right"][step="14"], .rat[direction="right"][step="15"] {
+			background-position: -32px -32px;
+		}
+
+		.rat[direction="right"][step="8"], .rat[direction="right"][step="9"], .rat[direction="right"][step="10"], .rat[direction="right"][step="11"] {
+			background-position: -64px -32px;
+		}
+
+	/* down */
+		.rat[direction="down"][step="0"], .rat[direction="down"][step="1"], .rat[direction="down"][step="2"], .rat[direction="down"][step="3"] {
+			background-position: 0px -64px;
+		}
+
+		.rat[direction="down"][step="4"], .rat[direction="down"][step="5"], .rat[direction="down"][step="6"], .rat[direction="down"][step="7"],
+		.rat[direction="down"][step="12"], .rat[direction="down"][step="13"], .rat[direction="down"][step="14"], .rat[direction="down"][step="15"] {
+			background-position: -32px -64px;
+		}
+
+		.rat[direction="down"][step="8"], .rat[direction="down"][step="9"], .rat[direction="down"][step="10"], .rat[direction="down"][step="11"] {
+			background-position: -64px -64px;
+		}
+
+	/* left */
+		.rat[direction="left"][step="0"], .rat[direction="left"][step="1"], .rat[direction="left"][step="2"], .rat[direction="left"][step="3"] {
+			background-position: 0px -96px;
+		}
+
+		.rat[direction="left"][step="4"], .rat[direction="left"][step="5"], .rat[direction="left"][step="6"], .rat[direction="left"][step="7"],
+		.rat[direction="left"][step="12"], .rat[direction="left"][step="13"], .rat[direction="left"][step="14"], .rat[direction="left"][step="15"] {
+			background-position: -32px -96px;
+		}
+
+		.rat[direction="left"][step="8"], .rat[direction="left"][step="9"], .rat[direction="left"][step="10"], .rat[direction="left"][step="11"] {
+			background-position: -64px -96px;
+		}
