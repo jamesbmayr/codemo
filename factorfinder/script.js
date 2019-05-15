@@ -12,6 +12,8 @@ window.onload = function() {
 			var input = document.getElementById("n")
 			var outputQualities = document.getElementById("qualities")
 			var outputFactors = document.getElementById("factors")
+			var message = document.getElementById("message")
+			var loading = document.getElementById("loading")
 
 		/* globals */
 			var sets = {
@@ -24,19 +26,34 @@ window.onload = function() {
 			}
 
 	/*** form ***/
-		/* getQualities */
-			input.addEventListener("change", getQualities)
-			function getQualities(event) {
+		/* submitNumber */
+			input.addEventListener("change", submitNumber)
+			function submitNumber(event) {
 				// get n
 					var n = Number(event.target.value)
 
 				// invalid n
 					if (!n || isNaN(n) || n % 1 !== 0 || n < 0) {
 						outputFactors.innerHTML = ""
-						outputQualities.innerHTML = "<div id='warning'>enter a positive whole number</div>"
-						return false
+						outputQualities.innerHTML = ""
+						message.setAttribute("shown", true)
 					}
-				
+
+				// loading
+					else {
+						outputFactors.innerHTML = ""
+						outputQualities.innerHTML = ""
+						message.removeAttribute("shown")
+						loading.setAttribute("rotate", true)
+
+						setTimeout(function() {
+							getQualities(n)
+						}, 0)
+					}
+			}
+
+		/* getQualities */
+			function getQualities(n) {
 				// update sets
 					updatePrimes(n)
 					updateComposites(n)
@@ -123,6 +140,9 @@ window.onload = function() {
 						"<br>" +
 						"<li>PRIME FACTORS:<br>" + primeFactors.join(" x ") + "</li>"
 					outputQualities.innerHTML = qualities.join("<br>")
+
+				// loading
+					loading.removeAttribute("rotate")
 			}
 
 	/*** math - update ***/

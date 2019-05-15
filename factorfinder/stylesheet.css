@@ -85,13 +85,33 @@
 			padding: 10px;
 		}
 
-	/* output */
-		#warning {
-			text-align: center;
-			text-transform: uppercase;
-			font-weight: bold;
+	/* message / loading */
+		#message:not([shown]) {
+			display: none;
 		}
 
+		#message[shown] {
+			color: #dddddd;
+			text-align: center;
+			font-weight: bold;
+			font-size: 25px;
+			font-family: monospace;
+		}
+
+		#loading:not([rotate]) {
+			display: none;
+		}
+
+		#loading[rotate] {
+			color: #dddddd;
+			text-align: center;
+			font-weight: bold;
+			font-size: 50px;
+			animation: rotate 1s infinite linear;
+			font-family: monospace;
+		}
+
+	/* output */
 		#info {
 			height: calc(100% - 100px);
 			max-height: calc(90vh - 150px);
@@ -107,4 +127,10 @@
 			font-size: 20px;
 			overflow: hidden;
 		}
-		
+	
+	/* animation */
+		@keyframes rotate {
+			0%   { transform: rotate(0deg);   }
+			50%  { transform: rotate(180deg); }
+			100% { transform: rotate(360deg); }
+		}

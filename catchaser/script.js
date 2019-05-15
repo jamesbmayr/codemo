@@ -17,9 +17,9 @@ window.addEventListener("load", function() {
 			var RATCOLORS = ["gray", "brown"]
 			var DIRECTIONS = ["up", "down", "left", "right"]
 
-			var INTERVAL = 50
-			var CATSPEED = 5
-			var RATSPEED = 2
+			var INTERVAL = 20
+			var CATSPEED = 4
+			var RATSPEED = 1
 			var ANIMATIONSTEPS = 16
 
 			var PADDING = 50
@@ -37,9 +37,10 @@ window.addEventListener("load", function() {
 	/*** interaction ***/
 		/* moveCursor */
 			window.addEventListener(on.mousemove, moveCursor)
+			window.addEventListener(on.mousedown, moveCursor)
 			function moveCursor(event) {
-				cursor.x = event.clientX
-				cursor.y = event.clientY
+				cursor.x = event.touches ? event.touches[0].clientX : event.clientX
+				cursor.y = event.touches ? event.touches[0].clientY : event.clientY
 			}
 
 	/*** game ***/
