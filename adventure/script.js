@@ -447,7 +447,7 @@ window.onload = function() {
 								memory: -2,
 								perception: -2
 							},
-							skills: ["climb", "crafting", "handle_animals", "intimidate", "spatial_reasoning", "mechanics", "metalworking", "woodworking", "leatherworking", "ride_animals", "swim", "dodge", "punch", "melee", "missile", "carry", "pain_tolerance", "run", "jump"]
+							skills: ["climb", "crafting", "handle_animals", "intimidate", "spatial_reasoning", "mechanics", "metalworking", "woodworking", "leatherworking", "ride_animals", "swim", "dodge", "punch", "melee", "fencing", "missile", "carry", "pain_tolerance", "run", "jump"]
 						},
 						monk: {
 							races: ["elf", "goblin", "halfling", "human", "bhios", "lizardfolk"],
@@ -457,7 +457,7 @@ window.onload = function() {
 								immunity: -2,
 								logic: -2
 							},
-							skills: ["climb", "craft", "escape_bonds", "intimidate", "history", "geography", "pattern_recognition", "astronomy", "remain_calm", "performance", "ride_animals", "judge_character", "sneak", "swim", "dodge", "punch", "kick", "martial_arts", "jump", "run", "throw", "recover"]
+							skills: ["block", "climb", "craft", "escape_bonds", "intimidate", "history", "geography", "pattern_recognition", "astronomy", "remain_calm", "performance", "ride_animals", "judge_character", "sneak", "swim", "dodge", "punch", "kick", "martial_arts", "jump", "run", "throw", "recover"]
 						},
 						paladin: {
 							races: ["elf", "dwarf", "human", "orc", "bhios", "winge"],
@@ -467,7 +467,7 @@ window.onload = function() {
 								memory: -2,
 								speed: -2
 							},
-							skills: ["crafting", "persuade", "handle_animals", "medicine", "history", "ride_animals", "judge_character", "remain_calm", "facial_recognition", "melee", "missile", "pain_tolerance", "infection_resistance", "sleep_resistance", "run", "carry"]
+							skills: ["block", "crafting", "persuade", "handle_animals", "medicine", "history", "ride_animals", "judge_character", "remain_calm", "facial_recognition", "fencing", "missile", "pain_tolerance", "infection_resistance", "sleep_resistance", "run", "carry"]
 						},
 						ranger: {
 							races: ["elf", "goblin", "human", "orc", "preas", "lizardfolk"],
@@ -526,7 +526,7 @@ window.onload = function() {
 						memory: "All knowledge accumulated, including languages, trades, and knowledge of specific fields. Some useful applications are alchemy, botany, medicine, and metalworking. This corresponds to the hippocampus.",
 						logic: "Figuring things out, learning, and recognizing patterns, from making maps with spatial reasoning, to remaining calm in resisting surprise and opponents' charisma. This corresponds to the cerebrum.",
 						strength: "Upper body strength. A character’s carrying capacity, climbing ability, and throwing distance and accuracy are governed by this statistic, as is effectiveness in melee combat. This corresponds to the torso and arm muscles.",
-						dexterity: "Hand-eye coordination, fine motor skills, and balance. This is key when aiming in combat, riding an animal, sneaking around, crafting, and in performance art. This corresponds to the wrist and hand muscles.",
+						dexterity: "Hand-eye coordination, fine motor skills, and balance. This is key when aiming and fencing in combat, riding an animal, sneaking around, crafting, and in performance art. This corresponds to the wrist and hand muscles.",
 						immunity: "Natural defenses against injury, infection, hunger and thirst, heat and cold, pain, and more. This also correlates to the rate of recovery following combat, infection, and poison. This corresponds to the immune, cardiovascular, and respiratory systems.",
 						speed: "Lower body strength, including jumping, running, and swimming. This also determines turn order, the ability to dodge, and distance a character can move during combat. This corresponds to the leg and feet muscles."
 					}
@@ -543,10 +543,10 @@ window.onload = function() {
 							"evoke_emotion", "game_playing", "handle_animals", "humor", "intimidate", "judge_character", "mathematics", "mechanics", "pattern_recognition", "persuade", "remain_calm", "seduce", "spatial_reasoning"
 						],
 						strength: [
-							"archery", "carry", "climb", "fishing", "melee", "punch", "throw"
+							"archery", "block", "carry", "climb", "fishing", "melee", "punch", "throw"
 						],
 						dexterity: [
-							"catch", "crafting", "drawing", "escape_bonds", "knifing", "lock_picking", "martial_arts", "missile", "musicianship", "penmanship", "performance", "ride_animals", "sneak"
+							"catch", "crafting", "drawing", "escape_bonds", "fencing", "knifing", "lock_picking", "martial_arts", "missile", "musicianship", "penmanship", "performance", "ride_animals", "sneak"
 						],
 						immunity: [
 							"alcohol_tolerance", "allergy_resistance", "defend", "hold_breath", "infection_resistance", "metabolism", "pain_tolerance", "poison_resistance", "recover", "sleep_resistance"
@@ -794,7 +794,7 @@ window.onload = function() {
 								fuel: 3,
 								alternative: {
 									statistic: "strength",
-									skill: "melee",
+									skill: "fencing",
 									d6: 4
 								},
 								description: " "
@@ -811,7 +811,7 @@ window.onload = function() {
 								fuel: 3,
 								alternative: {
 									statistic: "strength",
-									skill: "melee",
+									skill: "fencing",
 									d6: 4
 								},
 								description: " "
@@ -961,7 +961,7 @@ window.onload = function() {
 								count: 1,
 								type: "weapon",
 								statistic: "strength",
-								skill: "melee",
+								skill: "fencing",
 								d6: 5,
 								weight: 2,
 								hands: 1,
@@ -973,7 +973,7 @@ window.onload = function() {
 								count: 1,
 								type: "weapon",
 								statistic: "strength",
-								skill: "melee",
+								skill: "fencing",
 								d6: 5,
 								weight: 2,
 								hands: 1,
@@ -1017,7 +1017,7 @@ window.onload = function() {
 								description: " "
 							},
 							{
-								name: "club",
+								name: "big club",
 								count: 1,
 								type: "weapon",
 								statistic: "strength",
@@ -1029,7 +1029,7 @@ window.onload = function() {
 								description: " "
 							},
 							{
-								name: "spiked club",
+								name: "big spiked club",
 								count: 1,
 								type: "weapon",
 								statistic: "strength",
@@ -1069,7 +1069,7 @@ window.onload = function() {
 								count: 1,
 								type: "weapon",
 								statistic: "strength",
-								skill: "melee",
+								skill: "fencing",
 								d6: 7,
 								weight: 5,
 								hands: 2,
@@ -1077,11 +1077,11 @@ window.onload = function() {
 								description: " "
 							},
 							{
-								name: "large axe",
+								name: "great axe",
 								count: 1,
 								type: "weapon",
 								statistic: "strength",
-								skill: "melee",
+								skill: "fencing",
 								d6: 7,
 								weight: 5,
 								hands: 2,
@@ -1380,7 +1380,7 @@ window.onload = function() {
 								name: "chainmail armor",
 								count: 1,
 								type: "armor",
-								d6: 4,
+								d6: 5,
 								weight: 40,
 								magnetic: true,
 								description: " "
@@ -1389,7 +1389,7 @@ window.onload = function() {
 								name: "scalemail armor",
 								count: 1,
 								type: "armor",
-								d6: 4,
+								d6: 5,
 								weight: 50,
 								description: " "
 							},
@@ -1397,7 +1397,7 @@ window.onload = function() {
 								name: "platemail armor",
 								count: 1,
 								type: "armor",
-								d6: 5,
+								d6: 6,
 								weight: 60,
 								magnetic: true,
 								description: " "
@@ -1406,7 +1406,7 @@ window.onload = function() {
 								name: "stonemail armor",
 								count: 1,
 								type: "armor",
-								d6: 6,
+								d6: 7,
 								weight: 80,
 								description: " "
 							}
@@ -1444,7 +1444,7 @@ window.onload = function() {
 								name: "bone / scale shield",
 								count: 1,
 								type: "shield",
-								d6: 4,
+								d6: 5,
 								weight: 15,
 								alternative: {
 									statistic: "strength",
@@ -1457,7 +1457,7 @@ window.onload = function() {
 								name: "metal shield",
 								count: 1,
 								type: "shield",
-								d6: 5,
+								d6: 6,
 								weight: 20,
 								magnetic: true,
 								alternative: {
@@ -1471,7 +1471,7 @@ window.onload = function() {
 								name: "stone shield",
 								count: 1,
 								type: "shield",
-								d6: 6,
+								d6: 7,
 								weight: 30,
 								alternative: {
 									statistic: "strength",
