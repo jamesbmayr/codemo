@@ -27,6 +27,7 @@ window.onload = function() {
 					description: "I composed Skyburst in 2008; this album reflects a wild exploration of melody without much structure."
 				},
 				{
+					featured: true,
 					name: "Explorchestra",
 					size: "extra-large",
 					tags: ["collaborations","music"],
@@ -91,6 +92,7 @@ window.onload = function() {
 					description: "2011's Drafts Adrift 2 is a combination of various projects - including video game soundtracks and avant garde experiments."
 				},
 				{
+					featured: true,
 					name: "Captain Chrono",
 					size: "large",
 					tags: ["music"],
@@ -107,14 +109,16 @@ window.onload = function() {
 					description: "wɪ[lin][loug] is a constructive language that builds complex words out of classical roots in predictable patterns."
 				},
 				{
+					featured: true,
 					name: "Adventure",
 					size: "large",
-					tags: ["games"],
+					tags: ["games","code"],
 					url: "https://docs.google.com/document/d/1RQF1dKAb19yVgWsmagPAzSqaGjjm2ZPHnCLDD-FyQXw/edit?usp=sharing",
 					date: "September 1, 2012",
 					description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
 				},
 				{
+					featured: true,
 					name: "Penduluminous",
 					size: "large",
 					tags: ["music","writing"],
@@ -123,6 +127,7 @@ window.onload = function() {
 					description: "The 2012 album Penduluminous is all about swing - with 16 vocal tracks all set in different genres."
 				},
 				{
+					featured: true,
 					name: "It's Who Iamb",
 					size: "large",
 					tags: ["writing"],
@@ -147,6 +152,7 @@ window.onload = function() {
 					description: "Do Svidaniya, Mr. President is a Resistance-style card game of secrets and deduction that pits Soviets against Americans."
 				},
 				{
+					featured: true,
 					name: "The Deathmakers' Symphony",
 					size: "large",
 					tags: ["music","writing"],
@@ -155,6 +161,7 @@ window.onload = function() {
 					description: "The Deathmakers' Symphony is an epic adventure set to sweeping orchestral music, released in 2013 with a corresponding poem."
 				},
 				{
+					featured: true,
 					name: "Dreamhatcher",
 					size: "extra-large",
 					tags: ["games"],
@@ -165,20 +172,22 @@ window.onload = function() {
 				{
 					name: "Apollo",
 					size: "medium",
-					tags: ["art"],
+					tags: ["design"],
 					url: "https://www.facebook.com/apollo.feeney.mayr/",
 					date: "July 31, 2014",
 					description: "Apollo is such a good boy that he types his own Facebook statuses with his own four paws."
 				},
 				{
+					featured: true,
 					name: "Clevernacular",
 					size: "large",
-					tags: ["writing","art"],
+					tags: ["writing","design"],
 					url: "http://clevernacular.tumblr.com",
 					date: "December 2, 2014",
 					description: "Clevernacular is a blog about how amazing everyday design can be - a celebration of the brilliance all around us."
 				},
 				{
+					featured: true,
 					name: "Chalice",
 					size: "extra-large",
 					tags: ["games","collaborations","code"],
@@ -197,7 +206,7 @@ window.onload = function() {
 				{
 					name: "Wribbon",
 					size: "medium",
-					tags: ["art"],
+					tags: ["design"],
 					url: "https://drive.google.com/drive/folders/0B3Pd_099FSXVQlZ3LWpoR0hQVmc",
 					date: "June 5, 2015",
 					description: "Wribbon is a form of stylized text designed to look like strips of paper folded into letters and numbers."
@@ -211,6 +220,7 @@ window.onload = function() {
 					description: "Sharewaves was a content-driven social network I coded in which close friends shared cool things they came across on the web."
 				},
 				{
+					featured: true,
 					name: "Portmantoasters",
 					size: "medium",
 					tags: ["writing"],
@@ -219,14 +229,16 @@ window.onload = function() {
 					description: "Portmantoasters are word puzzles with two words overlapped into one - and this was a daily blog challenging readers to figure them out."
 				},
 				{
+					featured: true,
 					name: "Underblue",
 					size: "extra-large",
-					tags: ["collaborations","music","art"],
+					tags: ["collaborations","music","design"],
 					url: "https://www.facebook.com/officialunderblue",
 					date: "March 30, 2016",
 					description: "I composed and played piano and clarinet in Underblue, rocking out on New York City stages for a year."
 				},
 				{
+					featured: true,
 					name: "Singles",
 					size: "large",
 					tags: ["music","writing"],
@@ -275,6 +287,7 @@ window.onload = function() {
 					description: "Coded in collaboration with Liz Ford, Memory is a fully customizable card game for two or more brains."
 				},
 				{
+					featured: true,
 					name: "Pros & Console",
 					size: "large",
 					tags: ["writing","code"],
@@ -291,9 +304,10 @@ window.onload = function() {
 					description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deception and deduction."
 				},
 				{
+					featured: true,
 					name: "CoColors",
 					size: "medium",
-					tags: ["code","art"],
+					tags: ["design","code"],
 					url: "https://cocolors.herokuapp.com",
 					date: "November 15, 2017",
 					description: "CoColors is a real-time collaborative drawing tool. Create a canvas and start making art with friends."
@@ -307,6 +321,7 @@ window.onload = function() {
 					description: "chromaCreatures is a challenging shoot-em-up arcade game - players use a monochromatic blaster to fend off hybrid-hued enemies."
 				},
 				{
+					featured: true,
 					name: "Switchonyms",
 					size: "large",
 					tags: ["games","code"],
@@ -315,6 +330,7 @@ window.onload = function() {
 					description: "Switchonyms is a chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 				},
 				{
+					featured: true,
 					name: "toneMaker",
 					size: "large",
 					tags: ["code","music"],
@@ -339,6 +355,7 @@ window.onload = function() {
 					description: "ClickClique is a PVP real-time clicking competition, built with nodeJS and websockets."
 				},
 				{
+					featured: true,
 					name: "Chess",
 					size: "large",
 					tags: ["collaborations","code","games"],
@@ -397,7 +414,7 @@ window.onload = function() {
 				{
 					name: "clipPather",
 					size: "medium",
-					tags: ["code","art"],
+					tags: ["design","code"],
 					url: "https://jamesmayr.com/clippather/",
 					date: "April 22, 2016",
 					description: "clipPather is a constantly evolving Javascript tool for drawing with CSS clip-paths."
@@ -421,7 +438,7 @@ window.onload = function() {
 				{
 					name: "gridDrawer",
 					size: "medium",
-					tags: ["code","art","music"],
+					tags: ["design","code","music"],
 					url: "https://jamesmayr.com/griddrawer/",
 					date: "August 7, 2018",
 					description: "gridDrawer is a tool for art and music - draw strings on a pegboard, then play them!"
@@ -443,14 +460,16 @@ window.onload = function() {
 					description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
 				},
 				{
+					featured: true,
 					name: "laserSimulator",
 					size: "large",
-					tags: ["code","art"],
+					tags: ["code","design"],
 					url: "https://jamesmayr.com/lasersimulator/",
 					date: "June 28, 2018",
 					description: "With laserSimulator, manipulate light using prisms, refractors, mirrors, and more."
 				},
 				{
+					featured: true,
 					name: "magnetMaker",
 					size: "large",
 					tags: ["code"],
@@ -461,7 +480,7 @@ window.onload = function() {
 				{
 					name: "metroMapper",
 					size: "medium",
-					tags: ["code","art"],
+					tags: ["code","design"],
 					url: "https://jamesmayr.com/metromapper/",
 					date: "October 3, 2017",
 					description: "metroMapper is a live map of the NYC subway system, with data sourced from MTA schedules."
@@ -501,7 +520,7 @@ window.onload = function() {
 				{
 					name: "pixelPainter",
 					size: "small",
-					tags: ["code","art"],
+					tags: ["design","code"],
 					url: "https://jamesmayr.com/pixelpainter/",
 					date: "June 10, 2017",
 					description: "With pixelPainter, blocky 8-bit art is just a click-and-drag away."
@@ -533,7 +552,7 @@ window.onload = function() {
 				{
 					name: "shapeAnimator",
 					size: "medium",
-					tags: ["code","art"],
+					tags: ["design","code"],
 					url: "https://jamesmayr.com/shapeanimator/",
 					date: "February 9, 2017",
 					description: "Use shapeAnimator to create, style, and sequence animations for polygons."
@@ -603,9 +622,10 @@ window.onload = function() {
 					description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
 				},
 				{
+					featured: true,
 					name: "flagMaker",
 					size: "medium",
-					tags: ["art","code"],
+					tags: ["design","code"],
 					url: "https://jamesmayr.com/flagmaker/",
 					date: "November 15, 2018",
 					description: "With flagMaker, randomly generate amazing flags - or build your own."
@@ -627,17 +647,19 @@ window.onload = function() {
 					description: "BeamBouncer is a 2-player co-op radial pong game - keep the colored beams inside the arena!"
 				},
 				{
+					featured: true,
 					name: "snowflakeMaker",
 					size: "small",
-					tags: ["art","code"],
+					tags: ["design","code"],
 					url: "https://jamesmayr.com/snowflakemaker/",
 					date: "January 1, 2019",
 					description: "Draw hexagonally symmetrical snowflakes in this canvas-powered web app."
 				},
 				{
+					featured: true,
 					name: "spriteMaker",
 					size: "small",
-					tags: ["art","code"],
+					tags: ["design","code"],
 					url: "https://jamesmayr.com/spritemaker/",
 					date: "January 3, 2019",
 					description: "Create colored videogame sprites to export as images or canvas coordinates."
@@ -659,17 +681,19 @@ window.onload = function() {
 					description: "Match pure tones by whistling or singing into the mic in this canvas / webaudio demo."
 				},
 				{
+					featured: true,
 					name: "polyhedronPlayer",
 					size: "small",
-					tags: ["code","art"],
+					tags: ["code","design"],
 					url: "https://jamesmayr.com/polyhedronplayer/",
 					date: "January 22, 2019",
 					description: "Project 3D down to 2D in this canvas-powered Platonic solids visualizer."
 				},
 				{
+					featured: true,
 					name: "nimbusNotes",
 					size: "small",
-					tags: ["collaborations", "code","art", "music"],
+					tags: ["collaborations","code","design","music"],
 					url: "https://nimbusnotes.herokuapp.com",
 					date: "February 2, 2019",
 					description: "This web-audio / canvas / websockets raincloud soundscape was built with Liz Ford at a hackathon."
@@ -680,139 +704,102 @@ window.onload = function() {
 			var tags  = {
 				"code":           "{}",
 				"music":          "&#9835;",
-				"games":          "&#9816;",
 				"writing":        "&#9998;",
-				"art":            "&#8862;",
-				"collaborations": "&#8258;"
+				"games":          "&#9816;",
+				"collaborations": "&#8258;",
+				"design":          "&#8862;"
 			}
 			
 	/*** build ***/
 		/* buildGrid */
 			buildGrid()
 			function buildGrid() {
-				// clear grid
-					Array.from(document.querySelectorAll(".project")).forEach(function (project) {
-						project.remove()
-					})
-
 				// sort
-					var sortedProjects = chronologicalSort(projects)
-
-				// tags
-					var selectedTags  = Array.from(document.querySelectorAll("#controls-tags  .filter[selected]")) || []
-						selectedTags  =  selectedTags.map(function(button) {
-							return button.value
-						}) || Object.keys(tags)
+					var sortedProjects = sortProjects(projects)
 
 				// build projects
 					for (var p in projects) {
-						var tagged = false
-						for (var t in projects[p].tags) {
-							if (selectedTags.includes(projects[p].tags[t])) {
-								tagged = true
-								break
-							}
+						if (projects[p].featured) {
+							document.getElementById(projects[p].tags[0]).querySelector(".section-featured").appendChild(buildProject(projects[p]))
 						}
-
-						if (tagged) {
-							document.body.appendChild(buildProject(projects[p]))
+						else {
+							document.getElementById(projects[p].tags[0]).querySelector(".section-more"    ).appendChild(buildProject(projects[p]))
 						}
 					}
 			}
 
-		/* buildProject */
-			function buildProject(project) {
-				// container
-					var element = document.createElement("div")
-						element.className = "project"
-						element.id = project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"")
-
-				// image
-					var image   = document.createElement("div")
-						image.className = "image"
-						image.style["background-image"] = "url('resources/logos/" + project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"") + ".png')"
-					element.appendChild(image)
-
-				// content
-					var content = document.createElement("div")
-						content.className = "content"
-					element.appendChild(content)
-
-				// name
-					var name    = document.createElement("div")
-						name.className = "name"
-					content.appendChild(name)
-
-					var innerN  = document.createElement("h2")
-						innerN.className = "name-inner"
-						innerN.innerText = project.name
-					name.appendChild(innerN)
-
-				// summary
-					var summary = document.createElement("div")
-						summary.className = "summary"
-					content.appendChild(summary)
-
-					var innerS  = document.createElement("p")
-						innerS.className = "summary-inner"
-						innerS.innerText = project.description
-					summary.appendChild(innerS)
-
-				// tags
-					var tagBlock = document.createElement("div")
-						tagBlock.className = "tags"
-					content.appendChild(tagBlock)
-
-					for (var t in project.tags) {
-						var tag = document.createElement("div")
-							tag.className = "tag " + project.tags[t]
-							tag.innerHTML = tags[project.tags[t]]
-							tag.title     = project.tags[t]
-						tagBlock.appendChild(tag)
-					}
-
-					var date = document.createElement("div")
-						date.className = "date"
-						date.innerHTML = ("0" + String(new Date(project.date).getMonth() + 1)).slice(-2) + "/" + String(new Date(project.date).getYear() + 1900)
-						date.title     = project.date
-					tagBlock.appendChild(date)
-
-				// link
-					if (project.url && project.url.length > 1) {
-						var link = document.createElement("a")
-							link.className = "link"
-							link.innerHTML = "&#10140;"
-							link.href      = project.url
-							link.target    = "_blank"
-						content.appendChild(link)
-					}
-
-				return element
-			}
-
-	/*** filter ***/
-		/* selectFilter */
-			var filterArray = Array.from(document.querySelectorAll("#controls-tags .filter"))
-				filterArray.forEach(function(element) {
-					element.addEventListener("click", selectFilter)
-				})
-			function selectFilter(event) {
-				if (event.target.getAttribute("selected")) {
-					event.target.removeAttribute("selected")
-				}
-				else {
-					event.target.setAttribute("selected", true)
-				}
-
-				buildGrid()
-			}
-
-	/*** sort ***/
-		/* chronologicalSort */
-			function chronologicalSort(arr) {
+		/* sortProjects */
+			function sortProjects(arr) {
 				return arr.sort(function(a, b) {
 					return ((new Date(b.date).getTime()) - (new Date(a.date).getTime()))
 				})
 			}
 
+		/* buildProject */
+			function buildProject(project) {
+				// container
+					if (project.url && project.url.length > 1) {
+						var element = document.createElement("a")
+							element.href = project.url
+							element.target = "_blank"
+					}
+					else {
+						var element = document.createElement("div")
+					}
+						element.className = "project"
+						element.id = project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"")
+
+				// image
+					var image   = document.createElement("div")
+						image.className = "project-image"
+						image.style["background-image"] = "url('resources/logos/" + project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"") + ".png')"
+					element.appendChild(image)
+
+				// content
+					var content = document.createElement("div")
+						content.className = "project-content"
+					element.appendChild(content)
+
+				// name
+					var name           = document.createElement("div")
+						name.className = "project-name"
+						name.innerText = project.name
+					content.appendChild(name)
+
+				// summary
+					var summary = document.createElement("p")
+						summary.className = "project-summary"
+						summary.innerText = project.description
+					content.appendChild(summary)
+
+				return element
+			}
+
+	/*** interaction ***/
+		/* jumpToSection */
+			Array.from(document.querySelectorAll("#navigation li a")).forEach(function(element) {
+				element.addEventListener("click", jumpToSection)
+			})
+			function jumpToSection(event) {
+				// stop link
+					event.preventDefault()
+
+				// get target and distance
+					var id = event.target.href.substring(event.target.href.indexOf("#") + 1)
+					var scrollTarget = document.getElementById(id).offsetTop - 10
+					var scrollDistance = Math.round(Math.abs(window.scrollY - scrollTarget) / 100)
+
+				// animate
+					var scrollLoop = setInterval(function() {
+						if (window.scrollY < scrollTarget - scrollDistance / 2) {
+							window.scroll(0, window.scrollY + scrollDistance)
+						}
+						else if (window.scrollY > scrollTarget + scrollDistance / 2) {
+							window.scroll(0, window.scrollY - scrollDistance)
+						}
+						else {
+							clearInterval(scrollLoop)
+						}
+					}, 5)
+			}
 }
