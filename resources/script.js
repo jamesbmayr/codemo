@@ -700,7 +700,7 @@ window.onload = function() {
 				}
 			]
 
-		/* controls */
+		/* tags */
 			var tags  = {
 				"code":           "{}",
 				"music":          "&#9835;",
@@ -775,31 +775,103 @@ window.onload = function() {
 				return element
 			}
 
-	/*** interaction ***/
-		/* jumpToSection */
-			Array.from(document.querySelectorAll("#navigation li a")).forEach(function(element) {
-				element.addEventListener("click", jumpToSection)
-			})
-			function jumpToSection(event) {
-				// stop link
-					event.preventDefault()
+	/*** game ***/
+		/* globals */
+			var game = {}
+			var footer = document.getElementById("footer")
 
-				// get target and distance
-					var id = event.target.href.substring(event.target.href.indexOf("#") + 1)
-					var scrollTarget = document.getElementById(id).offsetTop - 10
-					var scrollDistance = Math.round(Math.abs(window.scrollY - scrollTarget) / 100)
+		/* changeGame */
+			document.getElementById("j-logo").addEventListener("click", changeGame)
+			function changeGame(event) {
+				if (game.isPlaying) {
+					// reset
+						clearInterval(game.loop)
+						game.loop = null
+						game.score = 0
+						game.isPlaying = false
 
-				// animate
-					var scrollLoop = setInterval(function() {
-						if (window.scrollY < scrollTarget - scrollDistance / 2) {
-							window.scroll(0, window.scrollY + scrollDistance)
-						}
-						else if (window.scrollY > scrollTarget + scrollDistance / 2) {
-							window.scroll(0, window.scrollY - scrollDistance)
+					// fade each j
+						Array.from(document.querySelectorAll(".j")).forEach(function(j) {
+							j.setAttribute("fade", true)
+						})
+
+					// remove each j
+						setTimeout(function() {
+							Array.from(document.querySelectorAll(".j")).forEach(function(j) {
+								j.remove()
+							})
+						}, 500)
+				}
+				else {
+					// reset
+						game.score = 0
+						game.isPlaying = true
+
+					// game loop
+						game.loop = setInterval(updateGame, 50)
+				}
+			}
+
+		/* updateGame */
+			function updateGame() {
+				// update counter
+					game.counter = game.counter ? game.counter - 1 : 9
+
+				// create if necessary
+					var jArray = Array.from(document.querySelectorAll(".j"))
+					if (!game.counter && jArray.length < 100) {
+						createJ()
+					}
+
+				// update positions
+					updatePositions(jArray)
+			}
+
+		/* createJ */
+			function createJ() {
+				// new element above screen, random left and speed
+					var j = document.createElement("button")
+						j.className = "j"
+						j.style.left = (Math.floor(Math.random() * (window.innerWidth - 150)) + 50) + "px"
+						j.style.top = "-50px"
+						j.setAttribute("speed", Math.min(20, Math.max(5, Math.floor(Math.random() * game.score / 2))))
+						j.addEventListener("click", clickJ)
+					document.body.appendChild(j)
+			}
+
+		/* updatePositions */
+			function updatePositions(jArray) {
+				// get positions
+					var scrollOffset = (window.pageYOffset || document.documentElement.scrollTop)
+					var footerRect = footer.getBoundingClientRect()
+					var fadePoint = scrollOffset + footerRect.top
+					var removePoint = scrollOffset + footerRect.bottom
+
+				// update each j
+					for (var i in jArray) {
+						var j = jArray[i]
+						var jTop = Number(j.style.top.replace("px",""))
+
+						if (jTop > removePoint) {
+							j.remove()
 						}
 						else {
-							clearInterval(scrollLoop)
+							j.style.top = jTop + Number(j.getAttribute("speed")) + "px"
+
+							if (jTop > fadePoint) {
+								j.setAttribute("fade", true)
+							}
 						}
-					}, 5)
+					}
 			}
+
+		/* clickJ */
+			function clickJ(event) {
+				// remove element
+					event.target.remove()
+
+				// increase score
+					game.score++
+			}
+
 }

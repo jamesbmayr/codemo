@@ -1,4 +1,10 @@
 /*** page ***/
+	html {
+		scroll-behavior: smooth;
+		background-color: #333333;
+		box-shadow: 0px 0px 20px #000000 inset;
+	}
+
 	body {
 		background-color: #333333;
 		position: absolute;
@@ -10,7 +16,6 @@
 		margin: 0px;
 		padding: 0px;
 		border: 0px;
-		box-shadow: 0px 0px 20px #000000 inset;
 		font-family: Roboto, sans-serif;
 	}
 
@@ -55,7 +60,7 @@
 		#info-image {
 			float: left;
 			border-radius: 10px;
-			background-image: url(../resources/headshot.jpg);
+			background-image: url(headshot.jpg);
 			background-size: contain;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -90,6 +95,7 @@
 			width: 100%;
 			height: 40px;
 			list-style-type: none;
+			user-select: none;
 			padding: 0px;
 			margin: 0px;
 		}
@@ -116,8 +122,30 @@
 			color: #0066aa;
 		}
 
+		#j-logo {
+			float: left;
+			width: 20px;
+			height: 20px;
+			background-color: transparent;
+			border: 0px;
+			margin: 10px;
+			padding: 0px;
+			background-image: url(j.png);
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-position: center;
+			cursor: pointer;
+			outline: none;
+		}
+
+		#j-logo:hover {
+			filter: brightness(0.55);
+		}
+
 /*** navigation ***/
 	#navigation {
+		position: sticky;
+		top: 0px;
 		overflow: hidden;
 		float: left;
 		width: 100%;
@@ -126,6 +154,7 @@
 		background-color: #111111;
 		text-align: center;
 		box-shadow: 0px 0px 5px #111111;
+		user-select: none;
 	}
 
 	#navigation li {
@@ -144,6 +173,25 @@
 	}
 
 	#navigation a:hover {
+		color: #0066aa;
+	}
+
+	#footer {
+		width: 100%;
+		float: left;
+		text-align: center;
+		height: 50px;
+	}
+
+	#back-to-top {
+		color: #04b1ff;
+		font-size: 25px;
+		cursor: pointer;
+		text-decoration: none;
+		text-shadow: 0px 0px 10px #111111;
+	}
+
+	#back-to-top:hover {
 		color: #0066aa;
 	}
 
@@ -285,7 +333,7 @@
 	@media screen and (min-width: 1000px) {
 		/* info */
 			#info {
-				height: 200px;;
+				height: 200px;
 			}
 
 			#info-image {
@@ -463,4 +511,33 @@
 			.project-name {
 				padding: 20px 10px 10px 10px;
 			}			
+	}
+
+/*** game ***/
+	.j {
+		height: 50px;
+		width: 50px;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+		outline: none;
+		border-radius: 20px;
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.1);
+		background-image: url(j.png);
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center;
+		cursor: pointer;
+		box-shadow: 0px 0px 10px #111111;
+		z-index: 2;
+	}
+
+	.j:hover {
+		box-shadow: 0px 0px 20px #111111;
+	}
+
+	.j[fade=true] {
+		opacity: 0;
+		transition: 0.5s;
 	}
