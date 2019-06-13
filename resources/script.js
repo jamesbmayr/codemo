@@ -752,7 +752,7 @@ window.onload = function() {
 				// image
 					var image   = document.createElement("div")
 						image.className = "project-image"
-						image.style["background-image"] = "url('resources/logos/" + project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"") + ".png')"
+						image.style["background-image"] = "url('/resources/logos/" + project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"") + ".png')"
 					element.appendChild(image)
 
 				// content
