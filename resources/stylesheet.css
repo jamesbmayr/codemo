@@ -245,7 +245,7 @@
 		.section-more-button {
 			text-align: center;
 			color: #04b1ff;
-			font-size: 15px;
+			font-size: 20px;
 			cursor: pointer;
 			outline: none;
 			user-select: none;
@@ -307,7 +307,7 @@
 			float: left;
 			width: calc(100% - 20px);
 			height: auto;
-			padding: 10px;
+			padding: 0px 10px;
 			margin: 0px;
 			font-size: 20px;
 			user-select: none;

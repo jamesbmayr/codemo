@@ -16,7 +16,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=eternalhorizon",
 					date: "June 1, 2007",
-					description: "Eternal Horizon was the first album I composed - in 2007 - and it set the standard: 16 songs and 1 hour."
+					description: "Eternal Horizon was the first album I composed - entirely orchestral music, in Finale - and it set the standard: 16 songs and 1 hour."
 				},
 				{
 					name: "Skyburst",
@@ -24,7 +24,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=skyburst",
 					date: "May 1, 2008",
-					description: "I composed Skyburst in 2008; this album reflects a wild exploration of melody without much structure."
+					description: "I composed Skyburst over the course of a year; this album reflects a wild exploration of melody without much structure."
 				},
 				{
 					featured: true,
@@ -33,7 +33,7 @@ window.onload = function() {
 					tags: ["collaborations","music"],
 					url: "https://www.facebook.com/buexplorchestra",
 					date: "Octboer 1, 2009",
-					description: "I co-founded Explorchestra, a student ensemble where all the music - in every genre and style - is composed by members."
+					description: "I co-founded Explorchestra, a student ensemble at SUNY Binghamton where all the music - in every genre and style - is composed by members."
 				},
 				{
 					name: "Shadow Valley",
@@ -41,7 +41,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=shadowvalley",
 					date: "December 1, 2009",
-					description: "Shadow Valley, completed in 2009, was composed at the beginning stages of my music theory and history education."
+					description: "Shadow Valley, with a focus on structure and counterpoint, came at the beginning stages of my music theory and history education."
 				},
 				{
 					name: "Octavio",
@@ -57,7 +57,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=draftsadrift",
 					date: "December 1, 2010",
-					description: "The first Drafts Adrift, in 2010, represents my love of video game music, from catchy melodies to looping scenic soundtracks."
+					description: "The first Drafts Adrift collection represents my love of video game music, from catchy melodies to looping scenic soundtracks."
 				},
 				{
 					name: "Playing God",
@@ -73,7 +73,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=cascade",
 					date: "February 15, 2011",
-					description: "Cascade, released in 2011 after completing the titular \"symphony,\" shows music composed with a particular ensemble in mind: Explorchestra."
+					description: "Cascade, released after completing the titular \"symphony,\" is filled with orchestral music made with the Explorchestra ensemble in mind."
 				},
 				{
 					name: "Epic of Koranames",
@@ -89,7 +89,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=draftsadrift2",
 					date: "December 1, 2011",
-					description: "2011's Drafts Adrift 2 is a combination of various projects - including video game soundtracks and avant garde experiments."
+					description: "Drafts Adrift 2 is a combination of various projects - including video game soundtracks, avant garde experiments, and some lyrical tracks."
 				},
 				{
 					featured: true,
@@ -98,7 +98,7 @@ window.onload = function() {
 					tags: ["music"],
 					url: "https://jamesmayr.com/music/?album=captainchronosailsthroughtime",
 					date: "April 1, 2012",
-					description: "In 2012, I put my ethnomusicology knowledge to the test, setting out to explore time and space with Captain Chrono."
+					description: "After studying musical traditions from all over the world, I created a concept album to explore time and space with Captain Chrono."
 				},
 				{
 					name: "wi[lin][loug]",
@@ -124,7 +124,7 @@ window.onload = function() {
 					tags: ["music","writing"],
 					url: "https://jamesmayr.com/music/?album=penduluminous",
 					date: "November 1, 2012",
-					description: "The 2012 album Penduluminous is all about swing - with 16 vocal tracks all set in different genres."
+					description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
 				},
 				{
 					featured: true,
@@ -158,7 +158,7 @@ window.onload = function() {
 					tags: ["music","writing"],
 					url: "https://jamesmayr.com/music/?album=thedeathmakerssymphony",
 					date: "May 1, 2013",
-					description: "The Deathmakers' Symphony is an epic adventure set to sweeping orchestral music, released in 2013 with a corresponding poem."
+					description: "This is an epic fantasy adventure set to sweeping orchestral music, released with a corresponding poem."
 				},
 				{
 					featured: true,
@@ -172,7 +172,7 @@ window.onload = function() {
 				{
 					name: "Apollo",
 					size: "medium",
-					tags: ["design"],
+					tags: ["collaborations","design"],
 					url: "https://www.facebook.com/apollo.feeney.mayr/",
 					date: "July 31, 2014",
 					description: "Apollo is such a good boy that he types his own Facebook statuses with his own four paws."
@@ -235,7 +235,7 @@ window.onload = function() {
 					tags: ["collaborations","music","design"],
 					url: "https://www.facebook.com/officialunderblue",
 					date: "March 30, 2016",
-					description: "I composed and played piano and clarinet in Underblue, rocking out on New York City stages for a year."
+					description: "I composed and played piano and clarinet in Underblue, performing across New York City venues in this 5-person rock and indie pop band."
 				},
 				{
 					featured: true,
@@ -244,7 +244,7 @@ window.onload = function() {
 					tags: ["music","writing"],
 					url: "https://jamesmayr.com/music/?album=singles",
 					date: "May 30, 2016",
-					description: "After a long hiatus, 2016's Singles saw my return to composition with an emotional journey told through 16 alternative rock songs."
+					description: "Singles saw my return to lyrical composition with an emotional journey told through 16 alternative rock, pop, and jazz songs."
 				},
 				{
 					name: "chordAnalyzer",
@@ -276,7 +276,7 @@ window.onload = function() {
 					tags: ["collaborations","music"],
 					url: "https://itunes.apple.com/us/album/passenger-ep/id1258446913?app=itunes&ign-mpt=uo%3D4",
 					date: "June 1, 2017",
-					description: "Underblue's debut EP, Passenger includes five songs, including one I composed, in which I play piano."
+					description: "Underblue's debut EP, featuring me on the keyboard, Passenger includes five pop songs - including one I composed."
 				},
 				{
 					name: "Memory",
@@ -753,6 +753,8 @@ window.onload = function() {
 					var image   = document.createElement("div")
 						image.className = "project-image"
 						image.style["background-image"] = "url('/resources/logos/" + project.name.toLowerCase().replace(/[^A-Za-z0-9]/g,"") + ".png')"
+						image.setAttribute("alt", project.name)
+						image.setAttribute("title", project.name)
 					element.appendChild(image)
 
 				// content
