@@ -32,7 +32,7 @@ window.addEventListener("load", function() {
 			var firstKey = 48
 			var lastKey = 72
 			var octaveKeys = 12
-			var drawInterval = 100
+			var drawInterval = 10
 
 	/*** overlay ***/
 		/* clickOverlay */
