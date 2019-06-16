@@ -697,6 +697,14 @@ window.onload = function() {
 					url: "https://nimbusnotes.herokuapp.com",
 					date: "February 2, 2019",
 					description: "This web-audio / canvas / websockets raincloud soundscape was built with Liz Ford at a hackathon."
+				},
+				{
+					name: "soundBubbler",
+					size: "small",
+					tags: ["code","music"],
+					url: "https://jamesmayr.com/soundbubbler/",
+					date: "June 15, 2019",
+					description: "Built at a music hackathon, soundBubbler is a colorful visualizer for on-screen and MIDI keyboards."
 				}
 			]
 

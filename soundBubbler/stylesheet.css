@@ -1,0 +1,234 @@
+/*** page ***/
+	body {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100vw;
+		height: 100%;
+		padding: 0px;
+		margin: 0px;
+		background: #333333;
+		overflow: hidden;
+	}
+
+/*** overlay ***/
+	#overlay {
+		position: absolute;
+		z-index: 2;
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+		background-color: #333333;
+		opacity: 0.5;
+	}
+
+	#overlay-text {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		text-align: center;
+		font-size: 50px;
+		font-family: monospace;
+		color: #dddddd;
+		cursor: pointer;
+		user-select: none;
+	}
+
+/*** container ***/
+	#container {
+		position: absolute;
+		z-index: 1;
+		width: 100%;
+		height: 100%;
+		top: 0px;
+		left: 0px;
+	}
+
+	#overlay ~ #container {
+		filter: blur(5px);
+	}
+
+/*** canvas ***/
+	#canvas {
+		position: absolute;
+		top: 0px;
+		z-index: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+/*** controls ***/
+	#controls {
+		position: absolute;
+		top: calc(70% - 35px);
+		height: 25px;
+		width: calc(100% - 10px);
+		background-color: #dddddd;
+		border-radius: 8px;
+		margin: 5px;
+	}
+
+	/* instrument */
+		#controls-instrument {
+			float: left;
+			height: 100%;
+			width: calc(100% / 5);
+			border: 0px;
+			margin: 0px;
+			background-color: #222222;
+			color: #dddddd;
+			font-size: 15px;
+			font-family: monospace;
+			border-radius: 5px;
+			cursor: pointer;
+			outline: none;
+		}
+
+	/* inputs */
+		#controls-speed-outer, #controls-radius-outer, #controls-shrink-outer {
+			float: left;
+			width: calc(100% / 5 - 20px);
+			padding: 0px 10px;
+			height: 100%;
+			text-align: center;
+			font-family: monospace;
+			font-size: 15px;
+			color: #222222;
+			cursor: pointer;
+			outline: none;
+		}
+
+		#controls-speed-text, #controls-radius-text, #controls-shrink-text {
+			float: left;
+			height: calc(100% - 10px);
+			width: calc(50% - 10px);
+			text-align: right;
+			padding: 5px;
+			overflow: hidden;
+			font-family: monospace;
+			font-size: 15px;
+		}
+
+		#controls-speed, #controls-radius, #controls-shrink {
+			float: left;
+			height: calc(100% - 10px);
+			width: calc(50% - 10px);
+			color: #dddddd;
+			margin: 0px 0px;
+			padding: 5px;
+			cursor: pointer;
+			outline: none;
+			background-color: #222222;
+			border: 0px;
+			border-radius: 5px;
+			text-align: right;
+		}
+
+	/* slider */
+		#controls-volume {
+			float: left;
+			width: calc(100% / 5 - 20px - 30px);
+			height: 100%;
+			color: #222222;
+			margin: 0px 10px;
+			padding: 0px;
+			cursor: pointer;
+			outline: none;
+		}
+
+	/* j-logo */
+		#j-logo {
+			float: left;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 21px;
+			width: 21px;
+			margin: 2px 2px 2px 7px;
+			padding: 0px;
+			cursor: pointer;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 4px #222222);
+		}
+
+/*** keyboard ***/
+	#keyboard {
+		position: absolute;
+		top: 70%;
+		height: calc(30% - 5px);
+		width: calc(100% - 5px);
+		border-radius: 8px;
+		margin: 0px 5px 0px 5px;
+	}
+
+	/* keys */
+		.key {
+			position: absolute;
+			top: 0px;
+			border: 0px;
+			border-radius: 0px 0px 8px 8px;
+			cursor: pointer;
+			font-family: monospace;
+			font-size: 15px;
+			outline: none;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		.key:first-child {
+			border-radius: 16px 0px 8px 16px;
+		}
+
+		.key:last-child {
+			border-radius: 0px 16px 16px 8px;
+		}
+
+	/* white */
+		.key[color="white"] {
+			z-index: 1;
+			background-color: #dddddd;
+			width: calc((100% / 15) - 5px);
+			height: 100%;
+			color: rgba(0,0,0,0.2);
+		}
+
+		.key[color="white"]:hover {
+			box-shadow: 0px 0px 10px #aaaaaa;
+		}
+
+		.key[color="white"][selected] {
+			z-index: 2;
+			background-color: #ffffff;
+			box-shadow: 0px 0px 20px #dddddd;
+		}
+
+
+	/* black */
+		.key[color="black"] {
+			z-index: 3;
+			background-color: #222222;
+			width: calc(75% / 15);
+			height: 75%;
+			color: rgba(0,0,0,0.5);
+		}
+
+		.key[color="black"]:hover {
+			box-shadow: 0px 0px 10px #aaaaaa;
+		}
+
+		.key[color="black"][selected] {
+			z-index: 4;
+			background-color: #111111;
+			box-shadow: 0px 0px 20px #dddddd;
+		}

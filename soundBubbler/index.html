@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>soundBubbler</title>
+		<link rel="shortcut icon" href="https://cdn2.iconfinder.com/data/icons/freecns-cumulus/16/519586-083_Music-512.png"></link>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="soundBubbler is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="soundBubbler"/>
+		<meta property="og:url" content="https://jamesmayr.com/soundbubbler/"/>
+		<meta property="og:description" content="soundBubbler is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		
+		<script src="audio.js"></script>
+		<script src="draw.js"></script>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="overlay">
+			<div id="overlay-text">click to begin</div>
+		</div>
+		<div id="container">
+			<canvas id="visualizer"></canvas>
+			<div id="controls">
+				<select id="controls-instrument"></select>
+				<label id="controls-speed-outer">
+					<div id="controls-speed-text">&uarr;</div>
+					<input type="number" id="controls-speed" min="1" max="20" step="1" value="5" placeholder="speed"/>
+				</label>
+				<label id="controls-radius-outer">
+					<div id="controls-radius-text">&odot;</div>
+					<input type="number" id="controls-radius" min="10" max="200" step="5" value="100" placeholder="radius"/>
+				</label>
+				<label id="controls-shrink-outer">
+					<div id="controls-shrink-text">&minus;</div>
+					<input type="number" id="controls-shrink" min="0" max="5" step="0.1" value="1" placeholder="shrink"/>
+				</label>
+				<input type="range" id="controls-volume" min="0" max="1" step="0.01" value="0.5"/>
+				<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+			</div>
+			<div id="keyboard"></div>
+		</div>
+	</body>
+</html>
