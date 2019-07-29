@@ -220,7 +220,6 @@ window.onload = function() {
 					description: "Sharewaves was a content-driven social network I coded in which close friends shared cool things they came across on the web."
 				},
 				{
-					featured: true,
 					name: "Portmantoasters",
 					size: "medium",
 					tags: ["writing"],
@@ -705,6 +704,15 @@ window.onload = function() {
 					url: "https://jamesmayr.com/soundbubbler/",
 					date: "June 15, 2019",
 					description: "Built at a music hackathon, soundBubbler is a colorful visualizer for on-screen and MIDI keyboards."
+				},
+				{
+					featured: true,
+					name: "couplets",
+					size: "medium",
+					tags: ["writing","collaborations"],
+					url: "https://purplegreenprojects.com/couplets/",
+					date: "July 22, 2019",
+					description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
 				}
 			]
 
