@@ -113,7 +113,7 @@ window.onload = function() {
 					name: "Adventure",
 					size: "large",
 					tags: ["games","code"],
-					url: "https://docs.google.com/document/d/1RQF1dKAb19yVgWsmagPAzSqaGjjm2ZPHnCLDD-FyQXw/edit?usp=sharing",
+					url: "https://jamesmayr.com/adventure",
 					date: "September 1, 2012",
 					description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
 				},
@@ -168,14 +168,6 @@ window.onload = function() {
 					url: "https://sites.google.com/site/dreamhatchergames/",
 					date: "April 1, 2014",
 					description: "DreamHatcher offers dozens of free print-and-play tabletop games - and tons of templates to help aspiring designers craft their own."
-				},
-				{
-					name: "Apollo",
-					size: "medium",
-					tags: ["collaborations","design"],
-					url: "https://www.facebook.com/apollo.feeney.mayr/",
-					date: "July 31, 2014",
-					description: "Apollo is such a good boy that he types his own Facebook statuses with his own four paws."
 				},
 				{
 					featured: true,
@@ -616,7 +608,7 @@ window.onload = function() {
 					name: "melodemons",
 					size: "large",
 					tags: ["games","code","music"],
-					url: "http://www.melodemons.com",
+					url: "http://melodemons.herokuapp.com",
 					date: "October 9, 2018",
 					description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
 				},
