@@ -290,7 +290,7 @@ window.onload = function() {
 					name: "Specter Inspectors",
 					size: "large",
 					tags: ["games","code"],
-					url: "http://www.specterinspectors.com",
+					url: "https://specterinspectors.herokuapp.com",
 					date: "October 27, 2017",
 					description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deception and deduction."
 				},
@@ -608,7 +608,7 @@ window.onload = function() {
 					name: "melodemons",
 					size: "large",
 					tags: ["games","code","music"],
-					url: "http://melodemons.herokuapp.com",
+					url: "https://melodemons.herokuapp.com",
 					date: "October 9, 2018",
 					description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
 				},
