@@ -1,0 +1,395 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #222222;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+		font-family: monospace;
+	}
+
+	/* scrollbars */
+		::-webkit-scrollbar {
+			height: 0px !important;
+			width: 0px !important;
+		}
+
+		::-moz-scrollbar {
+			height: 0px !important;
+			width: 0px !important;
+		}
+
+		::-o-scrollbar {
+			height: 0px !important;
+			width: 0px !important;
+		}
+
+	/* container */
+		#container {
+			margin: auto auto;
+			height: 100%;
+			width: 590px;
+			margin-top: 50px;
+			border-radius: 10px;
+			background-color: #111111;
+			padding: 5px;
+			box-shadow: 0px 0px 10px #111111;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** game ***/
+	#game {
+		text-align: center;
+		width: 100%;
+		height: auto;
+	}
+
+	/* setup */
+		#game-setup {
+			text-align: center;
+			width: calc(100% - 10px);
+			height: 40px;
+			max-height: 40px;
+			opacity: 1;
+			transition: 1s;
+			overflow: hidden;
+			padding: 5px;
+		}
+
+		#game-setup-name {
+			float: left;
+			font-size: 20px;
+			height: 20px;
+			width: 140px;
+			color: #dddddd;
+			padding: 10px;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		#game-setup label {
+			float: left;
+			font-size: 20px;
+			background-color: #333333;
+			padding: 10px;
+			border-radius: 5px;
+			margin-right: 10px;
+			cursor: pointer;
+			height: 20px;
+			width: 140px;
+			font-weight: bold;
+			color: #dddddd;
+			transition: 0.5s;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		#game-setup label:active {
+			background-color: #222222;
+			box-shadow: 0px 0px 5px #dddddd;
+		}
+
+		#game-setup input {
+			float: right;
+			margin: -10px -10px 0px 10px;
+			font-family: monospace;
+			border-radius: 5px;
+			font-size: 20px;
+			padding: 5px;
+			text-align: center;
+			border: 0px;
+			outline: none;
+			height: 30px;
+			width: 40px;
+			font-weight: bold;
+			transition: 0.5s;
+		}
+
+		#game-setup input:active, #game-setup input:focus {
+			box-shadow: 0px 0px 5px #dddddd;
+		}
+
+		#game-setup button {
+			float: left;
+			background-color: #333333;
+			border: 0px;
+			font-family: monospace;
+			border-radius: 5px;
+			font-size: 15px;
+			color: #dddddd;
+			padding: 10px;
+			height: 40px;
+			width: 80px;
+			text-align: center;
+			vertical-align: top;
+			cursor: pointer;
+			font-weight: bold;
+			outline: none;
+			transition: 0.5s;
+		}
+
+		#game-setup button:focus, #game-setup button:hover {
+			background-color: #222222;
+			box-shadow: 0px 0px 5px #dddddd;
+		}
+
+	/* secret */
+		#game-secret:empty {
+			height: 0px;
+			padding: 0px;
+			max-height: 0px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		#game-secret {
+			width: calc(100% - 10px);
+			height: 60px;
+			max-height: 60px;
+			margin: 5px;
+			text-align: center;
+			background-color: #111111;
+			border-radius: 5px;
+			box-shadow: 0px 0px 10px #000000 inset;
+			transition: 1s;
+			opacity: 1;
+			overflow: hidden;
+		}
+
+		.game-secret-marker {
+			height: 40px;
+			width: 40px;
+			border-radius: 100%;
+			margin: 10px;
+			margin-right: 20px;
+			cursor: default;
+			background-color: #333333;
+			float: left;
+			box-shadow: 0px 0px 10px #000000;
+		}
+
+	/* guess */
+		#game-guess {
+			width: calc(100% - 10px);
+			height: 40px;
+			max-height: 40px;
+			opacity: 1;
+			transition: 1s;
+			overflow: hidden;
+			padding: 5px;
+		}
+
+		#game-guess-inputs {
+			width: calc(100% - 80px);
+			float: left;
+			text-align: left;
+		}
+
+		#game-guess select {
+			border-radius: 5px;
+			color: #dddddd;
+			font-family: monospace;
+			font-size: 10px;
+			text-align: center;
+			outline: none;
+			border: 0px;
+			cursor: pointer;
+			width: 60px;
+			height: 40px;
+			margin-right: 10px;
+			transition: 0.5s;
+		}
+
+		#game-guess select:not([color]) {
+			background-color: #333333;
+		}
+
+		#game-guess select:hover, #game-guess select:focus {
+			box-shadow: 0px 0px 5px #dddddd;
+			background-color: #222222;
+		}
+
+		#game-guess button {
+			float: left;
+			background-color: #333333;
+			border: 0px;
+			font-family: monospace;
+			border-radius: 5px;
+			font-size: 15px;
+			color: #dddddd;
+			padding: 10px;
+			height: 40px;
+			width: 80px;
+			text-align: center;
+			vertical-align: top;
+			cursor: pointer;
+			font-weight: bold;
+			outline: none;
+			transition: 0.5s;
+		}
+
+		#game-guess button:hover, #game-guess button:focus {
+			background-color: #222222;
+			box-shadow: 0px 0px 5px #dddddd;
+		}
+
+	/* history */
+		#game-history {
+			border-radius: 5px;
+			width: calc(100% - 10px);
+			margin: 5px;
+			height: 100%;
+			text-align: left;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			max-height: calc(100vh - 250px);
+			box-shadow: 0px 0px 10px #000000 inset;
+			transition: 1s;
+			opacity: 1;
+		}
+
+		#game-history:empty {
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		.game-history-row {
+			opacity: 1;
+			width: 100%;
+			height: 60px;
+			margin-bottom: 10px;
+			transition: 1s;
+			overflow: hidden;
+		}
+
+		.game-history-row:last-child {
+			margin-bottom: 0px;
+		}
+
+		.game-history-row-marker {
+			height: 40px;
+			width: 40px;
+			border-radius: 100%;
+			margin: 10px;
+			margin-right: 20px;
+			cursor: default;
+			float: left;
+			box-shadow: 0px 0px 10px #000000;
+		}
+
+		.game-history-row-exact {
+			float: right;
+			font-size: 20px;
+			font-weight: bold;
+			color: #dddddd;
+			height: 20px;
+			padding: 20px 10px;
+			width: 20px;
+			text-align: center;
+		}
+
+		.game-history-row-partial {
+			float: right;
+			font-size: 20px;
+			font-weight: bold;
+			color: #555555;
+			height: 20px;
+			padding: 20px 10px;
+			width: 20px;
+			text-align: center;
+		}
+
+/*** effects ***/
+	/* blur */
+		[blur] {
+			transition: 1s;
+			filter: blur(5px);
+		}
+
+		[vanish] {
+			transition: 1s;
+			height: 0px !important;
+			max-height: 0px !important;
+			opacity: 0 !important;
+			padding-top: 0px !important;
+			padding-bottom: 0px !important;
+			margin-top: 0px !important;
+			margin-bottom: 0px !important;
+			filter: blur(20px);
+			box-shadow: 0px 0px 20px #000000 inset;
+		}
+
+	/* colors */
+		[color="red"] {
+			background-color: #d80e0e;
+		}
+
+		[color="yellow"] {
+			background-color: #beb227;
+		}
+
+		[color="blue"] {
+			background-color: #2b76ef;
+		}
+
+		[color="green"] {
+			background-color: #1a661e;
+		}
+
+		[color="magenta"] {
+			background-color: #e60073;
+		}
+
+		[color="cyan"] {
+			background-color: #008080;
+		}
+
+/*** mobile ***/
+	@media screen and (max-width: 600px) {
+		html {
+			zoom: 0.5;
+		}
+
+		#game-history {
+			max-height: calc(200vh - 250px);
+		}
+
+		#j-logo {
+			zoom: 2;
+		}
+	}

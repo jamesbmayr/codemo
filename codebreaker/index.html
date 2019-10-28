@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>codeBreaker</title>
+		<link rel="shortcut icon" href="https://img.icons8.com/wired/452/wrong-pincode.png"/>
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="codeBreaker is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="codeBreaker"/>
+		<meta property="og:url" content="https://jamesmayr.com/codebreaker/"/>
+		<meta property="og:description" content="codeBreaker is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="container">
+			<div id="game">
+				<div id="game-secret" vanish="true"></div>
+				<div id="game-setup">
+					<div id="game-setup-name">codeBreaker</div>
+					<label>colors<input type="number" min="3" max="8" step="1" id="game-setup-colors" value="4"></label>
+					<label>digits<input type="number" min="3" max="8" step="1" id="game-setup-digits" value="4"></label>
+					<button id="game-setup-start">&#8680;</button>
+				</div>
+				<div id="game-guess" vanish="true">
+					<div id="game-guess-inputs"></div>
+					<button id="game-guess-button">&#8680;</button>
+				</div>
+				<div id="game-history" vanish="true"></div>
+			</div>
+		</div>
+	</body>
+</html>
