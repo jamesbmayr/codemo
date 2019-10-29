@@ -150,7 +150,12 @@ window.onload = function() {
 			function createParameters() {
 				// colors
 					var colorCount = Math.max(CONSTANTS.minimum, Math.min(CONSTANTS.colors.length, ELEMENTS.colorsInput.value))
-					GAME.colorSet = CONSTANTS.colors.slice(0, colorCount) || []
+					var remaining = CONSTANTS.colors.slice(0, CONSTANTS.colors.length)
+					while (GAME.colorSet.length < colorCount) {
+						var color = chooseRandom(remaining)
+						GAME.colorSet.push(color)
+						remaining.splice(remaining.indexOf(color), 1)
+					}
 
 				// digits
 					var digitCount = ELEMENTS.digitsInput.value
