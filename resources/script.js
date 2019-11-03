@@ -706,7 +706,7 @@ window.onload = function() {
 					description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
 				},
 				{
-					feature: true,
+					featured: true,
 					name: "RPS RPG",
 					size: "large",
 					tags: ["collaborations", "code"],
