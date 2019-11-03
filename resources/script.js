@@ -27,7 +27,6 @@ window.onload = function() {
 					description: "I composed Skyburst over the course of a year; this album reflects a wild exploration of melody without much structure."
 				},
 				{
-					featured: true,
 					name: "Explorchestra",
 					size: "extra-large",
 					tags: ["collaborations","music"],
@@ -705,6 +704,15 @@ window.onload = function() {
 					url: "https://purplegreenprojects.com/couplets/",
 					date: "July 22, 2019",
 					description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
+				},
+				{
+					feature: true,
+					name: "RPS RPG",
+					size: "large",
+					tags: ["collaborations", "code"],
+					url: "https://rpsrpg.herokuapp.com",
+					date: "November 9, 2019",
+					description: "Fight monsters to find the orbs in this 8-bit co-op dungeon crawler. Art by Jenn Levy. Sound by Alex Berg."
 				}
 			]
 
