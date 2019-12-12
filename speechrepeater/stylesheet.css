@@ -1,0 +1,127 @@
+/*** page ***/
+	html, body {
+		background-color: #dddddd;
+		color: #111111;
+		font-family: monospace;
+		font-size: 20px;
+		padding: 0px;
+		margin: 0px;
+		
+	}
+
+	/* container */
+		#container {
+			height: auto;
+			width: auto;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			text-align: center;
+		}
+
+	/* j-logo */
+		#j-logo {
+			position: absolute;
+			top: 14px;
+			right: 8px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #555555);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 2px #111111);
+		}
+
+/*** listen button ***/
+	#listen {
+		display: block;
+		width: 200px;
+		height: 50px;
+		border: 2px solid #111111;
+		border-radius: 5px;
+		background-color: #dddddd;
+		box-shadow: 0px 0px 5px #333333;
+		color: #111111;
+		margin: 20px auto;
+		font-family: monospace;
+		font-size: 20px;
+		font-weight: bold;
+		outline: none;
+		cursor: pointer;
+		padding: 0px;
+		overflow: hidden;
+		text-align: center;
+	}
+
+	/* hover */
+		#listen:hover {
+			box-shadow: 0px 0px 10px #111111;
+		}
+
+	/* mic icon */
+		#mic-outer {
+			z-index: 2;
+			pointer-events: none;
+			float: left;
+			text-align: center;
+			height: 46px;
+			width: 100%;
+		}
+
+		#mic-inner {
+			position: relative;
+			font-size: 25px;
+			margin: 8px 0px 8px 0px;
+		}
+
+	/* bar */
+		#bar {
+			pointer-events: none;
+			background-color: #111111;
+			height: 46px;
+			width: 100%;
+			border-radius: 3px;
+			margin: auto auto;
+		}
+
+/*** transcript output ***/
+	#transcript {
+		display: block;
+		min-width: 300px;
+		max-width: 80vw;
+		min-height: 50px;
+		max-height: 50vh;
+		margin: 20px auto;
+		padding: 10px;
+		border-radius: 5px;
+		border: 2px solid #111111;
+	}
+
+/*** voices ***/
+	#voices {
+		display: block;
+		margin: 20px auto;
+		color: #111111;
+		font-family: monospace;
+		font-size: 25px;
+		text-align: center;
+		min-width: 200px;
+		width: 200px;
+		height: 50px;
+		padding: 5px;
+		border: 2px solid #111111;
+		border-radius: 5px;
+		background-color: #dddddd;
+		cursor: pointer;
+		outline: none;
+	}
