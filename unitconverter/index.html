@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>unitConverter</title>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="unitConverter is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="unitConverter"/>
+		<meta property="og:url" content="https://jamesmayr.com/unitconverter/"/>
+		<meta property="og:description" content="unitConverter is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="shortcut icon" type="image/png" href="http://icons.iconarchive.com/icons/icons8/android/512/Measurement-Units-Length-icon.png"></link>
+		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<form id="conversion" action="javascript:;">
+			<label id="header">unitConverter</label>
+			<label id="quantity_label"><div>quantity</div><input id="quantity_input" type="number" min="0"/></label>
+			<label id="units_input_label"><div>from</div><select id="units_input_prefix" disabled></select><select id="units_input" type="number" min="0"/><option value=null disabled selected>(select from)</option></select></label>
+			<label id="units_output_label"><div>to</div><select id="units_output_prefix" disabled></select><select id="units_output" type="number" min="0"/><option value=null disabled>(select from)</option></select></label>
+			<label id="output_label"><div>output</div><output id="quantity_output" type="number"></output></label>
+		</form>
+	</body>
+</html>

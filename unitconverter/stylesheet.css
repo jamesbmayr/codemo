@@ -1,0 +1,171 @@
+/*** page ***/
+	html, body {
+		margin: 0px;
+		padding: 0px;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		background-color: #dddddd;
+		overflow: hidden;
+	}
+
+	::-webkit-scrollbar {
+		display: none;
+	}
+
+	/* j-logo */
+		#j-logo {
+			position: absolute;
+			top: 14px;
+			right: 8px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 0;
+			outline: none;
+			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0px 0px 4px #222222);
+		}
+
+/*** form ***/
+	#conversion {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: 500px;
+		height: 250px;
+		background-color: #222222;
+		color: #dddddd;
+		border-radius: 10px;
+		font-family: monospace;
+		text-align: left;
+		padding: 20px;
+		font-size: 20px;
+		box-shadow: 0px 0px 5px #222222;
+	}
+
+	/* label */
+		#conversion label {
+			float: left;
+			height: 20%;
+			width: 100%;
+		}
+
+		#conversion label#header {
+			text-align: center;
+			font-size: 40px;
+			font-weight: bold;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		#conversion label div {
+			float: left;
+			width: calc(25% - 20px);
+			height: calc(100% - 20px);
+			padding: 5px;
+			margin: 5px;
+			text-align: right;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+	/* inputs */
+		#conversion input {
+			float: left;
+			width: calc(75% - 20px);
+			border-radius: 5px;
+			background-color: #dddddd;
+			height: 30px;
+			margin: 5px;
+			padding: 5px;
+			border: 0px;
+			outline: none;
+			font-size: 20px;
+			font-family: monospace;
+			text-align: right;
+		}
+
+		#conversion select {
+			float: left;
+			width: calc(30% - 20px);
+			border-radius: 5px;
+			background-color: #dddddd;
+			height: 40px;
+			margin: 5px;
+			padding: 5px;
+			border: 0px;
+			outline: none;
+			font-size: 20px;
+			font-family: monospace;
+			text-align: right;
+			cursor: pointer;
+		}					
+
+		#conversion select#units_input, #conversion select#units_output {
+			width: calc(50% - 25px);
+		}
+
+		#conversion input:hover, #conversion input:focus, #conversion select:hover, #conversion select:focus {
+			box-shadow: 0px 0px 5px #dddddd;
+		}
+
+	/* output */
+		#conversion output {
+			float: left;
+			text-align: right;
+			font-size: 25px;
+			font-family: monospace;
+			width: calc(75% - 20px);
+			height: 30px;
+			padding: 3px;
+			margin: 5px;
+			border: 2px solid #dddddd;
+			outline: none;
+			border-radius: 5px;
+			overflow-y: hidden;
+			overflow-x: scroll;
+		}
+
+/*** mobile ***/
+	@media screen and (max-width: 800px) {
+		#conversion {
+			width: calc(100% - 50px) !important;
+			height: 500px;
+		}
+
+		label {
+			float: left;
+			width: 100% !important;
+		}
+
+		label div {
+			width: calc(100% - 20px) !important;
+			height: 20px !important;
+		}
+
+		label input, label output {
+			width: calc(100% - 20px) !important;
+		}
+
+		label select {
+			width: calc(50% - 10px) !important;
+		}
+	}
