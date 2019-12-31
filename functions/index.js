@@ -18,7 +18,7 @@
 		const app_factorfinder = require("./factorfinder")
 		exports.factorfinder = functions.https.onRequest(function(request, response) {
 			try {
-				response.end(app_factorfinder.getQualitites(request.query.n))
+				response.end(app_factorfinder.getQualitites(request.query.number))
 			}
 			catch (error) {
 				console.log(error)
