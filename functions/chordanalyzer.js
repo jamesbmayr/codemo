@@ -220,7 +220,7 @@
 							previousNote = pitches[i]
 						break
 
-						default
+						default:
 							pitches[i] = null
 					}
 				}
