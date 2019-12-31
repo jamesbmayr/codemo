@@ -30,7 +30,7 @@
 		const app_wordshuffler = require("./wordshuffler")
 		exports.wordshuffler = functions.https.onRequest(function(request, response) {
 			try {
-				response.end(app_wordshuffler.getQualitites(request.query.word))
+				response.end(app_wordshuffler.findWords(request.query.word))
 			}
 			catch (error) {
 				console.log(error)
