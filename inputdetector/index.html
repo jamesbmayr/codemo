@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>inputdetector</title>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="inputDetector is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="inputDetector"/>
+		<meta property="og:url" content="https://jamesmayr.com/inputdetector/"/>
+		<meta property="og:description" content="inputDetector is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="shortcut icon" href="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_input_48px-512.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+				<div class="block" id="title">
+					<label class="block-label">inputdetector</label>
+					<div class="block-output-outer">
+						<div class="block-value"><a id="j-logo" target="_blank" href="https://jamesmayr.com"></a></div>
+					</div>
+				</div>
+			<!-- time -->
+				<div class="block" id="current-time">
+					<label class="block-label">current time</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="current-date">
+					<label class="block-label">current date</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="timezone">
+					<label class="block-label">timezone</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- web location -->
+				<div class="block" id="query">
+					<label class="block-label">query</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="hash">
+					<label class="block-label">hash</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="referrer">
+					<label class="block-label">referrer</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- browser -->
+				<div class="block" id="javascript">
+					<label class="block-label">javascript</label>
+					<div class="block-output-outer">
+						<div class="block-value">
+							<noscript>disabled</noscript>
+							<script>window.JSversion = "1"</script>
+							<script language="Javascript1.1">window.JSversion = "1.1"</script>
+							<script language="Javascript1.2">window.JSversion = "1.2"</script>
+							<script language="Javascript1.3">window.JSversion = "1.3"</script>
+							<script language="Javascript1.4">window.JSversion = "1.4"</script>
+							<script language="Javascript1.5">window.JSversion = "1.5"</script>
+							<script language="Javascript1.6">window.JSversion = "1.6"</script>
+							<script language="Javascript1.7">window.JSversion = "1.7"</script>
+							<script language="Javascript1.8">window.JSversion = "1.8"</script>
+							<script language="Javascript1.8.1">window.JSversion = "1.8.1"</script>
+							<script language="Javascript1.8.2">window.JSversion = "1.8.2"</script>
+							<script language="Javascript1.8.5">window.JSversion = "1.8.5"</script>
+							<script>(() => { window.JSversion = "ES6" })()</script>
+						</div>
+					</div>
+				</div>
+				<div class="block" id="console">
+					<label class="block-label">console</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="window">
+					<label class="block-label">window</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="language">
+					<label class="block-label">language</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="cookies">
+					<label class="block-label">cookies</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="localstorage">
+					<label class="block-label">localstorage</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="callstack">
+					<label class="block-label">callstack</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="webworkers">
+					<label class="block-label">
+						<input type="webworkers" class="block-input" placeholder="webworkers"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="postmessage">
+					<label class="block-label">
+						<input type="postmessage" class="block-input" placeholder="postmessage"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- device -->
+				<div class="block" id="online">
+					<label class="block-label">online</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="ip-address">
+					<label class="block-label">ip address</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="useragent">
+					<label class="block-label">useragent</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="screen">
+					<label class="block-label">screen</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="battery">
+					<label class="block-label">battery</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="vibration">
+					<label class="block-label">
+						<button class="block-button">vibration</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="orientation">
+					<label class="block-label">orientation</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="compass">
+					<label class="block-label">compass</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="motion">
+					<label class="block-label">motion</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- computer interface -->
+				<div class="block" id="keyboard">
+					<label class="block-label">keyboard</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="cursor">
+					<label class="block-label">cursor</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="click">
+					<label class="block-label">click</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="doubleclick">
+					<label class="block-label">doubleclick</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="contextmenu">
+					<label class="block-label">contextmenu</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="scroll">
+					<label class="block-label">scroll</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="hover">
+					<label class="block-label">hover</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="focus" tabindex=1>
+					<label class="block-label">focus</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="midi">
+					<label class="block-label">midi</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="midi-data">
+					<label class="block-label">midi data</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- permissioned things -->
+				<div class="block" id="location">
+					<label class="block-label">
+						<button class="block-button">location</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="speech">
+					<label class="block-label">
+						<button class="block-button">speech</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="audio">
+					<label class="block-label">
+						<button class="block-button">audio</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value">
+							<audio controls autoplay class="block-value"></audio>
+						</div>
+					</div>
+				</div>
+				<div class="block" id="video">
+					<label class="block-label">
+						<button class="block-button">video</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value">
+							<video controls autoplay></video>
+						</div>
+					</div>
+				</div>
+				<div class="block" id="pitch">
+					<label class="block-label">
+						<button class="block-button">pitch</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- prompt -->
+				<div class="block" id="prompt">
+					<label class="block-label">
+						<button class="block-button">prompt</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="confirm">
+					<label class="block-label">
+						<button class="block-button">confirm</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- form field inputs -->
+				<div class="block" id="text">
+					<label class="block-label">
+						<input type="text" class="block-input" placeholder="text"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="password">
+					<label class="block-label">
+						<input type="password" class="block-input" placeholder="password"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="number">
+					<label class="block-label">
+						<input type="number" class="block-input" placeholder="number"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="time">
+					<label class="block-label">
+						<input type="time" class="block-input" placeholder="time"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="date">
+					<label class="block-label">
+						<input type="date" class="block-input" placeholder="date"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="week">
+					<label class="block-label">
+						<input type="week" class="block-input" placeholder="week"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="month">
+					<label class="block-label">
+						<input type="month" class="block-input" placeholder="month"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="datetime">
+					<label class="block-label">
+						<input type="datetime-local" class="block-input" placeholder="datetime"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="color">
+					<label class="block-label">
+						<input type="color" class="block-input" placeholder="color"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- form special inputs -->
+				<div class="block" id="textarea">
+					<label class="block-label">
+						<textarea class="block-input" placeholder="textarea"></textarea>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="select">
+					<label class="block-label">
+						<select class="block-select">
+							<option value="select" selected disabled>select...</option>
+							<option value="1">a</option>
+							<option value="2">b</option>
+							<option value="3">c</option>
+						</select>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="multiselect">
+					<label class="block-label">
+						<select multiple class="block-select">
+							<option value="select" selected disabled>multiselect...</option>
+							<option value="1">a</option>
+							<option value="2">b</option>
+							<option value="3">c</option>
+						</select>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="radio">
+					<label class="block-label">radio
+						<input type="radio" class="block-radio" name="radio" value="1"></input>
+						<input type="radio" class="block-radio" name="radio" value="2"></input>
+						<input type="radio" class="block-radio" name="radio" value="3"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="checkbox">
+					<label class="block-label">checkbox
+						<input type="checkbox" class="block-checkbox" value="true"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="range">
+					<label class="block-label">
+						<input type="range" class="block-input" min="-10" max="10" step="1" value="0"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="file">
+					<label class="block-label">
+						<label class="block-button">file upload<input type="file" class="block-input-hidden"></label>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- form inputs with validation -->
+				<div class="block" id="email">
+					<label class="block-label">
+						<form action="javascript:;">
+							<input type="email" class="block-input" placeholder="email"></input>
+							<input type="submit" class="block-input-hidden">
+						</form>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="telephone">
+					<label class="block-label">
+						<form action="javascript:;">
+							<input type="tel" class="block-input" placeholder="telephone" pattern="\(?[0-9]{3}(-|.|\s)?\)?[0-9]{3}(-|.|\s)?[0-9]{4}"></input>
+							<input type="submit" class="block-input-hidden">
+						</form>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="url">
+					<label class="block-label">
+						<form action="javascript:;">
+							<input type="url" class="block-input" placeholder="url"></input>
+							<input type="submit" class="block-input-hidden">
+						</form>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- math -->
+				<div class="block" id="random">
+					<label class="block-label">
+						<button class="block-button">random</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="pi">
+					<label class="block-label">pi</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="e">
+					<label class="block-label">e</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="infinity">
+					<label class="block-label">infinity</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- miscellaneous -->
+				<div class="block" id="xhr">
+					<label class="block-label">
+						<button class="block-button">xhr</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="contenteditable">
+					<label class="block-label" contenteditable>
+						contenteditable
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="detailstoggle">
+					<label class="block-label">
+						<details>
+							<summary>summary</summary>
+							details
+						</details>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="drag">
+					<label class="block-label">
+						<div CLASS="block-input">drag</div>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="paste">
+					<label class="block-label">
+						<input type="text" class="block-input" placeholder="paste" disabled>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+<div class="block" id="error">
+					<label class="block-label">error</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+		</div>
+	</body>
+</html>

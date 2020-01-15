@@ -1,0 +1,202 @@
+/*** page ***/
+	html, body {
+		margin: 0px;
+		padding: 0px;
+		background-color: #dddddd;
+		font-family: monospace;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		height: 100%;
+		width: 100%;
+	}
+
+	#container {
+		text-align: center;
+		width: auto;
+		height: auto;
+		margin: auto auto;
+		font-size: 0px;
+		max-width: 100vw;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		display: block;
+		background-color: transparent;
+		background-image: url("https://jamesmayr.com/resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 128px;
+		width: 128px;
+		cursor: pointer;
+		outline: none;
+		margin: auto auto;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}
+
+/*** blocks ***/
+	.block {
+		display: inline-block;
+		background-color: #222222;
+		color: #dddddd;
+		font-size: 20px;
+		border-radius: 10px;
+		padding: 10px;
+		margin: 20px;
+		height: 300px;
+		width: 300px;
+		box-shadow: 0px 0px 10px #222222;
+		overflow: hidden;
+	}
+
+	.block-label {
+		float: left;
+		width: calc(100% - 20px);
+		height: 30px;
+		padding: 10px;
+		font-size: 25px;
+		text-align: center;
+		font-weight: bold;
+		background-color: #333333;
+		border-radius: 5px 5px 5px 5px;
+	}
+
+	.block-output-outer {
+		float: left;
+		width: 100%;
+		height: calc(100% - 50px);
+		text-align: center;
+		display: table;
+	}
+
+	.block-value {
+		margin: auto auto;
+		font-size: 25px;
+		max-width: 300px;
+		display: table-cell;
+		vertical-align: middle;
+		overflow: scroll;
+	}
+
+	/* interactive elements */
+		.block-button {
+			background-color: #dddddd;
+			color: #222222;
+			border-radius: 5px;
+			font-family: monospace;
+			font-size: 20px;
+			padding: 10px;
+			height: 50px;
+			width: calc(100% + 20px);
+			margin: -10px;
+			border: 0px;
+			cursor: pointer;
+			outline: none;
+			font-weight: bold;
+		}
+
+		.block-button:focus, .block-button:hover {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+		.block-input {
+			background-color: #dddddd;
+			color: #222222;
+			border-radius: 5px;
+			font-family: monospace;
+			font-size: 20px;
+			padding: 10px;
+			height: 30px;
+			width: 100%;
+			margin: -10px;
+			border: 0px;
+			cursor: pointer;
+			outline: none;
+			text-align: center;
+		}
+
+		.block-input-hidden {
+			height: 0px;
+			width: 0px;
+			font-size: 0px;
+			visibility: hidden;
+			pointer-events: none;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			padding: 0px;
+			margin: 0px;
+			opacity: 0;
+		}
+
+		.block-select {
+			background-color: #dddddd;
+			color: #222222;
+			border-radius: 5px;
+			font-family: monospace;
+			font-size: 20px;
+			padding: 10px;
+			height: 50px;
+			width: calc(100% + 20px);
+			margin: -10px;
+			border: 0px;
+			cursor: pointer;
+			outline: none;
+			text-align: center;
+		}
+
+		.block-input:focus, .block-input:hover,
+		.block-radio:focus, .block-radio:hover,
+		.block-checkbox:focus, .block-checkbox:hover,
+		.block-select:focus, .block-select:hover {
+			box-shadow: 0px 0px 10px #dddddd;
+		}
+
+		.block-value video {
+			width: 100%;
+			height: auto;
+			outline: none;
+		}
+
+		.block-value audio {
+			outline: none;
+		}
+
+		.block-label details, .block-label summary {
+			outline: none;
+		}
+
+		.block#hover:hover {
+			background-color: #111111;
+		}
+
+		.block#focus:focus {
+			background-color: #111111;
+			outline: none;
+		}
+
+		.block#drag .block-input {
+			cursor: grab;
+			background-color: #dddddd;
+			color: #222222;
+			height: 30px;
+			width: 100px;
+			border-radius: 5px;
+			position: relative;
+			top: 25px;
+			left: 150px;
+			padding: 0px;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			transform: translateX(-50%) translateY(-50%);
+		}

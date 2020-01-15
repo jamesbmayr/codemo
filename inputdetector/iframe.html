@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>inputdetector iframe</title>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="inputDetector is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="inputDetector"/>
+		<meta property="og:url" content="https://jamesmayr.com/inputdetector/"/>
+		<meta property="og:description" content="inputDetector is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+	</head>
+	<body>
+		<script>
+			window.addEventListener("message", function(event) {
+				window.parent.postMessage({iframe: true, string: event.data.toUpperCase()}, "*")
+			}, false)
+		</script>
+	</body>
+</html>
