@@ -10,8 +10,16 @@ window.onload = function() {
 
 	/*** errors ***/
 		var ERROR_OUTPUT = document.querySelector("#error .block-value")
+		var ERROR_NOTIFICATION = document.querySelector("#error-notification")
+		var ERROR_TIMEOUT = null
 		function handleError(name, message) {
+			clearTimeout(ERROR_TIMEOUT)
+			ERROR_NOTIFICATION.className = ""
 			ERROR_OUTPUT.innerHTML = "<b>" + name + "</b><br>" + message
+
+			ERROR_TIMEOUT = setTimeout(function() {
+				ERROR_NOTIFICATION.className = "disappear"
+			}, 3000)
 		}
 
 	/*** time ***/
@@ -113,7 +121,7 @@ window.onload = function() {
 			window.addEventListener("resize", detectResize)
 			function detectResize(event) {
 				try {
-					WINDOW_OUTPUT.innerHTML = window.innerWidth + "," + window.innerHeight
+					WINDOW_OUTPUT.innerHTML = "x: " + Math.round(window.innerWidth) + "<br>y: " + Math.round(window.innerHeight)
 					detectConsole()
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
@@ -129,10 +137,19 @@ window.onload = function() {
 
 		/* detectCookies */
 			var COOKIES_OUTPUT = document.querySelector("#cookies .block-value")
+			var COOKIES_INPUT = document.querySelector("#cookies .block-value")
 			detectCookies()
 			function detectCookies(event) {
 				try {
 					COOKIES_OUTPUT.innerHTML = document.cookie || ""
+				} catch (error) { handleError(arguments.callee.name, error) }
+			}
+
+			COOKIES_INPUT.addEventListener(on.click, createCookie)
+			function createCookie() {
+				try {
+					document.cookie = "example=" + Math.random() + "; max-age=" + (60 * 60 * 24);
+					detectCookies()
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
@@ -179,7 +196,7 @@ window.onload = function() {
 						}, false)
 					}
 					catch (error) {
-						WEBWORKERS_OUTPUT.innerHTML = "not supported"
+						WEBWORKERS_OUTPUT.innerHTML = "[not supported]"
 					}
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
@@ -278,7 +295,7 @@ window.onload = function() {
 			detectScreen()
 			function detectScreen(event) {
 				try {
-					SCREEN_OUTPUT.innerHTML = screen.availWidth + "," + screen.availHeight
+					SCREEN_OUTPUT.innerHTML = "x: " + Math.round(screen.availWidth) + "<br>y: " + Math.round(screen.availHeight)
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
@@ -293,7 +310,7 @@ window.onload = function() {
 						}).catch(function(error) { handleError("detectBattery", error) })
 					}
 					catch (error) {
-						BATTERY_OUTPUT.innerHTML = "not supported"
+						BATTERY_OUTPUT.innerHTML = "[not supported]"
 					}
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
@@ -320,7 +337,7 @@ window.onload = function() {
 			window.addEventListener("deviceorientation", detectOrientation)
 			function detectOrientation(event) {
 				try {
-					ORIENTATION_OUTPUT.innerHTML = JSON.stringify({x: event.beta, y: event.gamma, z: event.alpha})
+					ORIENTATION_OUTPUT.innerHTML = "x: " + event.beta.toFixed(4) + "<br>y: " + event.gamma.toFixed(4) + "<br>z: " + event.alpha.toFixed(4)
 
 					detectCompass(event)
 				} catch (error) { handleError(arguments.callee.name, error) }
@@ -330,7 +347,7 @@ window.onload = function() {
 			var COMPASS_OUTPUT = document.querySelector("#compass .block-value")
 			function detectCompass(event) {
 				try {
-					COMPASS_OUTPUT.innerHTML = JSON.stringify({x: event.beta, y: event.gamma, z: event.alpha})
+					COMPASS_OUTPUT.innerHTML = event.webkitCompassHeading ? event.webkitCompassHeading : event.alpha.toFixed(4)
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
@@ -339,7 +356,7 @@ window.onload = function() {
 			window.addEventListener("devicemotion", detectMotion)
 			function detectMotion(event) {
 				try {
-					MOTION_OUTPUT.innerHTML = event.webkitCompassHeading ? event.webkitCompassHeading : event.alpha
+					MOTION_OUTPUT.innerHTML = "x: " + event.beta.toFixed(4) + "<br>y: " + event.gamma.toFixed(4) + "<br>z: " + event.alpha.toFixed(4)
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
@@ -367,7 +384,7 @@ window.onload = function() {
 				try {
 					var x = event.touches ? event.touches[0].clientX : event.clientX
 					var y = event.touches ? event.touches[0].clientY : event.clientY
-					CURSOR_OUTPUT.innerHTML = x + "," + y
+					CURSOR_OUTPUT.innerHTML = "x: " + Math.round(x) + "<br>y: " + Math.round(y)
 
 					detectDragmove(x, y)
 				} catch (error) { handleError(arguments.callee.name, error) }
@@ -418,15 +435,29 @@ window.onload = function() {
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
+		/* detectWindowScroll */
+			var WINDOWSCROLL_OUTPUT = document.querySelector("#window-scroll .block-value")
+			window.addEventListener("scroll", detectWindowScroll)
+			window.addEventListener("wheel", detectWindowScroll)
+			window.addEventListener("mousescroll", detectWindowScroll)
+			window.addEventListener("mousewheel", detectWindowScroll)
+			function detectWindowScroll(event) {
+				try {
+					WINDOWSCROLL_OUTPUT.innerHTML = "x: " + Math.round(document.body.scrollLeft || document.documentElement.scrollLeft || 0) + "<br>y: " + Math.round(document.body.scrollTop || document.documentElement.scrollTop || 0)
+				} catch (error) { handleError(arguments.callee.name, error) }
+			}
+
 		/* detectScroll */
 			var SCROLL_OUTPUT = document.querySelector("#scroll .block-value")
-			window.addEventListener("scroll", detectScroll)
-			window.addEventListener("wheel", detectScroll)
-			window.addEventListener("mousescroll", detectScroll)
-			window.addEventListener("mousewheel", detectScroll)
+			var SCROLL_INPUT = document.querySelector("#scroll .block-label")
+			SCROLL_INPUT.addEventListener("scroll", detectScroll)
+			SCROLL_INPUT.addEventListener("wheel", detectScroll)
+			SCROLL_INPUT.addEventListener("mousescroll", detectScroll)
+			SCROLL_INPUT.addEventListener("mousewheel", detectScroll)
+			detectScroll()
 			function detectScroll(event) {
 				try {
-					SCROLL_OUTPUT.innerHTML = (document.body.scrollLeft || document.documentElement.scrollLeft || 0) + ", " + (document.body.scrollTop || document.documentElement.scrollTop || 0)
+					SCROLL_OUTPUT.innerHTML = "x: " + Math.round(SCROLL_INPUT.scrollLeft || 0) + "<br>y: " + Math.round(SCROLL_INPUT.scrollTop || 0)
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
@@ -479,7 +510,7 @@ window.onload = function() {
 						}).catch(function(error) { handleError("createMidi", error) })
 					}
 					catch (error) {
-						MIDI_OUTPUT.innerHTML = "not supported"
+						MIDI_OUTPUT.innerHTML = "[not supported]"
 					}
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
@@ -525,11 +556,11 @@ window.onload = function() {
 				try {
 					if (navigator.geolocation) {
 						navigator.geolocation.getCurrentPosition(function(position) {
-							LOCATION_OUTPUT.innerHTML = position.coords.latitude + "," + position.coords.longitude
+							LOCATION_OUTPUT.innerHTML = "lat_: " + position.coords.latitude.toFixed(7) + "<br>long: " + position.coords.longitude.toFixed(7)
 						}).catch(function(error) { handleError("detectLocation", error) })
 					}
 					else {
-						LOCATION_OUTPUT.innerHTML = "not supported"
+						LOCATION_OUTPUT.innerHTML = "[not supported]"
 					}
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
@@ -551,7 +582,7 @@ window.onload = function() {
 							SPEECH_RECOGNITION.onresult = detectSpeech
 					}
 					catch (error) {
-						SPEECH_OUTPUT.innerHTML = "not supported"
+						SPEECH_OUTPUT.innerHTML = "[not supported]"
 					}
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
@@ -730,7 +761,7 @@ window.onload = function() {
 
 						// calculate the frequency & note (sample rate is usually 44100 Hz)
 							var frequency = PITCH_DETECTION.sampleRate / average / complexity
-							PITCH_OUTPUT.innerHTML = frequency + "<br>Hz"
+							PITCH_OUTPUT.innerHTML = frequency.toFixed(4) + "<br>Hz"
 					}
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}

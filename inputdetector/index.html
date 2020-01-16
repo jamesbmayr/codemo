@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<div id="container">
-				<div class="block" id="title">
+				<div class="block" id="top">
 					<label class="block-label">inputdetector</label>
 					<div class="block-output-outer">
 						<div class="block-value"><a id="j-logo" target="_blank" href="https://jamesmayr.com"></a></div>
@@ -101,7 +101,9 @@
 					</div>
 				</div>
 				<div class="block" id="cookies">
-					<label class="block-label">cookies</label>
+					<label class="block-label">
+						<button class="block-button">cookies</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -222,8 +224,16 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="window-scroll">
+					<label class="block-label">window scroll</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 				<div class="block" id="scroll">
-					<label class="block-label">scroll</label>
+					<label class="block-label">
+						<div class="block-label-inner">scroll</div>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -555,18 +565,27 @@
 				</div>
 				<div class="block" id="paste">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="paste" disabled>
+						<input type="text" class="block-input" placeholder="paste">
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-<div class="block" id="error">
+				<div class="block" id="error">
 					<label class="block-label">error</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="top">
+					<label class="block-label">
+						<a href="#top">top</a>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value">(gray = visited)</div>
+					</div>
+				</div>
 		</div>
+		<a id="error-notification" href="#error" class="disappear">&darr; error &darr;</a>
 	</body>
 </html>
