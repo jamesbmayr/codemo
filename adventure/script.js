@@ -124,7 +124,7 @@ window.onload = function() {
 								age: 50,
 								height: 4,
 								weight: 200,
-								description: "Standard fantasy dward, with short stature, powerful strength, and an affinity for geology, masonry, and war.",
+								description: "Standard fantasy dwarf, with short stature, powerful strength, and an affinity for geology, masonry, and war.",
 								ability: "Dwarves are strong fighters with powerful punch and kick attacks that each deal 3d6 damage.",
 							},
 							perception: {
@@ -2789,7 +2789,7 @@ window.onload = function() {
 								option.value = data.skills[i][j]
 								option.innerText = data.skills[i][j].replace(/_/g, " ")
 							if (character.statistics[i].skills.find(function(s) { return s.name == data.skills[i][j] })) {
-								option.setAttribute("readonly", true)
+								option.setAttribute("disabled", true)
 							}
 							container.appendChild(option)
 						}
@@ -2821,7 +2821,7 @@ window.onload = function() {
 						}
 
 					// disable in select
-						document.getElementById(statistic + "-select").querySelector("[value=" + name + "]").setAttribute("readonly", true)
+						document.getElementById(statistic + "-select").querySelector("[value=" + name + "]").setAttribute("disabled", true)
 						document.getElementById(statistic + "-disabled").selected = true
 
 					// display skill
@@ -2852,7 +2852,7 @@ window.onload = function() {
 						}
 
 					// enable in select
-						document.getElementById(statistic + "-select").querySelector("[value=" + skill.replace(/\s/g, "_") + "]").removeAttribute("readonly")
+						document.getElementById(statistic + "-select").querySelector("[value=" + skill.replace(/\s/g, "_") + "]").removeAttribute("disabled")
 
 					// remove element
 						event.target.closest(".skill").remove()
@@ -2927,7 +2927,7 @@ window.onload = function() {
 							var d6 = document.createElement("input")
 								d6.type = "number"
 								d6.step = "1"
-								d6.setAttribute("readonly", true)
+								d6.setAttribute("disabled", true)
 								d6.className = "d6"
 								d6.placeholder = "d6"
 								d6.value = skill.d6
@@ -2938,7 +2938,7 @@ window.onload = function() {
 						var text = document.createElement("input")
 							text.className = "skill-name-text"
 							text.type = "text"
-							text.setAttribute("readonly", true)
+							text.setAttribute("disabled", true)
 							text.value = skill.name.replace(/_/g, " ")
 						name.appendChild(text)
 
@@ -3534,7 +3534,7 @@ window.onload = function() {
 							}
 
 						// disable in select
-							document.getElementById("conditions-select").querySelector("[value=" + event.target.value + "]").setAttribute("readonly", true)
+							document.getElementById("conditions-select").querySelector("[value=" + event.target.value + "]").setAttribute("disabled", true)
 							document.getElementById("conditions-disabled").selected = true
 
 						// redisplay
@@ -3551,7 +3551,7 @@ window.onload = function() {
 				try {
 					if (Object.keys(data.conditions).includes(event.target.parentNode.getAttribute("value"))) {
 						// enable in select
-							document.getElementById("conditions-select").querySelector("[value=" + event.target.parentNode.getAttribute("value") + "]").removeAttribute("readonly")
+							document.getElementById("conditions-select").querySelector("[value=" + event.target.parentNode.getAttribute("value") + "]").removeAttribute("disabled")
 
 						// unapply condition
 							character.info.status.conditions = character.info.status.conditions.filter(function(c) {
