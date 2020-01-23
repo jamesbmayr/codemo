@@ -2927,7 +2927,7 @@ window.onload = function() {
 							var d6 = document.createElement("input")
 								d6.type = "number"
 								d6.step = "1"
-								d6.setAttribute("disabled", true)
+								d6.setAttribute("readonly", true)
 								d6.className = "d6"
 								d6.placeholder = "d6"
 								d6.value = skill.d6
