@@ -137,7 +137,7 @@ window.onload = function() {
 
 		/* detectCookies */
 			var COOKIES_OUTPUT = document.querySelector("#cookies .block-value")
-			var COOKIES_INPUT = document.querySelector("#cookies .block-value")
+			var COOKIES_INPUT = document.querySelector("#cookies .block-button")
 			detectCookies()
 			function detectCookies(event) {
 				try {
