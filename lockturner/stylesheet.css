@@ -1,0 +1,222 @@
+/**** page ***/
+	html, body {
+		margin: 0px;
+		padding: 0px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		background-color: #dddddd;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("https://jamesmayr.com/resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** device ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		background-color: #111111;
+		height: 500px;
+		width: 300px;
+		border-radius: 10px;
+		border: 10px solid #222222;
+		box-shadow: 0px 0px 20px #000000;
+		z-index: 1;
+	}
+
+	/* shake */
+		#container[shake] {
+			animation: shake 1s;
+		}
+
+		@keyframes shake {
+			0% { transform: translateX(-50%) translateY(-50%); }
+			5% { transform: translateX(-51%) translateY(-51%); }
+			10% { transform: translateX(-50%) translateY(-51%); }
+			15% { transform: translateX(-49%) translateY(-50%); }
+			20% { transform: translateX(-50%) translateY(-51%); }
+			25% { transform: translateX(-51%) translateY(-50%); }
+			30% { transform: translateX(-50%) translateY(-49%); }
+			35% { transform: translateX(-49%) translateY(-50%); }
+			40% { transform: translateX(-50%) translateY(-49%); }
+			45% { transform: translateX(-51%) translateY(-50%); }
+			50% { transform: translateX(-50%) translateY(-51%); }
+			55% { transform: translateX(-49%) translateY(-50%); }
+			60% { transform: translateX(-50%) translateY(-51%); }
+			65% { transform: translateX(-51%) translateY(-50%); }
+			70% { transform: translateX(-50%) translateY(-49%); }
+			75% { transform: translateX(-49%) translateY(-50%); }
+			80% { transform: translateX(-50%) translateY(-49%); }
+			85% { transform: translateX(-51%) translateY(-50%); }
+			90% { transform: translateX(-50%) translateY(-49%); }
+			95% { transform: translateX(-49%) translateY(-49%); }
+			100% { transform: translateX(-50%) translateY(-50%); }
+		}
+
+	/* top */
+		#antenna {
+			position: absolute;
+			top: -75px;
+			left: 10px;
+			height: 65px;
+			width: 25px;
+			border-radius: 25px 25px 0px 0px;
+			background-color: #222222;
+			box-shadow: 0px 0px 5px #000000;
+		}
+
+		#channel {
+			position: absolute;
+			top: -35px;
+			left: 230px;
+			height: 25px;
+			width: 60px;
+			border-radius: 10px 10px 0px 0px;
+			background-color: #222222;
+			box-shadow: 0px 0px 2px #000000;
+		}
+
+/*** lights ***/
+	#lights {
+		position: absolute;
+		top: 20%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 10px;
+		background-color: #222222;
+		height: 40px;
+		width: 240px;
+		box-shadow: 0px 0px 5px #000000 inset;
+		transition: 1s;
+	}
+
+	.light {
+		float: left;
+		margin: 10px;
+		background-color: #222222;
+		border-radius: 100%;
+		width: 20px;
+		height: 20px;
+		box-shadow: 0px 0px 5px #000000 inset;
+		transition: 1s;
+	}
+
+	/* lit */
+		#lights[lit] {
+			box-shadow: 0px 0px 5px #dddddd inset;
+		}
+
+		.light[lit] {
+			background-color: #dddddd;
+		}
+
+/*** refresh ***/
+	#refresh {
+		position: absolute;
+		top: 30%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		box-shadow: 0px 0px 5px #222222 inset;
+		transition: 1s;
+		outline: none;
+		border: 0px;
+		border-radius: 10px;
+		width: 240px;
+		height: 40px;
+		font-family: monospace;
+		font-size: 20px;
+		text-align: center;
+		background-color: #555555;
+		opacity: 1;
+		cursor: pointer;
+	}
+
+	#refresh:hover {
+		box-shadow: 0px 0px 5px #000000 inset;
+		background-color: #333333;
+	}
+
+	#refresh:not([clickable]) {
+		pointer-events: none;
+		opacity: 0;
+	}
+
+/*** dial ***/
+	#outer-dial {
+		position: absolute;
+		top: 70%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 100%;
+		height: 250px;
+		width: 250px;
+		background-color: #222222;
+		box-shadow: 0px 0px 5px #000000 inset;
+	}
+
+	/* moveable */
+		#inner-dial {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%) rotate(0deg);
+			border-radius: 100%;
+			height: 200px;
+			width: 200px;
+			background-color: #333333;
+			cursor: grab;
+			box-shadow: 0px 0px 10px #000000 inset;
+		}
+
+		#inner-dial[grabbed] {
+			cursor: grabbing;
+		}
+
+	/* middle */
+		#indicator {
+			position: absolute;
+			top: 10px;
+			left: 50%;
+			transform: translateX(-50%);
+			height: 45px;
+			width: 10px;
+			border-radius: 5px;
+			background-color: #dddddd;
+			pointer-events: none;
+			box-shadow: 0px 0px 10px #000000 inset;
+		}
+
+		#spinner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 75px;
+			width: 75px;
+			background-color: #333333;
+			box-shadow: 0px 0px 3px #000000;
+			border-radius: 100%;
+		}
