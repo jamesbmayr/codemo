@@ -1,0 +1,410 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #aaaaaa;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+		font-family: monospace;
+		font-size: 0px;
+	}
+
+	/* variables */
+		:root {
+			--grid-height: 4;
+			--grid-width:  4;
+		}
+
+	/* container */
+		#container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			border-radius: 10px;
+			height: calc(80px * var(--grid-height));
+			width: calc(80px * var(--grid-width));
+			background-color: transparent;
+		}
+
+		@media screen and (max-width: 640px) {
+			#container {
+				height: calc(40px * var(--grid-height));
+				width: calc(40px * var(--grid-width));
+			}
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** thinking ***/
+	#thinking {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 100%;
+		height: 200px;
+		width: 200px;
+		text-align: center;
+		opacity: 1;
+		animation-name: thinking;
+		animation-duration: 2s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		background-color: #111111;
+		box-shadow: 0px 0px 20px #222222;
+		z-index: 10;
+	}
+
+	#thinking-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 100%;
+		color: #aaaaaa;
+		font-size: 100px;
+	}
+
+	/* effects */
+		#thinking[invisible] {
+			opacity: 0;
+			pointer-events: none;
+			animation: none;
+		}
+
+		@keyframes thinking {
+			0% { opacity: 0; }
+			10% { opacity: 0.4; }
+			20% { opacity: 0.7; }
+			30% { opacity: 0.9; }
+			40% { opacity: 1; }
+			50% { opacity: 1; }
+			60% { opacity: 1; }
+			70% { opacity: 0.9; }
+			80% { opacity: 0.7; }
+			90% { opacity: 0.4; }
+			100% { opacity: 0; }
+		}
+
+/*** perimeter ***/
+	#perimeter {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 100%;
+		width: 100%;
+		z-index: 0;
+	}
+
+	#perimeter div {
+		position: absolute;
+	}
+
+	/* direction */
+		#north {
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 5%;
+		}
+
+		#east {
+			top: 0px;
+			right: 0px;
+			width: 5%;
+			height: 100%;
+		}
+
+		#south {
+			bottom: 0px;
+			left: 0px;
+			width: 100%;
+			height: 5%;
+		}
+
+		#west {
+			top: 0px;
+			left: 0px;
+			width: 5%;
+			height: 100%;
+		}
+
+	/* orb */
+		.orb {
+			border-radius: 100%;
+			box-shadow: 0px 0px 5px #222222 inset;
+			filter: drop-shadow(0px 0px 10px #222222);
+			background-color: #dddddd;
+			height: 10px;
+			width: 10px;
+			position: absolute;
+			transform: translateX(-50%) translateY(-50%);
+		}
+
+/*** game ***/
+	#gamezone {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 5px;
+		height: 90%;
+		width: 90%;
+		box-shadow: 0px 0px 10px #222222;
+		overflow: hidden;
+		z-index: 2;
+	}
+
+	.row {
+		float: left;
+		width: 100%;
+		height: calc(100% / var(--grid-height));
+	}
+
+	.cell {
+		float: left;
+		width: calc(100% / var(--grid-width));
+		height: 100%;
+		background-color: #222222;
+	}
+
+	/* pipe */
+		.pipe {
+			width: 100%;
+			height: 100%;
+			border: 0px solid #aaaaaa;
+			transition: 0.5s;
+			cursor: pointer;
+			overflow: hidden;
+			margin: 0px;
+			padding: 0px;
+			box-shadow: 0px 0px 50px #222222 inset;
+		}
+
+		.pipe-inner {
+			position: relative;
+			top: -100px;
+			bottom: -100px;
+			left: -100px;
+			right: -100px;
+			margin: 0px;
+			padding: 0px;
+			background-color: #dddddd;
+			width: calc(100% + 200px);
+			height: calc(100% + 200px);
+			pointer-events: none;
+			animation-duration: 5s;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+	}
+
+	/* shapes */
+		.pipe[type="O"] {
+			clip-path: polygon(50% 50%);
+			-webkit-clip-path: polygon(50% 50%);
+			cursor: not-allowed;
+		}
+
+		.pipe[type="I"] {
+			clip-path: polygon(25% 0%, 75% 0%, 75% 100%, 25% 100%);
+			-webkit-clip-path: polygon(25% 0%, 75% 0%, 75% 100%, 25% 100%);
+		}
+
+		.pipe[type="L"] {
+			clip-path: polygon(25% 0%, 75% 0%, 75% 25%, 100% 25%, 100% 75%, 25% 75%);
+			-webkit-clip-path: polygon(25% 0%, 75% 0%, 75% 25%, 100% 25%, 100% 75%, 25% 75%);
+		}
+
+		.pipe[type="T"] {
+			clip-path: polygon(25% 0%, 75% 0%, 75% 25%, 100% 25%, 100% 75%, 75% 75%, 75% 100%, 25% 100%);
+			-webkit-clip-path: polygon(25% 0%, 75% 0%, 75% 25%, 100% 25%, 100% 75%, 75% 75%, 75% 100%, 25% 100%);
+		}
+
+		.pipe[type="+"] {
+			clip-path: polygon(25% 0%, 75% 0%, 75% 25%, 100% 25%, 100% 75%, 75% 75%, 75% 100%, 25% 100%, 25% 75%, 0% 75%, 0% 25%, 25% 25%);
+			-webkit-clip-path: polygon(25% 0%, 75% 0%, 75% 25%, 100% 25%, 100% 75%, 75% 75%, 75% 100%, 25% 100%, 25% 75%, 0% 75%, 0% 25%, 25% 25%);
+		}
+
+	/* rotation */
+		.pipe[rotation="0"] .pipe-inner {
+			animation-name: flow_zero;
+		}
+
+		.pipe[rotation="1"] .pipe-inner {
+			animation-name: flow_one;
+		}
+
+		.pipe[rotation="2"] .pipe-inner {
+			animation-name: flow_two;
+		}
+
+		.pipe[rotation="3"] .pipe-inner {
+			animation-name: flow_three;
+		}
+
+		@keyframes flow_zero {
+			from { transform: translateX(0); }
+			to { transform: translateX(70.71px); }
+		}
+
+		@keyframes flow_one {
+			from { transform: translateY(0); }
+			to { transform: translateY(-70.71px); }
+		}
+
+		@keyframes flow_two {
+			from { transform: translateX(0); }
+			to { transform: translateX(-70.71px); }
+		}
+
+		@keyframes flow_three {
+			from { transform: translateY(0); }
+			to { transform: translateY(70.71px); }
+		}
+
+/*** combinations ***/
+	#combinations {
+		position: absolute;
+		top: 14px;
+		left: 14px;
+		height: auto;
+		width: 32px;
+	}
+
+	/* counter */
+		details summary::-webkit-details-marker {
+			display:none;
+		}
+
+		#counter {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			border-radius: 100%;
+			background-color: #222222;
+			box-shadow: 0px 0px 10px #222222;
+			height: 32px;
+			width: 32px;
+			z-index: 5;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			transition: 0.5s;
+			outline: none;
+		}
+
+		#counter:hover, #counter:focus {
+			background-color: #111111;
+			box-shadow: 0px 0px 10px #111111;
+		}
+
+		#counter-inner {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			color: #dddddd;
+			font-family: monospace;
+			font-size: 16px;
+		}
+
+	/* list */
+		#combinations-inner {
+			position: absolute;
+			top: 16px;
+			left: 0px;
+			height: auto;
+			max-height: calc(100vh - 46px);
+			padding: 16px 0px 8px 0px;
+			width: 32px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		.combination {
+			position: relative;
+			border-radius: 100%;
+			height: 32px;
+			width: 32px;
+			overflow: hidden;
+			margin: 8px 0px 0px 0px;
+		}
+
+		.combination:last-child {
+			margin-bottom: 8px;
+		}
+
+		.combination-inner {
+			position: relative;
+			top: -100px;
+			left: -100px;
+			bottom: -100px;
+			right: -100px;
+			height: 232px;
+			width: 232px;
+			animation-name: flow_zero;
+			animation-duration: 5s;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+		}
+
+		@media screen and (max-width: 640px) {
+			#combinations {
+				width: auto;
+				height: 32px;
+			}
+
+			#combinations-inner {
+				font-size: 0px;
+				top: 0px;
+				left: 32px;
+				overflow-x: hidden;
+				overflow-y: scroll;
+				height: 92px;
+				width: calc(100vw - 88px);
+				padding: 0px;
+				text-align: center;
+			}
+
+			.combination {
+				display: inline-block;
+				margin: 0px 0px 8px 8px;
+			}
+
+			.combination:last-child {
+				margin-right: 8px;
+			}
+		}
