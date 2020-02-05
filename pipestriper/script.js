@@ -12,6 +12,7 @@ window.onload = function() {
 			var PIPETYPES = ["I", "I", "I", "I", "I", "L", "L", "L", "L", "L", "L", "L", "L", "T", "T", "T", "T", "+", "O", "O"]
 			var GAMEWIDTH = 8
 			var GAMEHEIGHT = 8
+			var GET = {}
 
 		/* elements */
 			var THINKING = document.getElementById("thinking")
@@ -47,6 +48,9 @@ window.onload = function() {
 					GAMESTATE.perimeter = {}
 					GAMESTATE.orbs = []
 
+				// get get
+					buildGet()
+
 				// style
 					ROOT.style.setProperty("--grid-height", GAMEHEIGHT)
 					ROOT.style.setProperty("--grid-width",  GAMEWIDTH )
@@ -59,6 +63,54 @@ window.onload = function() {
 
 				// play
 					GAMESTATE.playing = true
+			}
+
+		/* buildGet */
+			function buildGet() {
+				// query parameters?
+					if (location.search && location.search.length > 1) {
+						var queryString = location.search.slice(1).split("&")
+						for (var i in queryString) {
+							var pair = queryString[i].split("=")
+							GET[pair[0]] = pair[1]
+						}
+					}
+
+				// update constants
+					GAMEHEIGHT = !isNaN(GET.y) ? Number(GET.y) : GAMEHEIGHT
+					GAMEWIDTH  = !isNaN(GET.x) ? Number(GET.x) : GAMEWIDTH
+
+				// grid?
+					if (GET.grid) {
+						var grid = GET.grid
+						GET.grid = []
+
+						var columns = grid.split(";")
+						for (var x in columns) {
+							GET.grid[x] = []
+							
+							var row = columns[x].split(",")
+							for (var y in row) {
+								var type = row[y].trim().toUpperCase()
+								GET.grid[x][y] = PIPETYPES.includes(type) ? type : null
+							}
+						}
+					}
+
+				// orbs
+					GET.orbs = {n: [], e: [], s: [], w: []}
+					if (GET.n) {
+						GET.orbs.n = GET.n.split(";")
+					}
+					if (GET.e) {
+						GET.orbs.e = GET.e.split(";")
+					}
+					if (GET.s) {
+						GET.orbs.s = GET.s.split(";")
+					}
+					if (GET.w) {
+						GET.orbs.w = GET.w.split(";")
+					}
 			}
 
 		/* buildGrid */
@@ -78,7 +130,7 @@ window.onload = function() {
 									}
 
 								// random shape
-									var type = PIPETYPES[Math.floor(Math.random() * PIPETYPES.length)]
+									var type = GET.grid && GET.grid[x] && GET.grid[x][y] ? GET.grid[x][y] : PIPETYPES[Math.floor(Math.random() * PIPETYPES.length)]
 
 								// build cell
 									var cell = document.createElement("div")
@@ -132,17 +184,21 @@ window.onload = function() {
 
 				// north
 					for (var x = 0; x < GAMEWIDTH; x++) {
+						// empty
+							if (GET.orbs.n.length && !GET.orbs.n[x]) { continue }
+
 						// update game object
+							var color = GET.orbs.n[x] ? GET.orbs.n[x].split(",") : [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)]
 							GAMESTATE.perimeter.n[x] = {
 								x: x,
 								y: -1,
 								side: "n",
 								on: false,
-								red: Math.floor(Math.random() * 255),
-								green: Math.floor(Math.random() * 255),
-								blue: Math.floor(Math.random() * 255)
+								red: Number(color[0]),
+								green: Number(color[1]),
+								blue: Number(color[2])
 							}
-							GAMESTATE.perimeter.n[x].color = "rgb(" + GAMESTATE.perimeter.n[x].red + ", " + GAMESTATE.perimeter.n[x].green + ", " + GAMESTATE.perimeter.n[x].blue + ")"
+							GAMESTATE.perimeter.n[x].color = "rgb(" + color.join(", ") + ")"
 							GAMESTATE.orbs.push(GAMESTATE.perimeter.n[x])
 
 						// build color orb
@@ -150,23 +206,27 @@ window.onload = function() {
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.n[x].color
 								orb.style.top = "50%"
-								orb.style.left = (90 / GAMEWIDTH * (x + 0.5)) + 5 + "%"
+								orb.style.left = "calc(100% / var(--grid-width) * " + (x + 0.5) + ")"
 							PERIMETER_NORTH.appendChild(orb)
 					}
 
 				// east
 					for (var y = 0; y < GAMEHEIGHT; y++) {
+						// empty
+							if (GET.orbs.e.length && !GET.orbs.e[y]) { continue }
+
 						// update game object
+							var color = GET.orbs.e[y] ? GET.orbs.e[y].split(",") : [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)]
 							GAMESTATE.perimeter.e[y] = {
 								x: GAMEWIDTH,
 								y: y,
 								side: "e",
 								on: false,
-								red: Math.floor(Math.random() * 255),
-								green: Math.floor(Math.random() * 255),
-								blue: Math.floor(Math.random() * 255)
+								red: Number(color[0]),
+								green: Number(color[1]),
+								blue: Number(color[2])
 							}
-							GAMESTATE.perimeter.e[y].color = "rgb(" + GAMESTATE.perimeter.e[y].red + ", " + GAMESTATE.perimeter.e[y].green + ", " + GAMESTATE.perimeter.e[y].blue + ")"
+							GAMESTATE.perimeter.e[y].color = "rgb(" + color.join(", ") + ")"
 							GAMESTATE.orbs.push(GAMESTATE.perimeter.e[y])
 
 						// build color orb
@@ -174,23 +234,27 @@ window.onload = function() {
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.e[y].color
 								orb.style.left = "50%"
-								orb.style.top = (90 / GAMEHEIGHT * (y + 0.5)) + 5 + "%"
+								orb.style.top = "calc(100% / var(--grid-height) * " + (y + 0.5) + ")"
 							PERIMETER_EAST.appendChild(orb)
 					}
 
 				// south
 					for (var x = GAMEWIDTH - 1; x >= 0; x--) {
+						// empty
+							if (GET.orbs.s.length && !GET.orbs.s[x]) { continue }
+
 						// update game object
+							var color = GET.orbs.s[x] ? GET.orbs.s[x].split(",") : [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)]
 							GAMESTATE.perimeter.s[x] = {
 								x: x,
 								y: GAMEHEIGHT,
 								side: "s",
 								on: false,
-								red: Math.floor(Math.random() * 255),
-								green: Math.floor(Math.random() * 255),
-								blue: Math.floor(Math.random() * 255)
+								red: Number(color[0]),
+								green: Number(color[1]),
+								blue: Number(color[2])
 							}
-							GAMESTATE.perimeter.s[x].color = "rgb(" + GAMESTATE.perimeter.s[x].red + ", " + GAMESTATE.perimeter.s[x].green + ", " + GAMESTATE.perimeter.s[x].blue + ")"
+							GAMESTATE.perimeter.s[x].color = "rgb(" + color.join(", ") + ")"
 							GAMESTATE.orbs.push(GAMESTATE.perimeter.s[x])
 
 						// build color orb
@@ -198,23 +262,27 @@ window.onload = function() {
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.s[x].color
 								orb.style.top = "50%"
-								orb.style.left = (90 / GAMEWIDTH * (x + 0.5)) + 5 + "%"
+								orb.style.left = "calc(100% / var(--grid-width) * " + (x + 0.5) + ")"
 							PERIMETER_SOUTH.appendChild(orb)
 					}
 
 				// west
 					for (var y = GAMEHEIGHT - 1; y >= 0; y--) {
+						// empty
+							if (GET.orbs.w.length && !GET.orbs.w[y]) { continue }
+
 						// update game object
+							var color = GET.orbs.w[y] ? GET.orbs.w[y].split(",") : [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255)]
 							GAMESTATE.perimeter.w[y] = {
 								x: -1,
 								y: y,
 								side: "w",
 								on: false,
-								red: Math.floor(Math.random() * 255),
-								green: Math.floor(Math.random() * 255),
-								blue: Math.floor(Math.random() * 255)
+								red: Number(color[0]),
+								green: Number(color[1]),
+								blue: Number(color[2])
 							}
-							GAMESTATE.perimeter.w[y].color = "rgb(" + GAMESTATE.perimeter.e[y].red + ", " + GAMESTATE.perimeter.e[y].green + ", " + GAMESTATE.perimeter.e[y].blue + ")"
+							GAMESTATE.perimeter.w[y].color = "rgb(" + color.join(", ") + ")"
 							GAMESTATE.orbs.push(GAMESTATE.perimeter.w[y])
 
 						// build color orb
@@ -222,7 +290,7 @@ window.onload = function() {
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.w[y].color
 								orb.style.left = "50%"
-								orb.style.top = (90 / GAMEHEIGHT * (y + 0.5)) + 5 + "%"
+								orb.style.top = "calc(100% / var(--grid-height) * " + (y + 0.5) + ")"
 							PERIMETER_WEST.appendChild(orb)
 					}
 
