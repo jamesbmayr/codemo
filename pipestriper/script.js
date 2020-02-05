@@ -205,7 +205,7 @@ window.onload = function() {
 							var orb = document.createElement("orb")
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.n[x].color
-								orb.style.top = "50%"
+								orb.style.top = "100%"
 								orb.style.left = "calc(100% / var(--grid-width) * " + (x + 0.5) + ")"
 							PERIMETER_NORTH.appendChild(orb)
 					}
@@ -233,7 +233,7 @@ window.onload = function() {
 							var orb = document.createElement("orb")
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.e[y].color
-								orb.style.left = "50%"
+								orb.style.left = "0%"
 								orb.style.top = "calc(100% / var(--grid-height) * " + (y + 0.5) + ")"
 							PERIMETER_EAST.appendChild(orb)
 					}
@@ -261,7 +261,7 @@ window.onload = function() {
 							var orb = document.createElement("orb")
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.s[x].color
-								orb.style.top = "50%"
+								orb.style.top = "0%"
 								orb.style.left = "calc(100% / var(--grid-width) * " + (x + 0.5) + ")"
 							PERIMETER_SOUTH.appendChild(orb)
 					}
@@ -289,7 +289,7 @@ window.onload = function() {
 							var orb = document.createElement("orb")
 								orb.className = "orb"
 								orb.style.backgroundColor = GAMESTATE.perimeter.w[y].color
-								orb.style.left = "50%"
+								orb.style.left = "100%"
 								orb.style.top = "calc(100% / var(--grid-height) * " + (y + 0.5) + ")"
 							PERIMETER_WEST.appendChild(orb)
 					}

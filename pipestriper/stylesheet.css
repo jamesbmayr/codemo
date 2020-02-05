@@ -165,8 +165,8 @@
 			box-shadow: 0px 0px 5px #222222 inset;
 			filter: drop-shadow(0px 0px 10px #222222);
 			background-color: #dddddd;
-			height: 10px;
-			width: 10px;
+			height: 25px;
+			width: 25px;
 			position: absolute;
 			transform: translateX(-50%) translateY(-50%);
 		}
@@ -328,7 +328,7 @@
 
 		#counter:hover, #counter:focus {
 			background-color: #111111;
-			box-shadow: 0px 0px 10px #111111;
+			box-shadow: 0px 0px 5px #dddddd;
 		}
 
 		#counter-inner {
