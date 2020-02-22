@@ -26,6 +26,7 @@
 			--piece-count: 3;
 			--grid-color: "#557799";
 			--piece-color: "#224466";
+			--multiplier: 1;
 		}
 
 	/* container */
@@ -35,8 +36,8 @@
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
 			border-radius: 10px;
-			height: calc(1px * (var(--grid-height) * var(--cell-size) + var(--border) * 2));
-			width: calc(1px * (var(--grid-width) * var(--cell-size) + var(--border) * 4 + var(--cell-size) * (var(--piece-count) + 2)));
+			height: calc(1px * (var(--grid-height) * var(--multiplier) * var(--cell-size) + var(--border) * 2));
+			width: calc(1px * (var(--grid-width) * var(--multiplier) * var(--cell-size) + var(--border) * 2 + var(--cell-size) * var(--multiplier) * (var(--piece-count) + 2)));
 			background-color: transparent;
 			-webkit-user-select: none;
 			-moz-user-select: none;
@@ -80,7 +81,7 @@
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		width: calc(1px * var(--cell-size) * var(--piece-count));
+		width: calc(1px * var(--multiplier) * var(--cell-size) * var(--piece-count));
 		height: calc(100% - 1px * var(--border) * 2);
 		background-color: #111111;
 		overflow-y: scroll;
@@ -97,9 +98,9 @@
 	.piece {
 		position: absolute;
 		top: 0px;
-		left: calc(1px * var(--cell-size) * var(--piece-count) / 2);
-		width: calc(1px * var(--cell-size) * var(--piece-count));
-		height: calc(1px * var(--cell-size) * var(--piece-count));
+		left: calc(1px * var(--cell-size) * var(--multiplier) * var(--piece-count) / 2);
+		width: calc(1px * var(--cell-size) * var(--multiplier) * var(--piece-count));
+		height: calc(1px * var(--cell-size) * var(--multiplier) * var(--piece-count));
 		background-color: transparent;
 		cursor: grab;
 		transform: translateX(-50%) translateY(-50%);
@@ -111,12 +112,13 @@
 		-ms-user-select: none;
 		-o-user-select: none;
 		user-select: none;
+		opacity: 0.8;
 	}
 
 	.piece .cell {
 		background-color: transparent;
 		border-radius: calc(1px * var(--border) / 2);
-		filter: drop-shadow(0px 0px calc(1px * var(--border)) #333333);
+		filter: drop-shadow(0px 0px calc(1px * var(--border)) #222222);
 	}
 
 	.piece .cell[patch=true] {
@@ -137,10 +139,10 @@
 	#grid {
 		position: absolute;
 		top: 0px;
-		left: calc(1px * (var(--border) * 2 + var(--cell-size) * (var(--piece-count) + 2)));
-		width: calc(100% - (1px * (var(--border) * 4 + var(--cell-size) * (var(--piece-count) + 2))));
+		left: calc(1px * (var(--border) * 2 + var(--cell-size) * var(--multiplier) * (var(--piece-count) + 2)));
+		width: calc(100% - (1px * (var(--border) * 2 + var(--cell-size) * var(--multiplier) * (var(--piece-count) + 2))));
 		height: calc(100% - (1px * (var(--border) * 2)));
-		background-color: #222222;
+		background-color: #111111;
 		border: calc(1px * var(--border)) solid transparent;
 		border-radius: calc(1px * var(--border));
 		-webkit-user-select: none;
@@ -153,7 +155,7 @@
 	.row {
 		float: left;
 		width: 100%;
-		height: calc(1px * var(--cell-size));
+		height: calc(1px * var(--multiplier) * var(--cell-size));
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-ms-user-select: none;
@@ -163,8 +165,8 @@
 
 	.cell {
 		float: left;
-		width: calc(1px * var(--cell-size));
-		height: calc(1px * var(--cell-size));
+		width: calc(1px * var(--multiplier) * var(--cell-size));
+		height: calc(1px * var(--multiplier) * var(--cell-size));
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-ms-user-select: none;
@@ -174,7 +176,7 @@
 
 	#grid .cell {
 		background-color: var(--grid-color);
-		box-shadow: 0px 0px calc(1px * var(--border)) #333333 inset;
+		box-shadow: 0px 0px calc(1px) #222222 inset;
 	}
 
 	#grid .cell[hole=true] {

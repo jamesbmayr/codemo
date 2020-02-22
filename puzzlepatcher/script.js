@@ -2,11 +2,23 @@ window.onload = function() {
 	/*** onload ***/
 		/* triggers */
 			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", mouseenter: "touchmove" }
+				var ON = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", mouseenter: "touchmove" }
 			}
 			else {
-				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", mouseenter: "mouseenter" }
+				var ON = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", mouseenter: "mouseenter" }
 			}
+
+		/* detectScreen */
+			var MULTIPLIER = null
+			detectScreen()
+			window.addEventListener("resize", detectScreen)
+			function detectScreen(event) {
+				MULTIPLIER = (window.innerWidth < 900) ? 0.5 : 1
+				document.documentElement.style.setProperty("--multiplier", MULTIPLIER)
+				
+				resortPieces(true)
+			}
+
 
 		/* prevent long press */
 			window.addEventListener("contextmenu", function(event) {
@@ -32,14 +44,6 @@ window.onload = function() {
 			var PIECES = document.getElementById("pieces")
 			var GRID = document.getElementById("grid")
 			var OVERLAY = document.getElementById("overlay")
-			var COLORS = [
-				/* blue */    ["#557799", "#224466"],
-				/* brown */   ["#655938", "#4c4636"],
-				/* silver */  ["#313435", "#63676b"],
-				/* white */   ["#c0c1b5", "#929673"],
-				/* green */   ["#2b4434", "#5c613c"],
-				/* red */     ["#501e1e", "#380f13"]
-			]
 
 		/* buildGet */
 			buildGet()
@@ -59,34 +63,7 @@ window.onload = function() {
 					PIECECOUNT = !isNaN(GET.pieces) ? Number(GET.pieces) : PIECECOUNT
 			}
 
-		/* state */
-			var GAMESTATE = {
-				options: {
-					x: GRIDWIDTH,
-					y: GRIDHEIGHT,
-					pieces: PIECECOUNT,
-					pieceCells: PIECECELLS,
-					cellSize: CELLSIZE,
-					border: BORDER,
-					colors: {
-						grid: COLORS[0][0],
-						piece: COLORS[0][1]
-					}
-				},
-				playing: false,
-				selected: null,
-				selectedOffset: {
-					x: 0,
-					y: 0
-				},
-				holes: 0,
-				grid: {},
-				pieces: {}
-			}
-			window.GAMESTATE = GAMESTATE
-
 		/* maps */
-			var ANGLES = [0, FULLCIRCLE / 4 * 1, FULLCIRCLE / 4 * 2, FULLCIRCLE / 4 * 3]
 			var PIECETYPES = [
 				// 1 rotation
 					[ [1,1,1],
@@ -201,10 +178,44 @@ window.onload = function() {
 					  [1,1, ],
 					  [ ,1,1] ],
 			]
+			var COLORS = {
+				blue:   ["#557799", "#224466"],
+				brown:  ["#352f1d", "#4c4636"],
+				silver: ["#414445", "#73777b"],
+				white:  ["#c0c1b5", "#929673"],
+				green:  ["#2b4434", "#5c613c"],
+				red:    ["#3e1919", "#8c2d36"]
+			}
+
+		/* state */
+			var GAMESTATE = {
+				options: {
+					x: GRIDWIDTH,
+					y: GRIDHEIGHT,
+					pieces: PIECECOUNT,
+					pieceCells: PIECECELLS,
+					cellSize: CELLSIZE,
+					border: BORDER,
+					colors: {
+						grid: COLORS.blue[0],
+						piece: COLORS.blue[1]
+					}
+				},
+				playing: false,
+				selected: null,
+				selectedOffset: {
+					x: 0,
+					y: 0
+				},
+				holes: 0,
+				grid: {},
+				pieces: {}
+			}
+			window.GAMESTATE = GAMESTATE
 
 	/*** setup ***/
 		/* createGame */
-			REFRESH.addEventListener(on.click, createGame)
+			REFRESH.addEventListener(ON.click, createGame)
 			createGame()
 			function createGame() {
 				// clear out
@@ -213,6 +224,8 @@ window.onload = function() {
 					Array.from(CONTAINER.querySelectorAll(".piece")).forEach(function(element) {
 						element.remove()
 					})
+
+				// remove overlay
 					OVERLAY.setAttribute("invisible", true)
 					CONTAINER.removeAttribute("blurred")
 
@@ -224,11 +237,12 @@ window.onload = function() {
 					GAMESTATE.holes = 0
 					GAMESTATE.grid = {}
 					GAMESTATE.pieces = {}
-					
-					var color = chooseRandom(COLORS)
+				
+				// color
+					var color = GET.color || chooseRandom(Object.keys(COLORS))
 					GAMESTATE.options.colors = {
-						grid: color[0],
-						piece: color[1]
+						grid: COLORS[color][0],
+						piece: COLORS[color][1]
 					}
 
 				// style
@@ -294,7 +308,8 @@ window.onload = function() {
 							var pieceElement = document.createElement("div")
 								pieceElement.className = "piece"
 								pieceElement.id = id
-								pieceElement.style.top = (i * (GAMESTATE.options.cellSize * (GAMESTATE.options.pieceCells + 1)) + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) + "px"
+								pieceElement.style.top = (i * MULTIPLIER * GAMESTATE.options.cellSize * (GAMESTATE.options.pieceCells + 1)) + 
+									(MULTIPLIER * GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2) + "px"
 							PIECES.appendChild(pieceElement)
 
 						// create sub-elements
@@ -308,7 +323,7 @@ window.onload = function() {
 										cellElement.className = "cell"
 										cellElement.setAttribute("patch", !!shape[y][x])
 										if (shape[y][x]) {
-											cellElement.addEventListener(on.mousedown, selectPiece)
+											cellElement.addEventListener(ON.mousedown, selectPiece)
 										}
 									rowElement.appendChild(cellElement)
 								}
@@ -319,44 +334,21 @@ window.onload = function() {
 								id: id,
 								shape: shape,
 								rotation: 0,
-								zflip: 0,
+								x: null,
+								y: null,
 								element: pieceElement,
 							}
 
 						// randomize
-							randomizePiece(GAMESTATE.pieces[id])
+							var randomCount = rangeRandom(1, 4)
+							for (var r = 0; r < randomCount; r++) {
+								rotatePieceShape(GAMESTATE.pieces[id])
+							}
 
 						// create corresponding hole
 							buildHole(GAMESTATE.pieces[id])
 							
 					}
-			}
-
-		/* randomizePiece */
-			function randomizePiece(piece) {
-				// rotate x/y
-					piece.rotation = chooseRandom(ANGLES)
-					var currentAngle = 0
-					while (currentAngle < piece.rotation) {
-						currentAngle += FULLCIRCLE / 4
-						var tempShape = duplicateObject(piece.shape)
-						piece.shape[0][0] = Number(tempShape[2][0])
-						piece.shape[1][0] = Number(tempShape[2][1])
-						piece.shape[2][0] = Number(tempShape[2][2])
-						piece.shape[2][1] = Number(tempShape[1][2])
-						piece.shape[2][2] = Number(tempShape[0][2])
-						piece.shape[1][2] = Number(tempShape[0][1])
-						piece.shape[0][2] = Number(tempShape[0][0])
-						piece.shape[0][1] = Number(tempShape[1][0])
-					}
-
-				// flip z
-					// piece.zflip = chooseRandom([0,180])
-
-				// update transform
-					piece.element.style.transform = "translateX(-50%) translateY(-50%) " +
-						"rotate(" + piece.rotation + "deg) " +
-						"rotateZ(" + piece.zflip + "deg)"
 			}
 
 		/* buildHole */
@@ -378,78 +370,64 @@ window.onload = function() {
 					}
 			}
 
-	/*** gameplay ***/
+	/*** actions ***/
 		/* selectPiece */
 			function selectPiece(event) {
 				if (GAMESTATE.playing) {
 					// get piece
-						var element = event.target.parentNode.parentNode
-						var piece = GAMESTATE.pieces[element.id]
-						var elementRect = element.getBoundingClientRect()
+						var piece = GAMESTATE.pieces[event.target.parentNode.parentNode.id]
+						var elementRect = piece.element.getBoundingClientRect()
 
 					// select
 						GAMESTATE.selected = piece.id
 						CONTAINER.setAttribute("grabbing", true)
 
-					// removing from tray?
-						if (element.parentNode.id == "pieces") {
-							// reassign parent
-								CONTAINER.appendChild(element)
-
-							// update tops of all pieces in tray
-								var pieceElements = Array.from(PIECES.querySelectorAll(".piece"))
-								for (var i in pieceElements) {
-									pieceElements[i].style.top = (i * (GAMESTATE.options.cellSize * (GAMESTATE.options.pieceCells + 1)) + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) + "px"
-								}
-						}
-
-					// already on grid? unpatch holes
-						else {
-							// get grid coords
-								var gridRect = GRID.getBoundingClientRect()
-								var coordX = Math.floor((elementRect.x - gridRect.x - GAMESTATE.options.border + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) / GAMESTATE.options.cellSize)
-								var coordY = Math.floor((elementRect.y - gridRect.y - GAMESTATE.options.border + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) / GAMESTATE.options.cellSize)
-
-							// updateHoles
-								updateHoles(coordX, coordY, piece, false)
-						}
-
 					// set offset
-						var x = event.targetTouches ? event.targetTouches[0].clientX : event.clientX
-						var y = event.targetTouches ? event.targetTouches[0].clientY : event.clientY
+						var x = (event.targetTouches ? event.targetTouches[0].clientX : event.clientX)
+						var y = (event.targetTouches ? event.targetTouches[0].clientY : event.clientY)
 
 						GAMESTATE.selectedOffset.x = x - (elementRect.x + elementRect.width  / 2)
 						GAMESTATE.selectedOffset.y = y - (elementRect.y + elementRect.height / 2)
 
+					// removing from tray?
+						if (piece.element.parentNode.id == "pieces") {
+							// reassign parent
+								CONTAINER.appendChild(piece.element)
+
+							// update tops of all pieces in tray
+								resortPieces()
+						}
+
+					// already on grid? unpatch holes
+						else {
+							// updateHoles
+								updateHoles(piece)
+						}
+
 					// update position
-						var containerRect = CONTAINER.getBoundingClientRect()
-						element.style.left = (x - GAMESTATE.selectedOffset.x - containerRect.x) + "px"
-						element.style.top  = (y - GAMESTATE.selectedOffset.y - containerRect.y) + "px"
+						repositionPiece(piece, {x: x, y: y})
 				}
 			}
 
 		/* unselectPiece */
-			window.addEventListener(on.mouseup, unselectPiece)
+			window.addEventListener(ON.mouseup, unselectPiece)
 			function unselectPiece(event) {
 				if (GAMESTATE.selected) {
 					// get element
 						var piece = GAMESTATE.pieces[GAMESTATE.selected]
-						var element = piece.element
-						var elementRect = element.getBoundingClientRect()
+						var elementRect = piece.element.getBoundingClientRect()
 
 					// already out of tray?
-						if (element.parentNode.id == "container") {
+						if (piece.element.parentNode.id == "container") {
 							// hovering over pieces tray?
 								var piecesRect = PIECES.getBoundingClientRect()
-								if ((piecesRect.x - GAMESTATE.options.cellSize <= elementRect.x) && ((elementRect.x + elementRect.width) <= (piecesRect.x + piecesRect.width + GAMESTATE.options.cellSize))
-								 && (piecesRect.y - GAMESTATE.options.cellSize <= elementRect.y) && ((elementRect.y + elementRect.height) <= (piecesRect.y + piecesRect.height - GAMESTATE.options.cellSize))) {
+								if ((piecesRect.x - GAMESTATE.options.cellSize * MULTIPLIER <= elementRect.x) && ((elementRect.x + elementRect.width)  <= (piecesRect.x + piecesRect.width  + GAMESTATE.options.cellSize * MULTIPLIER))
+								 && (piecesRect.y - GAMESTATE.options.cellSize * MULTIPLIER <= elementRect.y) && ((elementRect.y + elementRect.height) <= (piecesRect.y + piecesRect.height - GAMESTATE.options.cellSize * MULTIPLIER))) {
 								 	// reassign parent
-										PIECES.appendChild(element)
+										PIECES.appendChild(piece.element)
 									
 									// update position
-										var count = Array.from(PIECES.querySelectorAll(".piece")).length - 1
-										element.style.top  = (count * (GAMESTATE.options.cellSize * (GAMESTATE.options.pieceCells + 1)) + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) + "px"
-										element.style.left =          (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2) + "px"
+										resortPieces()
 
 									// scroll to last piece
 										PIECES.scrollTop = 10000
@@ -457,17 +435,11 @@ window.onload = function() {
 
 							// snap to grid
 								else {
-									// get grid coords
-										var gridRect = GRID.getBoundingClientRect()
-										var coordX = Math.floor((elementRect.x - gridRect.x - GAMESTATE.options.border + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) / GAMESTATE.options.cellSize)
-										var coordY = Math.floor((elementRect.y - gridRect.y - GAMESTATE.options.border + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) / GAMESTATE.options.cellSize)
-									
-									// update position
-										element.style.left = ((coordX - 1) * GAMESTATE.options.cellSize + (GAMESTATE.options.pieceCells + 2) * GAMESTATE.options.cellSize + GAMESTATE.options.border * 3 + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) + "px" 
-										element.style.top  = ((coordY - 1) * GAMESTATE.options.cellSize + GAMESTATE.options.border + (GAMESTATE.options.cellSize * GAMESTATE.options.pieceCells / 2)) + "px"
+									// reposition
+										repositionPiece(piece, {snap: true})
 
 									// update holes
-										updateHoles(coordX, coordY, piece, true)
+										updateHoles(piece, true)
 								}
 						}
 
@@ -478,22 +450,18 @@ window.onload = function() {
 			}
 
 		/* movePiece */
-			window.addEventListener(on.mousemove, movePiece)
+			window.addEventListener(ON.mousemove, movePiece)
 			function movePiece(event) {
 				if (GAMESTATE.playing && GAMESTATE.selected) {
-					// get coordinates
-						var x = event.targetTouches ? event.targetTouches[0].clientX : event.clientX
-						var y = event.targetTouches ? event.targetTouches[0].clientY : event.clientY
-
 					// get piece
 						var piece = GAMESTATE.pieces[GAMESTATE.selected]
-						var element = piece.element
-						var elementRect = element.getBoundingClientRect()
+
+					// get coordinates
+						var x = (event.targetTouches ? event.targetTouches[0].clientX : event.clientX)
+						var y = (event.targetTouches ? event.targetTouches[0].clientY : event.clientY)
 
 					// update position
-						var containerRect = CONTAINER.getBoundingClientRect()
-						element.style.left = (x - GAMESTATE.selectedOffset.x - containerRect.x) + "px"
-						element.style.top  = (y - GAMESTATE.selectedOffset.y - containerRect.y) + "px"
+						repositionPiece(piece, {x: x, y: y})
 				}
 			}
 
@@ -505,35 +473,16 @@ window.onload = function() {
 						var piece = GAMESTATE.pieces[GAMESTATE.selected]
 						var element = piece.element
 
-					// x/y
+					// rotate in data
 						if (event.code == "Space" || event.key == "x" || event.key == "y") {
-							piece.rotation += FULLCIRCLE / 4
-
-							var tempShape = duplicateObject(piece.shape)
-							piece.shape[0][0] = Number(tempShape[2][0])
-							piece.shape[1][0] = Number(tempShape[2][1])
-							piece.shape[2][0] = Number(tempShape[2][2])
-							piece.shape[2][1] = Number(tempShape[1][2])
-							piece.shape[2][2] = Number(tempShape[0][2])
-							piece.shape[1][2] = Number(tempShape[0][1])
-							piece.shape[0][2] = Number(tempShape[0][0])
-							piece.shape[0][1] = Number(tempShape[1][0])
+							rotatePieceShape(piece)
 						}
-
-					// z
-						if (event.key == "Shift" || event.key == "z") {
-						// 	piece.zflip += 180
-						}
-
-					// update transform
-						piece.element.style.transform = "translateX(-50%) translateY(-50%) " +
-							"rotate(" + piece.rotation + "deg) " +
-							"rotateZ(" + piece.zflip + "deg)"
 				}
 			}
 
+	/*** gameplay ***/
 		/* updateHoles */
-			function updateHoles(pieceX, pieceY, piece, patched) {
+			function updateHoles(piece, patched) {
 				// unpatch?
 					if (!patched) {
 						for (var x = 0; x < GAMESTATE.options.x; x++) {
@@ -548,17 +497,119 @@ window.onload = function() {
 					}
 
 				// patch
-					else {
+					else if (!isNaN(piece.x) && !isNaN(piece.y)) {
 						// add patch
 							for (var x = 0; x < GAMESTATE.options.pieceCells; x++) {
 								for (var y = 0; y < GAMESTATE.options.pieceCells; y++) {
-									if (piece.shape[y][x] && GAMESTATE.grid[pieceX - 1 + x] && GAMESTATE.grid[pieceX - 1 + x][pieceY - 1 + y]) {
-										GAMESTATE.grid[pieceX - 1 + x][pieceY - 1 + y].patches.push(piece.id)
+									if (piece.shape[y][x] && GAMESTATE.grid[piece.x - 1 + x] && GAMESTATE.grid[piece.x - 1 + x][piece.y - 1 + y]) {
+										GAMESTATE.grid[piece.x - 1 + x][piece.y - 1 + y].patches.push(piece.id)
 									}
 								}
 							}
 					}
 
+				// holes
+					countHoles()
+				
+			}
+
+		/* rotatePieceShape */
+			function rotatePieceShape(piece) {
+				// update rotation
+					piece.rotation += FULLCIRCLE / 4
+
+				// cycle shape
+					var tempShape = duplicateObject(piece.shape)
+					piece.shape[0][0] = Number(tempShape[2][0])
+					piece.shape[1][0] = Number(tempShape[2][1])
+					piece.shape[2][0] = Number(tempShape[2][2])
+					piece.shape[2][1] = Number(tempShape[1][2])
+					piece.shape[2][2] = Number(tempShape[0][2])
+					piece.shape[1][2] = Number(tempShape[0][1])
+					piece.shape[0][2] = Number(tempShape[0][0])
+					piece.shape[0][1] = Number(tempShape[1][0])
+
+				// update transform
+					piece.element.style.transform = "translateX(-50%) translateY(-50%) " +
+						"rotate(" + piece.rotation + "deg) "
+			}
+
+		/* repositionPiece */
+			function repositionPiece(piece, options) {
+				// snap to grid?
+					if (options.snap) {
+						// resize?
+							if (options.resize) {
+								piece.element.style.left = ((piece.x - 1) * MULTIPLIER * GAMESTATE.options.cellSize) + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2) + (GAMESTATE.options.border * 3) + (GAMESTATE.options.cellSize * MULTIPLIER * (GAMESTATE.options.pieceCells + 2)) + "px" 
+								piece.element.style.top  = ((piece.y - 1) * MULTIPLIER * GAMESTATE.options.cellSize) + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2) + (GAMESTATE.options.border) + "px"
+							}
+
+						// normal placement
+							else {
+								// rect
+									var elementRect = piece.element.getBoundingClientRect()
+
+								// get grid coords
+									var gridRect = GRID.getBoundingClientRect()
+									var coordX = Math.floor((elementRect.x - gridRect.x - GAMESTATE.options.border + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2)) / GAMESTATE.options.cellSize / MULTIPLIER)
+									var coordY = Math.floor((elementRect.y - gridRect.y - GAMESTATE.options.border + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2)) / GAMESTATE.options.cellSize / MULTIPLIER)
+
+								// save coords
+									piece.x = coordX
+									piece.y = coordY
+								
+								// update position
+									piece.element.style.left = ((piece.x - 1) * MULTIPLIER * GAMESTATE.options.cellSize) + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2) + (GAMESTATE.options.border * 3) + (GAMESTATE.options.cellSize * MULTIPLIER * (GAMESTATE.options.pieceCells + 2)) + "px" 
+									piece.element.style.top  = ((piece.y - 1) * MULTIPLIER * GAMESTATE.options.cellSize) + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2) + (GAMESTATE.options.border) + "px"
+						}
+					}
+
+				// held
+					else if (!isNaN(options.x) && !isNaN(options.y)) {
+						// get container rect
+							var containerRect = CONTAINER.getBoundingClientRect()
+
+						// remove coords
+							piece.x = null
+							piece.y = null
+
+						// update position
+							piece.element.style.left = (options.x - GAMESTATE.selectedOffset.x - containerRect.x) + "px"
+							piece.element.style.top  = (options.y - GAMESTATE.selectedOffset.y - containerRect.y) + "px"
+					}
+			}
+
+		/* resortPieces */
+			function resortPieces(resize) {
+				if (PIECES) {
+					// resize? move placed pieces too
+						if (resize) {
+							// get all pieces
+								var pieceElements = Array.from(CONTAINER.querySelectorAll(".piece"))
+
+							// loop through
+								for (var i in pieceElements) {
+									// only the ones not in the pieces tray
+										if (pieceElements[i].parentNode.id !== PIECES.id && GAMESTATE.pieces[pieceElements[i].id]) {
+											repositionPiece(GAMESTATE.pieces[pieceElements[i].id], {snap: true, resize: true})
+										}
+								}
+						}
+
+					// tray
+						// get elements
+							var pieceElements = Array.from(PIECES.querySelectorAll(".piece"))
+
+						// adjust position
+							for (var i in pieceElements) {
+								pieceElements[i].style.left =      (GAMESTATE.options.cellSize * MULTIPLIER *  GAMESTATE.options.pieceCells / 2)  + "px"
+								pieceElements[i].style.top  = (i * (GAMESTATE.options.cellSize * MULTIPLIER * (GAMESTATE.options.pieceCells + 1)) + (GAMESTATE.options.cellSize * MULTIPLIER * GAMESTATE.options.pieceCells / 2)) + "px"
+							}
+				}
+			}
+
+		/* countHoles */
+			function countHoles() {
 				// count
 					GAMESTATE.holes = 0
 					for (var x = 0; x < GAMESTATE.options.x; x++) {
@@ -571,8 +622,15 @@ window.onload = function() {
 
 				// victory?
 					if (!GAMESTATE.holes) {
-						OVERLAY.removeAttribute("invisible")
-						CONTAINER.setAttribute("blurred", true)
+						// stop playing
+							GAMESTATE.playing = false
+							GAMESTATE.selected = null
+							GAMESTATE.selectedOffset.x = 0
+							GAMESTATE.selectedOffset.y = 0
+
+						// show overlay
+							OVERLAY.removeAttribute("invisible")
+							CONTAINER.setAttribute("blurred", true)
 					}
 			}
 
