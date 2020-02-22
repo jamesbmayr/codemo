@@ -1,0 +1,251 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #aaaaaa;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+		font-family: monospace;
+		font-size: 0px;
+	}
+
+	/* variables */
+		:root {
+			--grid-height: 10;
+			--grid-width:  10;
+			--cell-size: 50;
+			--border: 5;
+			--piece-count: 3;
+			--grid-color: "#557799";
+			--piece-color: "#224466";
+		}
+
+	/* container */
+		#container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			border-radius: 10px;
+			height: calc(1px * (var(--grid-height) * var(--cell-size) + var(--border) * 2));
+			width: calc(1px * (var(--grid-width) * var(--cell-size) + var(--border) * 4 + var(--cell-size) * (var(--piece-count) + 2)));
+			background-color: transparent;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		#container[grabbing] {
+			cursor: grabbing;
+		}
+
+		#container[blurred] {
+			filter: blur(calc(1px * var(--border)));
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** pieces ***/
+	#pieces {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: calc(1px * var(--cell-size) * var(--piece-count));
+		height: calc(100% - 1px * var(--border) * 2);
+		background-color: #111111;
+		overflow-y: scroll;
+		border: calc(1px * var(--border)) solid transparent;
+		border-radius: calc(1px * var(--border));
+		scroll-behavior: smooth;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	.piece {
+		position: absolute;
+		top: 0px;
+		left: calc(1px * var(--cell-size) * var(--piece-count) / 2);
+		width: calc(1px * var(--cell-size) * var(--piece-count));
+		height: calc(1px * var(--cell-size) * var(--piece-count));
+		background-color: transparent;
+		cursor: grab;
+		transform: translateX(-50%) translateY(-50%);
+		margin: 0px;
+		transition: 0.1s;
+		pointer-events: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	.piece .cell {
+		background-color: transparent;
+		border-radius: calc(1px * var(--border) / 2);
+		filter: drop-shadow(0px 0px calc(1px * var(--border)) #333333);
+	}
+
+	.piece .cell[patch=true] {
+		pointer-events: all;
+		background-color: var(--piece-color);
+	}
+
+	.piece .cell:not([patch=true]) {
+		pointer-events: none;
+		cursor: default;
+	}
+
+	#container[grabbing] .piece {
+		cursor: grabbing;
+	}
+
+/*** grid ***/
+	#grid {
+		position: absolute;
+		top: 0px;
+		left: calc(1px * (var(--border) * 2 + var(--cell-size) * (var(--piece-count) + 2)));
+		width: calc(100% - (1px * (var(--border) * 4 + var(--cell-size) * (var(--piece-count) + 2))));
+		height: calc(100% - (1px * (var(--border) * 2)));
+		background-color: #222222;
+		border: calc(1px * var(--border)) solid transparent;
+		border-radius: calc(1px * var(--border));
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	.row {
+		float: left;
+		width: 100%;
+		height: calc(1px * var(--cell-size));
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	.cell {
+		float: left;
+		width: calc(1px * var(--cell-size));
+		height: calc(1px * var(--cell-size));
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+	}
+
+	#grid .cell {
+		background-color: var(--grid-color);
+		box-shadow: 0px 0px calc(1px * var(--border)) #333333 inset;
+	}
+
+	#grid .cell[hole=true] {
+		background-color: transparent;
+	}
+
+/*** overlay ***/
+	#overlay {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0,0,0,0.5);
+		text-align: center;
+		opacity: 1;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		user-select: none;
+		transition: 1s;
+		z-index: 100;
+	}
+
+	#overlay[invisible] {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	#overlay-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		text-align: center;
+	}
+
+	/* message */
+		#message {
+			font-family: monospace;
+			font-weight: bold;
+			font-size: 100px;
+			color: #dddddd;
+			margin: calc(1px * var(--border) * 2);
+		}
+
+	/* refresh */
+		#refresh {
+			font-family: monospace;
+			font-weight: bold;
+			font-size: 100px;
+			color: #dddddd;
+			background-color: #333333;
+			box-shadow: 0px 0px calc(1px * var(--border)) #333333;
+			outline: none;
+			border: 0px;
+			border-radius: calc(1px * var(--border));
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			transition: 1s;
+			margin: calc(1px * var(--border) * 2);
+			padding: calc(1px * var(--border) * 2);
+			min-width: calc(1px * var(--cell-size) * (var(--piece-count) + 2));
+		}
+
+		#refresh:hover, #refresh:focus {
+			background-color: #222222;
+			box-shadow: 0px 0px calc(1px * var(--border) * 4) #222222;
+		}
