@@ -315,7 +315,7 @@ window.onload = function() {
 					name: "Switchonyms",
 					size: "large",
 					tags: ["games","code"],
-					url: "http://www.switchonyms.com",
+					url: "https://switchonyms.herokuapp.com",
 					date: "February 1, 2018",
 					description: "Switchonyms is a chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 				},
