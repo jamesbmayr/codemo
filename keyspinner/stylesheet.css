@@ -1,0 +1,183 @@
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background-color: #dddddd;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #333333);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #222222);
+	}
+
+/*** overlay ***/
+	#overlay {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		z-index: 1000;
+		padding: 10px;
+		background-color: #777777;
+		border-radius: 100%;
+		box-shadow: 0px 0px 10px #333333;
+		opacity: 0.85;
+		transition: 0.5s;
+		height: 200px;
+		width: 200px;
+		text-align: center;
+	}
+
+	#overlay[invisible] {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	/* message */
+		#overlay-message {
+			color: #333333;
+			font-family: monospace;
+			font-size: 25px;
+			height: 40px;
+			width: 100%;
+			margin-top: 35px;
+		}
+
+	/* reset */
+		#overlay-reset {
+			border: 0px;
+			border-radius: 100%;
+			outline: none;
+			cursor: pointer;
+			margin: 10px;
+			background-color: #333333;
+			color: #dddddd;
+			font-family: monospace;
+			padding: 10px;
+			font-size: 25px;
+			height: 100px;
+			width: 100px;
+		}
+
+		#overlay-reset:hover, #overlay-reset:focus {
+			box-shadow: 0px 0px 10px #333333;
+			background-color: #222222;
+		}
+
+/*** game ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 80vw;
+		width: 80vw;
+		max-height: 80vh;
+		max-width: 80vh;
+		background-color: #333333;
+		border-radius: 100%;
+		box-shadow: 0px 0px 20px #111111 inset;
+		filter: drop-shadow(0px 0px 20px #111111);
+	}
+
+	/* key */
+		#key {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 80%;
+			width: 80%;
+		}
+
+		.key-layer {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			height: 100%;
+			width: 100%;
+			transform: translateX(-50%) translateY(-50%);
+			transition: 0.5s;
+			pointer-events: none;
+			z-index: 2;
+		}
+
+		.key-center {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			border-radius: 100%;
+			background-color: #dddddd;
+			z-index: 100;
+		}
+
+	/* key spoke */
+		.key-spoke {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 10%;
+			opacity: 0.5;
+			border-radius: 10px;
+			transform-origin: top center;
+			cursor: pointer;
+			pointer-events: all;
+		}
+
+		.key-layer:hover .key-spoke, .key-spoke:hover {
+			box-shadow: 0px 0px 5px #333333;
+		}
+
+	/* hole */
+		#hole {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 80%;
+			width: 80%;
+			pointer-events: none;
+			z-index: -1;
+		}
+
+		.hole-spoke {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 10%;
+			padding: 2px;
+			opacity: 1;
+			border-radius: 10px;
+			transform-origin: top center;
+			pointer-events: none;
+			background-color: #111111;
+			box-shadow: 0px 0px 20px #111111;
+			z-index: -1;
+		}
