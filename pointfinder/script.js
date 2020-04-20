@@ -19,6 +19,7 @@ window.addEventListener("load", function() {
 				yColor: "#5a8abb",
 				pointColor: "#222222",
 				edgeBuffer: 25,
+				rangeBuffer: 10,
 				intervalTime: 1 * 1000,
 				scoreTime: 5,
 				startTime: 15,
@@ -53,8 +54,10 @@ window.addEventListener("load", function() {
 				// ranges
 					ELEMENTS.rangeX.setAttribute("max", CONSTANTS.width - CONSTANTS.edgeBuffer)
 					ELEMENTS.rangeX.value = Math.min(Number(ELEMENTS.rangeX.value), CONSTANTS.width - CONSTANTS.edgeBuffer)
+					ELEMENTS.rangeX.style.width = CONSTANTS.width - CONSTANTS.edgeBuffer - CONSTANTS.rangeBuffer + "px"
 					ELEMENTS.rangeY.setAttribute("max", CONSTANTS.height - CONSTANTS.edgeBuffer)
 					ELEMENTS.rangeY.value = Math.min(Number(ELEMENTS.rangeY.value), CONSTANTS.height - CONSTANTS.edgeBuffer)
+					ELEMENTS.rangeY.style.width = CONSTANTS.height - CONSTANTS.edgeBuffer - CONSTANTS.rangeBuffer + "px"
 
 				// canvas
 					ELEMENTS.canvas.height = CONSTANTS.height
