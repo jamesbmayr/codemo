@@ -1,0 +1,123 @@
+/*** page ***/
+	html, body {
+		margin: 0px;
+		padding: 0px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		background-color: #dddddd;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		bottom: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** game ***/
+	/* inputs */
+		input#x {
+			position: absolute;
+			top: 0px;
+			left: 17px;
+			width: calc(100vw - 34px);
+			height: 20px;
+			padding: 0px;
+			margin: 0px;
+		}
+
+		input#y {
+			position: absolute;
+			top: 9px;
+			left: 9px;
+			transform: rotate(90deg);
+			transform-origin: center left;
+			width: calc(100vh - 34px);
+			height: 17px;
+			padding: 0px;
+			margin: 0px;
+		}
+
+	/* stats */
+		#stats {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			text-align: center;
+		}
+
+		#time {
+			font-size: 50px;
+			font-family: monospace;
+			color: #aaaaaa;
+		}
+
+		#score {
+			font-family: monospace;
+			color: #aaaaaa;
+			font-size: 25px;
+		}
+
+		#reset-form {
+			transition: 1s;
+		}
+
+		#reset {
+			border: 0px;
+			border-radius: 100%;
+			background-color: #aaaaaa;
+			color: #555555;
+			cursor: pointer;
+			height: 50px;
+			width: 50px;
+			font-size: 25px;
+			padding: 10px;
+			margin: 10px;
+			font-family: monospace;
+			font-weight: bold;
+			line-height: 1;
+			outline: none;
+		}
+
+		#reset:hover, #reset:focus {
+			background-color: #777777;
+			color: #222222;
+			box-shadow: 0px 0px 10px #777777;
+		}
+
+
+	/* canvas */
+		canvas {
+			background: transparent;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			pointer-events: none;
+			box-shadow: 0px 0px 25px #222222 inset;
+		}
+
+/*** state ***/
+	*[invisible=true] {
+		opacity: 0;
+		pointer-events: none;
+	}

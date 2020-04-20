@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>pointFinder</title>
+		<link rel="shortcut icon" href="https://cdn.iconscout.com/icon/free/png-256/dot-2-81720.png"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="pointFinder is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="pointFinder"/>
+		<meta property="og:url" content="https://jamesmayr.com/lockturner/"/>
+		<meta property="og:description" content="pointFinder is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<input type="range" id="x" min="25" max="25" step="1" value="0"/>
+		<input type="range" id="y" min="25" max="25" step="1" value="0"/>
+		<section id="stats">
+			<div id="time"></div>
+			<div id="score"></div>
+			<form id="reset-form" action="javascript:;" method="post">
+				<button id="reset">&orarr;</button>
+			</form>
+		</section>
+		<canvas id="canvas" height="10000" width="10000"></canvas>
+	</body>
+</html>
