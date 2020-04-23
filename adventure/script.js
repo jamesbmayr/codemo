@@ -70,26 +70,25 @@ window.onload = function() {
 								height: 5.5,
 								weight: 150,
 								description: "The standard homo sapiens sapiens, these farmers, craftsmen, and traders are swift and smart, obligatory tool-users, and motivated by self-interest and often the well-being of friends and family.",
-								ability: "Humans have a maximum skill level of +6, giving them a slight edge when learning anything.",
-							},
-							perception: {
-								sight: 5,
-								sound: 5,
-								scent: 1,
-								taste: 1,
-								touch: 3
+								ability: "Humans have increased physical ability skills.",
 							},
 							statistics: {
+								perception: -1,
+								memory: -1,
 								logic: 1,
+								strength: 0,
 								dexterity: 1,
-								speed: 1,
-								perception: -1
+								immunity: -1,
+								speed: 1
 							},
 							skills: {
-								memory: { lang_human: 5 },
+								perception: { sight: 7, sound: 7, scent: 5, taste: 3, touch: 6 },
+								memory: { lang_human: 7 },
+								logic: { pattern_recognition: 3},
+								strength: { throw: 5, carry: 4 },
 								dexterity: { crafting: 2 },
-								speed: { run: 2 },
-								strength: { throw: 2 }
+								immunity: { recover: 0, sleep_resistance: 2 },
+								speed: { jump: 4, run: 5,  swim: 3 }
 							}
 						},
 						elf: {
@@ -100,23 +99,23 @@ window.onload = function() {
 								description: "Standard fantasy elf, with a long lifespan, pointy ears, tall build, precision dexterity, mysticism, and knowledge of nature.",
 								ability: "Elves have high perception across all senses, making them keenly aware of their surroundings at all times.",
 							},
-							perception: {
-								sight: 7,
-								sound: 7,
-								scent: 7,
-								taste: 7,
-								touch: 7
-							},
 							statistics: {
 								perception: 1,
 								memory: 1,
+								logic: -1,
+								strength: -1,
 								dexterity: 1,
-								immunity: -1
+								immunity: -1,
+								speed: 0
 							},
 							skills: {
-								memory: { lang_elf: 5 },
+								perception: { sight: 10, sound: 10, scent: 10, taste: 10, touch: 10, night_vision: 3 },
+								memory: { lang_elf: 7 },
+								logic: {},
+								strength: { carry: 1, throw: 2 },
+								dexterity: {},
 								immunity: { recover: 2, sleep_resistance: 2 },
-								perception: { night_vision: 2 }
+								speed: { jump: 5, run: 5, swim: 1 }
 							}
 						},
 						dwarf: {
@@ -127,25 +126,36 @@ window.onload = function() {
 								description: "Standard fantasy dwarf, with short stature, powerful strength, and an affinity for geology, masonry, and war.",
 								ability: "Dwarves are strong fighters with powerful punch and kick attacks that each deal 3d6 damage.",
 							},
-							perception: {
-								sight: 3,
-								sound: 5,
-								scent: 1,
-								taste: 1,
-								touch: 5
-							},
 							statistics: {
+								perception: -1,
+								memory: 0,
+								logic: -1,
 								strength: 1,
-								speed: 1,
+								dexterity: -1,
 								immunity: 1,
-								logic: -1
+								speed: 1
 							},
 							skills: {
-								memory: { lang_dwarf: 5 },
-								dexterity: { crafting: 2 },
-								speed: { dodge: 2 },
-								perception: { night_vision: 2 }
-							}
+								perception: { sight: 6, sound: 7, scent: 4, taste: 4, touch: 7, night_vision: 2 },
+								memory: { lang_dwarf: 7 },
+								logic: {},
+								strength: { carry: 5, throw: 4 },
+								dexterity: { crafting: 3 },
+								immunity: { recover: 0 },
+								speed: { jump: 2, run: 2, swim: 1, dodge: 2 }
+							},
+							d6changes: [
+								{
+									statistic: "strength",
+									skill: "punch",
+									d6: 1
+								},
+								{
+									statistic: "speed",
+									skill: "kick",
+									d6: 1
+								}
+							]
 						},
 						halfling: {
 							info: {
@@ -155,24 +165,23 @@ window.onload = function() {
 								description: "Standard fantasy halfling/hobbit, with pointy ears, hairy feet, half height, and a love of food, gardening, music, and simple pleasures.",
 								ability: "Halfings are hard to influence; they negate opponent skill bonuses when the opponent influences via charisma.",
 							},
-							perception: {
-								sight: 3,
-								sound: 5,
-								scent: 1,
-								taste: 5,
-								touch: 1
-							},
 							statistics: {
-								immunity: 1,
+								perception: 0,
 								memory: 1,
+								logic: -1,
+								strength: -1,
 								dexterity: 1,
-								strength: -1
+								immunity: 1,
+								speed: -1
 							},
 							skills: {
-								memory: { lang_halfling: 5 },
-								speed: { jump: 2 },
-								strength: { climb: 2 },
-								dexterity: { sneak: 2 }
+								perception: { sight: 5, sound: 7, scent: 5, taste: 7, touch: 4 },
+								memory: { lang_halfling: 7 },
+								logic: { remain_calm: 2 },
+								strength: { carry: 2, throw: 3, climb: 2 },
+								dexterity: { sneak: 3 },
+								immunity: { recover: 0 },
+								speed: { jump: 4, run: 3, swim: 2 }
 							}
 						},
 						gnome: {
@@ -183,23 +192,23 @@ window.onload = function() {
 								description: "Standard fantasy gnome, with earth tones and short builds, long beards and pointy hats, and a focus on trickery, illusion, and crafting.",
 								ability: "Gnomes easily influence others; they negate opponent skill bonuses when influencing an opponent via charisma.",
 							},
-							perception: {
-								sight: 5,
-								sound: 5,
-								scent: 3,
-								taste: 1,
-								touch: 1
-							},
 							statistics: {
 								perception: 1,
+								memory: -1,
 								logic: 1,
+								strength: -1,
+								dexterity: 0,
 								immunity: 1,
-								strength: -1
+								speed: -1
 							},
 							skills: {
-								memory: { lang_gnome: 5 },
-								dexterity: { crafting: 2 },
-								logic: { persuade: 2, pattern_recognition: 2 }
+								perception: { sight: 7, sound: 7, scent: 6, taste: 3, touch: 5 },
+								memory: { lang_gnome: 7 },
+								logic: { persuade: 2 },
+								strength: { carry: 2, throw: 4 },
+								dexterity: { crafting: 3 },
+								immunity: { recover: 0 },
+								speed: { jump: 3, run: 2, swim: 3, dodge: 2 }
 							}
 						},
 						goblin: {
@@ -208,26 +217,25 @@ window.onload = function() {
 								height: 3.5,
 								weight: 100,
 								description: "Standard fantasy goblins, with small frames, dark red or yellow skin, low intelligence, and a crass, lowly standard of living.",
-								ability: "Goblins are immune to most toxins, with +5 resistance to poison, infection, allergies, and alcohol.",
-							},
-							perception: {
-								sight: 1,
-								sound: 3,
-								scent: 5,
-								taste: 1,
-								touch: 5
+								ability: "Goblins are immune to most toxins, with +7 resistance to poison, infection, allergies, and alcohol.",
 							},
 							statistics: {
+								perception: 0,
+								memory: -1,
+								logic: -1,
+								strength: -1,
 								dexterity: 1,
-								speed: 1,
 								immunity: 1,
-								logic: -1
+								speed: 1
 							},
 							skills: {
-								memory: { lang_goblin: 5 },
-								dexterity: { sneak: 2, ride_animals: 2 },
-								perception: { night_vision: 2 },
-								immunity: { poison_resistance: 5, infection_resistance: 5, allergy_resistance: 5, alcohol_tolerance: 5}
+								perception: { sight: 4, sound: 7, scent: 7, taste: 3, touch: 7, night_vision: 2 },
+								memory: { lang_goblin: 7 },
+								logic: {},
+								strength: { carry: 1, throw: 4 },
+								dexterity: { sneak: 2, ride_animals: 3 },
+								immunity: { recover: 0, poison_resistance: 7, infection_resistance: 7, allergy_resistance: 7, alcohol_tolerance: 7 },
+								speed: { jump: 4, run: 2, swim: 3 }
 							}
 						},
 						orc: {
@@ -238,23 +246,62 @@ window.onload = function() {
 								description: "Standard fantasy orcs, with large bodies covered in rough, dark-colored skin, a warlike temperament and preference for violence.",
 								ability: "Orcs are strong fighters with powerful punch and kick attacks that each deal 3d6 damage.",
 							},
-							perception: {
-								sight: 3,
-								sound: 3,
-								scent: 5,
-								taste: 1,
-								touch: 1
-							},
 							statistics: {
+								perception: -1,
+								memory: -1,
+								logic: -1,
 								strength: 1,
-								speed: 1,
 								dexterity: 1,
-								logic: -1
+								immunity: 0,
+								speed: 1
 							},
 							skills: {
-								memory: { lang_orc: 5 },
-								strength: { carry: 2, melee: 2 },
-								perception: { night_vision: 2 }
+								perception: { sight: 6, sound: 6, scent: 7, taste: 4, touch: 5, night_vision: 2 },
+								memory: { lang_orc: 7 },
+								logic: {},
+								strength: { carry: 4, throw: 3, melee: 3 },
+								dexterity: { fencing: 2 },
+								immunity: { recover: 0 },
+								speed: { jump: 3, run: 3, swim: 1 }
+							},
+							d6changes: [
+								{
+									statistic: "strength",
+									skill: "punch",
+									d6: 1
+								},
+								{
+									statistic: "speed",
+									skill: "kick",
+									d6: 1
+								}
+							]
+						},
+						lizardfolk: {
+							info: {
+								age: 20,
+								height: 5,
+								weight: 150,
+								description: "Standard fantasy lizard people, with medium-sized reptilian/humanoid bodies, forked tongues, webbed feet, and scales.",
+								ability: "Lizardfolk can camouflage in any setting, giving opponents a -14 on sight checks.",
+							},
+							statistics: {
+								perception: 1,
+								memory: -1,
+								logic: -1,
+								strength: -1,
+								dexterity: 1,
+								immunity: 1,
+								speed: 0
+							},
+							skills: {
+								perception: { sight: 6, sound: 5, scent: 7, taste: 7, touch: 3 },
+								memory: { lang_lizardfolk: 7 },
+								logic: {},
+								strength: { carry: 1, throw: 1 },
+								dexterity: { sneak: 3 },
+								immunity: { recover: 2, poison_resistance: 2 },
+								speed: { jump: 5, run: 2, swim: 5 }
 							}
 						},
 						bhios: {
@@ -263,27 +310,33 @@ window.onload = function() {
 								height: 5.5,
 								weight: 150,
 								description: "These forest-dwelling hominins are logical, passionate, and well-spoken. They’ve adapted to a mostly peaceful and democratic existence, if technologically stagnant.",
-								ability: "With their photosynthetic green skin, bhioses recover 3d6 extra damage on a sunny day.",
-							},
-							perception: {
-								sight: 3,
-								sound: 3,
-								scent: 3,
-								taste: 3,
-								touch: 3
+								ability: "With their photosynthetic green skin, bhioses recover 1d6 extra damage per recovery in sunlight.",
 							},
 							statistics: {
+								perception: -1,
 								memory: 1,
 								logic: 1,
+								strength: -1,
+								dexterity: 0,
 								immunity: 1,
 								speed: -1
 							},
 							skills: {
-								memory: { lang_bhios: 5 },
-								immunity: { recover: 2 },
-								strength: { climb: 2 },
-								logic: { remain_calm: 2 }
-							}
+								perception: { sight: 7, sound: 6, scent: 5, taste: 5, touch: 5 },
+								memory: { lang_bhios: 7 },
+								logic: { remain_calm: 2 },
+								strength: { carry: 2, throw: 3, climb: 2 },
+								dexterity: {},
+								immunity: { recover: 3 },
+								speed: { jump: 3, run: 3, swim: 3 }
+							},
+							d6changes: [
+								{
+									statistic: "immunity",
+									skill: "recover",
+									d6: 1
+								}
+							]
 						},
 						mellifax: {
 							info: {
@@ -293,24 +346,23 @@ window.onload = function() {
 								description: "Between three and four feet tall, these fairy folk are small, but clever. A secluded people, living in underground forest hives, they are often driven by racial ties, and have a close bond and deep understanding of nature.",
 								ability: "With their small wings, mellifaxi can hover at a low distance above the ground for a minute at a time.",
 							},
-							perception: {
-								sight: 1,
-								sound: 3,
-								scent: 3,
-								taste: 3,
-								touch: 5
-							},
 							statistics: {
+								perception: -1,
+								memory: 0,
+								logic: -1,
+								strength: -1,
 								dexterity: 1,
 								immunity: 1,
-								speed: 1,
-								strength: -1
+								speed: 1
 							},
 							skills: {
-								memory: { lang_mellifax: 5 },
+								perception: { sight: 3, sound: 7, scent: 6, taste: 5, touch: 7 },
+								memory: { lang_mellifax: 7 },
+								logic: {},
+								strength: { carry: 1, throw: 4 },
 								dexterity: { sneak: 2 },
-								speed: { jump: 2, fly: 10 },
-								immunity: { poison_resistance: 2 }
+								immunity: { recover: 0, poison_resistance: 3 },
+								speed: { jump: 5, run: 3, swim: 1, dodge: 2, fly: 10 }
 							}
 						},
 						preas: {
@@ -319,26 +371,25 @@ window.onload = function() {
 								height: 5,
 								weight: 125,
 								description: "Tradition and clan loyalty hold first priority for this dark-purple-skinned people, but a connection with animal life is close behind. They have developed a symbiotic relationship with dozens of forest, mountain, and plains creatures.",
-								ability: "With patience and intuition, preases have +10 animal handling; all animals are at -10 when resisting influence.",
-							},
-							perception: {
-								sight: 5,
-								sound: 1,
-								scent: 3,
-								taste: 3,
-								touch: 3
+								ability: "With patience and intuition, preases have +7 animal handling; all animals are at -7 when resisting influence.",
 							},
 							statistics: {
+								perception: 0,
 								memory: 1,
+								logic: -1,
 								strength: 1,
 								dexterity: 1,
-								logic: -1
+								immunity: -1,
+								speed: -1
 							},
 							skills: {
-								memory: { lang_preas: 5, facial_recognition: 2 },
-								logic: { handle_animals: 10 },
+								perception: { sight: 7, sound: 5, scent: 6, taste: 5, touch: 5 },
+								memory: { lang_preas: 7, facial_recognition: 3 },
+								logic: { handle_animals: 7, evoke_emotion: 2 },
+								strength: { carry: 1, throw: 2 },
 								dexterity: { ride_animals: 2 },
-								speed: { swim: 2 }
+								immunity: { recover: 0 },
+								speed: { jump: 3, run: 4, swim: 4 }
 							}
 						},
 						winge: {
@@ -349,52 +400,31 @@ window.onload = function() {
 								description: "Tall, strong, and mean, these orange-skinned warriors are bound by a strict code of honor which values ability above all. Their civilization is driven by conquest and power, and has unparalleled knowledge of geology and chemistry.",
 								ability: "With their thick skin, winges have a natural 1d6 armor, blocking physical damage every round of combat.",
 							},
-							perception: {
-								sight: 3,
-								sound: 5,
-								scent: 5,
-								taste: 1,
-								touch: 1
-							},
 							statistics: {
-								strength: 1,
-								immunity: 1,
+								perception: -1,
+								memory: -1,
 								logic: 1,
-								dexterity: -1
-							},
-							skills: {
-								memory: { lang_winge: 5 },
-								dexterity: { martial_arts: 2 },
-								logic: { spatial_reasoning: 2 },
-								strength: { carry: 2 }
-							}
-						},
-						lizardfolk: {
-							info: {
-								age: 20,
-								height: 5,
-								weight: 150,
-								description: "Standard fantasy lizard people, with medium-sized reptilian/humanoid bodies, forked tongues, webbed feet, and scales.",
-								ability: "Lizardfolk can camouflage in any setting, giving opponents a -15 on sight checks.",
-							},
-							perception: {
-								sight: 5,
-								sound: 5,
-								scent: 3,
-								taste: 1,
-								touch: 1
-							},
-							statistics: {
-								perception: 1,
+								strength: 1,
+								dexterity: -1,
 								immunity: 1,
-								dexterity: 1,
-								speed: -1
+								speed: 0
 							},
 							skills: {
-								memory: { lang_lizardfolk: 5 },
-								speed: { jump: 2, swim: 2 },
-								immunity: { recover: 2 }
-							}
+								perception: { sight: 6, sound: 7, scent: 7, taste: 4, touch: 4, night_vision: 2 },
+								memory: { lang_winge: 7 },
+								logic: { remain_calm: 3, spatial_reasoning: 2 },
+								strength: { carry: 5, throw: 2 },
+								dexterity: { martial_arts: 2 },
+								immunity: { recover: 0, defend: 0 },
+								speed: { jump: 2, run: 4, swim: 1 }
+							},
+							d6changes: [
+								{
+									statistic: "immunity",
+									skill: "defend",
+									d6: 1
+								}
+							]
 						}
 					}
 
@@ -417,7 +447,7 @@ window.onload = function() {
 								strength: -2,
 								speed: -2
 							},
-							skills: ["dodge", "persuade", "seduce", "humor", "climb", "crafting", "escape_bonds", "lip_reading", "botany", "alchemy", "astronomy", "geography", "history", "mathematics", "mechanics", "language", "performance", "musicianship", "game_playing", "judge_character", "penmanship", "sneak", "alcohol_tolerance", "cooking"]
+							skills: ["dodge", "persuade", "seduce", "humor", "climb", "crafting", "escape_bonds", "lip_reading", "botany", "alchemy", "astronomy", "geography", "geology", "history", "mathematics", "mechanics", "language", "performance", "musicianship", "game_playing", "judge_character", "penmanship", "sneak", "alcohol_tolerance", "cooking"]
 						},
 						cleric: {
 							races: ["elf", "dwarf", "halfling", "human", "bhios", "preas"],
@@ -437,7 +467,7 @@ window.onload = function() {
 								strength: -2,
 								logic: -2
 							},
-							skills: ["climb", "carry", "fishing", "archery", "crafting", "handle_animals", "heal", "geography", "botany", "zoology", "ride_animals", "medicine", "swim", "remain_calm", "sneak", "poison_resistance", "infection_resistance", "allergy_resistance", "sleep_resistance", "recover"]
+							skills: ["climb", "carry", "fishing", "archery", "crafting", "handle_animals", "heal", "geography", "geology", "botany", "zoology", "ride_animals", "medicine", "swim", "remain_calm", "sneak", "poison_resistance", "infection_resistance", "allergy_resistance", "sleep_resistance", "recover"]
 						},
 						fighter: {
 							races: ["elf", "dwarf", "human", "orc", "bhios", "winge"],
@@ -477,7 +507,7 @@ window.onload = function() {
 								strength: -2,
 								logic: -2
 							},
-							skills: ["climb", "crafting", "handle_animals", "medicine", "intimidate", "persuade", "mechanics", "geography", "botany", "alchemy", "history", "zoology", "leatherworking", "woodworking", "ride_animals", "sneak", "dodge", "jump", "swim", "run", "archery", "missile", "seduce", "remain_calm", "pattern_recognition", "spatial_reasoning", "metabolism", "infection_resistance", "allergy_resistance", "poison_resistance", "medicine"]
+							skills: ["climb", "crafting", "handle_animals", "medicine", "intimidate", "persuade", "mechanics", "geography", "botany", "alchemy", "geology", "history", "zoology", "leatherworking", "woodworking", "ride_animals", "sneak", "dodge", "jump", "swim", "run", "archery", "missile", "seduce", "remain_calm", "pattern_recognition", "spatial_reasoning", "metabolism", "infection_resistance", "allergy_resistance", "poison_resistance", "medicine"]
 						},
 						rogue: {
 							races: ["gnome", "goblin", "halfling", "human", "mellifax", "lizardfolk"],
@@ -517,7 +547,7 @@ window.onload = function() {
 								strength: -2,
 								immunity: -2
 							},
-							skills: ["alchemy", "geography", "history", "leatherworking", "medicine", "metalworking", "woodworking", "crafting", "persuade", "throw", "mechanics", "mathematics", "spatial_reasoning", "sleep_resistance", "performance"]
+							skills: ["alchemy", "geography", "geology", "history", "leatherworking", "medicine", "metalworking", "woodworking", "crafting", "persuade", "throw", "mechanics", "mathematics", "spatial_reasoning", "sleep_resistance", "performance"]
 						}
 					}
 
@@ -533,28 +563,36 @@ window.onload = function() {
 
 					var skills = {
 						perception: [
-							"sight", "sound", "scent", "taste", "touch", "internal_clock", "perfect_pitch", "color_sense", "night_vision", "infrared_vision", "internal_compass"
+							"sight", "sound", "scent", "taste", "touch", "internal_clock", "perfect_pitch", "color_sense", "night_vision", "infrared_vision", "internal_compass", "infrasound", "echolocation", "camouflage"
 						],
 						memory: [
-							"alchemy", "astronomy", "botany", "cooking", "facial_recognition", "geography", "history", "leatherworking", "linguistics", "lip_reading", "medicine", "metalworking", "woodworking", "voice_recognition", "zoology",
+							"alchemy", "astronomy", "botany", "cooking", "facial_recognition", "geography", "geology", "history", "leatherworking", "linguistics", "lip_reading", "medicine", "metalworking", "woodworking", "voice_recognition", "zoology",
 							"lang_human", "lang_elf", "lang_dwarf", "lang_halfling", "lang_gnome", "lang_goblin", "lang_orc", "lang_bhios", "lang_mellifax", "lang_preas", "lang_winge", "lang_lizardfolk"
 						],
 						logic: [
-							"evoke_emotion", "game_playing", "handle_animals", "humor", "intimidate", "judge_character", "mathematics", "mechanics", "pattern_recognition", "persuade", "remain_calm", "seduce", "spatial_reasoning"
+							"evoke_emotion", "game_playing", "handle_animals", "humor", "intimidate", "judge_character", "mathematics", "mechanics", "pattern_recognition", "persuade", "remain_calm", "seduce", "spatial_reasoning", "aggression"
 						],
 						strength: [
-							"archery", "block", "carry", "climb", "fishing", "melee", "punch", "throw"
+							"archery", "block", "carry", "climb", "fishing", "melee", "punch", "throw", "bite", "slam", "tusk"
 						],
 						dexterity: [
-							"catch", "crafting", "drawing", "escape_bonds", "fencing", "knifing", "lock_picking", "martial_arts", "missile", "musicianship", "penmanship", "performance", "ride_animals", "sneak"
+							"catch", "crafting", "drawing", "escape_bonds", "fencing", "knifing", "lock_picking", "martial_arts", "missile", "musicianship", "penmanship", "performance", "ride_animals", "sneak", "claws", "talons"
 						],
 						immunity: [
-							"alcohol_tolerance", "allergy_resistance", "defend", "hold_breath", "infection_resistance", "metabolism", "pain_tolerance", "poison_resistance", "recover", "sleep_resistance"
+							"alcohol_tolerance", "allergy_resistance", "hold_breath", "infection_resistance", "metabolism", "pain_tolerance", "poison_resistance", "recover", "sleep_resistance", "defend"
 						],
 						speed: [
-							"dodge", "fly", "jump", "kick", "run", "swim"
+							"dodge", "jump", "kick", "run", "swim", "fly"
 						]
 					}
+
+					var combat = [
+						"archery", "fencing", "kick", "knifing", "martial_arts", "melee", "missile", "punch", "throw", "bite", "slam", "tusk", "claws", "talons"
+					]
+
+					var charisma = [
+						"evoke_emotion", "handle_animals", "humor", "intimidate", "persuade", "seduce"
+					]
 
 					var conditions = {
 						unconsciousness: {
@@ -569,75 +607,99 @@ window.onload = function() {
 								speed: {statistic: -100}
 							}
 						},
+						asphyxiation: {
+							description: "Roll hold breath before rolling a check for any other statistic. Unconscious in 20 rounds (2 minutes).",
+							effects: {
+								perception: {taste: -10, scent: -10},
+							},
+							immunity_check: {
+								skill: "hold_breath",
+								before: ["perception", "memory", "logic", "strength", "dexterity", "speed"]
+							}
+						},
+						sleep: {
+							description: "Roll sleep resistance or else unable to act in any way. To be awakened, roll perception plus applicable sense. If attacked, immediately wake up.",
+							effects: {
+								perception: {statistic: -10, sight: -5}
+							}
+						},
 						severe_pain: {
-							description: "Roll immunity before any other statistic. Trigger: any statistic reaches 1.",
+							description: "Roll pain tolerance before rolling a check for any other statistic. Caused when any statistic is reduced to 1.",
 							immunity_check: {
 								skill: "pain_tolerance",
 								before: ["perception", "memory", "logic", "strength", "dexterity", "speed"]
 							}
 						},
 						minor_pain_head: {
-							description: "Roll immunity before perception, memory, & logic.",
+							description: "Roll pain tolerance before perception, memory, logic.",
 							immunity_check: {
 								skill: "pain_tolerance",
 								before: ["perception", "memory", "logic"]
 							}
 						},
 						minor_pain_body: {
-							description: "Roll immunity before any strength, dexterity, & speed.",
+							description: "Roll pain tolerance before strength, dexterity, speed.",
 							immunity_check: {
 								skill: "pain_tolerance",
 								before: ["strength", "dexterity", "speed"]
 							}
 						},
 						infection: {
-							description: "Roll immunity each day a character has outstanding damage until a successful check.",
+							description: "Roll infection resistance during each recover attempt until a successful check. Unable to recover.",
 							immunity_check: {
 								skill: "infection_resistance",
 								d6: 2
 							}
 						},
 						poison: {
-							description: "Roll immunity each day until a successful check.",
+							description: "Roll poison resistance during each recover attempt until a successful check. Unable to recover.",
 							immunity_check: {
 								skill: "poison_resistance",
 								d6: 2
 							}
 						},
 						extreme_cold: {
-							description: "Severely low temperatures.",
+							description: "Roll pain tolerance before strength, dexterity, speed.",
 							immunity_check: {
 								skill: "pain_tolerance",
-								before: ["strength", "dexterity", "speed"]
+								before: ["strength", "dexterity", "speed"],
+								d6: 1
 							}
 						},
 						extreme_heat: {
-							description: "Severely high temperatures.",
+							description: "Roll pain tolerance before strength, dexterity, speed.",
 							immunity_check: {
 								skill: "pain_tolerance",
-								before: ["strength", "dexterity", "speed"]
+								before: ["strength", "dexterity", "speed"],
+								d6: 1
 							}
 						},
 						darkness: {
-							description: "Impairs sight.",
+							description: "Impairs sight. -10 on skills where sight matters, such as combat.",
 							effects: {
-								perception: {sight: -10}
+								perception: {sight: -10, melee: -10, fencing: -10, knifing: -10, missile: -10, archery: -10, throw: -10, punch: -10, kick: -10, martial_arts: -10}
+							}
+						},
+						blinding_light: {
+							description: "Impairs sight. -10 on skills where sight matters, such as combat.",
+							effects: {
+								perception: {sight: -10, melee: -10, fencing: -10, knifing: -10, missile: -10, archery: -10, throw: -10, punch: -10, kick: -10, martial_arts: -10}
 							}
 						},
 						fog: {
-							description: "Impairs sight.",
+							description: "Impairs sight. -5 on skills where sight matters, such as combat.",
 							effects: {
-								perception: {sight: -10}
+								perception: {sight: -5, melee: -5, fencing: -5, knifing: -5, missile: -5, archery: -5, throw: -5, punch: -5, kick: -5, martial_arts: -5}
 							}	
 						},
 						smoke: {
-							description: "Impairs sight & scent; roll immunity before strength & speed.",
+							description: "Impairs sight & scent. -5 on skills where sight matters, such as combat. Roll hold breath before strength and speed.",
 							immunity_check: {
 								skill: "hold_breath",
 								before: ["strength", "speed"]
 							},
 							effects: {
-								perception: {sight: -10, scent: -10}
+								perception: {sight: -5, scent: -5, melee: -5, fencing: -5, knifing: -5, missile: -5, archery: -5, throw: -5, punch: -5, kick: -5, martial_arts: -5}
 							}	
 						},
 						noxious_odor: {
@@ -665,7 +727,7 @@ window.onload = function() {
 							}
 						},
 						dual_wielding: {
-							description: "Impairs dexterity & strength. Trigger: using two weapons or using a weapon with a shield.",
+							description: "Impairs dexterity & strength. Caused by using two weapons or using a weapon with a shield.",
 							effects: {
 								dexterity: {statistic: -5},
 								strength: {statistic: -5}
@@ -684,24 +746,8 @@ window.onload = function() {
 								speed: {statistic: -10}
 							}
 						},
-						asphyxiation: {
-							description: "Unconscious in 20 rounds (2 minutes); impairs taste & scent; roll immunity before any other statistic.",
-							effects: {
-								perception: {taste: -10, scent: -10},
-							},
-							immunity_check: {
-								skill: "hold_breath",
-								before: ["perception", "memory", "logic", "strength", "dexterity", "speed"]
-							}
-						},
-						sleep: {
-							description: "Impairs perception.",
-							effects: {
-								perception: {statistic: -10, sight: -5}
-							}
-						},
 						inebriation: {
-							description: "Impairs perception; roll immunity before any other statistic.",
+							description: "Impairs perception. Roll alcohol tolerance before rolling a check for any other statistic.",
 							effects: {
 								perception: {statistic: -10},
 							},
@@ -710,31 +756,20 @@ window.onload = function() {
 								before: ["perception", "memory", "logic", "strength", "dexterity", "speed"]
 							}
 						},
-						lack_of_sleep: {
-							description: "Death in 1 week; roll immunity before any other statistic.",
+						exhaustion: {
+							description: "Roll sleep resistance before rolling a check for any other statistic. Unconscious in 1 week of no sleep or 1 week of no food.",
+							effects: {
+								strength: {statistic: -2},
+								dexterity: {statistic: -2},
+								speed: {statistic: -2}
+							},
 							immunity_check: {
 								skill: "sleep_resistance",
 								before: ["perception", "memory", "logic", "strength", "dexterity", "speed"]
 							}
 						},
-						lack_of_food: {
-							description: "Death in 1 week; roll immunity before any other statistic.",
-							immunity_check: {
-								skill: "pain_tolerance",
-								before: ["perception", "memory", "logic", "strength", "dexterity", "speed"]
-							}
-						},
-						alertness: {
-							description: "Boosts physical attributes.",
-							effects: {
-								strength: {statistic: 2}, dexterity: {statistic: 2}, speed: {statistic: 2}, perception: {statistic: 2}
-							}
-						},
-						concentration: {
-							description: "Boosts mental attributes.",
-							effects: {
-								memory: {statistic: 2}, logic: {statistic: 2}, perception: {statistic: 2}
-							}
+						surprise: {
+							description: "Roll remain calm or else unable to act for 1 round.",
 						},
 						immunity_boost: {
 							description: "Boosts recovery and immunity against infection and poison.",
@@ -742,16 +777,41 @@ window.onload = function() {
 								immunity: {recover: 5, infection_resistance: 5, poison_resistance: 5, alcohol_tolerance: 5}
 							}
 						},
-						pain_relief: {
-							description: "Negates the effects of severe and minor pain.",
+						resistance: {
+							description: "Boost recovery and immunity against infection and poison. Roll an additional 1d6 armor against physical attacks.",
 							effects: {
-								immunity: {pain_tolerance: 5}
+								immunity: {recover: 5, infection_resistance: 5, poison_resistance: 5, alcohol_tolerance: 5}
 							}
 						},
-						accuracy: {
-							description: "Improves sight and missile weapon aim.",
+						alertness: {
+							description: "Boosts physical attributes.",
 							effects: {
-								perception: {sight: 10}, dexterity: {missile: 5}
+								strength: {statistic: 2},
+								dexterity: {statistic: 2},
+								speed: {statistic: 2},
+								perception: {statistic: 2}
+							}
+						},
+						concentration: {
+							description: "Boosts mental attributes.",
+							effects: {
+								memory: {statistic: 2},
+								logic: {statistic: 2},
+								perception: {statistic: 2}
+							}
+						},
+						perceptiveness: {
+							description: "Boosts perception and insight skills.",
+							effects: {
+								perception: {statistic: 2},
+								memory: {facial_recognition: 2, voice_recognition: 2, lip_reading: 2},
+								logic: {judge_character: 2, pattern_recognition: 2}
+							}
+						},
+						pain_relief: {
+							description: "Boosts pain resistance.",
+							effects: {
+								immunity: {pain_tolerance: 5}
 							}
 						}
 					}
@@ -759,389 +819,720 @@ window.onload = function() {
 					var items = {
 						weapons: [
 							{
+								name: "boomerang",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3,
+									}
+								],
+								weight: 2,
+								hands: 1,
+								fuel: 1,
+								materials: "wood",
+								cost: 20,
+								description: "on a miss, thrower can attempt to catch"
+							},
+							{
+								name: "razor boomerang",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 4
+									}
+								],
+								weight: 3,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 40,
+								description: "on a miss, thrower can attempt to catch"
+							},
+							{
 								name: "throwing knife",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "throw",
-								d6: 3,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 3
+									}
+								],
 								weight: 1,
 								hands: 1,
 								magnetic: true,
+								materials: "metal",
+								cost: 10,
 								description: " "
+							},
+							{
+								name: "throwing star",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								weight: 0.5,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "rope dart",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								weight: 1,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: "use strength to pull it back"
 							},
 							{
 								name: "ring blade",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "throw",
-								d6: 4,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 4
+									}
+								],
 								weight: 1,
 								hands: 1,
 								magnetic: true,
+								materials: "metal",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "spear",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "throw",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 5
+									},
+									{
+										statistic: "strength",
+										skill: "fencing",
+										d6: 4
+									}
+								],
 								weight: 3,
 								hands: 1,
 								fuel: 3,
-								alternative: {
-									statistic: "strength",
-									skill: "fencing",
-									d6: 4
-								},
+								materials: "wood, metal",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "pike",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "throw",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 5
+									},
+									{
+										statistic: "strength",
+										skill: "fencing",
+										d6: 4
+									}	
+								],
 								weight: 3,
 								hands: 1,
 								fuel: 3,
-								alternative: {
-									statistic: "strength",
-									skill: "fencing",
-									d6: 4
-								},
+								materials: "wood, metal",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "sling",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "throw",
-								d6: 0,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw"
+									}
+								],
 								weight: 1,
 								hands: 1,
 								fuel: 1,
+								materials: "leather",
+								cost: 15,
 								description: " "
 							},
 							{
 								name: "bomb",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "throw",
-								d6: 0,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw"
+									}
+								],
 								weight: 1,
 								hands: 1,
+								materials: "glass",
 								description: "see orbs"
 							},
 							{
 								name: "brass knuckles",
 								count: 1,
-								type: "weapon",
-								statistic: "strength",
-								skill: "punch",
-								d6: 2,
+								type: "armor",
+								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "punch",
+										d6: 2
+									}
+								],
 								weight: 1,
 								hands: 2,
-								description: "adds to punch damage"
+								materials: "metal",
+								cost: 40,
+								description: "adds to punch damage; 5d6 hand armor"
 							},
 							{
 								name: "steel boots",
 								count: 1,
-								type: "weapon",
-								statistic: "speed",
-								skill: "kick",
-								d6: 2,
+								type: "armor",
+								d6: 7,
+								usage: [
+									{
+										statistic: "speed",
+										skill: "kick",
+										d6: 2
+									}
+								],
 								weight: 10,
 								hands: 0,
-								description: "adds to kick damage"
+								materials: "leather, metal",
+								cost: 60,
+								description: "adds to kick damage; 7d6 feet armor"
 							},
 							{
 								name: "claws",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "martial_arts",
-								d6: 3,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "martial_arts",
+										d6: 3
+									}
+								],
 								weight: 2,
 								hands: 2,
+								materials: "leather, metal",
+								cost: 50,
 								description: "adds to martial arts damage"
+							},
+							{
+								name: "tonfa",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "martial_arts",
+										d6: 3
+									}
+								],
+								weight: 4,
+								hands: 1,
+								fuel: 2,
+								materials: "wood",
+								cost: 30,
+								description: "free block action"
 							},
 							{
 								name: "wooden stake",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "knifing",
-								d6: 3,
-								weight: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 3
+									}
+								],
+								weight: 0.5,
 								hands: 1,
 								fuel: 2,
+								materials: "wood",
+								cost: 5,
+								description: " "
+							},
+							{
+								name: "metal stake",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 3
+									}
+								],
+								weight: 0.5,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 5,
 								description: " "
 							},
 							{
 								name: "dagger",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "knifing",
-								d6: 3,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
 								weight: 1,
 								hands: 1,
 								magnetic: true,
+								materials: "metal",
+								cost: 10,
 								description: " "
 							},
 							{
 								name: "sickle",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "knifing",
-								d6: 4,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 4
+									}
+								],
 								weight: 2,
 								hands: 1,
 								magnetic: true,
+								materials: "metal",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "short staff",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 4,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
 								weight: 4,
 								hands: 1,
 								fuel: 3,
+								materials: "wood",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "club",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 4,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
 								weight: 4,
 								hands: 1,
 								fuel: 3,
+								materials: "wood",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "whip",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 4,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
 								weight: 3,
 								hands: 1,
 								fuel: 2,
+								materials: "leather",
+								cost: 30,
 								description: " "
 							},
 							{
 								name: "spiked club",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 5
+									}
+								],
 								weight: 5,
 								hands: 1,
 								fuel: 3,
+								materials: "wood",
+								cost: 50,
 								description: " "
 							},
 							{
 								name: "short sword",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "fencing",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "fencing",
+										d6: 5
+									}
+								],
 								weight: 2,
 								hands: 1,
 								magnetic: true,
+								materials: "leather, metal",
+								cost: 50,
 								description: " "
 							},
 							{
 								name: "axe",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "fencing",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "fencing",
+										d6: 5,
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 5
+									}
+								],
 								weight: 2,
 								hands: 1,
 								magnetic: true,
+								materials: "leather, metal",
+								cost: 50,
 								description: " "
 							},
 							{
 								name: "mace",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 5
+									}
+								],
 								weight: 4,
 								hands: 1,
 								magnetic: true,
+								materials: "leather, metal",
+								cost: 50,
 								description: " "
 							},
 							{
 								name: "morningstar",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 5
+									}
+								],
 								weight: 4,
 								hands: 1,
 								magnetic: true,
+								materials: "leather, metal",
+								cost: 50,
 								description: " "
 							},
 							{
 								name: "long staff",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 6,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 6
+									}
+								],
 								weight: 6,
 								hands: 2,
 								fuel: 4,
+								materials: "wood",
+								cost: 60,
 								description: " "
 							},
 							{
 								name: "big club",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 6,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 6
+									}
+								],
 								weight: 6,
 								hands: 2,
 								fuel: 4,
+								materials: "wood",
+								cost: 60,
 								description: " "
 							},
 							{
 								name: "big spiked club",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 7,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 7
+									}
+								],
 								weight: 7,
 								hands: 2,
 								fuel: 4,
+								materials: "wood",
+								cost: 80,
 								description: " "
 							},
 							{
 								name: "flail",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 7,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 7
+									}
+								],
 								weight: 5,
 								hands: 2,
 								magnetic: true,
+								materials: "leather, metal",
+								cost: 80,
 								description: " "
 							},
 							{
 								name: "warhammer",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "melee",
-								d6: 7,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 7
+									}
+								],
 								weight: 6,
 								hands: 2,
 								magnetic: true,
-								description: " "
-							},
-							{
-								name: "long sword",
-								count: 1,
-								type: "weapon",
-								statistic: "strength",
-								skill: "fencing",
-								d6: 7,
-								weight: 5,
-								hands: 2,
-								magnetic: true,
+								materials: "leather, metal",
+								cost: 80,
 								description: " "
 							},
 							{
 								name: "great axe",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "fencing",
-								d6: 7,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "fencing",
+										d6: 7
+									}
+								],
 								weight: 5,
 								hands: 2,
 								magnetic: true,
+								materials: "leather, metal",
+								cost: 80,
 								description: " "
 							},
 							{
-								name: "bow",
+								name: "long sword",
 								count: 1,
 								type: "weapon",
-								statistic: "strength",
-								skill: "archery",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "fencing",
+										d6: 7
+									}
+								],
+								weight: 5,
+								hands: 2,
+								magnetic: true,
+								materials: "leather, metal",
+								cost: 80,
+								description: " "
+							},
+							{
+								name: "shortbow",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "archery"
+									}
+								],
 								weight: 2,
 								hands: 2,
 								fuel: 2,
-								description: " "
+								materials: "wood, string",
+								cost: 50,
+								description: "range: (strength + archery) x 10 ft"
+							},
+							{
+								name: "longbow",
+								count: 1,
+								type: "weapon",
+								usage: [
+									{
+										statistic: "strength",
+										skill: "archery"
+									}
+								],
+								weight: 4,
+								hands: 2,
+								fuel: 3,
+								materials: "wood, string",
+								cost: 80,
+								description: "range: (strength + archery) x 20 ft"
 							},
 							{
 								name: "crossbow",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "missile",
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile"
+									}
+								],
 								weight: 3,
 								hands: 2,
 								fuel: 2,
-								description: " "
+								materials: "wood, string, metal",
+								cost: 60,
+								description: "range: 150 ft"
 							},
 							{
 								name: "blowgun",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "missile",
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile"
+									}
+								],
 								weight: 1,
 								hands: 1,
 								fuel: 1,
-								description: " "
+								materials: "wood",
+								cost: 30,
+								description: "range: 50 ft"
 							},
 							{
 								name: "stonebow",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "missile",
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile"
+									}
+								],
 								weight: 3,
 								hands: 2,
 								fuel: 2,
-								description: " "
+								materials: "wood, string, metal",
+								cost: 70,
+								description: "range: 50 ft"
 							},
 							{
 								name: "gauss pistol",
 								count: 1,
 								type: "weapon",
-								statistic: "dexterity",
-								skill: "missile",
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile"
+									}
+								],
 								weight: 2,
 								hands: 1,
 								fuel: 2,
-								description: " "
+								materials: "wood, metal",
+								cost: 70,
+								description: "range: 50 ft"
 							}
 						],
 						ammunition: [
@@ -1150,14 +1541,22 @@ window.onload = function() {
 								count: 1,
 								type: "ammunition",
 								weapons: ["bow"],
-								d6: 3,
-								weight: 0.05,
+								weight: 0.1,
 								fuel: 1,
-								alternative: {
-									statistic: "dexterity",
-									skill: "knifing",
-									d6: 2
-								},
+								usage: [
+									{
+										statistic: "strength",
+										skill: "archery",
+										d6: 3
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 2
+									}
+								],
+								materials: "wood, stone",
+								cost: 2,
 								description: "recoverable"
 							},
 							{
@@ -1165,39 +1564,82 @@ window.onload = function() {
 								count: 1,
 								type: "ammunition",
 								weapons: ["crossbow"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.1,
 								fuel: 1,
-								alternative: {
-									statistic: "dexterity",
-									skill: "knifing",
-									d6: 2
-								},
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 2
+									}
+								],
+								materials: "wood, stone",
+								cost: 2,
 								description: "recoverable"
 							},
 							{
-								name: "boom bolt",
+								name: "exploding magnet bolt",
 								count: 1,
 								type: "ammunition",
 								weapons: ["crossbow"],
-								weight: 0.05,
-								d6: 4,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									}
+								],
 								magnetic: true,
-								conditions: {loud_noise: 1},
-								description: "explosion on impact; -10 sound for 1d6 rounds"
+								conditions: {loud_noise: 1, blinding_light: 1},
+								materials: "wood, metal",
+								cost: 25,
+								description: "causes loud noise and blinding light for 1d6 rounds; explosion causes damage to 5-ft square and surrounding 5-ft squares"
+							},
+							{
+								name: "blunted dart",
+								count: 1,
+								type: "ammunition",
+								weapons: ["blowgun"],
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 1
+									},
+								],
+								hands: 1,
+								materials: "wood",
+								cost: 1,
+								description: " "
 							},
 							{
 								name: "dart",
 								count: 1,
 								type: "ammunition",
 								weapons: ["blowgun"],
-								weight: 0.05,
-								d6: 2,
-								alternative: {
-									statistic: "dexterity",
-									skill: "knifing",
-									d6: 1
-								},
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 2
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 1
+									}
+								],
+								hands: 1,
+								materials: "wood",
+								cost: 2,
 								description: " "
 							},
 							{
@@ -1205,49 +1647,119 @@ window.onload = function() {
 								count: 1,
 								type: "ammunition",
 								weapons: ["blowgun"],
-								weight: 0.05,
-								d6: 2,
-								conditions: {poison: 0},
-								description: "roll immunity against poison"
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 2
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 1
+									}
+								],
+								conditions: {poison: 1},
+								hands: 1,
+								materials: "wood",
+								cost: 25,
+								description: "causes poison"
 							},
 							{
 								name: "sleep dart",
 								count: 1,
 								type: "ammunition",
 								weapons: ["blowgun"],
-								weight: 0.05,
-								d6: 2,
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 2
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 1
+									}
+								],
 								conditions: {sleep: 1},
-								description: "roll immunity against sleep for 1d6 hours"
+								hands: 1,
+								materials: "wood",
+								cost: 25,
+								description: "causes sleep"
 							},
 							{
 								name: "disease dart",
 								count: 1,
 								type: "ammunition",
 								weapons: ["blowgun"],
-								weight: 0.05,
-								d6: 2,
-								conditions: {infection: 0},
-								description: "roll immunity against infection"
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 2
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 1
+									}
+								],
+								conditions: {infection: 1},
+								hands: 1,
+								materials: "wood",
+								cost: 25,
+								description: "causes infection"
 							},
 							{
 								name: "paralysis dart",
 								count: 1,
 								type: "ammunition",
 								weapons: ["blowgun"],
-								weight: 0.05,
-								d6: 2,
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 2
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 1
+									}
+								],
 								conditions: {paralysis_arms: 1, paralysis_legs: 1},
-								description: "causes paralysis for 1d6 rounds"
+								hands: 1,
+								materials: "wood",
+								cost: 30,
+								description: "causes localized for 1d6 rounds"
 							},
 							{
 								name: "wood orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
 								fuel: 1,
+								hands: 1,
+								materials: "wood",
+								cost: 2,
 								description: " "
 							},
 							{
@@ -1255,8 +1767,22 @@ window.onload = function() {
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								hands: 1,
+								materials: "stone",
+								cost: 1,
 								description: " "
 							},
 							{
@@ -1264,8 +1790,22 @@ window.onload = function() {
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								hands: 1,
+								materials: "glass",
+								cost: 4,
 								description: "shatters on impact"
 							},
 							{
@@ -1273,79 +1813,192 @@ window.onload = function() {
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
-								conditions: {infection: 0},
-								description: "roll immunity against infection"
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								conditions: {infection: 1},
+								hands: 1,
+								materials: "glass",
+								cost: 20,
+								description: "causes infection"
 							},
 							{
-								name: "glass oil orb",
+								name: "glass firewater orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
 								fuel: 1,
+								hands: 1,
+								materials: "glass",
+								cost: 20,
 								description: " "
 							},
 							{
-								name: "glass flash orb",
+								name: "glass superglow orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
-								conditions: {darkness: 1},
-								description: "-10 sight for 1d6 rounds"
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								conditions: {blinding_light: 1},
+								hands: 1,
+								materials: "glass",
+								cost: 28,
+								description: "causes blinding light for 1d6 rounds"
 							},
 							{
 								name: "glass smoke orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
 								conditions: {smoke: 2},
-								description: "-10 sight for 2d6 rounds"
+								hands: 1,
+								materials: "glass",
+								cost: 20,
+								description: "causes smoke in 5-ft square and surrounding 5-ft squares for 2d6 rounds"
 							},
 							{
 								name: "glass poison orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
-								conditions: {poison: 0},
-								description: "roll immunity against poison"
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								conditions: {poison: 1},
+								hands: 1,
+								materials: "glass",
+								cost: 28,
+								description: "causes poison"
 							},
 							{
 								name: "glass sleep orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
 								conditions: {sleep: 1},
-								description: "roll immunity against sleep for 1d6 hours"
+								hands: 1,
+								materials: "glass",
+								cost: 28,
+								description: "causes sleep"
 							},
 							{
 								name: "glass acid orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
+								weight: 0.5,
 								d6: 3,
-								description: "acid damage on contact; bites through most materials, including armor, in 1 minute"
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								hands: 1,
+								materials: "glass",
+								cost: 32,
+								description: "causes acid"
 							},
 							{
-								name: "exploding orb",
+								name: "glass flashbang orb",
 								count: 1,
 								type: "ammunition",
 								weapons: ["sling", "bomb", "stonebow", "gauss pistol"],
-								weight: 0.05,
-								d6: 3,
-								conditions: {loud_noise: 1},
-								description: "explosion on impact; -10 sound for 1d6 rounds"
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										d6: 3
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								conditions: {loud_noise: 1, blinding_light: 1},
+								hands: 1,
+								materials: "glass",
+								cost: 28,
+								description: "causes loud noise and blinding light for 1d6 rounds; explosion causes damage to 5-ft square and surrounding 5-ft squares"
 							}
 						],
 						armor: [
@@ -1354,26 +2007,263 @@ window.onload = function() {
 								count: 1,
 								type: "armor",
 								d6: 1,
+								weight: 1,
+								fuel: 2,
+								materials: "cloth",
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "hat",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 1,
+								fuel: 2,
+								materials: "cloth",
+								cost: 5,
+								description: " "
+							},
+							{
+								name: "gloves",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 1,
+								fuel: 2,
+								materials: "cloth",
+								cost: 5,
+								description: " "
+							},
+							{
+								name: "shoes",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 2,
+								fuel: 2,
+								materials: "cloth",
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "camouflage clothes",
+								count: 1,
+								type: "armor",
+								d6: 1,
 								weight: 3,
 								fuel: 2,
+								materials: "cloth",
+								cost: 25,
+								description: "-10 to opponent sight checks"
+							},
+							{
+								name: "camouflage hat",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 2,
+								fuel: 2,
+								materials: "cloth",
+								cost: 10,
+								description: "-10 to opponent sight checks"
+							},
+							{
+								name: "camouflage gloves",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 1,
+								fuel: 2,
+								materials: "cloth",
+								cost: 10,
+								description: "-10 to opponent sight checks"
+							},
+							{
+								name: "camouflage shoes",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 2,
+								fuel: 2,
+								materials: "cloth",
+								cost: 15,
+								description: "-10 to opponent sight checks"
+							},
+							{
+								name: "fine clothes",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 4,
+								fuel: 3,
+								materials: "cloth",
+								cost: 35,
 								description: " "
+							},
+							{
+								name: "fine hat",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 2,
+								fuel: 3,
+								materials: "cloth",
+								cost: 15,
+								description: " "
+							},
+							{
+								name: "fine gloves",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 1,
+								fuel: 3,
+								materials: "cloth",
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "fine shoes",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 3,
+								fuel: 3,
+								materials: "cloth",
+								cost: 20,
+								description: " "
+							},
+							{
+								name: "padded / fur clothes",
+								count: 1,
+								type: "armor",
+								d6: 2,
+								weight: 4,
+								fuel: 3,
+								materials: "cloth, fur",
+								cost: 18,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "padded / fur hat",
+								count: 1,
+								type: "armor",
+								d6: 2,
+								weight: 2,
+								fuel: 3,
+								materials: "cloth, fur",
+								cost: 7,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "padded / fur gloves",
+								count: 1,
+								type: "armor",
+								d6: 2,
+								weight: 2,
+								fuel: 3,
+								materials: "cloth, fur",
+								cost: 8,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "padded / fur shoes",
+								count: 1,
+								type: "armor",
+								d6: 2,
+								weight: 2,
+								fuel: 3,
+								materials: "cloth, fur",
+								cost: 12,
+								description: "prevents extreme cold"
 							},
 							{
 								name: "leather armor",
 								count: 1,
 								type: "armor",
 								d6: 3,
-								weight: 15,
+								weight: 10,
 								fuel: 2,
-								description: " "
+								materials: "leather",
+								cost: 25,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "leather cap",
+								count: 1,
+								type: "armor",
+								d6: 3,
+								weight: 1,
+								fuel: 2,
+								materials: "leather",
+								cost: 10,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "leather gloves",
+								count: 1,
+								type: "armor",
+								d6: 3,
+								weight: 1,
+								fuel: 2,
+								materials: "leather",
+								cost: 10,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "leather boots",
+								count: 1,
+								type: "armor",
+								d6: 3,
+								weight: 3,
+								fuel: 2,
+								materials: "leather",
+								cost: 15,
+								description: "prevents extreme cold"
 							},
 							{
 								name: "wooden armor",
 								count: 1,
 								type: "armor",
 								d6: 4,
-								weight: 40,
+								weight: 25,
 								fuel: 4,
+								materials: "wood",
+								cost: 45,
+								description: " "
+							},
+							{
+								name: "wooden helmet",
+								count: 1,
+								type: "armor",
+								d6: 4,
+								weight: 5,
+								fuel: 4,
+								materials: "wood",
+								cost: 15,
+								description: " "
+							},
+							{
+								name: "wooden gloves",
+								count: 1,
+								type: "armor",
+								d6: 4,
+								weight: 4,
+								fuel: 4,
+								materials: "wood",
+								cost: 15,
+								description: " "
+							},
+							{
+								name: "wooden boots",
+								count: 1,
+								type: "armor",
+								d6: 4,
+								weight: 6,
+								fuel: 4,
+								materials: "wood",
+								cost: 25,
 								description: " "
 							},
 							{
@@ -1381,35 +2271,169 @@ window.onload = function() {
 								count: 1,
 								type: "armor",
 								d6: 5,
-								weight: 40,
+								weight: 25,
 								magnetic: true,
-								description: " "
+								materials: "metal",
+								cost: 70,
+								description: "conducts electricity"
+							},
+							{
+								name: "chainmail helmet",
+								count: 1,
+								type: "armor",
+								d6: 5,
+								weight: 5,
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: "conducts electricity"
+							},
+							{
+								name: "chainmail gloves",
+								count: 1,
+								type: "armor",
+								d6: 5,
+								weight: 4,
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: "conducts electricity"
+							},
+							{
+								name: "chainmail boots",
+								count: 1,
+								type: "armor",
+								d6: 5,
+								weight: 6,
+								magnetic: true,
+								materials: "metal",
+								cost: 40,
+								description: "conducts electricity"
 							},
 							{
 								name: "scalemail armor",
 								count: 1,
 								type: "armor",
 								d6: 5,
-								weight: 50,
-								description: " "
+								weight: 30,
+								materials: "scale",
+								cost: 90,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "scalemail helmet",
+								count: 1,
+								type: "armor",
+								d6: 5,
+								weight: 6,
+								materials: "scale",
+								cost: 30,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "scalemail gloves",
+								count: 1,
+								type: "armor",
+								d6: 5,
+								weight: 6,
+								materials: "scale",
+								cost: 30,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "scalemail boots",
+								count: 1,
+								type: "armor",
+								d6: 5,
+								weight: 8,
+								materials: "scale",
+								cost: 50,
+								description: "prevents extreme cold"
 							},
 							{
 								name: "platemail armor",
 								count: 1,
 								type: "armor",
 								d6: 6,
-								weight: 60,
+								weight: 40,
 								magnetic: true,
-								description: " "
+								materials: "metal",
+								cost: 110,
+								description: "conducts electricity"
+							},
+							{
+								name: "platemail helmet",
+								count: 1,
+								type: "armor",
+								d6: 6,
+								weight: 7,
+								magnetic: true,
+								materials: "metal",
+								cost: 40,
+								description: "conducts electricity"
+							},
+							{
+								name: "platemail gloves",
+								count: 1,
+								type: "armor",
+								d6: 6,
+								weight: 8,
+								magnetic: true,
+								materials: "metal",
+								cost: 40,
+								description: "conducts electricity"
+							},
+							{
+								name: "platemail boots",
+								count: 1,
+								type: "armor",
+								d6: 6,
+								weight: 10,
+								magnetic: true,
+								materials: "metal",
+								cost: 60,
+								description: "conducts electricity"
 							},
 							{
 								name: "stonemail armor",
 								count: 1,
 								type: "armor",
 								d6: 7,
-								weight: 80,
+								weight: 50,
+								materials: "stone",
+								cost: 130,
 								description: " "
-							}
+							},
+							{
+								name: "stonemail helmet",
+								count: 1,
+								type: "armor",
+								d6: 7,
+								weight: 8,
+								materials: "stone",
+								cost: 50,
+								description: " "
+							},
+							{
+								name: "stonemail glovse",
+								count: 1,
+								type: "armor",
+								d6: 7,
+								weight: 8,
+								materials: "stone",
+								cost: 50,
+								description: " "
+							},
+							{
+								name: "stonemail boots",
+								count: 1,
+								type: "armor",
+								d6: 7,
+								weight: 14,
+								materials: "stone",
+								cost: 70,
+								description: " "
+							},
 						],
 						shields: [
 							{
@@ -1419,11 +2443,16 @@ window.onload = function() {
 								d6: 3,
 								weight: 5,
 								fuel: 2,
-								alternative: {
-									statistic: "strength",
-									skill: "melee",
-									d6: 2
-								},
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 2
+									}
+								],
+								materials: "wood",
+								cost: 25,
 								description: " "
 							},
 							{
@@ -1433,11 +2462,16 @@ window.onload = function() {
 								d6: 4,
 								weight: 10,
 								fuel: 3,
-								alternative: {
-									statistic: "strength",
-									skill: "melee",
-									d6: 3
-								},
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								materials: "wood",
+								cost: 50,
 								description: " "
 							},
 							{
@@ -1446,11 +2480,16 @@ window.onload = function() {
 								type: "shield",
 								d6: 5,
 								weight: 15,
-								alternative: {
-									statistic: "strength",
-									skill: "melee",
-									d6: 3
-								},
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								materials: "scale, bone",
+								cost: 75,
 								description: " "
 							},
 							{
@@ -1459,13 +2498,18 @@ window.onload = function() {
 								type: "shield",
 								d6: 6,
 								weight: 20,
+								hands: 1,
 								magnetic: true,
-								alternative: {
-									statistic: "strength",
-									skill: "melee",
-									d6: 3
-								},
-								description: " "
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								materials: "metal",
+								cost: 100,
+								description: "conducts electricity"
 							},
 							{
 								name: "stone shield",
@@ -1473,447 +2517,3009 @@ window.onload = function() {
 								type: "shield",
 								d6: 7,
 								weight: 30,
-								alternative: {
-									statistic: "strength",
-									skill: "melee",
-									d6: 4
-								},
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
+								materials: "stone",
+								cost: 150,
 								description: " "
 							}
 						],
 						potions: [
 							{
+								name: "pain killer",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 0, g: 1, b: 0},
+								conditions: {pain_relief: 1},
+								cost: 2,
+								description: "causes pain relief for 1d6 hours"
+							},
+							{
+								name: "severe pain killer",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 0, g: 2, b: 0},
+								conditions: {pain_relief: 2},
+								cost: 4,
+								description: "causes pain relief for 2d6 hours"
+							},
+							{
 								name: "weak healing elixir",
 								count: 1,
 								type: "healing",
-								weight: 0.05,
+								weight: 0.5,
 								recipe: {w: 10, r: 0, g: 4, b: 0},
 								d6: 1,
+								cost: 8,
 								description: "removes 1d6 damage"
-							},
-							{
-								name: "medium healing elixir",
-								count: 1,
-								type: "healing",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 8, b: 0},
-								d6: 2,
-								description: "removes 2d6 damage"
 							},
 							{
 								name: "strong healing elixir",
 								count: 1,
 								type: "healing",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 12, b: 0},
-								d6: 3,
-								description: "removes 3d6 damage"
-							},
-							{
-								name: "pain killer",
-								count: 1,
-								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 1, b: 0},
-								conditions: {severe_pain: 1, minor_pain_body: 1, minor_pain_head: 1, pain_relief: 1},
-								description: "numbs pain for 1d6 hours"
+								weight: 0.5,
+								recipe: {w: 10, r: 0, g: 7, b: 0},
+								d6: 2,
+								cost: 14,
+								description: "removes 2d6 damage"
 							},
 							{
 								name: "immunity booster",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 2, b: 0},
+								weight: 0.5,
+								recipe: {w: 10, r: 0, g: 2, b: 2},
 								conditions: {immunity_boost: 4},
-								description: "boosts immunity for 4d6 hours"
+								cost: 8,
+								description: "causes immunity boost for 4d6 hours"
 							},
 							{
-								name: "wake potion",
+								name: "resistance elixir",
 								count: 1,
-								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 3, b: 2},
-								conditions: {alertness: 1},
-								description: "boosts alertness for 1d6 hours"
+								type: "armor",
+								d6: 1,
+								weight: 0.5,
+								recipe: {w: 10, r: 0, g: 4, b: 4},
+								conditions: {resistance: 4},
+								cost: 16,
+								description: "causes resistance for 4d6 hours"
 							},
 							{
-								name: "concentration elixir",
+								name: "antitoxin",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 2, b: 3},
-								conditions: {concentration: 1},
-								description: "boosts concentration for 1d6 hours"
+								weight: 0.5,
+								recipe: {w: 10, r: 0, g: 6, b: 6},
+								conditions: {poison: 0, paralysis_arms: 0, paralysis_legs: 0},
+								cost: 24,
+								description: "eliminates poison and paralysis"
 							},
 							{
-								name: "paralysis elixir",
+								name: "fizzle foam",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 2, g: 1, b: 0},
-								conditions: {paralysis_arms: 1, paralysis_legs: 1},
-								description: "causes paralysis for 1d6 rounds"
+								weight: 0.5,
+								recipe: {w: 10, r: 1, g: 1, b: 2},
+								cost: 8,
+								description: "fizzles and foams for 1d6 rounds"
 							},
 							{
-								name: "sleep potion",
+								name: "expanding fizzle foam",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 4, g: 1, b: 0},
-								conditions: {sleep: 1},
-								description: "causes sleep for 1d6 hours"
-							},
-							{
-								name: "smoke potion",
-								count: 1,
-								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 1, g: 0, b: 1},
-								conditions: {smoke: 2},
-								description: "creates smoke for 2d6 rounds"
-							},
-							{
-								name: "stink potion",
-								count: 1,
-								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 2, g: 1, b: 1},
-								conditions: {noxious_odor: 2},
-								description: "smells bad for 2d6 rounds"
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 2, b: 4},
+								cost: 16,
+								description: "fizzles and foams and expands for 1d6 rounds"
 							},
 							{
 								name: "glow goo",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 0, g: 0, b: 2},
-								description: "creates light for 2 hours"
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 2, b: 2},
+								conditions: {darkness: 0},
+								cost: 12,
+								description: "creates light for 1d6 hours"
 							},
 							{
-								name: "chill syrup",
+								name: "superglow goo",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 1, g: 1, b: 2},
-								conditions: {extreme_cold: 1},
-								description: "makes things extremely cold for 1d6 hours"
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 4, b: 4},
+								conditions: {blinding_light: 1, darkness: 0},
+								cost: 24,
+								description: "creates blinding light for 1d6 rounds, then light for 2d6 hours"
 							},
 							{
-								name: "warmth syrup",
+								name: "perfume",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 3, g: 0, b: 1},
-								conditions: {extreme_heat: 1},
-								description: "makes things extremely hot for 1d6 hours"
+								weight: 0.5,
+								recipe: {w: 10, r: 1, g: 2, b: 1},
+								conditions: {noxious_odor: 0},
+								cost: 8,
+								description: "removes noxious odor; creates a pleasant scent for 1d6 hours"
+							},
+							{
+								name: "stink potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 4, b: 2},
+								conditions: {noxious_odor: 2},
+								cost: 16,
+								description: "causes noxious odor 2d6 rounds"
 							},
 							{
 								name: "insect repellent",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 3, g: 3, b: 0},
-								description: "repels bugs for 6 hours"
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 1, b: 1},
+								cost: 8,
+								description: "light fog that repels bugs for 2d6 hours"
+							},
+							{
+								name: "smoke potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 2, b: 2},
+								conditions: {smoke: 2},
+								cost: 16,
+								description: "causes smoke in 5-ft square and surrounding 5-ft squares for 2d6 rounds"
+							},
+							{
+								name: "warmth syrup",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 0, b: 2},
+								conditions: {extreme_heat: 1, extreme_cold: 0},
+								cost: 8,
+								description: "causes extreme heat for 1d6 rounds, then heat for 1d6 hours"
 							},
 							{
 								name: "fire water",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 4, g: 0, b: 2},
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 0, b: 4},
 								fuel: 1,
-								description: "highly flammable"
+								conditions: {extreme_heat: 1, extreme_cold: 0},
+								cost: 16,
+								description: "ignites and fuels fire 1d6 rounds"
 							},
 							{
-								name: "fizzbang",
+								name: "flashbang",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 5, g: 0, b: 2},
+								weight: 0.5,
+								recipe: {w: 10, r: 6, g: 0, b: 6},
 								d6: 3,
-								conditions: {loud_noise: 1},
-								description: "explosion on impact"
+								conditions: {loud_noise: 1, blinding_light: 1},
+								cost: 24,
+								description: "causes loud noise and blinding light for 1d6 rounds; explosion causes 3d6 damage to 5-ft square and surrounding 5-ft squares"
+							},
+							{
+								name: "chill syrup",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 2, b: 0},
+								conditions: {extreme_cold: 1, extreme_heat: 0},
+								cost: 8,
+								description: "causes extreme cold for 1d6 rounds, then cold for 1d6 hours"
+							},
+							{
+								name: "freeze foam",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 4, b: 0},
+								conditions: {extreme_cold: 1, extreme_heat: 0, paralysis_arms: 1, paralysis_legs: 1},
+								cost: 16,
+								description: "causes extreme cold for 1d6 rounds, then cold for 1d6 hours; causes localized paralysis for 1d6 rounds"
+							},
+							{
+								name: "frostbang",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 6, g: 6, b: 0},
+								conditions: {loud_noise: 1, blinding_light: 1, extreme_cold: 1, extreme_heat: 0, paralysis_arms: 1, paralysis_legs: 1},
+								cost: 24,
+								description: "causes loud noise and blinding light for 1d6 rounds; explosion causes extreme cold and full-body paralysis to 5-ft square and surrounding 5-ft squares for 1d6 rounds, then cold for 1d6 hours"
+							},
+							{
+								name: "sleep potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 6, g: 5, b: 1},
+								conditions: {sleep: 1},
+								cost: 24,
+								description: "causes sleep for 1d6 hours"
+							},
+							{
+								name: "alertness potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 6, b: 4},
+								conditions: {sleep: 0, alertness: 1},
+								cost: 24,
+								description: "ends sleep; causes alertness for 1d6 hours"
+							},
+							{
+								name: "concentration elixir",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 4, b: 6},
+								conditions: {sleep: 0, concentration: 1},
+								cost: 24,
+								description: "ends sleep; causes concentration for 1d6 hours"
+							},
+							{
+								name: "perception potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 1, g: 5, b: 6},
+								conditions: {sleep: 0, perceptiveness: 1},
+								cost: 24,
+								description: "causes perceptiveness for 1d6 hours"
+							},
+							{
+								name: "pain potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 5, b: 1},
+								conditions: {minor_pain_body: 1, minor_pain_head: 1},
+								cost: 20,
+								description: "causes head pain and body pain for 1d6 rounds"
+							},
+							{
+								name: "severe pain potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 7, g: 5, b: 2},
+								conditions: {severe_pain: 2},
+								cost: 28,
+								description: "causes severe pain for 2d6 rounds"
+							},
+							{
+								name: "weakness elixir",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 6, b: 2},
+								conditions: {exhaustion: 1},
+								cost: 24,
+								description: "causes exhaustion for 1d6 hours"
+							},
+							{
+								name: "poison potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 6, g: 2, b: 4},
+								conditions: {poison: 1},
+								cost: 24,
+								description: "causes poison"
+							},
+							{
+								name: "paralysis potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 6, g: 4, b: 4},
+								conditions: {paralysis_arms: 1, paralysis_legs: 1},
+								cost: 28,
+								description: "causes localized paralysis for 1d6 hours"
+							},
+							{
+								name: "reflective paint",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 1, g: 5, b: 4},
+								cost: 20,
+								description: "reflects different colors, depending on time heated; worn as war paint for +5 intimidate"
+							},
+							{
+								name: "invisible ink",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 4, b: 2},
+								cost: 20,
+								description: "use penmanship or drawing; writing only appears when heated"
+							},
+							{
+								name: "sticky goo",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 2, b: 4},
+								cost: 20,
+								description: "items stick together and require a strength check to separate"
+							},
+							{
+								name: "slip oil",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 6, g: 4, b: 2},
+								cost: 24,
+								description: "items require a dexterity check to hold"
+							},
+							{
+								name: "instant concrete",
+								count: 1,
+								type: "armor",
+								d6: 1,
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 2, b: 6},
+								cost: 24,
+								description: "instantly hardens into a hard plaster that provides 1d6 armor"
 							},
 							{
 								name: "solvent acid",
 								count: 1,
 								type: "potion",
-								weight: 0.05,
-								recipe: {w: 10, r: 4, g: 1, b: 4},
+								weight: 0.5,
 								d6: 3,
-								description: "bites through most materials, including armor, in 1 minute"
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								recipe: {w: 10, r: 6, g: 2, b: 6},
+								cost: 28,
+								description: "causes 3d6 acid damage"
+							},
+							{
+								name: "power cell acid",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								d6: 3,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								recipe: {w: 10, r: 5, g: 2, b: 7},
+								cost: 28,
+								description: "causes 3d6 acid damage; conducts electricity; stores energy to power ancient technology"
+							},
+							{
+								name: "nightvision potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 1, g: 6, b: 7},
+								conditions: {darkness: 0},
+								cost: 28,
+								description: "+10 night vision for 2d6 hours"
+							},
+							{
+								name: "breathing elixir",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 2, g: 5, b: 7},
+								conditions: {asphyxiation: 0},
+								cost: 28,
+								description: "+10 hold breath for 1d6 hours"
+							},
+							{
+								name: "elixir of silence",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 5, g: 1, b: 6},
+								cost: 24,
+								description: "the drinker has no voice for 1d6 hours"
+							},
+							{
+								name: "truth serum",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 5, g: 5, b: 4},
+								cost: 28,
+								description: "the drinker is unable to lie or bluff for 1d6 hours"
+							},
+							{
+								name: "lust potion",
+								count: 1,
+								type: "potion",
+								weight: 0.5,
+								recipe: {w: 10, r: 4, g: 6, b: 4},
+								cost: 28,
+								description: "the drinker becomes lustful for 1d6 hours"
+							}
+						],
+						food: [
+							{
+								name: "apple",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "banana",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 1,
+								description: " "
+							},
+							{
+								name: "beans",
+								count: 1,
+								type: "food",
+								weight: 0.01,
+								costPerPound: 2,
+								description: " "
+							},
+							{
+								name: "beef",
+								count: 1,
+								type: "food",
+								weight: 400,
+								costPerPound: 4,
+								cost: 1600,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "beet",
+								count: 1,
+								type: "food",
+								weight: 2,
+								costPerPound: 1,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "berries",
+								count: 1,
+								type: "food",
+								weight: 0.02,
+								costPerPound: 3,
+								description: " "
+							},
+							{
+								name: "bread",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 2,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "butter",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 4,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "cabbage",
+								count: 1,
+								type: "food",
+								weight: 2,
+								costPerPound: 1,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "carrot",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "cheese",
+								count: 1,
+								type: "food",
+								weight: 0.5,
+								costPerPound: 4,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "chicken",
+								count: 1,
+								type: "food",
+								weight: 7,
+								costPerPound: 2,
+								cost: 14,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "chocolate",
+								count: 1,
+								type: "food",
+								weight: 0.1,
+								costPerPound: 10,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "citrus fruit",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "corn",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "crab",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 8,
+								cost: 2,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "egg (dozen)",
+								count: 1,
+								type: "food",
+								weight: 1.5,
+								costPerPound: 2,
+								cost: 3,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "fig",
+								count: 1,
+								type: "food",
+								weight: 0.1,
+								costPerPound: 10,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "fish (river)",
+								count: 1,
+								type: "food",
+								weight: 25,
+								costPerPound: 5,
+								cost: 125,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "fish (ocean)",
+								count: 1,
+								type: "food",
+								weight: 50,
+								costPerPound: 10,
+								cost: 500,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "flour",
+								count: 1,
+								type: "food",
+								weight: 0.001,
+								costPerPound: 1,
+								description: " "
+							},
+							{
+								name: "goat",
+								count: 1,
+								type: "food",
+								weight: 50,
+								costPerPound: 5,
+								cost: 250,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "grapes",
+								count: 1,
+								type: "food",
+								weight: 0.01,
+								costPerPound: 3,
+								description: " "
+							},
+							{
+								name: "herbs",
+								count: 1,
+								type: "food",
+								weight: 0.1,
+								costPerPound: 10,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "honey",
+								count: 1,
+								type: "food",
+								weight: 0.5,
+								costPerPound: 8,
+								cost: 4,
+								description: " "
+							},
+							{
+								name: "lamb",
+								count: 1,
+								type: "food",
+								weight: 35,
+								costPerPound: 10,
+								cost: 350,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "lettuce",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 2,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "lobster",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 12,
+								cost: 12,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "melon",
+								count: 1,
+								type: "food",
+								weight: 3,
+								costPerPound: 1,
+								cost: 3,
+								description: " "
+							},
+							{
+								name: "mushroom",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "nuts",
+								count: 1,
+								type: "food",
+								weight: 0.01,
+								costPerPound: 10,
+								description: " "
+							},
+							{
+								name: "olives",
+								count: 1,
+								type: "food",
+								weight: 0.01,
+								costPerPound: 20,
+								description: " "
+							},
+							{
+								name: "onion",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "oyster",
+								count: 1,
+								type: "food",
+								weight: 0.1,
+								costPerPound: 20,
+								cost: 2,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "pepper",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "pork",
+								count: 1,
+								type: "food",
+								weight: 200,
+								costPerPound: 4,
+								cost: 800,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "potato",
+								count: 1,
+								type: "food",
+								weight: 0.5,
+								costPerPound: 1,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "pumpkin",
+								count: 1,
+								type: "food",
+								weight: 10,
+								costPerPound: 1,
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "rabbit",
+								count: 1,
+								type: "food",
+								weight: 3,
+								costPerPound: 5,
+								cost: 15,
+								description: "use cooking to prevent infection"
+							},
+							{
+								name: "radish",
+								count: 1,
+								type: "food",
+								weight: 0.05,
+								costPerPound: 2,
+								description: " "
+							},
+							{
+								name: "rice",
+								count: 1,
+								type: "food",
+								weight: 0.001,
+								costPerPound: 2,
+								description: " "
+							},
+							{
+								name: "seeds",
+								count: 1,
+								type: "food",
+								weight: 0.01,
+								costPerPound: 1,
+								description: " "
+							},
+							{
+								name: "soup (meat)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 2,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "soup (vegetable)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 1,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "sugar",
+								count: 1,
+								type: "food",
+								weight: 0.001,
+								costPerPound: 1,
+								description: " "
+							},
+							{
+								name: "tomato",
+								count: 1,
+								type: "food",
+								weight: 0.25,
+								costPerPound: 2,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "turnip",
+								count: 1,
+								type: "food",
+								weight: 2,
+								costPerPound: 1,
+								cost: 2,
+								description: " "
+							},
+							{
+								name: "venison",
+								count: 1,
+								type: "food",
+								weight: 60,
+								costPerPound: 10,
+								cost: 600,
+								description: "use cooking to prevent infection"
+							}
+						],
+						drink: [
+							{
+								name: "ale (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								conditions: {inebriation: 1},
+								costPerPound: 2,
+								cost: 2,
+								description: "causes inebriation for 1d6 hours"
+							},
+							{
+								name: "beer (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								conditions: {inebriation: 1},
+								costPerPound: 2,
+								cost: 2,
+								description: "causes inebriation for 1d6 hours"
+							},
+							{
+								name: "fruit juice (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 3,
+								cost: 3,
+								description: " "
+							},
+							{
+								name: "mead (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								conditions: {inebriation: 1},
+								costPerPound: 2,
+								cost: 2,
+								description: "causes inebriation for 1d6 hours"
+							},
+							{
+								name: "milk (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 0.5,
+								cost: 0.5,
+								description: " "
+							},
+							{
+								name: "rum (bottle)",
+								count: 1,
+								type: "food",
+								weight: 2,
+								conditions: {inebriation: 1},
+								costPerPound: 8,
+								cost: 16,
+								description: "causes inebriation for 1d6 hours"
+							},
+							{
+								name: "tea (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 1,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "vegetable juice (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 3,
+								cost: 3,
+								description: " "
+							},
+							{
+								name: "water (pint)",
+								count: 1,
+								type: "food",
+								weight: 1,
+								costPerPound: 1,
+								cost: 1,
+								description: " "
+							},
+							{
+								name: "whiskey (bottle)",
+								count: 1,
+								type: "food",
+								weight: 2,
+								conditions: {inebriation: 1},
+								costPerPound: 8,
+								cost: 16,
+								description: "causes inebriation for 1d6 hours"
+							},
+							{
+								name: "wine, white (bottle)",
+								count: 1,
+								type: "food",
+								weight: 2,
+								conditions: {inebriation: 1},
+								costPerPound: 12,
+								cost: 24,
+								description: "causes inebriation for 1d6 hours"
+							},
+							{
+								name: "wine, red (bottle)",
+								count: 1,
+								type: "food",
+								weight: 2,
+								conditions: {inebriation: 1},
+								costPerPound: 12,
+								cost: 24,
+								description: "causes inebriation for 1d6 hours"
+							}
+						],
+						instruments: [
+							{
+								name: "bagpipes",
+								count: 1,
+								weight: 6,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								materials: "leather",
+								cost: 100,
+								description: "from animal organs; mid-range sounds (musicianship)"
+							},
+							{
+								name: "bass",
+								count: 1,
+								weight: 7,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 3,
+								materials: "wood, string",
+								cost: 250,
+								description: "wood and string; mid-range to low-pitched sounds (musicianship)"
+							},
+							{
+								name: "bassoon",
+								count: 1,
+								weight: 8,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood",
+								cost: 300,
+								description: "low-pitch to mid-range sounds (musicianship)"
+							},
+							{
+								name: "bell",
+								count: 1,
+								weight: 0.5,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								materials: "metal",
+								cost: 5,
+								description: "metal; ringing sound (musicianship)"
+							},
+							{
+								name: "bird pipes",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								materials: "wood",
+								cost: 10,
+								description: "wood or metal; to sound like a bird (musicianship); +5 handle animals for birds"
+							},
+							{
+								name: "cello",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 3,
+								materials: "wood, string",
+								cost: 250,
+								description: "wood and string; mid-range to low-pitched sounds (musicianship)"
+							},
+							{
+								name: "clarinet",
+								count: 1,
+								weight: 3,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 1,
+								materials: "wood",
+								cost: 200,
+								description: "mid-range to high-pitched sounds (musicianship)"
+							},
+							{
+								name: "drum",
+								count: 1,
+								weight: 3,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								materials: "wood, leather",
+								cost: 10,
+								description: "unpitched sounds (musicianship)"
+							},
+							{
+								name: "dulcimer",
+								count: 1,
+								weight: 10,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 150,
+								description: "string & wood; mid-range sounds (musicianship)"
+							},
+							{
+								name: "flute",
+								count: 1,
+								weight: 2,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 65,
+								description: "high-pitched sounds (musicianship)"
+							},
+							{
+								name: "gong",
+								count: 1,
+								weight: 10,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 80,
+								description: "low-pitched sounds (musicianship)"
+							},
+							{
+								name: "guitar",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 50,
+								description: "mid-range sounds (musicianship)"
+							},
+							{
+								name: "harp",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 150,
+								description: "mid-range sounds (musicianship)"
+							},
+							{
+								name: "horn instrument",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								materials: "metal",
+								cost: 100,
+								description: "made from animal bone or brass; mid-range sounds (musicianship)"
+							},
+							{
+								name: "lute",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 50,
+								description: "mid-range sounds (musicianship)"
+							},
+							{
+								name: "lyre",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 150,
+								description: "mid-range sounds (musicianship)"
+							},
+							{
+								name: "oboe",
+								count: 1,
+								weight: 3,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 1,
+								materials: "wood",
+								cost: 200,
+								description: "mid-range to high-pitched sounds (musicianship)"
+							},
+							{
+								name: "panflute",
+								count: 1,
+								weight: 2,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 1,
+								materials: "wood",
+								cost: 35,
+								description: "high-pitched sounds (musicianship)"
+							},
+							{
+								name: "shawm",
+								count: 1,
+								weight: 3,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 1,
+								materials: "wood",
+								cost: 200,
+								description: "mid-range to high-pitched sounds (musicianship)"
+							},
+							{
+								name: "tambourine",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								materials: "wood, metal",
+								cost: 25,
+								description: "unpitched sounds (musicianship)"
+							},
+							{
+								name: "viol",
+								count: 1,
+								weight: 3,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 150,
+								description: "wood and string; high-pitched to mid-range sounds (musicianship)"
+							},
+							{
+								name: "viola",
+								count: 1,
+								weight: 2,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 150,
+								description: "wood and string; high-pitched to mid-range sounds (musicianship)"
+							},
+							{
+								name: "violin",
+								count: 1,
+								weight: 1,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 150,
+								description: "wood and string; high-pitched to mid-range sounds (musicianship)"
+							},
+							{
+								name: "whistle",
+								count: 1,
+								weight: 0.05,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								cost: 4,
+								materials: "metal",
+								description: "high-pitched sound (musicianship)"
+							},
+							{
+								name: "zither",
+								count: 1,
+								weight: 7,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "musicianship"
+									}
+								],
+								fuel: 2,
+								materials: "wood, string",
+								cost: 40,
+								description: "string & wood; mid-range sounds (musicianship)"
 							}
 						],
 						miscellaneous: [
 							{
-								name: "pack",
+								name: "abacus",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								usage: [
+									{
+										statistic: "logic",
+										skill: "mathematics",
+										modifier: 5
+									}
+								],
+								materials: "wood",
+								cost: 20,
+								description: "mathematics +5"
+							},
+							{
+								name: "astrolabe",
+								count: 1,
+								weight: 0.5,
+								hands: 1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "geography",
+										modifier: 5
+									}
+								],
+								materials: "wood",
+								cost: 20,
+								description: "geography +5"
+							},
+							{
+								name: "amulet",
+								count: 1,
+								weight: 0.1,
+								magnetic: true,
+								materials: "metal",
+								cost: 30,
+								description: " "
+							},
+							{
+								name: "ball",
 								count: 1,
 								weight: 1,
-								fuel: 1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								materials: "wood, leather, metal",
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "ball bearings",
+								count: 100,
+								weight: 0.005,
+								magnetic: true,
+								materials: "metal",
+								cost: 10,
+								description: " "
+							},
+							{
+								name: "barrel",
+								count: 1,
+								weight: 100,
+								fuel: 5,
+								materials: "wood",
+								cost: 60,
 								description: "used to carry items"
 							},
 							{
-								name: "scabbard",
+								name: "basket",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								fuel: 1,
+								materials: "wood",
+								cost: 10,
+								description: "used to carry items"
+							},
+							{
+								name: "bedroll",
+								count: 1,
+								weight: 7,
+								conditions: {extreme_cold: 0},
+								materials: "wool",
+								cost: 20,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "belt",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								materials: "leather",
+								cost: 5,
+								description: " "
+							},
+							{
+								name: "bit & bridle",
 								count: 1,
 								weight: 1,
-								description: "used to hold swords and other melee weapons"
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "ride_animals",
+										modifier: 2
+									}
+								],
+								materials: "metal, leather",
+								cost: 25,
+								description: "for horses or other mounts; +2 ride animals"
+							},
+							{
+								name: "blanket",
+								count: 1,
+								weight: 3,
+								conditions: {extreme_cold: 0},
+								materials: "cloth, wool",
+								cost: 15,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "block & tackle (pulleys)",
+								count: 1,
+								weight: 5,
+								hands: 2,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "carry",
+										modifier: 5
+									}
+								],
+								materials: "metal, wood, string",
+								cost: 10,
+								description: "+5 carry (pull/lift/etc.)"
+							},
+							{
+								name: "bola",
+								count: 1,
+								weight: 5,
+								hands: 1,
+								conditions: { paralysis_arms: 1, paralysis_legs: 1 },
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw"
+									}
+								],
+								materials: "wood, string",
+								cost: 20,
+								description: "must be thrown; can cause arm or leg paralysis; can be overcome with escape bonds"
+							},
+							{
+								name: "book",
+								count: 1,
+								weight: 3,
+								hands: 1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "astronomy",
+										modifier: 5
+									}
+								],
+								fuel: 1,
+								materials: "paper",
+								cost: 5,
+								description: "+5 specific memory/logic skill (mathematics, alchemy, zoology, etc.)"
+							},
+							{
+								name: "bottle",
+								count: 1,
+								weight: 0.1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								materials: "glass",
+								cost: 1,
+								description: "shatters on impact"
+							},
+							{
+								name: "bowl",
+								count: 1,
+								weight: 0.5,
+								hands: 1,
+								materials: "wood, metal, ceramic, glass",
+								cost: 1,
+								description: "used to carry food"
+							},
+							{
+								name: "bracelet",
+								count: 1,
+								weight: 0.1,
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: " "
+							},
+							{
+								name: "broom",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								fuel: 2,
+								materials: "wood",
+								cost: 5,
+								description: "used for cleaning"
+							},
+							{
+								name: "bucket",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								fuel: 1,
+								materials: "wood",
+								cost: 5,
+								description: "used to carry items / liquids"
+							},
+							{
+								name: "caltrops",
+								count: 20,
+								weight: 0.1,
+								magnetic: true,
+								d6: 3,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								materials: "metal",
+								cost: 10,
+								description: "on a failed sneak through a 5-ft square covered in caltops, causes 3d6 damage"
+							},
+							{
+								name: "cards",
+								count: 52,
+								weight: 0.001,
+								hands: 1,
+								materials: "paper",
+								usage: [
+									{
+										statistic: "logic",
+										skill: "game_playing"
+									}
+								],
+								cost: 5,
+								description: " "
+							},
+							{
+								name: "candle",
+								count: 1,
+								weight: 0.1,
+								hands: 1,
+								conditions: {darkness: 0},
+								materials: "wax",
+								cost: 1,
+								description: "burns for 2 hours; negates darkness"
+							},
+							{
+								name: "candle flashlight",
+								count: 1,
+								weight: 1,
+								hands: 1,
+								conditions: {darkness: 0},
+								magnetic: true,
+								materials: "metal",
+								cost: 3,
+								description: "focuses candlelight; push up as candle burns for 2 hours; negates darkness"
+							},
+							{
+								name: "cauldron",
+								count: 1,
+								weight: 5,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "cooking"
+									},
+									{
+										statistic: "memory",
+										skill: "alchemy"
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 25,
+								description: "used for heating water for cooking or making potions (alchemy, medicine)"
+							},
+							{
+								name: "chain",
+								count: 1,
+								weight: 10,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 10,
+								description: "10 feet"
+							},
+							{
+								name: "chest",
+								count: 1,
+								weight: 25,
+								fuel: 3,
+								materials: "wood, metal",
+								cost: 50,
+								description: "used to carry items"
+							},
+							{
+								name: "cloth",
+								count: 1,
+								weight: 0.5,
+								fuel: 1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "medicine",
+										modifier: 2
+									}
+								],
+								materials: "cloth",
+								cost: 1,
+								description: "used to make tents or clothing, to carry items, or to bandage wounds (+2 medicine)"
+							},
+							{
+								name: "coin",
+								count: 1,
+								weight: 0.01,
+								materials: "metal",
+								cost: 1,
+								description: "used as currency"
+							},
+							{
+								name: "compass",
+								count: 1,
+								weight: 0.05,
+								hands: 1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "geography",
+										modifier: 5
+									}
+								],
+								magnetic: true,
+								materials: "wood, metal",
+								cost: 15,
+								description: "+5 geography"
+							},
+							{
+								name: "crochet hook",
+								count: 1,
+								weight: 0.05,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									}
+								],
+								materials: "wood",
+								cost: 2,
+								description: "used in crafting"
+							},
+							{
+								name: "crook",
+								count: 1,
+								weight: 4,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
+								fuel: 3,
+								materials: "wood",
+								cost: 30,
+								description: " "
+							},
+							{
+								name: "crowbar",
+								count: 1,
+								weight: 5,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "astronomy",
+										modifier: 5
+									},
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 25,
+								description: "+5 strength (carry) when applicable"
+							},
+							{
+								name: "crown",
+								count: 1,
+								type: "armor",
+								weight: 1,
+								magnetic: true,
+								d6: 2,
+								materials: "metal",
+								cost: 40,
+								description: "2d6 head armor"
+							},
+							{
+								name: "cup",
+								count: 1,
+								weight: 0.5,
+								hands: 1,
+								materials: "wood, metal, ceramic, glass",
+								cost: 1,
+								description: "used to carry liquid items"
+							},
+							{
+								name: "dice",
+								count: 1,
+								weight: 0.05,
+								usage: [
+									{
+										statistic: "logic",
+										skill: "game_playing"
+									}
+								],
+								hands: 1,
+								materials: "wood, metal, ceramic",
+								cost: 1,
+								description: "for game-playing"
+							},
+							{
+								name: "extract containers",
+								count: 3,
+								weight: 0.5,
+								hands: 2,
+								materials: "glass",
+								cost: 3,
+								description: "for potion-making (alchemy, medicine); made of a special material that prevents corrosion"
+							},
+							{
+								name: "feather",
+								count: 1,
+								weight: 0.001,
+								materials: "",
+								cost: 1,
+								description: "from birds"
+							},
+							{
+								name: "fishing pole, hook, line",
+								count: 1,
+								weight: 4,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "fishing",
+										modifier: 5
+									}
+								],
+								hands: 2,
+								materials: "wood, string, metal",
+								cost: 10,
+								description: "for catching fish or other aquatic creatures (+5 fishing)"
+							},
+							{
+								name: "flask",
+								count: 1,
+								weight: 0.5,
+								hands: 1,
+								materials: "leather, metal",
+								cost: 10,
+								description: "used to carry liquids"
+							},
+							{
+								name: "flintbox",
+								count: 1,
+								weight: 0.5,
+								hands: 2,
+								materials: "metal",
+								cost: 6,
+								description: "starts fire"
+							},
+							{
+								name: "flower",
+								count: 1,
+								weight: 0.01,
+								materials: "wood",
+								cost: 1,
+								description: "may contain flower extract"
+							},
+							{
+								name: "flower extract (red)",
+								count: 1,
+								weight: 0.01,
+								cost: 1,
+								description: "for potion-making (alchemy, medicine); volatile on their own, they can be combined in specific combinations and diluted with 10 parts water to make potions"
+							},
+							{
+								name: "flower extract (green)",
+								count: 1,
+								weight: 0.01,
+								cost: 1,
+								description: "for potion-making (alchemy, medicine); volatile on their own, they can be combined in specific combinations and diluted with 10 parts water to make potions"
+							},
+							{
+								name: "flower extract (blue)",
+								count: 1,
+								weight: 0.01,
+								cost: 1,
+								description: "for potion-making (alchemy, medicine); volatile on their own, they can be combined in specific combinations and diluted with 10 parts water to make potions"
+							},
+							{
+								name: "gameboard & pieces",
+								count: 1,
+								weight: 2,
+								usage: [
+									{
+										statistic: "logic",
+										skill: "game_playing"
+									}
+								],
+								materials: "wood, metal, ceramic, glass",
+								cost: 15,
+								description: "used for game-playing"
+							},
+							{
+								name: "gemstone (cyan)",
+								count: 1,
+								weight: 0.02,
+								materials: "stone",
+								cost: 2,
+								description: "for potion-making (alchemy); crushed and mixed into 10 parts boiling water to make potions; equivalent to 1 green and 1 blue"
+							},
+							{
+								name: "gemstone (magenta)",
+								count: 1,
+								weight: 0.02,
+								materials: "stone",
+								cost: 2,
+								description: "for potion-making (alchemy); crushed and mixed into 10 parts boiling water to make potions; equivalent to 1 red and 1 blue"
+							},
+							{
+								name: "gemstone (yellow)",
+								count: 1,
+								weight: 0.02,
+								materials: "stone",
+								cost: 2,
+								description: "for potion-making (alchemy); crushed and mixed into 10 parts boiling water to make potions; equivalent to 1 red and 1 green"
+							},
+							{
+								name: "glass pane",
+								count: 1,
+								weight: 1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								materials: "glass",
+								cost: 5,
+								description: "shatters on impact"
+							},
+							{
+								name: "grappling hook",
+								count: 1,
+								weight: 4,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "climb",
+										modifier: 5
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 25,
+								description: "+5 climb"
+							},
+							{
+								name: "hammer",
+								count: 1,
+								weight: 3,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									},
+									{
+										statistic: "memory",
+										skill: "metalworking"
+									}
+								],
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 4,
+								description: "used in metalworking, woodworking, crafting"
+							},
+							{
+								name: "harness (climbing)",
+								count: 1,
+								weight: 5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "climb",
+										modifier: 5
+									}
+								],
+								materials: "leather",
+								cost: 25,
+								description: "+5 climb"
+							},
+							{
+								name: "hide",
+								count: 1,
+								weight: 15,
+								materials: "leather",
+								cost: 5,
+								description: "from animals"
+							},
+							{
+								name: "hourglass",
+								count: 1,
+								weight: 1,
+								hands: 1,
+								materials: "glass",
+								cost: 15,
+								description: "contains sand; for measuring the passage of time"
+							},
+							{
+								name: "ink (+ jar)",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "penmanship"
+									}
+								],
+								materials: "glass",
+								cost: 20,
+								description: "used with penmanship for writing"
+							},
+							{
+								name: "iron poker",
+								count: 1,
+								weight: 5,
+								hands: 1,
+								magnetic: true,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
+								materials: "metal",
+								cost: 25,
+								description: " "
+							},
+							{
+								name: "jug",
+								count: 1,
+								weight: 4,
+								hands: 1,
+								fuel: 1,
+								materials: "wood, metal, ceramic, glass",
+								cost: 12,
+								description: "used to carry liquids"
+							},
+							{
+								name: "key",
+								count: 1,
+								weight: 0.1,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 2,
+								description: "metal"
+							},
+							{
+								name: "knitting needle",
+								count: 1,
+								weight: 0.05,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									}
+								],
+								materials: "wood, metal",
+								cost: 2,
+								description: "used in crafting"
+							},
+							{
+								name: "ladder",
+								count: 1,
+								weight: 25,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "climb",
+										modifier: 10
+									}
+								],
+								fuel: 6,
+								materials: "wood, metal",
+								cost: 50,
+								description: "causes safe climbing up 10 feet"
+							},
+							{
+								name: "lock",
+								count: 1,
+								weight: 1,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 10,
+								description: "can be countered with lock picking"
+							},
+							{
+								name: "lock picks",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "lock_picking",
+										modifier: 5
+									}
+								],
+								hands: 2,
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: "+5 lock picking"
+							},
+							{
+								name: "magnet cube",
+								count: 1,
+								weight: 0.01,
+								magnetic: true,
+								materials: "stone",
+								cost: 1,
+								description: "0.5-inch cube; used as currency"
+							},
+							{
+								name: "magnifying glass",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "perception",
+										skill: "sight",
+										modifier: 5
+									}
+								],
+								hands: 1,
+								materials: "wood, glass",
+								cost: 10,
+								description: "+5 sight for small images / writing"
+							},
+							{
+								name: "map",
+								count: 1,
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "geography",
+										modifier: 5
+									}
+								],
+								hands: 1,
+								fuel: 1,
+								materials: "paper",
+								cost: 25,
+								description: "+5 geography"
+							},
+							{
+								name: "measuring cups",
+								count: 6,
+								weight: 1.5,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "alchemy"
+									},
+									{
+										statistic: "memory",
+										skill: "medicine"
+									}
+								],
+								hands: 1,
+								materials: "glass, metal, ceramic",
+								cost: 3,
+								description: "for potion-making (alchemy, medicine); made of a material that prevents corrosion; used to measure parts: (blue: 3 & 5), (green: 3 & 7), (red: 3 & 11)"
+							},
+							{
+								name: "mirror",
+								count: 1,
+								weight: 1,
+								materials: "glass",
+								cost: 20,
+								description: "reflective; shatters on impact"
+							},
+							{
+								name: "mortar & pestle",
+								count: 1,
+								weight: 2,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "alchemy"
+									},
+									{
+										statistic: "memory",
+										skill: "medicine"
+									}
+								],
+								hands: 1,
+								materials: "ceramic, glass",
+								cost: 15,
+								description: "for potion-making (alchemy, medicine)"
+							},
+							{
+								name: "mushroom extract (red)",
+								count: 1,
+								weight: 0.01,
+								cost: 1,
+								description: "for potion-making (alchemy, medicine); volatile on their own, they can be combined in specific combinations and diluted with 10 parts water to make potions"
+							},
+							{
+								name: "mushroom extract (green)",
+								count: 1,
+								weight: 0.01,
+								cost: 1,
+								description: "for potion-making (alchemy, medicine); volatile on their own, they can be combined in specific combinations and diluted with 10 parts water to make potions"
+							},
+							{
+								name: "mushroom extract (blue)",
+								count: 1,
+								weight: 0.01,
+								cost: 1,
+								description: "for potion-making (alchemy, medicine); volatile on their own, they can be combined in specific combinations and diluted with 10 parts water to make potions"
+							},
+							{
+								name: "muzzle",
+								count: 1,
+								weight: 1,
+								materials: "leather",
+								usage: [
+									{
+										statistic: "logic",
+										skill: "handle_animals",
+										modifier: 5
+									}
+								],
+								cost: 20,
+								description: "leather; prevents animal bite attacks (+5 handle animals)"
+							},
+							{
+								name: "nails",
+								count: 20,
+								weight: 0.1,
+								magnetic: true,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3,
+									}
+								],
+								materials: "metal",
+								cost: 10,
+								description: "on a failed sneak through a 5-ft square covered in caltops, causes 3d6 damage"
+							},
+							{
+								name: "necklace",
+								count: 1,
+								weight: 0.1,
+								cost: 30,
+								materials: "metal",
+								magnetic: true,
+								description: "metal"
+							},
+							{
+								name: "net",
+								count: 1,
+								weight: 3,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "catch",
+										modifier: 5
+									},
+									{
+										statistic: "strength",
+										skill: "fishing"
+									}
+								],
+								hands: 1,
+								materials: "string",
+								cost: 10,
+								description: "for catching fish and insects (fishing, +5 catch)"
+							},
+							{
+								name: "oil",
+								count: 1,
+								weight: 1,
+								cost: 20,
+								description: "1 pint fuels fire for 6 hours"
+							},
+							{
+								name: "oil lamp",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								materials: "metal",
+								cost: 15,
+								description: "burns for 6 hours per pint of oil; negates darkness"
+							},
+							{
+								name: "pack",
+								count: 1,
+								weight: 2,
+								fuel: 1,
+								materials: "cloth, wool, leather",
+								cost: 30,
+								description: "used to carry items"
+							},
+							{
+								name: "pan",
+								count: 1,
+								weight: 2,
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: "for cooking"
+							},
+							{
+								name: "paper",
+								count: 1,
+								weight: 0.01,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "penmanship"
+									}
+								],
+								hands: 1,
+								fuel: 1,
+								materials: "paper",
+								cost: 1,
+								description: "for writing"
+							},
+							{
+								name: "paper fan",
+								count: 1,
+								weight: 0.1,
+								hands: 1,
+								fuel: 1,
+								materials: "paper",
+								cost: 5,
+								description: "prevents extreme heat"
+							},
+							{
+								name: "parchment",
+								count: 1,
+								weight: 0.01,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "penmanship"
+									}
+								],
+								hands: 1,
+								fuel: 1,
+								materials: "leather",
+								cost: 1,
+								description: "for writing"
+							},
+							{
+								name: "pick (mining)",
+								count: 1,
+								weight: 10,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "geology"
+									}
+								],
+								hands: 1,
+								magnetic: true,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
+								materials: "metal",
+								cost: 25,
+								description: "used to break stones"
+							},
+							{
+								name: "pillow",
+								count: 1,
+								weight: 0.5,
+								fuel: 1,
+								materials: "cloth",
+								cost: 20,
+								description: "filled with cotton or feathers"
+							},
+							{
+								name: "pitcher",
+								count: 1,
+								weight: 4,
+								hands: 1,
+								fuel: 1,
+								materials: "wood, metal, ceramic, glass",
+								cost: 12,
+								description: "used to carry liquids"
+							},
+							{
+								name: "pitons (spikes)",
+								count: 10,
+								weight: 10,
+								hands: 1,
+								magnetic: true,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "climb",
+										modifier: 5
+									},
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 3
+									}
+								],
+								materials: "metal",
+								cost: 50,
+								description: "+5 climb"
+							},
+							{
+								name: "plate",
+								count: 1,
+								weight: 0.5,
+								hands: 1,
+								materials: "wood, metal, ceramic, glass",
+								cost: 1,
+								description: "used to carry food"
+							},
+							{
+								name: "pot",
+								count: 1,
+								weight: 5,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "cooking"
+									},
+									{
+										statistic: "memory",
+										skill: "alchemy"
+									}
+								],
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 25,
+								description: "used to carry liquids; for cooking or making potions (alchemy, medicine)"
+							},
+							{
+								name: "pouch",
+								count: 1,
+								weight: 1,
+								fuel: 1,
+								materials: "cloth, wool, leather",
+								cost: 5,
+								description: "used to carry items"
+							},
+							{
+								name: "prism",
+								count: 1,
+								weight: 2,
+								materials: "glass",
+								cost: 10,
+								description: "glass block that splits white light into colors"
+							},
+							{
+								name: "quill pen",
+								count: 1,
+								weight: 0.05,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "penmanship"
+									}
+								],
+								hands: 1,
+								cost: 5,
+								description: "used with penmanship for writing"
 							},
 							{
 								name: "quiver",
 								count: 1,
 								weight: 1,
 								fuel: 1,
-								description: "used to hold up arrows, bolts, and other projectiles"
+								materials: "cloth, wool, leather",
+								cost: 8,
+								description: "used to hold up to 20 arrows, bolts, and other projectiles"
 							},
 							{
-								name: "bottle",
+								name: "ring",
 								count: 1,
-								weight: 0.5,
-								description: "glass; shatters on impact"
-							},
-							{
-								name: "flask",
-								count: 1,
-								weight: 0.5,
-								description: "leather or metal"
-							},
-							{
-								name: "tinder",
-								count: 1,
-								weight: 0.5,
-								fuel: 1,
-								description: "starts fire"
-							},
-							{
-								name: "candle flashlight",
-								count: 1,
-								weight: 1,
-								description: "focuses candlelight; push up as candle burns for 2 hours"
-							},
-							{
-								name: "torch",
-								count: 1,
-								weight: 1,
-								description: "burns to provide light for 2 hours"
-							},
-							{
-								name: "oil lamp",
-								count: 1,
-								weight: 2,
-								description: "burns for 6 hours per pint of oil"
-							},
-							{
-								name: "scope",
-								count: 1,
-								weight: 1,
-								conditions: {accuracy: 0},
-								description: "improves sight and missile weapon aim"
-							},
-							{
-								name: "spyglass",
-								count: 1,
-								weight: 1,
-								conditions: {accuracy: 0},
-								description: "improves sight and missile weapon aim"
-							},
-							{
-								name: "measuring cups",
-								count: 1,
-								weight: 0.5,
-								description: "for potion-making; used to measure parts: (blue: 3 & 5), (green: 3 & 7), (red: 3 & 11)"
-							},
-							{
-								name: "red flower extract",
-								count: 1,
-								weight: 0.01,
-								description: "for potion-making; combine with 10 parts water"
-							},
-							{
-								name: "green flower extract",
-								count: 1,
-								weight: 0.01,
-								description: "for potion-making; combine with 10 parts water"
-							},
-							{
-								name: "blue flower extract",
-								count: 1,
-								weight: 0.01,
-								description: "for potion-making; combine with 10 parts water"
-							},
-							{
-								name: "extract containers",
-								count: 1,
-								weight: 0.5,
-								description: "for potion-making; made of a special material that prevents corrosion"
-							},
-							{
-								name: "shovel",
-								count: 1,
-								weight: 5,
-								fuel: 2,
+								weight: 0.05,
 								magnetic: true,
-								alternative: {
-									statistic: "strength",
-									skill: "melee",
-									d6: 3
-								},
-								description: "for digging"
+								materials: "metal",
+								cost: 30,
+								description: " "
+							},
+							{
+								name: "rock",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								hands: 1,
+								materials: "stone",
+								cost: 1,
+								description: " "
 							},
 							{
 								name: "rope",
 								count: 1,
 								weight: 2,
-								fuel: 3,
-								description: "10 feet"
+								usage: [
+									{
+										statistic: "strength",
+										skill: "climb",
+										modifier: 5
+									},
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									}
+								],
+								fuel: 2,
+								materials: "string",
+								cost: 10,
+								description: "10 feet; +5 climbing; helps with crafting"
 							},
 							{
-								name: "chain",
+								name: "sack",
 								count: 1,
-								weight: 10,
-								magnetic: true,
-								description: "10 feet"
-							},
-							{
-								name: "grappling hook",
-								count: 1,
-								weight: 1,
-								magnetic: true,
-								description: " "
-							},
-							{
-								name: "climbing gear",
-								count: 1,
-								weight: 10,
-								magnetic: true,
-								description: "for faster and safer climbing"
-							},
-							{
-								name: "shackles & chains",
-								count: 1,
-								weight: 5,
-								magnetic: true,
-								conditions: {paralysis_arms: 0, paralysis_legs: 0},
-								description: "arm bindings affect dexterity and strength; leg bindings affect speed"
-							},
-							{
-								name: "fishing pole, hook, line",
-								count: 1,
-								weight: 4,
-								description: "for catching fish or other aquatic creatures"
-							},
-							{
-								name: "net",
-								count: 1,
-								weight: 1,
+								weight: 0.5,
 								fuel: 1,
-								description: "for catching fish or insects"
+								materials: "cloth, wool, leather",
+								cost: 2,
+								description: "used to carry items"
 							},
 							{
 								name: "saddle",
 								count: 1,
 								weight: 20,
-								description: "for horses or other mounts"
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "ride_animals",
+										modifier: 5
+									}
+								],
+								materials: "leather",
+								cost: 150,
+								description: "for horses or other mounts (+5 ride animals)"
 							},
 							{
-								name: "whistle",
+								name: "scabbard",
 								count: 1,
-								weight: 0.05,
-								description: " "
+								weight: 1,
+								materials: "leather",
+								cost: 10,
+								description: "used to carry swords and other weapons"
 							},
 							{
-								name: "mirror",
+								name: "scope",
 								count: 1,
-								weight: 0.5,
-								description: " "
+								weight: 1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "perception",
+										skill: "sight",
+										modifier: 10
+									},
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										modifier: 5
+									}
+								],
+								materials: "wood, metal, glass",
+								cost: 35,
+								description: "for viewing far distances (+10 sight) and accuracy with aim (+5 missile)"
 							},
 							{
-								name: "cloth",
-								count: 1,
-								weight: 0.5,
-								description: "used for making tents, holding items, or bandaging wounds"
-							},
-							{
-								name: "bedroll",
-								count: 1,
-								weight: 7,
-								description: "wool"
-							},
-							{
-								name: "blanket",
-								count: 1,
-								weight: 3,
-								fuel: 3,
-								description: "cloth"
-							},
-							{
-								name: "quill pens, ink",
-								count: 1,
-								weight: 0.05,
-								description: " "
-							},
-							{
-								name: "paper / parchment",
-								count: 1,
-								weight: 0.05,
-								fuel: 1,
-								description: " "
-							},
-							{
-								name: "map",
-								count: 1,
-								weight: 0.1,
-								fuel: 1,
-								description: " "
-							},
-							{
-								name: "book",
+								name: "seal",
 								count: 1,
 								weight: 0.5,
-								fuel: 1,
-								description: " "
+								hands: 1,
+								materials: "metal",
+								cost: 10,
+								description: "used with sealing wax to mark a brand"
 							},
 							{
-								name: "compass",
-								count: 1,
-								weight: 0.05,
-								magnetic: true,
-								description: " "
-							},
-							{
-								name: "astrolabe",
+								name: "sealing wax",
 								count: 1,
 								weight: 0.5,
-								description: " "
+								materials: "wax",
+								cost: 5,
+								description: "heated to seal containers, like envelopes and bottles"
 							},
 							{
 								name: "sextant",
 								count: 1,
 								weight: 0.5,
-								description: " "
+								usage: [
+									{
+										statistic: "memory",
+										skill: "geography",
+										modifier: 5
+									}
+								],
+								hands: 1,
+								materials: "metal",
+								cost: 35,
+								description: "+5 geography"
 							},
 							{
-								name: "hourglass",
+								name: "shackles (manacles)",
+								count: 1,
+								weight: 6,
+								hands: 2,
+								magnetic: true,
+								conditions: {paralysis_arms: 1, paralysis_legs: 1},
+								materials: "metal",
+								cost: 20,
+								description: "arm bindings cause arm paralysis; leg bindings cause leg paralysis"
+							},
+							{
+								name: "shears",
 								count: 1,
 								weight: 1,
+								hands: 1,
+								magnetic: true,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "knifing",
+										d6: 3
+									}
+								],
+								materials: "metal",
+								cost: 10,
 								description: " "
 							},
 							{
-								name: "coins",
-								count: 0,
-								weight: 0.01,
+								name: "shovel",
+								count: 1,
+								weight: 5,
+								hands: 1,
+								fuel: 1,
+								magnetic: true,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 4
+									}
+								],
+								materials: "wood, metal",
+								cost: 12,
+								description: "for digging"
+							},
+							{
+								name: "ski",
+								count: 2,
+								weight: 14,
+								fuel: 2,
+								materials: "wood",
+								cost: 30,
+								description: "for faster travel in snowy terrain"
+							},
+							{
+								name: "soap",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "medicine",
+										modifier: 5
+									}
+								],
+								cost: 2,
+								description: "used for bathing and preventing infection (+5 medicine)"
+							},
+							{
+								name: "spectacles",
+								count: 1,
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "perception",
+										skill: "sight",
+										modifier: 7
+									}
+								],
+								materials: "wood, metal, glass",
+								cost: 50,
+								description: "sets sight to maximum (+7)"
+							},
+							{
+								name: "spring",
+								count: 1,
+								weight: 0.5,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 1,
+								description: "used in crafting"
+							},
+							{
+								name: "spyglass",
+								count: 1,
+								weight: 1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "perception",
+										skill: "sight",
+										modifier: 10
+									},
+									{
+										statistic: "dexterity",
+										skill: "missile",
+										modifier: 5
+									}
+								],
+								materials: "wood, metal, glass",
+								cost: 35,
+								description: "for viewing far distances (+10 sight) and accuracy with aim (+5 missile)"
+							},
+							{
+								name: "stick",
+								count: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								weight: 3,
+								hands: 1,
+								fuel: 2,
+								materials: "wood",
+								cost: 1,
 								description: " "
 							},
 							{
-								name: "gems",
-								count: 0,
-								weight: 0.01,
-								description: " "
+								name: "string",
+								count: 1,
+								weight: 0.05,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									}
+								],
+								materials: "string",
+								cost: 1,
+								description: "10 feet; used in crafting"
 							},
+							{
+								name: "syringe (needle)",
+								count: 1,
+								weight: 0.1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "alchemy"
+									},
+									{
+										statistic: "memory",
+										skill: "medicine"
+									}
+								],
+								hands: 1,
+								materials: "glass, metal",
+								cost: 10,
+								description: "used to inject liquids, such as potions into orbs"
+							},
+							{
+								name: "tent",
+								count: 1,
+								weight: 20,
+								fuel: 4,
+								materials: "cloth",
+								cost: 40,
+								description: "prevents extreme cold"
+							},
+							{
+								name: "tooth",
+								count: 1,
+								weight: 0.01,
+								materials: "stone",
+								cost: 1,
+								description: "from animals"
+							},
+							{
+								name: "torch",
+								count: 1,
+								weight: 1,
+								hands: 1,
+								fuel: 2,
+								materials: "wood, leather",
+								cost: 2,
+								description: "fuels fire 2 hours; negates darkness"
+							},
+							{
+								name: "totem",
+								count: 1,
+								weight: 1,
+								materials: "wood, metal, ceramic, glass",
+								cost: 20,
+								description: "emblem or statue"
+							},
+							{
+								name: "trap",
+								count: 1,
+								weight: 20,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting",
+										d6: 3
+									}
+								],
+								conditions: {paralysis_legs: 1, paralysis_arms: 1},
+								materials: "metal",
+								cost: 50,
+								description: "tension-triggered claw-like metal hunting trap causing 3d6 damage and possibly paralysis"
+							},
+							{
+								name: "umbrella",
+								count: 1,
+								weight: 3,
+								hands: 1,
+								fuel: 2,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "melee",
+										d6: 3
+									}
+								],
+								materials: "wood, cloth",
+								cost: 20,
+								description: "blocks rain or sun"
+							},
+							{
+								name: "vial",
+								count: 1,
+								weight: 0.1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3
+									}
+								],
+								materials: "glass",
+								cost: 1,
+								description: "shatters on impact"
+							},
+							{
+								name: "waterskin",
+								count: 1,
+								weight: 5,
+								hands: 1,
+								materials: "leather",
+								cost: 15,
+								description: "used to carry liquids"
+							},
+							{
+								name: "whetstone",
+								count: 1,
+								weight: 1,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "metalworking"
+									}
+								],
+								hands: 1,
+								materials: "stone",
+								cost: 3,
+								description: "used in metalworking to sharpen blades"
+							},
+							{
+								name: "wire",
+								count: 1,
+								weight: 4,
+								usage: [
+									{
+										statistic: "strength",
+										skill: "climb",
+										modifier: 5
+									},
+									{
+										statistic: "dexterity",
+										skill: "crafting"
+									}
+								],
+								magnetic: true,
+								materials: "metal",
+								cost: 20,
+								description: "10 feet; +5 climbing; helps with crafting; conducts electricity"
+							},
+							{
+								name: "wok",
+								count: 1,
+								weight: 5,
+								usage: [
+									{
+										statistic: "memory",
+										skill: "cooking"
+									},
+									{
+										statistic: "memory",
+										skill: "alchemy"
+									}
+								],
+								hands: 1,
+								magnetic: true,
+								materials: "metal",
+								cost: 25,
+								description: "magnetic; used to carry liquids; for cooking or making potions (alchemy, medicine)"
+							}
+						],
+						other: [
 							{
 								name: "small item",
 								count: 1,
 								weight: 1,
 								d6: 1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting",
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 1,
+									}
+								],
+								materials: "?",
+								cost: 1,
 								description: "..."
 							},
 							{
@@ -1921,6 +5527,20 @@ window.onload = function() {
 								count: 1,
 								weight: 5,
 								d6: 1,
+								hands: 1,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting",
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 2,
+									}
+								],
+								materials: "?",
+								cost: 5,
 								description: "..."
 							},
 							{
@@ -1928,6 +5548,20 @@ window.onload = function() {
 								count: 1,
 								weight: 10,
 								d6: 1,
+								hands: 2,
+								usage: [
+									{
+										statistic: "dexterity",
+										skill: "crafting",
+									},
+									{
+										statistic: "strength",
+										skill: "throw",
+										d6: 3,
+									}
+								],
+								materials: "?",
+								cost: 10,
 								description: "..."
 							}
 						]
@@ -1938,6 +5572,8 @@ window.onload = function() {
 						classes: classes,
 						statistics: statistics,
 						skills: skills,
+						combat: combat,
+						charisma: charisma,
 						conditions: conditions,
 						items: items
 					}
@@ -1959,7 +5595,7 @@ window.onload = function() {
 							},
 							description: " ",
 							status: {
-								points: 20,
+								points: 28,
 								burden: 0,
 								conditions: [],
 								damage: 0
@@ -1967,7 +5603,7 @@ window.onload = function() {
 						},
 						statistics: {
 							perception: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: [
@@ -1979,19 +5615,19 @@ window.onload = function() {
 								]
 							},
 							memory: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: []
 							},
 							logic: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: []
 							},
 							strength: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: [
@@ -1999,7 +5635,7 @@ window.onload = function() {
 								]
 							},
 							dexterity: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: [
@@ -2007,7 +5643,7 @@ window.onload = function() {
 								]
 							},
 							immunity: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: [
@@ -2015,7 +5651,7 @@ window.onload = function() {
 								]
 							},
 							speed: {
-								maximum: 10,
+								maximum: 7,
 								damage: 0,
 								condition: 0,
 								skills: [
@@ -2248,7 +5884,7 @@ window.onload = function() {
 						// spacer
 							var spacer = document.createElement("div")
 								spacer.className = "spacer"
-							document.getElementById("history").prepend(spacer)
+							document.getElementById("history").appendChild(spacer)
 
 						// within an item ?
 							if (event.target.closest(".item")) {
@@ -2258,16 +5894,13 @@ window.onload = function() {
 										return i.id == id
 									})
 
-								// alternative ?
-									if (event.target.closest(".item-usage.alternative")) {
-										var skill = item.alternative.skill
-										var statistic = item.alternative.statistic
-									}
-
 								// usage ?
-									else if (event.target.closest(".item-usage")) {
-										var skill = item.skill
-										var statistic = item.statistic
+									if (event.target.closest(".item-usage")) {
+										var usages = event.target.closest(".item-usages")
+										var usage = event.target.closest(".item-usage")
+										var index = Array.prototype.indexOf.call(usages.children, usage)
+										var skill = item.usage[index].skill
+										var statistic = item.usage[index].statistic
 									}
 
 								// otherwise
@@ -2323,8 +5956,11 @@ window.onload = function() {
 
 										// add to history
 											var label = document.createElement("label")
-												label.innerText = immunitySkill.name ? immunitySkill.name.replace(/_/g, " ") : "immunity"
-											document.getElementById("history").prepend(label)
+											document.getElementById("history").appendChild(label)
+
+											var text = document.createElement("span")
+												text.innerText = immunitySkill.name ? immunitySkill.name.replace(/_/g, " ") : "immunity"
+											label.appendChild(text)
 
 											var d20 = document.createElement("div")
 												d20.className = "d20"
@@ -2334,7 +5970,9 @@ window.onload = function() {
 
 										// failed ?
 											if (roll > target) {
-												return
+												// scroll
+													document.getElementById("history").scrollLeft = 1000000
+													return
 											}
 									}
 								}
@@ -2346,14 +5984,20 @@ window.onload = function() {
 
 						// add to history
 							var label = document.createElement("label")
-								label.innerText = skill ? skill.replace(/_/g, " ") : statistic ? statistic : item ? item.name : ""
-							document.getElementById("history").prepend(label)
+							document.getElementById("history").appendChild(label)
+
+							var text = document.createElement("span")
+								text.innerText = skill ? skill.replace(/_/g, " ") : statistic ? statistic : item ? item.name : ""
+							label.appendChild(text)
 
 							var d20 = document.createElement("div")
 								d20.className = "d20"
 								d20.innerText = roll
 								d20.setAttribute("success", roll <= target ? true : false)
 							label.prepend(d20)
+
+						// scroll
+							document.getElementById("history").scrollLeft = 1000000
 					}
 				} catch (error) {}
 			}
@@ -2365,7 +6009,7 @@ window.onload = function() {
 						// spacer
 							var spacer = document.createElement("div")
 								spacer.className = "spacer"
-							document.getElementById("history").prepend(spacer)
+							document.getElementById("history").appendChild(spacer)
 
 						// within an item ?
 							if (event.target.closest(".item")) {
@@ -2377,17 +6021,17 @@ window.onload = function() {
 									var type = item.type
 									var count = Number(event.target.value)
 
-								// alternative ?
-									if (event.target.closest(".item-usage.alternative")) {
-										var skill = item.alternative.skill
-										var statistic = item.alternative.statistic
-										var type = "weapon"
-									}
+								// usage
+									if (event.target.closest(".item-usage")) {
+										var usages = event.target.closest(".item-usages")
+										var usage = event.target.closest(".item-usage")
+										var index = Array.prototype.indexOf.call(usages.children, usage)
+										var skill = item.usage[index].skill
+										var statistic = item.usage[index].statistic
 
-								// usage ?
-									else if (event.target.closest(".item-usage")) {
-										var skill = item.skill
-										var statistic = item.statistic
+										if (data.combat.includes(skill)) {
+											type = "weapon"
+										}
 									}
 
 								// otherwise
@@ -2418,28 +6062,29 @@ window.onload = function() {
 							}
 
 						// special skill
-							if (item && ["punch", "kick", "martial_arts"].includes(skill)) {
+							if (!item && data.combat.includes(skill)) {
 								type = "weapon"
-								count += character.statistics[statistic].skills.find(function(s) {
-									return s.name == skill
-								}).d6
 							}
-							else if (!item && ["punch", "kick", "martial_arts"].includes(skill)) {
+							else if (item && data.combat.includes(skill)) {
 								type = "weapon"
-								item = character.inventory.find(function (i) {
-									return (i.skill == skill && i.equipped)
+								var specialSkill = character.statistics[statistic].skills.find(function(s) {
+									return s.name == skill
 								})
-
-								if (item) {
-									count += item.d6
+								if (specialSkill && specialSkill.d6) {
+									count += specialSkill.d6
 								}
 							}
 							else if (skill == "recover" || skill == "defend") {
 								type = "healing"
 							}
 
-						// ammunition? potion? healing?
-							if (item && !skill && ["ammunition", "potion", "healing"].includes(item.type)) {
+						// condition?
+							if (item && event.target.closest(".item-condition")) {
+								type = "potion"
+							}
+
+						// ammunition?
+							else if (item && item.type == "ammunition") {
 								item.count = Math.max(0, item.count - 1)
 								event.target.closest(".item").querySelector(".item-count").value = item.count
 
@@ -2447,27 +6092,45 @@ window.onload = function() {
 									saveFile(character)
 							}
 
-						// condition ?
-							if (item && event.target.closest(".item-condition")) {
-								type = "potion"
-							}
-
 						// roll
+							var rolls = []
 							var roll = 0
 							for (var i = 0; i < count; i++) {
-								roll += Math.floor(Math.random() * 6) + 1
+								var thisRoll = Math.floor(Math.random() * 6) + 1
+								rolls.push(thisRoll)
+								roll += thisRoll
 							}
 
 						// add to history
 							var label = document.createElement("label")
-								label.innerText = item ? item.name : skill ? skill.replace(/_/g, " ") : statistic ? statistic : ""
-							document.getElementById("history").prepend(label)
+							document.getElementById("history").appendChild(label)
 
-							var d6 = document.createElement("div")
-								d6.className = "d6"
-								d6.innerText = roll
-								d6.setAttribute("type", type)
-							label.prepend(d6)
+							var text = document.createElement("span")
+								text.innerText = item ? item.name : skill ? skill.replace(/_/g, " ") : statistic ? statistic : ""
+							label.prepend(text)
+
+							var total = document.createElement("div")
+								total.className = "d6 total"
+								total.innerText = roll
+								total.setAttribute("type", type)
+							label.prepend(total)
+
+							var equals = document.createElement("div")
+								equals.className = "equals"
+								equals.innerHTML = "&rarr;"
+							label.prepend(equals)
+
+							for (var r in rolls) {
+								var d6 = document.createElement("div")
+									d6.className = "d6"
+									d6.setAttribute("counting", "true")
+									d6.addEventListener(on.click, toggled6)
+									d6.innerText = rolls[r]
+								label.prepend(d6)
+							}
+
+						// scroll
+							document.getElementById("history").scrollLeft = 1000000
 
 						// damage mode ?
 							if (document.body.getAttribute("mode") == "damage") {
@@ -2484,6 +6147,26 @@ window.onload = function() {
 									saveFile(character)
 							}
 					}
+				} catch (error) {}
+			}
+
+		/* toggled6 */
+			function toggled6(event) {
+				try {
+					// change this d6
+						var counting = String(event.target.getAttribute("counting")) == "true" ? "false" : "true"
+						event.target.setAttribute("counting", counting)
+
+					// recalculate
+						var label = event.target.closest("label")
+						var dice = Array.from(label.querySelectorAll(".d6[counting='true']"))
+						var total = 0
+						for (var d in dice) {
+							total += Number(dice[d].innerText)
+						}
+
+					// redisplay
+						label.querySelector(".total").innerText = total
 				} catch (error) {}
 			}
 
@@ -2550,14 +6233,6 @@ window.onload = function() {
 				try {
 					// unset perks
 						if (before !== after && Object.keys(data.races).includes(before)) {
-							// perception
-								for (var s in data.races[before].perception) {
-									var skill = character.statistics.perception.skills.find(function(i) {
-										return i.name == s
-									})
-									skill.maximum = 0
-								}
-
 							// statistics
 								for (var s in data.races[before].statistics) {
 									character.statistics[s].maximum -= data.races[before].statistics[s]
@@ -2577,44 +6252,28 @@ window.onload = function() {
 												character.statistics[s].skills = character.statistics[s].skills.filter(function(j) {
 													return j.name !== i
 												})
+
+												// enable in select
+													document.getElementById(s + "-select").querySelector("[value=" + skill.name.replace(/\s/g, "_") + "]").removeAttribute("disabled")
 											}
 										}
 									}
 								}
 
 							// d6
-								if (before == "dwarf" || before == "orc") {
-									character.statistics.strength.skills.find(function(s) {
-										return s.name == "punch"
-									}).d6 = 2
-
-									character.statistics.speed.skills.find(function(s) {
-										return s.name == "kick"
-									}).d6 = 2
-								}
-								else if (before == "bhios") {
-									character.statistics.immunity.skills.find(function(s) {
-										return s.name == "recover"
-									}).d6 = 2
-								}
-								else if (before == "winge") {
-									character.statistics.immunity.skills = character.statistics.immunity.skills.filter(function(s) {
-										return s.name != "defend"
+								for (var d in data.races[before].d6changes) {
+									var change = data.races[before].d6changes[d]
+									var skill = character.statistics[change.statistic].skills.find(function(s) {
+										return s.name == change.skill
 									})
-									document.getElementById("info-defend").removeAttribute("shown")
+									if (skill) {
+										skill.d6 = Math.max((skill.d6 || 0) - change.d6, 0)
+									}
 								}
 						}
 
 					// set new perks
 						if (before !== after && Object.keys(data.races).includes(after)) {
-							// perception
-								for (var s in data.races[after].perception) {
-									var skill = character.statistics.perception.skills.find(function(i) {
-										return i.name == s
-									})
-									skill.maximum = data.races[after].perception[s]
-								}
-
 							// statistics
 								for (var s in data.races[after].statistics) {
 									character.statistics[s].maximum += data.races[after].statistics[s]
@@ -2631,29 +6290,25 @@ window.onload = function() {
 											skill.maximum += data.races[after].skills[s][i]
 										}
 										else {
-											character.statistics[s].skills.push({name: i, maximum: data.races[after].skills[s][i], condition: 0})
+											var skill = {name: i, maximum: data.races[after].skills[s][i], condition: 0}
+											character.statistics[s].skills.push(skill)
 										}
+
+										// disable in select
+											document.getElementById(s + "-select").querySelector("[value=" + skill.name + "]").setAttribute("disabled", true)
+											document.getElementById(s + "-disabled").selected = true
 									}
 								}
 
 							// d6
-								if (after == "dwarf" || after == "orc") {
-									character.statistics.strength.skills.find(function(s) {
-										return s.name == "punch"
-									}).d6 = 3
-
-									character.statistics.speed.skills.find(function(s) {
-										return s.name == "kick"
-									}).d6 = 3
-								}
-								else if (after == "bhios") {
-									character.statistics.immunity.skills.find(function(s) {
-										return s.name == "recover"
-									}).d6 = 5
-								}
-								else if (after == "winge") {
-									character.statistics.immunity.skills.push({name: "defend", maximum: 10, condition: 0, d6: 1, unremovable: true})
-									document.getElementById("info-defend").setAttribute("shown", true)
+								for (var d in data.races[after].d6changes) {
+									var change = data.races[after].d6changes[d]
+									var skill = character.statistics[change.statistic].skills.find(function(s) {
+										return s.name == change.skill
+									})
+									if (skill) {
+										skill.d6 = Math.max((skill.d6 || 0) + change.d6, 0)
+									}
 								}
 						}
 
@@ -2678,7 +6333,7 @@ window.onload = function() {
 									displaySkill(character, container, i, character.statistics[i].skills[s], true)
 								}
 						}
-				} catch (error) {}
+				} catch (error) { console.log(error)}
 			}
 
 		/* displayInfo */
@@ -2728,11 +6383,6 @@ window.onload = function() {
 						else {
 							document.getElementById("info-burden").removeAttribute("overburdened")
 						}
-
-					// defend
-						if (character.statistics.immunity.skills.find(function(s) { return s.name == "defend" })) {
-							document.getElementById("info-defend").setAttribute("shown", true)
-						}
 				} catch (error) {}
 			}
 
@@ -2752,7 +6402,7 @@ window.onload = function() {
 						event.target.closest(".statistic").querySelector(".statistic-current").value = Math.max(0, character.statistics[statistic].maximum + character.statistics[statistic].damage + character.statistics[statistic].condition)
 					
 					// update points
-						var cost = (old - character.statistics[statistic].maximum) * 20
+						var cost = (old - character.statistics[statistic].maximum) * 28
 						character.info.status.points += cost
 						document.getElementById("info-points").value = character.info.status.points
 
@@ -3082,20 +6732,22 @@ window.onload = function() {
 								return data.skills[stat].includes(event.target.value)
 							})
 
-							if (statistic && event.target.closest(".alternative")) {
-								item.alternative.statistic = statistic
-								item.alternative.skill = event.target.value
-							}
-							else if (statistic) {
-								item.statistic = statistic
-								item.skill = event.target.value
+							if (statistic) {
+								var usages = event.target.closest(".item-usages")
+								var usage = event.target.closest(".item-usage")
+								var index = Array.prototype.indexOf.call(usages.children, usage)
+								item.usage[index].statistic = statistic
+								item.usage[index].skill = event.target.value
 							}
 						}
 
 					// d6
 						else if (event.target.className.includes("d6")) {
-							if (event.target.closest(".alternative")) {
-								item.alternative.d6 = Number(event.target.value)
+							if (event.target.closest(".item-usage")) {
+								var usages = event.target.closest(".item-usages")
+								var usage = event.target.closest(".item-usage")
+								var index = Array.prototype.indexOf.call(usages.children, usage)
+								item.usage[index].d6 = Number(event.target.value)
 							}
 							else if (event.target.closest(".item-condition")) {
 								item.conditions[event.target.closest(".item-condition").querySelector(".item-condition-name").value] = Number(event.target.value)
@@ -3119,6 +6771,23 @@ window.onload = function() {
 							delete item.conditions[Object.keys(item.conditions)[x]]
 						}
 
+					// info
+						else if (event.target.className.includes("item-info-input")) {
+							var field = event.target.getAttribute("field")
+							if (event.target.type == "number") {
+								item[field] = Number(event.target.value)
+							}
+							else if (event.target.value.toLowerCase() == "true") {
+								item[field] = true
+							}
+							else if (event.target.value.toLowerCase() == "false") {
+								item[field] = false
+							}
+							else {
+								item[field] = event.target.value
+							}
+						}
+
 					// description
 						else if (event.target.className.includes("item-description")) {
 							item.magnetic = false
@@ -3126,33 +6795,12 @@ window.onload = function() {
 							
 							var list = event.target.value.split(" | ")
 							for (var l in list) {
-								if (list[l].toLowerCase().includes("lb")) {
-									var weight = Number(list[l].toLowerCase().replace(/lbs|lb/g, "").trim())
-									if (typeof weight == "number") {
-										item.weight = weight
-									}
-								}
-								else if (list[l].toLowerCase().includes("-handed")) {
-									var hands = Number(list[l].toLowerCase().replace("handed", "").replace("-", "").trim())
-									if (typeof hands == "number") {
-										item.hands = hands
-									}
-								}
-								else if (list[l].toLowerCase().includes("for use with")) {
+								if (list[l].toLowerCase().includes("for use with")) {
 									var weapons = list[l].toLowerCase().replace("for use with", "").split(",")
 										for (var w in weapons) {
 											weapons[w] = weapons[w].trim()
 										}
 									item.weapons = weapons
-								}
-								else if (list[l].trim().toLowerCase() == "magnetic") {
-									item.magnetic = true
-								}
-								else if (list[l].toLowerCase().includes("fuels fire for")) {
-									var fuel = Number(list[l].toLowerCase().replace("fuels fire for ", "").replace(" rounds", "").trim())
-									if (typeof fuel == "number") {
-										item.fuel = fuel
-									}
 								}
 								else if (list[l].toLowerCase().includes("recipe:")) {
 									var recipe = list[l].toLowerCase().replace("recipe:", "").trim().split(", ")
@@ -3163,6 +6811,9 @@ window.onload = function() {
 											item.recipe[recipe[r][0]] = Number(recipe[r].slice(1))
 										}
 									}
+								}
+								else if (list[l].toLowerCase().includes("cost per pound:")) {
+									item.costPerPound = Number(list[l].toLowerCase().replace("cost per pound:", "").replace("❑", "").trim())
 								}
 								else {
 									description.push(list[l])
@@ -3278,48 +6929,6 @@ window.onload = function() {
 							text.addEventListener("change", changeItem)
 						name.appendChild(text)
 
-					// usage
-						if (item.statistic) {
-							if (item.skill) {
-								var skill = character.statistics[item.statistic].skills.find(function(skill) { return skill.name == item.skill }) || {maximum: 0, condition: 0}
-							}
-
-							var usage = document.createElement("div")
-								usage.className = "item-usage"
-							block.appendChild(usage)
-
-							var d20 = document.createElement("input")
-								d20.type = "number"
-								d20.setAttribute("readonly", true)
-								d20.step = 1
-								d20.className = "d20"
-								d20.value = Math.max(0, character.statistics[item.statistic].maximum + character.statistics[item.statistic].damage + character.statistics[item.statistic].condition + (item.skill ? skill.maximum + skill.condition : 0))
-								d20.addEventListener(on.click, rolld20)
-							usage.appendChild(d20)
-
-							var select = document.createElement("select")
-								for (var s in data.skills) {
-									var optgroup = document.createElement("optgroup")
-										optgroup.label = s
-									select.appendChild(optgroup)
-
-									for (var k in data.skills[s]) {
-										var option = document.createElement("option")
-											option.value = data.skills[s][k]
-											option.innerText = data.skills[s][k].replace(/_/g, " ")
-										optgroup.appendChild(option)
-									}
-								}
-								if (!enable) {
-									select.setAttribute("disabled", true)
-								}
-								select.className = "item-usage-skill editable"
-								select.placeholder = "skill"
-								select.value = item.skill
-								select.addEventListener("change", changeItem)
-							usage.appendChild(select)
-						}
-
 					// d6
 						if (item.d6 !== undefined) {
 							var d6 = document.createElement("input")
@@ -3333,33 +6942,33 @@ window.onload = function() {
 								d6.addEventListener("change", changeItem)
 								d6.addEventListener(on.click, rolld6)
 								d6.value = item.d6
-
-							if (item.statistic) {
-								usage.appendChild(d6)
-							}
-							else {
-								name.appendChild(d6)
-							}
+							name.appendChild(d6)
 						}
 
-					// alternative
-						if (item.alternative) {
-							if (item.alternative.skill) {
-								var skill = character.statistics[item.alternative.statistic].skills.find(function(skill) { return skill.name == item.skill }) || {maximum: 0, condition: 0}
+					// usage
+						var usages = document.createElement("div")
+							usages.className = "item-usages"
+						block.appendChild(usages)
+
+						for (var u in item.usage) {
+							var usage = item.usage[u]
+							
+							if (usage.skill) {
+								var skill = character.statistics[usage.statistic].skills.find(function(skill) { return skill.name == usage.skill }) || {maximum: 0, condition: 0}
 							}
 
-							var usage = document.createElement("div")
-								usage.className = "item-usage alternative"
-							block.appendChild(usage)
+							var usageElement = document.createElement("div")
+								usageElement.className = "item-usage"
+							usages.appendChild(usageElement)
 
 							var d20 = document.createElement("input")
 								d20.type = "number"
 								d20.setAttribute("readonly", true)
 								d20.step = 1
 								d20.className = "d20"
-								d20.value = Math.max(0, character.statistics[item.alternative.statistic].maximum + character.statistics[item.alternative.statistic].damage + character.statistics[item.alternative.statistic].condition + (item.skill ? skill.maximum + skill.condition : 0))
+								d20.value = Math.max(0, character.statistics[usage.statistic].maximum + character.statistics[usage.statistic].damage + character.statistics[usage.statistic].condition + (usage.skill ? skill.maximum + skill.condition : 0) + (usage.modifier ? usage.modifier : 0))
 								d20.addEventListener(on.click, rolld20)
-							usage.appendChild(d20)
+							usageElement.appendChild(d20)
 
 							var select = document.createElement("select")
 								for (var s in data.skills) {
@@ -3378,23 +6987,28 @@ window.onload = function() {
 									select.setAttribute("disabled", true)
 								}
 								select.className = "item-usage-skill editable"
-								select.addEventListener("change", changeItem)
 								select.placeholder = "skill"
-								select.value = item.alternative.skill
-							usage.appendChild(select)
+								select.value = usage.skill
+								select.addEventListener("change", changeItem)
+							usageElement.appendChild(select)
 
-							var d6 = document.createElement("input")
-								d6.type = "number"
-								if (!enable) {
-									d6.setAttribute("readonly", true)
-								}
-								d6.step = 1
-								d6.className = "d6 editable"
-								d6.addEventListener("change", changeItem)
-								d6.addEventListener(on.click, rolld6)
-								d6.placeholder = "d6"
-								d6.value = item.alternative.d6
-							usage.appendChild(d6)
+							if (usage.d6) {
+								var d6 = document.createElement("input")
+									d6.type = "number"
+									if (!enable) {
+										d6.setAttribute("readonly", true)
+									}
+									d6.step = 1
+									d6.className = "d6 editable"
+									if (data.combat.includes(usage.skill)) {
+										d6.className += " combat"
+									}
+									d6.placeholder = "d6"
+									d6.addEventListener("change", changeItem)
+									d6.addEventListener(on.click, rolld6)
+									d6.value = usage.d6
+								usageElement.appendChild(d6)
+							}
 						}
 
 					// conditions
@@ -3424,25 +7038,159 @@ window.onload = function() {
 									select.addEventListener("change", changeItem)
 								condition.appendChild(select)
 
-								var d6 = document.createElement("input")
-									d6.type = "number"
-									if (!enable) {
-										d6.setAttribute("readonly", true)
-									}
-									d6.step = 1
-									d6.className = "d6 editable"
-									d6.addEventListener("change", changeItem)
-									d6.addEventListener(on.click, rolld6)
-									d6.value = item.conditions[i] || null
-								condition.appendChild(d6)
-
 								if (item.conditions[i]) {
-									d6.placeholder = "d6"
+									var d6 = document.createElement("input")
+										d6.type = "number"
+										if (!enable) {
+											d6.setAttribute("readonly", true)
+										}
+										d6.step = 1
+										d6.className = "d6 editable"
+										d6.addEventListener("change", changeItem)
+										d6.addEventListener(on.click, rolld6)
+										d6.value = item.conditions[i] || null
+										d6.placeholder = "d6"
+									condition.appendChild(d6)
+								}
+								else {
+									select.className += " item-condition-remove"
 								}
 							}
 						}
 
 					// other info
+						// weight
+							var label = document.createElement("label")
+								label.className = "item-info-label"
+							block.appendChild(label)
+
+							var input = document.createElement("input")
+								input.type = "number"
+								input.className = "item-info-input editable"
+								input.placeholder = "weight"
+								input.value = item.weight || 0
+								input.setAttribute("field", "weight")
+								input.addEventListener("change", changeItem)
+								if (!enable) {
+									input.setAttribute("readonly", true)
+								}
+							label.appendChild(input)
+
+							var span = document.createElement("span")
+								span.className = "item-info-label-text"
+								span.innerText = "lbs"
+							label.appendChild(span)
+
+						// cost
+							var label = document.createElement("label")
+								label.className = "item-info-label"
+							block.appendChild(label)
+
+							var input = document.createElement("input")
+								input.type = "number"
+								input.className = "item-info-input editable"
+								input.placeholder = "cost"
+								input.value = item.cost || 0
+								input.setAttribute("field", "cost")
+								input.addEventListener("change", changeItem)
+								if (!enable) {
+									input.setAttribute("readonly", true)
+								}
+							label.appendChild(input)
+
+							var span = document.createElement("span")
+								span.className = "item-info-label-text"
+								span.innerText = "❑"
+							label.appendChild(span)
+
+						// fuel
+							var label = document.createElement("label")
+								label.className = "item-info-label"
+							block.appendChild(label)
+
+							var input = document.createElement("input")
+								input.type = "number"
+								input.className = "item-info-input editable"
+								input.placeholder = "fuel"
+								input.value = item.fuel || 0
+								input.setAttribute("field", "fuel")
+								input.addEventListener("change", changeItem)
+								if (!enable) {
+									input.setAttribute("readonly", true)
+								}
+							label.appendChild(input)
+
+							var span = document.createElement("span")
+								span.className = "item-info-label-text"
+								span.innerText = "d6 fuel"
+							label.appendChild(span)
+
+						// magnetic
+							var label = document.createElement("label")
+								label.className = "item-info-label"
+							block.appendChild(label)
+
+							var input = document.createElement("select")
+								input.className = "item-info-input editable"
+								input.setAttribute("field", "magnetic")
+								input.addEventListener("change", changeItem)
+								if (!enable) {
+									input.setAttribute("disabled", true)
+								}
+							label.appendChild(input)
+
+							var option = document.createElement("option")
+								option.value = false
+								option.innerText = "nonmagnetic"
+								if (!item.magnetic) { option.selected = true }
+							input.appendChild(option)
+
+							var option = document.createElement("option")
+								option.value = true
+								option.innerText = "magnetic"
+								if (item.magnetic) { option.selected = true }
+							input.appendChild(option)
+
+						// hands
+							var label = document.createElement("label")
+								label.className = "item-info-label"
+							block.appendChild(label)
+
+							var input = document.createElement("input")
+								input.type = "number"
+								input.className = "item-info-input editable"
+								input.placeholder = "hands"
+								input.value = item.hands || 0
+								input.setAttribute("field", "hands")
+								input.addEventListener("change", changeItem)
+								if (!enable) {
+									input.setAttribute("readonly", true)
+								}
+							label.appendChild(input)
+
+							var span = document.createElement("span")
+								span.className = "item-info-label-text"
+								span.innerText = "handed"
+							label.appendChild(span)
+
+						// materials
+							var label = document.createElement("label")
+								label.className = "item-info-label"
+							block.appendChild(label)
+
+							var input = document.createElement("input")
+								input.type = "text"
+								input.className = "item-info-input editable"
+								input.placeholder = "materials"
+								input.value = item.materials || 0
+								input.setAttribute("field", "materials")
+								input.addEventListener("change", changeItem)
+								if (!enable) {
+									input.setAttribute("readonly", true)
+								}
+							label.appendChild(input)
+
+					// description
 						var description = document.createElement("textarea")
 							if (!enable) {
 								description.setAttribute("readonly", true)
@@ -3453,13 +7201,10 @@ window.onload = function() {
 							description.value = ""
 						block.appendChild(description)
 						
-						if (item.weight)      { description.value += " | " + item.weight + " lbs"                }
-						if (item.hands)       { description.value += " | " + item.hands  + "-handed"             }
-						if (item.weapons)     { description.value += " | for use with " + item.weapons.join(", ")}
-						if (item.magnetic)    { description.value += " | magnetic"                               }
-						if (item.fuel)        { description.value += " | fuels fire for " + item.fuel + " rounds"}
-						if (item.recipe)      { description.value += " | recipe: " + JSON.stringify(item.recipe).replace(/{|}|"|:/g,"").replace(/,/g,", ")}
-						if (item.description) { description.value += " | " + item.description                    }
+						if (item.weapons)      { description.value += " | for use with " + item.weapons.join(", ")}
+						if (item.recipe)       { description.value += " | recipe: " + JSON.stringify(item.recipe).replace(/{|}|"|:/g,"").replace(/,/g,", ")}
+						if (item.costPerPound) { description.value += " | cost per pound: " + item.costPerPound + "❑"}
+						if (item.description)  { description.value += " | " + item.description                    }
 
 						description.value = description.value.slice(3)
 				} catch (error) {}
@@ -3605,13 +7350,12 @@ window.onload = function() {
 
 		/* recoverDamage */
 			document.getElementById("info-recover").addEventListener(on.click, recoverDamage)
-			document.getElementById("info-defend").addEventListener(on.click, recoverDamage)
 			function recoverDamage(event) {
 				try {
 					// spacer
 						var spacer = document.createElement("div")
 							spacer.className = "spacer"
-						document.getElementById("history").prepend(spacer)
+						document.getElementById("history").appendChild(spacer)
 
 					// recover only
 						if (event.target.id == "info-recover") {
@@ -3622,8 +7366,11 @@ window.onload = function() {
 
 							// add to history
 								var label = document.createElement("label")
-									label.innerText = "recover"
-								document.getElementById("history").prepend(label)
+								document.getElementById("history").appendChild(label)
+
+								var text = document.createElement("span")
+									text.innerText = "recover"
+								label.appendChild(text)
 
 								var d20 = document.createElement("div")
 									d20.className = "d20"
@@ -3632,35 +7379,50 @@ window.onload = function() {
 								label.prepend(d20)
 						}
 
-					// defend only
-						else if (event.target.id == "info-defend") {
-							var skill = character.statistics.immunity.skills.find(function(s) { return s.name == "defend" }) || {maximum: 0, condition: 0}
-						}
-
 					// both
 						// roll d6
 							var count = roll <= target ? skill.d6 : 1
+							var rolls = []
 							var roll = 0
 							for (var i = 0; i < count; i++) {
-								roll += Math.floor(Math.random() * 6) + 1
+								var thisRoll = Math.floor(Math.random() * 6) + 1
+								rolls.push(thisRoll)
+								roll += thisRoll
 							}
 
 						// add to history
 							var label = document.createElement("label")
-								label.innerText = skill.name
-							document.getElementById("history").prepend(label)
+							document.getElementById("history").appendChild(label)
 
-							var d6 = document.createElement("div")
-								d6.className = "d6"
-								d6.setAttribute("type", "healing")
-								d6.innerText = roll
-							label.prepend(d6)
+							var text = document.createElement("span")
+								text.innerText = skill.name
+							label.prepend(text)
+
+							var total = document.createElement("div")
+								total.className = "d6 total"
+								total.innerText = roll
+								total.setAttribute("type", "healing")
+							label.prepend(total)
+
+							var equals = document.createElement("div")
+								equals.className = "equals"
+								equals.innerHTML = "&rarr;"
+							label.prepend(equals)
+
+							for (var r in rolls) {
+								var d6 = document.createElement("div")
+									d6.className = "d6"
+									d6.setAttribute("counting", "true")
+									d6.addEventListener(on.click, toggled6)
+									d6.innerText = rolls[r]
+								label.prepend(d6)
+							}
+
+						// scroll
+							document.getElementById("history").scrollLeft = 1000000
 
 						// damage mode ?
 							character.info.status.damage = character.info.status.damage + roll
-							if (skill.name == "defend") {
-								character.info.status.damage = Math.min(0, character.info.status.damage)
-							}
 							document.getElementById("info-damage").value = character.info.status.damage
 
 						// save

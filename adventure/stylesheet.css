@@ -127,18 +127,46 @@
 			white-space: nowrap;
 			text-align: left;
 			background-color: #111111;
+			scroll-behavior: smooth;
+			text-align: right;
 		}
 
 		#history label {
 			display: inline-block;
 			white-space: normal;
-			height: 85px;
-			width: 60px;
+			height: 81px;
+			min-width: 60px;
 			margin: 5px;
 			font-size: 10px;
 			color: #aaaaaa;
+			border-radius: 5px;
 			vertical-align: top;
 			text-align: center;
+			padding: 4px 2px 0px 2px;
+		}
+
+		#history label:last-child {
+			background-color: #333333;
+		}
+
+		#history label span {
+			display: block;
+			border-top: 2px solid #333333;
+			margin-top: 2px;
+		}
+
+		#history label:last-child span {
+			border-top: 2px solid #aaaaaa;
+		}
+
+		#history label .equals {
+			display: inline-block;
+			height: 100%;
+			color: #dddddd;
+			vertical-align: top;
+			height: 20px;
+			margin: 20px 0px;
+			font-size: 20px;
 		}
 
 		#history .d20, #history .d6 {
@@ -147,6 +175,7 @@
 			height: 50px;
 			width: 60px;
 			padding-top: 10px;
+			margin: 0px 2px;
 			outline: none;
 			user-select: none;
 			text-align: center;
@@ -178,6 +207,12 @@
 
 		#history .d6[type="potion"] {
 			background-color: #7777dd;
+		}
+
+		#history .d6:not(.total):not([counting="true"]) {
+			background-color: #777777;
+			color: #444444;
+			text-shadow: none;
 		}
 
 	/* modes */
@@ -853,18 +888,6 @@
 			padding: 0px;
 		}
 
-		.weapon .item-name .d6, .ammunition .item-name .d6 {
-			background-color: #dd7777;
-		}
-
-		.armor .item-name .d6, .shield .item-name .d6 {
-			background-color: #dddd77;
-		}
-
-		.healing .item-name .d6 {
-			background-color: #77dd77;
-		}
-
 	/* item usage */
 		.item-usage {
 			float: left;
@@ -918,16 +941,24 @@
 			padding: 0px;
 		}
 
-		.weapon .item-usage .d6, .ammunition .item-usage .d6, .shield .item-usage .d6 {
+		.weapon.item .d6, .ammunition.item .d6 {
 			background-color: #dd7777;
 		}
 
-		.healing .item-usage .d6 {
+		.armor.item .d6, .shield.item .d6 {
+			background-color: #dddd77;
+		}
+
+		.healing.item .d6 {
 			background-color: #77dd77;
 		}
 
-		.potion .item-usage .d6 {
+		.potion.item .d6 {
 			background-color: #7777dd;
+		}
+
+		.item .d6.combat, .potion.item .d6.combat, .shield.item .d6.combat {
+			background-color: #dd7777;
 		}
 
 	/* conditions */
@@ -954,7 +985,11 @@
 			width: calc(100% - 40px);
 		}
 
-		.item-condition .d6 {
+		.item-condition-remove {
+			text-decoration: line-through;
+		}
+
+		.item-condition .d6, .weapon.item .item-condition .d6, .ammunition.item .item-condition .d6, .armor.item .item-condition .d6, .shield.item .item-condition .d6 {
 			text-align: center;
 			float: right;
 			height: 40px;
@@ -965,6 +1000,55 @@
 			outline: none;
 			background-color: #7777dd;
 			padding: 0px;
+		}
+
+	/* item info */
+		.item-info-label {
+			float: left;
+			display: inline-block;
+			margin: 2px 4px 4px 0px;
+			padding: 5px;
+			background-color: #333333;
+			border-radius: 5px;
+		}
+
+		.item-info-input {
+			float: left;
+			border-radius: 5px;
+			outline: none;
+			height: 20px;
+			border: 0px;
+			color: #aaaaaa;
+			padding: 5px;
+			font-size: 15px;
+			background-color: transparent;
+		}
+
+		input.item-info-input[type="number"] {
+			width: 40px;
+			text-align: right;
+		}
+
+		input.item-info-input[type="text"] {
+			width: 200px;
+			text-align: left;
+		}
+
+		select.item-info-input {
+			height: 30px;
+			width: 100px;
+			text-align: center;
+		}
+
+		.item-info-label-text {
+			float: left;
+			margin-left: 5px;
+			font-size: 15px;
+			height: 20px;
+			width: auto;
+			padding: 5px 0px;
+			color: #aaaaaa;
+			line-height: 1.5;
 		}
 
 	/* item description */
@@ -1229,7 +1313,7 @@
 		}
 
 	/* recover */
-		#damage #info-recover, #damage #info-defend {
+		#damage #info-recover {
 			margin-top: 5px;
 			font-size: 30px;
 			float: left;
@@ -1247,12 +1331,8 @@
 			text-overflow: ellipsis;
 		}
 
-		#damage #info-recover:hover, #damage #info-defend:hover {
+		#damage #info-recover:hover {
 			filter: drop-shadow(0px 0px 5px #dddddd);
-		}
-
-		#damage #info-defend:not([shown]) {
-			display: none;
 		}
 
 	/* statistics */
