@@ -1,0 +1,194 @@
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #dddddd;
+		color: #222222;
+		margin: 0;
+		padding: 0;
+		font-size: 0;
+	}
+
+/*** overlay ***/
+	body[gameplay] #overlay {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	#overlay {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		background-color: #111111;
+		transition: 1s;
+		opacity: 1;
+		z-index: 3;
+		text-align: center;
+		border-radius: 100%;
+		height: 500px;
+		width: 500px;
+		box-shadow: 0 0 10px #222222;
+	}
+
+	/** header **/
+		#overlay-header {
+			font-size: 30px;
+			font-family: monospace;
+			font-weight: bold;
+			color: #dddddd;
+			margin: 100px;
+		}
+
+	/** button **/
+		#overlay-button {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			background-color: #dddddd;
+			box-shadow: 0 0 10px #222222;
+			border: none;
+			border-radius: 100%;
+			font-size: 100px;
+			padding: 10px;
+			color: #222222;
+			height: 200px;
+			width: 200px;
+			cursor: pointer;
+			overflow: hidden;
+			outline: none;
+			font-weight: bold;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+
+		#overlay-button:hover, #overlay-button:focus {
+			background-color: #aaaaaa;
+			color: #111111;
+			box-shadow: 0 0 20px #222222;
+		}
+
+/*** game ***/
+	body:not([gameplay]) #container {
+		filter: blur(5px);
+		pointer-events: none;
+	}
+
+	#container {
+		max-width: calc(100vw - 50px);
+		margin: 25px auto 25px auto;
+		border-radius: 100%;
+		background-color: #222222;
+		box-shadow: 0 0 10px #222222;
+		border-radius: 50px;
+		text-align: center;
+		transition: 1;
+	}
+
+	/** wheels **/
+		.wheel {
+			display: inline-block;
+			height: 200px;
+			width: 200px;
+			border-radius: 100%;
+			background-color: #555555;
+			box-shadow: 0 0 10px #222222;
+			margin: 30px 60px;
+		}
+
+	/** indicator **/
+		.wheel-indicator {
+			float: left;
+			height: 20px;
+			width: 20px;
+			color: #dddddd;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			z-index: 2;
+			margin: -25px 50% 0 50%;
+			transform: translateX(-50%);
+			font-size: 20px;
+			font-weight: bold;
+			pointer-events: none;
+		}
+
+	/** buttons **/
+		.wheel-rotate {
+			height: 50px;
+			width: 50px;
+			outline: none;
+			border: none;
+			box-shadow: 0 0 10px #222222;
+			background-color: #dddddd;
+			color: #222222;
+			font-weight: bold;
+			font-size: 30px;
+			padding: 0px;
+			cursor: pointer;
+			border-radius: 100%;
+			margin-top: 50%;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			z-index: 2;
+		}
+
+		.wheel-rotate:hover, .wheel-rotate:focus {
+			background-color: #aaaaaa;
+			color: #111111;
+			box-shadow: 0 0 20px #222222;
+		}
+
+		/* direction */
+			.wheel-rotate[direction="clockwise"] {
+				float: left;
+				transform: translateY(-50%) translateX(-100%);
+			}
+
+			.wheel-rotate[direction="counterclockwise"] {
+				float: right;
+				transform: translateY(-50%) translateX(100%);
+			}
+
+	/** symbols **/
+		.wheel-symbols {
+			height: 200px;
+			width: 200px;
+			transform-origin: center center;
+			transition: 1s;
+			pointer-events: none;
+		}
+
+		/* individual symbol */
+			.wheel-symbol {
+				color: #dddddd;
+				font-size: 20px;
+				font-family: monospace;
+				font-weight: bold;
+				height: 50px;
+				border-radius: 100%;
+				overflow: hidden;
+				margin: 0px;
+				width: 200px;
+				height: 200px;
+				text-align: center;
+				background: transparent;
+				position: absolute;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				-o-user-select: none;
+				user-select: none;
+			}
