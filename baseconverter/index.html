@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>baseConverter</title>
+		<link rel="shortcut icon" href="https://img.icons8.com/pastel-glyph/2x/calculator.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="baseConverter is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="baseConverter"/>
+		<meta property="og:url" content="https://jamesmayr.com/baseconverter/"/>
+		<meta property="og:description" content="baseConverter is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<h1 id="header">baseConverter</h1>
+			<form id="conversion-form" method="post" action="javascript:;">
+				<label>
+					<span>number</span>
+					<input id="conversion-number" type="text" placeholder="value" autocomplete="off">
+				</label>
+				<label>
+					<span>from base</span>
+					<input id="conversion-base-old" type="number" placeholder="from base" min="2" max="36" step="1" value="10">
+				</label>
+				<label>
+					<span>to base</span>
+					<input id="conversion-base-new" type="number" placeholder="to base" min="2" max="36" step="1" value="10">
+				</label>
+				<button id="conversion-submit">&rarr;</button>
+				<output id="conversion-error"></output>
+			</form>
+			<output id="output"></output>
+		</div>
+	</body>
+</html>
