@@ -112,7 +112,7 @@ window.onload = function() {
 					name: "Adventure",
 					size: "large",
 					tags: ["games","code"],
-					url: "https://jamesmayr.com/adventure",
+					url: "https://rpgadventure.herokuapp.com/",
 					date: "September 1, 2012",
 					description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
 				},
