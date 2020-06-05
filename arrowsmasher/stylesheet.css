@@ -1,0 +1,121 @@
+/*** page ***/
+	html {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	body {
+		background-color: #dddddd;
+		margin: 0px;
+		padding: 0px;
+		overflow: hidden;
+		font-family: monospace;
+		font-size: 0px;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #999999);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #222222);
+	}
+
+/*** content ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		font-family: monospace;
+		text-align: center;
+		color: #222222;
+	}
+
+	/* header */
+		#header {
+			display: block;
+			font-size: 50px;
+			height: 50px;
+			margin: 10px;
+		}
+
+		#subheader {
+			display: block;
+			font-size: 20px;
+			height: 50px;
+			margin: 10px;
+		}
+
+	/* score */
+		#tracker {
+			margin: 10px;
+			display: block;
+			text-align: center;
+			width: 500px;
+		}
+
+		#score {
+			width: calc(100% - 2 * 50px - 2 * 20px);
+			height: 50px;
+			margin: 0px 20px;
+			line-height: 1;
+		}
+
+		#tracker span {
+			display: inline-block;
+			width: 50px;
+			height: 50px;
+			vertical-align: bottom;
+			font-size: 50px;
+			font-weight: bold;
+			color: #222222;
+			font-family: monospace;
+			text-align: center;
+			line-height: 1;
+		}
+
+	/* reset */
+		#reset-form:not([visibility=true]) {
+			opacity: 0;
+		}
+
+		#reset-button {
+			border: 0;
+			border-radius: 100%;
+			padding: 10px;
+			font-size: 50px;
+			background-color: #222222;
+			color: #dddddd;
+			box-shadow: 0 0 10px #222222;
+			outline: none;
+			cursor: pointer;
+			height: 80px;
+			width: 80px;
+			font-weight: bold;
+			line-height: 1;
+		}
+
+		#reset-button:hover, #reset-button:focus {
+			background-color: #111111;
+			color: #bbbbbb;
+			box-shadow: 0 0 10px #111111;
+		}

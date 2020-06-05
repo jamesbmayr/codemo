@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title id="title">arrowSmasher</title>
+		<link id="favicon" rel="shortcut icon" href="icons/blank.png"/>
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="arrowSmasher is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="arrowSmasher"/>
+		<meta property="og:url" content="https://jamesmayr.com/arrowsmasher/"/>
+		<meta property="og:description" content="arrowSmasher is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="container">
+			<h1 id="header">arrowSmasher</h1>
+			<label id="tracker">
+				<span>&#10006;</span>
+				<input id="score" type="range" value="0" min="-100" max="100" step="1" disabled/>
+				<span>&#10004;</span>
+			</label>
+			<h3 id="subheader">Press the arrow key(s) to match the favicon.</h3>
+			<form id="reset-form" method="post" action="javascript:;" visibility="false">
+				<button id="reset-button">&orarr;</button>
+			</form>
+		</div>
+	</body>
+</html>
