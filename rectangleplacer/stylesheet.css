@@ -1,0 +1,149 @@
+/*** page ***/
+	html, body {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: #aaaaaa;
+		overflow: hidden;
+	}
+
+	/* variables */
+		:root {
+			--square-size: 50;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** game ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		background-color: #dddddd;
+		box-shadow: 0 0 10px #222222 inset;
+		border-radius: 5px;
+	}
+
+	/* piece */
+		.piece {
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: transparent;
+			pointer-events: none;
+			opacity: 0.7;
+			border-radius: 5px;
+			overflow: hidden;
+			box-shadow: 0 0 5px #222222;
+		}
+
+		.piece-square {
+			width: calc(1px * var(--square-size));
+			height: calc(1px * var(--square-size));
+			cursor: grab;
+			position: absolute;
+			pointer-events: all;
+		}
+
+		.piece[selected] {
+			z-index: 1000;
+			cursor: grabbing;
+			box-shadow: 0 0 20px #000000;
+		}
+
+		.piece[selected] .piece-square {
+			z-index: 1000;
+			cursor: grabbing;
+		}
+
+	/* overlay */
+		#gameoverlay {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			border-radius: 20px;
+			background-color: #333333;
+			box-shadow: 0 0 10px #222222;
+			height: 150px;
+			width: 150px;
+			overflow: hidden;
+			text-align: center;
+			padding: 50px;
+			opacity: 1;
+			transition: 2s;
+		}
+
+		#heading {
+			font-family: monospace;
+			text-align: center;
+			padding: 10px;
+			color: #dddddd;
+			font-weight: bold;
+			margin: 0px;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			font-size: 20px;
+		}
+
+		#play {
+			font-size: 50px;
+			color: #222222;
+			background-color: #dddddd;
+			box-shadow: 0 0 10px #222222;
+			font-family: monospace;
+			cursor: pointer;
+			border: 0;
+			border-radius: 100%;
+			height: 75px;
+			width: 75px;
+			font-weight: bold;
+			outline: none;
+		}
+
+		#play:hover, #play:focus {
+			box-shadow: 0 0 20px #000000;
+		}
+	
+	/* gameover */
+		body[gameover] #container {
+			filter: blur(5px);
+			pointer-events: none;
+		}
+
+		body[gameover] .piece, body[gameover] .piece-square {
+			cursor: default !important;
+		}
+
+		body:not([gameover]) #gameoverlay {
+			opacity: 0;
+			pointer-events: none;
+		}
