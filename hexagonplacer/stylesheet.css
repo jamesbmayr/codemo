@@ -1,0 +1,166 @@
+/*** page ***/
+	html, body {
+		height: 100%;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		padding: 0;
+		background: #bbbbbb;
+		overflow: hidden;
+	}
+
+	/* variables */
+		:root {
+			--hexagon-size: 50;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 5px #dddddd);
+	}
+
+/*** background ***/
+	#background {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 100vw;
+		width: 100vw;
+		max-height: 100vh;
+		max-width: 100vh;
+		border-radius: 100%;
+		background: #dddddd;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+/*** container ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 100vw;
+		width: 100vw;
+		max-height: 100vh;
+		max-width: 100vh;
+		border-radius: 100%;
+		z-index: 2;
+	}
+
+	#container[grabbed] {
+		cursor: grabbing;
+	}
+
+/*** pieces ***/
+	.piece {
+		pointer-events: none;
+		width: auto;
+		height: auto;
+		opacity: 0.5;
+	}
+
+	.hexagon {
+		position: absolute;
+		transform: translateX(-50%) translateY(-50%);
+		height: calc(var(--hexagon-size) * 0.866px);
+		width: calc(var(--hexagon-size) * 1px);
+		clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+		background: lightgray;
+		text-align: center;
+		color: black;
+		font-size: 8px;
+		pointer-events: all;
+	}
+
+	.piece[selected] .hexagon {
+		filter: drop-shadow(0 0 10px black);
+	}
+
+/*** overlay ***/
+	#gameoverlay {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+		background-color: #333333;
+		box-shadow: 0 0 10px #222222;
+		height: 173px;
+		width: 200px;
+		overflow: hidden;
+		text-align: center;
+		padding: 50px;
+		opacity: 1;
+		transition: 2s;
+		z-index: 3;
+	}
+
+	#heading {
+		font-family: monospace;
+		text-align: center;
+		padding: 10px;
+		color: #dddddd;
+		font-weight: bold;
+		margin: 0px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		font-size: 20px;
+	}
+
+	#play {
+		font-size: 50px;
+		color: #222222;
+		background-color: #dddddd;
+		box-shadow: 0 0 10px #222222;
+		font-family: monospace;
+		cursor: pointer;
+		border: 0;
+		clip-path: polygon(0% 50%, 25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+		height: 87px;
+		width: 100px;
+		font-weight: bold;
+		outline: none;
+	}
+
+	#play:hover, #play:focus {
+		box-shadow: 0 0 20px #000000;
+	}
+
+	/* gameover */
+		body[gameover] #container {
+			filter: blur(5px);
+			pointer-events: none;
+		}
+
+		body[gameover] .piece, body[gameover] .hexagon {
+			cursor: default !important;
+		}
+
+		body:not([gameover]) #gameoverlay {
+			opacity: 0;
+			pointer-events: none;
+		}
