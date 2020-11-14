@@ -19,6 +19,8 @@ window.addEventListener("load", function() {
 			}
 
 		/* settings */
+			var GAME = {}
+			var GET = {}
 			var SETTINGS = {
 				x: 3,
 				y: 3,
@@ -31,8 +33,54 @@ window.addEventListener("load", function() {
 				maxPieceSize: 12
 			}
 
-		/* game */
-			var GAME = {}
+		/* detectGet */
+			detectGet()
+			function detectGet() {
+				// query parameters?
+					if (location.search && location.search.length > 1) {
+						var queryString = location.search.slice(1).split("&")
+						for (var i in queryString) {
+							var pair = queryString[i].split("=")
+							GET[pair[0]] = pair[1]
+						}
+					}
+
+				// update settings
+					SETTINGS.x = !isNaN(GET.x) ? Number(GET.x) : SETTINGS.x
+					SETTINGS.y = !isNaN(GET.y) ? Number(GET.y) : SETTINGS.y
+					SETTINGS.z = !isNaN(GET.z) ? Number(GET.z) : SETTINGS.z
+					SETTINGS.minPieceSize = !isNaN(GET.minPieceSize) ? Number(GET.minPieceSize) : SETTINGS.minPieceSize
+					SETTINGS.maxPieceSize = !isNaN(GET.maxPieceSize) ? Number(GET.maxPieceSize) : SETTINGS.maxPieceSize
+			}
+
+		/* detectScreen */
+			detectScreen()
+			window.addEventListener("resize", detectScreen)
+			function detectScreen() {
+				// update hexagonSize
+					SETTINGS.hexagonSize = Math.min(
+						Math.round(window.innerWidth  / (SETTINGS.x * 3) / 10) * 10, 
+						Math.round(window.innerHeight / (SETTINGS.y * 3) / 10) * 10,
+						Math.round(window.innerHeight / (SETTINGS.z * 3) / 10) * 10
+					)
+
+				// update CSS
+					ELEMENTS.root.style.setProperty("--hexagon-size", SETTINGS.hexagonSize)
+
+				// draw background
+					var backgroundHexagonElements = Array.from(ELEMENTS.background.querySelectorAll(".hexagon") || [])
+					for (var i in backgroundHexagonElements) {
+						var hexagonElement = backgroundHexagonElements[i]
+						positionHexagon(hexagonElement, Number(hexagonElement.getAttribute("data-x")), Number(hexagonElement.getAttribute("data-y")), Number(hexagonElement.getAttribute("data-z")))
+					}
+
+				// draw pieces
+					if (GAME.pieces) {
+						for (var i in GAME.pieces) {
+							positionPiece(GAME.pieces[i])
+						}
+					}
+			}
 
 	/*** helpers ***/
 		/* generateRandom */
@@ -148,7 +196,7 @@ window.addEventListener("load", function() {
 									GAME.grid[x][y][z] = 0
 
 								// draw background hexagon
-									ELEMENTS.background.appendChild(createHexagonElement(x, y, z))
+									ELEMENTS.background.appendChild(createHexagonElement(x, y, z, {data: true}))
 							}
 						}
 					}
@@ -296,9 +344,32 @@ window.addEventListener("load", function() {
 				// pick up
 					updateGrid(piece, -1)
 
+				// get edges
+					var maximumX = -SETTINGS.x
+					var minimumX = SETTINGS.x
+					for (var i in piece.hexagons) {
+						if (piece.hexagons[i].x > maximumX) {
+							maximumX = piece.hexagons[i].x
+						}
+						if (piece.hexagons[i].x < minimumX) {
+							minimumX = piece.hexagons[i].x
+						}
+					}
+
+					var maximumY = -SETTINGS.y
+					var minimumY = SETTINGS.y
+					for (var i in piece.hexagons) {
+						if (piece.hexagons[i].y > maximumY) {
+							maximumY = piece.hexagons[i].y
+						}
+						if (piece.hexagons[i].y < minimumY) {
+							minimumY = piece.hexagons[i].y
+						}
+					}
+
 				// random offset
-					var x = rangeRandom(-SETTINGS.x - 1, SETTINGS.x + 1)
-					var y = rangeRandom(-SETTINGS.y - 1, SETTINGS.y + 1)
+					var x = rangeRandom(-maximumX - 1, -minimumX + 1)
+					var y = rangeRandom(-maximumY - 1, -minimumY + 1)
 					var z = (0 - x - y)
 
 				// update piece coordinates
@@ -318,6 +389,7 @@ window.addEventListener("load", function() {
 						pieceElement.className = "piece"
 						pieceElement.id = piece.id
 					ELEMENTS.container.appendChild(pieceElement)
+					piece.element = pieceElement
 
 				// draw hexagons
 					for (var i in piece.hexagons) {
@@ -343,6 +415,13 @@ window.addEventListener("load", function() {
 						if (options && options.piece) {
 							hexagonElement.setAttribute("piece", options.piece)
 							hexagonElement.addEventListener(TRIGGERS.mousedown, selectHexagon)
+						}
+
+					// data
+						if (options && options.data) {
+							hexagonElement.setAttribute("data-x", x)
+							hexagonElement.setAttribute("data-y", y)
+							hexagonElement.setAttribute("data-z", z)
 						}
 
 					// coordinates
@@ -398,13 +477,13 @@ window.addEventListener("load", function() {
 
 				// select
 					GAME.selectedHexagon = event.target
-					GAME.selectedHexagon.setAttribute("selected", true)
 					ELEMENTS.container.setAttribute("grabbed", true)
 
 				// get piece
 					var pieceId = GAME.selectedHexagon.getAttribute("piece")
 					if (GAME.pieces[pieceId]) {
 						var piece = GAME.pieces[pieceId]
+							piece.element.setAttribute("selected", true)
 
 						updateGrid(piece, -1)
 						GAME.selectedCoordinates = {
@@ -470,19 +549,17 @@ window.addEventListener("load", function() {
 					var pieceId = GAME.selectedHexagon.getAttribute("piece")
 					if (GAME.pieces[pieceId]) {
 						var piece = GAME.pieces[pieceId]
+							piece.element.removeAttribute("selected")
 						updateGrid(piece, 1)
 					}
 
 				// unselect
-					GAME.selectedHexagon.removeAttribute("selected")
 					GAME.selectedHexagon = null
 					GAME.selectedCoordinates = null
 					ELEMENTS.container.removeAttribute("grabbed")
 
 				// check for victory
-					if (isVictory()) {
-						console.log("victory")
-					}
+					checkVictory()
 			}
 
 		/* updateGrid */
@@ -500,8 +577,8 @@ window.addEventListener("load", function() {
 			}
 
 	/*** checks ***/
-		/* isVictory */
-			function isVictory() {
+		/* checkVictory */
+			function checkVictory() {
 				// assume victory
 					var victory = true
 

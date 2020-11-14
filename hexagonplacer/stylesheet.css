@@ -48,8 +48,7 @@
 		width: 100vw;
 		max-height: 100vh;
 		max-width: 100vh;
-		border-radius: 100%;
-		background: #dddddd;
+		background: transparent;
 		z-index: 1;
 		pointer-events: none;
 	}
@@ -64,8 +63,8 @@
 		width: 100vw;
 		max-height: 100vh;
 		max-width: 100vh;
-		border-radius: 100%;
 		z-index: 2;
+		background: transparent;
 	}
 
 	#container[grabbed] {
@@ -94,7 +93,7 @@
 	}
 
 	.piece[selected] .hexagon {
-		filter: drop-shadow(0 0 10px black);
+		filter: drop-shadow(0 0 5px #dddddd) blur(5px);
 	}
 
 /*** overlay ***/
