@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>messageEncrypter</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/1092088-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="messageEncrypter is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="messageEncrypter"/>
+		<meta property="og:url" content="https://jamesmayr.com/messageencrypter/"/>
+		<meta property="og:description" content="messageEncrypter is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="container">
+			<h1>messageEncrypter</h1>
+			<form id="form" method="post" action="javascript:;">
+				<textarea id="message" placeholder="message" autocomplete="off" rows="2"></textarea>
+				<input type="text" id="keyword" placeholder="keyword" autocomplete="off">
+				<select id="action">
+					<option value="encrypt" selected>encrypt</option>
+					<option value="decrypt">decrypt</option>
+				</select>
+				<button id="submit">submit</button>
+				<textarea id="output" disabled placeholder="output" autocomplete="off" rows="2"></textarea>
+			</form>
+		</div>
+	</body>
+</html>

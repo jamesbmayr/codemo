@@ -1,0 +1,137 @@
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		background-color: #111111;
+		font-size: 0px;
+		overflow-x: hidden;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}
+
+/*** container ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 10px;
+		box-shadow: 0 0 5px #dddddd;
+		background-color: #111111;
+		padding: 20px;
+		width: 50vw;
+		margin-bottom: 50px;
+	}
+
+	h1 {
+		float: left;
+		text-align: center;
+		width: 100%;
+		margin-top: 0px;
+		margin-bottom: 10px;
+		color: #111111;
+		text-shadow: 0 0 5px #dddddd;
+		font-family: monospace;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		font-size: 25px;
+		text-transform: uppercase;
+	}
+
+/*** form ***/
+	#message, #output, #keyword, #action, #submit {
+		float: left;
+		border-radius: 5px;
+		background-color: #111111;
+		box-shadow: 0 0 5px #dddddd;
+		color: #dddddd;
+		padding: 10px;
+		outline: none;
+		font-family: monospace;
+		font-size: 15px;
+		border: 0;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-transform: uppercase;
+	}
+
+	#message, #output {
+		width: calc(100% - 20px);
+		max-width: calc(100% - 20px);
+		min-width: calc(100% - 20px);
+	}
+
+	#output {
+		margin-bottom: 0;
+		cursor: not-allowed;
+	}
+
+	#keyword, #action, #submit {
+		width: calc((100% - 40px) / 3);
+		height: 40px;
+		box-sizing: border-box;
+	}
+
+	#action, #submit {
+		cursor: pointer;
+	}
+
+	#action {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	#submit:focus, #submit:hover {
+		font-weight: bold;
+	}
+
+	#message[error="true"], #keyword[error="true"] {
+		box-shadow: 0 0 5px #dd0000;
+	}
+
+/*** mobile ***/
+	@media screen and (max-width: 799px) {
+		#container {
+			width: 80vw;
+		}
+
+		#keyword {
+			width: 100%;
+		}
+
+		#action, #submit {
+			width: calc((100% - 20px) / 2);
+		}
+
+		#action {
+			margin-left: 0;
+		}
+	}
