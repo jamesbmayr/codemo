@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>sketchTiler</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/503998-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="sketchTiler is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="sketchTiler"/>
+		<meta property="og:url" content="https://jamesmayr.com/sketchtiler/"/>
+		<meta property="og:description" content="sketchTiler is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/resources/j.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body drawing>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<canvas id="mirror"></canvas>
+		<div id="inputs">
+			<input id="input-y" class="range" type="range" min="10" max="500" step="10" value="300"/>
+			<input id="input-x" class="range" type="range" min="10" max="500" step="10" value="300"/>
+			<input id="input-background" class="option" type="color" value="#111111"/>
+			<input id="input-color" class="option" type="color" value="#dddddd"/>
+			<select id="input-brush" class="option">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5" selected>5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+			<button id="input-reset" class="option">&orarr;</button>
+			<button id="input-download" class="option">&DownArrowBar;</button>
+			<canvas id="input-draw"></canvas>
+		</div>
+	</body>
+</html>

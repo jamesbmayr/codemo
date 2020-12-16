@@ -1,0 +1,183 @@
+/*** elements ***/
+	:root {
+		--range-edge: 2px;
+		--button-radius: 20px;
+		--shadow-size: 5px;
+		--dark-gray: #111111;
+		--medium-gray: #999999;
+		--light-gray: #dddddd;
+		--border-radius: 2px;
+	}
+
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		background: var(--dark-gray);
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}
+
+/*** mirror ***/
+	#mirror {
+		z-index: 1;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		pointer-events: none;
+	}
+
+/*** inputs ***/
+	#inputs {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		z-index: 2;
+	}
+
+	/* ranges */
+		.range {
+			position: absolute;
+			height: var(--button-radius);
+			margin: 0;
+			padding: 0;
+			cursor: pointer;
+			outline: none;
+			-webkit-appearance: none;
+			background: transparent;
+			z-index: 3;
+			pointer-events: none;
+		}
+
+		.range::-moz-range-thumb {
+			pointer-events: all !important;
+		}
+		
+		.range::-webkit-slider-thumb {
+			pointer-events: all !important;
+		}
+
+		.range::-ms-thumb {
+			pointer-events: all !important;
+		}
+
+		#inputs:hover .range, .range:hover {
+			opacity: 1 !important;
+		}
+
+		#input-y {
+			bottom: var(--range-edge);
+			left: calc(var(--range-edge) * 2 + var(--button-radius));
+			transform: rotate(-90deg);
+			transform-origin: bottom left;
+		}
+
+		#input-x {
+			bottom: calc(var(--range-edge) * 2);
+			left: var(--range-edge);
+		}
+
+	/* options */
+		.option {
+			position: absolute;
+			height: calc(var(--button-radius) * 2);
+			width: calc(var(--button-radius) * 2);
+			background-color: var(--light-gray);
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			color: var(--dark-gray);
+			font-weight: bold;
+			font-size: var(--button-radius);
+			background-color: var(--light-gray);
+			outline: none;
+			margin: 0;
+			border: 0;
+			z-index: 3;
+			user-select: none;
+			box-sizing: border-box;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		#inputs:hover .option {
+			opacity: 1 !important;
+		}
+
+		.option:focus, .option:hover {
+			background-color: var(--medium-gray);
+			opacity: 1 !important;
+		}
+
+		#input-brush {
+			-moz-appearance: none;
+			-webkit-appearance: none;
+			appearance: none;
+			text-align: center;
+  			text-align-last: center;
+		}
+
+		#input-brush::-ms-expand {
+			display: none;
+		}
+
+	/* canvas */
+		#input-draw {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			cursor: pointer;
+			border: var(--range-edge) solid transparent;
+			box-sizing: border-box;
+		}
+
+		#inputs:hover #input-draw {
+			border: var(--range-edge) solid var(--light-gray);
+		}
+
+		.range:active ~ #input-draw, .option:active ~ #input-draw {
+			border: var(--range-edge) solid var(--light-gray);
+		}
+
+	/* while drawing */
+		body[drawing] #input-draw {
+			border: var(--range-edge) solid var(--light-gray);
+		}
+
+		body[drawing] .range {
+			pointer-events: none;
+		}
+
+		body:not([drawing]) .range, body:not([drawing]) .option {
+			opacity: 0;
+		}
