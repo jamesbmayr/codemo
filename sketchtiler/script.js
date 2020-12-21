@@ -296,7 +296,7 @@ window.onload = function() {
 			function drawSection(canvas, context, sectionWidth, sectionHeight, offsetX, offsetY) {
 				try {
 					// loop through lines
-						for (var i = 0; i < DRAWING.lines.length; i++) {
+						for (var i = DRAWING.lines.length - 1; i >= 0; i--) {
 							var points = DRAWING.lines[i].points
 							for (var j = 1; j < points.length; j++) {
 								// out of bounds ?
