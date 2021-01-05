@@ -1,0 +1,4 @@
+# Group 1
+User-agent: * Disallow: /functions
+
+Sitemap: https://jamesmayr.com/sitemap.xml

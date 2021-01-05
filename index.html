@@ -2,11 +2,11 @@
 <html>	
 	<head>
 		<title>James Mayr</title>
-		<link rel="shortcut icon" type="image/png" href="/resources/j.png">
+		<link rel="shortcut icon" type="image/png" href="resources/j.png">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 		<link href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="/resources/stylesheet.css">
-		<script type="text/javascript" src="/resources/script.js"></script>
+		<link rel="stylesheet" type="text/css" href="resources/stylesheet.css">
+		<script type="text/javascript" src="resources/script.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/4.8.1/firebase.js"></script>
 		<script>
 			var config = {
@@ -30,113 +30,50 @@
 		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	</head>
 	<body>
-		<div id="info-outer">
-			<div id="info">
-				<div id="info-image" alt="image of James Mayr" title="image of James Mayr"></div>
-				<div id="info-content">
-					<h1 id="info-name">James Mayr</h1>
-					<p id="info-bio">I'm a coder, composer, writer, and game-maker. I've worked as a teacher, a copy editor, a product manager, and more.</p>
-					<ul id="info-links">
-						<li>
-							<a id="info-links-github" class="fab fa-github" alt="GitHub" title="GitHub" target="_blank" href="https://www.github.com/jamesbmayr"></a>
-						</li>
-						<li>
-							<a id="info-links-soundcloud" class="fab fa-soundcloud" alt="SoundCloud" title="SoundCloud" target="_blank" href="https://www.soundcloud.com/jamesmayr"></a>
-						</li>
-						<li>
-							<a id="info-links-linkedin" class="fab fa-linkedin" alt="LinkedIn" title="LinkedIn" target="_blank" href="https://www.linkedin.com/in/jamesbmayr"></a>
-						</li>
-						<li>
-							<a id="info-links-resume" class="fas fa-file" alt="resume" title="resume" target="_blank" href="/resources/JamesMayrResume.pdf"></a>
-						</li>
-						<li>
-							<a id="info-links-email" class="fas fa-envelope" alt="email" title="email" target="_blank" href="mailto:jamesbmayr@gmail.com?subject=saw+you+on+jamesmayr.com"></a>
-						</li>
-						<li>
-							<button id="j-logo" alt="j-game" title="j-game" href="#"></button>
-						</li>
-					</ul>
-				</div>
+		<div id="info">
+			<div id="info-content">
+				<h1 id="info-name">James Mayr</h1>
+				<p id="info-bio">
+					<span class="tag-button" id="info-tag-code" data-tag="code">coder</span> &bull; <span class="tag-button" id="info-tag-music" data-tag="music">composer</span> &bull; <span class="tag-button" id="info-tag-writing" data-tag="writing">writer</span> &bull; <span class="tag-button" id="info-tag-games" data-tag="games">game-maker</span>
+					<br>
+					<span>product manager</span> &bull; <span>editor</span> &bull; <span>teacher</span>
+				</p>
+				<ul id="info-links">
+					<li>
+						<a id="info-links-github" class="fab fa-github" alt="GitHub" title="GitHub" target="_blank" href="https://www.github.com/jamesbmayr"></a>
+					</li>
+					<li>
+						<a id="info-links-soundcloud" class="fab fa-soundcloud" alt="SoundCloud" title="SoundCloud" target="_blank" href="https://www.soundcloud.com/jamesmayr"></a>
+					</li>
+					<li>
+						<a id="info-links-linkedin" class="fab fa-linkedin" alt="LinkedIn" title="LinkedIn" target="_blank" href="https://www.linkedin.com/in/jamesbmayr"></a>
+					</li>
+					<li>
+						<a id="info-links-resume" class="fas fa-file" alt="resume" title="resume" target="_blank" href="/resources/JamesMayrResume.pdf"></a>
+					</li>
+					<li>
+						<a id="info-links-email" class="fas fa-envelope" alt="email" title="email" target="_blank" href="mailto:jamesbmayr@gmail.com?subject=saw%20you%20on%20jamesmayr.com"></a>
+					</li>
+					<li>
+						<a id="info-links-random" class="fas fa-random" alt="random project" href="#"></a>
+					</li>
+					<li>
+						<button id="j-logo" alt="j-game" title="j-game"></button>
+					</li>
+				</ul>
 			</div>
+			<div id="info-image" alt="image of James Mayr" title="image of James Mayr"></div>
 		</div>
-		<ul id="navigation">
-			<li>
-				<a id="navigation-code" alt="code" href="#code">coder</a>
-			</li>
-			<li>
-				<a id="navigation-music" alt="music" href="#music">composer</a>
-			</li>
-			<li>
-				<a id="navigation-writing" alt="writing" href="#writing">writer</a>
-			</li>
-			<li>
-				<a id="navigation-games" alt="games" href="#games">game-maker</a>
-			</li>
-			<li>
-				<a id="navigation-design" alt="design" href="#design">designer</a>
-			</li>
-			<li>
-				<a id="navigation-collaborations" alt="collaborations" href="#collaborations">collaborator</a>
-			</li>
-		</ul>
-		<div id="projects">
-			<div id="code" class="section">
-				<h3 id="code-header" class="section-header">coder</h3>
-				<ul id="code-featured" class="section-featured">
-				</ul>
-				<details id="code-details" class="section-details">
-					<summary class="section-more-button" alt="more...">more...</summary>
-					<ul id="code-more" class="section-more"></ul>
-				</details>
+		<div id="navigation">
+			<input id="navigation-search" type="text" placeholder="search projects..." autocomplete="off" spellcheck="false"/>
+		</div>
+		<div id="projects"></div>
+		<a id="back-to-top" href="#info" alt="back to top" title="back to top" class="fas fa-arrow-up"></a>
+		<div id="footer">
+			<div id="footer-friends">
+				<span id="footer-friends-header">friends</span> &bull; <a href="https://purplegreenprojects.com" target="_blank" alt="Liz Ford" title="Liz Ford">Liz Ford</a> &bull; <a href="https://maximpekarsky.com" target="_blank" alt="Max Pekarsky" title="Max Pekarsky">Max Pekarsky</a> &bull; <a href="https://www.jon-z.com/" target="_blank" alt="Jon Zhou" title="Jon Zhou">Jon Zhou</a> &bull; <a href="https://kenforddigitalimages.com" target="_blank" alt="Ken Ford" title="Ken Ford">Ken Ford</a>
 			</div>
-			<div id="music" class="section">
-				<h3 id="music-header" class="section-header">composer</h3>
-				<ul id="music-featured" class="section-featured">
-				</ul>
-				<details id="music-details" class="section-details">
-					<summary class="section-more-button" alt="more...">more...</summary>
-					<ul id="music-more" class="section-more"></ul>
-				</details>
-			</div>
-			<div id="writing" class="section">
-				<h3 id="writing-header" class="section-header">writer</h3>
-				<ul id="writing-featured" class="section-featured">
-				</ul>
-				<details id="writing-details" class="section-details">
-					<summary class="section-more-button" alt="more...">more...</summary>
-					<ul id="writing-more" class="section-more"></ul>
-				</details>
-			</div>
-			<div id="games" class="section">
-				<h3 id="games-header" class="section-header">game-maker</h3>
-				<ul id="games-featured" class="section-featured">
-				</ul>
-				<details id="games-details" class="section-details">
-					<summary class="section-more-button" alt="more...">more...</summary>
-					<ul id="games-more" class="section-more"></ul>
-				</details>
-			</div>
-			<div id="design" class="section">
-				<h3 id="design-header" class="section-header">designer</h3>
-				<ul id="design-featured" class="section-featured">
-				</ul>
-				<details id="design-details" class="section-details">
-					<summary class="section-more-button" alt="more...">more...</summary>
-					<ul id="design-more" class="section-more"></ul>
-				</details>
-			</div>
-			<div id="collaborations" class="section">
-				<h3 id="collaborations-header" class="section-header">collaborator</h3>
-				<ul id="collaborations-featured" class="section-featured">
-				</ul>
-				<details id="collaborations-details" class="section-details">
-					<summary class="section-more-button" alt="more...">more...</summary>
-					<ul id="collaborations-more" class="section-more"></ul>
-				</details>
-			</div>
-			<div id="footer">
-				<a id="back-to-top" href="#info" alt="back to top" title="back to top" class="fas fa-arrow-up"></a>
-			</div>
+			<div id="footer-copyright">© 2021 <a href="https://github.com/jamesbmayr" target="_blank" alt="github" title="github">James Mayr</a></div>
 		</div>
 	</body>
 </html>
