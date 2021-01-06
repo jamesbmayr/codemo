@@ -70,7 +70,7 @@
 /*** info ***/
 	#info {
 		float: left;
-		height: var(--image-size);;
+		height: var(--image-size);
 		width: calc(100% - 2 * var(--medium-gap-size));
 		overflow: hidden;
 		background-color: var(--dark-gray);
