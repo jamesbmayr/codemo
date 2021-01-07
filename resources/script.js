@@ -1066,10 +1066,14 @@ window.onload = function() {
 							element.id = id
 
 					// name
+						let nameOuter           = document.createElement("div")
+							nameOuter.className = "project-name-outer"
+						element.appendChild(nameOuter)
+
 						let name           = document.createElement("div")
 							name.className = "project-name"
 							name.innerText = project.name
-						element.appendChild(name)
+						nameOuter.appendChild(name)
 
 					// image
 						let image   = document.createElement("div")
