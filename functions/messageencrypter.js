@@ -88,6 +88,7 @@
 
 /*** request ***/
 	/* submitQuery */
+		exports.submitQuery = submitQuery
 		function submitQuery(query) {
 			try {
 				// validate

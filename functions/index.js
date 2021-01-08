@@ -50,7 +50,7 @@
 			}
 		})
 
-	/* messageencrypter */
+	/* baseconverter */
 		const app_messageencrypter = require("./messageencrypter")
 		exports.messageencrypter = functions.https.onRequest(function(request, response) {
 			try {
@@ -59,5 +59,17 @@
 			catch (error) {
 				console.log(error)
 				response.end("unknown error in cloud functions for messageencrypter")
+			}
+		})
+
+	/* baseconverter */
+		const app_baseconverter = require("./baseconverter")
+		exports.baseconverter = functions.https.onRequest(function(request, response) {
+			try {
+				response.end(app_baseconverter.submitConvert(request.query))
+			}
+			catch (error) {
+				console.log(error)
+				response.end("unknown error in cloud functions for baseconverter")
 			}
 		})
