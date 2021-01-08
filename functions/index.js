@@ -49,3 +49,15 @@
 				response.end("unknown error in cloud functions for chordanalyzer")
 			}
 		})
+
+	/* messageencrypter */
+		const app_messageencrypter = require("./messageencrypter")
+		exports.messageencrypter = functions.https.onRequest(function(request, response) {
+			try {
+				response.end(app_messageencrypter.submitQuery(request.query))
+			}
+			catch (error) {
+				console.log(error)
+				response.end("unknown error in cloud functions for messageencrypter")
+			}
+		})
