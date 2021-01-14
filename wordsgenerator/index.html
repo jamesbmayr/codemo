@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordsGenerator</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/49764-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="wordsGenerator is a Javascript web demo by James Mayr and Liz Ford"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="wordsGenerator"/>
+		<meta property="og:url" content="https://jamesmayr.com/wordsgenerator/"/>
+		<meta property="og:description" content="wordsGenerator is a Javascript web demo by James Mayr and Liz Ford"/>
+		<meta property="og:image" content="https://jamesmayr.com/wordsgenerator/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="container">
+			<h1>wordsGenerator</h1>
+			<div>
+				<h2>words</h2>
+				<div class="details-inner">
+					<div id="words"></div>
+					<div id="error"></div>
+				</div>
+			</div>
+			<div>
+				<h2>generator</h2>
+				<div class="details-inner">
+					<details open>
+						<summary><h3>update list</h3></summary>
+						<div class="details-inner">
+							<form id="generate-form" method="post" action="javascript:;">
+								<button>GENERATE WORDS</button>
+							</form>
+							<form id="randomize-form" method="post" action="javascript:;">
+								<button>RANDOMIZE SETTINGS</button>
+							</form>
+						</div>
+					</details>
+					<details open>
+						<summary><h3>number of words</h3></summary>
+						<div class="details-inner">
+							<input type="number" step="1" min="1" max="100" id="number-of-words" placeholder="number of words">
+						</div>
+					</details>
+					<details open>
+						<summary><h3>syllable counts</h3></summary>
+						<div class="details-inner" id="syllable-counts"></div>
+					</details>
+					<details open>
+						<summary><h3>syllable types</h3></summary>
+						<div class="details-inner" id="syllable-types"></div>
+					</details>
+					<details open>
+						<summary><h3>letter groups</h3></summary>
+						<div class="details-inner" id="categories"></div>
+					</details>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

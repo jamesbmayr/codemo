@@ -58,6 +58,13 @@ window.onload = function() {
 					date: "October 4, 2017",
 					description: "blockDescender is a web clone of Tetris, where players must fit colored blocks together."
 				},
+				bluejay: {
+					name: "bluejay",
+					size: "extra-large",
+					tags: ["code","tool","design","extension","api","node","audio"],
+					date: "January 1, 2021",
+					description: "An action-voice engine: whistle to turn words into smarthome commands, API searches, math, alarms, content fetching, and more."
+				},
 				breakout: {
 					name: "breakout",
 					size: "small",
@@ -821,6 +828,13 @@ window.onload = function() {
 					date: "May 16, 2020",
 					description: "Turn one wheel and see it turn another - it's hard to crack, even if you know the code."
 				},
+				windowtinter: {
+					name: "windowTinter",
+					size: "medium",
+					tags: ["code","tool","design","extension"],
+					date: "January 6, 2021",
+					description: "See the world through any-color glasses with this Chrome extension that adds a colored overlay to any website."
+				},
 				wordcounter: {
 					name: "wordCounter",
 					size: "small",
@@ -848,6 +862,13 @@ window.onload = function() {
 					tags: ["code","puzzle","tool","design"],
 					date: "April 14, 2018",
 					description: "Generate puzzles in wordsearchBuilder, a web workers-powered Javascript tool."
+				},
+				wordsgenerator: {
+					name: "wordsGenerator",
+					size: "medium",
+					tags: ["code","tool","writing"],
+					date: "January 11, 2021",
+					description: "Generate random words with customizable controls over allowed letter and syllable combinations."
 				},
 				wordshuffler: {
 					name: "wordShuffler",

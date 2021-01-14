@@ -1,0 +1,302 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #888888;
+		--dark-gray: #222222;
+		--medium-red: #dd2222;
+		--padding-size: 10px;
+		--border-radius: 10px;
+		--font-family: monospace;
+		--small-font-size: 20px;
+		--medium-font-size: 40px;
+		--large-font-size: 60px;
+		--border-size: 5px;
+		--input-width: 200px;
+		--label-width: 50px;
+
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		margin: 0;
+		font-family: var(--font-family);
+		font-size: 0;
+		background-color: var(--light-gray);
+		overflow-x: hidden;
+	}
+
+	#container {
+		float: left;
+		width: calc(100vw - 4 * var(--padding-size));
+		height: auto;
+		padding: calc(var(--padding-size) * 2);
+	}
+
+/*** elements ***/
+	h1 {
+		font-size: var(--large-font-size);
+		text-transform: uppercase;
+		font-weight: bold;
+		color: var(--dark-gray);
+		border-radius: var(--border-radius);
+		padding: var(--padding-size);
+		margin: 0;
+		line-height: 1;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: calc(100vw - 6 * var(--padding-size));
+	}
+
+	h2 {
+		font-size: var(--medium-font-size);
+		text-transform: uppercase;
+		font-weight: normal;
+		color: var(--light-gray);
+		background-color: var(--medium-gray);
+		border-radius: var(--border-radius);
+		padding: var(--padding-size);
+		margin: 0;
+		line-height: 1;
+		width: calc(100vw - 6 * var(--padding-size));
+	}
+
+	h3 {
+		font-size: var(--small-font-size);
+		color: var(--dark-gray);
+		line-height: 1;
+		margin: var(--padding-size);
+		margin-left: 0;
+		display: inline-block;
+		width: var(--input-width);
+	}
+
+	details {
+		width: 100%;
+		height: auto;
+	}
+
+	.details-inner {
+		padding: 0 var(--padding-size) var(--padding-size) var(--padding-size);
+		margin-bottom: var(--padding-size);
+	}
+
+	details, details summary {
+		outline: none;
+	}
+
+	details summary {
+		display: block;
+		margin: 0;
+		cursor: pointer;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		width: calc(100% - 4 * var(--padding-size));
+	}
+
+	details summary h2:hover {
+		box-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	details summary h3:hover {
+		text-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	section {
+		width: 100%;
+		float: left;
+	}
+
+	label {
+		margin: var(--padding-size) 0;
+		width: 100%;
+		cursor: pointer;
+	}
+
+	label:hover span, label:hover h3 {
+		text-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	button {
+		margin: 0 var(--padding-size);
+		padding: var(--border-size);
+		font-family: var(--font-family);
+		color: var(--light-gray);
+		font-size: var(--small-font-size);
+		border-radius: var(--border-radius);
+		border: var(--border-size) solid var(--dark-gray);
+		background-color: var(--dark-gray);
+		outline: none;
+		vertical-align: text-bottom;
+		width: var(--input-width);
+		cursor: pointer;
+		outline: none;
+	}
+
+	button:hover, button:focus {
+		box-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	input[type="number"] {
+		margin: 0 var(--padding-size);
+		padding: var(--border-size);
+		font-family: var(--font-family);
+		color: var(--dark-gray);
+		font-size: var(--small-font-size);
+		border-radius: var(--border-radius);
+		border: var(--border-size) solid var(--dark-gray);
+		background-color: var(--light-gray);
+		outline: none;
+		vertical-align: text-bottom;
+		width: calc(var(--input-width) - 4 * var(--border-size));
+	}
+
+	input[type="number"]:hover, input[type="number"]:focus {
+		box-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	select {
+		margin: 0 var(--padding-size);
+		padding: var(--border-size);
+		font-family: var(--font-family);
+		color: var(--dark-gray);
+		font-size: var(--small-font-size);
+		border-radius: var(--border-radius);
+		border: var(--border-size) solid var(--dark-gray);
+		background-color: var(--light-gray);
+		outline: none;
+		vertical-align: text-bottom;
+		width: var(--input-width);
+		cursor: pointer;
+	}
+
+	select:hover, select:focus {
+		box-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	input[type="checkbox"] {
+		display: inline-block;
+		height: var(--small-font-size);
+		width: var(--small-font-size);
+		outline: none;
+		cursor: pointer;
+	}
+
+	input[type="checkbox"]:hover, input[type="checkbox"]:focus {
+		box-shadow: 0 0 var(--border-size) var(--dark-gray);
+	}
+
+	label span {
+		font-size: var(--small-font-size);
+		color: var(--medium-gray);
+		vertical-align: text-bottom;
+	}
+
+	label input[type="checkbox"]:checked ~ span {
+		color: var(--dark-gray);
+	}
+
+/*** words ***/
+	#words {
+		font-size: var(--small-font-size);
+		font-family: var(--font-family);
+		padding: var(--padding-size);
+		color: var(--dark-gray);
+		width: calc(100vw - 8 * var(--padding-size))
+	}
+
+	#error {
+		font-size: var(--small-font-size);
+		font-family: var(--font-family);
+		padding: var(--padding-size);
+		color: var(--medium-red);
+		width: calc(100vw - 8 * var(--padding-size))
+	}
+
+/*** options ***/
+	#randomize-form {
+		margin-top: var(--padding-size);
+	}
+	
+	.syllable-count-label {
+		display: inline-block;
+		width: var(--label-width);
+
+	}
+
+	.syllable-type-label {
+		display: block;
+		width: 100%;
+	}
+
+	.category {
+		width: calc(100% - 2 * var(--padding-size));
+		padding: var(--padding-size);
+		background-color: var(--medium-gray);
+		border-radius: var(--border-radius);
+		margin-bottom: var(--padding-size);
+	}
+
+	.category-label {
+		display: block;
+		margin: 0;
+	}
+
+	.category-label h3 {
+		width: auto;
+		margin: var(--padding-size) 0;
+		vertical-align: top;
+	}
+
+	.category-checkbox {
+		margin: var(--padding-size);
+	}
+	
+	.lettergroup-label {
+		display: inline-block;
+		width: calc(var(--label-width) * 3);
+		margin: 0;
+	}
+
+	.lettergroup-label span {
+		padding: var(--border-size);
+		min-width: var(--label-width);
+	}
+
+	.lettergroup-label input[type="checkbox"] {
+		margin: var(--padding-size);
+	}
+
+	.lettergroup-label input[type="checkbox"]:not(:checked) ~ span {
+		color: var(--light-gray);
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0px 0px 2px #aaaaaa);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}
