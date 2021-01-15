@@ -37,7 +37,7 @@ window.onload = function() {
 				"r-controlled vowel",
 				"simple consonant",
 				"digraph",
-				"floss",
+				"doubles",
 				"suffix s",
 				"consonant-e",
 				"consonant-e suffix s",
@@ -351,7 +351,7 @@ window.onload = function() {
 				},
 				"ff": {
 					text: "ff",
-					categories: ["floss"],
+					categories: ["doubles"],
 					letterGroupTypes: ["endingConsonantGroup"],
 					weight: 1,
 				},
@@ -612,7 +612,7 @@ window.onload = function() {
 				},
 				"ll": {
 					text: "ll",
-					categories: ["floss"],
+					categories: ["doubles"],
 					letterGroupTypes: ["endingConsonantGroup"],
 					weight: 2,
 				},
@@ -1092,7 +1092,7 @@ window.onload = function() {
 				},
 				"ss": {
 					text: "ss",
-					categories: ["floss"],
+					categories: ["doubles"],
 					letterGroupTypes: ["endingConsonantGroup"],
 					weight: 3,
 				},
@@ -1342,7 +1342,7 @@ window.onload = function() {
 				},
 				"zz": {
 					text: "zz",
-					categories: ["floss"],
+					categories: ["doubles"],
 					letterGroupTypes: ["endingConsonantGroup"],
 					weight: 1,
 				},
@@ -1620,9 +1620,6 @@ window.onload = function() {
 			ELEMENTS.randomizeForm.addEventListener("submit", submitRandomize)
 			function submitRandomize(event) {
 				try {
-					// random number of words
-						ELEMENTS.numberOfWords.value = Math.floor(Math.random() * CONSTANTS.defaultNumberOfWords * 2) + 1
-
 					// random syllable counts
 						var syllableCountCheckboxes = Array.from(ELEMENTS.syllableCounts.querySelectorAll(".syllable-count-checkbox"))
 						for (var i in syllableCountCheckboxes) {
@@ -1729,13 +1726,17 @@ window.onload = function() {
 						var syllableCount = chooseRandom(allowedSyllableCounts)
 
 					// empty for now
+						var lastLetterGroupText = null
 						var lastSyllableLastLetterGroupType = null
 
 					// loop through syllables
 						for (var i = 0; i < syllableCount; i++) {
 							// generate and add to word
-								var thisSyllable = generateSyllable(allowedSyllableTypes, allowedLetterGroups, lastSyllableLastLetterGroupType)
+								var thisSyllable = generateSyllable(allowedSyllableTypes, allowedLetterGroups, lastLetterGroupText, lastSyllableLastLetterGroupType)
 								syllables.push(thisSyllable)
+
+							// remember last text (to avoid duplicate clusters)
+								lastLetterGroupText = thisSyllable[thisSyllable.length - 1].text
 
 							// remember last type (to avoid back-to-back vowel groups)
 								lastSyllableLastLetterGroupType = thisSyllable[thisSyllable.length - 1].letterGroupTypes[0]
@@ -1770,7 +1771,7 @@ window.onload = function() {
 			}
 
 		/* generateSyllable */
-			function generateSyllable(allowedSyllableTypes, allowedLetterGroups, lastSyllableLastLetterGroupType) {
+			function generateSyllable(allowedSyllableTypes, allowedLetterGroups, lastLetterGroupText, lastSyllableLastLetterGroupType) {
 				try {
 					// no letter groups to start
 						var thisSyllable = []
@@ -1778,7 +1779,7 @@ window.onload = function() {
 					// filter list of syllable structures
 						var tempAllowedSyllableTypes = duplicateObject(allowedSyllableTypes)
 
-					// avoid bakc-to-back vowel groups
+					// avoid back-to-back vowel groups
 						if (lastSyllableLastLetterGroupType == "vowelGroup") {
 							tempAllowedSyllableTypes = tempAllowedSyllableTypes.filter(function(syllableType) {
 								return syllableType[0] !== "vowelGroup"
@@ -1799,8 +1800,9 @@ window.onload = function() {
 								var isLastLetterGroup = Boolean(i == syllableType.length - 1)
 
 							// get letter group and add to syllable
-								var thisLetterGroup = getLetterGroupOfType(syllableType[i], allowedLetterGroups, isLastLetterGroup)
+								var thisLetterGroup = getLetterGroupOfType(syllableType[i], allowedLetterGroups, lastLetterGroupText, isLastLetterGroup)
 								thisSyllable.push(thisLetterGroup)
+								lastLetterGroupText = thisLetterGroup.text
 						}
 
 					// give back syllable
@@ -1809,7 +1811,7 @@ window.onload = function() {
 			}
 
 		/* getLetterGroupOfType */
-			function getLetterGroupOfType(desiredLetterGroupType, allowedLetterGroups, isLastLetterGroup) {
+			function getLetterGroupOfType(desiredLetterGroupType, allowedLetterGroups, lastLetterGroupText, isLastLetterGroup) {
 				try {
 					// empty list
 						var theseLetterGroups = []
@@ -1818,8 +1820,20 @@ window.onload = function() {
 						for (var i in allowedLetterGroups) {
 							// find the types we want (vowel, start consonant, end consonant, etc.)
 								if (allowedLetterGroups[i].letterGroupTypes.includes(desiredLetterGroupType)) {
+									// avoid duplicating the same letter group / consecutive letters UNLESS both are 1 letter and the same
+										if (lastLetterGroupText && lastLetterGroupText == allowedLetterGroups[i].text) {
+											if (lastLetterGroupText.length == 1 && allowedLetterGroups[i].text.length == 1) {
+												theseLetterGroups.push(allowedLetterGroups[i])
+											}
+										}
+										else if (lastLetterGroupText && lastLetterGroupText[lastLetterGroupText.length - 1] == allowedLetterGroups[i].text[0]) {
+											if (["ar", "er", "ir", "or", "ur"].includes(lastLetterGroupText) && allowedLetterGroups[i].text == "r") {
+												theseLetterGroups.push(allowedLetterGroups[i])
+											}
+										}
+
 									// special rule for y - only at end of syllable
-										if (allowedLetterGroups[i].text == "y" && allowedLetterGroups[i].letterGroupTypes.includes("vowelGroup")) {
+										else if (allowedLetterGroups[i].text == "y" && allowedLetterGroups[i].letterGroupTypes.includes("vowelGroup")) {
 											if (isLastLetterGroup) {
 												theseLetterGroups.push(allowedLetterGroups[i])
 											}

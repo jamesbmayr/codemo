@@ -143,11 +143,7 @@ window.onload = function() {
 									x: null,
 									y: null
 								},
-								currentEnd: {
-									x: null,
-									y: null,
-									d: null
-								}
+								chain: [],
 							}
 					}
 			}
@@ -159,7 +155,7 @@ window.onload = function() {
 
 				// loop through cables
 					for (var c in GAMESTATE.cables) {
-						// startSocket (and thus currentEnd)
+						// startSocket (and thus end of chain)
 							// null x, y, emptyNeighbors
 								var x = null
 								var y = null
@@ -202,8 +198,12 @@ window.onload = function() {
 								GAMESTATE.grid[x][y].socket = GAMESTATE.cables[c].color
 
 							// update the cable to have a startSocket and a current end
-								GAMESTATE.cables[c].startSocket.x = GAMESTATE.cables[c].currentEnd.x = x
-								GAMESTATE.cables[c].startSocket.y = GAMESTATE.cables[c].currentEnd.y = y
+								GAMESTATE.cables[c].startSocket.x = x
+								GAMESTATE.cables[c].startSocket.y = y
+								GAMESTATE.cables[c].chain.push({
+									x: x,
+									y: y
+								})
 
 						// endSocket
 							// pick one of the empty neighbors
@@ -231,7 +231,6 @@ window.onload = function() {
 					for (var c in GAMESTATE.cables) {
 						// get empty neighbors of startSocket
 							var startSocket = GAMESTATE.cables[c].startSocket
-							var currentEnd = GAMESTATE.cables[c].currentEnd
 							var emptyNeighbors = getEmptyNeighbors(startSocket.x, startSocket.y, GAMESTATE.cables[c].color)
 
 						// neighbors?
@@ -259,9 +258,9 @@ window.onload = function() {
 										newCell.cable  = GAMESTATE.cables[c].color
 										newCell.socket = GAMESTATE.cables[c].color
 
-								// update startSocket and currentEnd coordinates
-									startSocket.x = currentEnd.x = newCoords.x
-									startSocket.y = currentEnd.y = newCoords.y
+								// update startSocket and end of chain coordinates
+									GAMESTATE.cables[c].chain[0].x = startSocket.x = newCoords.x
+									GAMESTATE.cables[c].chain[0].y = startSocket.y = newCoords.y
 									startSocket.d = newCoords.d
 							}
 					}
@@ -311,7 +310,6 @@ window.onload = function() {
 			}
 
 		/* removeCables */
-			window.removeCables = removeCables
 			function removeCables() {
 				// loop through grid
 					for (var x in GAMESTATE.grid) {
@@ -444,9 +442,9 @@ window.onload = function() {
 					// get cable color
 						var cable = GAMESTATE.cables[GAMESTATE.selected]
 
-					// is current cell adjacent to currentEnd?
-						var xDiff = Math.abs(cable.currentEnd.x - x)
-						var yDiff = Math.abs(cable.currentEnd.y - y)
+					// is current cell adjacent to end of chain?
+						var xDiff = Math.abs(cable.chain[cable.chain.length - 1].x - x)
+						var yDiff = Math.abs(cable.chain[cable.chain.length - 1].y - y)
 						if (xDiff + yDiff == 1) {
 							// is current cell empty? (going forward)
 								if (!cable.connected && !GAMESTATE.grid[x][y].cable && !GAMESTATE.grid[x][y].socket) {
@@ -454,8 +452,10 @@ window.onload = function() {
 										GAMESTATE.grid[x][y].cable = cable.color
 
 									// update cable
-										cable.currentEnd.x = x
-										cable.currentEnd.y = y
+										cable.chain.push({
+											x: x,
+											y: y
+										})
 
 									// redisplay
 										GAMESTATE.moved = true
@@ -463,18 +463,17 @@ window.onload = function() {
 								}
 
 							// is current cell occupied by this color? (backtracking)
-								else if (GAMESTATE.grid[x][y].cable == cable.color && (cable.endSocket.x !== x || cable.endSocket.y !== y)) {
+								else if (GAMESTATE.grid[x][y].cable == cable.color && (cable.endSocket.x !== x || cable.endSocket.y !== y) && (cable.chain[cable.chain.length - 2].x == x && cable.chain[cable.chain.length - 2].y == y)) {
 									// update cell
-										GAMESTATE.grid[cable.currentEnd.x][cable.currentEnd.y].cable = null
+										GAMESTATE.grid[cable.chain[cable.chain.length - 1].x][cable.chain[cable.chain.length - 1].y].cable = null
 
 									// update connected?
-										if (cable.endSocket.x == cable.currentEnd.x && cable.endSocket.y == cable.currentEnd.y) {
+										if (cable.endSocket.x == cable.chain[cable.chain.length - 1].x && cable.endSocket.y == cable.chain[cable.chain.length - 1].y) {
 											cable.connected = false
 										}
 
 									// update cable
-										cable.currentEnd.x = x
-										cable.currentEnd.y = y
+										cable.chain.pop()
 
 									// redisplay
 										GAMESTATE.moved = true
@@ -490,8 +489,10 @@ window.onload = function() {
 										cable.connected = true
 
 									// update cable
-										cable.currentEnd.x = x
-										cable.currentEnd.y = y
+										cable.chain.push({
+											x: x,
+											y: y
+										})
 
 									// redisplay
 										GAMESTATE.moved = true
