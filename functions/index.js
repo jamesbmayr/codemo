@@ -51,6 +51,18 @@
 		})
 
 	/* baseconverter */
+		const app_baseconverter = require("./baseconverter")
+		exports.baseconverter = functions.https.onRequest(function(request, response) {
+			try {
+				response.end(app_baseconverter.submitConvert(request.query))
+			}
+			catch (error) {
+				console.log(error)
+				response.end("unknown error in cloud functions for baseconverter")
+			}
+		})
+
+	/* messageencrypter */
 		const app_messageencrypter = require("./messageencrypter")
 		exports.messageencrypter = functions.https.onRequest(function(request, response) {
 			try {
@@ -62,14 +74,14 @@
 			}
 		})
 
-	/* baseconverter */
-		const app_baseconverter = require("./baseconverter")
-		exports.baseconverter = functions.https.onRequest(function(request, response) {
+	/* wordsgenerator */
+		const app_wordsgenerator = require("./wordsgenerator")
+		exports.wordsgenerator = functions.https.onRequest(function(request, response) {
 			try {
-				response.end(app_baseconverter.submitConvert(request.query))
+				response.end(app_wordsgenerator.submitGenerate(request.query))
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for baseconverter")
+				response.end("unknown error in cloud functions for wordsgenerator")
 			}
 		})
