@@ -1382,24 +1382,27 @@
 						numberOfWords = CONSTANTS.defaultNumberOfWords
 					}
 
-				// get the syllable counts from checkboxes
+				// get the syllable counts from query
+					try {
+						if (query.syllableCounts && !Array.isArray(query.syllableCounts)) {
+							query.syllableCounts = JSON.parse(query.syllableCounts.replace(/\'/g,"\""))
+						}
+					} catch (error) {
+						//
+					}
+
 					var allowedSyllableCounts = []
 					if (query && query.syllableCounts && Array.isArray(query.syllableCounts)) {
 						for (var i in query.syllableCounts) {
 							allowedSyllableCounts.push(Number(query.syllableCounts[i]))
 						}
 					}
-					else if (!query || query.type == "simple") {
-						for (var i = 0; i < CONSTANTS.defaultSyllableCount; i++) {
-							allowedSyllableCounts.push(i)
-						}
-					}
-					else if (query.type == "complex") {
+					else if (query && query.type == "complex") {
 						for (var i = CONSTANTS.defaultSyllableCount; i <= CONSTANTS.defaultSyllableMaximum; i++) {
 							allowedSyllableCounts.push(i)
 						}
 					}
-					else if (query.type == "random") {
+					else if (query && query.type == "random") {
 						for (var i = 1; i <= CONSTANTS.defaultSyllableMaximum; i++) {
 							if (Math.floor(Math.random() * 2)) {
 								allowedSyllableCounts.push(i)
@@ -1410,25 +1413,33 @@
 							allowedSyllableCounts.length.push(Math.floor(Math.random() * CONSTANTS.defaultSyllableMaximum) + 1)
 						}
 					}
+					else {
+						for (var i = 1; i <= CONSTANTS.defaultSyllableCount; i++) {
+							allowedSyllableCounts.push(i)
+						}
+					}
 
-				// get the syllable types from checkboxes
+				// get the syllable types from query
+					try {
+						if (query.syllableTypes && !Array.isArray(query.syllableTypes)) {
+							query.syllableTypes = JSON.parse(query.syllableTypes.replace(/\'/g,"\""))
+						}
+					} catch (error) {
+						//
+					}
+
 					var allowedSyllableTypes = []
 					if (query && query.syllableTypes && Array.isArray(query.syllableTypes)) {
 						for (var i in query.syllableTypes) {
 							allowedSyllableTypes.push(query.syllableTypes[i])
 						}
 					}
-					else if (!query || query.type == "simple") {
-						for (var i in CONSTANTS.defaultSyllableTypes) {
-							allowedSyllableTypes.push(SYLLABLE_TYPES[CONSTANTS.defaultSyllableTypes[i]].join("-"))
-						}
-					}
-					else if (query.type == "complex") {
+					else if (query && query.type == "complex") {
 						for (var i in SYLLABLE_TYPES) {
 							allowedSyllableTypes.push(SYLLABLE_TYPES[i].join("-"))
 						}
 					}
-					else if (query.type == "random") {
+					else if (query && query.type == "random") {
 						for (var i in SYLLABLE_TYPES) {
 							if (Math.floor(Math.random() * 2)) {
 								allowedSyllableTypes.push(SYLLABLE_TYPES[i].join("-"))
@@ -1439,27 +1450,33 @@
 							allowedSyllableTypes.push(SYLLABLE_TYPES[Math.floor(Math.random() * SYLLABLE_TYPES.length)].join("-"))
 						}
 					}
+					else {
+						for (var i in CONSTANTS.defaultSyllableTypes) {
+							allowedSyllableTypes.push(SYLLABLE_TYPES[CONSTANTS.defaultSyllableTypes[i]].join("-"))
+						}
+					}
 
-				// get the letter groups from checkboxes (ignore categories)
+				// get the letter groups from query
+					try {
+						if (query.letterGroups && !Array.isArray(query.letterGroups)) {
+							query.letterGroups = JSON.parse(query.letterGroups.replace(/\'/g,"\""))
+						}
+					} catch (error) {
+						//
+					}
+
 					var allowedLetterGroups = []
 					if (query && query.letterGroups && Array.isArray(query.letterGroups)) {
 						for (var i in query.letterGroups) {
 							allowedLetterGroups.push(query.letterGroups[i])
 						}
 					}
-					else if (!query || query.type == "simple") {
-						for (var i in LETTER_GROUPS) {
-							if (CONSTANTS.defaultCategories.includes(LETTER_GROUPS[i].categories[0])) {
-								allowedLetterGroups.push(i)
-							}
-						}
-					}
-					else if (query.type == "complex") {
+					else if (query && query.type == "complex") {
 						for (var i in LETTER_GROUPS) {
 							allowedLetterGroups.push(i)
 						}
 					}
-					else if (query.type == "random") {
+					else if (query && query.type == "random") {
 						for (var i in LETTER_GROUPS) {
 							if (Math.floor(Math.random() * 2)) {
 								allowedLetterGroups.push(i)
@@ -1468,6 +1485,13 @@
 
 						if (!allowedLetterGroups.length) {
 							for (var i in LETTER_GROUPS) {
+								allowedLetterGroups.push(i)
+							}
+						}
+					}
+					else {
+						for (var i in LETTER_GROUPS) {
+							if (CONSTANTS.defaultCategories.includes(LETTER_GROUPS[i].categories[0])) {
 								allowedLetterGroups.push(i)
 							}
 						}
@@ -1483,16 +1507,24 @@
 
 				// validate
 					if (!options.numberOfWords) {
-						return JSON.stringify({success: false, message: "set # words to 1 or more"})
+						return JSON.stringify({success: false, message: "set numberOfWords to 1 or more"})
 					}
 					if (!options.syllableCounts.length) {
-						return JSON.stringify({success: false, message: "set # syllables to 1 or more"})
+						return JSON.stringify({success: false, message: "set syllableCounts to an array of 1 or more numbers"})
 					}
 					if (!options.syllableTypes.length) {
-						return JSON.stringify({success: false, message: "select 1 or more syllable types"})
+						var validOptions = []
+						for (var i in SYLLABLE_TYPES) {
+							validOptions.push(SYLLABLE_TYPES[i].join("-"))
+						}
+						return JSON.stringify({success: false, message: "set syllableTypes to an array of 1 or more syllable types", validOptions: validOptions})
 					}
 					if (!options.letterGroups.length) {
-						return JSON.stringify({success: false, message: "select 1 or more letter groups"})
+						var validOptions = []
+						for (var i in LETTER_GROUPS) {
+							validOptions.push(i)
+						}
+						return JSON.stringify({success: false, message: "set letterGroups to an array of 1 or more letter groups", validOptions: validOptions})
 					}
 
 				// actually generate the words
