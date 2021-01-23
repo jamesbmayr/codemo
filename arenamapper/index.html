@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>arenaMapper</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/3155353-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="arenaMapper is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="arenaMapper"/>
+		<meta property="og:url" content="https://jamesmayr.com/arenamapper/"/>
+		<meta property="og:description" content="arenaMapper is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/arenamapper/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<form id="settings-open-form" action="javascript:;" method="post">
+			<button id="settings-open-button">&#9881;</button>
+		</form>
+		<form id="download-form" action="javascript:;" method="post">
+			<button id="download-button">&#x1f4be;</button>
+		</form>
+		<div id="settings">
+			<h1>arenaMapper</h1>
+			<form id="settings-close-form" action="javascript:;" method="post">
+				<button id="settings-close-button">&#10006;</button>
+			</form>
+			<form id="settings-generate-form" action="javascript:;" method="post">
+				<hr>
+				<label class="half-width">
+					<span>rooms x</span>
+					<input id="settings-rooms-x" type="number" min="1" max="10" step="1" value="4" placeholder="#"/>
+				</label>
+				<label class="half-width">
+					<span>rooms y</span>
+					<input id="settings-rooms-y" type="number" min="1" max="10" step="1" value="3" placeholder="#"/>
+				</label>
+				<hr>
+				<label class="half-width">
+					<span>cell size</span>
+					<input id="settings-cellsize" type="number" min="1" max="100" step="1" value="32" placeholder="#"/>
+				</label>
+				<label class="half-width">
+					<span>background</span>
+					<input id="settings-background" type="color" value="#ffffff"/>
+				</label>
+				<hr>
+				<label>
+					<span>wall type 1</span>
+					<label>color <input id="settings-wall1-color" type="color" value="#111111"/></label>
+					<label>roundness <input id="settings-wall1-roundness" type="range" min="0" max="50" value="0"/></label>
+					<label>size <input id="settings-wall1-size" type="range" min="0" max="100" value="100"/></label>
+				</label>
+				<label>
+					<span>wall type 2</span>
+					<label>color <input id="settings-wall2-color" type="color" value="#ddeeff"/></label>
+					<label>roundness <input id="settings-wall2-roundness" type="range" min="0" max="50" value="5"/></label>
+					<label>size <input id="settings-wall2-size" type="range" min="0" max="100" value="100"/></label>
+					<label>count <input id="settings-wall2-count" type="number" min="0" max="100" step="1" value="10" placeholder="#"/></label>
+				</label>
+				<label>
+					<span>wall type 3</span>
+					<label>color <input id="settings-wall3-color" type="color" value="#dddddd"/></label>
+					<label>roundness <input id="settings-wall3-roundness" type="range" min="0" max="50" value="10"/></label>
+					<label>size <input id="settings-wall3-size" type="range" min="0" max="100" value="100"/></label>
+					<label>count <input id="settings-wall3-count" type="number" min="0" max="100" step="1" value="20" placeholder="#"/></label>
+				</label>
+				<hr>
+				<label>
+					<span>item type 1</span>
+					<label>color <input id="settings-item1-color" type="color" value="#ddbb33"/></label>
+					<label>roundness <input id="settings-item1-roundness" type="range" min="0" max="50" value="20"/></label>
+					<label>size <input id="settings-item1-size" type="range" min="0" max="100" value="70"/></label>
+					<label>count <input id="settings-item1-count" type="number" min="0" max="100" step="1" value="3" placeholder="#"/></label>
+				</label>
+				<label>
+					<span>item type 2</span>
+					<label>color <input id="settings-item2-color" type="color" value="#99ddaa"/></label>
+					<label>roundness <input id="settings-item2-roundness" type="range" min="0" max="50" value="40"/></label>
+					<label>size <input id="settings-item2-size" type="range" min="0" max="100" value="60"/></label>
+					<label>count <input id="settings-item2-count" type="number" min="0" max="100" step="1" value="2" placeholder="#"/></label>
+				</label>
+				<label>
+					<span>item type 3</span>
+					<label>color <input id="settings-item3-color" type="color" value="#aa4488"/></label>
+					<label>roundness <input id="settings-item3-roundness" type="range" min="0" max="50" value="50"/></label>
+					<label>size <input id="settings-item3-size" type="range" min="0" max="100" value="50"/></label>
+					<label>count <input id="settings-item3-count" type="number" min="0" max="100" step="1" value="1" placeholder="#"/></label>
+				</label>
+				<hr>
+				<button id="settings-generate-button">generate map</button>
+			</form>
+		</div>
+		<canvas id="map"></canvas>
+	</body>
+</html>

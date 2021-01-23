@@ -16,12 +16,19 @@ window.onload = function() {
 					date: "May 1, 2017",
 					description: "AI Arenas is a web game where javascript robots battle for cubes in a competitive coding arena."
 				},
+				arenamapper: {
+					name: "arenaMapper",
+					size: "small",
+					tags: ["code","fantasy","scifi","canvas","tabletop"],
+					date: "January 23, 2021",
+					description: "Generate arena maps with customizable size, background, walls types, and features."
+				},
 				arrowsmasher: {
 					name: "arrowSmasher",
 					size: "small",
 					tags: ["code","games","arcade"],
 					date: "June 5, 2020",
-					description: "arrowSmasher is a web game played in the tab title by pressing arrow keys"
+					description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 				},
 				balloonpopper: {
 					name: "balloonPopper",

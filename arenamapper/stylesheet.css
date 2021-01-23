@@ -1,0 +1,299 @@
+/*** variables ***/
+	:root {
+		--light-gray: #ffffff;
+		--medium-gray: #777777;
+		--dark-gray: #111111;
+		--border-radius: 5px;
+		--shadow-size: 5px;
+		--gap-size: 10px;
+		--transition-time: 1s;
+		--large-font-size: 40px;
+		--medium-font-size: 25px;
+		--small-font-size: 15px;
+		--font-family: sans-serif;
+	}
+
+/*** page ***/
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		overflow: hidden;
+		background-color: var(--light-gray);
+		font-size: 0;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+		transition: var(--transition-time);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+	}
+
+/*** open ***/
+	#settings-open-form {
+		opacity: 1;
+		transition: var(--transition-time);
+		z-index: 10;
+	}
+
+	/* button */
+		#settings-open-button {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: calc(var(--small-font-size) + var(--gap-size));
+			width: calc(var(--small-font-size) + var(--gap-size));
+			background-color: transparent;
+			padding: calc(var(--gap-size) / 2);
+			border: none;
+			border-radius: 100%;
+			color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			margin: calc(var(--gap-size) / 2);
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			line-height: 1;
+			z-index: 10;
+			text-align: center;
+		}
+
+		#settings-open-button:hover, #settings-open-button:focus {
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+/*** download ***/
+	#download-form {
+		opacity: 1;
+		transition: var(--transition-time);
+		z-index: 10;
+	}
+
+	/* button */
+		#download-button {
+			position: absolute;
+			top: 0;
+			left: var(--medium-font-size);
+			height: calc(var(--small-font-size) + var(--gap-size));
+			width: calc(var(--small-font-size) + var(--gap-size));
+			background-color: transparent;
+			padding: calc(var(--gap-size) / 2);
+			border: none;
+			border-radius: 100%;
+			color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			margin: calc(var(--gap-size) / 2);
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			line-height: 1;
+			z-index: 10;
+			text-align: center;
+		}
+
+		#download-button:hover, #download-button:focus {
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+/*** settings ***/
+	#settings {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: var(--border-radius);
+		box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		padding: var(--gap-size);
+		background-color: var(--dark-gray);
+		transition: var(--transition-time);
+		opacity: 1;
+		z-index: 2;
+		width: calc(90vw - 4 * var(--gap-size));
+		max-height: calc(90vh - 4 * var(--gap-size));
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+
+	/* title */
+		#settings h1 {
+			float: left;
+			width: 100%;
+			margin: 0 0 var(--gap-size) 0;
+			font-size: var(--large-font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			color: var(--light-gray);
+			text-align: center;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+		}
+
+		#settings-generate-form hr {
+			border-color: var(--medium-gray);
+			margin: var(--gap-size) 0;
+			width: 100%;
+		}
+
+	/* form */
+		#settings-generate-form label {
+			float: left;
+			width: calc(100% - var(--gap-size));
+			margin-bottom: var(--gap-size);
+			background-color: var(--medium-gray);
+			border-radius: var(--border-radius);
+			padding: calc(var(--gap-size) / 2);
+			padding-bottom: 0;
+		}
+
+		#settings-generate-form label.half-width {
+			width: calc(50% - var(--gap-size) * 3 / 2);
+			margin-right: calc(var(--gap-size) / 2);
+		}
+
+		#settings-generate-form label.half-width + label.half-width {
+			margin-left: calc(var(--gap-size) / 2);
+			margin-right: 0;
+		}
+
+		#settings-generate-form label span {
+			float: left;
+			color: var(--light-gray);
+			font-size: var(--small-font-size);
+			height: var(--medium-font-size);
+			width: calc(var(--medium-font-size) * 4);
+			font-family: var(--font-family);
+			line-height: 1.6;
+			font-weight: bold;
+			margin-bottom: calc(var(--gap-size) / 2);
+		}
+
+		#settings-generate-form label label {
+			width: auto;
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			color: var(--dark-gray);
+			margin: 0 var(--gap-size) calc(var(--gap-size) / 2) var(--gap-size);
+			padding: 0;
+			line-height: 1.6;
+		}
+
+		#settings-generate-form label label input {
+			margin-left: var(--gap-size);
+			margin-bottom: 0;
+		}
+
+		#settings-generate-form label input {
+			float: right;
+			border: none;
+			border-radius: var(--border-radius);
+			background-color: var(--light-gray);
+			color: var(--dark-gray);
+			outline: none;
+			padding: 0;
+			margin: 0;
+			margin-bottom: calc(var(--gap-size) / 2);
+			font-size: var(--small-font-size);
+			transition: var(--transition-time);
+			font-family: var(--font-family);
+			text-align: right;
+			width: calc(var(--medium-font-size) * 2);
+			height: var(--medium-font-size);
+		}
+
+		#settings-generate-form label input[type="range"] {
+			cursor: pointer;
+		}
+
+		#settings-generate-form label input:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#settings-generate-button {
+			float: left;
+			width: 100%;
+			padding: var(--gap-size);
+			border: none;
+			border-radius: var(--border-radius);
+			background-color: var(--medium-gray);
+			color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--medium-font-size);
+			text-transform: uppercase;
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			font-weight: bold;
+		}
+
+		#settings-generate-button:hover, #settings-generate-button:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+	/* close */
+		#settings-close-button {
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: calc(var(--small-font-size) + var(--gap-size));
+			width: calc(var(--small-font-size) + var(--gap-size));
+			padding: calc(var(--gap-size) / 2);
+			border: none;
+			border-radius: 100%;
+			background-color: var(--medium-gray);
+			color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			margin: calc(var(--gap-size) / 2);
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			line-height: 1;
+		}
+
+		#settings-close-button:hover, #settings-close-button:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+/*** map ***/
+	#map {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		z-index: 0;
+		box-shadow: 0 0 var(--shadow-size) var(--dark-gray) inset;
+	}
+
+/*** status ***/
+	*[invisible] {
+		opacity: 0 !important;
+		pointer-events: none;
+	}
