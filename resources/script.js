@@ -436,6 +436,13 @@ window.onload = function() {
 					date: "September 9, 2018",
 					description: "This generates mazes from the outside in, guaranteed to have exactly 1 solution."
 				},
+				mazertag: {
+					name: "MazerTag",
+					size: "large",
+					tags: ["games","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node"],
+					date: "February 7, 2021",
+					description: "MazerTag is a top-down multiplayer arcade game with 5 laser tag modes and randomly generated arenas."
+				},
 				melodemons: {
 					name: "melodemons",
 					size: "large",
