@@ -441,7 +441,7 @@ window.onload = function() {
 					size: "large",
 					tags: ["games","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node"],
 					date: "February 7, 2021",
-					description: "MazerTag is a top-down multiplayer arcade game with 5 laser tag modes and randomly generated arenas."
+					description: "MazerTag is a top-down multiplayer arcade game: 5 laser tag modes in randomly generated arenas. Music & SFX by Alex Berg."
 				},
 				melodemons: {
 					name: "melodemons",

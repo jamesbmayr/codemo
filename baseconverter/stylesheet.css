@@ -12,6 +12,7 @@
 		font-size: 0;
 		color: #dddddd;
 		box-shadow: 0 0 10px #222222 inset;
+		overflow: hidden;
 	}
 
 	#container {
@@ -21,10 +22,10 @@
 		transform: translateX(-50%) translateY(-50%);
 		border-radius: 10px;
 		background-color: #222222;
-		height: 400px;
+		height: auto;
 		width: 500px;
-		max-height: 90vh;
-		max-width: 90vw;
+		max-height: calc(100vh - 40px);
+		max-width: calc(100vw - 40px);
 		padding: 20px;
 		box-shadow: 0 0 10px #222222;
 	}
@@ -33,8 +34,8 @@
 	/* headers */
 		h1 {
 			width: 100%;
-			margin: 20px 0px;
-			font-size: 50px;
+			margin: 0px 0px 10px 0px;
+			font-size: 40px;
 			text-align: center;
 			color: #dddddd;
 		}
@@ -48,10 +49,10 @@
 
 		label span {
 			display: inline-block;
-			width: calc(25% - 10px);
+			width: calc(40% - 10px);
 			height: 100%;
 			font-size: 20px;
-			text-align: right;
+			text-align: left;
 			padding: 10px 10px 10px 0px;
 		}
 
@@ -64,7 +65,7 @@
 			font-size: 20px;
 			padding: 10px;
 			outline: none;
-			width: calc(75% - 20px);
+			width: calc(60% - 20px);
 			font-family: monospace;
 		}
 
@@ -78,14 +79,15 @@
 			border-radius: 5px;
 			border: 0;
 			color: #222222;
-			font-size: 50px;
+			font-size: 40px;
+			font-weight: bold;
 			line-height: 1;
-			padding: 10px;
+			padding: 0px 10px;
 			outline: none;
 			cursor: pointer;
 			width: 100%;
-			font-family: monospace;
-			margin-bottom: 30px;
+			font-family: sans-serif;
+			margin-bottom: 20px;
 		}
 
 		button:hover, button:focus {
