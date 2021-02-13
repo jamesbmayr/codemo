@@ -9,7 +9,7 @@ window.onload = function() {
 		}
 
 	/* onLoad */
-		randomColor()
+		getColor()
 
 	/* updateColor */
 		Array.prototype.slice.call(document.querySelectorAll(".range")).forEach(function (element) {
@@ -62,7 +62,7 @@ window.onload = function() {
 
 
 	/* randomColor */
-		function randomColor() {
+		function randomColor(red, green, blue) {
 			var actual = document.getElementById("actual")
 				actual.className = actual.className.replace("shown", "hidden")
 			var result = document.getElementById("result-outer")
@@ -70,9 +70,9 @@ window.onload = function() {
 			var check = document.getElementById("check")
 				check.className = check.className.replace("hidden", "shown")
 
-			window.redHue = Math.floor(Math.random() * 256)
-			window.greenHue = Math.floor(Math.random() * 256)
-			window.blueHue = Math.floor(Math.random() * 256)
+			window.redHue = red !== undefined ? red : Math.floor(Math.random() * 256)
+			window.greenHue = green !== undefined ? green : Math.floor(Math.random() * 256)
+			window.blueHue = blue !== undefined ? blue : Math.floor(Math.random() * 256)
 
 			check.style["background-color"] = "rgb(" + window.redHue + ", " + window.greenHue + ", " + window.blueHue + ")"
 			result.style["background-color"] = "rgb(" + window.redHue + ", " + window.greenHue + ", " + window.blueHue + ")"
@@ -86,5 +86,39 @@ window.onload = function() {
 				document.getElementById("bar-actual-green").style.height = (window.greenHue * 100 / 255) + "%"
 				document.getElementById("bar-actual-blue").style.height = (window.blueHue * 100 / 255) + "%"
 			}, 1100)
+		}
+
+
+	/* getColor */
+		function getColor() {
+			var search = location.search.slice(1)
+			if (!search.length) {
+				randomColor()
+				return
+			}
+
+			var get = {}
+			var parameters = search.split("&")
+			for (var i in parameters) {
+				var pair = parameters[i].split("=")
+				get[pair[0]] = pair[1]
+			}
+
+			if (get.red !== undefined && get.green !== undefined && get.blue !== undefined) {
+				randomColor(Number(get.red), Number(get.green), Number(get.blue))
+				return
+			}
+
+			if (get.r !== undefined && get.g !== undefined && get.b !== undefined) {
+				randomColor(Number(get.r), Number(get.g), Number(get.b))
+				return
+			}
+
+			if (get.hex !== undefined) {
+				randomColor(parseInt(get.hex.slice(0,2), 16), parseInt(get.hex.slice(2,4), 16), parseInt(get.hex.slice(4,6), 16))
+				return
+			}
+
+			randomColor()
 		}
 }
