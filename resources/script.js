@@ -485,6 +485,13 @@ window.onload = function() {
 					date: "December 30, 2017",
 					description: "In mineFinder, sweep the randomly generated board flagging mines before you click them!"
 				},
+				morsemessager: {
+					name: "morseMessager",
+					size: "small",
+					tags: ["code","tool"],
+					date: "February 28, 2021",
+					description: "-... .     ... ..- .-. .     - ---     -.. .-. .. -. -.-     -.-- --- ..- .-.     .-. . ..-. . .-. . -. -.-. . ... .-.-.-"
+				},
 				nimbusnotes: {
 					name: "nimbusNotes",
 					size: "small",
