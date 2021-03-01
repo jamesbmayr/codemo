@@ -219,7 +219,6 @@ window.addEventListener("load", function() {
 						codetext = codetext.replace(/_/g, "-")
 						codetext = codetext.replace(/\n/g, " ~ ")
 						codetext = codetext.replace(/\s{2,}/g, " ~ ")
-						console.log(codetext)
 
 					// split & convert
 						var characters = codetext.split(/\s/)
