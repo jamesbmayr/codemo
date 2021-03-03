@@ -114,6 +114,13 @@ window.onload = function() {
 					date: "May 8, 2019",
 					description: "A simple javascript game of cat and mouse, with artwork from opengameart.org"
 				},
+				cellsimulator: {
+					name: "cellSimulator",
+					size: "small",
+					tags: ["code","simulation","tool","math"],
+					date: "March 2, 2021",
+					description: "Customize Conway's Game of Life in this simple simulation of cellular automata."
+				},
 				chalice: {
 					name: "Chalice",
 					size: "extra-large",

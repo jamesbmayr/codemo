@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<title>cellSimulator</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/14951-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8">
+		<meta name="description" content="cellSimulator is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="cellSimulator">
+		<meta property="og:url" content="https://jamesmayr.com/cellsimulator/">
+		<meta property="og:description" content="cellSimulator is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/cellsimulator/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<canvas id="canvas"></canvas>
+		<details id="settings">
+			<summary id="settings-collapse">&#9881;</summary>
+			<div id="settings-inner">
+				<label class="settings-label">
+					<button class="settings-button" id="settings-clear">clear all</button>
+				</label>
+				<label class="settings-label">
+					<button class="settings-button" id="settings-random">
+						<span>randomize area</span>
+						<input type="number" min="1" max="256" step="1" id="settings-random-radius" placeholder="radius" value="16"/>
+					</button>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">time (ms)</div>
+					<input id="settings-generation-time" type="number" min="1" max="2000" value="250" placeholder="#" step="1">
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">0 neighbors</div>
+					<select class="settings-select" id="settings-rules-0">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">1 neighbor</div>
+					<select class="settings-select" id="settings-rules-1">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">2 neighbors</div>
+					<select class="settings-select" id="settings-rules-2">
+						<option value="-1">death</option>
+						<option value="0" selected>sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">3 neighbors</div>
+					<select class="settings-select" id="settings-rules-3">
+						<option value="-1">death</option>
+						<option value="0">sustain</option>
+						<option value="1" selected>birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">4 neighbors</div>
+					<select class="settings-select" id="settings-rules-4">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">5 neighbors</div>
+					<select class="settings-select" id="settings-rules-5">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">6 neighbors</div>
+					<select class="settings-select" id="settings-rules-6">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">7 neighbors</div>
+					<select class="settings-select" id="settings-rules-7">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+				<label class="settings-label">
+					<div class="settings-label-text">8 neighbors</div>
+					<select class="settings-select" id="settings-rules-8">
+						<option value="-1" selected>death</option>
+						<option value="0">sustain</option>
+						<option value="1">birth</option>
+					</select>
+				</label>
+			</div>
+		</details>
+		<div id="controls" mode="pause">
+			<div id="controls-zoom" class="controls-section">
+				<button id="controls-zoom-in">&#8853;</button>
+				<button id="controls-zoom-out">&#8854;</button>
+			</div>
+			<div id="controls-pan" class="controls-section">
+				<button id="controls-pan-left">&rarr;</button>
+				<button id="controls-pan-up">&rarr;</button>
+				<button id="controls-pan-down">&rarr;</button>
+				<button id="controls-pan-right">&rarr;</button>
+			</div>
+			<div id="controls-active" class="controls-section">
+				<button id="controls-play">&#9199;</button>
+				<button id="controls-pause">&#9199;</button>
+			</div>
+		</div>
+	</body>
+</html>
