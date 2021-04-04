@@ -66,7 +66,7 @@
 					player1: {
 						pawn1: {
 							type: "pawn1",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 1,
 							y: 2,
 			 				player: 1,
@@ -75,7 +75,7 @@
 						},
 						pawn2: {
 							type: "pawn2",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 2,
 							y: 2,
 							player: 1,
@@ -84,7 +84,7 @@
 						},
 						pawn3: {
 							type: "pawn3",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 3,
 							y: 2,
 							player: 1,
@@ -93,7 +93,7 @@
 						},
 						pawn4: {
 							type: "pawn4",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 4,
 							y: 2,
 							player: 1,
@@ -102,7 +102,7 @@
 						},
 						pawn5: {
 							type: "pawn5",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 5,
 							y: 2,
 							player: 1,
@@ -111,7 +111,7 @@
 						},
 						pawn6: {
 							type: "pawn6",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 6,
 							y: 2,
 							player: 1,
@@ -120,7 +120,7 @@
 						},
 						pawn7: {
 							type: "pawn7",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 7,
 							y: 2,
 							player: 1,
@@ -129,7 +129,7 @@
 						},
 						pawn8: {
 							type: "pawn8",
-							symbol: "&#9823;",
+							symbol: "&#9817;",
 							x: 8,
 							y: 2,
 							player: 1,
@@ -138,7 +138,7 @@
 						},
 						rook1: {
 							type: "rook1",
-							symbol: "&#9820;",
+							symbol: "&#9814;",
 							x: 1,
 							y: 1,
 							player: 1,
@@ -147,7 +147,7 @@
 						},
 						rook2: {
 							type: "rook2",
-							symbol: "&#9820;",
+							symbol: "&#9814;",
 							x: 8,
 							y: 1,
 							player: 1,
@@ -156,7 +156,7 @@
 						},
 						knight1: {
 							type: "knight1",
-							symbol: "&#9822;",
+							symbol: "&#9816;",
 							x: 2,
 							y: 1,
 							player: 1,
@@ -164,7 +164,7 @@
 						},
 						knight2: {
 							type: "knight2",
-							symbol: "&#9822;",
+							symbol: "&#9816;",
 							x: 7,
 							y: 1,
 							player: 1,
@@ -172,7 +172,7 @@
 						},
 						bishop1: {
 							type: "bishop1",
-							symbol: "&#9821;",
+							symbol: "&#9815;",
 							x: 3,
 							y: 1,
 							player: 1,
@@ -180,7 +180,7 @@
 						},
 						bishop2: {
 							type: "bishop2",
-							symbol: "&#9821;",
+							symbol: "&#9815;",
 							x: 6,
 							y: 1,
 							player: 1,
@@ -188,7 +188,7 @@
 						},
 						queen1: {
 							type: "queen1",
-							symbol: "&#9819;",
+							symbol: "&#9813;",
 							x: 4,
 							y: 1,
 							player: 1,
@@ -196,7 +196,7 @@
 						},
 						king1: {
 							type: "king1",
-							symbol: "&#9818;",
+							symbol: "&#9812;",
 							x: 5,
 							y: 1,
 							player: 1,
@@ -744,16 +744,16 @@
 
 					switch (event.target.dataset.name){
 						case "queen":
-							pieceSymbol = "&#9819"
+							pieceSymbol = pawnToBePromoted.player == 1 ? "&#9813;" : "&#9819;"
 							break
 						case "rook":
-							pieceSymbol = "&#9820"
+							pieceSymbol = pawnToBePromoted.player == 1 ? "&#9814;" : "&#9820;"
 							break
 						case "bishop":
-							pieceSymbol = "&#9821"
+							pieceSymbol = pawnToBePromoted.player == 1 ? "&#9815;" : "&#9821;"
 							break
 						case "knight":
-							pieceSymbol = "&#9822"
+							pieceSymbol = pawnToBePromoted.player == 1 ? "&#9816;" : "&#9822;"
 							break
 					}
 
