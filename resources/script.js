@@ -758,6 +758,13 @@ window.onload = function() {
 					date: "February 1, 2018",
 					description: "A chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 				},
+				tempotapper: {
+					name: "tempoTapper",
+					size: "small",
+					tags: ["code","tool"],
+					date: "April 22, 2021",
+					description: "Use your mouse, keyboard, or touchscreen to tap a tempo and detect the beats per minute."
+				},
 				thecouncil: {
 					name: "The Council",
 					size: "medium",
