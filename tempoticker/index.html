@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>tempoTicker</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/28819-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="tempoTicker is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="tempoTicker"/>
+		<meta property="og:url" content="https://jamesmayr.com/tempoticker/"/>
+		<meta property="og:description" content="tempoTicker is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/tempoticker/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="controls">
+			<label>
+				<h1>tempoTicker</h1>
+			</label>
+			<label>
+				<button id="power">
+					<span id="power-on">on</span>
+					<span id="power-off">off</span>
+				</button>
+			</label>
+			<label>
+				<input id="tempo" type="number" step="1">
+				<div>bpm</div>
+			</label>
+			<label>
+				<input id="beats" type="number" step="1">
+				<div>beats</div>
+			</label>
+			<div id="display"></div>
+		</div>
+		<div id="audio">
+			<audio id="primary-audio">
+				<source src="primary.mp3" type="audio/mpeg">
+			</audio>
+			<audio id="secondary-audio">
+				<source src="secondary.mp3" type="audio/mpeg">
+			</audio>
+		</div>
+	</body>
+</html>

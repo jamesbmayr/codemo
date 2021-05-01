@@ -4,7 +4,7 @@ window.onload = function() {
 			var CONSTANTS = {
 				expiration: 3 * 1000,
 				msPerSecond: 1000,
-				history: 8,
+				history: 10,
 				secondsPerMinute: 60,
 				units: " bpm",
 				helperText: "tap the beat"

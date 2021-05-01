@@ -765,6 +765,13 @@ window.onload = function() {
 					date: "April 22, 2021",
 					description: "Use your mouse, keyboard, or touchscreen to tap a tempo and detect the beats per minute."
 				},
+				tempoticker: {
+					name: "tempoTicker",
+					size: "small",
+					tags: ["code","tool"],
+					date: "May 1, 2021",
+					description: "A simple audio-visual metronome with customizable beat count and tempo."
+				},
 				thecouncil: {
 					name: "The Council",
 					size: "medium",
