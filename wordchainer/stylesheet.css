@@ -1,0 +1,246 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #555555;
+		--light-gray: #dddddd;
+		--font-family: monospace;
+		--small-font-size: 15px;
+		--large-font-size: 50px;
+		--small-gap-size: 5px;
+		--large-gap-size: 20px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background-color: var(--dark-gray);
+		font-size: 0;
+	}
+
+/*** structure ***/
+	#container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: var(--border-radius);
+		padding: var(--small-gap-size);
+		background-color: var(--medium-gray);
+		width: 90vw;
+		max-width: 1000px;
+		height: auto;
+		max-height: 90vh;
+	}
+
+	#container h1 {
+		float: left;
+		width: calc(100% - 2 * var(--small-gap-size));
+		padding: var(--small-gap-size);
+		height: var(--large-font-size);
+		font-size: var(--large-font-size);
+		font-family: var(--font-family);
+		color: var(--light-gray);
+		margin: 0 0 calc(2 * var(--small-gap-size)) 0;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		text-align: center;
+	}
+
+	#container hr {
+		float: left;
+		width: calc(100% - var(--small-gap-size));
+		border-radius: var(--border-radius);
+		margin-top: var(--small-gap-size);
+		margin-bottom: var(--small-gap-size);
+		border: calc(var(--small-gap-size) / 2) solid var(--light-gray);
+	}
+
+/*** input ***/
+	/* labels */
+		#settings-form label {
+			float: left;
+			width: calc(50% - var(--small-gap-size));
+			margin-bottom: var(--small-gap-size);
+			height: calc(2 * var(--small-gap-size) + var(--small-font-size));
+		}
+
+		#settings-form label:nth-child(1), #settings-form label:nth-child(2) {
+			height: calc(2 * var(--small-gap-size) + var(--large-font-size));
+		}
+
+		#settings-form label:nth-child(odd) {
+			margin-right: calc(2 * var(--small-gap-size));
+		}
+
+		#settings-form label div {
+			float: left;
+			width: calc(50% - 2 * var(--small-gap-size));
+			height: var(--small-font-size);
+			color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			padding: var(--small-gap-size);
+		}
+
+	/* inputs */
+		#settings-form label input {
+			float: right;
+			width: calc(50% - 2 * var(--small-gap-size));
+			height: var(--small-font-size);
+			color: var(--dark-gray);
+			background-color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			border: 0;
+			border-radius: var(--border-radius);
+			padding: var(--small-gap-size);
+			outline: none;
+		}
+
+		#settings-form label select {
+			float: right;
+			width: 50%;
+			height: calc(var(--small-font-size) + 2 * var(--small-gap-size));
+			color: var(--dark-gray);
+			background-color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			border: 0;
+			border-radius: var(--border-radius);
+			padding: 0;
+			outline: none;
+			cursor: pointer;
+		}
+
+		#settings-form label input:focus, #settings-form label input:hover, #settings-form label select:focus, #settings-form label select:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#settings-form label input#settings-word {
+			width: calc(100% - 2 * var(--small-gap-size));
+			height: var(--large-font-size);
+			font-size: var(--large-font-size);
+			text-align: center;
+		}
+
+	/* button */
+		#settings-form label button {
+			float: right;
+			width: 100%;
+			height: calc(var(--large-font-size) + 2 * var(--small-gap-size));
+			background-color: var(--dark-gray);
+			border: 0;
+			border-radius: var(--border-radius);
+			outline: none;
+			cursor: pointer;
+			line-height: 1;
+		}
+
+		#settings-form label button div {
+			font-weight: bold;
+			color: var(--light-gray);
+			font-family: var(--font-family);
+			font-size: var(--large-font-size);
+			border: 0;
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			width: 100%;
+		}
+
+		#settings-form label button:focus, #settings-form label button:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#settings-form label button #settings-submit-circle {
+			animation-name: spin;
+			animation-duration: 1s;
+			animation-iteration-count: infinite;
+			animation-timing-function: linear;
+			line-height: 1.15;
+		}
+
+		@keyframes spin {
+			0% {transform: rotate(0deg);}
+			50% {transform: rotate(180deg);}
+			100% {transform: rotate(360deg);}
+		}
+
+		#settings-form label button[processing] #settings-submit-arrow {
+			display: none;
+		}
+
+		#settings-form label button:not([processing]) #settings-submit-circle {
+			display: none;
+		}
+
+/*** output ***/
+	#output {
+		float: left;
+		width: calc(100% - 2 * var(--small-gap-size));
+		height: auto;
+		max-height: calc(90vh - (1 * var(--small-gap-size) + var(--large-font-size)) - 4 * (var(--small-font-size) + 3 * var(--small-gap-size)) - 7 * var(--small-gap-size));
+		font-size: var(--small-font-size);
+		font-family: var(--font-family);
+		color: var(--light-gray);
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding: var(--small-gap-size);
+	}
+
+	/* tree */
+		#output details {
+			float: left;
+			width: 100%;
+			margin-left: var(--large-gap-size);
+			outline: none;
+		}
+
+		#output details summary {
+			outline: none;
+		}
+
+		#output details summary:focus, #output details summary:hover {
+			cursor: pointer;
+			text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#output details div {
+			float: left;
+			width: 100%;
+			margin-left: calc(2 * var(--small-gap-size) + var(--large-gap-size));
+			outline: none;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}

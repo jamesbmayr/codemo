@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>wordChainer</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/19999-200.png"/>
+		<link rel="stylesheet" href="stylesheet.css"/>
+		<meta charset="UTF-8"/>
+		<meta name="description" content="wordChainer is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="wordChainer"/>
+		<meta property="og:url" content="https://jamesmayr.com/wordchainer/"/>
+		<meta property="og:description" content="wordChainer is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/wordchainer/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="container">
+			<form id="settings-form" action="javascript:;" method="post">
+				<label>
+					<input id="settings-word" type="text" placeholder="wordChainer" autocomplete="off" spellcheck="false"/>
+				</label>
+				<label>
+					<button id="settings-submit">
+						<div id="settings-submit-arrow">&rarr;</div>
+						<div id="settings-submit-circle">&orarr;</div>
+					</button>
+				</label>
+				<label>
+					<div># branches</div>
+					<input id="settings-maxBranches" type="number" min="1" max="4" step="1" value="2"/>
+				</label>
+				<label>
+					<div>chain length</div>
+					<input id="settings-maxBranchLength" type="number" min="1" max="10" step="1" value="5"/>
+				</label>
+				<label>
+					<div>reordering?</div>
+					<select id="settings-reorderingAllowed">
+						<option value="1">true</option>
+						<option value="0" selected>false</option>
+					</select>
+				</label>
+				<label>
+					<div># total changes</div>
+					<input id="settings-differencesAllowed" type="number" min="1" max="3" step="1" value="1"/>
+				</label>
+				<label>
+					<div># insertions</div>
+					<input id="settings-insertionsAllowed" type="number" min="0" max="3" step="1" value="1"/>
+				</label>
+				<label>
+					<div># deletions</div>
+					<input id="settings-deletionsAllowed" type="number" min="0" max="3" step="1" value="1"/>
+				</label>
+				<label>
+					<div># substitutions</div>
+					<input id="settings-substitutionsAllowed" type="number" min="0" max="3" step="1" value="1"/>
+				</label>
+				<label>
+					<div># transpositions</div>
+					<input id="settings-transpositionsAllowed" type="number" min="0" max="3" step="1" value="1"/>
+				</label>
+			</form>
+			<hr>
+			<div id="output"></div>
+		</div>
+	</body>
+</html>

@@ -884,6 +884,13 @@ window.onload = function() {
 					date: "January 6, 2021",
 					description: "See the world through any-color glasses with this Chrome extension that adds a colored overlay to any website."
 				},
+				wordchainer: {
+					name: "wordChainer",
+					size: "small",
+					tags: ["code","tool"],
+					date: "May 2, 2021",
+					description: "Build branching chains of words that differ by letter insertion, deletion, substitution, or transposition."
+				},
 				wordcounter: {
 					name: "wordCounter",
 					size: "small",
