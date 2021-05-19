@@ -211,22 +211,22 @@ window.onload = function() {
 					{name: "Forever", audio: "forever.mp3"}
 				]},
 				singles: {id: "singles", image: "singles.png", name: "Singles", year: 2016, tracks: [
-					{name: "Goodbye", audio: "goodbye.m4a"},
-					{name: "Motion", audio: "motion.m4a"},
-					{name: "Engine", audio: "engine.m4a"},
-					{name: "Concede", audio: "concede.m4a"},
-					{name: "Interconnected", audio: "interconnected.m4a"},
-					{name: "Sunshine", audio: "sunshine.m4a"},
-					{name: "Expedition", audio: "expedition.m4a"},
-					{name: "Window", audio: "window.m4a"},
-					{name: "Villain", audio: "villain.m4a"},
-					{name: "Ambition", audio: "ambition.m4a"},
-					{name: "Exhaustion", audio: "exhaustion.m4a"},
-					{name: "Facade", audio: "facade.m4a"},
-					{name: "Train", audio: "train.m4a"},
-					{name: "Weight", audio: "weight.m4a"},
-					{name: "Doubt", audio: "doubt.m4a"},
-					{name: "Hello", audio: "hello.m4a"}
+					{name: "Goodbye", audio: "goodbye.mp3"},
+					{name: "Motion", audio: "motion.mp3"},
+					{name: "Engine", audio: "engine.mp3"},
+					{name: "Concede", audio: "concede.mp3"},
+					{name: "Interconnected", audio: "interconnected.mp3"},
+					{name: "Sunshine", audio: "sunshine.mp3"},
+					{name: "Expedition", audio: "expedition.mp3"},
+					{name: "Window", audio: "window.mp3"},
+					{name: "Villain", audio: "villain.mp3"},
+					{name: "Ambition", audio: "ambition.mp3"},
+					{name: "Exhaustion", audio: "exhaustion.mp3"},
+					{name: "Facade", audio: "facade.mp3"},
+					{name: "Train", audio: "train.mp3"},
+					{name: "Weight", audio: "weight.mp3"},
+					{name: "Doubt", audio: "doubt.mp3"},
+					{name: "Hello", audio: "hello.mp3"}
 				]}
 			}
 
