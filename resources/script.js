@@ -436,6 +436,13 @@ window.onload = function() {
 					date: "April 25, 2018",
 					description: "magnetMaker is a pseudo-realistic physics simulator with magnetic spheres and tons of forces."
 				},
+				mayrhockey: {
+					name: "MayrHockey",
+					size: "medium",
+					tags: ["games","arcade","multiplayer","code","canvas","websockets","node"],
+					date: "May 26, 2021",
+					description: "A 2-6 player air hockey arena where the goals change every time someone scores."
+				},
 				mazemaker: {
 					name: "mazeMaker",
 					size: "medium",
