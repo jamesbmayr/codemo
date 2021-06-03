@@ -26,12 +26,12 @@
 	/* html */
 		html {
 			scroll-behavior: smooth;
-			background-color: var(--medium-gray);
+			background-color: var(--dark-gray);
 			box-shadow: 0 0 var(--shadow-size) var(--dark-gray) inset;
 		}
 
 		body {
-			background-color: var(--medium-gray);
+			background-color: var(--dark-gray);
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -65,6 +65,10 @@
 		::-o-scrollbar {
 			height: 0 !important;
 			width: 0 !important;
+		}
+
+		* {
+			scrollbar-width: none;
 		}
 
 /*** info ***/
@@ -251,6 +255,7 @@
 		height: auto;
 		min-height: calc(100vh - ((2 * var(--medium-gap-size)) + (2 * var(--medium-gap-size)) + (2 * var(--small-gap-size) + var(--medium-font-size))));
 		padding: var(--medium-gap-size);
+		background-color: var(--medium-gray);
 	}
 
 	/* project */
@@ -355,7 +360,8 @@
 		float: left;
 		width: 100%;
 		padding: var(--small-gap-size) 0;
-		margin-bottom: var(--icon-size);
+		padding-bottom: calc(var(--small-gap-size) + var(--icon-size));
+		background-color: var(--medium-gray);
 	}
 
 	#back-to-top {
