@@ -604,6 +604,13 @@ window.onload = function() {
 					date: "January 22, 2019",
 					description: "Project 3D down to 2D in this canvas-powered Platonic solids visualizer."
 				},
+				pongpaddler: {
+					name: "pongPaddler",
+					size: "small",
+					tags: ["code","games","arcade","multiplayer"],
+					date: "June 4, 2021",
+					description: "Play the classic table-tennis arcade game against a friend."
+				},
 				portmantoasters: {
 					name: "Portmantoasters",
 					size: "medium",
