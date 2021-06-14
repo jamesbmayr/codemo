@@ -667,6 +667,13 @@ window.onload = function() {
 					date: "November 9, 2019",
 					description: "Fight monsters to find the orbs in this 8-bit co-op dungeon crawler. Art by Jenn Levy. Sound by Alex Berg."
 				},
+				rpsthrower: {
+					name: "RPSthrower",
+					size: "small",
+					tags: ["code","games","ai","multiplayer"],
+					date: "June 14, 2021",
+					description: "Rock-Paper-Scissors; human-v-human or human-v-bot or bot-v-bot... you can even code your own bots!"
+				},
 				runjumper: {
 					name: "runJumper",
 					size: "small",

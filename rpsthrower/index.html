@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RPSthrower</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/3971461-200.png">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="RPSthrower is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="RPSthrower"/>
+		<meta property="og:url" content="https://jamesmayr.com/rpsthrower/"/>
+		<meta property="og:description" content="RPSthrower is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/rpsthrower/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js"></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="container">
+			<button id="reset">&orarr;</button>
+			<div id="message">Make your move.</div>
+			<div id="p1">
+				<div id="p1-move"></div>
+				<div id="p1-buttons">
+					<button id="p1-rock" title="rock">&#9994;</button>
+					<button id="p1-paper" title="paper">&#9995;</button>
+					<button id="p1-scissors" title="scissors">&#9996;</button>
+				</div>
+				<div id="p1-points">-</div>
+				<select id="p1-selection">
+					<option value="!" selected>&#128100; HUMAN</option>
+					<option value="?">&#129302; ??? BOT</option>
+					<option value="#">&#128736; CUSTOM CODE</option>
+					<optgroup label="---"></optgroup>
+				</select>
+				<div id="p1-custom">
+					<div id="p1-custom-before">function customCode(self, opponent, history) {</div>
+					<textarea id="p1-custom-code" placeholder="custom code..."></textarea>
+					<div id="p1-custom-after">}</div>
+					<details id="p1-custom-explanation">
+						<summary>?</summary>
+						<p>Enter Javascript to run, with these variables:</p>
+						<ul>
+							<li><b>self</b>: "p1"</li>
+							<li><b>opponent</b>: "p2"</li>
+							<li><b>history</b>: a chronological array of rounds, where each is an object with properties:
+								<ul>
+									<li><b>p1</b>: "rock" | "paper" | "scissors"</li>
+									<li><b>p2</b>: "rock" | "paper" | "scissors"</li>
+									<li><b>winner</b>: "p1" | "p2"</li>
+								</ul>
+							</li>
+						</ul>
+						<p>return "rock" | "paper" | "scissors"</p>
+					</details>
+				</div>
+			</div>
+			<div id="p2">
+				<div id="p2-move"></div>
+				<div id="p2-buttons">
+					<button id="p2-rock" title="rock">&#9994;</button>
+					<button id="p2-paper" title="paper">&#9995;</button>
+					<button id="p2-scissors" title="scissors">&#9996;</button>
+				</div>
+				<div id="p2-points">-</div>
+				<select id="p2-selection">
+					<option value="!">&#128100; HUMAN</option>
+					<option value="?" selected>&#129302; ??? BOT</option>
+					<option value="#">&#128736; CUSTOM CODE</option>
+					<optgroup label="---"></optgroup>
+				</select>
+				<div id="p2-custom">
+					<div id="p2-custom-before">function customCode(self, opponent, history) {</div>
+					<textarea id="p2-custom-code"></textarea>
+					<div id="p2-custom-after">}</div>
+					<details id="p2-custom-explanation">
+						<summary>?</summary>
+						<p>Enter Javascript to run, with these variables:</p>
+						<ul>
+							<li><b>self</b>: "p2"</li>
+							<li><b>opponent</b>: "p1"</li>
+							<li><b>history</b>: a chronological array of rounds, where each is an object with properties:
+								<ul>
+									<li><b>p1</b>: "rock" | "paper" | "scissors"</li>
+									<li><b>p2</b>: "rock" | "paper" | "scissors"</li>
+									<li><b>winner</b>: "p1" | "p2"</li>
+								</ul>
+							</li>
+						</ul>
+						<p>return "rock" | "paper" | "scissors"</p>
+					</details>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
