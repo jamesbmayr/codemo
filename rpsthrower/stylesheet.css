@@ -10,6 +10,12 @@
 		--border-size: 4px;
 	}
 
+	@media screen and (max-width: 799px) {
+		:root {
+			--font-size: 20px;
+		}
+	}
+
 	html, body {
 		position: absolute;
 		top: 0;
@@ -25,24 +31,41 @@
 
 /*** game ***/
 	#container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translateX(-50%) translateY(-50%);
-		width: 800px;
-		max-width: 90vw;
 		text-align: center;
 		border-radius: var(--border-radius);
 		background: var(--dark-gray);
 		box-shadow: 0 0 var(--border-size) var(--dark-gray) inset;
 	}
 
+	@media screen and (max-width: 799px) {
+		#container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: calc(100vw - 4 * var(--padding-size));
+			margin-top: calc(5 * var(--padding-size));
+			max-height: calc(100vh - 15 * var(--padding-size));
+			overflow-y: scroll;
+		}
+	}
+
+	@media screen and (min-width: 800px) {
+		#container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: 800px;
+			max-width: 90vw;
+		}
+	}
+
 	/* reset */
 		#reset {
 			position: absolute;
-			top: 0;
-			right: 0;
-			transform: translateX(50%) translateY(-50%);
+			top: calc(var(--padding-size) * 2);
+			left: calc(var(--padding-size) * 2);
 			height: calc(var(--font-size));
 			width: calc(var(--font-size));
 			padding: var(--padding-size);
@@ -58,6 +81,14 @@
 
 		#reset:hover {
 			box-shadow: 0 0 calc(2 * var(--border-size)) var(--light-gray);
+		}
+
+		@media screen and (max-width: 799px) {
+			#reset {
+				font-size: calc(var(--font-size));
+				height: calc(2 * var(--font-size));
+				width: calc(2 * var(--font-size));
+			}
 		}
 
 	/* sections */
@@ -76,6 +107,8 @@
 			text-transform: uppercase;
 			background: var(--medium-gray);
 			border-radius: var(--border-radius) var(--border-radius) 0 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
 		}
 
 		#p1, #p2 {
@@ -249,6 +282,12 @@
 			padding: calc(var(--padding-size) * 2);
 			margin: 0;
 			outline: none;
+		}
+
+		@media screen and (max-width: 799px) {
+			#p1-custom-code, #p2-custom-code {
+				max-height: calc(var(--font-size) * 10);
+			}
 		}
 
 /*** j-logo ***/

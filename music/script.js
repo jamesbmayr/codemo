@@ -323,19 +323,46 @@ window.onload = function() {
 						})
 					}
 
-				// album ?
-					var keys = Object.keys(music)
-					if (get.album && music[get.album.toLowerCase()]) {
+				// track?
+					if (get.track) {
+						var cleanTitle = get.track.toLowerCase().replace(/[^a-z0-9]/g, "").trim()
+						albumLoop: for (var i in music) {
+							trackLoop: for (var j = 0; j < music[i].tracks.length; j++) {
+								if (music[i].tracks[j].name.toLowerCase().replace(/[^a-z0-9]/g, "") == cleanTitle) {
+									currentSong.album = i
+									currentSong.index = j
+									break albumLoop
+									break trackLoop
+								}
+							}
+						}
+					}
+
+				// album?
+					if (!currentSong.album && get.album && music[get.album.toLowerCase()]) {
 						currentSong.album = get.album.toLowerCase()
 						currentSong.index = 0
+						
+						if (get.track) {
+							var cleanTitle = get.track.toLowerCase().replace(/[^a-z0-9]/g, "").trim()
+							trackLoop: for (var j = 0; j < music[currentSong.album].tracks.length; j++) {
+								if (music[currentSong.album].tracks[j].name.toLowerCase().replace(/[^a-z0-9]/g, "") == cleanTitle) {
+									currentSong.index = j
+									break trackLoop
+								}
+							}
+						}
 					}
-					else {
-						currentSong.album = keys[Math.floor(Math.random() * keys.length)]
+				
+				// neither
+					if (!currentSong.album) {
+						var albums = Object.keys(music)
+						currentSong.album = albums[Math.floor(Math.random() * albums.length)]
 						currentSong.index = Math.floor(Math.random() * music[currentSong.album].tracks.length)
 					}
-						
+					
 					document.getElementById(currentSong.album).setAttribute("open", true)
-					discography.scrollTop = 105 * keys.reverse().indexOf(currentSong.album)
+					discography.scrollTop = 105 * Object.keys(music).reverse().indexOf(currentSong.album)
 
 				// update player
 					updatePlayer(true)

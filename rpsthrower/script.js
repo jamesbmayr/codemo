@@ -2,109 +2,118 @@ window.addEventListener("load", function() {
 	/*** globals ***/
 		/*** bots ***/
 			var BOTS = {
-				random_bot: function(self, opponent, history) {
-					return chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				rock_bot: function(self, opponent, history) {
-					return "rock"
-				},
-				paper_bot: function(self, opponent, history) {
-					return "paper"
-				},
-				scissors_bot: function(self, opponent, history) {
-					return "scissors"
-				},
-				mostly_rock_bot: function(self, opponent, history) {
-					return Math.floor(Math.random() * 2) ? "rock" : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				mostly_paper_bot: function(self, opponent, history) {
-					return Math.floor(Math.random() * 2) ? "paper" : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				mostly_scissors_bot: function(self, opponent, history) {
-					return Math.floor(Math.random() * 2) ? "scissors" : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				mirror_bot: function(self, opponent, history) {
-					return history.length ? history[history.length - 1][opponent] : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				delayed_mirror_bot: function(self, opponent, history) {
-					return (history.length && history.length > 1) ? history[history.length - 2][opponent] : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				counter_bot: function(self, opponent, history) {
-					return history.length ? Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == history[history.length - 1][opponent] }) : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				delayed_counter_bot: function(self, opponent, history) {
-					return (history.length && history.length > 1) ? Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == history[history.length - 2][opponent] }) : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				cycle_bot: function(self, opponent, history) {
-					return history.length ? Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == history[history.length - 1][self] }) : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				reverse_cycle_bot: function(self, opponent, history) {
-					return history.length ? CONSTANTS.moves[history[history.length - 1][self]] : chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				seconds_bot: function(self, opponent, history) {
-					var step = new Date().getSeconds() % 3
-					return (step == 0) ? "rock" : (step == 1) ? "paper" : "scissors" 
-				},
-				minutes_bot: function(self, opponent, history) {
-					var step = new Date().getMinutes() % 3
-					return (step == 0) ? "rock" : (step == 1) ? "paper" : "scissors" 
-				},
-				historian_bot: function(self, opponent, history) {
-					var counts = {}
-					for (var i in history) {
-						if (!counts[history[i][opponent]]) {
-							counts[history[i][opponent]] = 1
+				// random
+					random_bot: function(self, opponent, history) {
+						return chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					short_pattern_bot: function(self, opponent, history) {
+						if (history.length < 4) {
+							return chooseRandom(Object.keys(CONSTANTS.moves))
+						}
+
+						return history[history.length % 4][self]
+					},
+					long_pattern_bot: function(self, opponent, history) {
+						if (history.length < 7) {
+							return chooseRandom(Object.keys(CONSTANTS.moves))
+						}
+
+						return history[history.length % 7][self]
+					},
+					seconds_bot: function(self, opponent, history) {
+						var step = new Date().getSeconds() % 3
+						return (step == 0) ? "rock" : (step == 1) ? "paper" : "scissors" 
+					},
+					minutes_bot: function(self, opponent, history) {
+						var step = new Date().getMinutes() % 3
+						return (step == 0) ? "rock" : (step == 1) ? "paper" : "scissors" 
+					},
+
+				// stubborn
+					rock_bot: function(self, opponent, history) {
+						return "rock"
+					},
+					paper_bot: function(self, opponent, history) {
+						return "paper"
+					},
+					scissors_bot: function(self, opponent, history) {
+						return "scissors"
+					},
+					mostly_rock_bot: function(self, opponent, history) {
+						return Math.floor(Math.random() * 2) ? "rock" : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					mostly_paper_bot: function(self, opponent, history) {
+						return Math.floor(Math.random() * 2) ? "paper" : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					mostly_scissors_bot: function(self, opponent, history) {
+						return Math.floor(Math.random() * 2) ? "scissors" : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					cycle_bot: function(self, opponent, history) {
+						return history.length ? Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == history[history.length - 1][self] }) : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					reverse_cycle_bot: function(self, opponent, history) {
+						return history.length ? CONSTANTS.moves[history[history.length - 1][self]] : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+
+				// reactive
+					mirror_bot: function(self, opponent, history) {
+						return history.length ? history[history.length - 1][opponent] : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					delayed_mirror_bot: function(self, opponent, history) {
+						return (history.length && history.length > 1) ? history[history.length - 2][opponent] : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					counter_bot: function(self, opponent, history) {
+						return history.length ? Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == history[history.length - 1][opponent] }) : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					delayed_counter_bot: function(self, opponent, history) {
+						return (history.length && history.length > 1) ? Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == history[history.length - 2][opponent] }) : chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+				
+				// strategic
+					historian_bot: function(self, opponent, history) {
+						var counts = {}
+						for (var i in history) {
+							if (!counts[history[i][opponent]]) {
+								counts[history[i][opponent]] = 1
+							}
+							else {
+								counts[history[i][opponent]]++
+							}
+						}
+
+						var countKeys = Object.keys(counts)
+							countKeys.sort(function(a, b) {
+								return counts[b] - counts[a]
+							})
+
+						return Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == countKeys[0] }) || chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					recent_historian_bot: function(self, opponent, history) {
+						var counts = {}
+						for (var i = Math.max(0, history.length - 5); i < history.length; i++) {
+							if (!counts[history[i][opponent]]) {
+								counts[history[i][opponent]] = 1
+							}
+							else {
+								counts[history[i][opponent]]++
+							}
+						}
+
+						var countKeys = Object.keys(counts)
+							countKeys.sort(function(a, b) {
+								return counts[b] - counts[a]
+							})
+
+						return Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == countKeys[0] }) || chooseRandom(Object.keys(CONSTANTS.moves))
+					},
+					cheat_bot: function(self, opponent, history) {
+						if (GAME.pending[opponent]) {
+							return Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == GAME.pending[opponent] })
 						}
 						else {
-							counts[history[i][opponent]]++
+							return null
 						}
 					}
-
-					var countKeys = Object.keys(counts)
-						countKeys.sort(function(a, b) {
-							return counts[b] - counts[a]
-						})
-
-					return Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == countKeys[0] }) || chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				recent_historian_bot: function(self, opponent, history) {
-					var counts = {}
-					for (var i = Math.max(0, history.length - 5); i < history.length; i++) {
-						if (!counts[history[i][opponent]]) {
-							counts[history[i][opponent]] = 1
-						}
-						else {
-							counts[history[i][opponent]]++
-						}
-					}
-
-					var countKeys = Object.keys(counts)
-						countKeys.sort(function(a, b) {
-							return counts[b] - counts[a]
-						})
-
-					return Object.keys(CONSTANTS.moves).find(function(i) { return CONSTANTS.moves[i] == countKeys[0] }) || chooseRandom(Object.keys(CONSTANTS.moves))
-				},
-				random_pattern_bot: function(self, opponent, history) {
-					if (!GAME[self + "Pattern"]) {
-						GAME[self + "Pattern"] = []
-						var patternSize = Math.floor(Math.random() * 9) + 2
-						while (GAME[self + "Pattern"].length < patternSize) {
-							GAME[self + "Pattern"].push(chooseRandom(Object.keys(CONSTANTS.moves)))
-						}
-						GAME[self + "PatternIndex"] = 0
-					}
-
-					if (GAME[self + "PatternIndex"] < GAME[self + "Pattern"].length - 1) {
-						var move = GAME[self + "Pattern"][GAME[self + "PatternIndex"]]
-						GAME[self + "PatternIndex"]++
-						return move
-					}
-					else {
-						GAME[self + "PatternIndex"] = 0
-						return GAME[self + "Pattern"][GAME[self + "PatternIndex"]]
-					}
-				}
 			}
 
 		/* constants */
@@ -114,7 +123,7 @@ window.addEventListener("load", function() {
 					scissors: "paper",
 					paper: "rock"
 				},
-				loopTime: 1000 * 3
+				loopTime: 1000 * 3.5
 			}
 
 		/* triggers */
@@ -298,8 +307,13 @@ window.addEventListener("load", function() {
 
 					// opponent is custom bot?
 						if (GAME.players[opponent] == "custom") {
-							GAME.pending[opponent] = evaluateCustom(opponent, self, duplicateObject(GAME.history), ELEMENTS[opponent].code.value) || chooseRandom(Object.keys(CONSTANTS.moves))
-							evaluateRound()
+							GAME.pending[opponent] = evaluateCustom(opponent, self, duplicateObject(GAME.history), ELEMENTS[opponent].code.value)
+							if (GAME.pending[opponent]) {
+								evaluateRound()
+							}
+							else {
+								ELEMENTS.message.innerText = "Unable to evaluate " + opponent + " code"
+							}
 							return
 						}
 
@@ -319,7 +333,7 @@ window.addEventListener("load", function() {
 
 					// p1
 						if (GAME.players.p1 == "custom") {
-							GAME.pending.p1 = evaluateCustom("p1", "p2", duplicateObject(GAME.history), ELEMENTS.p1.code.value) || chooseRandom(Object.keys(CONSTANTS.moves))
+							GAME.pending.p1 = evaluateCustom("p1", "p2", duplicateObject(GAME.history), ELEMENTS.p1.code.value)
 						}
 						else {
 							GAME.pending.p1 = BOTS[GAME.players.p1]("p1", "p2", GAME.history)
@@ -327,14 +341,28 @@ window.addEventListener("load", function() {
 
 					// p2
 						if (GAME.players.p2 == "custom") {
-							GAME.pending.p2 = evaluateCustom("p2", "p1", duplicateObject(GAME.history), ELEMENTS.p2.code.value) || chooseRandom(Object.keys(CONSTANTS.moves))
+							GAME.pending.p2 = evaluateCustom("p2", "p1", duplicateObject(GAME.history), ELEMENTS.p2.code.value)
 						}
 						else {
 							GAME.pending.p2 = BOTS[GAME.players.p2]("p2", "p1", GAME.history)
 						}
 
 					// evaluate
-						evaluateRound()
+						if (GAME.pending.p1 && GAME.pending.p2) {
+							evaluateRound()
+							return
+						}
+						
+						if (GAME.players.p1 == "cheat_bot") { // cheat bot
+							GAME.pending.p1 = BOTS[GAME.players.p1]("p1", "p2", GAME.history)
+							evaluateRound()
+							return
+						}
+						
+						if (GAME.players.p1 == "custom" || GAME.players.p2 == "custom") {
+							ELEMENTS.message.innerText = "Unable to evaluate " + (!GAME.pending.p1 ? "P1" : "") + (!GAME.pending.p1 && !GAME.pending.p2 ? " & " : "") + (!GAME.pending.p2 ? "P2" : "") + " code"
+							return
+						}
 				} catch (error) {console.log(error)}
 			}
 
@@ -387,9 +415,23 @@ window.addEventListener("load", function() {
 		/* evaluateCustom */
 			function evaluateCustom(self, opponent, history, code) {
 				try {
-					code = eval("function customCode(self, opponent, history) {\n" + code + "\n}")
-					return customCode(self, opponent, history)
-				} catch (error) {console.log(error)}
+					// prevent access to globals
+						var BOTS
+						var CONSTANTS
+						var TRIGGERS
+						var ELEMENTS
+						var GAME
+						var window
+						var document
+
+					// insert user code
+						code = eval("function customCode(self, opponent, history) {\ntry {\n"
+							+ code +
+						"\n} catch (error) {console.log(error.name + ': ' + error.message)}\n}")
+
+					// run custom code
+						return customCode(self, opponent, history)
+				} catch (error) {console.log(error.name + ': ' + error.message)}
 			}
 
 		/* evaluateRound */
@@ -418,7 +460,8 @@ window.addEventListener("load", function() {
 
 					// winner?
 						var winner = getWinner(GAME.pending.p1, GAME.pending.p2)
-						ELEMENTS.message.innerText = winner ? (winner + " takes round") : "tie round"
+						var roundNumber = GAME.history.length + 1
+						ELEMENTS.message.innerText = winner ? (winner + " takes round " + roundNumber) : ("round " + roundNumber + " is a tie")
 						if (winner) {
 							GAME.points[winner]++
 							ELEMENTS.p1.points.innerText = GAME.points.p1

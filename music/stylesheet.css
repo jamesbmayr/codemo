@@ -110,6 +110,13 @@
 			user-select: none;
 		}
 
+		@media screen and (max-width: 799px) {
+			#now-playing {
+				font-size: 15px;
+				line-height: 1;
+			}
+		}
+
 		#now-playing-track {
 			float: left;
 			font-weight: bold;
@@ -148,7 +155,7 @@
 			background-color: transparent;
 			background-repeat: no-repeat;
 			background-position: center center;
-			background-size: cover;
+			background-size: contain;
 			background-image: url(https://raw.githubusercontent.com/jamesbmayr/music/master/artwork/sounddrawn.png);
 			box-shadow: 0px 0px 20px #111111 inset;
 		}
