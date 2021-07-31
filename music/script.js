@@ -182,7 +182,7 @@ window.onload = function() {
 					{name: "Flash (Hurry Up and Wait)", audio: "flashhurryupandwait.mp3"},
 					{name: "You Told Me That You Loved Me Too Soon", audio: "youtoldmethatyoulovedmetoosoon.mp3"},
 					{name: "Treasure", audio: "treasure.mp3"},
-					{name: "Moonlight", audio: "moonlinght.mp3"},
+					{name: "Moonlight", audio: "moonlight.mp3"},
 					{name: "Wheels Turning", audio: "wheelsturning.mp3"},
 					{name: "Sorry I'm So Late", audio: "sorryimsolate.mp3"},
 					{name: "Tell Me", audio: "tellme.mp3"},
@@ -266,19 +266,41 @@ window.onload = function() {
 
 						for (var t in music[keys[k]].tracks) {
 							var item = document.createElement("li")
-								item.innerText = music[keys[k]].tracks[t].name
 								item.setAttribute("index", t)
-								item.addEventListener(on.click, selectTrack)
 							list.appendChild(item)
+
+							var button = document.createElement("button")
+								button.innerText = music[keys[k]].tracks[t].name
+								button.addEventListener(on.click, selectTrack)
+							item.appendChild(button)
 						}
 				}
 			}
 
 		/* selectTrack */
 			function selectTrack(event) {
+				// before
+					var beforeSong = {
+						album: currentSong.album,
+						index: currentSong.index
+					}
+
 				// set current
-					currentSong.album = event.target.parentNode.parentNode.id
-					currentSong.index = Number(event.target.getAttribute("index"))
+					currentSong.album = event.target.parentNode.parentNode.parentNode.id
+					currentSong.index = Number(event.target.parentNode.getAttribute("index"))
+
+				// same?
+					if (beforeSong.album == currentSong.album && beforeSong.index == currentSong.index) {
+						// playing?
+							if (player.paused) {
+								player.play()
+							}
+							else {
+								player.pause()
+							}
+
+						return
+					}
 
 				// updatePlayer
 					updatePlayer()
@@ -388,6 +410,12 @@ window.onload = function() {
 				// update meta data
 					logo.href = "https://raw.githubusercontent.com/jamesbmayr/music/master/artwork/" + music[currentSong.album].image
 					title.innerText = "jamesmayr: " + music[currentSong.album].tracks[currentSong.index].name
+
+				// update URL
+					var currentURL = new URL(window.location.href)
+						currentURL.search = "?album=" + music[currentSong.album].name.toLowerCase().replace(/[^a-z0-9]/g, "").trim() +
+											"&track=" + music[currentSong.album].tracks[currentSong.index].name.toLowerCase().replace(/[^a-z0-9]/g, "").trim()
+					window.history.pushState({}, "", currentURL)
 
 				// select track text
 					document.querySelectorAll("[selected]").forEach(function (element) {
