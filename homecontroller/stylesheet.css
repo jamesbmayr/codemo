@@ -1,0 +1,190 @@
+/*** page ***/
+	:root {
+		--foot: calc(100% / 25);
+		--house-width-height-ratio: calc(42 / 25);
+		--light-gray: #dddddd;
+		--medium-gray: #555555;
+		--dark-gray: #111111;
+		--light-red: #ddaaaa;
+		--medium-red: #aa5555;
+		--dark-red: #551111;
+		--light-yellow: #ddddaa;
+		--medium-yellow: #aaaa55;
+		--dark-yellow: #555511;
+		--light-orange: #cec19b;
+		--medium-orange: #af9238;
+		--dark-orange: #846507;
+		--light-green: #aaddaa;
+		--medium-green: #55aa55;
+		--dark-green: #115511;
+		--light-blue: #aaaadd;
+		--medium-blue: #5555aa;
+		--dark-blue: #111155;
+		--light-purple: #ddaadd;
+		--medium-purple: #aa55aa;
+		--dark-purple: #551155;
+		--font: sans-serif;
+		--font-size: 2.5vh;
+		--fade-opacity: 0.2;
+	}
+
+	@media screen and (max-width: 1300px) {
+		:root {
+			--font-size: 1.5vw;
+		}
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: var(--dark-gray);
+	}
+
+/*** home ***/
+	#home {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 100vh;
+		width: calc(100vh * var(--house-width-height-ratio));
+		max-height: calc(100vw / var(--house-width-height-ratio));
+		max-width: 100vw;
+		background-color: var(--dark-gray);
+	}
+
+	/* rooms */
+		.room {
+			position: absolute;
+			overflow: hidden;
+		}
+
+		.room-name {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 100%;
+			text-align: center;
+			transform: translateX(-50%) translateY(-50%);
+			text-transform: uppercase;
+			font-family: var(--font);
+			font-size: calc(var(--font-size));
+			line-height: 1;
+			color: var(--dark-gray);
+			font-weight: bold;
+			pointer-events: none;
+			user-select: none;
+			opacity: var(--fade-opacity);
+			text-overflow: ellipsis;
+			overflow: hidden;
+			white-space: nowrap;
+			padding: var(--font-size);
+			box-sizing: border-box;
+		}
+
+	/* devices */
+		.device {
+			position: absolute;
+			transform: translateX(-50%) translateY(-50%);
+			height: calc(2 * var(--foot));
+			width: calc(2 * var(--foot) / var(--house-width-height-ratio));
+			border-radius: 100%;
+			border: none;
+			padding: 0;
+			margin: 0;
+			background: transparent;
+		}
+
+		.device-image {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background-color: transparent;
+			background-position: center;
+			background-size: contain;
+			background-repeat: no-repeat;
+			opacity: var(--fade-opacity);
+		}
+
+		.device-button {
+			position: absolute;
+			top: 50%;
+			border-radius: 100%;
+			border: none;
+			outline: none;
+			font-family: var(--font);
+			height: calc(var(--font-size) * 3);
+			width: calc(var(--font-size) * 3);
+			line-height: 1;
+			text-transform: uppercase;
+			padding: 0;
+			margin: 0;
+			cursor: pointer;
+			background: transparent;
+		}
+
+		.device-button:hover, .device-button:focus {
+			font-weight: bold;
+			text-shadow: 0 0 calc(var(--font-size) / 10) var(--dark-gray);
+		}
+
+	/* button symbols */
+		.device-button.device-x2611 { /* on */
+			font-size: calc(var(--font-size) * 3);
+			left: 0;
+			transform: translateX(-30%) translateY(-60%);
+		}
+
+		.device-button.device-x2612 { /* off */
+			font-size: calc(var(--font-size) * 3);
+			right: 0;
+			transform: translateX(35%) translateY(-60%);
+		}
+
+		.device-button.device-x25BA { /* play */
+			font-size: calc(var(--font-size) * 2);
+			left: 0;
+			transform: translateX(-30%) translateY(-50%);
+		}
+
+		.device-button.device-II { /* pause */
+			font-size: calc(var(--font-size) * 2);
+			right: 0;
+			transform: translateX(35%) translateY(-50%);
+		}
+
+		.device-button.device-and { /* up */
+			font-size: calc(var(--font-size) * 2);
+			height: calc(var(--font-size) * 2);
+			width: calc(var(--font-size) * 2);
+			left: 50%;
+			top: 0;
+			transform: translateX(-50%) translateY(-75%);
+		}
+
+		.device-button.device-or { /* down */
+			font-size: calc(var(--font-size) * 2);
+			height: calc(var(--font-size) * 2);
+			width: calc(var(--font-size) * 2);
+			left: 50%;
+			bottom: 0;
+			transform: translateX(-50%) translateY(25%);
+		}
+
+		.device-button.device-x25C9 { /* target */
+			font-size: calc(var(--font-size) * 2);
+			height: calc(var(--font-size) * 2);
+			width: calc(var(--font-size) * 2);
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			line-height: 1.1;
+		}

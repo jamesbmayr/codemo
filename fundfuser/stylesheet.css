@@ -1,0 +1,363 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #999999;
+		--dark-gray: #222222;
+		--medium-blue: #5555aa;
+		--font-family: monospace;
+		--font-size: 20px;
+		--gap-size: 5px;
+		--border-radius: 5px;
+		--border-size: 5px;
+		--content-width: 800px;
+		--message-timeout-time: 5s;
+		--input-width: 300px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		min-height: 100%;
+		background: var(--medium-gray);
+		font-size: 0;
+		padding: 0;
+		margin: 0;
+		overflow-x: hidden;
+	}
+
+	/* elements */
+		label {
+			display: inline-block;
+			text-align: center;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+		}
+
+		form {
+			display: inline-block;
+			text-align: center;
+		}
+
+		input {
+			height: var(--font-size);
+			width: var(--input-width);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--dark-gray);
+			background-color: var(--light-gray);
+			border: var(--border-size) solid var(--dark-gray);
+			border-radius: var(--border-radius);
+			padding: var(--gap-size);
+			margin: var(--gap-size);
+			outline: none;
+		}
+
+		input:not([readonly]):hover {
+			box-shadow: 0 0 var(--border-size) var(--dark-gray);
+		}
+
+		input:not([readonly]):focus {
+			background-color: var(--medium-gray);
+		}
+
+		button {
+			height: calc(var(--font-size) + 4 * var(--gap-size));
+			width: var(--input-width);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			text-transform: uppercase;
+			color: var(--light-gray);
+			background-color: var(--dark-gray);
+			border: var(--border-size) solid var(--dark-gray);
+			border-radius: var(--border-radius);
+			padding: var(--gap-size);
+			margin: var(--gap-size);
+			outline: none;
+			cursor: pointer;
+		}
+
+		button:not([disabled]):hover {
+			box-shadow: 0 0 var(--border-size) var(--dark-gray);
+		}
+
+		a, a:visited {
+			height: var(--font-size);
+			width: auto;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			color: var(--medium-blue);
+			cursor: pointer;
+			text-decoration: none;
+		}
+
+		a:hover, a:focus {
+			text-shadow: 0 0 var(--gap-size) var(--medium-blue);
+		}
+
+	/* states */
+		input[readonly] {
+			background-color: var(--medium-gray);
+			border-color: var(--medium-gray);
+			color: var(--light-gray);
+			cursor: default;
+			pointer-events: none;
+		}
+
+		button[disabled] {
+			border-color: var(--medium-gray);
+			background-color: var(--medium-gray);
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+
+		div[hidden], form[hidden], label[hidden], a[hidden] {
+			display: none !important;
+			pointer-events: none !important;
+		}
+
+/*** header ***/
+	#header {
+		height: calc(var(--font-size) * 5);
+		font-size: calc(var(--font-size) * 5);
+		font-family: var(--font-family);
+		font-weight: normal;
+		width: 100%;
+		margin: 0;
+		padding: var(--font-size) 0;
+		line-height: 1;
+		text-align: center;
+		vertical-align: top;
+		border-bottom: var(--border-size) solid var(--dark-gray);
+		background: var(--medium-gray);
+		color: var(--dark-gray);
+		position: fixed;
+		overflow: hidden;
+	}
+
+	#logo {
+		height: calc(var(--font-size) * 5);
+		width: calc(var(--font-size) * 5);
+		background-image: url(logo.png);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+		display: inline-block;
+		vertical-align: top;
+		margin: 0 var(--font-size) var(--font-size) 0;
+	}
+
+/*** message ***/
+	#message {
+		box-sizing: content-box;
+		position: fixed;
+		top: calc(2 * var(--font-size));
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: calc(var(--font-size) * 2);
+		font-family: var(--font-family);
+		font-weight: bold;
+		text-transform: uppercase;
+		height: auto;
+		width: auto;
+		background-color: var(--dark-gray);
+		color: var(--light-gray);
+		box-shadow: 0 0 var(--gap-size) var(--dark-gray);
+		user-select: none;
+		opacity: 0;
+		pointer-events: none;
+		padding: var(--gap-size);
+		border-radius: var(--border-radius);
+		text-align: center;
+		max-width: var(--content-width);
+	}
+
+	/* animation */
+		#message[message-type="success"], #message[message-type="failure"] {
+			animation: fadeinout var(--message-timeout-time) linear;
+		}
+
+		@keyframes fadeinout {
+			0%   { opacity: 0; }
+			10%  { opacity: 0.2; }
+			20%  { opacity: 0.5; }
+			30%  { opacity: 0.9; }
+			40%  { opacity: 1; }
+			50%  { opacity: 1; }
+			60%  { opacity: 1; }
+			70%  { opacity: 0.9; }
+			80%  { opacity: 0.5; }
+			90%  { opacity: 0.2; }
+			100% { opacity: 0; }
+		}
+
+
+/*** fund ***/
+	#fund {
+		box-sizing: border-box;
+		width: 100%;
+		border-bottom: var(--border-size) solid var(--dark-gray);
+		padding: calc(var(--font-size) * 2) calc((100% - var(--content-width)) / 2);
+		margin: 0;
+		margin-top: calc(var(--font-size) * 7 + var(--gap-size));
+		text-align: center;
+		background: var(--light-gray);
+	}
+
+	/* options */
+		#fund-name-label, #fund-status-label, #fund-email-label {
+			width: 100%;
+		}
+
+		#fund-amount-label, #fund-timestamp-label {
+			width: 50%;
+		}
+
+		#fund-name {
+			text-align: center;
+			font-size: calc(2 * var(--font-size));
+			height: calc(2 * var(--font-size));
+			width: 100%;
+			max-width: calc(100% - 6 * var(--gap-size));
+		}
+
+		#fund-amount, #fund-timestamp {
+			max-width: calc(100% - 4 * var(--font-size));
+		}
+
+		#fund-email {
+			max-width: calc(50% - 4 * var(--font-size));
+			margin-bottom: var(--font-size);
+		}
+
+		#fund-status {
+			width: auto;
+		}
+
+	/* actions */
+		#fund-save {
+			width: 100%;
+			display: block;
+		}
+
+		#fund-save-button {
+			font-size: calc(2 * var(--font-size));
+			height: calc(2 * var(--font-size) + 4 * var(--gap-size));
+			width: 100%;
+			max-width: calc(100% - 2 * var(--gap-size));
+		}
+
+		#fund-invite {
+			margin-top: var(--font-size);
+			display: block;
+			text-transform: uppercase;
+		}
+
+/*** pledge ***/
+	#pledge {
+		box-sizing: border-box;
+		width: 100%;
+		border-bottom: var(--border-size) solid var(--dark-gray);
+		padding: calc(var(--font-size) * 2) calc((100% - var(--content-width)) / 2);
+		margin: 0;
+		text-align: center;
+		background: var(--light-gray);
+	}
+
+	/* options */
+		#pledge-amount-label, #pledge-share-label {
+			width: 50%;
+		}
+
+		#pledge-email-label {
+			width: 100%;
+		}
+
+		#pledge-amount, #pledge-share {
+			max-width: calc(100% - 4 * var(--font-size));
+		}
+
+		#pledge-email {
+			max-width: calc(50% - 4 * var(--font-size));
+			margin-bottom: var(--font-size);
+		}
+
+	/* actions */
+		#pledge-save {
+			width: 100%;
+			display: block;
+		}
+
+		#pledge-save-button {
+			font-size: calc(2 * var(--font-size));
+			height: calc(2 * var(--font-size) + 4 * var(--gap-size));
+			width: 100%;
+			max-width: calc(100% - 2 * var(--gap-size));
+		}
+
+/*** reset ***/
+	#reset {
+		box-sizing: border-box;
+		border-bottom: var(--border-size) solid var(--dark-gray);
+		width: 100%;
+		padding: calc(var(--font-size) * 2) calc((100% - var(--content-width)) / 2);
+		margin: 0;
+		text-align: center;
+		background: var(--light-gray);
+	}
+
+/*** about ***/
+	#about {
+		box-sizing: border-box;
+		padding: calc(var(--font-size) * 2) calc((100% - var(--content-width)) / 2);
+		margin: 0;
+		text-align: center;
+		background-color: var(--medium-gray);
+	}
+
+	/* Q&A */
+		#about h3 {
+			text-align: left;
+			width: calc(100% - 2 * var(--font-size));
+			font-family: var(--font-family);
+			font-size: calc(var(--font-size) * 2);
+			font-weight: bold;
+			color: var(--light-gray);
+			margin: 0 0 var(--gap-size) 0;
+			padding: 0 var(--font-size);
+		}
+
+		#about p {
+			text-align: left;
+			width: calc(100% - 2 * var(--font-size));
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			color: var(--light-gray);
+			margin: 0 0 calc(var(--font-size) * 2) 0;
+			padding: 0 var(--font-size);
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0 0 1px var(--medium-gray));
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--gap-size) var(--dark-gray));
+	}

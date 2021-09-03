@@ -324,6 +324,13 @@ window.onload = function() {
 					date: "December 20, 2018",
 					description: "It's four-in-a-row in this popular gravity-based strategy game for 2 players."
 				},
+				fundfuser: {
+					name: "FundFuser",
+					size: "medium",
+					tags: ["code","tool","math","multiplayer"],
+					date: "September 3, 2021",
+					description: "FundFuser calculates an equitable split for your next group gift or shared expense."
+				},
 				gamestimeline: {
 					name: "GamesTimeline",
 					size: "medium",

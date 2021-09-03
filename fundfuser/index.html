@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>FundFuser</title>
+		<meta name="description" content="FundFuser calculates an equitable split for your next group gift or shared expense."/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="FundFuser"/>
+		<meta property="og:url" content="https://jamesmayr.com/fundfuser/"/>
+		<meta property="og:description" content="FundFuser calculates an equitable split for your next group gift or shared expense."/>
+		<meta property="og:image" content="https://jamesmayr.com/fundfuser/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="shortcut icon" href="logo.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<h1 id="header"><div id="logo"></div>FundFuser</h1>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="fund">
+			<label id="fund-name-label"><input id="fund-name" type="text" placeholder="YOUR FUND NAME HERE"></label>
+			<label id="fund-amount-label"><span>$</span><input id="fund-amount" type="number" min="0" step="0.01" placeholder="TARGET AMOUNT"></label>
+			<label id="fund-timestamp-label"><span>by</span><input id="fund-timestamp" type="datetime-local" placeholder="WHEN"></label>
+			<label id="fund-email-label"><span>created by</span><input id="fund-email" type="email" placeholder="YOUR EMAIL"></label>
+			<label id="fund-status-label"><input id="fund-status" type="text" placeholder="STATUS" readonly hidden></label>
+			<form id="fund-save" action="javascript:;" method="post">
+				<button id="fund-save-button">save fund</button>
+			</form>
+			<form id="fund-complete" action="javascript:;" method="post">
+				<button id="fund-complete-button" hidden>complete early</button>
+			</form>
+			<form id="fund-cancel" action="javascript:;" method="post">
+				<button id="fund-cancel-button" hidden>cancel fund</button>
+			</form>
+			<a id="fund-invite" href="#" target="_blank" hidden>invite others to contribute</a>
+		</div>
+		<div id="pledge" hidden>
+			<label id="pledge-amount-label"><span>$</span><input id="pledge-amount" type="number" min="0" step="0.01" placeholder="YOUR MAX PLEDGE"></label>
+			<label id="pledge-share-label"><span>&rarr; $</span><input id="pledge-share" type="number" placeholder="YOUR SHARE TBD" readonly></label>
+			<label id="pledge-email-label"><span>pledged by</span><input id="pledge-email" type="email" placeholder="YOUR EMAIL"></label>
+			<form id="pledge-save" action="javascript:;" method="post">
+				<button id="pledge-save-button" hidden>save pledge</button>
+			</form>
+			<form id="pledge-cancel" action="javascript:;" method="post">
+				<button id="pledge-cancel-button" hidden>cancel pledge</button>
+			</form>
+		</div>
+		<form id="reset" action="javascript:;" method="post" hidden>
+			<button id="reset-button">...or create a new fund</button>
+		</form>
+		<div id="about">
+			<h3>What is FundFuser?</h3>
+			<p>When a bunch of people are sharing an expense - a birthday gift, some take-out, the grocery budget - an even split is easy, but it's not always fair. Everyone's income is different, and maybe your passion for this purchase differs from the rest of the group.</p>
+			<p>Share a target amount and deadline, and FundFuser takes care of the rest. When the time comes, we calculate everybody's share - not by paying the same $$$, but by paying the same % of what they're willing and able to contribute.</p>
+			<h3>Huh? How does that work?</h3>
+			<p>Let's say you and your siblings are getting a gift for Mom. It costs $300, but your sister's salary is much more than yours, while your brother doesn't have a lot of disposable cash right now. So she's willing to do $200, he's only up for $80, and you're okay with $120.</p>
+			<p>That's $400 - you only needed to pool 3/4 of that. So everyone contributes 3/4 of their pledge! Your sister sends you $150, your brother brings $60, and the remaining $90 comes from you.</p>
+			<h3>Why do you need my email?</h3>
+			<p>We need to tell you when your fund completes! Don't worry - we'll never email you anything but updates to your funds and pledges.</p>
+			<h3>How do you process exchanges?</h3>
+			<p>This is just a calculator - no money changes hands here. Once your fund has reached its deadline, FundFuser determines everyone's equitable share and sends out some emails, but it's up to you how you make the exchange.</p>
+			<p>As an added bonus, that means the contributors don't need to know how much they're each contributing.</p>
+			<h3>Does this cost money?</h3>
+			<p>Nope! FundFuser is free - no credit cards or membership required.</p>
+			<h3>What if I <i>want</i> to pay you for it?</h3>
+			<p><a href="https://venmo.com/jamesbmayr" target="_blank">I won't say no to that!</a></p>
+		</div>
+		<div id="message"></div>
+	</body>
+</html>
