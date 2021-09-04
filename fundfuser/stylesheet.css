@@ -11,7 +11,7 @@
 		--border-size: 5px;
 		--content-width: 800px;
 		--message-timeout-time: 5s;
-		--input-width: 300px;
+		--input-width: 350px;
 	}
 
 	html, body {
@@ -79,7 +79,7 @@
 			cursor: pointer;
 		}
 
-		button:not([disabled]):hover {
+		button:not([disabled]):hover, button:not([disabled]):focus {
 			box-shadow: 0 0 var(--border-size) var(--dark-gray);
 		}
 
@@ -92,6 +92,7 @@
 			color: var(--medium-blue);
 			cursor: pointer;
 			text-decoration: none;
+			outline: none;
 		}
 
 		a:hover, a:focus {

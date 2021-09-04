@@ -7,7 +7,7 @@
 
 	/* constants */
 		const CONSTANTS = {
-			databaseAPI: "https://script.google.com/macros/s/AKfycbxltN-cH0U0k3NuFC-ohy8rbLxPMsFj74bd78rSsvmcsEiyEFWsa5lqOcrY_g68BA-c/exec",
+			databaseAPI: "https://script.google.com/macros/s/AKfycbzarCvfCvpL_vq5kkFt97XrTYNVd7Bc7oqx8rl-gxIR9jqq3CEGMDOjgTF254m1IBMX/exec",
 			messageTimeoutTime: 5000,
 			messageTimeout: null,
 			emailRegex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -139,8 +139,12 @@
 					}
 
 				// set
-					DATA.fund = response.fund || null
-					DATA.pledge = (DATA.fund && response.pledge) ? response.pledge : null
+					if (typeof response.fund !== "undefined") {
+						DATA.fund = response.fund || null
+					}
+					if (typeof response.pledge !== "undefined") {
+						DATA.pledge = response.pledge || null
+					}
 
 				// display
 					if (DATA.fund) {
