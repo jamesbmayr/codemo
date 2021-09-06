@@ -3,11 +3,12 @@
 		const TRIGGERS = {
 			click: "click",
 			submit: "submit",
+			input: "input"
 		}
 
 	/* constants */
 		const CONSTANTS = {
-			databaseAPI: "https://script.google.com/macros/s/AKfycbzarCvfCvpL_vq5kkFt97XrTYNVd7Bc7oqx8rl-gxIR9jqq3CEGMDOjgTF254m1IBMX/exec",
+			databaseAPI: "https://script.google.com/macros/s/AKfycby1hlF5xrg4QwfPzAHc1Ad2KQpb611K9FY-dbwKqQbQq0GEr30hbyPYY-kelvihE7Xk/exec",
 			messageTimeoutTime: 5000,
 			messageTimeout: null,
 			emailRegex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -26,10 +27,14 @@
 			fund: {
 				element: document.querySelector("#fund"),
 				name: document.querySelector("#fund-name"),
+				nameSaved: document.querySelector("#fund-name + .saved-indicator"),
 				amount: document.querySelector("#fund-amount"),
+				amountSaved: document.querySelector("#fund-amount + .saved-indicator"),
 				timestamp: document.querySelector("#fund-timestamp"),
+				timestampSaved: document.querySelector("#fund-timestamp + .saved-indicator"),
 				status: document.querySelector("#fund-status"),
 				email: document.querySelector("#fund-email"),
+				emailSaved: document.querySelector("#fund-email + .saved-indicator"),
 				save: {
 					form: document.querySelector("#fund-save"),
 					button: document.querySelector("#fund-save-button")
@@ -47,7 +52,9 @@
 			pledge: {
 				element: document.querySelector("#pledge"),
 				email: document.querySelector("#pledge-email"),
+				emailSaved: document.querySelector("#pledge-email + .saved-indicator"),
 				amount: document.querySelector("#pledge-amount"),
+				amountSaved: document.querySelector("#pledge-amount + .saved-indicator"),
 				share: document.querySelector("#pledge-share"),
 				save: {
 					form: document.querySelector("#pledge-save"),
@@ -196,12 +203,19 @@
 					}
 					else {
 						ELEMENTS.fund.name.removeAttribute("readonly")
+						ELEMENTS.fund.nameSaved.removeAttribute("hidden")
 						ELEMENTS.fund.amount.removeAttribute("readonly")
+						ELEMENTS.fund.amountSaved.removeAttribute("hidden")
 						ELEMENTS.fund.timestamp.removeAttribute("readonly")
+						ELEMENTS.fund.timestampSaved.removeAttribute("hidden")
 						ELEMENTS.fund.email.removeAttribute("readonly")
+						ELEMENTS.fund.emailSaved.removeAttribute("hidden")
 						ELEMENTS.fund.save.button.removeAttribute("hidden")
 						ELEMENTS.fund.complete.button.removeAttribute("hidden")
 						ELEMENTS.fund.cancel.button.removeAttribute("hidden")
+						ELEMENTS.fund.save.button.removeAttribute("disabled")
+						ELEMENTS.fund.complete.button.removeAttribute("disabled")
+						ELEMENTS.fund.cancel.button.removeAttribute("disabled")
 					}
 
 				// complete vs. open
@@ -213,6 +227,9 @@
 						ELEMENTS.fund.save.button.setAttribute("hidden", true)
 						ELEMENTS.fund.complete.button.setAttribute("hidden", true)
 						ELEMENTS.fund.cancel.button.setAttribute("hidden", true)
+						ELEMENTS.fund.save.button.setAttribute("disabled", true)
+						ELEMENTS.fund.complete.button.setAttribute("disabled", true)
+						ELEMENTS.fund.cancel.button.setAttribute("disabled", true)
 
 						ELEMENTS.fund.status.removeAttribute("hidden")
 						ELEMENTS.fund.invite.setAttribute("hidden", true)
@@ -223,9 +240,12 @@
 						ELEMENTS.fund.invite.removeAttribute("hidden")
 						ELEMENTS.fund.invite.href = 'mailto:?to=&subject=FundFuser:%20' + DATA.fund.name +
 							'&body=A fund was created by ' + DATA.fund.email + ': ' + 
-							'$' + DATA.fund.amount + ' by ' + new Date(DATA.fund.timestamp).toLocaleString() + ' for "' + DATA.fund.name + '" ...' + 
+							'$' + DATA.fund.amount.toFixed(2) + ' by ' + new Date(DATA.fund.timestamp).toLocaleString() + ' for "' + DATA.fund.name + '" ...' + 
 							'Make your pledge now: ' + window.location.origin + window.location.pathname + '?fund_id=' + DATA.fund.fund_id
 					}
+
+				// changed
+
 			} catch (error) {console.log(error)}
 		}
 
@@ -240,18 +260,25 @@
 					ELEMENTS.pledge.amount.value = DATA.pledge ? DATA.pledge.amount : null
 					ELEMENTS.pledge.share.value = DATA.pledge ? DATA.pledge.share || null : null
 
+					ELEMENTS.pledge.emailSaved.removeAttribute("hidden")
+					ELEMENTS.pledge.amountSaved.removeAttribute("hidden")
+
 				// status
 					if (DATA.fund.status !== "open") {
 						ELEMENTS.pledge.email.setAttribute("readonly", true)
 						ELEMENTS.pledge.amount.setAttribute("readonly", true)
 						ELEMENTS.pledge.save.button.setAttribute("hidden", true)
 						ELEMENTS.pledge.cancel.button.setAttribute("hidden", true)
+						ELEMENTS.pledge.save.button.setAttribute("disabled", true)
+						ELEMENTS.pledge.cancel.button.setAttribute("disabled", true)
 					}
 					else {
 						ELEMENTS.pledge.email.removeAttribute("readonly")
 						ELEMENTS.pledge.amount.removeAttribute("readonly")
 						ELEMENTS.pledge.save.button.removeAttribute("hidden")
 						ELEMENTS.pledge.cancel.button.removeAttribute("hidden")
+						ELEMENTS.pledge.save.button.removeAttribute("disabled")
+						ELEMENTS.pledge.cancel.button.removeAttribute("disabled")
 					}
 
 				// cancellable?
@@ -280,6 +307,34 @@
 		}
 
 /*** interaction ***/
+	/* changeField */
+		ELEMENTS.fund.name.addEventListener(TRIGGERS.input, changeField)
+		ELEMENTS.fund.amount.addEventListener(TRIGGERS.input, changeField)
+		ELEMENTS.fund.timestamp.addEventListener(TRIGGERS.input, changeField)
+		ELEMENTS.fund.email.addEventListener(TRIGGERS.input, changeField)
+		ELEMENTS.pledge.amount.addEventListener(TRIGGERS.input, changeField)
+		ELEMENTS.pledge.email.addEventListener(TRIGGERS.input, changeField)
+		function changeField(event) {
+			try {
+				// get field
+					let id = event.target.id.split("-")
+					let thing = id[0]
+					let field = id[1]
+
+				// get cached value
+					let cachedValue = DATA[thing] ? DATA[thing][field] : null || null
+					let inputValue = event.target.value
+
+				// different
+					if (cachedValue != inputValue) {
+						ELEMENTS[thing][field + "Saved"].setAttribute("hidden", true)
+					}
+					else {
+						ELEMENTS[thing][field + "Saved"].removeAttribute("hidden")	
+					}
+			} catch (error) {console.log(error)}
+		}
+
 	/* saveFund */
 		ELEMENTS.fund.save.form.addEventListener(TRIGGERS.submit, saveFund)
 		function saveFund() {
@@ -320,6 +375,9 @@
 					}
 
 				// message
+					ELEMENTS.fund.save.button.setAttribute("disabled", true)
+					ELEMENTS.fund.complete.button.setAttribute("disabled", true)
+					ELEMENTS.fund.cancel.button.setAttribute("disabled", true)
 					displayMessage(true, "Saving...")
 
 				// query
@@ -354,6 +412,9 @@
 					}
 
 				// message
+					ELEMENTS.fund.save.button.setAttribute("disabled", true)
+					ELEMENTS.fund.complete.button.setAttribute("disabled", true)
+					ELEMENTS.fund.cancel.button.setAttribute("disabled", true)
 					displayMessage(true, "Completing...")
 
 				// query
@@ -384,6 +445,9 @@
 					}
 
 				// message
+					ELEMENTS.fund.save.button.setAttribute("disabled", true)
+					ELEMENTS.fund.complete.button.setAttribute("disabled", true)
+					ELEMENTS.fund.cancel.button.setAttribute("disabled", true)
 					displayMessage(true, "Cancelling...")
 
 				// query
@@ -424,6 +488,8 @@
 					}
 
 				// message
+					ELEMENTS.pledge.save.button.setAttribute("disabled", true)
+					ELEMENTS.pledge.cancel.button.setAttribute("disabled", true)
 					displayMessage(true, "Saving...")
 
 				// query
@@ -458,6 +524,8 @@
 					}
 
 				// message
+					ELEMENTS.pledge.save.button.setAttribute("disabled", true)
+					ELEMENTS.pledge.cancel.button.setAttribute("disabled", true)
 					displayMessage(true, "Cancelling...")
 
 				// query

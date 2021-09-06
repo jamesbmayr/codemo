@@ -18,10 +18,10 @@
 		<h1 id="header"><div id="logo"></div>FundFuser</h1>
 		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 		<div id="fund">
-			<label id="fund-name-label"><input id="fund-name" type="text" placeholder="YOUR FUND NAME HERE"></label>
-			<label id="fund-amount-label"><span>$</span><input id="fund-amount" type="number" min="0" step="0.01" placeholder="TARGET AMOUNT"></label>
-			<label id="fund-timestamp-label"><span>by</span><input id="fund-timestamp" type="datetime-local" placeholder="WHEN"></label>
-			<label id="fund-email-label"><span>created by</span><input id="fund-email" type="email" placeholder="YOUR EMAIL"></label>
+			<label id="fund-name-label"><input id="fund-name" type="text" placeholder="YOUR FUND NAME HERE"><div class="saved-indicator" hidden>&#x2713;</div></label>
+			<label id="fund-amount-label"><span>$</span><input id="fund-amount" type="number" min="0" step="0.01" placeholder="TARGET AMOUNT"><div class="saved-indicator" hidden>&#x2713;</div></label>
+			<label id="fund-timestamp-label"><span>by</span><input id="fund-timestamp" type="datetime-local" placeholder="WHEN"><div class="saved-indicator" hidden>&#x2713;</div></label>
+			<label id="fund-email-label"><span>created by</span><input id="fund-email" type="email" placeholder="YOUR EMAIL"><div class="saved-indicator" hidden>&#x2713;</div></label>
 			<label id="fund-status-label"><input id="fund-status" type="text" placeholder="STATUS" readonly hidden></label>
 			<form id="fund-save" action="javascript:;" method="post">
 				<button id="fund-save-button">save fund</button>
@@ -35,9 +35,9 @@
 			<a id="fund-invite" href="#" target="_blank" hidden>invite others to contribute</a>
 		</div>
 		<div id="pledge" hidden>
-			<label id="pledge-amount-label"><span>$</span><input id="pledge-amount" type="number" min="0" step="0.01" placeholder="YOUR MAX PLEDGE"></label>
-			<label id="pledge-share-label"><span>&rarr; $</span><input id="pledge-share" type="number" placeholder="YOUR SHARE TBD" readonly></label>
-			<label id="pledge-email-label"><span>pledged by</span><input id="pledge-email" type="email" placeholder="YOUR EMAIL"></label>
+			<label id="pledge-amount-label"><span>$</span><input id="pledge-amount" type="number" min="0" step="0.01" placeholder="YOUR MAX PLEDGE"><div class="saved-indicator" hidden>&#x2713;</div></label>
+			<label id="pledge-share-label"><span>&rarr;$</span><input id="pledge-share" type="number" placeholder="YOUR SHARE TBD" readonly></label>
+			<label id="pledge-email-label"><span>pledged by</span><input id="pledge-email" type="email" placeholder="YOUR EMAIL"><div class="saved-indicator" hidden>&#x2713;</div></label>
 			<form id="pledge-save" action="javascript:;" method="post">
 				<button id="pledge-save-button" hidden>save pledge</button>
 			</form>

@@ -33,11 +33,14 @@
 			text-align: center;
 			font-size: var(--font-size);
 			font-family: var(--font-family);
+			height: auto;
+			max-width: 100%;
 		}
 
 		form {
 			display: inline-block;
 			text-align: center;
+			max-width: 100%;
 		}
 
 		input {
@@ -49,7 +52,7 @@
 			background-color: var(--light-gray);
 			border: var(--border-size) solid var(--dark-gray);
 			border-radius: var(--border-radius);
-			padding: var(--gap-size);
+			padding: var(--gap-size) calc(var(--font-size) + var(--gap-size)) var(--gap-size) var(--gap-size);
 			margin: var(--gap-size);
 			outline: none;
 		}
@@ -65,6 +68,7 @@
 		button {
 			height: calc(var(--font-size) + 4 * var(--gap-size));
 			width: var(--input-width);
+			max-width: calc(100% - 2 * var(--gap-size));
 			font-size: var(--font-size);
 			font-family: var(--font-family);
 			font-weight: bold;
@@ -108,6 +112,21 @@
 			pointer-events: none;
 		}
 
+		input + .saved-indicator {
+			display: inline-block;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			line-height: 1;
+			width: 0;
+			height: 0;
+			transform: translateX(calc(-1 * var(--font-size) + -2 * var(--gap-size)));
+		}
+
+		input[readonly] + .saved-indicator {
+			display: none !important;
+		}
+
 		button[disabled] {
 			border-color: var(--medium-gray);
 			background-color: var(--medium-gray);
@@ -137,6 +156,7 @@
 		color: var(--dark-gray);
 		position: fixed;
 		overflow: hidden;
+		z-index: 100;
 	}
 
 	#logo {
@@ -174,6 +194,7 @@
 		border-radius: var(--border-radius);
 		text-align: center;
 		max-width: var(--content-width);
+		z-index: 1001;
 	}
 
 	/* animation */
@@ -222,7 +243,11 @@
 			font-size: calc(2 * var(--font-size));
 			height: calc(2 * var(--font-size));
 			width: 100%;
-			max-width: calc(100% - 6 * var(--gap-size));
+			max-width: calc(100% - 6 * var(--gap-size) - var(--font-size));
+		}
+
+		#fund-name + .saved-indicator {
+			transform: translateX(calc(-1 * var(--font-size) + -2 * var(--gap-size))) translateY(calc(-1 * var(--gap-size)));
 		}
 
 		#fund-amount, #fund-timestamp {
@@ -230,7 +255,8 @@
 		}
 
 		#fund-email {
-			max-width: calc(50% - 4 * var(--font-size));
+			width: 100%;
+			max-width: calc(100% - 9 * var(--font-size));
 			margin-bottom: var(--font-size);
 		}
 
@@ -282,7 +308,8 @@
 		}
 
 		#pledge-email {
-			max-width: calc(50% - 4 * var(--font-size));
+			width: 100%;
+			max-width: calc(100% - 9 * var(--font-size));
 			margin-bottom: var(--font-size);
 		}
 
