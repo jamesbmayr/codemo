@@ -26,6 +26,7 @@
 		--font: sans-serif;
 		--font-size: 2.5vh;
 		--fade-opacity: 0.2;
+		--gap-size: 8px;
 	}
 
 	@media screen and (max-width: 1300px) {
@@ -188,3 +189,109 @@
 			transform: translateX(-50%) translateY(-50%);
 			line-height: 1.1;
 		}
+
+/*** about ***/
+	#about {
+		position: absolute;
+		top: var(--gap-size);
+		left: 0;
+		background-color: transparent;
+		-webkit-appearance: none;
+	}
+
+	/* summary */
+		#about summary {
+			height: calc(var(--gap-size) * 4);
+			width: calc(var(--gap-size) * 4);
+			cursor: pointer;
+			font-size: calc(var(--gap-size) * 4);
+			font-family: var(--font);
+			color: var(--light-gray);
+			font-weight: bold;
+			line-height: 1;
+			list-style-type: none;
+			text-align: center;
+			padding: calc(var(--gap-size) / 2);
+			user-select: none;
+			outline: none;
+		}
+
+		#about summary::marker {
+			display: none;
+		}
+
+		#about summary::-webkit-details-marker {
+			display: none;
+		}
+
+		#about summary:hover, #about summary:focus {
+			text-shadow: 0 0 var(--gap-size) var(--light-gray);
+		}
+
+	/* contents */
+		#about-contents {
+			position: absolute;
+			top: calc(var(--gap-size) * 6);
+			left: var(--gap-size);
+			height: auto;
+			max-height: calc(100vh - 10 * var(--gap-size));
+			width: calc(100vw - 4 * var(--gap-size));
+			padding: var(--gap-size);
+			z-index: 10;
+			background-color: var(--light-gray);
+			color: var(--dark-gray);
+			font-size: calc(var(--gap-size) * 2);
+			font-family: var(--font);
+			border-radius: var(--gap-size);
+			box-shadow: 0 0 var(--gap-size) var(--dark-gray);
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		#about-contents p:first-child {
+			margin-top: 0;
+		}
+
+		#about-contents p:last-child {
+			margin-bottom: 0;
+		}
+
+		#about-contents a, #about-contents a:visited {
+			text-decoration: none;
+			font-weight: bold;
+			color: var(--medium-blue);
+			cursor: pointer;
+		}
+
+		#about-contents a:hover, #about-contents a:focus {
+			color: var(--dark-blue);
+			text-shadow: 0 0 calc(var(--gap-size) / 2) var(--medium-blue);
+		}
+
+	/* state */
+		*[invisible] {
+			display: none;
+			pointer-events: none;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		transition: 1s;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0px 0px 4px #dddddd);
+	}

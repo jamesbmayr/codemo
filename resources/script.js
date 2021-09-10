@@ -68,7 +68,7 @@ window.onload = function() {
 				bluejay: {
 					name: "bluejay",
 					size: "extra-large",
-					tags: ["code","tool","design","extension","api","node","audio"],
+					tags: ["code","tool","design","api","node","audio"],
 					date: "January 1, 2021",
 					description: "An action-voice engine: whistle to turn words into smarthome commands, API searches, math, alarms, content fetching, and more."
 				},
@@ -331,13 +331,6 @@ window.onload = function() {
 					date: "September 3, 2021",
 					description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 				},
-				gamestimeline: {
-					name: "GamesTimeline",
-					size: "medium",
-					tags: ["code","node","api","canvas","tool"],
-					date: "July 10, 2018",
-					description: "See how videogame series perform over time, using <canvas> and the IGDB API."
-				},
 				goodscounter: {
 					name: "goodsCounter",
 					size: "small",
@@ -372,6 +365,13 @@ window.onload = function() {
 					tags: ["code","games","audio","arcade"],
 					date: "November 20, 2017",
 					description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
+				},
+				homecontroller: {
+					name: "homeController",
+					size: "medium",
+					tags: ["code","tool","api","design"],
+					date: "August 21, 2021",
+					description: "A map of my place with smart lights, speakers, and outlets, all connected to IFTTT applets that trigger device APIs."
 				},
 				htmlconverter: {
 					name: "htmlConverter",
@@ -624,6 +624,13 @@ window.onload = function() {
 					tags: ["writing","puzzle"],
 					date: "December 2, 2015",
 					description: "Portmantoasters are word puzzles with two words overlapped into one - and this was a daily blog challenging readers to figure them out."
+				},
+				projectgraveyard: {
+					name: "Project Graveyard",
+					size: "small",
+					tags: ["code"],
+					date: "January 1, 2000",
+					description: "Some projects don't work out. Think of this gallery as a graveyard of old ideas."
 				},
 				prosandconsole: {
 					name: "Pros and Console",

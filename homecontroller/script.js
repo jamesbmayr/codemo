@@ -314,7 +314,9 @@
 			home: document.querySelector("#home"),
 			rooms: document.querySelector("#rooms"),
 			devices: document.querySelector("#devices"),
-			iframe: document.querySelector("#iframe")
+			iframe: document.querySelector("#iframe"),
+			jlogo: document.querySelector("#j-logo"),
+			about: document.querySelector("#about")
 		}
 
 /*** layout ***/
@@ -361,6 +363,12 @@
 						else {
 							HOME.configuration[pair[0]] = pair[1]
 						}
+
+						// ifttt key
+							if (pair[0] == "ifttt_key") {
+								ELEMENTS.jlogo.setAttribute("invisible", true)
+								ELEMENTS.about.setAttribute("invisible", true)
+							}
 					}
 			} catch (error) {console.log(error)}
 		}

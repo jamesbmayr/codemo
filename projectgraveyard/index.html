@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Project Graveyard</title>
+		<meta name="description" content="Project Graveyard is a gallery of abandoned projects by James Mayr."/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="Project Graveyard"/>
+		<meta property="og:url" content="https://jamesmayr.com/projectgraveyard/"/>
+		<meta property="og:description" content="Project Graveyard is a gallery of abandoned projects by James Mayr."/>
+		<meta property="og:image" content="https://jamesmayr.com/projectgraveyard/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="shortcut icon" href="banner.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<form id="gallery-left-form" action="javascript:;" method="post">
+			<button id="gallery-left-button" title="navigate left">&lt;</button>
+		</form>
+		<form id="gallery-overlay-form" action="javascript:;" method="post">
+			<button id="gallery-overlay-button"></button>
+		</form>
+		<form id="gallery-right-form" action="javascript:;" method="post">
+			<button id="gallery-right-button" title="navigate right">&gt;</button>
+		</form>
+		<div id="gallery"></div>
+		<div id="overlay">
+			<form id="overlay-close-form" action="javascript:;" method="post">
+				<button id="overlay-close-button">&times;</button>
+			</form>
+			<div id="overlay-list"></div>
+		</div>
+	</body>
+</html>
