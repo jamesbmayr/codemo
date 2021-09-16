@@ -139,7 +139,7 @@
 			scroll-snap-align: center;
 			flex-shrink: 0;
 			text-align: center;
-			margin: 0 var(--font-size);
+			margin: 0;
 			padding-top: var(--font-size);
 		}
 

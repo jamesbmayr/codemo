@@ -274,7 +274,7 @@
 
 				// stop sliding when scrolled
 					setTimeout(function() {
-						ELEMENTS.sliding = true
+						ELEMENTS.sliding = false
 					}, 200)
 			} catch (error) {console.log(error)}
 		}
@@ -314,9 +314,8 @@
 				// get scroll amount
 					let styles = window.getComputedStyle(ELEMENTS.gallery)
 					let width = Number(styles.width.replace("px", ""))
-					let margin = Number(styles.paddingLeft.replace("px", ""))
 					let scrollAmount = ELEMENTS.gallery.scrollLeft
-					let index = (scrollAmount - margin) / width
+					let index = scrollAmount / width
 
 				// still scrolling
 					if (index % 1 !== 0) {
