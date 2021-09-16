@@ -17,7 +17,7 @@
 			overlay: {
 				element: document.querySelector("#overlay"),
 				close: document.querySelector("#overlay-close-form"),
-				list: document.querySelector("#overlay-list")
+				list: document.querySelector("#overlay-list-inner")
 			},
 			slides: [],
 			loaded: false,
@@ -175,10 +175,15 @@
 								image.setAttribute("title", PROJECTS[i].name)
 							slide.appendChild(image)
 
+						// create text
+							let text = document.createElement("div")
+								text.className = "slide-text"
+							slide.appendChild(text)
+
 						// create name
 							let nameOuter = document.createElement("div")
 								nameOuter.className = "slide-name-outer"
-							slide.appendChild(nameOuter)
+							text.appendChild(nameOuter)
 
 							let nameInner = document.createElement("h3")
 								nameInner.className = "slide-name-inner"
@@ -194,7 +199,7 @@
 							let description = document.createElement("div")
 								description.className = "slide-description"
 								description.innerHTML = (PROJECTS[i].idea ? ("<p>" + PROJECTS[i].idea + "</p>") : "") + (PROJECTS[i].death ? ("<h4>...</h4>" + PROJECTS[i].death + "</p>") : "")
-							slide.appendChild(description)
+							text.appendChild(description)
 
 						// add to overlay
 							let overlayForm = document.createElement("form")
