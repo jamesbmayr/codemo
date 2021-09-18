@@ -187,6 +187,13 @@
 				idea: "I was fortunate enough to travel to several countries in my teen years, and unfortunate enough to take photos of lampposts obscuring famous world landmarks. I compiled them into an album and invited others to share their bad shots too.",
 				obituary: "I guess it was kind of funny for a while, but it just got old."
 			},
+			dragoriumwar: {
+				name: "Dragorium War",
+				birth: "January 2004",
+				death: "October 2004",
+				idea: "Like every middleschool kid, I wrote an epic fantasy novel heavily inspired by Lord of the Rings and The Chronicles of Narnia - wizards, dragons, treasures, treaties, all of it. I even started an anthology with a few friends - more short stories set in the same world.",
+				obituary: "I put this piece of prose in the past, but the world of the <a href='https://jamesmayr.com/firestormsea' target='_blank'>Firestorm Sea</a> grew into an epic poem, an <a href='https://jamesmayr.com/music?album=thedeathmakerssymphony' target='_blank'>orchestral symphony</a>, and a <a href='https://jamesmayr.com/adventure' target='_blank'>table-top role playing game</a>."
+			},
 			sparklegalaxyadventures: {
 				name: "Sparkle Galaxy Adventures",
 				birth: "1998",
