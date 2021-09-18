@@ -7,6 +7,7 @@
 			--dark-blue: #003377;
 			--medium-blue: #0066aa;
 			--light-blue: #04b1ff;
+			--medium-red: #d94c4c;
 			--shadow-size: 5px;
 			--font-family: "Alata", sans-serif;
 			--small-gap-size: 10px;
@@ -395,6 +396,52 @@
 	#back-to-top:hover, #back-to-top:focus {
 		color: var(--medium-blue);
 		text-shadow: 0 0 calc(var(--shadow-size) * 2) var(--medium-blue);
+	}
+
+/*** 404 ***/
+	#navigation[_404] {
+		position: relative;
+		background: var(--light-gray);
+		padding: calc(4 * var(--medium-gap-size)) var(--medium-gap-size);
+		height: auto;
+		border-top: var(--medium-gap-size) solid var(--dark-gray);
+	}
+
+	#_404 {
+		width: 100%;
+		height: var(--large-font-size);
+		background-color: transparent;
+		background-image: url(404.png);
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: center;
+	}
+
+	#error-details {
+		width: 100%;
+		font-size: var(--medium-font-size);
+		font-weight: normal;
+		font-family: var(--font-family);
+		color: var(--medium-red);
+		text-align: center;
+		user-select: none;
+	}
+
+	#home-link, #home-link:visited {
+		width: 100%;
+		font-size: var(--small-font-size);
+		font-weight: bold;
+		font-family: var(--font-family);
+		text-decoration: none;
+		color: var(--light-blue);
+		transition: var(--transition-time);
+		text-align: center;
+		cursor: pointer;
+	}
+
+	#home-link:focus, #home-link:hover {
+		color: var(--medium-blue);
+		text-shadow: 0 0 calc(var(--shadow-size) * 2)  var(--medium-blue);
 	}
 
 /*** footer ***/

@@ -222,7 +222,7 @@ window.onload = function() {
 				couplets: {
 					name: "couplets",
 					size: "medium",
-					tags: ["writing","collaborations","api","lyric","poetry"],
+					tags: ["writing","collaborations","api","lyric","poetry","autobiography"],
 					date: "July 22, 2019",
 					description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
 				},
@@ -397,7 +397,7 @@ window.onload = function() {
 				itswhoiamb: {
 					name: "It's Who Iamb",
 					size: "large",
-					tags: ["writing","lyric","poetry"],
+					tags: ["writing","lyric","poetry","autobiography"],
 					date: "December 2, 2012",
 					description: "It's Who Iamb was a poetry blog that updated every day for a year, serving now as a series of snapshots of the past."
 				},
@@ -558,7 +558,7 @@ window.onload = function() {
 				penduluminous: {
 					name: "Penduluminous",
 					size: "large",
-					tags: ["music","writing","jazz","pop","lyric","piano","poetry"],
+					tags: ["music","writing","jazz","pop","lyric","piano","poetry","autobiography"],
 					date: "November 1, 2012",
 					description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
 				},
@@ -628,14 +628,14 @@ window.onload = function() {
 				projectgraveyard: {
 					name: "Project Graveyard",
 					size: "small",
-					tags: ["code"],
+					tags: ["code","autobiography"],
 					date: "January 1, 2000",
 					description: "Some projects don't work out. Think of this gallery as a graveyard of old ideas."
 				},
 				prosandconsole: {
 					name: "Pros and Console",
 					size: "large",
-					tags: ["writing","code","prose"],
+					tags: ["writing","code","prose","autobiography"],
 					date: "September 30, 2017",
 					description: "Pros and Console is a blog that follows the ups and downs of project-oriented programming."
 				},
@@ -712,7 +712,7 @@ window.onload = function() {
 				singles: {
 					name: "Singles",
 					size: "large",
-					tags: ["music","writing","orchestral","jazz","pop","lyric","piano","poetry"],
+					tags: ["music","writing","orchestral","jazz","pop","lyric","piano","poetry","autobiography"],
 					date: "May 30, 2016",
 					description: "Singles saw my return to lyrical composition with an emotional journey told through 16 alternative rock, pop, and jazz songs."
 				},
@@ -988,6 +988,7 @@ window.onload = function() {
 			const ELEMENTS = {
 				body: document.body,
 				jlogo: document.querySelector("#j-logo"),
+				navigation: document.querySelector("#navigation"),
 				search: document.querySelector("#navigation-search"),
 				tags: {
 					code: document.querySelector("#info-tag-code"),
@@ -997,6 +998,7 @@ window.onload = function() {
 				},
 				random: document.querySelector("#info-links-random"),
 				projects: document.querySelector("#projects"),
+				backToTop: document.querySelector("#back-to-top-outer"),
 				footer: document.querySelector("#footer")
 			}
 			
@@ -1005,6 +1007,12 @@ window.onload = function() {
 			searchOnLoad()
 			function searchOnLoad() {
 				try {
+					// path --> 404
+						if (window.location.protocol !== "file:" && window.location.pathname.length > 1) {
+							display404()
+							return
+						}
+
 					// no search string --> show all
 						let searchString = window.location.search
 						if (!searchString || searchString.length < 4) {
@@ -1038,18 +1046,30 @@ window.onload = function() {
 			ELEMENTS.search.addEventListener("input", inputSearch)
 			function inputSearch(event) {
 				try {
+					// get query
+						let query = (ELEMENTS.search.value || "").trim()
+						let currentURL = new URL(window.location.href)
+
 					// no search query
-						if (!ELEMENTS.search.value || !ELEMENTS.search.value.trim().length) {
+						if (!query || !query.length) {
+							currentURL.search = ""
+							window.history.pushState({}, "", currentURL)
 							displayProjects(sortProjects(filterProjects(PROJECTS)))
 							return
 						}
 
 					// invalid search query
-						let query = ELEMENTS.search.value.trim().toLowerCase().replace(/[^a-z0-9]/g,"")
+						query = query.toLowerCase().replace(/[^a-z0-9]/g,"")
 						if (!query || !query.length) {
+							currentURL.search = ""
+							window.history.pushState({}, "", currentURL)
 							displayProjects([])
 							return
 						}
+
+					// update url
+						currentURL.search = "?q=" + query
+						window.history.pushState({}, "", currentURL)
 
 					// filter --> sort --> display
 						displayProjects(sortProjects(filterProjects(PROJECTS, {query: query, name: true, tags: true})))
@@ -1203,6 +1223,37 @@ window.onload = function() {
 
 					// return
 						return element
+				} catch (error) {}
+			}
+
+		/* display404 */
+			function display404() {
+				try {
+					// navigation
+						ELEMENTS.navigation.setAttribute("_404", true)
+
+					// image
+						let _404 = document.createElement("div")
+							_404.id = "_404"
+						ELEMENTS.navigation.appendChild(_404)
+
+					// error details
+						let errorDetails = document.createElement("div")
+							errorDetails.id = "error-details"
+							errorDetails.innerText = "Project not found."
+						ELEMENTS.navigation.appendChild(errorDetails)
+
+					// home link
+						let homelink = document.createElement("a")
+							homelink.id = "home-link"
+							homelink.href = "https://jamesmayr.com"
+							homelink.innerText = "Let's try this again."
+						ELEMENTS.navigation.appendChild(homelink)
+
+					// hide search & projects
+						ELEMENTS.search.remove()
+						ELEMENTS.projects.remove()
+						ELEMENTS.backToTop.remove()
 				} catch (error) {}
 			}
 
