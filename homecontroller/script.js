@@ -311,12 +311,15 @@
 
 	/* elements */
 		const ELEMENTS = {
+			body: document.querySelector("body"),
 			home: document.querySelector("#home"),
 			rooms: document.querySelector("#rooms"),
 			devices: document.querySelector("#devices"),
 			iframe: document.querySelector("#iframe"),
 			jlogo: document.querySelector("#j-logo"),
-			about: document.querySelector("#about")
+			about: document.querySelector("#about"),
+			fullscreenOn: document.querySelector("#full-screen-on"),
+			fullscreenOff: document.querySelector("#full-screen-off")
 		}
 
 /*** layout ***/
@@ -464,5 +467,31 @@
 						request.onload = function() {}
 						request.onerror = function() {}
 						request.send()				
+			} catch (error) {}
+		}
+
+	/* goFullScreen */
+		ELEMENTS.fullscreenOn.addEventListener("click", goFullScreen)
+		function goFullScreen() {
+			try {
+				// swap buttons
+					ELEMENTS.fullscreenOn.setAttribute("invisible", true)
+					ELEMENTS.fullscreenOff.removeAttribute("invisible")
+
+				// change fullscreen
+					ELEMENTS.body.requestFullscreen()
+			} catch (error) {}
+		}
+
+	/* exitFullScreen */
+		ELEMENTS.fullscreenOff.addEventListener("click", exitFullScreen)
+		function exitFullScreen() {
+			try {
+				// swap buttons
+					ELEMENTS.fullscreenOff.setAttribute("invisible", true)
+					ELEMENTS.fullscreenOn.removeAttribute("invisible")
+
+				// change fullscreen
+					document.exitFullscreen()
 			} catch (error) {}
 		}

@@ -27,6 +27,7 @@
 		--font-size: 2.5vh;
 		--fade-opacity: 0.2;
 		--gap-size: 8px;
+		--transition: 0.25s;
 	}
 
 	@media screen and (max-width: 1300px) {
@@ -130,6 +131,7 @@
 			margin: 0;
 			cursor: pointer;
 			background: transparent;
+			transition: var(--transition);
 		}
 
 		.device-button:hover, .device-button:focus {
@@ -214,6 +216,7 @@
 			padding: calc(var(--gap-size) / 2);
 			user-select: none;
 			outline: none;
+			transition: var(--transition);
 		}
 
 		#about summary::marker {
@@ -266,6 +269,7 @@
 		#about-contents a:hover, #about-contents a:focus {
 			color: var(--dark-blue);
 			text-shadow: 0 0 calc(var(--gap-size) / 2) var(--medium-blue);
+			transition: var(--transition);
 		}
 
 	/* state */
@@ -273,6 +277,32 @@
 			display: none;
 			pointer-events: none;
 		}
+
+/*** full-screen ***/
+	#full-screen-on, #full-screen-off {
+		position: absolute;
+		bottom: var(--gap-size);
+		right: var(--gap-size);
+		background: transparent;
+		border: none;
+		border-radius: 100%;
+		padding: var(--gap-size);
+		color: var(--light-gray);
+		font-family: var(--font);
+		font-size: var(--font-size);
+		line-height: 0.6;
+		font-weight: bold;
+		outline: none;
+		cursor: pointer;
+		user-select: none;
+		transition: var(--transition);
+	}
+
+	#full-screen-on:hover, #full-screen-on:focus, #full-screen-off:hover, #full-screen-off:focus {
+		bottom: calc(0.5 * var(--gap-size));
+		right: calc(0.5 * var(--gap-size));
+		font-size: calc(var(--font-size) + var(--gap-size));
+	}
 
 /*** j-logo ***/
 	#j-logo {
@@ -289,7 +319,7 @@
 		cursor: pointer;
 		z-index: 1000;
 		outline: none;
-		transition: 1s;
+		transition: var(--transition);
 	}
 
 	#j-logo:hover, #j-logo:focus {
