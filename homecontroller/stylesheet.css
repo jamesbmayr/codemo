@@ -335,6 +335,25 @@
 		filter: invert(94%) drop-shadow(0 0 var(--gap-size) var(--light-gray));
 	}
 
+	#full-screen-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: black;
+		opacity: 0;
+		transition: var(--transition);
+	}
+
+	#full-screen-overlay[darken] {
+		opacity: 1 !important;
+	}
+
+	#full-screen-overlay:not([darken]) {
+		pointer-events: none;
+	}
+
 /*** j-logo ***/
 	#j-logo {
 		position: absolute;

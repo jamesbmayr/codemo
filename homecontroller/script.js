@@ -319,7 +319,15 @@
 			jlogo: document.querySelector("#j-logo"),
 			about: document.querySelector("#about"),
 			fullscreenOn: document.querySelector("#full-screen-on"),
-			fullscreenOff: document.querySelector("#full-screen-off")
+			fullscreenOff: document.querySelector("#full-screen-off"),
+			overlay: document.querySelector("#full-screen-overlay")
+		}
+
+	/* settings */
+		const SETTINGS = {
+			lastTouch: new Date().getTime(),
+			timeTillDarken: 1000 * 10,
+			darkenLoopInterval: 1000
 		}
 
 /*** layout ***/
@@ -456,6 +464,9 @@
 	/* triggerDevice */
 		function triggerDevice(event) {
 			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+
 				// get element
 					let deviceButton = event.target.closest("button")
 						deviceButton.blur()
@@ -474,6 +485,9 @@
 		ELEMENTS.fullscreenOn.addEventListener("click", goFullScreen)
 		function goFullScreen() {
 			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+
 				// swap buttons
 					ELEMENTS.fullscreenOn.setAttribute("invisible", true)
 					ELEMENTS.fullscreenOff.removeAttribute("invisible")
@@ -487,11 +501,50 @@
 		ELEMENTS.fullscreenOff.addEventListener("click", exitFullScreen)
 		function exitFullScreen() {
 			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+					
 				// swap buttons
 					ELEMENTS.fullscreenOff.setAttribute("invisible", true)
 					ELEMENTS.fullscreenOn.removeAttribute("invisible")
 
 				// change fullscreen
 					document.exitFullscreen()
+			} catch (error) {}
+		}
+
+	/* inactiveloop */
+		SETTINGS.inactiveLoop = setInterval(darkenScreen, SETTINGS.darkenLoopInterval)
+		function darkenScreen() {
+			try {
+				// last touch
+					if (new Date().getTime() - SETTINGS.lastTouch < SETTINGS.timeTillDarken) {
+						return
+					}
+
+				// already dark
+					if (ELEMENTS.overlay.getAttribute("darken")) {
+						return
+					}
+
+				// darken
+					ELEMENTS.overlay.setAttribute("darken", true)
+					clearInterval(SETTINGS.inactiveLoop)
+			} catch (error) {}
+		}
+
+	/* rebrightenScreen */
+		ELEMENTS.overlay.addEventListener("click", rebrightenScreen)
+		function rebrightenScreen() {
+			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+
+				// lighten
+					ELEMENTS.overlay.removeAttribute("darken")
+
+				// restart loop
+					clearInterval(SETTINGS.inactiveLoop)
+					SETTINGS.inactiveLoop = setInterval(darkenScreen, SETTINGS.darkenLoopInterval)
 			} catch (error) {}
 		}
