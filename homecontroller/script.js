@@ -379,6 +379,7 @@
 							if (pair[0] == "ifttt_key") {
 								ELEMENTS.jlogo.setAttribute("invisible", true)
 								ELEMENTS.about.setAttribute("invisible", true)
+								ELEMENTS.overlay.removeAttribute("invisible")
 							}
 					}
 			} catch (error) {console.log(error)}
