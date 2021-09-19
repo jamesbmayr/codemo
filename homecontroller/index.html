@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>The Checkpoint &#x2611;</title>
+		<title>The Checkpoint &#x2713;</title>
 		<meta charset="UTF-8"/>
 		<meta name="description" content="homeController is a Javascript web demo by James Mayr"/>
 		<meta name="author" content="James Mayr"/>
@@ -12,7 +12,7 @@
 		<meta property="og:image" content="https://jamesmayr.com/homecontroller/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<link rel="stylesheet" href="stylesheet.css">
-		<link rel="shortcut icon" href="https://static.thenounproject.com/png/3966-200.png">
+		<link rel="shortcut icon" href="images/home.png">
 		<script src="script.js" defer></script>
 	</head>
 	<body>
@@ -21,7 +21,7 @@
 			<div id="devices"></div>
 		</div>
 		<details id="about">
-			<summary>?</summary>
+			<summary><div class="icon icon-question"></div></summary>
 			<div id="about-contents">
 				<p><b>homeController</b> is a tool for managing my smart devices.</p>
 				<p>The buttons on this screen activate a web request to <a href="https://ifttt.com" target="_blank" nofollow>IFTTT</a>, a service that connects triggers (like this webhook) to other APIs. Here, I'm connecting to <a href="https://www.philips-hue.com/en-us" target="_blank" nofollow>Philips Hue</a>, <a href="https://www.sonos.com/en-us/home" target="_blank" nofollow>Sonos</a>, <a href="https://www.irobot.com/roomba" target="_blank" nofollow>Roomba</a>, and <a href="https://www.tuya.com/" target="_blank" nofollow>Tuya SmartLife</a>.</p>
@@ -29,8 +29,8 @@
 				<p>To learn more about my experiments with home automation and API integrations, check out <a href="https://github.com/jamesbmayr/bluejay" target="_blank">bluejay</a>.</p>
 			</div>
 		</details>
-		<button id="full-screen-on"><span>&#x25f8;</span><span>&#x25F9;</span><br><span>&#x25FA;</span><span>&#x25FF;</span></button>
-		<button id="full-screen-off" invisible="true"><span>&#x25FF;</span><span>&#x25FA;</span><br><span>&#x25F9;</span><span>&#x25f8;</span></button>
+		<button id="full-screen-on"><div class="icon icon-out"></div></button>
+		<button id="full-screen-off" invisible="true"><div class="icon icon-in"></div></button>
 		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 	</body>
 </html>

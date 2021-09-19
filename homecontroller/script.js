@@ -95,8 +95,8 @@
 						top: 8.5,
 						left: 11.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||hallway_lights_on||ifttt_key",
-							"&#x2612;": "ifttt_url||hallway_lights_off||ifttt_key"
+							"on": "ifttt_url||hallway_lights_on||ifttt_key",
+							"off": "ifttt_url||hallway_lights_off||ifttt_key"
 						}
 					},
 					{
@@ -105,8 +105,8 @@
 						top: 5,
 						left: 20.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||bathroom_lights_on||ifttt_key",
-							"&#x2612;": "ifttt_url||bathroom_lights_off||ifttt_key"
+							"on": "ifttt_url||bathroom_lights_on||ifttt_key",
+							"off": "ifttt_url||bathroom_lights_off||ifttt_key"
 						}
 					},
 					{
@@ -115,8 +115,8 @@
 						top: 6.5,
 						left: 30,
 						buttons: {
-							"&#x2611;": "ifttt_url||kitchen_lights_on||ifttt_key",
-							"&#x2612;": "ifttt_url||kitchen_lights_off||ifttt_key"
+							"on": "ifttt_url||kitchen_lights_on||ifttt_key",
+							"off": "ifttt_url||kitchen_lights_off||ifttt_key"
 						}
 					},
 					{
@@ -125,8 +125,8 @@
 						top: 15,
 						left: 20.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||living_room_lights_on||ifttt_key",
-							"&#x2612;": "ifttt_url||living_room_lights_off||ifttt_key"
+							"on": "ifttt_url||living_room_lights_on||ifttt_key",
+							"off": "ifttt_url||living_room_lights_off||ifttt_key"
 						}
 					},
 					{
@@ -135,8 +135,8 @@
 						top: 15,
 						left: 33.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||bedside_lights_on||ifttt_key",
-							"&#x2612;": "ifttt_url||bedside_lights_off||ifttt_key"
+							"on": "ifttt_url||bedside_lights_on||ifttt_key",
+							"off": "ifttt_url||bedside_lights_off||ifttt_key"
 						}
 					},
 
@@ -147,8 +147,8 @@
 						top: 3.5,
 						left: 40.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||vacuum_on||ifttt_key",
-							"&#x2612;": "ifttt_url||vacuum_off||ifttt_key"
+							"on": "ifttt_url||vacuum_on||ifttt_key",
+							"off": "ifttt_url||vacuum_off||ifttt_key"
 						}
 					},
 
@@ -159,8 +159,8 @@
 						top: 20.5,
 						left: 2.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||craft_room_lamp_on||ifttt_key",
-							"&#x2612;": "ifttt_url||craft_room_lamp_off||ifttt_key"
+							"on": "ifttt_url||craft_room_lamp_on||ifttt_key",
+							"off": "ifttt_url||craft_room_lamp_off||ifttt_key"
 						}
 					},
 					{
@@ -169,8 +169,8 @@
 						top: 20.5,
 						left: 14.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||living_room_lamp_on||ifttt_key",
-							"&#x2612;": "ifttt_url||living_room_lamp_off||ifttt_key"
+							"on": "ifttt_url||living_room_lamp_on||ifttt_key",
+							"off": "ifttt_url||living_room_lamp_off||ifttt_key"
 						}
 					},
 					{
@@ -179,8 +179,8 @@
 						top: 23.5,
 						left: 14.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||humidifier_on||ifttt_key",
-							"&#x2612;": "ifttt_url||humidifier_off||ifttt_key"
+							"on": "ifttt_url||humidifier_on||ifttt_key",
+							"off": "ifttt_url||humidifier_off||ifttt_key"
 						}
 					},
 					{
@@ -189,8 +189,8 @@
 						top: 23.5,
 						left: 20.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||living_room_air_on||ifttt_key",
-							"&#x2612;": "ifttt_url||living_room_air_off||ifttt_key"
+							"on": "ifttt_url||living_room_air_on||ifttt_key",
+							"off": "ifttt_url||living_room_air_off||ifttt_key"
 						}
 					},
 					{
@@ -199,8 +199,8 @@
 						top: 20.5,
 						left: 37.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||bedroom_lamp_on||ifttt_key",
-							"&#x2612;": "ifttt_url||bedroom_lamp_off||ifttt_key"
+							"on": "ifttt_url||bedroom_lamp_on||ifttt_key",
+							"off": "ifttt_url||bedroom_lamp_off||ifttt_key"
 						}
 					},
 					{
@@ -209,8 +209,8 @@
 						top: 20.5,
 						left: 33.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||bedroom_air_on||ifttt_key",
-							"&#x2612;": "ifttt_url||bedroom_air_off||ifttt_key"
+							"on": "ifttt_url||bedroom_air_on||ifttt_key",
+							"off": "ifttt_url||bedroom_air_off||ifttt_key"
 						}
 					},
 					{
@@ -219,8 +219,8 @@
 						top: 15,
 						left: 37.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||bedroom_fan_on||ifttt_key",
-							"&#x2612;": "ifttt_url||bedroom_fan_off||ifttt_key"
+							"on": "ifttt_url||bedroom_fan_on||ifttt_key",
+							"off": "ifttt_url||bedroom_fan_off||ifttt_key"
 						}
 					},
 
@@ -231,10 +231,10 @@
 						top: 20.5,
 						left: 26.5,
 						buttons: {
-							"&#x25BA;": "ifttt_url||sonos_on||ifttt_key",
-							"II": "ifttt_url||sonos_off||ifttt_key",
-							"&and;": "ifttt_url||sonos_volume_up||ifttt_key",
-							"&or;": "ifttt_url||sonos_volume_down||ifttt_key",
+							"play": "ifttt_url||sonos_on||ifttt_key",
+							"pause": "ifttt_url||sonos_off||ifttt_key",
+							"up": "ifttt_url||sonos_volume_up||ifttt_key",
+							"down": "ifttt_url||sonos_volume_down||ifttt_key",
 						}
 					},
 					{
@@ -243,10 +243,10 @@
 						top: 20.5,
 						left: 6.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||craft_room_speaker_on||ifttt_key",
-							"&#x2612;": "ifttt_url||craft_room_speaker_off||ifttt_key",
-							"&and;": "ifttt_url||craft_room_speaker_volume_up||ifttt_key",
-							"&or;": "ifttt_url||craft_room_speaker_volume_down||ifttt_key",
+							"on": "ifttt_url||craft_room_speaker_on||ifttt_key",
+							"off": "ifttt_url||craft_room_speaker_off||ifttt_key",
+							"up": "ifttt_url||craft_room_speaker_volume_up||ifttt_key",
+							"down": "ifttt_url||craft_room_speaker_volume_down||ifttt_key",
 						}
 					},
 					{
@@ -255,10 +255,10 @@
 						top: 12,
 						left: 24,
 						buttons: {
-							"&#x2611;": "ifttt_url||living_room_speaker_on||ifttt_key",
-							"&#x2612;": "ifttt_url||living_room_speaker_off||ifttt_key",
-							"&and;": "ifttt_url||living_room_speaker_volume_up||ifttt_key",
-							"&or;": "ifttt_url||living_room_speaker_volume_down||ifttt_key",
+							"on": "ifttt_url||living_room_speaker_on||ifttt_key",
+							"off": "ifttt_url||living_room_speaker_off||ifttt_key",
+							"up": "ifttt_url||living_room_speaker_volume_up||ifttt_key",
+							"down": "ifttt_url||living_room_speaker_volume_down||ifttt_key",
 						}
 					},
 					{
@@ -267,10 +267,10 @@
 						top: 15,
 						left: 29.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||bedroom_speaker_on||ifttt_key",
-							"&#x2612;": "ifttt_url||bedroom_speaker_off||ifttt_key",
-							"&and;": "ifttt_url||bedroom_speaker_volume_up||ifttt_key",
-							"&or;": "ifttt_url||bedroom_speaker_volume_down||ifttt_key",
+							"on": "ifttt_url||bedroom_speaker_on||ifttt_key",
+							"off": "ifttt_url||bedroom_speaker_off||ifttt_key",
+							"up": "ifttt_url||bedroom_speaker_volume_up||ifttt_key",
+							"down": "ifttt_url||bedroom_speaker_volume_down||ifttt_key",
 						}
 					},
 					{
@@ -279,10 +279,10 @@
 						top: 2,
 						left: 25.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||kitchen_speaker_on||ifttt_key",
-							"&#x2612;": "ifttt_url||kitchen_speaker_off||ifttt_key",
-							"&and;": "ifttt_url||kitchen_speaker_volume_up||ifttt_key",
-							"&or;": "ifttt_url||kitchen_speaker_volume_down||ifttt_key",
+							"on": "ifttt_url||kitchen_speaker_on||ifttt_key",
+							"off": "ifttt_url||kitchen_speaker_off||ifttt_key",
+							"up": "ifttt_url||kitchen_speaker_volume_up||ifttt_key",
+							"down": "ifttt_url||kitchen_speaker_volume_down||ifttt_key",
 						}
 					},
 					{
@@ -291,10 +291,10 @@
 						top: 20.5,
 						left: 10.5,
 						buttons: {
-							"&#x2611;": "ifttt_url||roam_on||ifttt_key",
-							"&#x2612;": "ifttt_url||roam_off||ifttt_key",
-							"&and;": "ifttt_url||roam_volume_up||ifttt_key",
-							"&or;": "ifttt_url||roam_volume_down||ifttt_key",
+							"on": "ifttt_url||roam_on||ifttt_key",
+							"off": "ifttt_url||roam_off||ifttt_key",
+							"up": "ifttt_url||roam_volume_up||ifttt_key",
+							"down": "ifttt_url||roam_volume_down||ifttt_key",
 						}
 					},
 					{
@@ -303,7 +303,7 @@
 						top: 17.5,
 						left: 26.5,
 						buttons: {
-							"&#x25C9;": "ifttt_url||kitchen_speaker_on||ifttt_key"
+							"target": "ifttt_url||kitchen_speaker_on||ifttt_key"
 						}
 					}
 			]
@@ -440,8 +440,8 @@
 				// buttons
 					for (let i in device.buttons) {
 						let button = document.createElement("button")
-							button.className = "device-button device-" + i.replace("&","").replace("#","").replace(";","")
-							button.innerHTML = i
+							button.className = "device-button device-" + i
+							button.innerHTML = "<div class='icon icon-" + i + "'></div>"
 							button.setAttribute("url", device.buttons[i])
 							button.addEventListener("click", triggerDevice)
 						deviceElement.appendChild(button)
@@ -457,7 +457,7 @@
 		function triggerDevice(event) {
 			try {
 				// get element
-					let deviceButton = event.target
+					let deviceButton = event.target.closest("button")
 						deviceButton.blur()
 					let url = deviceButton.getAttribute("url")
 
