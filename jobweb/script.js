@@ -471,7 +471,7 @@
 					]
 				},
 				boardwalk_dreamhatcher: {
-					title: "Boardwalk Games | Dreamhatcher Games",
+					title: "Boardwalk Games & Dreamhatcher",
 					time: "2012 - 2013",
 					description: "I start working at Boardwalk Games, a small family-run gaming store on Long Island, and start my own company with some friends, self-publishing our own card games.",
 					image: "images/boardwalk_dreamhatcher.jpg",
