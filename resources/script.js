@@ -93,6 +93,13 @@
 				date: "February 14, 2020",
 				description: "Pull the cords from start to socket in this puzzle of non-overlapping lines."
 			},
+			campaignfinancer: {
+				name: "campaignFinancer",
+				size: "medium",
+				tags: ["code","tool","api","money"],
+				date: "October 2, 2021",
+				description: "Search the FEC's data to see who's financing the political campaigns of federal candidates."
+			},
 			captainchronosailsthroughtime: {
 				name: "Captain Chrono Sails Through Time",
 				size: "large",
@@ -328,7 +335,7 @@
 			fundfuser: {
 				name: "FundFuser",
 				size: "medium",
-				tags: ["code","tool","math","multiplayer"],
+				tags: ["code","tool","math","multiplayer","money"],
 				date: "September 3, 2021",
 				description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 			},
@@ -788,7 +795,7 @@
 			stocktracker: {
 				name: "stockTracker",
 				size: "medium",
-				tags: ["code","api","canvas","tool"],
+				tags: ["code","api","canvas","tool","money"],
 				date: "December 25, 2017",
 				description: "Use the AlphaVantage API to measure a stock's success over 12 months with stockTracker."
 			},
@@ -858,7 +865,7 @@
 			tiprounder: {
 				name: "tipRounder",
 				size: "small",
-				tags: ["code","math","tool"],
+				tags: ["code","math","tool","money"],
 				date: "May 31, 2018",
 				description: "Use this tool to round your tip to the nearest dollar, quarter, dime, etc."
 			},

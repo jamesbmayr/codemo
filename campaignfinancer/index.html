@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>campaignFinancer</title>
+		<meta name="description" content="campaignFinancer uses the FEC's API to show you who's financing political campaigns.">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="campaignFinancer">
+		<meta property="og:url" content="https://jamesmayr.com/campaignfinancer/">
+		<meta property="og:description" content="campaignFinancer uses the FEC's API to show you who's financing political campaigns.">
+		<meta property="og:image" content="https://jamesmayr.com/campaignfinancer/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="logo.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<form id="form" method="post" action="javascript:;">
+			<h1>campaignFinancer</h1>
+			<label>
+				<input id="search" type="text" placeholder="candidate / committee" autocomplete="off" spellcheck="false">
+			</label>
+			<label>
+				<select id="cycle">
+					<option value="2022" selected>2022</option>
+					<option value="2020">2020</option>
+					<option value="2018">2018</option>
+					<option value="2016">2016</option>
+					<option value="2014">2014</option>
+					<option value="2012">2012</option>
+					<option value="2010">2010</option>
+					<option value="2008">2008</option>
+					<option value="2006">2006</option>
+					<option value="2004">2004</option>
+					<option value="2002">2002</option>
+					<option value="2000">2000</option>
+				</select>
+			</label>
+			<label>
+				<div>$</div>
+				<input id="minimum" type="number" step="1" min="2901" placeholder="minimum $" autocomplete="off" value="10000">
+				<div>&uarr;</div>
+			</label>
+			<label>
+				<button id="submit">search</button>
+			</label>
+		</form>
+		<button id="about-button">?</button>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="candidate-list"></div>
+		<div id="about-overlay">
+			<label id=about-overlay-heading>
+				<h2>about</h3>
+				<button id="about-close">&#x2715;</button>
+			</label>
+			<div id=about-overlay-content>
+				<h3>What is this?</h3>
+				<p>This tool allows anyone to search and filter the campaign contributions to any political action committee or candidate for federal office (president, senator, or representative). This shows funds received by any political committee - including the amounts, dates, and some information of the contributing individual or organization.</p>
+				<h3>Where did the data come from?</h3>
+				<p>This comes straight from the <a href="https://api.open.fec.gov/developers/" target="_blank" rel="noopener">Federal Election Commission's API.</a> Follow the link to sign up for your own free account and see the data for yourself.</p>
+				<h3>But... where does <i>that data</i> come from?</h3>
+				<p>You may not know this, but campaign contributions of $200 or more <a href="https://www.fec.gov/updates/sale-or-use-contributor-information/" target="_blank" rel="noopener">must be reported by the campaign committee</a> to the FEC. And <a href="https://uscode.house.gov/statviewer.htm?volume=86&page=3" target="_blank" rel="noopener">by law</a>, they have to make that information available to the public.</p>
+				<h3>What's with transfers and reimbursements?</h3>
+				<p><a href="https://www.fec.gov/help-candidates-and-committees/taking-receipts-political-party/affiliation-between-party-committees/" target="_blank" rel="noopener">Closely affiliated committees</a> sometimes move funds between one another. I hide these by default because it doesn't really represent where the money is coming from originally, but you can easily un-hide them.</p>
+				<p>Similarly, committees sometimes make purchases or put down deposits with external organizations and then ultimately <a href="https://www.fec.gov/help-candidates-and-committees/filing-reports/offsets-operating-expenditures/" target="_blank" rel="noopener"> get reimbursed</a>. It may be interesting to see how campaigns are <i>spending</i> their money, but these refunds aren't really "campaign contributions."</p>
+				<h3>Why is the minimum "minimum amount" $2901?</h3>
+				<p>While you <i>can</i> access <i>all</i> contributions from <i>all</i> individuals through the FEC API, I feel like exposing that information could lead to more harm than good. So, since the <a href="https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/" target="_blank" rel="noopener">individual limit is $2900</a> per election cycle, this should only show contributions organizations.</p>
+				<h3>Why build this?</h3>
+				<p>You have a right to know who's contributing to candidates for federal offices. This might help you make informed decisions about who you vote for - candidates aligned with causes you care about - and who you do business with - organizations aligned with candidates you support.</p>
+				<p><b>DO NOT use this information to threaten, harass, intimidate, stalk, harm, or otherwise interfere with individual contributors, candidates, or organizations.</b> Also, it's illegal to use this information "for the purpose of soliciting contributions," "for commercial purposes," or "to solicit donations, including charitable donations." <a href="https://www.fec.gov/updates/sale-or-use-contributor-information/" target="_blank" rel="noopener">The FEC lists permissible and impermissible uses here.</a></p>
+			</div>
+		</div>
+	</body>
+</html>
