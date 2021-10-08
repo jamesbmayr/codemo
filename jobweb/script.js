@@ -2,7 +2,7 @@
 	/* constants */
 		const CONSTANTS = {
 			transitionDelay: 1000,
-			firstEventId: "childhood",
+			firstEventId: "welcome",
 			lastEventId: "admithub",
 			corruptedTimelineEventId: "dinosaurs",
 			backPhrases: ["Go back.", "Maybe that didn't happen.", "Try that again.", "Back in time.", "Undo that.", "Do something different.", "Previous event."],
@@ -30,6 +30,19 @@
 	/* events */
 		const EVENTS = {
 			// linear
+				welcome: {
+					actual: true,
+					title: "",
+					time: "I am what I make.",
+					description: "Chance leads to choice. Options arise out of opportunities. Decisions determine destiny. \n\nThe \"me\" you see today is a reflection of all the \"me\"s who came before... and all the \"me\"s who could have been. \n\n\n\nAre they any less real?",
+					image: null,
+					options: [
+						{
+							id: "childhood",
+							text: "In the beginning..."
+						}
+					]
+				},
 				childhood: {
 					actual: true,
 					title: "childhood",
@@ -1166,7 +1179,9 @@
 				// add details
 					let currentEventImage = document.createElement("div")
 						currentEventImage.className = "event-image"
-						currentEventImage.style.backgroundImage = "url(" + eventData.image + ")"
+						if (eventData.image) {
+							currentEventImage.style.backgroundImage = "url(" + eventData.image + ")"
+						}
 					currentEvent.appendChild(currentEventImage)
 
 					let currentEventText = document.createElement("div")
@@ -1175,17 +1190,17 @@
 
 					let currentEventTitle = document.createElement("h2")
 						currentEventTitle.className = "event-title"
-						currentEventTitle.innerText = eventData.title
+						currentEventTitle.innerText = eventData.title || ""
 					currentEventText.appendChild(currentEventTitle)
 
 					let currentEventTime = document.createElement("h3")
 						currentEventTime.className = "event-time"
-						currentEventTime.innerText = eventData.time
+						currentEventTime.innerText = eventData.time || ""
 					currentEventText.appendChild(currentEventTime)
 
 					let currentEventDescription = document.createElement("p")
 						currentEventDescription.className = "event-description"
-						currentEventDescription.innerHTML = eventData.description
+						currentEventDescription.innerText = eventData.description || ""
 					currentEventText.appendChild(currentEventDescription)
 
 				// previous event (unless first event)
@@ -1205,7 +1220,7 @@
 					for (let i in eventData.options) {
 						let nextEventButton = document.createElement("button")
 							nextEventButton.className = "event-next"
-							nextEventButton.innerHTML = eventData.options[i].text + "<span class='right-arrow'>&rarr;</span>"
+							nextEventButton.innerHTML = (eventData.options[i].text || "") + "<span class='right-arrow'>&rarr;</span>"
 							nextEventButton.setAttribute("event-id", eventData.options[i].id)
 							nextEventButton.addEventListener("click", nextEvent)
 
