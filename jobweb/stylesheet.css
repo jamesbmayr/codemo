@@ -32,7 +32,7 @@
 /*** line ***/
 	#line {
 		position: absolute;
-		bottom: calc(var(--margin-size) / 2 - var(--gap-size) / 2);
+		top: calc(100vh - var(--margin-size) + 4.5 * var(--gap-size));
 		left: -50%;
 		height: var(--gap-size);
 		width: 200%;
@@ -440,7 +440,7 @@
 
 	@media screen and (max-height: 500px) {
 		#line {
-			bottom: calc(var(--gap-size) / 2);
+			top: calc(100vh - 1.5 * var(--gap-size));
 		}
 
 		.event-card {
