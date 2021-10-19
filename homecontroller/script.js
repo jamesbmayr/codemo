@@ -305,6 +305,20 @@
 						buttons: {
 							"target": "ifttt_url||kitchen_speaker_on||ifttt_key"
 						}
+					},
+
+				// honeywell
+					{
+						name: "thermostat",
+						image: "https://static.thenounproject.com/png/3127378-200.png",
+						top: 17.5,
+						left: 14.5,
+						buttons: {
+							"65": "ifttt_url||thermostat_to||ifttt_key||?value1=65",
+							"68": "ifttt_url||thermostat_to||ifttt_key||?value1=68",
+							"70": "ifttt_url||thermostat_to||ifttt_key||?value1=70",
+							"72": "ifttt_url||thermostat_to||ifttt_key||?value1=72"
+						}
 					}
 			]
 		}

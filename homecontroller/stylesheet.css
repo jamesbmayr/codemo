@@ -113,6 +113,22 @@
 			background-image: url("images/in.png");
 		}
 
+		.icon-65 {
+			background-image: url("images/65.png");
+		}
+
+		.icon-68 {
+			background-image: url("images/68.png");
+		}
+
+		.icon-70 {
+			background-image: url("images/70.png");
+		}
+
+		.icon-72 {
+			background-image: url("images/72.png");
+		}
+
 /*** home ***/
 	#home {
 		position: absolute;
@@ -228,6 +244,22 @@
 
 		.device-pause {
 			transform: translateX(15%) translateY(-50%);
+		}
+
+		.device-65 {
+			transform: translateX(-50%) translateY(15%);
+		}
+
+		.device-68 {
+			transform: translateX(-115%) translateY(-50%);
+		}
+
+		.device-70 {
+			transform: translateX(15%) translateY(-50%);
+		}
+
+		.device-72 {
+			transform: translateX(-50%) translateY(-115%);
 		}
 
 /*** about ***/
