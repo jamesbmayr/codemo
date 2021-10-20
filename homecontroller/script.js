@@ -332,6 +332,9 @@
 			iframe: document.querySelector("#iframe"),
 			jlogo: document.querySelector("#j-logo"),
 			about: document.querySelector("#about"),
+			aboutClose: document.querySelector("#about-close"),
+			flipX: document.querySelector("#flip-x"),
+			flipY: document.querySelector("#flip-y"),
 			fullscreenOn: document.querySelector("#full-screen-on"),
 			fullscreenOff: document.querySelector("#full-screen-off"),
 			overlay: document.querySelector("#full-screen-overlay")
@@ -493,6 +496,66 @@
 						request.onload = function() {}
 						request.onerror = function() {}
 						request.send()				
+			} catch (error) {}
+		}
+
+	/* closeAbout */
+		ELEMENTS.aboutClose.addEventListener("click", closeAbout)
+		function closeAbout(event) {
+			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+					
+				// update about
+					ELEMENTS.about.removeAttribute("open")
+			} catch (error) {}
+		}
+
+	/* flipX */
+		ELEMENTS.flipX.addEventListener("click", flipX)
+		function flipX(event) {
+			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+
+				// get current flip
+					let flipState = ELEMENTS.home.getAttribute("flip-x")
+
+				// set
+					if (flipState) {
+						ELEMENTS.home.removeAttribute("flip-x")
+					}
+					else {
+						ELEMENTS.home.setAttribute("flip-x", true)
+					}
+
+				// blur
+					let flipButton = event.target.closest("button")
+						flipButton.blur()
+			} catch (error) {}
+		}
+
+	/* flipY */
+		ELEMENTS.flipY.addEventListener("click", flipY)
+		function flipY(event) {
+			try {
+				// set last touch
+					SETTINGS.lastTouch = new Date().getTime()
+
+				// get current flip
+					let flipState = ELEMENTS.home.getAttribute("flip-y")
+
+				// set
+					if (flipState) {
+						ELEMENTS.home.removeAttribute("flip-y")
+					}
+					else {
+						ELEMENTS.home.setAttribute("flip-y", true)
+					}
+
+				// blur
+					let flipButton = event.target.closest("button")
+						flipButton.blur()
 			} catch (error) {}
 		}
 

@@ -101,6 +101,10 @@
 			background-image: url("images/target.png");
 		}
 
+		.icon-circle {
+			background-image: url("images/circle.png");
+		}
+
 		.icon-question {
 			background-image: url("images/question.png");
 		}
@@ -262,11 +266,48 @@
 			transform: translateX(-50%) translateY(-115%);
 		}
 
+	/* flip */
+		#home[flip-x] {
+			transform: translateX(-50%) translateY(-50%) scaleX(-1);
+		}
+			
+			#home[flip-x] .room-name {
+				transform: translateX(-50%) translateY(-50%) scaleX(-1);
+			}
+
+			#home[flip-x] .device {
+				transform: translateX(-50%) translateY(-50%) scaleX(-1);
+			}
+
+		#home[flip-y] {
+			transform:translateX(-50%) translateY(-50%) scaleY(-1);
+		}
+
+			#home[flip-y] .room-name {
+				transform: translateX(-50%) translateY(-50%) scaleY(-1);
+			}
+
+			#home[flip-y] .device {
+				transform: translateX(-50%) translateY(-50%) scaleY(-1);
+			}
+
+		#home[flip-x][flip-y] {
+			transform: translateX(-50%) translateY(-50%) scaleX(-1) scaleY(-1);
+		}
+
+			#home[flip-x][flip-y] .room-name {
+				transform: translateX(-50%) translateY(-50%) scaleX(-1) scaleY(-1);
+			}
+
+			#home[flip-x][flip-y] .device {
+				transform: translateX(-50%) translateY(-50%) scaleX(-1) scaleY(-1);
+			}
+
 /*** about ***/
 	#about {
 		position: absolute;
 		top: var(--gap-size);
-		left: 0;
+		left: var(--gap-size);
 		background-color: transparent;
 		-webkit-appearance: none;
 	}
@@ -277,7 +318,7 @@
 			width: calc(var(--gap-size) * 4);
 			cursor: pointer;
 			list-style-type: none;
-			padding: calc(var(--gap-size) / 2);
+			padding: 0;
 			user-select: none;
 			outline: none;
 		}
@@ -300,19 +341,21 @@
 
 	/* contents */
 		#about-contents {
-			position: absolute;
-			top: calc(var(--gap-size) * 6);
-			left: var(--gap-size);
+			position: fixed;
+			top: 50%;
+			left: 50%;
 			height: auto;
-			max-height: calc(100vh - 10 * var(--gap-size));
-			width: calc(100vw - 4 * var(--gap-size));
-			padding: var(--gap-size);
+			width: auto;
+			max-height: calc(100vh - 16 * var(--gap-size));
+			max-width: calc(100vw - 16 * var(--gap-size));
+			transform: translateX(-50%) translateY(-50%);
+			padding: calc(2 * var(--gap-size));
 			z-index: 10;
 			background-color: var(--light-translucent);
 			color: var(--dark-gray);
 			font-size: calc(var(--gap-size) * 2);
 			font-family: var(--font);
-			border-radius: var(--gap-size);
+			border-radius: var(--font-size);
 			box-shadow: 0 0 var(--gap-size) var(--dark-gray);
 			overflow-x: hidden;
 			overflow-y: scroll;
@@ -339,15 +382,76 @@
 			transition: var(--transition);
 		}
 
+	/* close */
+		#about-close {
+			position: absolute;
+			top: 0;
+			right: 0;
+			border: none;
+			padding: 0;
+			margin: 0;
+			height: calc(2 * var(--font-size));
+			width: calc(2 * var(--font-size));
+			background-color: transparent;
+			filter: invert(30%);
+			cursor: pointer;
+		}
+
+		#about-close .icon {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		#about-close:hover, #about-close:focus {
+			filter: drop-shadow(0 0 calc(var(--gap-size) / 2) var(--medium-gray));
+		}
+
 	/* state */
 		*[invisible] {
 			display: none;
 			pointer-events: none;
 		}
 
+/*** flip ***/
+	#flip-x, #flip-y {
+		position: absolute;
+		border: none;
+		padding: 0;
+		margin: 0;
+		height: calc(2 * var(--font-size));
+		width: calc(2 * var(--font-size));
+		background-color: transparent;
+		filter: invert(30%);
+		cursor: pointer;
+	}
+
+	#flip-x .icon, #flip-y .icon {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	#flip-x:hover, #flip-x:focus, #flip-y:hover, #flip-y:focus {
+		filter: invert(94%) drop-shadow(0 0 calc(var(--gap-size) / 2) var(--dark-gray));
+	}
+
+	/* positioning */
+		#flip-x {
+			bottom: calc(var(--gap-size) * 2 + var(--font-size) * 2);
+			right: calc(var(--gap-size));
+		}
+
+		#flip-y {
+			bottom: calc(var(--gap-size));
+			right: calc(var(--gap-size) * 2 + var(--font-size) * 2);
+		}
+
 /*** full-screen ***/
 	#full-screen-on, #full-screen-off {
 		position: absolute;
+		height: calc(2 * var(--font-size));
+		width: calc(2 * var(--font-size));
 		bottom: var(--gap-size);
 		right: var(--gap-size);
 		background: transparent;
@@ -360,6 +464,9 @@
 	}
 
 	#full-screen-on .icon, #full-screen-off .icon {
+		position: absolute;
+		top: 0;
+		left: 0;
 		filter: invert(30%);
 	}
 
