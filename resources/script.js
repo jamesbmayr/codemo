@@ -304,6 +304,13 @@
 				date: "April 30, 2019",
 				description: "Find the factors and interesting facts of any number you input."
 			},
+			flaggravation: {
+				name: "Flaggravation",
+				size: "medium",
+				tags: ["code","games","card","tabletop","multiplayer"],
+				date: "October 29, 2021",
+				description: "In this vexillological drafting card game, players collect components common to form flags from all around the world."
+			},
 			flagmaker: {
 				name: "flagMaker",
 				size: "medium",

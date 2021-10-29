@@ -60,7 +60,7 @@
 					actual: true,
 					title: "high school",
 					time: "2004 - 2008",
-					description: "In high school, I'm all about extracurriculars: jazz band, marching band, pit orchestra, theater, volunteer club, poetry jam, math team, science olympiad, student council, the local Congressman's \"High School Advisory Council\"... It ends with a graduation speech where I encourage people to \"Find what you love and go do it.\"",
+					description: "In high school, I'm all about extracurriculars: jazz band, marching band, pit orchestra, theater, volunteering, poetry jam, math team, science olympiad, student council... It ends with a graduation speech where I encourage people to \"Find what you love and go do it.\"",
 					image: "images/highschool.jpg",
 					options: [
 						{
@@ -419,7 +419,7 @@
 						},
 						{
 							id: "nyu_mfa",
-							text: "Indie experience is good, but what I need is an master's in game design."
+							text: "Indie experience is good, but what I need is a master's in game design."
 						}
 					]
 				},

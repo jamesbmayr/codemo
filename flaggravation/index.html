@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Flaggravation</title>
+		<link rel="shortcut icon" href="logo.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="Flaggravation is a vexillological drafting card game with a score-keeping web app, by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="flaggravation"/>
+		<meta property="og:url" content="https://jamesmayr.com/flaggravation/"/>
+		<meta property="og:description" content="Flaggravation is a vexillological drafting card game with a score-keeping web app, by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/flaggravation/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="game" state="launch">
+			<form id="launch-form" method="post" action="javascript:;">
+				<div id="launch-flag1"></div>
+				<div id="launch-flag2"></div>
+				<h1 id="launch-header"><div id="launch-logo"></div>Flaggravation</h1>
+				<div id="launch-message"></div>
+				<button id="launch-reset">new</button>
+				<button id="launch-continue">continue</button>
+			</form>
+			<form id="setup-form" method="post" action="javascript:;">
+				<h2 id="setup-header">setup</h2>
+				<div id="setup-names"></div>
+				<button id="setup-add"></button>
+				<label class="setup-label">
+					<span id="setup-goal-label"></span>
+					<input id="setup-goal" type="number" min="1" step="1" value="5" placeholder="TO WIN">
+				</label>
+				<button id="setup-submit"></button>
+			</form>
+			<form id="navigation-form" method="post" action="javascript:;">
+				<button id="navigation-close"></button>
+				<button id="navigation-about"></button>
+				<button id="navigation-setup"></button>
+				<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+			</form>
+			<form id="flags-form" method="post" action="javascript:;"></form>
+			<form id="players-form" method="post" action="javascript:;"></form>
+			<form id="about-form" method="post" action="javascript:;">
+				<h3>about</h3>
+				<p>This is a vexillological drafting card game with a score-keeping web app.<br><br>Players collect components common to flags from all around the world - like colors, structures, and objects often featured on flags - and use these to claim flags shown on screen.</p>
+				<h3>cards</h3>
+				<p>To download and print the cards, visit <a href="https://drive.google.com/drive/folders/1OaxCVDs_NqL-5FiIuIbnxm7rjchocYE-" target="_blank">Flaggravation</a> on <a href="https://sites.google.com/site/dreamhatchergames" target="_blank">DreamHatcher Games</a>.</p>
+				<h3>rules</h3>
+				<p>
+					<h4>setup</h4>
+					<ol>
+						<li>Open the Flaggravation web app on a phone or tablet.
+							<ul>
+								<li>Enter the names of all players.</li>
+								<li>Set a Flag Goal. For first-time players, the recommended goal is 5.</li>
+								<li>Click "Continue". Place the device in a central spot close to all players.</li>
+							</ul>
+						</li>
+						<li>Spread out all the component cards, face-down, in a messy Pool on the table.</li>
+						<li>Each player selects a Hand of 5 random cards from the Pool.</li>
+					</ol>
+					<h4>turn order</h4>
+					<p>Play is simultaneous each round.</p>
+					<h4>gameplay</h4>
+					<ol>
+						<li>All players select 1 card from their Hand to place face-down in front of them.
+							<ul>
+								<li>At any time, you may look at the cards in front of you.</li>
+								<li>Make sure they don't get mixed up with the Pool.</li>
+							</ul>
+						</li>
+						<li>Once all players have made a selection, all players pass the remaining 4 cards in their Hand to the left (clockwise).</li>
+						<li>All players now pick up another random card from the Pool to add to their Hand. Play continues in this way throughout the game.</li>
+					</ol>
+					<h4>special rules</h4>
+					<ol>
+						<li>At any point, if, in your face-down pile in front of you, you have all the components required for a Flag shown on the app, say the name of the Flag aloud.
+							<ul>
+								<li>Note that some cards are "Wild" cards, meaning they can represent any 1 of a set of components. (Ex: Colors substitutes for a Red, Yellow, Green, Blue, Black, or White.)</li>
+								<li>If 2 players are eligible (see below), it's whoever says the Flag name first.</li>
+							</ul>
+						</li>
+						<li>Reveal these component cards to show they match the Flag's requirements.
+							<ul>
+								<li>If they do not, place these cards back in front of you, face-down.</li>
+								<li>If they do meet the requirements:
+									<ol>
+										<li>Place these component cards back in the Pool, face-down, and mess the Pool around without looking so no one can tell which cards they are.</li>
+										<li>Additionally, click on the applicable Flag on the app, then select your name. The app will keep track of how many Flags you have collected.</li>
+										<li>The app also shows how many cards to collect for constructing the Flag. (The longer a Flag goes without being claimed, the more cards it's worth!) Select this quantity of random cards from the Pool to place face-down in front of you.</li>
+									</ol>
+								</li>
+							</ul>
+						</li>
+					</ol>
+					<h4>end</h4>
+					<p>The game ends when someone has claimed the Goal number of Flags; this player wins.</p>
+				</p>
+				<h3>flags</h3>
+				<p>The national flag images are in the public domain, obtained from <a href="https://github.com/emcrisostomo/flags" target="_blank" rel="noopener">here</a> and originally from Wikimedia Commons.</p>
+			</form>
+		</div>
+	</body>
+</html>
