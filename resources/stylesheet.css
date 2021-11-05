@@ -112,7 +112,6 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			-o-user-select: none;
-			cursor: default;
 			font-size: var(--large-font-size);
 			color: var(--light-gray);
 			height: calc(var(--image-size) / 2);
@@ -132,7 +131,6 @@
 			-o-user-select: none;
 			font-size: var(--small-font-size);
 			color: var(--light-gray);
-			cursor: default;
 			width: 100%;
 			height: calc(var(--image-size) / 4);
 			margin: 0;
@@ -553,6 +551,10 @@
 		}
 
 /*** game ***/
+	body[game] {
+		cursor: grab !important;
+	}
+
 	.j {
 		height: var(--j-size);
 		width: var(--j-size);
@@ -567,7 +569,7 @@
 		background-size: contain;
 		background-repeat: no-repeat;
 		background-position: center;
-		cursor: pointer;
+		cursor: grabbing !important;
 		box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 		z-index: 100;
 	}
@@ -579,5 +581,4 @@
 	.j[fade=true] {
 		opacity: 0;
 		transition: var(--transition-time);
-		pointer-events: none;
 	}

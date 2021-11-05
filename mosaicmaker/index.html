@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>mosaicMaker</title>
+		<meta name="description" content="mosaicMaker is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="mosaicMaker">
+		<meta property="og:url" content="https://jamesmayr.com/mosaicmaker/">
+		<meta property="og:description" content="mosaicMaker is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/mosaicmaker/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="icon.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<canvas id="canvas-main" height="1" width="1"></canvas>
+		<canvas id="canvas-tile" height="500" width="500"></canvas>
+		<details id="menu" open>
+			<summary id="menu-toggle">&#x1F58C;</summary>
+			<form id="menu-form" method="post" action="javascript:;">
+				<label>
+					<h3>&#x1F5BC; main image (required)</h3>
+					<input type="file" id="menu-main-file">
+				</label>
+				<label>
+					<h3>&#x1F9E9; tile images (optional)</h3>
+					<input type="file" id="menu-tile-file" multiple>
+				</label>
+				<label>
+					<h3>&#x2B1B; grid count</h3>
+					<input id="menu-chunks-count" type="range" min="1" max="100" step="1" value="50">
+				</label>
+				<button id="menu-submit">&#x1F3A8; generate</button>
+			</form>
+		</details>
+		<a id="download" href="#">&#x1F4E5;</a>
+	</body>
+</html>

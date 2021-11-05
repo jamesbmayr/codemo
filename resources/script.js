@@ -530,6 +530,13 @@
 				date: "February 28, 2021",
 				description: "-... .     ... ..- .-. .     - ---     -.. .-. .. -. -.-     -.-- --- ..- .-.     .-. . ..-. . .-. . -. -.-. . ... .-.-.-"
 			},
+			mosaicmaker: {
+				name: "mosaicMaker",
+				size: "small",
+				tags: ["design","code","canvas","art","tool"],
+				date: "November 5, 2021",
+				description: "Transform any image into a grid of colored tiles - or tile tons of tiny pictures to make a mosaic of a big one."
+			},
 			nimbusnotes: {
 				name: "nimbusNotes",
 				size: "small",
@@ -1257,7 +1264,7 @@
 		const CONSTANTS = {
 			jSize: 50,
 			maxCount: 100,
-			maxVelocity: 20,
+			maxVelocity: 15,
 			minVelocity: 5,
 			scoreVelocityFactor: 0.5,
 			counter: 10,
@@ -1278,8 +1285,11 @@
 							GAME.score = 0
 							GAME.isPlaying = true
 
+						// change cursor
+							ELEMENTS.body.setAttribute("game", true)
+
 						// display score
-							ELEMENTS.search.placeholder = GAME.score + " points"
+							ELEMENTS.search.placeholder = "catch the Js!"
 
 						// game loop
 							GAME.loop = setInterval(updateGame, CONSTANTS.interval)
@@ -1292,6 +1302,7 @@
 					GAME.score = 0
 					GAME.isPlaying = false
 					ELEMENTS.search.placeholder = "search..."
+					ELEMENTS.body.removeAttribute("game")
 
 				// fade each j
 					Array.from(document.querySelectorAll(".j")).forEach(function(j) {
@@ -1326,8 +1337,8 @@
 						j.style.left = (Math.floor(Math.random() * (window.innerWidth - 3 * CONSTANTS.jSize)) + CONSTANTS.jSize) + "px"
 						j.style.top = "-" + CONSTANTS.jSize + "px"
 						j.setAttribute("speed", Math.min(CONSTANTS.maxVelocity, Math.max(CONSTANTS.minVelocity, Math.floor(Math.random() * GAME.score * CONSTANTS.scoreVelocityFactor))))
-						j.addEventListener("mouseenter", clickJ)
-						j.addEventListener("click", clickJ)
+						j.addEventListener("mouseenter", captureJ)
+						j.addEventListener("click", captureJ)
 					document.body.appendChild(j)
 			} catch (error) {}
 		}
@@ -1360,9 +1371,14 @@
 			} catch (error) {}
 		}
 
-	/* clickJ */
-		function clickJ(event) {
+	/* captureJ */
+		function captureJ(event) {
 			try {
+				// already captured?
+					if (event.target.getAttribute("fade")) {
+						return
+					}
+
 				// remove element
 					fadeJ(event.target)
 
@@ -1370,7 +1386,7 @@
 					GAME.score++
 
 				// display score
-					ELEMENTS.search.placeholder = GAME.score + " points"
+					ELEMENTS.search.placeholder = GAME.score + (GAME.score == 1 ? " point" : " points")
 			} catch (error) {}
 		}
 

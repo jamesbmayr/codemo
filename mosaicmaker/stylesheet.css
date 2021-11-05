@@ -1,0 +1,286 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #777777;
+		--dark-gray: #111111;
+		--medium-red: #d94c4c;
+		--light-blue: #04b1ff;
+		--font-family: monospace;
+		--font-size: 16px;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+		--canvas-size: 500px;
+		--gutter-size: 50px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		font-size: 0;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background: var(--dark-gray);
+	}
+
+	/* summary marker */
+		details summary::marker, details summary::-webkit-details-marker {
+			height: 0;
+			width: 0;
+			font-size: 0;
+			display: none;
+		}
+
+	/* scrollbars */
+		::-webkit-scrollbar {
+			height: 0 !important;
+			width: 0 !important;
+		}
+
+		::-moz-scrollbar {
+			height: 0 !important;
+			width: 0 !important;
+		}
+
+		::-ms-scrollbar {
+			height: 0 !important;
+			width: 0 !important;
+		}
+
+		::-o-scrollbar {
+			height: 0 !important;
+			width: 0 !important;
+		}
+
+		* {
+			scrollbar-width: none;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url(../resources/j.png);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+	}
+
+/*** menu ***/
+	/* button */
+		#menu-toggle {
+			position: absolute;
+			top: calc(2 * var(--gap-size));
+			left: calc(2 * var(--gap-size));
+			font-size: calc(2 * var(--font-size));
+			font-family: var(--font-family);
+			line-height: 1;
+			margin: 0;
+			padding: 0;
+			border: none;
+			background: transparent;
+			width: calc(var(--font-size) * 2);
+			height: calc(var(--font-size) * 2);
+			padding: var(--gap-size);
+			cursor: pointer;
+			outline: none;
+			text-align: center;
+			user-select: none;
+		}
+
+		#menu-toggle:hover, #menu-toggle:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+		}
+
+	/* form */
+		#menu-form {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: auto;
+			max-height: calc(100vh - 2 * var(--gutter-size));
+			min-width: var(--canvas-size);
+			max-width: calc(100vw - 2 * var(--gutter-size));
+			border-radius: var(--border-radius);
+			background-color: var(--medium-gray);
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			color: var(--dark-gray);
+			padding: var(--gap-size);
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		#menu-form > label {
+			width: 100%;
+			display: block;
+			margin-bottom: calc(6 * var(--gap-size));
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			text-transform: uppercase;
+			user-select: none;
+			font-weight: bold;
+			text-align: left;
+		}
+
+		#menu-form > label > h3 {
+			text-align: center;
+			display: block;
+			width: 100%;
+			font-size: calc(2 * var(--font-size));
+			font-family: var(--font-family);
+			color: var(--dark-gray);
+			text-transform: uppercase;
+			user-select: none;
+			font-weight: bold;
+			margin: var(--gap-size) 0;
+		}
+
+	/* inputs */
+		#menu-form input[type="file"] {
+			width: 100%;
+			height: calc(2 * var(--font-size));
+			outline: none;
+			cursor: pointer;
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			color: var(--light-gray);
+			background-color: transparent;
+		}
+
+		#menu-form input[type="file"]::-ms-browse {
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			height: calc(2 * var(--font-size));
+			border: 0;
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			outline: none;
+			font-weight: bold;
+			margin-right: calc(2 * var(--gap-size));
+			background-color: var(--light-gray);
+		}
+
+		#menu-form input[type="file"]::-ms-browse:hover, #menu-form input[type="file"]::-ms-browse:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+		#menu-form input[type="file"]::-webkit-file-upload-button {
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			height: calc(2 * var(--font-size));
+			border: 0;
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			outline: none;
+			font-weight: bold;
+			margin-right: calc(2 * var(--gap-size));
+			background-color: var(--light-gray);
+		}
+
+		#menu-form input[type="file"]::-webkit-file-upload-button:hover, #menu-form input[type="file"]::-webkit-file-upload-button:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+	/* range */
+		#menu-form input[type="range"] {
+			width: 100%;
+			height: var(--font-size);
+			outline: none;
+			cursor: pointer;
+			margin: 0;
+		}
+
+		#menu-form input[type="range"]:hover, #menu-form input[type="range"]:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+		}
+
+	/* button */
+		#menu-form button {
+			width: 100%;
+			border: 0;
+			background-color: var(--light-gray);
+			color: var(--dark-gray);
+			font-size: calc(2 * var(--font-size));
+			font-family: var(--font-family);
+			font-weight: bold;
+			text-transform: uppercase;
+			border-radius: var(--border-radius);
+			padding: var(--gap-size);
+			outline: none;
+			cursor: pointer;
+			user-select: none;
+		}
+
+		#menu-form button:hover, #menu-form button:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+/*** art ***/
+	/* canvasses */
+		#canvas-main {
+			position: absolute;
+			top: 101vh;
+			left: 101vw;
+			opacity: 0;
+			pointer-events: none;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			font-size: 0;
+			user-select: none;
+		}
+
+		#canvas-tile {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: 100vh;
+			max-height: 100vw;
+			width: 100vw;
+			max-width: 100vh;
+		}
+
+	/* download */
+		#download {
+			position: absolute;
+			bottom: calc(2 * var(--gap-size));
+			right: calc(2 * var(--gap-size));
+			font-size: calc(2 * var(--font-size));
+			font-family: var(--font-family);
+			line-height: 1;
+			margin: 0;
+			padding: 0;
+			border: none;
+			background: transparent;
+			width: calc(var(--font-size) * 2);
+			height: calc(var(--font-size) * 2);
+			padding: var(--gap-size);
+			cursor: pointer;
+			outline: none;
+			text-align: center;
+			user-select: none;
+		}
+
+		#download:hover, #download:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+		}
