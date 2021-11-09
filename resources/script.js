@@ -34,7 +34,7 @@
 				name: "balloonPopper",
 				size: "small",
 				tags: ["code","games","arcade"],
-				date: "Februray 8, 2017",
+				date: "February 8, 2017",
 				description: "balloonPopper is a simple web game - pop the balloons before they float away!"
 			},
 			baseconverter: {
@@ -416,6 +416,13 @@
 				tags: ["writing","lyric","poetry","autobiography"],
 				date: "December 2, 2012",
 				description: "It's Who Iamb was a poetry blog that updated every day for a year, serving now as a series of snapshots of the past."
+			},
+			jigsawpuzzler: {
+				name: "jigsawPuzzler",
+				size: "small",
+				tags: ["code","games","art","api","puzzle"],
+				date: "November 9, 2021",
+				description: "Use any image on the web, your device, or the Metropolitan Museum of Art website to make - and solve - a jigsaw puzzle."
 			},
 			keyspinner: {
 				name: "keySpinner",

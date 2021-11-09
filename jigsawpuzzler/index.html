@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>jigsawPuzzler</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/38719-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="jigsawPuzzler is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="jigsawPuzzler">
+		<meta property="og:url" content="https://jamesmayr.com/jigsawpuzzler/">
+		<meta property="og:description" content="jigsawPuzzler is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/jigsawpuzzler/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+		<style id="variables"></style>
+	</head>
+	<body>
+		<div id="puzzle">
+			<div id="puzzle-mat"></div>
+			<div id="puzzle-instructions">Double-tap or use Space to rotate</div>
+			<a href="#" target="_blank" rel="noopener" id="puzzle-link">&#x1F517;</a>
+			<form id="puzzle-solve" method="post" action="javascript:;">
+				<button id="puzzle-solve-submit">&#x1F5BC;</button>
+			</form>
+		</div>
+		<details id="menu" open>
+			<summary id="menu-toggle">&#129513;</summary>
+			<form id="menu-form" action="javascript:;" method="post">
+				<h1>jigsawPuzzler</h1>
+				<h2>image</h2>
+				<label>
+					<h3><input type="radio" name="menu-type" id="menu-type-url" value="url">url</h3>
+					<input type="url" id="menu-url" placeholder="url">
+				</label>
+				<label>
+					<h3><input type="radio" name="menu-type" id="menu-type-file" value="file">file</h3>
+					<input type="file" id="menu-file">
+				</label>
+				<label>
+					<h3><input type="radio" name="menu-type" id="menu-type-random" value="random" checked>random (Metropolitan Museum of Art)</h3>
+					<div id="menu-random-error">unable to fetch image</div>
+				</label>
+				<h2>pieces</h2>
+				<label>
+					<label>
+						<div>x:</div>
+						<input type="number" min="2" max="50" step="1" value="5" placeholder="x" id="menu-pieces-x">
+					</label>
+					<label>
+						<div>y:</div>
+						<input type="number" min="2" max="50" step="1" value="5" placeholder="y" id="menu-pieces-y">
+					</label>
+				</label>
+				<button id="menu-submit">generate</button>
+			</form>
+		</details>
+		<a href="https://jamesmayr.com" target="_blank" id="j-logo"></a>
+	</body>
+</html>
