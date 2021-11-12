@@ -42,7 +42,14 @@
 		const app_chordanalyzer = require("./chordanalyzer")
 		exports.chordanalyzer = functions.https.onRequest(function(request, response) {
 			try {
-				response.end(app_chordanalyzer.analyzeChord(request.query.notes.split(",") || []))
+				let query = (request.originalUrl.split("?") || [])[1] || ""
+				let pairs = query.split("&") || []
+				let parameters = {}
+				for (let i in pairs) {
+					let pair = pairs[i].split("=")
+					parameters[pair[0]] = pair[1]
+				}
+				response.end(app_chordanalyzer.analyzeChord(parameters.notes ? parameters.notes.split(",") : [])
 			}
 			catch (error) {
 				console.log(error)
