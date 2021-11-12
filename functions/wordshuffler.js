@@ -34,10 +34,10 @@
 		exports.findWords = findWords
 		function findWords(search) {
 			try {
-				search = search.replace(/\s/gi,"") || ""
+				search = search.replace(/\s/gi,"") || null
 				
 				if (!search || (search.length < 2) || (search.length > 8) || (!(/[A-Za-z]/gi).test(search))) {
-					return JSON.stringify({success: false, message: "Words must be 2 - 8 letters."})
+					return JSON.stringify({success: false, message: "parameter 'word' must be a string 2-8 letters"})
 				}
 				else {
 					var letters = search.replace(/\s/gi,"").split("")
@@ -72,7 +72,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				return JSON.stringify({success: false, message: "unable to find words"})
+				return JSON.stringify({success: false, message: "unable to find word; parameter 'word' must be a string 2-8 letters"})
 			}
 		}
 

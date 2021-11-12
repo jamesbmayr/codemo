@@ -1,10 +1,11 @@
 /*** chord analysis ***/
 	/* analyzeChord */
 		exports.analyzeChord = analyzeChord
-		function analyzeChord(pitches) {
+		function analyzeChord(notes) {
 			try {
+				var pitches = notes.split(",") || null
 				if (!Array.isArray(pitches) || !pitches.length) {
-					return JSON.stringify({success: false, message: "no pitches given"})
+					return JSON.stringify({success: false, message: "no pitches given; expecting comma-separated list of 'notes'; ex: Eflat,G,Bdoubleflat,Csharp"})
 				}
 				else {
 					pitches = getPitchNumbers(pitches)
@@ -50,7 +51,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				return JSON.stringify({success: false, message: "unable to analyze chord"})
+				return JSON.stringify({success: false, message: "unable to analyze chord; expecting comma-separated list of 'notes'; ex: Eflat,G,Bdoubleflat,Csharp"})
 			}
 		}
 
@@ -66,8 +67,12 @@
 				if (isNaN(pitchLetters[i])) {
 					switch (pitchLetters[i]) {
 						case "B#":
+						case "Bs":
+						case "Bsharp":
 						case "C":
 						case "Dbb":
+						case "Dff":
+						case "Ddoubleflat":
 							if (0 + (octave * 12) > previousNote) {
 								pitches[i] = 0 + (octave * 12)
 							}
@@ -79,8 +84,14 @@
 						break
 
 						case "B##":
+						case "Bss":
+						case "Bdoublesharp":
 						case "C#":
+						case "Cs":
+						case "Csharp":
 						case "Db":
+						case "Df":
+						case "Dflat":
 							if (1 + (octave * 12) > previousNote) {
 								pitches[i] = 1 + (octave * 12)
 							}
@@ -92,8 +103,12 @@
 						break
 
 						case "C##":
+						case "Css":
+						case "Cdoublesharp":
 						case "D":
 						case "Ebb":
+						case "Eff":
+						case "Edoubleflat":
 							if (2 + (octave * 12) > previousNote) {
 								pitches[i] = 2 + (octave * 12)
 							}
@@ -105,8 +120,14 @@
 						break
 
 						case "D#":
+						case "Ds":
+						case "Dsharp":
 						case "Eb":
+						case "Ef":
+						case "Eflat":
 						case "Fbb":
+						case "Fff":
+						case "Fdoubleflat":
 							if (3 + (octave * 12) > previousNote) {
 								pitches[i] = 3 + (octave * 12)
 							}
@@ -118,8 +139,12 @@
 						break
 
 						case "D##":
+						case "Dss":
+						case "Ddoublesharp":
 						case "E":
 						case "Fb":
+						case "Ff":
+						case "Fflat":
 							if (4 + (octave * 12) > previousNote) {
 								pitches[i] = 4 + (octave * 12)
 							}
@@ -131,8 +156,12 @@
 						break
 
 						case "E#":
+						case "Es":
+						case "Esharp":
 						case "F":
 						case "Gbb":
+						case "Gff":
+						case "Gdoubleflat":
 							if (5 + (octave * 12) > previousNote) {
 								pitches[i] = 5 + (octave * 12)
 							}
@@ -144,8 +173,14 @@
 						break
 
 						case "E##":
+						case "Ess":
+						case "Edoublesharp":
 						case "F#":
+						case "Fs":
+						case "Fsharp":
 						case "Gb":
+						case "Gf":
+						case "Gflat":
 							if (6 + (octave * 12) > previousNote) {
 								pitches[i] = 6 + (octave * 12)
 							}
@@ -157,8 +192,12 @@
 						break
 
 						case "F##":
+						case "Fss":
+						case "Fdoublesharp":
 						case "G":
 						case "Abb":
+						case "Aff":
+						case "Adoubleflat":
 							if (7 + (octave * 12) > previousNote) {
 								pitches[i] = 7 + (octave * 12)
 							}
@@ -170,7 +209,11 @@
 						break
 
 						case "G#":
+						case "Gs":
+						case "Gsharp":
 						case "Ab":
+						case "Af":
+						case "Aflat":
 							if (8 + (octave * 12) > previousNote) {
 								pitches[i] = 8 + (octave * 12)
 							}
@@ -182,8 +225,12 @@
 						break
 
 						case "G##":
+						case "Gss":
+						case "Gdoublesharp":
 						case "A":
 						case "Bbb":
+						case "Bff":
+						case "Bdoubleflat":
 							if (9 + (octave * 12) > previousNote) {
 								pitches[i] = 9 + (octave * 12)
 							}
@@ -195,8 +242,14 @@
 						break
 
 						case "A#":
+						case "As":
+						case "Asharp":
 						case "Bb":
+						case "Bf":
+						case "Bflat":
 						case "Cbb":
+						case "Cff":
+						case "Cdoubleflat":
 							if (10 + (octave * 12) > previousNote) {
 								pitches[i] = 10 + (octave * 12)
 							}
@@ -208,8 +261,12 @@
 						break
 
 						case "A##":
+						case "Ass":
+						case "Adoublesharp":
 						case "B":
 						case "Cb":
+						case "Cf":
+						case "Cflat":
 							if (11 + (octave * 12) > previousNote) {
 								pitches[i] = 11 + (octave * 12)
 							}

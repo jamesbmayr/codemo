@@ -93,7 +93,17 @@
 			try {
 				// validate
 					if (!query || !query.action || !query.message || !query.keyword) {
-						return JSON.stringify({success: false, message: "invalid query"})
+						let errorMessage = []
+						if (!query.action) {
+							errorMessage.push("string 'action' (encrypt|decrypt)")
+						}
+						if (!query.message) {
+							errorMessage.push("string 'message'")
+						}
+						if (!query.keyword) {
+							errorMessage.push("string 'keyword'")
+						}
+						return JSON.stringify({success: false, message: "missing parameters: " + errorMessage.join(", ")})
 					}
 
 				// clean text

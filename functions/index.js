@@ -10,7 +10,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for unitconvert")
+				response.end("unknown error in cloud functions for unitconverter; expecting number parameter 'quantity', expecting string parameters 'from', 'to'")
 			}
 		})
 
@@ -22,7 +22,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for factorfinder")
+				response.end("unknown error in cloud functions for factorfinder; expecting number parameter 'number'")
 			}
 		})
 
@@ -34,7 +34,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for wordshuffler")
+				response.end("unknown error in cloud functions for wordshuffler; expecting string parameter 'word'")
 			}
 		})
 
@@ -42,18 +42,11 @@
 		const app_chordanalyzer = require("./chordanalyzer")
 		exports.chordanalyzer = functions.https.onRequest(function(request, response) {
 			try {
-				let query = (request.originalUrl.split("?") || [])[1] || ""
-				let pairs = query.split("&") || []
-				let parameters = {}
-				for (let i in pairs) {
-					let pair = pairs[i].split("=")
-					parameters[pair[0]] = pair[1]
-				}
-				response.end(app_chordanalyzer.analyzeChord(parameters.notes ? parameters.notes.split(",") : []))
+				response.end(app_chordanalyzer.analyzeChord(request.query.notes))
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for chordanalyzer")
+				response.end("unknown error in cloud functions for chordanalyzer; expecting string parameter 'notes'")
 			}
 		})
 
@@ -65,7 +58,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for baseconverter")
+				response.end("unknown error in cloud functions for baseconverter; expecting string parameter 'numberString', number parameters 'oldBase', 'newBase'")
 			}
 		})
 
@@ -77,7 +70,7 @@
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for messageencrypter")
+				response.end("unknown error in cloud functions for messageencrypter; expecting string parameters 'action', 'message', 'keyword'")
 			}
 		})
 
@@ -89,6 +82,6 @@
 			}
 			catch (error) {
 				console.log(error)
-				response.end("unknown error in cloud functions for wordsgenerator")
+				response.end("unknown error in cloud functions for wordsgenerator; optional number parameter 'numberOfWords', optional text parameter 'type'; optional array parameters 'syllableCounts', 'syllableTypes', 'letterGroups'")
 			}
 		})

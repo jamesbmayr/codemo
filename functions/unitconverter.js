@@ -1304,6 +1304,21 @@
 	/* getParameters */
 		function getParameters(query) {
 			try {
+				// validate
+					if (typeof query.quantity == "undefined" || !query.from || !query.to) {
+						var errorMessage = []
+						if (typeof query.quantity == "undefined") {
+							errorMessage.push("number 'quantity'")
+						}
+						if (!query.from) {
+							errorMessage.push("string 'from'")
+						}
+						if (!query.to) {
+							errorMessage.push("string 'to'")
+						}
+						return {success: false, message: "missing parameters: " + errorMessage.join(", ")}
+					}
+
 				// get values
 					var quantity = Number(query.quantity)
 					var givenFrom = query.from.replace(/%20/gi," ")
@@ -1324,6 +1339,7 @@
 
 				// output values
 					return {
+						success: true,
 						quantity: quantity,
 						from: fromUnit,
 						to: toUnit
@@ -1333,19 +1349,8 @@
 				console.log(error)
 				
 				return {
-					quantity: 0,
-					from: {
-						category: "quantity",
-						system: "Other",
-						unit: "unit",
-						prefix: "_"
-					},
-					to: {
-						category: "quantity",
-						system: "Other",
-						unit: "unit",
-						prefix: "_"
-					}
+					success: false,
+					message: "unknown error in cloud functions for baseconverter; expecting string parameter 'numberString', number parameters 'oldBase', 'newBase'"
 				}
 			}
 		}
@@ -1438,6 +1443,9 @@
 			try {
 				// get parameters
 					var parameters = getParameters(query)
+					if (!parameters.success) {
+						return JSON.stringify(parameters)
+					}
 					var quantity = parameters.quantity
 
 				// missing fields

@@ -18,8 +18,18 @@
 					var newBase = query.newBase
 
 				// validate
-					if (!String(numberString).length || !String(oldBase).length || !String(newBase).length) {
-						return JSON.stringify({success: false, message: "missing input"})
+					if (typeof numberString == "undefined" || !String(numberString).length || !oldBase || !String(oldBase).length || !newBase || !String(newBase).length) {
+						var errorMessage = []
+						if (typeof numberString == "undefined" || !String(numberString).length) {
+							errorMessage.push("string 'numberString'")
+						}
+						if (!oldBase || !String(oldBase).length) {
+							errorMessage.push("number 'oldBase'")
+						}
+						if (!newBase || !String(newBase).length) {
+							errorMessage.push("number 'newBase'")
+						}
+						return JSON.stringify({success: false, message: "missing parameters: " + errorMessage.join(", ")})
 					}
 
 				// convert
