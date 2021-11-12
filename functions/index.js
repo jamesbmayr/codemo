@@ -49,7 +49,7 @@
 					let pair = pairs[i].split("=")
 					parameters[pair[0]] = pair[1]
 				}
-				response.end(app_chordanalyzer.analyzeChord(parameters.notes ? parameters.notes.split(",") : [])
+				response.end(app_chordanalyzer.analyzeChord(parameters.notes ? parameters.notes.split(",") : []))
 			}
 			catch (error) {
 				console.log(error)
