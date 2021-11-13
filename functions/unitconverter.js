@@ -1493,6 +1493,7 @@
 								return JSON.stringify({success: false, message: "output quantity is not a number"})
 							} 
 							else {
+								delete parameters.success
 								return JSON.stringify({
 									success: true,
 									parameters: parameters,

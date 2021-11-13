@@ -8,6 +8,34 @@
     ],
     "rewrites": [
       {
+        "source": "/api/baseconverter",
+        "function": "baseconverter"
+      },
+      {
+        "source": "/api/chordanalyzer",
+        "function": "chordanalyzer"
+      },
+      {
+        "source": "/api/factorfinder",
+        "function": "factorfinder"
+      },
+      {
+        "source": "/api/messageencrypter",
+        "function": "messageencrypter"
+      },
+      {
+        "source": "/api/unitconverter",
+        "function": "unitconverter"
+      },
+      {
+        "source": "/api/wordsgenerator",
+        "function": "wordsgenerator"
+      },
+      {
+        "source": "/api/wordshuffler",
+        "function": "wordshuffler"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

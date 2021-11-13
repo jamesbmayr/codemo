@@ -38,81 +38,81 @@
 					var qualities = []
 
 					if (isPrime(n)) {
-						qualities.push("<li>PRIME:<br>not divisible by any other number</li>")
+						qualities.push("PRIME: not divisible by any other number")
 
 						if (isEmirp(n, digits)) {
-							qualities.push("<li>EMIRP:<br>its reverse is also a prime</li>")
+							qualities.push("EMIRP: its reverse is also a prime")
 						}
 					}
 					else if (n !== 1) {
-						qualities.push("<li>COMPOSITE:<br>divisible by other numbers</li>")
+						qualities.push("COMPOSITE: divisible by other numbers")
 
 						if (isPerfect(n, factors)) {
-							qualities.push("<li>PERFECT:<br>factors sum to number</li>")
+							qualities.push("PERFECT: factors sum to number")
 						}
 						else if (isAbundant(n, factors)) {
-							qualities.push("<li>ABUNDANT:<br>factors sum to more than number</li>")
+							qualities.push("ABUNDANT: factors sum to more than number")
 						}
 						else {
-							qualities.push("<li>DEFICIENT:<br>factors sum to less than number</li>")
+							qualities.push("DEFICIENT: factors sum to less than number")
 						}
 
 						if (isOblong(n, factors)) {
-							qualities.push("<li>OBLONG:<br>product of two consecutive numbers</li>")
+							qualities.push("OBLONG: product of two consecutive numbers")
 						}
 
 						if (isAntiprime(n)) {
-							qualities.push("<li>ANTIPRIME:<br>more factors than all smaller composites</li>")
+							qualities.push("ANTIPRIME: more factors than all smaller composites")
 						}
 
 						if (isSquare(n)) {
-							qualities.push("<li>SQUARE:<br>divides into a number times itself</li>")
+							qualities.push("SQUARE: divides into a number times itself")
 						}
 						if (isCube(n)) {
-							qualities.push("<li>CUBE:<br>divides into a number times itself times itself</li>")
+							qualities.push("CUBE: divides into a number times itself times itself")
 						}
 					}
 					else if (n == 1) {
-						qualities.push("<li>SQUARE:<br>divides into a number times itself</li>")
-						qualities.push("<li>CUBE:<br>divides into a number times itself times itself</li>")
+						qualities.push("SQUARE: divides into a number times itself")
+						qualities.push("CUBE: divides into a number times itself times itself")
 					}
 
 					if (isPalindrome(n, digits)) {
-						qualities.push("<li>PALINDROME:<br>digits are the same reversed</li>")
+						qualities.push("PALINDROME: digits are the same reversed")
 					}
 					if (isRepdigit(n, digits)) {
-						qualities.push("<li>REPDIGIT:<br>number is comprised of repeating digits</li>")
+						qualities.push("REPDIGIT: number is comprised of repeating digits")
 					}
 					if (isNarcissistic(n, digits)) {
-						qualities.push("<li>NARCISSISTIC:<br>the sum of the digits raised to the number length is the number</li>")
+						qualities.push("NARCISSISTIC: the sum of the digits raised to the number length is the number")
 					}
 					if (isAutomorphic(n, digits)) {
-						qualities.push("<li>AUTOMORPHIC:<br>appears as the last digit(s) of its square</li>")
+						qualities.push("AUTOMORPHIC: appears as the last digit(s) of its square")
 					}
 					if (isHarshadNiven(n, digits)) {
-						qualities.push("<li>HARSHAD-NIVEN:<br>divisible by the sum of its digits</li>")
+						qualities.push("HARSHAD-NIVEN: divisible by the sum of its digits")
 					}
 
 					if (isHappy(n)) {
-						qualities.push("<li>HAPPY:<br>squaring and adding digits recursively leads to 1</li>")
+						qualities.push("HAPPY: squaring and adding digits recursively leads to 1")
 					}
 					if (isFibonacci(n)) {
-						qualities.push("<li>FIBONACCI:<br>within sequence of numbers that are the sum of 2 preceding numbers</li>")
+						qualities.push("FIBONACCI: within sequence of numbers that are the sum of 2 preceding numbers")
 					}
 					if (isTriangle(n)) {
-						qualities.push("<li>TRIANGLE:</br>represents a triangular array of dots</li>")
+						qualities.push("TRIANGLE:</br>represents a triangular array of dots")
 					}
 
 				// print
-					qualities.unshift("<li>FACTORS:<br>" + factors.join(", ") + "</li>")
-					qualities.unshift("<li>PRIME FACTORS:<br>" + primeFactors.join(" x ") + "</li>")
+					qualities.unshift("FACTORS: " + factors.join(", "))
+					qualities.unshift("PRIME FACTORS: " + primeFactors.join(" x "))
 
 				// return
 					return JSON.stringify({
 						success: true,
 						number: n,
 						qualities: qualities,
-						html: qualities.join(""),
+						html: "<li>" + qualities.join("</li><li>") + "</li>",
 					})
 			}
 			catch (error) {

@@ -16,6 +16,14 @@
 				date: "May 1, 2017",
 				description: "AI Arenas is a web game where javascript robots battle for cubes in a competitive coding arena."
 			},
+			api: {
+				skipRandom: true,
+				name: "API",
+				size: "medium",
+				tags: ["code","api","node","tool"],
+				date: "December 27, 2019",
+				description: "Custom APIs derived from other projects, like chordAnalyzer, messageEncrypter, baseConverter, and more."
+			},
 			arenamapper: {
 				name: "arenaMapper",
 				size: "small",
