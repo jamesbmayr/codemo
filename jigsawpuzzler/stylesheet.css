@@ -271,8 +271,8 @@
 			color: var(--light-gray);
 		}
 
-	/* error */
-		#menu-random-error {
+	/* loading / error */
+		#menu-random-loading, #menu-random-error {
 			font-size: var(--font-size) !important;
 			font-family: var(--font-family);
 			color: var(--medium-red);
@@ -282,7 +282,7 @@
 			display: inline-block;
 		}
 
-		#menu-random-error:not([invalid]) {
+		#menu-random-loading:not([invalid]), #menu-random-error:not([invalid]) {
 			display: none;
 		}
 

@@ -65,6 +65,7 @@
 				},
 				url: document.querySelector("#menu-url"),
 				file: document.querySelector("#menu-file"),
+				randomLoading: document.querySelector("#menu-random-loading"),
 				randomError: document.querySelector("#menu-random-error"),
 				x: document.querySelector("#menu-pieces-x"),
 				y: document.querySelector("#menu-pieces-y"),
@@ -151,6 +152,7 @@
 					let errorCount = 0
 					ELEMENTS.menu.url.removeAttribute("invalid")
 					ELEMENTS.menu.file.removeAttribute("invalid")
+					ELEMENTS.menu.randomLoading.removeAttribute("invalid")
 					ELEMENTS.menu.randomError.removeAttribute("invalid")
 					ELEMENTS.menu.x.removeAttribute("invalid")
 					ELEMENTS.menu.y.removeAttribute("invalid")
@@ -235,13 +237,21 @@
 
 				// random from API
 					if (STATE.settings.imageType == "random") {
+						// loading
+							if (STATE.fetchCount < CONSTANTS.api.fetchLimit) {
+								ELEMENTS.menu.randomLoading.setAttribute("invalid", true)
+								ELEMENTS.menu.randomError.removeAttribute("invalid")
+							}
+
 						// get list of images
 							sendGet({
 								url: CONSTANTS.api.url
 							}, function(listData) {
 								// no results
 									if (!listData || !listData.results || !listData.results.objectIDs || !listData.results.objectIDs.length) {
+										ELEMENTS.menu.randomLoading.removeAttribute("invalid")
 										ELEMENTS.menu.randomError.setAttribute("invalid", true)
+										getImage()
 										return
 									}
 
@@ -251,7 +261,9 @@
 									}, function(individualData) {
 										// no image
 											if (!individualData || !individualData.results || !(individualData.results.primaryImage || individualData.results.primaryImageSmall)) {
+												ELEMENTS.menu.randomLoading.removeAttribute("invalid")
 												ELEMENTS.menu.randomError.setAttribute("invalid", true)
+												getImage()
 												return
 											}
 
@@ -278,6 +290,9 @@
 			try {
 				// close menu
 					ELEMENTS.menu.element.removeAttribute("open")
+
+				// reset fetch count (for API requests)
+					STATE.fetchCount = 0
 
 				// get intrinsic dimensions
 					let intrinsicWidth = STATE.settings.image.width
