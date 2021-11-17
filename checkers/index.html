@@ -17,6 +17,10 @@
     <script>
       var unityInstance = UnityLoader.instantiate("unityContainer", "Build/Checkers.json", {onProgress: UnityProgress});
     </script>
+    <style>
+      #j-logo { position: fixed; top: 14px; right: 8px; background-color: transparent; background-image: url("../resources/j.png"); background-repeat: no-repeat; background-size: cover; background-position: center center; height: 32px; width: 32px; cursor: pointer; z-index: 1000; outline: none; filter: drop-shadow(0px 0px 2px #999999); }
+      #j-logo:hover, #j-logo:focus { filter: drop-shadow(0px 0px 4px #222222); }
+    </style>
   </head>
   <body>
     <div class="webgl-content">
@@ -27,5 +31,6 @@
         <div class="title">Checkers</div>
       </div>
     </div>
+    <a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
   </body>
 </html>

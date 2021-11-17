@@ -82,8 +82,8 @@
 	}
 
 	#container {
-		max-width: calc(100vw - 50px);
-		margin: 25px auto 25px auto;
+		max-width: calc(100vw - 100px);
+		margin: 50px auto 50px auto;
 		border-radius: 100%;
 		background-color: #222222;
 		box-shadow: 0 0 10px #222222;
@@ -192,3 +192,25 @@
 				-o-user-select: none;
 				user-select: none;
 			}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url(../resources/j.png);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0 0 5px #777777);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 5px #222222);
+	}
