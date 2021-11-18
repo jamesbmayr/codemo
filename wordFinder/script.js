@@ -1,11 +1,11 @@
-$(document).ready(function() {
+window.onload = function() {
 
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", mouseenter: "touchstart", mouseleave: "touchend" }
 		}
 		else {
-			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", mouseenter: "mouseenter", mouseleave: "mouseleave" }
 		}
 
 		document.oncontextmenu = function() { return false }
@@ -37,10 +37,9 @@ $(document).ready(function() {
 			["n","u","s","e","s","s"],
 			["w","o","u","t","o","n"],
 			["t","t","m","o","e","t"],
-		];
+		]
 
-		var puzzleCubes = [];
-
+		var puzzleCubes = []
 
 	/* dictionary */
 		// https://norvig.com/ngrams/enable1.txt
@@ -75,300 +74,361 @@ $(document).ready(function() {
 
 	/* functions */
 		function shuffle(inputArray) {
-			var outputArray = [];
+			var outputArray = []
 
 			for (var i = 0; i < inputArray.length; i++) {
-				var j = -1;
+				var j = -1
 				
 				while ((j === -1) || (typeof(outputArray[j]) !== "undefined")) {
-					j = Math.floor(Math.random() * inputArray.length);
+					j = Math.floor(Math.random() * inputArray.length)
 				}
 			
-				outputArray[j] = inputArray[i];
+				outputArray[j] = inputArray[i]
 			}
 
-			return outputArray;
+			return outputArray
 		}
 
 		function newGame() {
 			/* reset */
-				$(".clock").text("3:00");
-				$("#game").empty().addClass("active");
-				$("#connectors").empty();
-				$("#myWords").empty().css("height","100%")
+				document.querySelector("#pause-clock").innerText = "3:00"
+				document.querySelector("#resume-clock").innerText = "3:00"
+				document.querySelector("#game").innerText = ""
+				document.querySelector("#game").className = document.querySelector("#game").className.replace(/\s?active/, "") + " active"
+				document.querySelector("#connectors").innerText = ""
+				document.querySelector("#myWords").innerText = ""
+				document.querySelector("#myWords").style.height = "100%"
 
-				$("#submitWord").addClass("active");
-				$("#cancelWord").addClass("active");
-				$("#endGame").addClass("active");
-				$("#pauseGame").addClass("active");
-				$("#newGame").removeClass("active");
-				$("#resumeGame").removeClass("active");
+				document.querySelector("#submitWord").className = document.querySelector("#submitWord").className.replace(/\s?active/, "") + " active"
+				document.querySelector("#cancelWord").className = document.querySelector("#cancelWord").className.replace(/\s?active/, "") + " active"
+				document.querySelector("#endGame").className = document.querySelector("#endGame").className.replace(/\s?active/, "") + " active"
+				document.querySelector("#pauseGame").className = document.querySelector("#pauseGame").className.replace(/\s?active/, "") + " active"
+				document.querySelector("#newGame").className = document.querySelector("#newGame").className.replace(/\s?active/, "")
+				document.querySelector("#resumeGame").className = document.querySelector("#resumeGame").className.replace(/\s?active/, "")
 
 			/* words */
-				$("#myWords").append("<div class='word'><div class='newWord'></div></div>");
-				window.selectedCubes = [];
+				document.querySelector("#myWords").innerHTML = ("<div class='word'><div class='newWord'></div></div>")
+				window.selectedCubes = []
 
 			/* pick random side of each cube */
 				for (var i = 0; i < cubes.length; i++) {
-					cubes[i] = shuffle(cubes[i]);
-					puzzleCubes[i] = cubes[i][0];
+					cubes[i] = shuffle(cubes[i])
+					puzzleCubes[i] = cubes[i][0]
 				}
 
 			/* shuffle cubes */
-				puzzleCubes = shuffle(puzzleCubes);
+				puzzleCubes = shuffle(puzzleCubes)
 
 			/* display cubes */
-				var j = 50;
+				var j = 50
 				for (var i = 0; i < puzzleCubes.length; i++) {
-					$("#game").append("<div class='frame'><div id='" + j + "' class='cube'><div class='letter'>" + puzzleCubes[i] + "</div></div></div>");
+					var frame = document.createElement("div")
+						frame.className = "frame"
+					document.querySelector("#game").appendChild(frame)
 
-					j++;
+					var cube = document.createElement("div")
+						cube.id = "_" + j
+						cube.className = "cube"
+						cube.addEventListener(on.click, clickLetter)
+					frame.appendChild(cube)
+
+					var letter = document.createElement("div")
+						letter.className = "letter"
+						letter.innerText = puzzleCubes[i]
+					cube.appendChild(letter)
+
+					j++
 					while (j % 10 > 4) {
-						j++;
+						j++
 					}
 				}
 
 			/* build connectors */
 				for (var i = 100; i < 189; i++) {
 					if (i % 10 !== 9) {
-						$("#connectors").append("<div class='connector_frame'><div id='" + i + "' class='connector hidden'></div></div>");
+						var connectorFrame = document.createElement("div")
+							connectorFrame.className = "connector_frame"
+						document.querySelector("#connectors").appendChild(connectorFrame)
+
+						var connector = document.createElement("div")
+							connector.id = "_" + i
+							connector.className = "connector hidden"
+						connectorFrame.appendChild(connector)
 					}
 				}
 
 			/* start timer */
-				resumeGame();
+				resumeGame()
 		}
 
 		function resumeGame() {
 			/* buttons & overlay */
-				$("#overlay").addClass("hidden");
+				document.querySelector("#overlay").className = document.querySelector("#overlay").className.replace(/\s?hidden/, "") + " hidden"
 
-				$("#newGame").addClass("hidden").removeClass("active");
-				$("#resumeGame").addClass("hidden").removeClass("active");
-				$("#pauseGame").removeClass("hidden").addClass("active");
-				$("#submitWord").addClass("active");
-				$("#cancelWord").addClass("active");
+				document.querySelector("#newGame").className = document.querySelector("#newGame").className.replace(/\s?active/, "").replace(/\s?hidden/, "") + " hidden"
+				document.querySelector("#resumeGame").className = document.querySelector("#resumeGame").className.replace(/\s?active/, "").replace(/\s?hidden/, "") + " hidden"
+				document.querySelector("#pauseGame").className = document.querySelector("#pauseGame").className.replace(/\s?active/, "").replace(/\s?hidden/, "") + " active"
+				document.querySelector("#submitWord").className = document.querySelector("#submitWord").className.replace(/\s?active/, "") + " active"
+				document.querySelector("#cancelWord").className = document.querySelector("#cancelWord").className.replace(/\s?active/, "") + " active"
 			
 			/* create timer */
 				window.gameTimer = setInterval(function() {
-					var clock = $("#clock").text();
-					clock = clock.split(":");
-					var timeLeft = (Number(clock[0]) * 60) + (Number(clock[1])) - 1;
+					var clock = document.querySelector("#pause-clock").innerText
+					clock = clock.split(":")
+					var timeLeft = (Number(clock[0]) * 60) + (Number(clock[1])) - 1
 
 					if (timeLeft > 0) {
-						timeLeft = String(Math.floor(timeLeft / 60)) + ":" + String(Math.floor((timeLeft % 60) / 10)) + String(timeLeft % 10);
-						$(".clock").text(timeLeft);
+						timeLeft = String(Math.floor(timeLeft / 60)) + ":" + String(Math.floor((timeLeft % 60) / 10)) + String(timeLeft % 10)
+						document.querySelector("#pause-clock").innerText = timeLeft
+						document.querySelector("#resume-clock").innerText = timeLeft
 					}
 					else {
-						$(".clock").text("0:00");
-						endGame();
+						document.querySelector("#pause-clock").innerText = "0:00"
+						document.querySelector("#resume-clock").innerText = "0:00"
+						endGame()
 					}
-				}, 1000);
-			}
-
-		function pauseGame() {
-			$("#overlay").removeClass("hidden");
-
-			$("#pauseGame").addClass("hidden").removeClass("active");
-			$("#resumeGame").removeClass("hidden").addClass("active");
-			$("#submitWord").removeClass("active");
-			$("#cancelWord").removeClass("active");
-			clearInterval(gameTimer);
+				}, 1000)
 		}
 
-		function endGame () {
-			/* kill clock */
-				$(".clock").text("0:00");
-				clearInterval(gameTimer);
+		function pauseGame() {
+			document.querySelector("#overlay").className = document.querySelector("#overlay").className.replace(/\s?hidden/, "")
 
-				$(".active").removeClass("active");
-				$(".deleteWord").remove();
-				$(".oldWord").css("width","100%");
+			document.querySelector("#pauseGame").className = document.querySelector("#pauseGame").className.replace(/\s?active/, "").replace(/\s?hidden/, "") + " hidden"
+			document.querySelector("#resumeGame").className = document.querySelector("#resumeGame").className.replace(/\s?active/, "").replace(/\s?hidden/, "") + " active"
+			document.querySelector("#submitWord").className = document.querySelector("#submitWord").className.replace(/\s?active/, "")
+			document.querySelector("#cancelWord").className = document.querySelector("#cancelWord").className.replace(/\s?active/, "")
+			clearInterval(gameTimer)
+		}
+
+		function endGame() {
+			/* kill clock */
+				document.querySelector("#pause-clock").innerText = "0:00"
+				document.querySelector("#resume-clock").innerText = "0:00"
+				clearInterval(gameTimer)
+
+				Array.from(document.querySelectorAll(".active")).forEach(function(element) {
+					element.className = element.className.replace(/\s?active/, "")
+				})
+				Array.from(document.querySelectorAll(".deleteWord")).forEach(function(element) {
+					element.remove()
+				})
+				Array.from(document.querySelectorAll(".oldWord")).forEach(function(element) {
+					element.style.width = "100%"
+				})
 
 			/* reset buttons */
-				$("#resumeGame").addClass("hidden");
-				$("#pauseGame").addClass("hidden");
-				$("#newGame").removeClass("hidden").addClass("active");
-				$("#overlay").addClass("hidden");
+				document.querySelector("#resumeGame").className = document.querySelector("#resumeGame").className.replace(/\s?hidden/, "") + " hidden"
+				document.querySelector("#pauseGame").className = document.querySelector("#resumeGame").className.replace(/\s?hidden/, "") + " hidden"
+				document.querySelector("#newGame").className = document.querySelector("#newGame").className.replace(/\s?active/, "").replace(/\s?hidden/, "") + " active"
+				document.querySelector("#overlay").className = document.querySelector("#resumeGame").className.replace(/\s?hidden/, "") + " hidden"
 
 			/* score words */
-				var allWordDivs = $(".oldWord");
-				var allWords = [];
-				var score = "";
+				var allWordDivs = Array.from(document.querySelectorAll(".oldWord"))
+				var allWords = []
+				var score = ""
 				
 				for (var i = 0; i < allWordDivs.length; i++) {
-					allWords[i] = allWordDivs[i].innerHTML;
-					score = score + Number(allWords[i].length) - 2;
-					allWordDivs[i].innerHTML = allWords[i] + " (" + (Number(allWords[i].length) - 2) + ")";
+					allWords[i] = allWordDivs[i].innerHTML
+					score = score + Number(allWords[i].length) - 2
+					allWordDivs[i].innerHTML = allWords[i] + " (" + (Number(allWords[i].length) - 2) + ")"
 				}
 
 			/* display score */
-				$("#myWords").prepend("<div id='score'>score: " + score + "</div>");
-				$(".oldWord").addClass("completeWord");
-				$(".newWord").remove();
-				
+				var scoreElement = document.createElement("div")
+					scoreElement.id = "score"
+					scoreElement.innerText = score
+				document.querySelector("#myWords").prepend(scoreElement)
+				Array.from(document.querySelectorAll(".oldWord")).forEach(function(element) {
+					element.className = element.className.replace(/\s?completeWord/, "") + " completeWord"
+					element.addEventListener(on.mouseenter, startHover)
+					element.addEventListener(on.mouseleave, stopHover)
+				})
+				Array.from(document.querySelectorAll(".newWord")).forEach(function(element) {
+					element.remove()
+				})
 		}
 
 	/* listeners */
 		/* start game */
-			$(document).on(on.click, ".active#newGame", function() {
-				newGame();
-			});
+			document.querySelector("#newGame").addEventListener(on.click, newGame)
 
 		/* pause game */
-			$(document).on(on.click, ".active#pauseGame", function() {
-				pauseGame();
-			});
+			document.querySelector("#pauseGame").addEventListener(on.click, pauseGame)
 
 		/* resume game */
-			$(document).on(on.click, ".active#resumeGame", function() {
-				resumeGame();
-			});
+			document.querySelector("#resumeGame").addEventListener(on.click, resumeGame)
 
 		/* end game */
-			$(document).on(on.click, ".active#endGame", function() {
-				endGame();
-			});
+			document.querySelector("#endGame").addEventListener(on.click, endGame)
 
 		/* click letter */
-			$(document).on(on.click, ".active .cube" , function() {
+			function clickLetter(event) {
+				if (event.target.className.includes("active")) {
+					return
+				}
 
-				var oldCube = Number(selectedCubes.slice(-1)[0]);
-				var newCube = Number($(this).attr("id"));
-				var newLetter = String($(this).text());
-				var newWord = String($(".newWord").text());
+				var oldCube = Number(selectedCubes.slice(-1)[0])
+				var newCube = Number(event.target.id.replace("_", ""))
+				var newLetter = event.target.innerText
+				var newWord = document.querySelector(".newWord").innerText
 
-				if (! oldCube > 0) {
+				if (isNaN(oldCube) || !(oldCube > 0)) {
 				//new word
-					$(".newWord").text(newWord + newLetter);
-					$(this).addClass("selected");
-					selectedCubes.push(newCube);
+					document.querySelector(".newWord").innerText = (newWord + newLetter)
+					event.target.className = event.target.className.replace(/\s?selected/, "") + " selected"
+					selectedCubes.push(newCube)
 				}
 
 				else if (newCube === oldCube) {
 				//undo last letter
-					$(".newWord").text(newWord.substring(0, newWord.length - 1));
-					$(this).removeClass("selected");
-					selectedCubes.pop();
-					oldCube = Number(selectedCubes.slice(-1)[0]);
-					$("#" + (newCube + oldCube)).addClass("hidden");
+					document.querySelector(".newWord").innerText = (newWord.substring(0, newWord.length - 1))
+					event.target.className = event.target.className.replace(/\s?selected/, "")
+					selectedCubes.pop()
+					oldCube = Number(selectedCubes.slice(-1)[0])
+					if (document.querySelector("#_" + (newCube + oldCube))) {
+						document.querySelector("#_" + (newCube + oldCube)).className = document.querySelector("#_" + (newCube + oldCube)).className.replace(/\s?hidden/, "") + " hidden"
+					}
 				}
 
-				else if ($(this).hasClass("selected")) { 
+				else if (event.target.className.includes("selected")) { 
 					//illegal - repeated cube
-					alert("illegal move - repeated cubes");
+					alert("illegal move - repeated cubes")
 				}
 
 				else if ( (newCube === oldCube - 1) || (newCube === oldCube + 1) || (newCube === oldCube - 10) || (newCube === oldCube + 10) || (newCube === oldCube - 11) || (newCube === oldCube + 11) || (newCube === oldCube - 9) || (newCube === oldCube + 9) ) {
 					//legal
-					$(".newWord").text(newWord + newLetter);
-					$(this).addClass("selected");
-					$("#" + (newCube + oldCube)).removeClass("hidden");
-					selectedCubes.push(newCube);
+					document.querySelector(".newWord").innerText = (newWord + newLetter)
+					event.target.className = event.target.className.replace(/\s?selected/, "") + " selected"
+
+					document.querySelector("#_" + (newCube + oldCube)).className = document.querySelector("#_" + (newCube + oldCube)).className.replace(/\s?hidden/, "")
+					selectedCubes.push(newCube)
 				}
 
 				else {
 					//illegal - not adjacent
-					alert("illegal move - not adjacent cubes");
+					alert("illegal move - not adjacent cubes")
 				}
 
-			});
+			}
 
 		/* submit word */
-			$(document).on(on.click, "#submitWord.active", function() {
-
-				var allWordDivs = $(".oldWord");
-				var allWords = [];
-				for (var i = 0; i < allWordDivs.length; i++) {
-					allWords[i] = allWordDivs[i].innerHTML;
+			document.querySelector("#submitWord").addEventListener(on.click, submitWord)
+			function submitWord(event) {
+				if (!event.target.className.includes("active")) {
+					return
 				}
 
-				var newWord = String($(".newWord").text());
+				var allWordDivs = Array.from(document.querySelectorAll(".oldWord"))
+				var allWords = []
+				for (var i = 0; i < allWordDivs.length; i++) {
+					allWords[i] = allWordDivs[i].innerHTML
+				}
+
+				var newWord = document.querySelector(".newWord").innerText.toLowerCase()
 
 				if (newWord.length < 3) {
 					//illegal - too short
-					alert("word must be 3+ letters");
+					alert("word must be 3+ letters")
 				}
 
-				else if (allWords.indexOf(newWord) > -1) {
+				else if (allWords.indexOf(newWord.toUpperCase()) > -1) {
 					//illegal - duplicate word
-					alert("duplicate word");
+					alert("duplicate word")
 				}
 
 				else if (!(dictionary[newWord[0]][newWord.length].indexOf(newWord) > -1)) {
 					//illegal - word not in dictionary
-					alert("word not found in our dictionary");
+					alert("word not found in our dictionary")
 				}
 
 				else {
 					//legal word
-					var chain = "";
-					for (var i = 0; i < selectedCubes.length; i++) 
-					{
-					chain = chain + selectedCubes[i];
+					var chain = ""
+					for (var i = 0; i < selectedCubes.length; i++) {
+						chain = chain + selectedCubes[i]
 
-					if (i < selectedCubes.length - 1) {
-					chain = chain + ",";
+						if (i < selectedCubes.length - 1) {
+							chain = chain + ","
+						}
+					}
+
+					var deleteButton = document.createElement("div")
+						deleteButton.className = "deleteWord"
+						deleteButton.addEventListener(on.click, deleteWord)
+						deleteButton.innerHTML = "<span class='glyphicon glyphicon-remove'></span>"
+					document.querySelector(".newWord").parentNode.appendChild(deleteButton)
+					document.querySelector(".newWord").setAttribute("value", chain)
+					document.querySelector(".newWord").className = document.querySelector(".newWord").className.replace(/\s?newWord/, "").replace(/\s?oldWord/, "") + " oldWord"
+
+					var wordElement = document.createElement("word")
+						wordElement.className = "word"
+					document.querySelector("#myWords").prepend(wordElement)
+
+					var wordInner = document.createElement("div")
+						wordInner.className = "newWord"
+					wordElement.appendChild(wordInner)
+
+					Array.from(document.querySelectorAll(".selected")).forEach(function(element) {
+						element.className = element.className.replace(/\s?selected/, "")
+					})
+					Array.from(document.querySelectorAll(".connector")).forEach(function(element) {
+						element.className = element.className.replace(/\s?hidden/, "") + " hidden"
+					})
+					window.selectedCubes = []
 				}
-
-				}
-
-				$(".newWord").parent().append("<div class='deleteWord'><span class='glyphicon glyphicon-remove'></span></div>");
-				$(".newWord").removeClass("newWord").addClass("oldWord").attr("value",chain);
-				$("#myWords").prepend("<div class='word'><div class='newWord'></div></div>");
-
-				$(".selected").removeClass("selected");
-				$(".connector").addClass("hidden");
-				window.selectedCubes = [];
-
-				}
-
-			});
+			}
 
 		/* cancel word */
-			$(document).on(on.click, "#cancelWord.active", function () {
+			document.querySelector("#cancelWord").addEventListener(on.click, cancelWord)
+			function cancelWord(event) {
+				if (!event.target.className.includes("active")) {
+					return
+				}
 
-				$(".newWord").empty();
-				$(".selected").removeClass("selected");
-				$(".connector").addClass("hidden");
-				window.selectedCubes = [];
-
-			});
+				document.querySelector(".newWord").innerHTML = ""
+				Array.from(document.querySelectorAll(".selected")).forEach(function(element) {
+					element.className = element.className.replace(/\s?selected/, "")
+				})
+				Array.from(document.querySelectorAll(".connector")).forEach(function(element) {
+					element.className = element.className.replace(/\s?hidden/, "") + " hidden"
+				})
+				window.selectedCubes = []
+			}
 
 		/* delete word */
-			$(document).on(on.click, ".deleteWord", function() {
-				$(this).closest(".word").remove();
-			});
+			function deleteWord(event) {
+				event.target.closest(".word").remove()
+			}
 
 		/* hover over complete words */
-			$(document).on("mouseenter touchstart", ".completeWord", function() {
-				var chain = $(this).attr("value");
-				var chainArray = chain.split(",");
+			function startHover(event) {
+				var chain = event.target.getAttribute("value")
+				var chainArray = chain.split(",")
 
 				for (var i = 0; i < chainArray.length; i++) {
-					$("#" + chainArray[i]).addClass("selected");
+					document.querySelector("#_" + chainArray[i]).className = document.querySelector("#_" + chainArray[i]).className.replace(/\s?selected/, "") + " selected"
 					
-					var j = i + 1;
+					var j = i + 1
 					if (typeof chainArray[j] !== "undefined") {
-						var k = Number(chainArray[i]) + Number(chainArray[j]);
-						$("#" + k).removeClass("hidden");
+						var k = Number(chainArray[i]) + Number(chainArray[j])
+						document.querySelector("#_" + k).className = document.querySelector("#_" + k).className.replace(/\s?hidden/, "")
 					}
 				}
-			});
+			}
 
-			$(document).on("mouseleave touchend", ".completeWord", function() {
-				var chain = $(this).attr("value");
-				var chainArray = chain.split(",");
+			function stopHover(event) {
+				var chain = event.target.getAttribute("value")
+				var chainArray = chain.split(",")
 
 				for (var i = 0; i < chainArray.length; i++) {
-					$("#" + chainArray[i]).removeClass("selected");
+					document.querySelector("#_" + chainArray[i]).className = document.querySelector("#_" + chainArray[i]).className.replace(/\s?selected/, "")
 
-					var j = i + 1;
+					var j = i + 1
 					if (typeof chainArray[j] !== "undefined") {
-						var k = Number(chainArray[i]) + Number(chainArray[j]);
-						$("#" + k).addClass("hidden");
+						var k = Number(chainArray[i]) + Number(chainArray[j])
+						document.querySelector("#_" + k).className = document.querySelector("#_" + k).className.replace(/\s?hidden/, "") + " hidden"
 					}
 				}
-			});
+			}
 
-});
+}

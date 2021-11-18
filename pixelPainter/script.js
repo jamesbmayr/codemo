@@ -1,4 +1,4 @@
-$(document).ready(function() {	
+window.onload = function() {	
 
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -9,153 +9,156 @@ $(document).ready(function() {
 		}
 	
 	/* set up */
-		window.painting = false;
-		window.colors = ["black"];
-		window.erasing = false;
+		window.painting = false
+		window.colors = ["black"]
+		window.erasing = false
 
-		var windowHeight = Math.floor(Number($(window).height()) / 10);
-		var windowWidth = Math.floor(Number($(window).width()) / 10);
-		var whiteboard = "";
+		var windowHeight = Math.floor(Number(window.innerHeight) / 10)
+		var windowWidth = Math.floor(Number(window.innerWidth) / 10)
+		var whiteboard = document.querySelector("#whiteboard")
 
 		for (y = 0; y < windowHeight; y++) {
-			var row = "<div class='row'>";
+			var row = document.createElement("row")
+				row.className = "row"
+			whiteboard.appendChild(row)
 			
 			for (x = 0; x < windowWidth; x++) {
-				row += "<span class='cell'></span>";
+				var cell = document.createElement("span")
+					cell.className = "cell"
+					cell.addEventListener(on.mousedown, startPainting)
+					cell.addEventListener("mouseenter", keepPainting)
+				row.appendChild(cell)
 			}
-
-			row += "</div>";
-			whiteboard += row;
 		}
 
-		$("#whiteboard").html(whiteboard);
-
 	/* paint */
-		$(document).on(on.mouseup,document,function() {
-			window.painting = false;
-		});
+		document.addEventListener(on.mouseup, stopPainting)
+		function stopPainting(event) {
+			window.painting = false
+		}
 
-		$(document).on(on.mousedown,".cell",function() {
-			window.painting = true;
+		function startPainting(event) {
+			window.painting = true
 
 			if (window.erasing) {
-				$(this).removeClass().addClass("cell");
+				event.target.className = "cell"
 			}
 			else {
-				$(this).removeClass().addClass("cell").addClass("painted").addClass(window.colors[window.colors.length - 1] || "black");
+				event.target.className = "cell painted " + (window.colors[window.colors.length - 1] || "black")
 			}
-		});
+		}
 
-		$(document).on("mouseenter",".cell",function() {
+		function keepPainting(event) {
 			if (window.painting) {
 				if (window.erasing) {
-					$(this).removeClass().addClass("cell");
+					event.target.className = "cell"
 				}
 				else {
-					$(this).removeClass().addClass("cell").addClass("painted").addClass(window.colors[window.colors.length - 1] || "black");
+					event.target.className = "cell painted " + (window.colors[window.colors.length - 1] || "black")
 				}
 			}
-		});
+		}
 
 	/* colors */
-		$(document).on("keydown",function(key) {
-			switch (key.which) {
+		window.addEventListener("keydown", pressKey)
+		function pressKey(event) {
+			switch (event.which) {
 				case 82:
 					if (window.colors.indexOf("red") == -1) {
-						window.colors.push("red");
+						window.colors.push("red")
 					}
-				break;
+				break
 				case 79:
 					if (window.colors.indexOf("orange") == -1) {
-						window.colors.push("orange");
+						window.colors.push("orange")
 					}
-				break;
+				break
 				case 89:
 					if (window.colors.indexOf("yellow") == -1) {
-						window.colors.push("yellow");
+						window.colors.push("yellow")
 					}
-				break;
+				break
 				case 71:
 					if (window.colors.indexOf("green") == -1) {
-						window.colors.push("green");
+						window.colors.push("green")
 					}
-				break;
+				break
 				case 66:
 					if (window.colors.indexOf("blue") == -1) {
-						window.colors.push("blue");
+						window.colors.push("blue")
 					}
-				break;
+				break
 				case 80:
 					if (window.colors.indexOf("purple") == -1) {
-						window.colors.push("purple");
+						window.colors.push("purple")
 					}
-				break;
+				break
 				case 67:
 					if (window.colors.indexOf("cyan") == -1) {
-						window.colors.push("cyan");
+						window.colors.push("cyan")
 					}
-				break;
+				break
 				case 77:
 					if (window.colors.indexOf("magenta") == -1) {
-						window.colors.push("magenta");
+						window.colors.push("magenta")
 					}
-				break;
+				break
 				case 75:
 					if (window.colors.indexOf("black") == -1) {
-						window.colors.push("black");
+						window.colors.push("black")
 					}
-				break;
+				break
 				case 87:
 				case 32:
 				case 16:
 				case 18:
 				case 17:
-					window.erasing = true;
-					$("#whiteboard").addClass("erasing");
-				break;
+					window.erasing = true
+					document.querySelector("#whiteboard").className += "erasing"
+				break
 			}
-		});
+		}
 
-		$(document).on("keyup",function(key) {
-			switch (key.which) {
+		window.addEventListener("keyup", liftKey)
+		function liftKey(event) {
+			switch (event.which) {
 				case 82:
-					window.colors.splice(window.colors.indexOf("red"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("red"),1)
+				break
 				case 79:
-					window.colors.splice(window.colors.indexOf("orange"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("orange"),1)
+				break
 				case 89:
-					window.colors.splice(window.colors.indexOf("yellow"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("yellow"),1)
+				break
 				case 71:
-					window.colors.splice(window.colors.indexOf("green"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("green"),1)
+				break
 				case 66:
-					window.colors.splice(window.colors.indexOf("blue"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("blue"),1)
+				break
 				case 80:
-					window.colors.splice(window.colors.indexOf("purple"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("purple"),1)
+				break
 				case 67:
-					window.colors.splice(window.colors.indexOf("cyan"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("cyan"),1)
+				break
 				case 77:
-					window.colors.splice(window.colors.indexOf("magenta"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("magenta"),1)
+				break
 				case 75:
-					window.colors.splice(window.colors.indexOf("black"),1);
-				break;
+					window.colors.splice(window.colors.indexOf("black"),1)
+				break
 				case 87:
 				case 32:
 				case 16:
 				case 18:
 				case 17:
-					window.erasing = false;
-					$("#whiteboard").removeClass("erasing");
-				break;
+					window.erasing = false
+					document.querySelector("#whiteboard").className = document.querySelector("#whiteboard").className.replace(/\s?erasing/, "")
+				break
 			}
-		});
-
+		}
 
 	/* mobile */
 		document.addEventListener("touchmove", function(event) {
@@ -167,10 +170,10 @@ $(document).ready(function() {
 
 			if (window.painting && cell) {
 				if (window.erasing) {
-					$(cell).removeClass().addClass("cell");
+					cell.className = "cell"
 				}
 				else {
-					$(cell).removeClass().addClass("cell").addClass("painted").addClass(window.colors[window.colors.length - 1] || "black");
+					cell.className = "cell painted " + (window.colors[window.colors.length - 1] || "black")
 				}
 			}
 		})
@@ -192,5 +195,4 @@ $(document).ready(function() {
 				window.colors = [event.target.id]
 			}
 		}
-
-});
+}

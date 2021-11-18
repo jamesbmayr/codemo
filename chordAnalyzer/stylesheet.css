@@ -148,6 +148,7 @@
 		text-align: center;
 		padding: 1.5%;
 		width: inherit;
+		pointer-events: none;
 	}
 
 	.black {

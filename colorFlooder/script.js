@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = function() {
 
 	/* on load */
 		/* triggers */
@@ -10,167 +10,163 @@ $(document).ready(function() {
 			}
 
 		/* create page */
-			var colors = ["blue","red","green","yellow","magenta","cyan","black"];
-			newPuzzle();
-
-		/* listeners */
-			$(document).on(on.click,".button",function() {
-				changeColor($(this));
-			});
-
-			$(document).on(on.click,".cell",function() {
-				floodArea($(this));
-			});
-
-			$(document).on(on.click,"#refreshOuter",function() {
-				newPuzzle();
-			});
+			var colors = ["blue","red","green","yellow","magenta","cyan","black"]
+			newPuzzle()
 
 	/* actions */
 		/* changeColor */
-			function changeColor(button) {
-				if ($(button).hasClass("active")) {
-					$(".button").removeClass("active");
+			function changeColor(event) {
+				var button = event.target
+				if (button.className.includes("active")) {
+					button.className = button.className.replace(/\s?active/, "")
 				}
 				else {
-					$(".button").removeClass("active");
-					$(button).addClass("active");
+					Array.from(document.querySelectorAll(".button")).forEach(function(element) {
+						element.className = element.className.replace(/\s?active/, "")
+					})
+					button.className += " active"
 				}
 			}
 
 		/* floodArea */
-			function floodArea(cell) {
-				var activeColor = $(".button.active").attr("value");
+			function floodArea(event) {
+				var cell = event.target
+				var activeColor = document.querySelector(".button.active").getAttribute("value")
 
-				if ((activeColor !== undefined) && (!$(cell).hasClass(activeColor))) {
+				if ((activeColor !== undefined) && (!cell.className.includes(activeColor))) {
 					/* identify starting area and areaColor */
-						var areaColor = $(cell).attr("value");
-						var area = [String($(cell).attr("id"))];
+						var areaColor = cell.getAttribute("value")
+						var area = [String(cell.id)]
 
 					/* identify floodable area */
 						for (i = 0; i < area.length; i++) {
-							var row = Number(area[i].substring(area[i].indexOf("row_") + 4,area[i].indexOf("_column_")));
-							var column = Number(area[i].substring(area[i].indexOf("column_") + 7,area[i].length));
+							var row = Number(area[i].substring(area[i].indexOf("row_") + 4, area[i].indexOf("_column_")))
+							var column = Number(area[i].substring(area[i].indexOf("column_") + 7, area[i].length))
 
-							if (($("#row_" + (row + 1) + "_column_" + column).hasClass(areaColor)) && (!(area.indexOf("row_" + (row + 1) + "_column_" + column) > -1))) {
-								area.push("row_" + (row + 1) + "_column_" + column);
+							if (document.querySelector("#row_" + (row + 1) + "_column_" + column) && document.querySelector("#row_" + (row + 1) + "_column_" + column).className.includes(areaColor) && !(area.indexOf("row_" + (row + 1) + "_column_" + column) > -1)) {
+								area.push("row_" + (row + 1) + "_column_" + column)
 							}
 
-							if (($("#row_" + (row - 1) + "_column_" + column).hasClass(areaColor)) && (!(area.indexOf("row_" + (row - 1) + "_column_" + column) > -1))) {
-								area.push("row_" + (row - 1) + "_column_" + column);
+							if (document.querySelector("#row_" + (row - 1) + "_column_" + column) && document.querySelector("#row_" + (row - 1) + "_column_" + column).className.includes(areaColor) && !(area.indexOf("row_" + (row - 1) + "_column_" + column) > -1)) {
+								area.push("row_" + (row - 1) + "_column_" + column)
 							}
 
-							if (($("#row_" + row + "_column_" + (column + 1)).hasClass(areaColor)) && (!(area.indexOf("row_" + row + "_column_" + (column + 1)) > -1))) {
-								area.push("row_" + row + "_column_" + (column + 1));
+							if (document.querySelector("#row_" + row + "_column_" + (column + 1)) && document.querySelector("#row_" + row + "_column_" + (column + 1)).className.includes(areaColor) && !(area.indexOf("row_" + row + "_column_" + (column + 1)) > -1)) {
+								area.push("row_" + row + "_column_" + (column + 1))
 							}
 
-							if (($("#row_" + row + "_column_" + (column - 1)).hasClass(areaColor)) && (!(area.indexOf("row_" + row + "_column_" + (column - 1)) > -1))) {
-								area.push("row_" + row + "_column_" + (column - 1));
+							if (document.querySelector("#row_" + row + "_column_" + (column - 1)) && document.querySelector("#row_" + row + "_column_" + (column - 1)).className.includes(areaColor) && !(area.indexOf("row_" + row + "_column_" + (column - 1)) > -1)) {
+								area.push("row_" + row + "_column_" + (column - 1))
 							}
 						}
 
 					/* flood area with activeColor */
 						for (i = 0; i < area.length; i++) {
-							$("#" + area[i]).removeClass(areaColor).addClass(activeColor).attr("value",activeColor);
+							document.querySelector("#" + area[i]).className = document.querySelector("#" + area[i]).className.replace(areaColor, "") + activeColor
+							document.querySelector("#" + area[i]).setAttribute("value", activeColor)
 						}
 
 					/* update counter */
-						var counter = $("#counterInner").text();
+						var counter = Number(document.querySelector("#counterInner").innerText)
 						if (!(counter > 0)) {
-							counter = 0;
+							counter = 0
 						}
-						$("#counterInner").text(Number(counter) + 1);
+						document.querySelector("#counterInner").innerText = (counter + 1)
 
 					/* victory? */
-						var victory = false;
-						var i = 0;
+						var victory = false
+						var i = 0
 						while ((!victory) && (i < colors.length)) {
-							cellsArray = $(".cell." + colors[i]).toArray();
+							cellsArray = Array.from(document.querySelectorAll(".cell." + colors[i]))
 							if (cellsArray.length === Number(totalRows * totalColumns)) {
-								victory = true;
+								victory = true
 							}
-							i++;
+							i++
 						}
 
 						if (victory) {
-							$("#puzzle").empty().append("<div id='victory'>\
-								<span id='message'>victory!</span>\
-								<div id='parametersOuter'>\
-									<div id='parametersInner'>\
-										<input id='newColorCount' type='number' min='2' max='7' placeholder='colors'></input>\
-										<input id='newGridCount' type='number' min='2' max='25' placeholder='grid'></input>\
-										<div id='refreshOuter'>\
-											<span id='refreshInner' class='glyphicon glyphicon-refresh'></span>\
-										</div>\
-									</div>\
-								</div>\
-							</div>");
-
-							$("#puzzle").addClass(activeColor);
+							document.querySelector("#victory").removeAttribute("invisible")
+							document.querySelector("#puzzle").className = activeColor
 						}
 				}
-
 			}
 
 		/* newPuzzle */
+			document.querySelector("#refreshOuter").addEventListener(on.click, newPuzzle)
 			function newPuzzle() {
-				$("#puzzle").removeClass();
+				document.querySelector("#puzzle").className = ""
+				document.querySelector("#victory").setAttribute("invisible", true)
 
-				var newColorCount = $("#newColorCount").val();
-				var newGridCount = $("#newGridCount").val();
+				if (document.querySelector("#newColorCount") && document.querySelector("#newGridCount")) {
+					var newColorCount = Number(document.querySelector("#newColorCount").value)
+					var newGridCount = Number(document.querySelector("#newGridCount").value)
+				}
 
 				if ((!(newColorCount > 1)) || (!(newColorCount < 8))) {
-					window.colorCount = 3;
+					window.colorCount = 3
 				}
 				else {
-					window.colorCount = newColorCount;
+					window.colorCount = newColorCount
 				}
 
 				if ((!(newGridCount > 1)) || (!(newGridCount < 26))) {
-					window.totalColumns = 5;
-					window.totalRows = 5;
+					window.totalColumns = 5
+					window.totalRows = 5
 				}
 				else {
-					window.totalColumns = newGridCount;
-					window.totalRows = newGridCount;
+					window.totalColumns = newGridCount
+					window.totalRows = newGridCount
 				}
 
-				makePuzzle(window.totalColumns, window.totalRows, window.colorCount);
-				makeButtons(window.colorCount);
+				makePuzzle(window.totalColumns, window.totalRows, window.colorCount)
+				makeButtons(window.colorCount)
 			}
 
 	/* functions */
 		/* randomColor */
 			function randomColor(colorCount) {
-				var number = Math.floor(Math.random() * colorCount);
-				return colors[number];
+				var number = Math.floor(Math.random() * colorCount)
+				return colors[number]
 			}
 
 		/* makePuzzle */
 			function makePuzzle(totalColumns, totalRows, colorCount) {
-				$("#puzzle").empty();
+				document.querySelector("#puzzle").innerHTML = ""
 
 				for (row = 0; row < totalRows; row++) {
-					$("#puzzle").append("<div id='row_" + row + "' class='row' style='height: " + 100 / totalRows + "%'></div>");
+					var rowElement = document.createElement("div")
+						rowElement.id = "row_" + row
+						rowElement.className = "row"
+						rowElement.style.height = (100 / totalRows) + "%"
+					document.querySelector("#puzzle").appendChild(rowElement)
 					
 					for (column = 0; column < totalColumns; column++) {
-						var color = randomColor(colorCount);
-						$("#row_" + row).append("<div id='row_" + row + "_column_" + column + "' class='cell " + color + "' style='width: " + 100 / totalColumns + "%' value='" + color + "'></div>");
+						var color = randomColor(colorCount)
+						var cellElement = document.createElement("div")
+							cellElement.id = "row_" + row + "_column_" + column
+							cellElement.className = "cell " + color
+							cellElement.style.width = (100 / totalColumns) + "%"
+							cellElement.setAttribute("value", color)
+							cellElement.addEventListener(on.click, floodArea)
+						rowElement.appendChild(cellElement)
 					}
 				}
 			}
 
 		/* makeButtons */
 			function makeButtons(colorCount) {
-				$("#buttons").empty().append("<div id='counterOuter'>\
+				document.querySelector("#buttons").innerHTML = ("<div id='counterOuter'>\
 					<span id='counterInner'>?</span>\
-				</div>");
+				</div>")
 
 				for (i = 0; i < colorCount; i++) {
-					$("#buttons").append("<div id='button_" + colors[i] + "' class='button " + colors[i] + "' value='" + colors[i] + "'></div>");
+					var button = document.createElement("div")
+						button.id = "button_" + colors[i]
+						button.className = "button " + colors[i]
+						button.setAttribute("value", colors[i])
+						button.addEventListener(on.click, changeColor)
+						if (!i) { button.className += " active" }
+					document.querySelector("#buttons").appendChild(button)
 				}
-
-				$(".button").first().addClass("active");
 			}
-
-});
+}

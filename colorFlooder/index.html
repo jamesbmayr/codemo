@@ -14,13 +14,24 @@
 		<meta property="og:description" content="colorFlooder is a Javascript web demo by James Mayr"/>
 		<meta property="og:image" content="https://jamesmayr.com/colorflooder/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
 		<script type="text/javascript" src="script.js"></script>
 	</head>
 	<body>
 		<div id="container">
 			<div id="buttons"></div>
 			<div id="puzzle"></div>
+			<div id="victory" invisible>
+				<span id="message">victory!</span>
+				<div id="parametersOuter">
+					<div id="parametersInner">
+						<input id="newColorCount" type="number" min="2" max="7" placeholder="colors"></input>
+						<input id="newGridCount" type="number" min="2" max="25" placeholder="grid"></input>
+						<div id="refreshOuter">
+							<span id="refreshInner" class="glyphicon glyphicon-refresh"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 	</body>

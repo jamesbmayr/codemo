@@ -1,16 +1,16 @@
-$(document).ready(function(){
+window.onload = function() {
 
-	$("#input").keyup(function() {
-		var input = $("#input").val();
+	document.querySelector("#input").addEventListener("keyup", function() {
+		var input = document.querySelector("#input").value
 		
 		if (input.length > 0) {
-			$("#output").empty();
-			$("#output").append(input);
+			document.querySelector("#output").innerHTML = ""
+			document.querySelector("#output").innerHTML = input
 		}
 		else {
-			$("#output").empty();
-			$("#output").append('<span class="helper">...get fixed html here!</span>');
+			document.querySelector("#output").innerHTML = ""
+			document.querySelector("#output").innerHTML = ('<span class="helper">...get fixed html here!</span>')
 		}
-	});
+	})
 
-});
+}

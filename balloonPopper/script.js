@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = function() {
 
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -8,129 +8,191 @@ $(document).ready(function() {
 			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
 		}
 
+	/* constants */
+		var constants = {
+			loopTime: 100,
+			timeSteps: 10,
+			endTime: 2000,
+			startingTop: 50,
+			gutterPercentage: 10,
+			fidelity: 100,
+			balloonSize: 100,
+			baseSpeed: 10,
+			dimPerLoop: 0.05
+		}
+
 	/* load */
-		startGame();
+		startGame()
 
 	/* listeners */
-		$(document).on(on.click,".balloon:not(.popped)",function(event) {
-			var id = String($(this).attr("id"));
-			popBalloon(id);
-		});
-
-		$(document).on(on.click,"#restart",function(event) {
-			startGame();
-		});
+		document.querySelector("#restart").addEventListener(on.click, startGame)
 
 	/* startGame */
 		function startGame() {
-			window.score = 0;
-			window.count = 0;
-			window.playing = true;
+			window.score = 0
+			window.count = 0
+			window.playing = true
 
-			$("#score").text("");
-			$("#restart").hide();
+			document.querySelector("#score").innerText = ""
+			document.querySelector("#restart").style.display = "none"
 			
 			if (window.endTimer) {
-				clearInterval(window.endTimer);
-				clearInterval(window.timer);
-				$(".balloon").remove();
+				clearInterval(window.endTimer)
+				clearInterval(window.timer)
+				Array.from(document.querySelectorAll(".balloon")).forEach(function(balloon) {
+					balloon.remove()
+				})
 			}
 
 			window.timer = setInterval(function() {
-				moveBalloons();
-				spawnBalloons();
-			},100);
+				moveBalloons()
+				spawnBalloons()
+			}, constants.loopTime)
 		}
 
 	/* stopGame */
 		function stopGame() {
-			window.playing = false;
-			$("#restart").show();
+			window.playing = false
+			document.querySelector("#restart").style.display = "block"
 
-			$(".balloon").each(function() {
-				$(this).addClass("popped").css("background-color","rgba(000,000,000,0)").children().show();
-			});
+			Array.from(document.querySelectorAll(".balloon")).forEach(function(balloon) {
+				balloon.className += " popped"
+				balloon.style.backgroundColor = "transparent"
+				Array.from(balloon.children).forEach(function(element) {
+					element.style.display = "block"
+				})
+			})
 
 			window.endTimer = setTimeout(function() {
-				clearInterval(window.timer);
-				$(".balloon").remove();
-			},2000);
+				clearInterval(window.timer)
+				Array.from(document.querySelectorAll(".balloon")).forEach(function(balloon) {
+					balloon.remove()
+				})
+			}, constants.endTime)
 		}
 
 	/* moveBalloons */
 		function moveBalloons() {
-			$(".balloon").each(function(index) {
-				var speed = $(this).attr("speed");
-				var top = Number(String($(this).css("top")).replace("px",""));
+			Array.from(document.querySelectorAll(".balloon")).forEach(function(balloon) {
+				var top = Number(balloon.style.top.replace("px",""))
 
-				if ((top < 0) && !$(this).hasClass("popped")) {
+				if ((top < 0) && !balloon.className.includes("popped")) {
 					if (window.playing) {
-						stopGame();
+						stopGame()
 					}
 				}
-				else if (Number($(this).css("opacity")) === 0) {
-					$(this).remove();
+				else if (Number(balloon.style.opacity) <= 0) {
+					balloon.remove()
 				}
-				else if ($(this).hasClass("popped")) {
-					$(this).animate({
-						"opacity": "-=.05"
-					},100,'linear');
+				else if (balloon.className.includes("popped")) {
+					dimBalloon(balloon)
 				}
 				else {
-					$(this).animate({
-						"top": "-=" + speed + "px"
-					},100,'linear');
+					moveBalloon(balloon)
 				}
-			});
+			})
 		}
 
 	/* spawnBalloons */
 		function spawnBalloons() {
 			if (window.playing) {
 				if (window.score < 5) {
-					var limit = 3;
+					var limit = 3
 				}
 				else if (window.score < 10) {
-					var limit = 4;
+					var limit = 4
 				}
 				else if (window.score < 20) {
-					var limit = 5;
+					var limit = 5
 				}
 				else if (window.score < 30) {
-					var limit = 6;
+					var limit = 6
 				}
 				else if (window.score < 50) {
-					var limit = 8;
+					var limit = 8
 				}
 				else if (window.score < 100) {
-					var limit = 10;
+					var limit = 10
 				}
 				else {
-					var limit = 13;
+					var limit = 13
 				}
 			}
 
-			var colors = ["red","orange","yellow","green","blue","purple","cyan","magenta","gray"];
+			var colors = ["red","orange","yellow","green","blue","purple","cyan","magenta","gray"]
 
 			while ((window.count - window.score) < limit) {
-				var speed = (Math.floor(Math.random() * limit * 100) + 1000) / 100;
-				var left = (Math.floor(Math.random() * 9000) + 200) / 100;
-				var color = colors[Math.floor(Math.random() * colors.length)];
-				var string = Math.floor(Math.random() * 2);
+				var speed = Math.floor((Math.random() * limit + constants.baseSpeed) * constants.fidelity) / constants.fidelity
+				var left = Math.floor((Math.random() * (100 - 3 * constants.gutterPercentage) + constants.gutterPercentage) * constants.fidelity) / constants.fidelity
+				var color = colors[Math.floor(Math.random() * colors.length)]
+				var stringType = Math.floor(Math.random() * 2)
 
-				$("#container").append("<div id='balloon_" + window.count + "' class='balloon " + color + "' style='left: " + left + "%' speed='" + speed + "'><div class='popped-part top-left " + color + "'></div><div class='popped-part top-right " + color + "'></div><div class='popped-part bottom-left " + color + "'></div><div class='popped-part bottom-right " + color + "'></div><div class='string_" + string + "'></div></div>");
-				window.count++;
+				var balloon = document.createElement("div")
+					balloon.id = "balloon_" + window.count
+					balloon.className = "balloon " + color
+					balloon.style.opacity = 1
+					balloon.style.top = (window.innerHeight + constants.startingTop) + "px"
+					balloon.style.left = left + "%"
+					balloon.setAttribute("speed", speed)
+					balloon.addEventListener(on.click, popBalloon)
+				document.querySelector("#container").appendChild(balloon)
+				
+				var corners = ["top-left", "top-right", "bottom-left", "bottom-right"]
+				for (var i in corners) {
+					var poppedPart = document.createElement("div")
+						poppedPart.className = "popped-part " + corners[i] + " " + color
+					balloon.appendChild(poppedPart)
+				}
+				
+				var string = document.createElement("div")
+					string.className = "string_" + stringType
+				balloon.appendChild(string)
+
+				window.count++
 			}
+		}
+
+	/* dimBalloon */
+		function dimBalloon(balloon) {
+			var step = 0
+			var balloonInterval = setInterval(function() {
+				if (step >= constants.timeSteps) {
+					clearInterval(balloonInterval)
+				}
+				else {
+					balloon.style.opacity -= (constants.dimPerLoop / constants.timeSteps)
+					step++
+				}
+			}, constants.loopTime / constants.timeSteps)
+		}
+
+	/* moveBalloon */
+		function moveBalloon(balloon) {
+			var speed = Number(balloon.getAttribute("speed"))
+			var step = 0
+			var balloonInterval = setInterval(function() {
+				if (step >= constants.timeSteps) {
+					clearInterval(balloonInterval)
+				}
+				else {
+					balloon.style.top = (balloon.style.top.replace("px", "") - (speed / constants.timeSteps)) + "px"
+					step++
+				}
+			}, constants.loopTime / constants.timeSteps)
 		}
 
 	/* popBalloon */
-		function popBalloon(id) {
-			if (window.playing) {
-				$("#" + id).addClass("popped").css("background-color","rgba(000,000,000,0)").children().show();
+		function popBalloon(event) {
+			var balloon = event.target
+			if (window.playing && !balloon.className.includes("popped")) {
+				balloon.className += " popped"
+				balloon.style.backgroundColor = "transparent"
+				Array.from(balloon.children).forEach(function(element) {
+					element.style.display = "block"
+				})
 
-				window.score++;
-				$("#score").text(window.score);
+				window.score++
+				document.querySelector("#score").innerText = window.score
 			}
 		}
-
-});
+}

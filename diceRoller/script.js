@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = function() {
 
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -8,34 +8,49 @@ $(document).ready(function() {
 			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
 		}
 
-	$('.dice').on(on.click, function() {
-		$('.dice').removeClass('active');
+	/* elements */
+		var dice = Array.from(document.querySelectorAll('.dice'))
+	
+	/* rollDie */
+		dice.forEach(function(element) {
+			element.addEventListener(on.click, rollDie)
+		})
+		function rollDie(event) {
+			dice.forEach(function(element) {
+				element.className = 'dice'
+			})
 
-		var button = $(this);
+			var button = event.target
+			var row = button.closest('.row')
 
-		var counter = button.next();
-		var subtotal = button.next().next();
-		var total = $('#total');
+			var counter = row.querySelector('.counter')
+			var subtotal = row.querySelector('.subtotal')
+			var total = document.querySelector('#total')
 
-		var die = Number($(button).val());
-		var result = Math.random() * Number(die);
-		result = Math.floor(result) + 1;
+			var die = Number(button.value)
+			var result = Math.random() * Number(die)
+			result = Math.floor(result) + 1
 
-		var count = counter.text();
-		count = Number(count) + 1;
-		counter.text(count);
+			var count = counter.innerText
+			count = Number(count) + 1
+			counter.innerText = count
 
-		subtotal.text(result);
+			subtotal.innerText = result
 
-		var totalAmount = total.text();
-		totalAmount = Number(totalAmount) + result;
-		total.text(totalAmount);
-	});
+			var totalAmount = total.innerText
+			totalAmount = Number(totalAmount) + result
+			total.innerText = totalAmount
+		}
 
-	$('#resetButton').on(on.click, function() {
-		$('.counter').text('');
-		$('.subtotal').text('');
-		$('.total').text('');
-	});
-
-});
+	/* resetBoard */
+		document.querySelector('#resetButton').addEventListener(on.click, resetBoard)
+		function resetBoard() {
+			dice.forEach(function(element) {
+				var row = element.closest('.row')
+				row.querySelector('.counter').innerText = ''
+				row.querySelector('.subtotal').innerText = ''
+			})
+			
+			document.querySelector('#total').innerText = ''
+		}
+}

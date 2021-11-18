@@ -30,7 +30,7 @@
 		overflow: hidden;
 	}
 
-	@media screen and (min-width: 500px) {
+	@media screen and (min-width: 750px) {
 		body {
 			background-color: lightgray;
 			margin: 25px;
@@ -52,7 +52,7 @@
 		}
 	}
 
-	@media screen and (max-width: 500px) {
+	@media screen and (max-width: 750px) {
 		body {
 			background-color: lightgray;
 			margin: 0px;
@@ -73,7 +73,7 @@
 	}
 
 /* puzzle */
-	@media screen and (min-width: 500px) {
+	@media screen and (min-width: 750px) {
 		#puzzle {
 			width: calc(100% - 125px);
 			height: 100%;
@@ -84,7 +84,7 @@
 		}
 	}
 
-	@media screen and (max-width: 500px) {
+	@media screen and (max-width: 750px) {
 		#puzzle {
 			width: 100%;
 			height: calc(100vw - 90px);
@@ -148,7 +148,7 @@
 	}
 
 /* buttons */
-	@media screen and (min-width: 500px) {
+	@media screen and (min-width: 750px) {
 		#buttons {
 			float: left;
 			width: 100px;
@@ -198,7 +198,7 @@
 		}
 	}
 
-	@media screen and (max-width: 500px) {
+	@media screen and (max-width: 750px) {
 		#buttons {
 			float: left;
 			height: 70px;
@@ -263,15 +263,34 @@
 
 /* victory */
 	#victory {
-		width: 100%;
+		width: 500px;
+		max-width: 80vw;
+		height: auto;
 		text-align: center;
-		position: relative;
+		position: absolute;
 		top: 50%;
-		transform: translateY(-50%);
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
 		user-select: none;
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		cursor: default;
+	}
+
+	#victory[invisible] {
+		display: none;
+	}
+
+	@media screen and (min-width: 750px) {
+		#victory {
+			transform: translateX(calc(-50% + 62.5px)) translateY(-50%);
+		}
+	}
+
+	@media screen and (max-width: 750px) {
+		#victory {
+			transform: translateX(-50%) translateY(calc(-50% + 35px));
+		}
 	}
 
 	#message {

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = function() {
 
 	/* colorText */		
 		window.colorText = function(text) {
@@ -196,14 +196,14 @@ $(document).ready(function() {
 			if (!window.evaluating) {
 				//reset
 					window.evaluating = true;
-					$("#console").empty();
+					document.querySelector("#console").innerHTML = ""
 
 				//get code and inputs
-					window.code = $("#code").html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/<\/([^>]+)>/ig,"").replace(/(<([^>]+)>)/ig,"\n").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+					window.code = document.querySelector("#code").innerHTML.replace(/<\\? ?br ?\\?>/g,"\n").replace(/<\/([^>]+)>/ig,"").replace(/(<([^>]+)>)/ig,"\n").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 					window.code = window.code.split("\n");
 
-					window.inputs = $("#inputs").html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s/g,"");
-					window.values = $("#values").html().replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+					window.inputs = document.querySelector("#inputs").innerHTML.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/\s/g,"");
+					window.values = document.querySelector("#values").innerHTML.replace(/<\\? ?br ?\\?>/g,"\n").replace(/(<([^>]+)>)/ig,"").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
 
 				//clean up code and add path following logs
 					for (var line = 0; line < window.code.length; line++) {
@@ -248,7 +248,7 @@ $(document).ready(function() {
 					}
 					catch (error) {
 						window.output = "";
-						$("#console").html("//" + error + "<br>");
+						document.querySelector("#console").innerHTML = ("//" + error + "<br>");
 					}
 
 				//display code, logs, output, errors
@@ -258,35 +258,47 @@ $(document).ready(function() {
 					window.code = window.code.join("\n").replace(/else\ if\ \(window\.lineLog\([\d]*\)\)\ \{\}\n/g,"").replace(/case\ \(window\.lineLog\([\d]*\)\):\nbreak\;\n/g,"").replace(/window\.lineLog\([\d]*\);\n/g,"").replace(/window\.consoleLog\([\d]*\,/g,"console.log(");
 					window.code = window.code.split("\n");
 
-					$("#code").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-					$("#inputs").prop("contenteditable",false).closest(".field_frame").removeClass("active");
-					$("#values").prop("contenteditable",false).closest(".field_frame").removeClass("active");
+					document.querySelector("#code").setAttribute("contenteditable", false)
+					var element = document.querySelector("#code").closest(".field_frame")
+						element.className = element.className.replace(/\s?active/, "");
+					document.querySelector("#inputs").setAttribute("contenteditable", false)
+					var element = document.querySelector("#inputs").closest(".field_frame")
+						element.className = element.className.replace(/\s?active/, "");
+					document.querySelector("#values").setAttribute("contenteditable", false)
+					var element = document.querySelector("#values").closest(".field_frame")
+						element.className = element.className.replace(/\s?active/, "");
 
 					window.loop = setInterval(function() {
 						if (window.lines.length > 0) {
 							console.log(window.code[window.lines[0]]);
-							$("#code").html(window.colorText(window.code.slice(0,window.lines[0]).join("\n").replace(/\n/g,"<br>")) + (window.lines[0] > 0 ? "<br>" : "") + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
+							document.querySelector("#code").innerHTML = (window.colorText(window.code.slice(0,window.lines[0]).join("\n").replace(/\n/g,"<br>")) + (window.lines[0] > 0 ? "<br>" : "") + "<div class='live_line'>" + window.colorText(window.code[window.lines[0]]) + "</div>");
 							
 							var log = window.logs.find(function(l) { return Number(l.substring(0,l.indexOf("::"))) === window.lines[0];});
 							if ((typeof log !== "undefined") && (log !== null)) {
-								$("#console").html($("#console").html() + "//" + log + "<br>");
+								document.querySelector("#console").innerHTML += ("//" + log + "<br>");
 								window.logs.splice(window.logs.indexOf(log),1);
 							}
 							
 							window.lines.shift();
 						}
 						else {
-							$("#code").html(window.colorText(window.code.join("\n")));
-							$("#output").text(window.output || "");
+							document.querySelector("#code").innerHTML = (window.colorText(window.code.join("\n")));
+							document.querySelector("#output").innerText = (window.output || "");
 
 							window.logs = [];
 							window.lines = [];
 							clearInterval(window.loop);
 
 							setTimeout(function() {
-								$("#inputs").text(window.inputs).prop("contenteditable",true).closest(".field_frame").addClass("active");
-								$("#values").text(window.values).prop("contenteditable",true).closest(".field_frame").addClass("active");
-								$("#code").text(window.code.join("\n")).prop("contenteditable",true).closest(".field_frame").addClass("active");
+								document.querySelector("#inputs").innerText = (window.inputs)
+									document.querySelector("#inputs").setAttribute("contenteditable", true)
+									document.querySelector("#inputs").closest(".field_frame").className += (" active");
+								document.querySelector("#values").innerText = (window.values)
+									document.querySelector("#values").setAttribute("contenteditable", true)
+									document.querySelector("#values").closest(".field_frame").className += (" active");
+								document.querySelector("#code").innerText = (window.code.join("\n"))
+									document.querySelector("#code").setAttribute("contenteditable", true)
+									document.querySelector("#code").closest(".field_frame").className += (" active");
 								window.evaluating = false;
 							},3000);
 						}
@@ -294,4 +306,4 @@ $(document).ready(function() {
 			}
 		}
 
-});
+}
