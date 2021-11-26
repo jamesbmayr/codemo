@@ -120,6 +120,7 @@
 		top: calc(100% / 9);
 		padding: 0px;
 		margin: 0px;
+		transition: 3s;
 	}
 
 	.tile {
@@ -134,6 +135,7 @@
 		height: 100%;
 		background-size: cover;
 		background-position: center center;
+		transition: 1s;
 	}
 
 /* triggers */
@@ -164,6 +166,7 @@
 		width: 100%;
 		top: calc(100% / 9);
 		opacity: 0;
+		transition: 3s;
 	}
 
 	#victoryInner {
