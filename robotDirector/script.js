@@ -1,4 +1,4 @@
-$(document).ready(function() {
+window.onload = function() {
 
 	/* * page * */
 		/* triggers */
@@ -10,213 +10,263 @@ $(document).ready(function() {
 			}
 
 		/* load */
-			startGame();
-
-			var timer = setInterval(function() {
-				//animateLines();
-				if (window.playing) {
-					moveRobots();
-					spawnRobots();
-				}
-			}, 2000);
+			var timer = null
+			startGame()
 
 		/* listeners */
-				$(document).on(on.mousedown,".endpoint",function() {
-					if ($(this).hasClass("selected")) {
-						$(".endpoint").removeClass("selected");
+			/* mousedownEndpoint */
+				function mousedownEndpoint(event) {
+					if (event.target.className.includes("selected")) {
+						Array.from(document.querySelectorAll(".endpoint")).forEach(function(el) {
+							el.className = el.className.replace(/\s?selected/,"")
+						})
 					}
 					else {
-						$(".endpoint").removeClass("selected");
-						$(this).addClass("selected");
+						Array.from(document.querySelectorAll(".endpoint")).forEach(function(el) {
+							el.className = el.className.replace(/\s?selected/,"")
+						})
+						event.target.className += " selected"
 					}
-				});
+				}
 
-				$(document).on(on.mousedown,".robot",function() {
-					console.log("robot")
-					if ($(this).find(".endpoint")) {
-						var endpoint = $(this).find(".endpoint")
-						if ($(endpoint).hasClass("selected")) {
-							$(".endpoint").removeClass("selected");
+			/* mousedownRobot */
+				function mousedownRobot(event) {
+					if (event.target.querySelector(".endpoint")) {
+						var endpoint = event.target.querySelector(".endpoint")
+						if (endpoint.className.includes("selected")) {
+							endpoint.className = endpoint.className.replace(/\s?selected/, "")
 						}
 						else {
-							$(".endpoint").removeClass("selected");
-							$(endpoint).addClass("selected");
+							Array.from(document.querySelectorAll(".endpoint")).forEach(function(el) {
+								el.className = el.className.replace(/\s?selected/,"")
+							})
+							endpoint.className += " selected"
 						}
 					}
-				});		
+				}
 
-				$(document).on(on.mousemove,".overGrid_cell",function() {
+			/* mousemoveOverGridCell */
+				function mousemoveOverGridCell(event) {
 					if (window.playing) {
-						var cell_x = Number($(this).attr("x"));
-						var cell_y = Number($(this).attr("y"));
-						selectCell(cell_x,cell_y);
+						var cell_x = Number(event.target.getAttribute("x"))
+						var cell_y = Number(event.target.getAttribute("y"))
+						selectCell(cell_x,cell_y)
 					}
-				});
+				}
 
-				$(document).on(on.mousedown,".overGrid_cell",function() {
+			/* mousedownOverGridCell */
+				function mousedownOverGridCell(event) {
 					if (window.playing) {
-						var cell_x = Number($(this).attr("x"));
-						var cell_y = Number($(this).attr("y"));
-						selectCell(cell_x,cell_y);
+						var cell_x = Number(event.target.getAttribute("x"))
+						var cell_y = Number(event.target.getAttribute("y"))
+						selectCell(cell_x,cell_y)
 					}
-				});
+				}
 
-				$(document).on(on.click,"#pause",function() {
-					if ($("#pause").hasClass("reset")) {
-						startGame();
+			/* clickPause */
+				document.querySelector("#pause").addEventListener(on.click, clickPause)
+				function clickPause(event) {
+					var pauseButton = document.querySelector("#pause")
+					if (pauseButton.className.includes("reset")) {
+						startGame()
 
-						var timer = setInterval(function() {
-							if (window.playing) {
-								moveRobots();
-								spawnRobots();
-							}
-						}, 2000);
-
-						$("#pause").removeClass("reset");
+						pauseButton.className = pauseButton.className.replace(/\s?reset/, "")
 					}
-					else if ($("#pause").hasClass("playing")) {
-						window.playing = false;
-						$("#pause").removeClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-play">');
+					else if (pauseButton.className.includes("playing")) {
+						window.playing = false
+						pauseButton.className = pauseButton.className.replace(/\s?playing/, "")
+						pauseButton.innerHTML = '<span id="pause_glyph" class="glyphicon glyphicon-play">'
 					}
 					else {
-						window.playing = true;
-						$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
+						window.playing = true
+						pauseButton.className += " playing"
+						pauseButton.innerHTML = '<span id="pause_glyph" class="glyphicon glyphicon-pause">'
 					}
-				});
+				}
 
 	/* * actions * */
 		/* selectCell */
 			function selectCell(cell_x,cell_y) {
 				//get endpoint
-					var unit = Number(String($(".endpoint.selected").attr("id")).replace("endpoint_",""));
-					var color = String($(".endpoint.selected").attr("color"));
+					var selected = document.querySelector(".endpoint.selected")
+					if (selected) {
+						var unit = Number(selected.id.replace("endpoint_",""))
+						var color = selected.getAttribute("color")
+					}
 
 				//add to path
-					if (unit && isEmptyUnderGrid(color, cell_x, cell_y) && !(Number($("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path")) === unit)) {
+					if (unit && isEmptyUnderGrid(color, cell_x, cell_y) && !(Number(document.querySelector("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).getAttribute("path")) === unit)) {
 						//get path endpoint
-							var end_x = Number($(".endpoint.selected").attr("x"));
-							var end_y = Number($(".endpoint.selected").attr("y"));
-							var to = false;
-							var from = false;
+							var end_x = Number(document.querySelector(".endpoint.selected").getAttribute("x"))
+							var end_y = Number(document.querySelector(".endpoint.selected").getAttribute("y"))
+							var to = false
+							var from = false
 
 						//starting?
-							if ($("#robot_" + unit + "[x='" + end_x + "'][y='" + end_y + "']").length) {
-								$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","center").attr("color",color);
+							if (document.querySelector("#robot_" + unit + "[x='" + end_x + "'][y='" + end_y + "']")) {
+								var cell = document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y)
+								if (cell) {
+									cell.setAttribute("from","center")
+									cell.setAttribute("color",color)
+								}
 							}
 
 						//past a collector?
-							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-								// console.log("no going beyond a collector");
+							if (document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y) && document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).className.includes("underGrid_collector")) {
 							}
 							else {
 								//direction
-									var directions = toFrom(end_x,end_y,cell_x,cell_y);
-									var to = directions[0];
-									var from = directions[1];
+									var directions = toFrom(end_x,end_y,cell_x,cell_y)
+									var to = directions[0]
+									var from = directions[1]
 
 								//adjacent?
 									if (to) {
-										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("to",to);
+										var cell = document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y)
+										if (cell) {
+											cell.setAttribute("to",to)
+										}
 
-										var endpoint = $(".endpoint.selected").detach();
-										$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-										$(endpoint).attr("x",cell_x).attr("y",cell_y);
-										$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from",from).attr("to","center").attr("color",color);
+										var endpoint = document.querySelector(".endpoint.selected")
+											endpoint.parentElement.removeChild(endpoint)
+											document.querySelector("#overGrid_cell_" + cell_x + "_" + cell_y).appendChild(endpoint)
+											endpoint.setAttribute("x",cell_x)
+											endpoint.setAttribute("y",cell_y)
+										var cell = document.querySelector("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y)
+										if (cell) {
+											cell.setAttribute("path",unit)
+											cell.setAttribute("from",from)
+											cell.setAttribute("to","center")
+											cell.setAttribute("color",color)
+										}
 
-										if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
-											$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+										if (document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")) {
+											var cell = document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")
+												cell.className = cell.className.replace(/\s?underneath/, "")
 										}
 									}
 
 								//collector?
-									if (to && $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
-										var endpoint = $(".endpoint.selected").detach();
-										var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
+									if (to && document.querySelector("#overGrid_cell_" + cell_x + "_" + cell_y + " .collector[color='" + color + "']")) {
+										var endpoint = document.querySelector(".endpoint.selected")
+											endpoint.parentElement.removeChild(endpoint)
+										var collector = document.querySelector("#overGrid_cell_" + cell_x + "_" + cell_y + " .collector[color='" + color + "']")
 										
-										if ($(collector).find(".endpoint").length) {
-											$(collector).find(".endpoint").addClass("underneath");
+										if (collector.querySelector(".endpoint")) {
+											collector.querySelector(".endpoint").className += " underneath"
 										}
 
-										$(endpoint).appendTo(collector);
-										$(endpoint).attr("x",cell_x).attr("y",cell_y);
+										collector.appendChild(endpoint)
+										endpoint.setAttribute("x",cell_x)
+										endpoint.setAttribute("y",cell_y)
 
-										if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
-											$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+										if (document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")) {
+											var cell = document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")
+												cell.className = cell.className.replace(/\s?underneath/, "")
 										}
 									}
 							}
 					}
 
 				//backtrack path
-					else if (unit && (Number($("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path")) === unit)) {
+					else if (unit && (Number(document.querySelector("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).getAttribute("path")) === unit)) {
 						//get endpoint cell
-							var end_x = Number($(".endpoint.selected").attr("x"));
-							var end_y = Number($(".endpoint.selected").attr("y"));
+							var end_x = Number(document.querySelector(".endpoint.selected").getAttribute("x"))
+							var end_y = Number(document.querySelector(".endpoint.selected").getAttribute("y"))
 
 						//backing out of a collector?
-							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-								// console.log("no backing out of a collector");
+							if (document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).className.includes("underGrid_collector")) {
 							}
 							else {
 								//get previous cell
-									var from = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
+									var from = document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).getAttribute("from")
 
-									var coordinates = pathFrom(from, end_x, end_y);
-									var previous_x = coordinates[0];
-									var previous_y = coordinates[1];
+									var coordinates = pathFrom(from, end_x, end_y)
+									var previous_x = coordinates[0]
+									var previous_y = coordinates[1]
 
 								//go back
 									if (from && (cell_x === previous_x) && (cell_y === previous_y)) {
-										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y + ":not(.underGrid_collector)").attr("color","");
-										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from","").attr("to","").attr("path","");
+										document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y + ":not(.underGrid_collector)").getAttribute("color","")
+										var cell = document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y)
+										if (cell) {
+											cell.setAttribute("from","")
+											cell.setAttribute("to","")
+											cell.setAttribute("path","")
+										}
 
-										var endpoint = $(".endpoint.selected").detach();
-										$(endpoint).appendTo("#overGrid_cell_" + cell_x + "_" + cell_y);
-										$(endpoint).attr("x",cell_x).attr("y",cell_y);
-										$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("to","center");
+										var endpoint = document.querySelector(".endpoint.selected")
+											endpoint.setAttribute("x",cell_x)
+											endpoint.setAttribute("y",cell_y)
+										if (endpoint.parentElement) {
+											endpoint.parentElement.removeChild(endpoint)
+											document.querySelector("#overGrid_cell_" + cell_x + "_" + cell_y).appendChild(endpoint)
+										}
+										document.querySelector("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).setAttribute("to","center")
 
-										if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".underneath").length) {
-											$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+										if (document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .underneath")) {
+											var cell = document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")
+											cell.className = cell.className.replace(/\s?underneath/, "")
 										}
 
 										//collector
-											if ($("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']").length) {
-												var endpoint = $(".endpoint.selected").detach();
-												var collector = $("#overGrid_cell_" + cell_x + "_" + cell_y).find(".collector[color='" + color + "']");
+											if (document.querySelector("#overGrid_cell_" + cell_x + "_" + cell_y + " .collector[color='" + color + "']")) {
+												var endpoint = document.querySelector(".endpoint.selected")
+												if (endpoint.parentElement) {
+													endpoint.parentElement.removeChild(endpoint)
+												}
+												var collector = document.querySelector("#overGrid_cell_" + cell_x + "_" + cell_y + " .collector[color='" + color + "']")
 												
-												if ($(collector).find(".endpoint").length) {
-													$(collector).find(".endpoint").addClass("underneath");
+												if (collector.querySelector(".endpoint")) {
+													collector.querySelector(".endpoint").className += " underneath"
 												}
 
-												$(endpoint).appendTo(collector);
-												$(endpoint).attr("x",cell_x).attr("y",cell_y);
+												collector.appendChild(endpoint)
+												endpoint.setAttribute("x",cell_x)
+												endpoint.setAttribute("y",cell_y)
 											}
 									}
 							}
 					}
 
 				//reset path
-					if (unit && (Number($("#robot_" + unit).attr("x")) === cell_x) && (Number($("#robot_" + unit).attr("y")) === cell_y)) {
+					if (unit && (Number(document.querySelector("#robot_" + unit).getAttribute("x")) === cell_x) && (Number(document.querySelector("#robot_" + unit).getAttribute("y")) === cell_y)) {
 						//get endpoint cell
-							var end_x = Number($(".endpoint.selected").attr("x"));
-							var end_y = Number($(".endpoint.selected").attr("y"));
+							var end_x = Number(document.querySelector(".endpoint.selected").getAttribute("x"))
+							var end_y = Number(document.querySelector(".endpoint.selected").getAttribute("y"))
 
 						//backing out of a collector?
-							if ($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
-								// console.log("no backing out of a collector");
+							if (document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).className.includes("underGrid_collector")) {
 							}
 							else {
 								//reset
-								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
-								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("path","").attr("from","").attr("to","");
-								$("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y).attr("path",unit).attr("from","center").attr("to","center").attr("color",color);
+								var cell = document.querySelector(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)")
+								if (cell) {
+									cell.setAttribute("color","")
+									cell.setAttribute("path","")
+									cell.setAttribute("from","")
+									cell.setAttribute("to","")
+								}
 
-								var endpoint = $(".endpoint.selected").detach();
-								$(endpoint).appendTo("#robot_" + unit);
-								$(endpoint).attr("x",cell_x).attr("y",cell_y);
+								var cell = document.querySelector("#underGrid_cell_" + color + "_" + cell_x + "_" + cell_y)
+								if (cell) {
+									cell.setAttribute("path",unit)
+									cell.setAttribute("from","center")
+									cell.setAttribute("to","center")
+									cell.setAttribute("color",color)
+								}
 
-								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").length) {
-									$("#overGrid_cell_" + end_x + "_" + end_y).find(".endpoint").last().removeClass("underneath");
+								var endpoint = document.querySelector(".endpoint.selected")
+									endpoint.setAttribute("x",cell_x)
+									endpoint.setAttribute("y",cell_y)
+								if (endpoint.parentElement) {
+									endpoint.parentElement.removeChild(endpoint)
+									document.querySelector("#robot_" + unit).appendChild(endpoint)
+								}
+
+								if (document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")) {
+									var cell = document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .endpoint")
+										cell.className = cell.className.replace(/\s?underneath/, "")
 								}
 							}
 					}
@@ -225,468 +275,616 @@ $(document).ready(function() {
 	/* * helpers * */
 		/* isEmptyUnderGrid */
 			function isEmptyUnderGrid(color,x,y) {
-				if ($("#overGrid_cell_" + x + "_" + y).find(".endpoint:not([color='" + color + "'])").length) {
-					return false;
+				if (document.querySelector("#overGrid_cell_" + x + "_" + y + " .endpoint:not([color='" + color + "'])")) {
+					return false
 				}
-				else if ($("#overGrid_cell_" + x + "_" + y).find(".endpoint[color='" + color + "']").length && !($("#overGrid_cell_" + x + "_" + y).find(".collector[color='" + color + "']").length)) {
-					return false;
+				else if (document.querySelector("#overGrid_cell_" + x + "_" + y + " .endpoint[color='" + color + "']") && !(document.querySelector("#overGrid_cell_" + x + "_" + y + " .collector[color='" + color + "']"))) {
+					return false
 				}
-				else if ($("#underGrid_cell_" + color + "_" + x + "_" + y).attr("path") && !($("#overGrid_cell_" + x + "_" + y).find(".collector[color='" + color + "']").length)) {
-					return false;
+				else if (document.querySelector("#underGrid_cell_" + color + "_" + x + "_" + y).getAttribute("path") && !(document.querySelector("#overGrid_cell_" + x + "_" + y + " .collector[color='" + color + "']"))) {
+					return false
 				}
-				else if ($("#overGrid_cell_" + x + "_" + y).find(".collector:not([color='" + color + "'])").length) {
-					return false;
+				else if (document.querySelector("#overGrid_cell_" + x + "_" + y + " .collector:not([color='" + color + "'])")) {
+					return false
 				}
 				else {
-					return true;
+					return true
 				}
 			}
 
 		/* isEmptyOverGrid */
 			function isEmptyOverGrid(color,x,y) {
 				if ((x < 0) || (x > 9) || (y < 0) || (y > 9)) {
-					return false;
+					return false
 				}
-				else if ($("#overGrid_cell_" + x + "_" + y).find(".obstacle").length) {
-					return false;
+				else if (document.querySelector("#overGrid_cell_" + x + "_" + y + " .obstacle")) {
+					return false
 				}
-				else if ($("#overGrid_cell_" + x + "_" + y).find(".collector:not([color='" + color + "'])").length) {
-					return false;
+				else if (document.querySelector("#overGrid_cell_" + x + "_" + y + " .collector:not([color='" + color + "'])")) {
+					return false
 				}
-				else if ($(".robot[x='" + x + "'][y='" + y + "']:not([color='" + color + "']").length) {
-					return false;
+				else if (document.querySelector(".robot[x='" + x + "'][y='" + y + "']:not([color='" + color + "']")) {
+					return false
 				}
-				else if ($(".robot[x='" + x + "'][y='" + y + "'][color='" + color + "']").length && !($("#overGrid_cell_" + x + "_" + y).find(".collector[color='" + color + "']").length)) {
-					return false;
+				else if (document.querySelector(".robot[x='" + x + "'][y='" + y + "'][color='" + color + "']") && !(document.querySelector("#overGrid_cell_" + x + "_" + y + " .collector[color='" + color + "']"))) {
+					return false
 				}
 				else {
-					return true;
+					return true
 				}
 			}
 
 		/* pathTo */
 			function pathTo(to,x,y) {
-				x = Number(x);
-				y = Number(y);
+				x = Number(x)
+				y = Number(y)
 
 				switch (to) {
 					case "top":
-						x = x;
-						y = y + 1;
-					break;
+						x = x
+						y = y + 1
+					break
 
 					case "right":
-						x = x - 1;
-						y = y;
-					break;
+						x = x - 1
+						y = y
+					break
 
 					case "bottom":
-						x = x;
-						y = y - 1;
-					break;
+						x = x
+						y = y - 1
+					break
 
 					case "left":
-						x = x + 1;
-						y = y;
-					break;
+						x = x + 1
+						y = y
+					break
 
 					default:
-						x = x;
-						y = y;
-					break;
+						x = x
+						y = y
+					break
 				}
-				return [x,y];
+				return [x,y]
 			}
 
 		/* pathFrom */
 			function pathFrom(from,x,y) {
-				x = Number(x);
-				y = Number(y);
+				x = Number(x)
+				y = Number(y)
 
 				switch (from) {
 					case "top":
-						x = x;
-						y = y - 1;
-					break;
+						x = x
+						y = y - 1
+					break
 
 					case "right":
-						x = x + 1;
-						y = y;
-					break;
+						x = x + 1
+						y = y
+					break
 
 					case "bottom":
-						x = x;
-						y = y + 1;
-					break;
+						x = x
+						y = y + 1
+					break
 
 					case "left":
-						x = x - 1;
-						y = y;
-					break;
+						x = x - 1
+						y = y
+					break
 
 					default:
-						x = x;
-						y = y;
-					break;
+						x = x
+						y = y
+					break
 				}
-				return [x,y];
+				return [x,y]
 			}
 
 		/* toFrom */
 			function toFrom(start_x,start_y,end_x,end_y) {
 				if ((end_x === start_x + 1) && (end_y === start_y)) {
-					to = "right";
-					from = "left";
+					to = "right"
+					from = "left"
 				}
 				else if ((end_x === start_x - 1) && (end_y === start_y)) {
-					to = "left";
-					from = "right";
+					to = "left"
+					from = "right"
 				}
 				else if ((end_x === start_x) && (end_y === start_y + 1)) {
-					to = "bottom";
-					from = "top";
+					to = "bottom"
+					from = "top"
 				}
 				else if ((end_x === start_x) && (end_y === start_y - 1)) {
-					to = "top";
-					from = "bottom";
+					to = "top"
+					from = "bottom"
 				}
 				else {
-					to = false;
-					from = false;
+					to = false
+					from = false
 				}
 
-				return [to,from];
+				return [to,from]
 			}
 
 	/* * functions * */
 		/* startGame */
 			function startGame() {
+				// timer
+					clearInterval(timer)
+					timer = setInterval(function() {
+						if (window.playing) {
+							moveRobots()
+							spawnRobots()
+						}
+					}, 2000)
+
 				//reset
-					window.playing = false;
-					window.score = 0;
-					var colors = ["red","green","blue"];
-					$("#scoreInner").text("");
-					$("#container").empty();
-					$("#container").append("<div id='overGrid' class='overGrid'></div>");
+					window.playing = false
+					window.score = 0
+					var colors = ["red","green","blue"]
+					document.querySelector("#scoreInner").innerText = ""
+
+					document.querySelector("#container").innerHTML = ""
+					var overGrid = document.createElement("div")
+						overGrid.id = "overGrid"
+						overGrid.className = "overGrid"
+					document.querySelector("#container").appendChild(overGrid)
+					
 					for (i = 0; i < colors.length; i++) {
-						$("#container").append("<div id='underGrid_" + colors[i] + "' class='underGrid'></div>");
+						var underGrid = document.createElement("div")
+							underGrid.className = "underGrid"
+							underGrid.id = "underGrid_" + colors[i]
+						document.querySelector("#container").appendChild(underGrid)
 					}
 
 				//create grid
 					for (y = 0; y < 10; y++) {
-						$("#overGrid").append("<div id='overGrid_row_" + y + "' class='overGrid_row'></div>");
+						var row = document.createElement("div")
+							row.id = "overGrid_row_" + y
+							row.className = "overGrid_row"
+						overGrid.appendChild(row)
+
 						for (i = 0; i < colors.length; i++) {
-							$("#underGrid_" + colors[i]).append("<div id='underGrid_row_" + colors[i] + "_" + y + "' class='underGrid_row'></div>");
+							var row = document.createElement("div")
+								row.id = "underGrid_row_" + colors[i] + "_" + y
+								row.className = "underGrid_row"
+							document.querySelector("#underGrid_" + colors[i]).appendChild(row)
 						}
 						for (x = 0; x < 10; x++) {
-							$("#overGrid_row_" + y).append("<div id='overGrid_cell_" + x + "_" + y + "' class='overGrid_cell' x='" + x + "' y='" + y + "'></div>");
+							var cell = document.createElement("div")
+								cell.id = "overGrid_cell_" + x + "_" + y
+								cell.className = "overGrid_cell"
+								cell.setAttribute("x", x)
+								cell.setAttribute("y", y)
+								cell.addEventListener(on.mousemove, mousemoveOverGridCell)
+								cell.addEventListener(on.mousedown, mousedownOverGridCell)
+							document.querySelector("#overGrid_row_" + y).appendChild(cell)
+
 							for (i = 0; i < colors.length; i++) {
-								$("#underGrid_row_" + colors[i] + "_" + y).append("<div id='underGrid_cell_" + colors[i] + "_" + x + "_" + y + "' class='underGrid_cell' x='" + x + "' y='" + y + "'></div>");
+								var cell = document.createElement("div")
+									cell.id = "underGrid_cell_" + colors[i] + "_" + x + "_" + y
+									cell.className = "underGrid_cell"
+									cell.setAttribute("x", x)
+									cell.setAttribute("y", y)
+								document.querySelector("#underGrid_row_" + colors[i] + "_" + y).appendChild(cell)
 							}
 						}
 					}
 
 				//create collectors
-					var collectorCoordinates = [];
+					var collectorCoordinates = []
 					for (i = 0; i < colors.length; i++) {
 						do {
-							var x = Math.floor(Math.random() * 6) + 2;
-							var y = Math.floor(Math.random() * 6) + 2;
+							var x = Math.floor(Math.random() * 6) + 2
+							var y = Math.floor(Math.random() * 6) + 2
 						}
-						while ((collectorCoordinates.indexOf(x + "_" + y) > -1) || (collectorCoordinates.indexOf((x - 1) + "_" + y) > -1) || (collectorCoordinates.indexOf((x + 1) + "_" + y) > -1) || (collectorCoordinates.indexOf(x + "_" + (y - 1)) > -1) || (collectorCoordinates.indexOf(x + "_" + (y + 1)) > -1));
+						while ((collectorCoordinates.indexOf(x + "_" + y) > -1) || (collectorCoordinates.indexOf((x - 1) + "_" + y) > -1) || (collectorCoordinates.indexOf((x + 1) + "_" + y) > -1) || (collectorCoordinates.indexOf(x + "_" + (y - 1)) > -1) || (collectorCoordinates.indexOf(x + "_" + (y + 1)) > -1))
 						
-						$("#overGrid_cell_" + x + "_" + y).append("<div class='collector' color='" + colors[i] + "'>");
-						$("#underGrid_cell_" + colors[i] + "_" + x + "_" + y).addClass("underGrid_collector").attr("color",colors[i]);
-						collectorCoordinates.push(x + "_" + y);
+						var collector = document.createElement("div")
+							collector.className = "collector"
+							collector.setAttribute("color", colors[i])
+						document.querySelector("#overGrid_cell_" + x + "_" + y).appendChild(collector)
+						document.querySelector("#underGrid_cell_" + colors[i] + "_" + x + "_" + y).className += " underGrid_collector"
+						document.querySelector("#underGrid_cell_" + colors[i] + "_" + x + "_" + y).setAttribute("color",colors[i])
+						collectorCoordinates.push(x + "_" + y)
 					}
 
 				//begin game
-					window.playing = true;
-					$("#pause").addClass("playing").html('<span id="pause_glyph" class="glyphicon glyphicon-pause">');
+					window.playing = true
+					document.querySelector("#pause").className += " playing"
+					document.querySelector("#pause").innerHTML = '<span id="pause_glyph" class="glyphicon glyphicon-pause">'
 			}
 
 		/* moveRobots */
 			function moveRobots() {
-				$(".robot").each(function() {
+				Array.from(document.querySelectorAll(".robot")).forEach(function(robot) {
 					//starting point
-						var robot = $(this);
-						var unit = Number(String($(robot).attr("id").replace("robot_","")));
-						var start_x = Number($(robot).attr("x"));
-						var start_y = Number($(robot).attr("y"));
-						var color = String($(robot).attr("color"));
-						var oldDirection = String($(robot).attr("direction"));
+						var unit = Number(robot.id.replace("robot_",""))
+						var start_x = Number(robot.getAttribute("x"))
+						var start_y = Number(robot.getAttribute("y"))
+						var color = robot.getAttribute("color")
+						var oldDirection = robot.getAttribute("direction")
 
 					//get newDirection
-						var newDirection = $("#underGrid_cell_" + color + "_" + start_x + "_" + start_y + "[path='" + unit + "']").attr("to");
+						var temp = document.querySelector("#underGrid_cell_" + color + "_" + start_x + "_" + start_y + "[path='" + unit + "']")
+						var newDirection = temp ? temp.getAttribute("to") : null
 
 						if (!newDirection) {
-							newDirection = oldDirection;
+							newDirection = oldDirection
 						}
 						else if (newDirection === "center") {
-							newDirection = oldDirection;
+							newDirection = oldDirection
 						}
 
-						$(robot).attr("direction",newDirection);
+						robot.setAttribute("direction",newDirection)
 					
 					//get new coordinates
-						var coordinates = pathFrom(newDirection, start_x, start_y);
-						var end_x = coordinates[0];
-						var end_y = coordinates[1];
+						var coordinates = pathFrom(newDirection, start_x, start_y)
+						var end_x = coordinates[0]
+						var end_y = coordinates[1]
 
 					//collected?
-						if ($(robot).hasClass("collected")) {
-							$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
-							$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
+						if (robot.className.includes("collected")) {
+							var cell = document.querySelector(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)")
+							if (cell) {
+								cell.setAttribute("color","")
+							}
+							var cell = document.querySelector(".underGrid_cell[path='" + unit + "']")
+							if (cell) {
+								cell.setAttribute("from","")
+								cell.setAttribute("to","")
+								cell.setAttribute("path","")
+							}
 
-							var endpoint = $("#endpoint_" + unit).detach();
-							$(endpoint).appendTo(robot);
-							$(endpoint).attr("x",end_x).attr("y",end_y);
+							var endpoint = document.querySelector("#endpoint_" + unit)
+							if (endpoint) {
+								endpoint.setAttribute("x",end_x)
+								endpoint.setAttribute("y",end_y)
+								if (endpoint.parentElement) {
+									endpoint.parentElement.removeChild(endpoint)
+									robot.appendChild(endpoint)
+								}
+							}
 
 							setTimeout(function() {
-								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
-								$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
-								$(robot).remove();
-							},2000);
+								var cell = document.querySelector(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)")
+								if (cell) {
+									cell.setAttribute("color","")
+								}
+								var cell = document.querySelector(".underGrid_cell[path='" + unit + "']")
+								if (cell) {
+									cell.setAttribute("from","")
+									cell.setAttribute("to","")
+									cell.setAttribute("path","")
+								}
+								robot.remove()
+							},2000)
 						}
 
 					//illegal move?
 						else if (!isEmptyOverGrid(color,end_x,end_y)) {
 							//stop game
-								clearInterval(timer);
-								window.playing = false;
-								$("#pause").removeClass("playing").addClass("reset").html('<span id="pause_glyph" class="glyphicon glyphicon-refresh">');
+								clearInterval(timer)
+								window.playing = false
+								document.querySelector("#pause").className = document.querySelector("#pause").className.replace(/\s?playing/, "")
+								document.querySelector("#pause").className += " reset"
+								document.querySelector("#pause").innerHTML = '<span id="pause_glyph" class="glyphicon glyphicon-refresh">'
 
 							//remove line
-								var endpoint = $("#endpoint_" + unit).detach();
-								$(endpoint).appendTo(robot).attr("x",end_x).attr("y",end_y);
-								$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)").attr("color","");
-								$(".underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
+								var endpoint = document.querySelector("#endpoint_" + unit)
+									endpoint.setAttribute("x",end_x)
+									endpoint.setAttribute("y",end_y)
+								if (endpoint.parentElement) {
+									endpoint.parentElement.removeChild(endpoint)
+									robot.appendChild(endpoint)
+								}
+								var cell = document.querySelector(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector)")
+								if (cell) {
+									cell.setAttribute("color","")
+								}
+								var cell = document.querySelector(".underGrid_cell[path='" + unit + "']")
+								if (cell) {
+									cell.setAttribute("from","")
+									cell.setAttribute("to","")
+									cell.setAttribute("path","")
+								}
 
 							//animate robot
-								$(robot).attr("x",end_x).attr("y",end_y).animate({
-									top: (end_y * 10 + "%"),
-									left: (end_x * 10 + "%")
-								},2000,'linear');
+								robot.setAttribute("x",end_x)
+								robot.setAttribute("y",end_y)
+								robot.style.top = (end_y * 10 + "%")
+								robot.style.left = (end_x * 10 + "%")
 
-								var flashCount = 0;
+								var flashCount = 0
 								var flash = setInterval(function() {
 									if (flashCount % 2 === 0) {
-										$(robot).css("background-color","#ffffff");
+										robot.style.backgroundColor = "#ffffff"
 									}
 									else {
-										$(robot).css("background-color","#333333");
+										robot.style.backgroundColor = "#333333"
 									}
-									flashCount++;
+									flashCount++
 
 									if (flashCount > 9) {
-										$(robot).addClass("online");
-										clearInterval(flash);
+										robot.className += " online"
+										clearInterval(flash)
 									}
-								},100);
+								},100)
 						}
 						else {
 							//animate robot
-								$(robot).attr("x",end_x).attr("y",end_y).animate({
-									top: (end_y * 10 + "%"),
-									left: (end_x * 10 + "%")
-								},2000,'linear');
+								robot.setAttribute("x",end_x)
+								robot.setAttribute("y",end_y)
+								robot.style.top = (end_y * 10 + "%")
+								robot.style.left = (end_x * 10 + "%")
 
 							//remove line
 								setTimeout(function() {
-									$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y + ":not(.underGrid_collector)").attr("color","");
-									$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y).attr("from","").attr("to","").attr("path","");
-								},750);
+									var cells = Array.from(document.querySelectorAll("#underGrid_cell_" + color + "_" + start_x + "_" + start_y + ":not(.underGrid_collector)"))
+										cells.forEach(function(el) {
+											el.setAttribute("color","")
+										})
+									var cell = document.querySelector("#underGrid_cell_" + color + "_" + start_x + "_" + start_y)
+									if (cell) {
+										cell.setAttribute("from","")
+										cell.setAttribute("to","")
+										cell.setAttribute("path","")
+									}
+								},750)
 
 								setTimeout(function() {
-									$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path",unit).attr("color",color).attr("from","center");
-								},1250);
+									var cell = document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y)
+									if (cell) {
+										cell.setAttribute("path",unit)
+										cell.setAttribute("color",color)
+										cell.setAttribute("from","center")
+									}
+								},1250)
 
 							//online?
-								if (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) === unit) {
-									$(robot).addClass("online");
+								if (Number(document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).getAttribute("path")) === unit) {
+									robot.className += " online"
 								}
 								else {
-									$(robot).removeClass("online");
-									var endpoint = $("#endpoint_" + unit).detach();
-									$(endpoint).appendTo(robot).attr("x",end_x).attr("y",end_y);
-									$("#underGrid_cell[path='" + unit + "']").attr("from","").attr("to","").attr("path","");
+									robot.className = robot.className.replace(/\s?online/, "")
+									var endpoint = document.querySelector("#endpoint_" + unit)
+										endpoint.setAttribute("x",end_x)
+										endpoint.setAttribute("y",end_y)
+									if (endpoint.parentElement) {
+										endpoint.parentElement.removeChild(endpoint)
+										robot.appendChild(endpoint)
+									}
+									var cell = document.querySelector("#underGrid_cell[path='" + unit + "']")
+									if (cell) {
+										cell.setAttribute("from","")
+										cell.setAttribute("to","")
+										cell.setAttribute("path","")
+									}
 								}
 
 							//hijacking a path?
-								if (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) && (Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path")) !== unit) && !$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).hasClass("underGrid_collector")) {
+								if (document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y) && (Number(document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).getAttribute("path")) !== unit) && !document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).className.includes("underGrid_collector")) {
 									//get info on path
-										var path = Number($("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("path"));
-										var path_endpoint = $("#endpoint_" + path).detach();
-										var path_endpoint_x = $(path_endpoint).attr("x");
-										var path_endpoint_y = $(path_endpoint).attr("y");
-
-										// console.log(unit + " hijacking " + path + "'s path from " + end_x + "," + end_y + " to " + path_endpoint_x + "," + path_endpoint_y)
+										var path = Number(document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).getAttribute("path"))
+										var path_endpoint = document.querySelector("#endpoint_" + path)
+										if (!path_endpoint) { return }
+											if (path_endpoint.parentElement) {
+												path_endpoint.parentElement.removeChild(path_endpoint)
+											}
+										var path_endpoint_x = Number(path_endpoint.getAttribute("x"))
+										var path_endpoint_y = Number(path_endpoint.getAttribute("y"))
 									
 									//move this robot's endpoint to the hijack spot
-										var endpoint = $("#endpoint_" + unit).detach();
-										if ($("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).find(".collector").length) {
-											var target = $("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).find(".collector");
-											$(endpoint).appendTo(target);
-											$(endpoint).attr("x",path_endpoint_x).attr("y",path_endpoint_y);
+										var endpoint = document.querySelector("#endpoint_" + unit)
+										if (!endpoint) { return }
+											endpoint.setAttribute("x",path_endpoint_x)
+											endpoint.setAttribute("y",path_endpoint_y)
+										if (endpoint.parentElement) {
+											endpoint.parentElement.removeChild(endpoint)
+										}
+										if (document.querySelector("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y + " .collector")) {
+											document.querySelector("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y + " .collector").appendChild(endpoint)
 										}
 										else {
-											$(endpoint).appendTo("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).attr("x",path_endpoint_x).attr("y",path_endpoint_y);
+											document.querySelector("#overGrid_cell_" + path_endpoint_x + "_" + path_endpoint_y).appendChild(endpoint)
 										}
 
 									//move hijacked path's endpoint to previous spot
-										var from = $("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from");
-										var coordinates = pathFrom(from, end_x, end_y);
-										var previous_x = coordinates[0];
-										var previous_y = coordinates[1];
+										var from = document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).getAttribute("from")
+										var coordinates = pathFrom(from, end_x, end_y)
+										var previous_x = coordinates[0]
+										var previous_y = coordinates[1]
 
-										if ($("#overGrid_cell_" + previous_x + "_" + previous_y).find(".collector").length) {
-											var target = $("#overGrid_cell_" + previous_x + "_" + previous_y).find(".collector");
-											$(path_endpoint).appendTo(target);
-											$(path_endpoint).attr("x",previous_x).attr("y",previous_y);
+										path_endpoint.setAttribute("x",previous_x)
+										path_endpoint.setAttribute("y",previous_y)
+
+										if (document.querySelector("#overGrid_cell_" + previous_x + "_" + previous_y + " .collector")) {
+											document.querySelector("#overGrid_cell_" + previous_x + "_" + previous_y + " .collector").appendChild(path_endpoint)
 										}
 										else {
-											$(path_endpoint).appendTo("#overGrid_cell_" + previous_x + "_" + previous_y).attr("x",previous_x).attr("y",previous_y);
-											$("#underGrid_cell_" + color + "_" + previous_x + "_" + previous_y).attr("to","center");
+											document.querySelector("#overGrid_cell_" + previous_x + "_" + previous_y).appendChild(path_endpoint)
+											document.querySelector("#underGrid_cell_" + color + "_" + previous_x + "_" + previous_y).setAttribute("to","center")
 										}
 
 									//eliminate this robot's other path components
-										$(".underGrid_cell[path='" + unit + "']").attr("path","").attr("from","").attr("to","");
+										var cells = Array.from(document.querySelectorAll(".underGrid_cell[path='" + unit + "']"))
+										cells.forEach(function(el) {
+											el.setAttribute("path","")
+											el.setAttribute("from","")
+											el.setAttribute("to","")
+										})
 
 									//fix clip-path directions for start point and end point
-										var hijackedTo = toFrom(start_x,start_y,end_x,end_y)[0];
-										var hijackedFrom = toFrom(start_x,start_y,end_x,end_y)[1];
-										$("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).attr("from",hijackedFrom);
-										$("#underGrid_cell_" + color + "_" + start_x + "_" + start_y).attr("to",hijackedTo).attr("from","center").attr("path",unit);
+										var hijackedTo = toFrom(start_x,start_y,end_x,end_y)[0]
+										var hijackedFrom = toFrom(start_x,start_y,end_x,end_y)[1]
+										document.querySelector("#underGrid_cell_" + color + "_" + end_x + "_" + end_y).setAttribute("from",hijackedFrom)
+										var cell = document.querySelector("#underGrid_cell_" + color + "_" + start_x + "_" + start_y)
+										if (cell) {
+											cell.setAttribute("to",hijackedTo)
+											cell.setAttribute("from","center")
+											cell.setAttribute("path",unit)
+										}
 
 									//fix owner of endpoint path cell
-										$("#underGrid_cell_" + color + "_" + path_endpoint_x + "_" + path_endpoint_y).attr("path",unit);
+										document.querySelector("#underGrid_cell_" + color + "_" + path_endpoint_x + "_" + path_endpoint_y).setAttribute("path",unit)
 									
 									//if there are additional path cells
 										if (!((path_endpoint_x === end_x) && (path_endpoint_y === end_y))) {
-											var uproot_x = path_endpoint_x;
-											var uproot_y = path_endpoint_y;
-											var uproot_from = $("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("from");
-											var abort = 0;
+											var uproot_x = path_endpoint_x
+											var uproot_y = path_endpoint_y
+											var uproot_from = document.querySelector("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).getAttribute("from")
+											var abort = 0
 										
 											while ((abort < 100) && !((uproot_x === end_x) && (uproot_y === end_y))) {
-												var uproot_coordinates = pathFrom(uproot_from, uproot_x, uproot_y);
-												var uproot_x = uproot_coordinates[0];
-												var uproot_y = uproot_coordinates[1];
+												var uproot_coordinates = pathFrom(uproot_from, uproot_x, uproot_y)
+												var uproot_x = uproot_coordinates[0]
+												var uproot_y = uproot_coordinates[1]
 
-												$("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("path",unit);
-												// console.log("uprooting: " + uproot_x + ", " + uproot_y + " ; abort: " + abort);
-												var uproot_from = $("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).attr("from");
-												abort++;
+												document.querySelector("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).setAttribute("path",unit)
+												var uproot_from = document.querySelector("#underGrid_cell_" + color + "_" + uproot_x + "_" + uproot_y).getAttribute("from")
+												abort++
 											}
 										}
 								}
 
 							//collector?
-								if ($("#overGrid_cell_" + end_x + "_" + end_y).find(".collector[color='" + color + "']").length) {
-									window.score++;
-									$("#scoreInner").text(window.score);
+								if (document.querySelector("#overGrid_cell_" + end_x + "_" + end_y + " .collector[color='" + color + "']")) {
+									window.score++
+									document.querySelector("#scoreInner").innerText = window.score
 
-									$("#endpoint_" + unit).remove();
-									$(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector):not([x='" + start_x + "'][y='" + start_y + "'])").attr("color","");
-									$(".underGrid_cell[path='" + unit + "']:not([x='" + start_x + "'][y='" + start_y + "'])").attr("path","").attr("from","").attr("to","");
+									document.querySelector("#endpoint_" + unit).remove()
+									var cell = document.querySelector(".underGrid_cell[path='" + unit + "']:not(.underGrid_collector):not([x='" + start_x + "'][y='" + start_y + "'])")
+										if (cell) {
+											cell.setAttribute("color","")
+										}
+									var cell = document.querySelector(".underGrid_cell[path='" + unit + "']:not([x='" + start_x + "'][y='" + start_y + "'])")
+									if (cell) {
+										cell.setAttribute("path","")
+										cell.setAttribute("from","")
+										cell.setAttribute("to","")
+									}
 									
-									$(robot).attr("direction","collected").addClass("collected");
-									$(robot).animate({
-										border: "0",
-										opacity: "0",
-										width: "0",
-										height: "0",
-										top: "+=5%",
-										left: "+=5%",
-										margin: "-=5px"
-									},2000);
+									robot.setAttribute("direction","collected")
+									robot.className += " collected"
+									robot.style.border = "0"
+									robot.style.opacity = "0"
+									robot.style.width = "0"
+									robot.style.height = "0"
+									robot.style.top = (Number(robot.style.top.replace("%", "")) + 5) + "%"
+									robot.style.left = (Number(robot.style.left.replace("%", "")) + 5) + "%"
+									robot.style.margin = (Number(robot.style.margin.replace("px", "")) - 5) + "px"
 								}
 						}
-				});
+				})
 			}
 
 		/* spawnRobots */
 			function spawnRobots() {
-				
 				//parameters
-					var colors = ["red","green","blue"];
+					var colors = ["red","green","blue"]
 					var possibleCells = [[0,1],[0,2],[0,3],[0,4],[0,5],[0,6],[0,7],[0,8],
 										[9,1],[9,2],[9,3],[9,4],[9,5],[9,6],[9,7],[9,8],
 										[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,0],
-										[1,9],[2,9],[3,9],[4,9],[5,9],[6,9],[7,9],[8,9]];
+										[1,9],[2,9],[3,9],[4,9],[5,9],[6,9],[7,9],[8,9]]
 				
 				//botLimit
 					if (window.score < 5) {
-						var botLimit = 3;
+						var botLimit = 3
 					}
 					else if (window.score < 10) {
-						var botLimit = 4;
+						var botLimit = 4
 					}
 					else if (window.score < 15) {
-						var botLimit = 5;
+						var botLimit = 5
 					}
 					else if (window.score < 20) {
-						var botLimit = 6;
+						var botLimit = 6
 					}
 					else if (window.score < 25) {
-						var botLimit = 7;
+						var botLimit = 7
 					}
 					else {
-						var botLimit = 8;
+						var botLimit = 8
 					}
 
 				//botCount
-					var botCount = $(".robot").toArray().length;
+					var botCount = Array.from(document.querySelectorAll(".robot")).length
 
 					if ((!botCount) || (typeof botCount === "undefined")) {
-						botCount = 0;
+						botCount = 0
 					}
 
 				//createBots
 					if (botCount < botLimit) {
-						var color = colors[Math.floor(Math.random() * colors.length)];
-						var attempt = 0;
+						var color = colors[Math.floor(Math.random() * colors.length)]
+						var attempt = 0
 						
 						do {
 							do {
-								var cell = possibleCells[Math.floor(Math.random() * possibleCells.length)];
-								var x = cell[0];
-								var y = cell[1];
-								attempt++;
+								var cell = possibleCells[Math.floor(Math.random() * possibleCells.length)]
+								var x = cell[0]
+								var y = cell[1]
+								attempt++
 
 								if (x === 0) {
-									var direction = "right";
+									var direction = "right"
 								}
 								else if (x === 9) {
-									var direction = "left";
+									var direction = "left"
 								}
 								else if (y === 0) {
-									var direction = "bottom";
+									var direction = "bottom"
 								}
 								else if (y === 9) {
-									var direction = "top";
+									var direction = "top"
 								}
 							}
-							while (!isEmptyOverGrid(color,x,y) && (!isEmptyOverGrid(color,x - 1,y) || direction === "right") && (!isEmptyOverGrid(color,x + 1,y) || direction === "left") && (!isEmptyOverGrid(color,x,y - 1) || direction === "bottom") && (!isEmptyOverGrid(color,x,y + 1) || direction === "top") && (attempt < 9));
+							while (!isEmptyOverGrid(color,x,y) && (!isEmptyOverGrid(color,x - 1,y) || direction === "right") && (!isEmptyOverGrid(color,x + 1,y) || direction === "left") && (!isEmptyOverGrid(color,x,y - 1) || direction === "bottom") && (!isEmptyOverGrid(color,x,y + 1) || direction === "top") && (attempt < 9))
 						}
-						while ($(".robot[x='" + x + "'][y='" + y + "']").length);
+						while (Array.from(document.querySelectorAll(".robot[x='" + x + "'][y='" + y + "']")).length)
 
 						if (attempt < 10) {
-							var lastRobot = Number(String($(".robot").last().attr("id")).replace("robot_",""));
+							var robots = Array.from(document.querySelectorAll(".robot"))
+							if (robots && robots.length) {
+								var lastRobot = Number(robots[robots.length - 1].id.replace("robot_",""))
+							}
+							else {
+								lastRobot = 0
+							}
 							
-							var newRobot = lastRobot + 1;
+							var newRobot = lastRobot + 1
 
 							if (!newRobot) {
-								newRobot = 1;
+								newRobot = 1
 							}
 
-							var pre_coordinates = pathTo(direction,x,y);
-							var pre_x = pre_coordinates[0];
-							var pre_y = pre_coordinates[1];
-						
-							$("#overGrid").append("<div id='robot_" + newRobot + "' class='robot' color='" + color + "' x='" + pre_x + "' y='" + pre_y + "' direction='" + direction + "' style='top: " + (pre_y * 10) + "%; left: " + (pre_x * 10) + "%'><div id='endpoint_" + newRobot + "' class='endpoint' color='" + color + "' x='" + pre_x + "' y='" + pre_y + "'></div></div>");
+							var pre_coordinates = pathTo(direction,x,y)
+							var pre_x = pre_coordinates[0]
+							var pre_y = pre_coordinates[1]
+							
+							var robot = document.createElement("div")
+								robot.id = "robot_" + newRobot
+								robot.className = "robot"
+								robot.setAttribute("color", color)
+								robot.setAttribute("x", pre_x)
+								robot.setAttribute("y", pre_y)
+								robot.setAttribute("direction", direction)
+								robot.style.top = (pre_y * 10) + "%"
+								robot.style.left = (pre_x * 10) + "%"
+								robot.addEventListener(on.mousedown, mousedownRobot)
+							document.querySelector("#overGrid").appendChild(robot)
+
+							var endpoint = document.createElement("div")
+								endpoint.id = "endpoint_" + newRobot
+								endpoint.className = "endpoint"
+								endpoint.setAttribute("color", color)
+								endpoint.setAttribute("x", pre_x)
+								endpoint.setAttribute("y", pre_y)
+								endpoint.addEventListener(on.mousedown, mousedownEndpoint)
+							robot.appendChild(endpoint)
 						}
 					}
 			}
-
-});
+}

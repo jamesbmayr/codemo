@@ -39,7 +39,6 @@ window.onload = function() {
 						
 						/* done */
 							window.attempts = 0
-							console.log(data)
 							
 						/* location */
 							var latitude = data.coord.lat
@@ -203,6 +202,7 @@ window.onload = function() {
 
 	/* refresh */
 		document.querySelector("#refresh").addEventListener(on.click, function() {
+			document.body.style.backgroundImage = "#"
 			window.location = window.location
 		})
 }
