@@ -44,7 +44,7 @@
 				name: "Text-Based RPG",
 				birth: "April 2020",
 				death: "July 2020",
-				idea: "My friend Alex Berg - who I had collaborated with on <a href='https://jamesmayr.com/rpsrpg' target='_blank'>RPS RPG</a> - and I attempted to learn Unity and build a simple text-based exploration-adventure game.",
+				idea: "My friend <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a> - who I had collaborated with on <a href='https://jamesmayr.com/rpsrpg' target='_blank'>RPS RPG</a> - and I attempted to learn Unity and build a simple text-based exploration-adventure game.",
 				obituary: "As it turns out, Unity is not so simple, nor is coding in C#. We went through some tutorials and successfully made a <a href='https://jamesmayr.com/tictactoe' target='_blank'>tic-tac-toe clone</a>... and then moved on to other projects."
 			},
 			jobsearchtracker: {
@@ -79,7 +79,7 @@
 				name: "Pickup Notes",
 				birth: "May 2017",
 				death: "September 2017",
-				idea: "Together with Alex Berg, Ayelet Kershenbaum, and <a href='https://www.youtube.com/dannymusic' target='_blank'>Danny Romberger</a>, we set out to make a podcast about music - how it works, where it comes from, and why it matters. The name \"Noteworthy\" was taken, so we eventually switched to Pickup Notes.",
+				idea: "Together with <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a>, Ayelet Kershenbaum, and <a href='https://www.youtube.com/dannymusic' target='_blank'>Danny Romberger</a>, we set out to make a podcast about music - how it works, where it comes from, and why it matters. The name \"Noteworthy\" was taken, so we eventually switched to Pickup Notes.",
 				obituary: "After recording a few sample episodes of us basically chatting about some topic in music, we realized that we had no idea what we were doing... and didn't have the time to do it anyway."
 			},
 			wavestacker: {

@@ -34,7 +34,7 @@
 					actual: true,
 					title: "",
 					time: "I am what I make.",
-					description: "Chance leads to choice. Options arise out of opportunities. Decisions determine destiny. \n\nThe \"me\" you see today is a reflection of all the \"me\"s who came before... and all the \"me\"s who could have been. \n\n\n\nAre they any less real?",
+					description: "The \"me\" you see today is a reflection of all the \"me\"s who came before... and all the \"me\"s who could have been.",
 					image: null,
 					options: [
 						{

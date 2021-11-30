@@ -317,7 +317,7 @@
 				size: "medium",
 				tags: ["code","games","card","tabletop","multiplayer"],
 				date: "October 29, 2021",
-				description: "In this vexillological drafting card game, players collect components common to form flags from all around the world."
+				description: "In this vexillological drafting card game, players collect components to form flags from all around the world."
 			},
 			flagmaker: {
 				name: "flagMaker",
@@ -492,9 +492,9 @@
 			mazertag: {
 				name: "MazerTag",
 				size: "large",
-				tags: ["games","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node"],
+				tags: ["games","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node","collaborations"],
 				date: "February 7, 2021",
-				description: "MazerTag is a top-down multiplayer arcade game: 5 laser tag modes in randomly generated arenas. Music & SFX by Alex Berg."
+				description: "A top-down multiplayer arcade game with 5 laser tag modes in randomly generated arenas. Music & SFX by Alex Berg. Visuals by Liz Ford."
 			},
 			melodemons: {
 				name: "melodemons",
