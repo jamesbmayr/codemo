@@ -3,7 +3,7 @@
 		const CONSTANTS = {
 			defaultPlayerCount: 3,
 			defaultFlagGoal: 5,
-			defaultFlagOptions: 5,
+			defaultFlagSlots: [0,0,1,1,2],
 			flags: {
 				afghanistan: {code: 'AF', name: 'Afghanistan', components: ['red','green','black','stripe','seal','plant','symbol']},
 				albania: {code: 'AL', name: 'Albania', components: ['red','black','animal']},
@@ -344,7 +344,7 @@
 					}
 
 				// shuffle & display flags
-					for (let i = CONSTANTS.defaultFlagOptions; i > 0; i--) {
+					for (let i = CONSTANTS.defaultFlagSlots.length - 1; i >= 0; i--) {
 						addFlagCard(i)
 					}
 			} catch (error) { console.log(error) }
@@ -541,7 +541,7 @@
 		}
 
 	/* addFlagCard */
-		function addFlagCard(value) {
+		function addFlagCard(index) {
 			try {
 				// random flag
 					let randomFlagName = chooseRandom(GAME.remainingFlags)
@@ -556,6 +556,7 @@
 				// card
 					let card = document.createElement("label")
 						card.className = "flags-label"
+						card.setAttribute("index", index)
 					ELEMENTS.flags.form.appendChild(card)
 
 				// button
@@ -573,7 +574,7 @@
 				// card bonus
 					let cardsCount = document.createElement("div")
 						cardsCount.className = "flags-cards-count"
-						cardsCount.innerText = value || "0"
+						cardsCount.innerText = CONSTANTS.defaultFlagSlots[index] || "0"
 					button.appendChild(cardsCount)
 
 					let image = document.createElement("div")
@@ -659,9 +660,11 @@
 				// slide flags
 					let currentCard = GAME.selectedFlag.closest(".flags-label").nextSibling || null
 					while (currentCard) {
-						// increase value
-							let cardCount = Number(currentCard.querySelector(".flags-cards-count").innerText)
-							currentCard.querySelector(".flags-cards-count").innerText = cardCount + 1
+						// increase index & value
+							let index = Number(currentCard.getAttribute("index"))
+								index++
+							currentCard.setAttribute("index", index)
+							currentCard.querySelector(".flags-cards-count").innerText = CONSTANTS.defaultFlagSlots[index] || "0"
 
 						// next card
 							if (!currentCard.nextSibling) {
@@ -675,7 +678,7 @@
 					GAME.selectedFlag = null
 
 				// new flag
-					addFlagCard(1)
+					addFlagCard(0)
 
 				// check for victory
 					if (GAME.players[id].flags.length >= GAME.goal) {
