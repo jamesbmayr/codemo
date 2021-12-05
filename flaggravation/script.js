@@ -303,25 +303,18 @@
 
 /*** launch / goal ***/
 	/* launchGame */
-		ELEMENTS.launch.form.addEventListener("submit", launchGame)
+		ELEMENTS.launch.reset.addEventListener("click", launchGame)
+		ELEMENTS.launch.continue.addEventListener("click", launchGame)
 		function launchGame(event) {
 			try {
-				// which button?
-					let button = document.activeElement
-
-				// reset
-					if (button == ELEMENTS.launch.reset) {
-						resetGame()
-					}
-
 				// swap state
 					ELEMENTS.game.setAttribute("state", "setup")
-			} catch (error) { console.log(error) }
-		}
 
-	/* resetGame */
-		function resetGame() {
-			try {
+				// get button
+					if (event.target == ELEMENTS.launch.continue) {
+						return
+					}
+
 				// clear game object
 					GAME.players = {}
 					GAME.goal = 0
@@ -351,11 +344,13 @@
 		}
 
 	/* selectNavigation */
-		ELEMENTS.navigation.form.addEventListener("submit", selectNavigation)
+		ELEMENTS.navigation.setup.addEventListener("click", selectNavigation)
+		ELEMENTS.navigation.about.addEventListener("click", selectNavigation)
+		ELEMENTS.navigation.close.addEventListener("click", selectNavigation)
 		function selectNavigation(event) {
 			try {
 				// which button?
-					let button = document.activeElement
+					let button = event.target
 
 				// setup
 					if (button == ELEMENTS.navigation.setup) {
@@ -384,59 +379,47 @@
 		}
 
 /*** setup ***/
-	/* saveSetup */
-		ELEMENTS.setup.form.addEventListener("submit", saveSetup)
-		function saveSetup(event) {
-			try {
-				// which button?
-					let button = document.activeElement
-
-				// add
-					if (button == ELEMENTS.setup.add) {
-						addPlayerInput()
-						return
-					}
-
-				// remove
-					if (button.className == "setup-remove") {
-						removePlayerInput(button)
-						return
-					}
-
-				// submit
-					if (button == ELEMENTS.setup.submit) {
-						validateSetup()
-						return
-					}
-			} catch (error) { console.log(error) }
-		}
-
 	/* addPlayerInput */
+		ELEMENTS.setup.add.addEventListener("click", addPlayerInput)
 		function addPlayerInput() {
 			try {
+				// id
+					let randomId = getRandom()
+
 				// input
 					let input = document.createElement("input")
-						input.id = "setup-" + getRandom()
+						input.id = "setup-" + randomId
 						input.type = "text"
 						input.className = "setup-input"
 						input.placeholder = "PLAYER NAME"
 					ELEMENTS.setup.names.appendChild(input)
 
+				// score
+					let score = document.createElement("div")
+						score.id = "setup-score-" + randomId
+						score.className = "setup-score"
+					ELEMENTS.setup.names.appendChild(score)
+
 				// remove
 					let button = document.createElement("button")
 						button.className = "setup-remove"
+						button.addEventListener("click", removePlayerInput)
 					ELEMENTS.setup.names.appendChild(button)
 			} catch (error) { console.log(error) }
 		}
 
 	/* removePlayerInput */
-		function removePlayerInput(button) {
+		function removePlayerInput(event) {
 			try {
-				// remove preceding input
-					let id = button.previousSibling.id.replace("setup-", "")
-					button.previousSibling.remove()
+				// get id
+					let button = event.target.closest(".setup-remove")
+					let score = button.previousSibling
+					let input = score.previousSibling
+					let id = input.id.replace("setup-", "")
 
-				// remove self
+				// remove row
+					input.remove()
+					score.remove()
 					button.remove()
 
 				// remove that player
@@ -448,6 +431,7 @@
 		}
 
 	/* validateSetup */
+		ELEMENTS.setup.submit.addEventListener("click", validateSetup)
 		function validateSetup() {
 			try {
 				// assume no errors
@@ -526,14 +510,10 @@
 
 /*** flags ***/
 	/* selectFlag */
-		ELEMENTS.flags.form.addEventListener("submit", selectFlag)
 		function selectFlag(event) {
 			try {
-				// which button?
-					let button = document.activeElement
-
 				// set selected flag
-					GAME.selectedFlag = button
+					GAME.selectedFlag = event.target.closest(".flags-label")
 
 				// swap state
 					ELEMENTS.game.setAttribute("state", "players")
@@ -557,6 +537,7 @@
 					let card = document.createElement("label")
 						card.className = "flags-label"
 						card.setAttribute("index", index)
+						card.addEventListener("click", selectFlag)
 					ELEMENTS.flags.form.appendChild(card)
 
 				// button
@@ -597,18 +578,6 @@
 		}
 
 /*** players ***/
-	/* selectPlayer */
-		ELEMENTS.players.form.addEventListener("submit", selectPlayer)
-		function selectPlayer(event) {
-			try {
-				// which button?
-					let button = document.activeElement
-
-				// claimFlag
-					claimFlag(button)
-			} catch (error) { console.log(error) }
-		}
-
 	/* addPlayerButton */
 		function addPlayerButton(id) {
 			try {
@@ -616,6 +585,7 @@
 					let button = document.createElement("button")
 						button.className = "players-button"
 						button.id = "players-" + id
+						button.addEventListener("click", claimFlag)
 					ELEMENTS.players.form.appendChild(button)
 
 				// name
@@ -636,8 +606,11 @@
 		}
 
 	/* claimFlag */
-		function claimFlag(button) {
+		function claimFlag(event) {
 			try {
+				// button
+					let button = event.target.closest(".players-button")
+
 				// get player
 					let id = button.id.replace("players-", "")
 					if (!GAME.players[id]) {
@@ -656,6 +629,7 @@
 
 				// increase score
 					ELEMENTS.players.form.querySelector("#players-" + id + " .players-button-score").innerText = GAME.players[id].flags.length
+					ELEMENTS.setup.form.querySelector("#setup-score-" + id).innerText = GAME.players[id].flags.length
 
 				// slide flags
 					let currentCard = GAME.selectedFlag.closest(".flags-label").nextSibling || null

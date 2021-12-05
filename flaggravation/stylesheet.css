@@ -464,8 +464,22 @@
 		}
 
 		.setup-input {
-			width: calc(100% - 5 * var(--gap-size) - var(--font-size));
+			width: calc(100% - 5 * var(--gap-size) - 3 * var(--font-size));
 			margin-bottom: calc(2 * var(--gap-size));
+		}
+
+		.setup-score {
+			display: inline-block;
+			width: calc(2 * var(--font-size) - 2 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			margin-bottom: calc(2 * var(--gap-size));
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			vertical-align: top;
+			color: var(--light-gray);
+			text-align: right;
+			padding: 0 var(--gap-size);
 		}
 
 		.setup-remove {
@@ -789,6 +803,8 @@
 
 		#about-form ol {
 			margin-bottom: var(--font-size);
+			margin-left: calc(2 * var(--gap-size));
+			margin-right: calc(2 * var(--gap-size));
 		}
 
 		#about-form ol ol {
