@@ -111,7 +111,7 @@
 				<div class="block" id="localstorage">
 					<label class="block-label">localstorage</label>
 					<div class="block-output-outer">
-						<div class="block-value"></div>
+						<pre class="block-value"></pre>
 					</div>
 				</div>
 				<div class="block" id="callstack">
@@ -195,7 +195,9 @@
 				</div>
 			<!-- computer interface -->
 				<div class="block" id="keyboard">
-					<label class="block-label">keyboard</label>
+					<label class="block-label">
+						<input type="text" class="block-input" placeholder="keyboard"></input>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -325,6 +327,12 @@
 					</div>
 				</div>
 			<!-- form field inputs -->
+				<div class="block" id="active-element">
+					<label class="block-label">activeElement</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 				<div class="block" id="text">
 					<label class="block-label">
 						<input type="text" class="block-input" placeholder="text"></input>
@@ -544,7 +552,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="detailstoggle">
+				<div class="block" id="details-toggle">
 					<label class="block-label">
 						<details>
 							<summary>summary</summary>
@@ -559,6 +567,12 @@
 					<label class="block-label">
 						<div CLASS="block-input">drag</div>
 					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="selection">
+					<label class="block-label">selection</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>

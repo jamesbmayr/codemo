@@ -158,7 +158,8 @@ window.onload = function() {
 			detectLocalstorage()
 			function detectLocalstorage(event) {
 				try {
-					LOCALSTORAGE_OUTPUT.innerHTML = JSON.stringify(window.localStorage)
+					window.localStorage.inputDetector = "detected"
+					LOCALSTORAGE_OUTPUT.innerHTML = JSON.stringify(window.localStorage, null, 2)
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 
@@ -268,7 +269,7 @@ window.onload = function() {
 				try {
 					var number = Math.floor(Math.random() * 200) + 1
 					var request = new XMLHttpRequest()
-						request.open("GET", "https://api6.ipify.org?format=json", true)
+						request.open("GET", "https://api.ipify.org?format=json", true)
 						request.onload = function() {
 							if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
 								try {
@@ -366,7 +367,7 @@ window.onload = function() {
 			window.addEventListener("keydown", detectKeydown)
 			function detectKeydown(event) {
 				try {
-					KEYBOARD_OUTPUT.innerHTML = event.key
+					KEYBOARD_OUTPUT.innerHTML = event.key + "<br>" + event.which + "<br>" + event.code
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 			
@@ -788,6 +789,23 @@ window.onload = function() {
 			}
 
 	/*** form field inputs ***/
+		/* detectActiveElement */
+			var ACTIVE_ELEMENT_OUTPUT = document.querySelector("#active-element .block-value")
+			allElements = Array.from(document.querySelectorAll("*")).forEach(function(element) {
+				element.addEventListener("focus", detectActiveElement)
+				element.addEventListener("blur", detectActiveElement)
+			})
+			function detectActiveElement(event) {
+				try {
+					if (document.activeElement == document.body) {
+						ACTIVE_ELEMENT_OUTPUT.innerHTML = "body"
+					}
+					else {
+						var closestBlock = document.activeElement.closest(".block") || null
+						ACTIVE_ELEMENT_OUTPUT.innerHTML = closestBlock ? closestBlock.id : String(document.activeElement)
+					}
+				} catch (error) { handleError(arguments.callee.name, error) }
+			}
 		/* detectTextInput */
 			var TEXT_OUTPUT = document.querySelector("#text .block-value")
 			var TEXT_INPUT = document.querySelector("#text .block-input")
@@ -1096,8 +1114,8 @@ window.onload = function() {
 			}
 
 		/* detectDetailsToggle */
-			var DETAILSTOGGLE_OUTPUT = document.querySelector("#detailstoggle .block-value")
-			var DETAILSTOGGLE_INPUT = document.querySelector("#detailstoggle .block-label details")
+			var DETAILSTOGGLE_OUTPUT = document.querySelector("#details-toggle .block-value")
+			var DETAILSTOGGLE_INPUT = document.querySelector("#details-toggle .block-label details")
 				DETAILSTOGGLE_INPUT.addEventListener("toggle", detectDetailsToggle)
 				detectDetailsToggle()
 			function detectDetailsToggle(event) {
@@ -1137,6 +1155,15 @@ window.onload = function() {
 						DRAG_INPUT.style.left = (x - labelRect.left) + "px" 
 						DRAG_INPUT.style.top  = (y - labelRect.top ) + "px"
 					}
+				} catch (error) { handleError(arguments.callee.name, error) }
+			}
+
+		/* detectSelection */
+			window.addEventListener(on.mouseup, detectSelection)
+			var SELECTION_OUTPUT = document.querySelector("#selection .block-value")
+			function detectSelection(event) {
+				try {
+					SELECTION_OUTPUT.innerHTML = window.getSelection().toString() || ""
 				} catch (error) { handleError(arguments.callee.name, error) }
 			}
 

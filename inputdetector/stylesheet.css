@@ -84,6 +84,10 @@
 		overflow: scroll;
 	}
 
+	pre.block-value {
+		text-align: left;
+	}
+
 	/* interactive elements */
 		.block-button {
 			background-color: #dddddd;
