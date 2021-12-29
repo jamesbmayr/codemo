@@ -32,7 +32,13 @@
 			<form id="fund-cancel" action="javascript:;" method="post">
 				<button id="fund-cancel-button" hidden>cancel fund</button>
 			</form>
-			<a id="fund-invite" href="#" target="_blank" hidden>invite others to contribute</a>
+			<br>
+			<div id="fund-pledge-count-outer" hidden>
+				<span># pledges:</span>
+				<output type="number" readonly id="fund-pledge-count" value="0" placeholder="#"></output>
+			</div>
+			<a id="fund-copy-link" href="#" target="_blank" hidden>&#x1F517; link to fund</a>
+			<a id="fund-invite" href="#" target="_blank" hidden>&#x1F4E7; email invite</a>
 		</div>
 		<div id="pledge" hidden>
 			<label id="pledge-amount-label"><span>$</span><input id="pledge-amount" type="number" min="0" step="0.01" placeholder="YOUR MAX PLEDGE"><div class="saved-indicator" hidden>&#x2713;</div></label>
@@ -66,5 +72,6 @@
 			<p><a href="https://venmo.com/jamesbmayr" target="_blank">I won't say no to that!</a></p>
 		</div>
 		<div id="message"></div>
+		<div id="warning">Careful!<br><br>If you share this link, don't include <b>pledge_id=xxxxxxxx</b><br>or someone can edit your pledge!</div>
 	</body>
 </html>

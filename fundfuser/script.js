@@ -3,15 +3,16 @@
 		const TRIGGERS = {
 			click: "click",
 			submit: "submit",
-			input: "input"
+			input: "input",
+			hover: "mouseover"
 		}
 
 	/* constants */
 		const CONSTANTS = {
-			databaseAPI: "https://script.google.com/macros/s/AKfycby1hlF5xrg4QwfPzAHc1Ad2KQpb611K9FY-dbwKqQbQq0GEr30hbyPYY-kelvihE7Xk/exec",
+			databaseAPI: "https://script.google.com/macros/s/AKfycbyRhrOpdeN-4m8pZo-GknrdZJ5-LO2U37MkKFfQaLcfP4j5AVxBtzibmQLDsLsgIrU/exec",
 			messageTimeoutTime: 5000,
 			messageTimeout: null,
-			emailRegex: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+			emailRegex: /^\w+([\.-]?\+?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 		}
 
 	/* data */
@@ -47,6 +48,9 @@
 					form: document.querySelector("#fund-cancel"),
 					button: document.querySelector("#fund-cancel-button")
 				},
+				pledgeCountOuter: document.querySelector("#fund-pledge-count-outer"),
+				pledgeCount: document.querySelector("#fund-pledge-count"),
+				copyLink: document.querySelector("#fund-copy-link"),
 				invite: document.querySelector("#fund-invite")
 			},
 			pledge: {
@@ -120,7 +124,7 @@
 
 				// send request
 					let request = new XMLHttpRequest()
-						request.open("GET", url, true)
+						request.open("POST", url, true)
 						request.onload = receiveData
 						request.responseType = "json"
 						request.setRequestHeader("Accept", "application/json")
@@ -200,6 +204,7 @@
 						ELEMENTS.fund.save.button.setAttribute("hidden", true)
 						ELEMENTS.fund.complete.button.setAttribute("hidden", true)
 						ELEMENTS.fund.cancel.button.setAttribute("hidden", true)
+						ELEMENTS.fund.pledgeCountOuter.setAttribute("hidden", true)
 					}
 					else {
 						ELEMENTS.fund.name.removeAttribute("readonly")
@@ -216,6 +221,8 @@
 						ELEMENTS.fund.save.button.removeAttribute("disabled")
 						ELEMENTS.fund.complete.button.removeAttribute("disabled")
 						ELEMENTS.fund.cancel.button.removeAttribute("disabled")
+						ELEMENTS.fund.pledgeCountOuter.removeAttribute("hidden")
+						ELEMENTS.fund.pledgeCount.value = DATA.fund.pledgeCount || 0
 					}
 
 				// complete vs. open
@@ -232,11 +239,16 @@
 						ELEMENTS.fund.cancel.button.setAttribute("disabled", true)
 
 						ELEMENTS.fund.status.removeAttribute("hidden")
+						ELEMENTS.fund.copyLink.setAttribute("hidden", true)
+						ELEMENTS.fund.copyLink.href = "#"
 						ELEMENTS.fund.invite.setAttribute("hidden", true)
 						ELEMENTS.fund.invite.href = "#"
 					}
 					else {
 						ELEMENTS.fund.status.setAttribute("hidden", true)
+						ELEMENTS.fund.copyLink.removeAttribute("hidden")
+						ELEMENTS.fund.copyLink.href = window.location.origin + window.location.pathname + '?fund_id=' + DATA.fund.fund_id
+
 						ELEMENTS.fund.invite.removeAttribute("hidden")
 						ELEMENTS.fund.invite.href = 'mailto:?to=&subject=FundFuser:%20' + DATA.fund.name +
 							'&body=A fund was created by ' + DATA.fund.email + ': ' + 
@@ -295,8 +307,11 @@
 					clearTimeout(CONSTANTS.messageTimeout)
 
 				// update content
-					ELEMENTS.message.setAttribute("message-type", success ? "success" : "failure")
-					ELEMENTS.message.innerText = message || ""
+					ELEMENTS.message.removeAttribute("message-type")
+					setTimeout(function() {
+						ELEMENTS.message.setAttribute("message-type", success ? "success" : "failure")
+						ELEMENTS.message.innerText = message || ""
+					}, 0)
 
 				// clear out in a few seconds
 					CONSTANTS.messageTimeout = setTimeout(function() {
@@ -455,6 +470,22 @@
 						fund_id: DATA.fund.fund_id,
 						pledge_id: DATA.pledge.pledge_id
 					})
+			} catch (error) {console.log(error)}
+		}
+
+	/* copyLink */
+		ELEMENTS.fund.copyLink.addEventListener(TRIGGERS.click, copyLink)
+		function copyLink(event) {
+			try {
+				// prevent actual link click
+					event.preventDefault()
+					event.stopPropagation()
+
+				// copy link to clipboard
+					navigator.clipboard.writeText(window.location.origin + window.location.pathname + '?fund_id=' + DATA.fund.fund_id)
+
+				// display message
+					displayMessage(true, "Link copied to clipboard!")
 			} catch (error) {console.log(error)}
 		}
 

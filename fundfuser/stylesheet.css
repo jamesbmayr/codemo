@@ -197,6 +197,30 @@
 		z-index: 1001;
 	}
 
+	#warning {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: calc(100% - 4 * var(--gap-size));
+		height: calc(var(--font-size) * 6);
+		min-height: var(--font-size);
+		background-color: var(--dark-gray);
+		color: var(--light-gray);
+		font-size: var(--font-size);
+		font-family: var(--font-family);
+		padding: calc(2 * var(--gap-size));
+		box-shadow: 0 0 var(--gap-size) var(--dark-gray);
+		text-align: center;
+		z-index: 1002;
+		user-select: none;
+		opacity: 0;
+		transition: 0.2s;
+	}
+
+	#warning:hover, #warning:focus {
+		opacity: 1;
+	}
+
 	/* animation */
 		#message[message-type="success"], #message[message-type="failure"] {
 			animation: fadeinout var(--message-timeout-time) linear;
@@ -264,6 +288,21 @@
 			width: auto;
 		}
 
+		#fund-pledge-count-outer {
+			margin: var(--font-size);
+			height: calc(var(--font-size) + var(--gap-size));
+			line-height: 1;
+			display: inline-block;
+			width: auto;
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			color: var(--medium-gray);
+			text-transform: uppercase;
+			font-weight: bold;
+			user-select: none;
+			cursor: default;
+		}
+
 	/* actions */
 		#fund-save {
 			width: 100%;
@@ -277,9 +316,19 @@
 			max-width: calc(100% - 2 * var(--gap-size));
 		}
 
+		#fund-copy-link {
+			height: calc(var(--font-size) + var(--gap-size));
+			line-height: 1;
+			margin: var(--font-size);
+			display: inline-block;
+			text-transform: uppercase;
+		}
+
 		#fund-invite {
-			margin-top: var(--font-size);
-			display: block;
+			height: calc(var(--font-size) + var(--gap-size));
+			line-height: 1;
+			margin: var(--font-size);
+			display: inline-block;
 			text-transform: uppercase;
 		}
 
