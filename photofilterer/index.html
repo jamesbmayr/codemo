@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>photoFilterer</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/9510-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="photoFilterer is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="photoFilterer">
+		<meta property="og:url" content="https://jamesmayr.com/photofilterer/">
+		<meta property="og:description" content="photoFilterer is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/photofilterer/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+		<style id="ratio">:root {--ratio: 1}</style>
+	</head>
+	<body>
+		<div id="container">
+			<form id="overlay" action="javascript:;" method="post">
+				<button id="begin">launch</button>
+			</form>
+			<video id="video" crossorigin="anonymous" hidden></video>
+			<canvas id="raw" width="100" height="100" hidden></canvas>
+			<canvas id="processed" width="100" height="100"></canvas>
+		</div>
+		<form id="actions" hidden action="javascript:;" method="post">
+			<button id="capture">&#128247; capture</button>
+			<select id="colors">
+				<option value="all">&#127752; all</option>
+				<option value="gray" selected>&#127937; gray</option>
+				<option value="magenta">&#128149; magenta</option>
+				<option value="red">&#128308; red</option>
+				<option value="yellow">&#127775; yellow</option>
+				<option value="green">&#128994; green</option>
+				<option value="cyan">&#128160; cyan</option>
+				<option value="blue">&#128309; blue</option>
+				<option value="warm">&#128293; warm</option>
+				<option value="cool">&#127784; cool</option>
+				<option value="primary">&#127912; primary</option>
+				<option value="secondary">&#127912; secondary</option>
+				<option value="custom">&#127899; custom</option>
+			</select>
+			<details id="explanation">
+				<summary>custom</summary>
+				<textarea id="ranges" placeholder="[from, to]"></textarea>
+				<ul>
+					<li><b>magenta</b><br>[260, 340]</li>
+					<li><b>red</b><br>[320, 360],<br>[0, 30]</li>
+					<li><b>yellow</b><br>[25, 80]</li>
+					<li><b>green</b><br>[70, 180]</li>
+					<li><b>cyan</b><br>[160, 210]</li>
+					<li><b>blue</b><br>[200, 270]</li>
+			</details>
+		</form>
+		<a id="download" href="#"></a>
+		<a href="https://jamesmayr.com" target="_blank" id="j-logo"></a>
+	</body>
+</html>

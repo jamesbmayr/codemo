@@ -601,6 +601,13 @@
 				date: "November 1, 2012",
 				description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
 			},
+			photofilterer: {
+				name: "photoFilterer",
+				size: "small",
+				tags: ["code","art","design","canvas","tool"],
+				date: "January 1, 2022",
+				description: "Apply a color pass filter to the device's live camera feed and export the resulting photographs."
+			},
 			pieceflipper: {
 				name: "pieceFlipper",
 				size: "small",
