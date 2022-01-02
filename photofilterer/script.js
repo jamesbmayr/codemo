@@ -74,28 +74,53 @@
 		startVideo()
 		function startVideo() {
 			try {
-				// get permission 
-					navigator.mediaDevices.getUserMedia({video: true}).then(function(stream) {
-						// start streaming
-							ELEMENTS.video.element.srcObject = stream
-							ELEMENTS.video.element.addEventListener(TRIGGERS.play, function(event) {
-								// set global
-									if (SETTINGS.playing) { return }
-									SETTINGS.playing = true
-
-								// resize video
-									resizeVideo()
-
-								// hide overlay
-									ELEMENTS.overlay.form.setAttribute("hidden", true)
-									ELEMENTS.processed.canvas.removeAttribute("hidden")
-									ELEMENTS.actions.form.removeAttribute("hidden")
+				// get permission for back-facing camera
+					navigator.mediaDevices.getUserMedia({
+						video: {
+							facingMode: {
+								exact: 'environment'
+							}
+						}
+					}).then(streamVideo).catch(function(error) {
+						// get any camera
+							navigator.mediaDevices.getUserMedia({
+								video: true
+							}).then(streamVideo).catch(function(error) {
+								console.log(error)
 							})
-							ELEMENTS.video.element.play()
+					})
+			} catch (error) {console.log(error)}
+		}
 
-						// start loop
-							SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
-					}).catch(function(error) { console.log(error) })
+	/* streamVideo */
+		function streamVideo(stream) {
+			try {
+				// start streaming
+					ELEMENTS.video.element.srcObject = stream
+					ELEMENTS.video.element.addEventListener(TRIGGERS.play, playVideo)
+					ELEMENTS.video.element.play()
+
+				// start loop
+					SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
+			} catch (error) {console.log(error)}
+		}
+
+	/* playVideo */
+		function playVideo(event) {
+			try {
+				// set global
+					if (SETTINGS.playing) {
+						return
+					}
+					SETTINGS.playing = true
+
+				// resize video
+					resizeVideo()
+
+				// hide overlay
+					ELEMENTS.overlay.form.setAttribute("hidden", true)
+					ELEMENTS.processed.canvas.removeAttribute("hidden")
+					ELEMENTS.actions.form.removeAttribute("hidden")
 			} catch (error) {console.log(error)}
 		}
 
