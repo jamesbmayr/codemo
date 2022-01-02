@@ -157,10 +157,20 @@
 						name: "craft room lamp",
 						image: "https://static.thenounproject.com/png/88338-200.png",
 						top: 20.5,
-						left: 2.5,
+						left: 4.5,
 						buttons: {
 							"on": "ifttt_url||craft_room_lamp_on||ifttt_key",
 							"off": "ifttt_url||craft_room_lamp_off||ifttt_key"
+						}
+					},
+					{
+						name: "space heater",
+						image: "https://static.thenounproject.com/png/2296512-200.png",
+						top: 17.5,
+						left: 7.5,
+						buttons: {
+							"on": "ifttt_url||craft_room_heater_on||ifttt_key",
+							"off": "ifttt_url||craft_room_heater_off||ifttt_key"
 						}
 					},
 					{
@@ -240,8 +250,8 @@
 					{
 						name: "craft room speaker",
 						image: "https://static.thenounproject.com/png/3422-200.png",
-						top: 20.5,
-						left: 6.5,
+						top: 17.5,
+						left: 1.5,
 						buttons: {
 							"on": "ifttt_url||craft_room_speaker_on||ifttt_key",
 							"off": "ifttt_url||craft_room_speaker_off||ifttt_key",
@@ -303,7 +313,7 @@
 						top: 17.5,
 						left: 26.5,
 						buttons: {
-							"target": "ifttt_url||kitchen_speaker_on||ifttt_key"
+							"target": "ifttt_url||record_player_on||ifttt_key"
 						}
 					},
 
