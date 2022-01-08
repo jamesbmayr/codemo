@@ -1,0 +1,68 @@
+/*** page ***/
+	:root {
+		--dark-gray: #222222;
+		--medium-gray: #555555;
+		--light-gray: #dddddd;
+		--font-size: 20px;
+		--font-family: monospace;
+		--gap-size: 10px;
+		--border-radius: 10px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		font-size: 0;
+		background: var(--dark-gray);
+	}
+
+/*** text areas ***/
+	textarea {
+		width: calc(100% - 4 * var(--gap-size));
+		min-width: calc(100% - 4 * var(--gap-size));
+		max-width: calc(100% - 4 * var(--gap-size));
+		font-family: var(--font-family);
+		font-size: var(--font-size);
+		border: 0;
+		border-radius: var(--border-radius);
+		padding: var(--gap-size);
+		margin: var(--gap-size);
+		background-color: var(--light-gray);
+		color: var(--dark-gray);
+		outline: none;
+		min-height: calc(5 * var(--font-size) - 2 * var(--gap-size));
+		height: calc(50vh - 3.5 * var(--gap-size));
+		max-height: calc(100vh - 6 * var(--gap-size) - 5 * var(--font-size));
+	}
+
+	textarea:first-child {
+		margin-bottom: 0;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0 0 var(--gap-size) var(--medium-gray));
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--gap-size) var(--light-gray));
+	}

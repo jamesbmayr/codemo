@@ -347,6 +347,13 @@
 				date: "December 20, 2018",
 				description: "It's four-in-a-row in this popular gravity-based strategy game for 2 players."
 			},
+			fraystraitor: {
+				name: "fraysTraitor",
+				size: "small",
+				tags: ["code","tool"],
+				date: "January 8, 2022",
+				description: "Yule sea, strait aweigh. Four shore."
+			},
 			fundfuser: {
 				name: "FundFuser",
 				size: "medium",

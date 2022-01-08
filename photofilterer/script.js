@@ -256,15 +256,15 @@
 					let frame = rawContext.getImageData(0, 0, rawCanvas.width, rawCanvas.height)
 
 				// loop through frame and process
-					data = processPixel(frame.data)
+					frame.data = processPixels(frame.data)
 
 				// push to processed canvas
 					ELEMENTS.processed.context.putImageData(frame, 0, 0)
 			} catch (error) {console.log(error)}
 		}
 
-	/* processPixel */
-		function processPixel(data) {
+	/* processPixels */
+		function processPixels(data) {
 			try {
 				// get length
 					let dataLength = data.length
