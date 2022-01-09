@@ -99,10 +99,22 @@
 					ELEMENTS.video.element.srcObject = stream
 					ELEMENTS.video.element.muted = true
 					ELEMENTS.video.element.addEventListener(TRIGGERS.play, playVideo)
-					ELEMENTS.video.element.play()
+					let playPromise = ELEMENTS.video.element.play()
 
-				// start loop
-					SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
+				// handle promise
+					if (playPromise !== undefined) {
+						playPromise.then(function() {
+							// start loop
+								SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
+						}).catch(function(error) {
+							if (error.name == "NotAllowedError") {
+								ELEMENTS.overlay.begin.innerText = "Not Allowed"
+							}
+							else {
+								ELEMENTS.overlay.begin.innerText = error.name || error
+							}
+						})
+					}
 			} catch (error) {console.log(error)}
 		}
 
