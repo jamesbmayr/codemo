@@ -97,6 +97,7 @@
 			try {
 				// start streaming
 					ELEMENTS.video.element.srcObject = stream
+					ELEMENTS.video.element.muted = true
 					ELEMENTS.video.element.addEventListener(TRIGGERS.play, playVideo)
 					ELEMENTS.video.element.play()
 
