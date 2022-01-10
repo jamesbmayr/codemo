@@ -97,21 +97,52 @@
 		}
 
 /*** form ***/
-	#actions {
-		position: absolute;
-		top: 0;
-		left: 0;
+	@media screen and (min-width: 800px) {
+		#actions {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		#capture, #colors, #explanation {
+			display: block;
+			width: calc(var(--gap-size) * 30);
+		}
+
+		#explanation {
+			width: calc(var(--gap-size) * 26);
+		}
+	}
+
+	@media screen and (max-width: 799px) {
+		#actions {
+			position: absolute;
+			bottom: calc(2 * var(--gap-size));
+			left: 0;
+		}
+
+		#capture, #colors, #explanation {
+			display: inline-block;
+			vertical-align: bottom;
+			width: calc(var(--gap-size) * 25);
+		}
+
+		#explanation {
+			width: calc(100vw - 2 * var(--gap-size) * 31);
+		}
+
+		#explanation br {
+			display: none;
+		}
 	}
 
 	/* capture */
 		#capture {
-			display: block;
 			border-radius: var(--border-radius);
 			padding: var(--gap-size);
 			font-family: var(--font-family);
 			font-size: var(--font-size);
 			height: calc(var(--font-size) + 3 * var(--gap-size));
-			width: calc(var(--gap-size) * 30);
 			color: var(--dark-gray);
 			background-color: var(--light-gray);
 			cursor: pointer;
@@ -132,13 +163,11 @@
 
 	/* colors */
 		#colors {
-			display: block;
 			border-radius: var(--border-radius);
 			padding: var(--gap-size);
 			font-family: var(--font-family);
 			font-size: var(--font-size);
 			height: calc(var(--font-size) + 3 * var(--gap-size));
-			width: calc(var(--gap-size) * 30);
 			background-color: gray;
 			color: var(--dark-gray);
 			cursor: pointer;
@@ -167,9 +196,8 @@
 			user-select: none;
 			background-color: var(--medium-gray);
 			border-radius: var(--border-radius);
-			padding: calc(2 * var(--gap-size));
+			padding: calc(1.5 * var(--gap-size)) calc(2 * var(--gap-size));
 			min-height: var(--font-size);
-			width: calc(var(--gap-size) * 26);
 		}
 
 		#explanation summary {
@@ -182,12 +210,7 @@
 			text-shadow: 0 0 var(--gap-size) var(--light-gray);
 		}
 
-		#explanation ul {
-			margin-top: var(--gap-size);
-			padding-left: calc(4 * var(--gap-size));
-		}
-
-		#explanation li {
+		#explanation p {
 			margin-bottom: var(--gap-size);
 		}
 
@@ -201,8 +224,8 @@
 			font-size: var(--font-size);
 			min-height: calc(var(--font-size) * 5 + 3 * var(--gap-size));
 			max-height: calc(var(--font-size) * 5 + 3 * var(--gap-size));
-			min-width: calc(var(--gap-size) * 26);
-			max-width: calc(var(--gap-size) * 26);
+			min-width: 100%;
+			max-width: 100%;
 			background-color: var(--light-gray);
 			color: var(--dark-gray);
 			cursor: pointer;

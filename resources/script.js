@@ -1,4 +1,14 @@
 /*** globals ***/
+	/* tags */
+		const TAGS = [
+			"code","ai","api","extension","math","money","mongo","node","simulation","tool","websockets",
+			"music","audio","jazz","orchestral","piano","pop","synth",
+			"writing","autobiography","fantasy","lyric","poetry","prose","scifi",
+			"games","arcade","board","card","multiplayer","puzzle","tabletop","unity",
+			"design","art","canvas","draw","svg",
+			"collaborations"
+		]
+
 	/* projects */
 		const PROJECTS = {
 			adventure: {
@@ -27,7 +37,7 @@
 			arenamapper: {
 				name: "arenaMapper",
 				size: "small",
-				tags: ["code","fantasy","scifi","canvas","tabletop"],
+				tags: ["code","fantasy","scifi","canvas","tabletop","tool"],
 				date: "January 23, 2021",
 				description: "Generate arena maps with customizable size, background, walls types, and features."
 			},
@@ -195,7 +205,7 @@
 			clippather: {
 				name: "clipPather",
 				size: "medium",
-				tags: ["design","code","draw","tool"],
+				tags: ["design","code","draw","tool","art"],
 				date: "April 22, 2016",
 				description: "clipPather is a constantly evolving Javascript tool for drawing with CSS clip-paths."
 			},
@@ -209,7 +219,7 @@
 			cocolors: {
 				name: "CoColors",
 				size: "medium",
-				tags: ["design","code","node","websockets","canvas","multiplayer","draw","tool"],
+				tags: ["design","code","node","websockets","canvas","multiplayer","draw","tool","art"],
 				date: "November 15, 2017",
 				description: "CoColors is a real-time collaborative drawing tool. Create a canvas and start making art with friends."
 			},
@@ -350,14 +360,14 @@
 			fraystraitor: {
 				name: "fraysTraitor",
 				size: "small",
-				tags: ["code","tool"],
+				tags: ["code","tool","writing"],
 				date: "January 8, 2022",
 				description: "Yule sea, strait aweigh. Four shore."
 			},
 			fundfuser: {
 				name: "FundFuser",
 				size: "medium",
-				tags: ["code","tool","math","multiplayer","money"],
+				tags: ["code","tool","math","multiplayer","money","api"],
 				date: "September 3, 2021",
 				description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 			},
@@ -597,7 +607,7 @@
 			pencilpather: {
 				name: "pencilPather",
 				size: "small",
-				tags: ["code","design","canvas"],
+				tags: ["code","design","canvas","art","draw"],
 				date: "November 8, 2017",
 				description: "A canvas-powered simple art app for drawing on your screen."
 			},
@@ -852,14 +862,14 @@
 			tempotapper: {
 				name: "tempoTapper",
 				size: "small",
-				tags: ["code","tool"],
+				tags: ["code","tool","music"],
 				date: "April 22, 2021",
 				description: "Use your mouse, keyboard, or touchscreen to tap a tempo and detect the beats per minute."
 			},
 			tempoticker: {
 				name: "tempoTicker",
 				size: "small",
-				tags: ["code","tool"],
+				tags: ["code","tool","music"],
 				date: "May 1, 2021",
 				description: "A simple audio-visual metronome with customizable beat count and tempo."
 			},
@@ -986,7 +996,7 @@
 			wordcounter: {
 				name: "wordCounter",
 				size: "small",
-				tags: ["code","tool"],
+				tags: ["code","tool","writing"],
 				date: "April 26, 2016",
 				description: "One of my first projects; it counts words & characters in any text."
 			},
