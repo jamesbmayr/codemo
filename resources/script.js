@@ -4,9 +4,9 @@
 			"code","ai","api","extension","math","money","mongo","node","simulation","tool","websockets",
 			"music","audio","jazz","orchestral","piano","pop","synth",
 			"writing","autobiography","fantasy","lyric","poetry","prose","scifi",
-			"games","arcade","board","card","multiplayer","puzzle","tabletop","unity",
+			"game","arcade","board","card","multiplayer","puzzle","tabletop","unity",
 			"design","art","canvas","draw","svg",
-			"collaborations"
+			"collaboration"
 		]
 
 	/* projects */
@@ -14,7 +14,7 @@
 			adventure: {
 				name: "Adventure",
 				size: "large",
-				tags: ["games","code","fantasy","node","websockets","mongo","canvas","tabletop","multiplayer"],
+				tags: ["game","code","fantasy","node","websockets","mongo","canvas","tabletop","multiplayer"],
 				date: "May 15, 2020",
 				description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
 			},
@@ -22,7 +22,7 @@
 				skipRandom: true,
 				name: "AI Arenas",
 				size: "extra-large",
-				tags: ["code","games","scifi","ai","multiplayer","node","websockets","mongo","simulation"],
+				tags: ["code","game","scifi","ai","multiplayer","node","websockets","mongo","simulation"],
 				date: "May 1, 2017",
 				description: "AI Arenas is a web game where javascript robots battle for cubes in a competitive coding arena."
 			},
@@ -44,14 +44,14 @@
 			arrowsmasher: {
 				name: "arrowSmasher",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "June 5, 2020",
 				description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 			},
 			balloonpopper: {
 				name: "balloonPopper",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "February 8, 2017",
 				description: "balloonPopper is a simple web game - pop the balloons before they float away!"
 			},
@@ -65,21 +65,21 @@
 			beambouncer: {
 				name: "beambouncer",
 				size: "small",
-				tags: ["games","code","arcade","multiplayer","node","websockets","canvas"],
+				tags: ["game","code","arcade","multiplayer","node","websockets","canvas"],
 				date: "December 26, 2018",
 				description: "BeamBouncer is a 2-player co-op radial pong game - keep the colored beams inside the arena!"
 			},
 			bladesdodger: {
 				name: "bladesDodger",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "June 20, 2017",
 				description: "bladesDodger is a simple web game - click the dots, but dodge the spinning blades!"
 			},
 			blockdescender: {
 				name: "blockDescender",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "October 4, 2017",
 				description: "blockDescender is a web clone of Tetris, where players must fit colored blocks together."
 			},
@@ -93,21 +93,21 @@
 			breakout: {
 				name: "breakout",
 				size: "small",
-				tags: ["code","games","arcade","unity"],
+				tags: ["code","game","arcade","unity"],
 				date: "June 7, 2020",
 				description: "This is a Unity demo of the classic game, built step-by-step from a Youtube tutorial."
 			},
 			brickbreaker: {
 				name: "brickBreaker",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "October 5, 2017",
 				description: "The classic ball-and-paddle game, built from scratch as a javascript web demo."
 			},
 			cableconnector: {
 				name: "cableConnector",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "February 14, 2020",
 				description: "Pull the cords from start to socket in this puzzle of non-overlapping lines."
 			},
@@ -135,7 +135,7 @@
 			catchaser: {
 				name: "catChaser",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "May 8, 2019",
 				description: "A simple javascript game of cat and mouse, with artwork from opengameart.org"
 			},
@@ -149,28 +149,28 @@
 			chalice: {
 				name: "Chalice",
 				size: "extra-large",
-				tags: ["games","collaborations","code","card","tabletop","multiplayer","node","websockets","mongo","fantasy"],
+				tags: ["game","collaboration","code","card","tabletop","multiplayer","node","websockets","mongo","fantasy"],
 				date: "March 21, 2015",
 				description: "Funded on Kickstarter, Chalice is a card game (and web game) of death and deception where players poison their friends for fun."
 			},
 			checkers: {
 				name: "checkers",
 				size: "small",
-				tags: ["code","games","board","tabletop","multiplayer","unity"],
+				tags: ["code","game","board","tabletop","multiplayer","unity"],
 				date: "June 14, 2020",
 				description: "This is a Unity demo of the classic game, built step-by-step from a Youtube tutorial."
 			},
 			checkersplayer: {
 				name: "checkersPlayer",
 				size: "medium",
-				tags: ["code","games","board","tabletop","ai","multiplayer"],
+				tags: ["code","game","board","tabletop","ai","multiplayer"],
 				date: "November 21, 2017",
 				description: "checkersPlayer is a Javascript web clone featuring PVP and AI match-ups."
 			},
 			chess: {
 				name: "Chess",
 				size: "large",
-				tags: ["collaborations","code","games","tabletop","board","multiplayer"],
+				tags: ["collaboration","code","game","tabletop","board","multiplayer"],
 				date: "July 5, 2018",
 				description: "This PVP chess clone was built in collaboration with Max Pekarsky."
 			},
@@ -184,7 +184,7 @@
 			chromacreatures: {
 				name: "chromaCreatures",
 				size: "medium",
-				tags: ["code","games","arcade","scifi"],
+				tags: ["code","game","arcade","scifi"],
 				date: "January 2, 2018",
 				description: "chromaCreatures is a challenging shoot-em-up arcade game - players use a monochromatic blaster to fend off hybrid-hued enemies."
 			},
@@ -226,7 +226,7 @@
 			codebreaker: {
 				name: "codeBreaker",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "October 28, 2019",
 				description: "In codeBreaker, you must guess the computer's secret combination through guess and check."
 			},
@@ -240,21 +240,21 @@
 			colorflooder: {
 				name: "colorFlooder",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "January 19, 2017",
 				description: "colorFlooder is a web game where players click squares to collapse a grid to one color."
 			},
 			couplets: {
 				name: "couplets",
 				size: "medium",
-				tags: ["writing","collaborations","api","lyric","poetry","autobiography"],
+				tags: ["writing","collaboration","api","lyric","poetry","autobiography"],
 				date: "July 22, 2019",
 				description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
 			},
 			diamondcheckers: {
 				name: "Diamond Checkers",
 				size: "large",
-				tags: ["games","code","node","mongo","tabletop","board","multiplayer"],
+				tags: ["game","code","node","mongo","tabletop","board","multiplayer"],
 				date: "March 1, 2017",
 				description: "Originally an abstract strategy game I designed long ago, Diamond Checkers is a node.js web game, a battle of wits for two players."
 			},
@@ -268,7 +268,7 @@
 			dotconnector: {
 				name: "dotConnector",
 				size: "small",
-				tags: ["code","games","svg","puzzle"],
+				tags: ["code","game","svg","puzzle"],
 				date: "September 2, 2017",
 				description: "This connect-the-dots game randomly generates points you must connect with non-overlapping lines."
 			},
@@ -289,14 +289,14 @@
 			dreamhatcher: {
 				name: "Dreamhatcher",
 				size: "extra-large",
-				tags: ["games","tabletop","board","card","puzzle","multiplayer"],
+				tags: ["game","tabletop","board","card","puzzle","multiplayer"],
 				date: "April 1, 2014",
 				description: "DreamHatcher offers dozens of free print-and-play tabletop games - and tons of templates to help aspiring designers craft their own."
 			},
 			dynasty: {
 				name: "Dynasty",
 				size: "large",
-				tags: ["games","code","node","websockets","tabletop","card","multiplayer"],
+				tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
 				date: "December 30, 2020",
 				description: "This multi-player multi-round elimination card game is all about becoming the next king."
 			},
@@ -311,7 +311,7 @@
 			explorchestra: {
 				name: "Explorchestra",
 				size: "extra-large",
-				tags: ["collaborations","music","orchestral","jazz","pop","synth","lyric","piano"],
+				tags: ["collaboration","music","orchestral","jazz","pop","synth","lyric","piano"],
 				date: "Octboer 1, 2009",
 				description: "I co-founded Explorchestra, a student ensemble at SUNY Binghamton where all the music - in every genre and style - is composed by members."
 			},
@@ -325,7 +325,7 @@
 			flaggravation: {
 				name: "Flaggravation",
 				size: "medium",
-				tags: ["code","games","card","tabletop","multiplayer"],
+				tags: ["code","game","card","tabletop","multiplayer"],
 				date: "October 29, 2021",
 				description: "In this vexillological drafting card game, players collect components to form flags from all around the world."
 			},
@@ -339,21 +339,21 @@
 			flashcardmemory: {
 				name: "Flash Card Memory",
 				size: "medium",
-				tags: ["games","code","node","mongo","card","tool"],
+				tags: ["game","code","node","mongo","card","tool"],
 				date: "March 20, 2020",
 				description: "Build your own deck of flash cards or find a friend's to play the classic matching game."
 			},
 			firestormsea: {
 				name: "Firestorm Sea",
 				size: "large",
-				tags: ["games","fantasy","art"],
+				tags: ["game","fantasy","art"],
 				date: "April 16, 2020",
 				description: "An HD world map of a fantasy realm, revised and expanded over more than a decade."
 			},
 			fourconnector: {
 				name: "fourConnector",
 				size: "small",
-				tags: ["code","games","tabletop","board","multiplayer"],
+				tags: ["code","game","tabletop","board","multiplayer"],
 				date: "December 20, 2018",
 				description: "It's four-in-a-row in this popular gravity-based strategy game for 2 players."
 			},
@@ -396,14 +396,14 @@
 			hexagonplacer: {
 				name: "hexagonPlacer",
 				size: "medium",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "November 14, 2020",
 				description: "This puzzle challenges you to fit all the random hexagon chunks back on the board."
 			},
 			hexsequencer: {
 				name: "hexSequencer",
 				size: "small",
-				tags: ["code","games","audio","arcade"],
+				tags: ["code","game","audio","arcade"],
 				date: "November 20, 2017",
 				description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
 			},
@@ -424,7 +424,7 @@
 			huematcher: {
 				name: "hueMatcher",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "September 14, 2017",
 				description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
 			},
@@ -445,14 +445,14 @@
 			jigsawpuzzler: {
 				name: "jigsawPuzzler",
 				size: "small",
-				tags: ["code","games","art","api","puzzle"],
+				tags: ["code","game","art","api","puzzle"],
 				date: "November 9, 2021",
 				description: "Use any image on the web, your device, or the Metropolitan Museum of Art website to make - and solve - a jigsaw puzzle."
 			},
 			keyspinner: {
 				name: "keySpinner",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "March 18, 2020",
 				description: "In this puzzle, rotate the pieces until they perfectly fit the key slot."
 			},
@@ -466,7 +466,7 @@
 			letterguesser: {
 				name: "letterGuesser",
 				size: "small",
-				tags: ["code","games","puzzle","tabletop","multiplayer"],
+				tags: ["code","game","puzzle","tabletop","multiplayer"],
 				date: "December 21, 2020",
 				description: "Play hangman against a bank of tens of thousands of common words."
 			},
@@ -481,7 +481,7 @@
 			lockturner: {
 				name: "lockTurner",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "January 22, 2020",
 				description: "A combination lock puzzle where sensing vibrations helps you know how to rotate a dial."
 			},
@@ -495,7 +495,7 @@
 			mayrhockey: {
 				name: "MayrHockey",
 				size: "medium",
-				tags: ["games","arcade","multiplayer","code","canvas","websockets","node"],
+				tags: ["game","arcade","multiplayer","code","canvas","websockets","node"],
 				date: "May 26, 2021",
 				description: "A 2-6 player air hockey arena where the goals change every time someone scores."
 			},
@@ -509,21 +509,21 @@
 			mazertag: {
 				name: "MazerTag",
 				size: "large",
-				tags: ["games","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node","collaborations"],
+				tags: ["game","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node","collaboration"],
 				date: "February 7, 2021",
 				description: "A top-down multiplayer arcade game with 5 laser tag modes in randomly generated arenas. Music & SFX by Alex Berg. Visuals by Liz Ford."
 			},
 			melodemons: {
 				name: "melodemons",
 				size: "large",
-				tags: ["games","code","music","node","websockets","canvas","audio","fantasy","synth","piano","arcade","multiplayer","art"],
+				tags: ["game","code","music","node","websockets","canvas","audio","fantasy","synth","piano","arcade","multiplayer","art"],
 				date: "October 9, 2018",
 				description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
 			},
 			memory: {
 				name: "Memory",
 				size: "medium",
-				tags: ["collaborations","code","games","card","tabletop","multiplayer","tool"],
+				tags: ["collaboration","code","game","card","tabletop","multiplayer","tool"],
 				date: "August 20, 2017",
 				description: "Coded in collaboration with Liz Ford, Memory is a fully customizable card game for two or more brains."
 			},
@@ -537,7 +537,7 @@
 			meteoriteminer: {
 				name: "meteoriteMiner",
 				size: "small",
-				tags: ["collaborations","games","code","canvas","scifi","arcade","multiplayer","art"],
+				tags: ["collaboration","game","code","canvas","scifi","arcade","multiplayer","art"],
 				date: "January 14, 2019",
 				description: "Liz Ford & I built a local 2-player minigame where lunar rovers race to collect falling space rocks."
 			},
@@ -551,7 +551,7 @@
 			minefinder: {
 				name: "mineFinder",
 				size: "small",
-				tags: ["code","games","puzzle","arcade"],
+				tags: ["code","game","puzzle","arcade"],
 				date: "December 30, 2017",
 				description: "In mineFinder, sweep the randomly generated board flagging mines before you click them!"
 			},
@@ -572,14 +572,14 @@
 			nimbusnotes: {
 				name: "nimbusNotes",
 				size: "small",
-				tags: ["collaborations","code","music","node","websockets","canvas","audio","multiplayer","art"],
+				tags: ["collaboration","code","music","node","websockets","canvas","audio","multiplayer","art"],
 				date: "February 2, 2019",
 				description: "This web-audio / canvas / websockets raincloud soundscape was built with Liz Ford at a hackathon."
 			},
 			noughtcrosser: {
 				name: "noughtCrosser",
 				size: "small",
-				tags: ["code","games","ai","multiplayer","tabletop","board"],
+				tags: ["code","game","ai","multiplayer","tabletop","board"],
 				date: "December 20, 2017",
 				description: "It's tic-tac-toe, against either another human or an AI opponent."
 			},
@@ -593,14 +593,14 @@
 			pawnpusher: {
 				name: "pawnPusher",
 				size: "medium",
-				tags: ["games","code","tabletop","board","multiplayer"],
+				tags: ["game","code","tabletop","board","multiplayer"],
 				date: "November 28, 2017",
 				description: "An original game, on both cardstock and the web, pawnPusher is about knocking your opponent off the board."
 			},
 			pegjumper: {
 				name: "pegJumper",
 				size: "small",
-				tags: ["code","games","tabletop","board","puzzle"],
+				tags: ["code","game","tabletop","board","puzzle"],
 				date: "March 25, 2018",
 				description: "This is the classic solitaire game with pegs jumping over each other."
 			},
@@ -628,14 +628,14 @@
 			pieceflipper: {
 				name: "pieceFlipper",
 				size: "small",
-				tags: ["code","games","tabletop","board","ai","multiplayer"],
+				tags: ["code","game","tabletop","board","ai","multiplayer"],
 				date: "December 31, 2017",
 				description: "An Othello/Reversi clone, pieceFlipper features both PVP and human-vs.-AI games."
 			},
 			pipestriper: {
 				name: "pipeStriper",
 				size: "medium",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "February 4, 2020",
 				description: "This is a puzzle / simulator where you rotate pipes to connect their colors."
 			},
@@ -663,7 +663,7 @@
 			pointfinder: {
 				name: "pointFinder",
 				size: "small",
-				tags: ["code","games","canvas","puzzle"],
+				tags: ["code","game","canvas","puzzle"],
 				date: "April 19, 2020",
 				description: "Use an x/y pair of range inputs to drag laser lines and target random points."
 			},
@@ -677,7 +677,7 @@
 			pongpaddler: {
 				name: "pongPaddler",
 				size: "small",
-				tags: ["code","games","arcade","multiplayer"],
+				tags: ["code","game","arcade","multiplayer"],
 				date: "June 4, 2021",
 				description: "Play the classic table-tennis arcade game against a friend."
 			},
@@ -713,7 +713,7 @@
 			puzzlepatcher: {
 				name: "puzzlePatcher",
 				size: "medium",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "February 22, 2020",
 				description: "Random gaps in the grid must be covered by your various patch pieces."
 			},
@@ -727,35 +727,35 @@
 			rectangleplacer: {
 				name: "rectanglePlacer",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "August 24, 2020",
 				description: "Fit all of the randomly generated rectangles within the available area."
 			},
 			robotdirector: {
 				name: "robotDirector",
 				size: "medium",
-				tags: ["code","games","scifi","arcade"],
+				tags: ["code","game","scifi","arcade"],
 				date: "January 25, 2017",
 				description: "In robotDirector, players must guide simple bots to a color-coded collection point."
 			},
 			rpsrpg: {
 				name: "RPS RPG",
 				size: "large",
-				tags: ["collaborations","code","games","node","websockets","canvas","audio","fantasy","orchestral","synth","multiplayer","ai","arcade","art"],
+				tags: ["collaboration","code","game","node","websockets","canvas","audio","fantasy","orchestral","synth","multiplayer","ai","arcade","art"],
 				date: "November 9, 2019",
 				description: "Fight monsters to find the orbs in this 8-bit co-op dungeon crawler. Art by Jenn Levy. Sound by Alex Berg."
 			},
 			rpsthrower: {
 				name: "RPSthrower",
 				size: "small",
-				tags: ["code","games","ai","multiplayer"],
+				tags: ["code","game","ai","multiplayer"],
 				date: "June 14, 2021",
 				description: "Rock-Paper-Scissors; human-v-human or human-v-bot or bot-v-bot... you can even code your own bots!"
 			},
 			runjumper: {
 				name: "runJumper",
 				size: "small",
-				tags: ["games","code","canvas","scifi","arcade"],
+				tags: ["game","code","canvas","scifi","arcade"],
 				date: "September 14, 2018",
 				description: "Help the robot collect energy orbs in runJumper, a randomly generated platformer."
 			},
@@ -799,7 +799,7 @@
 			snakesnacker: {
 				name: "snakeSnacker",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "September 26, 2017",
 				description: "snakeSnacker is a web clone of the classic arcade game."
 			},
@@ -820,7 +820,7 @@
 			specterinspectors: {
 				name: "Specter Inspectors",
 				size: "large",
-				tags: ["games","code","node","websockets","mongo","fantasy","tabletop","card","multiplayer"],
+				tags: ["game","code","node","websockets","mongo","fantasy","tabletop","card","multiplayer"],
 				date: "October 27, 2017",
 				description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deception and deduction."
 			},
@@ -834,7 +834,7 @@
 			spherecollector: {
 				name: "sphereCollector",
 				size: "small",
-				tags: ["code","games","arcade"],
+				tags: ["code","game","arcade"],
 				date: "June 10, 2017",
 				description: "Move your mouse around to collect the bouncing balls before they fade away."
 			},
@@ -855,7 +855,7 @@
 			switchonyms: {
 				name: "Switchonyms",
 				size: "large",
-				tags: ["games","code","node","websockets","multiplayer","tabletop","card"],
+				tags: ["game","code","node","websockets","multiplayer","tabletop","card"],
 				date: "February 1, 2018",
 				description: "A chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 			},
@@ -876,7 +876,7 @@
 			thecouncil: {
 				name: "The Council",
 				size: "medium",
-				tags: ["games","code","node","websockets","canvas","fantasy","tabletop","multiplayer"],
+				tags: ["game","code","node","websockets","canvas","fantasy","tabletop","multiplayer"],
 				date: "November 30, 2018",
 				description: "Keep the republic from crumbling - rule the fantasy realm together in The Council, a game of politics and persuasion."
 			},
@@ -897,14 +897,14 @@
 			tictactoe: {
 				name: "tictactoe",
 				size: "medium",
-				tags: ["code","games","unity","tabletop","board","multiplayer"],
+				tags: ["code","game","unity","tabletop","board","multiplayer"],
 				date: "June 20, 2020",
 				description: "This is a Unity demo of the classic game, built from scratch with a customizable grid."
 			},
 			tileslider: {
 				name: "tileSlider",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "January 23, 2017",
 				description: "tileSlider is an online version of the 15-puzzle sliding game."
 			},
@@ -939,14 +939,14 @@
 			truecolors: {
 				name: "True Colors",
 				size: "large",
-				tags: ["games","code","node","websockets","tabletop","card","multiplayer"],
+				tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
 				date: "October 4, 2020",
 				description: "A strategic bluffing asymmetrical card game about colors and symbols and sabotage."
 			},
 			underblue: {
 				name: "Underblue",
 				size: "extra-large",
-				tags: ["collaborations","music","jazz","pop","lyric","piano"],
+				tags: ["collaboration","music","jazz","pop","lyric","piano"],
 				date: "March 30, 2016",
 				description: "I composed and played piano and clarinet in Underblue, performing across New York City venues in this 5-person rock and indie pop band."
 			},
@@ -975,7 +975,7 @@
 			wheelturner: {
 				name: "wheelTurner",
 				size: "small",
-				tags: ["code","games","puzzle"],
+				tags: ["code","game","puzzle"],
 				date: "May 16, 2020",
 				description: "Turn one wheel and see it turn another - it's hard to crack, even if you know the code."
 			},
@@ -1003,14 +1003,14 @@
 			wordfinder: {
 				name: "wordFinder",
 				size: "medium",
-				tags: ["code","games","tabletop","board","multiplayer"],
+				tags: ["code","game","tabletop","board","multiplayer"],
 				date: "July 9, 2016",
 				description: "wordFinder is a web game in the style of Boggle, using an online dictionary."
 			},
 			wordsblockchain: {
 				name: "wordsblockchain",
 				size: "large",
-				tags: ["games","code","node","websockets","tabletop","multiplayer"],
+				tags: ["game","code","node","websockets","tabletop","multiplayer"],
 				date: "November 25, 2018",
 				description: "Race your friends to build a chain of connected compound words in this real-time web game."
 			},
@@ -1062,7 +1062,7 @@
 				code: document.querySelector("#info-tag-code"),
 				music: document.querySelector("#info-tag-music"),
 				writing: document.querySelector("#info-tag-writing"),
-				games: document.querySelector("#info-tag-games")
+				games: document.querySelector("#info-tag-game")
 			},
 			random: document.querySelector("#info-links-random"),
 			projects: document.querySelector("#projects"),
