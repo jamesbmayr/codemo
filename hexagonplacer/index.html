@@ -22,5 +22,23 @@
 			<h1 id="heading">hexagonPlacer</h1>
 			<button id="play">&orarr;</button>
 		</div>
+		<details id="settings">
+			<summary>&#x2699;</summary>
+			<form id="settings-form" method="post" action="javascript:;">
+				<label>
+					<span>x</span>
+					<input type="number" value="3" min="3" max="10" step="1" placeholder="x" id="settings-x">
+				</label>
+				<label>
+					<span>y</span>
+					<input type="number" value="3" min="3" max="10" step="1" placeholder="y" id="settings-y">
+				</label>
+				<label>
+					<span>z</span>
+					<input type="number" value="3" min="3" max="10" step="1" placeholder="z" id="settings-z">
+				</label>
+				<button id="settings-submit">&rarr;</button>
+			</form>
+		</details>
 	</body>
 </html>

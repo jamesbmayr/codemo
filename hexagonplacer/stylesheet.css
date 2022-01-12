@@ -53,6 +53,66 @@
 		pointer-events: none;
 	}
 
+/*** settings ***/
+	#settings {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		color: #222222;
+		font-size: 20px;
+		font-family: monospace;
+		user-select: none;
+		cursor: pointer;
+		outline: none;
+	}
+
+	#settings summary:hover, #settings summary:focus {
+		text-shadow: 0 0 5px #222222;
+	}
+
+	#settings label {
+		font-weight: bold;
+		display: block;
+		margin-bottom: 5px;
+	}
+
+	#settings label span {
+		width: 20px;
+		user-select: none;
+	}
+
+	#settings input {
+		border: 0px;
+		border-radius: 5px;
+		background-color: #dddddd;
+		color: #222222;
+		font-family: monospace;
+		padding: 5px;
+		width: 40px;
+		outline: none;
+	}
+
+	#settings input:focus {
+		box-shadow: 0 0 5px #222222;
+	}
+
+	#settings button {
+		border: 0px;
+		border-radius: 5px;
+		background-color: #dddddd;
+		color: #222222;
+		font-family: monospace;
+		font-weight: bold;
+		padding: 5px;
+		cursor: pointer;
+		width: 74px;
+	}
+
+	#settings button:focus, #settings button:hover {
+		box-shadow: 0 0 5px #222222;
+		background-color: #aaaaaa;
+	}
+
 /*** container ***/
 	#container {
 		position: absolute;

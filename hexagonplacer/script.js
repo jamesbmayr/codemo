@@ -15,7 +15,15 @@ window.addEventListener("load", function() {
 				container: document.querySelector("#container"),
 				background: document.querySelector("#background"),
 				overlay: document.querySelector("#gameoverlay"),
-				play: document.querySelector("#play")
+				play: document.querySelector("#play"),
+				settings: {
+					element: document.querySelector("#settings"),
+					form: document.querySelector("#settings-form"),
+					x: document.querySelector("#settings-x"),
+					y: document.querySelector("#settings-y"),
+					z: document.querySelector("#settings-z"),
+					submit: document.querySelector("#settings-submit")
+				}
 			}
 
 		/* settings */
@@ -51,6 +59,11 @@ window.addEventListener("load", function() {
 					SETTINGS.z = !isNaN(GET.z) ? Number(GET.z) : SETTINGS.z
 					SETTINGS.minPieceSize = !isNaN(GET.minPieceSize) ? Number(GET.minPieceSize) : SETTINGS.minPieceSize
 					SETTINGS.maxPieceSize = !isNaN(GET.maxPieceSize) ? Number(GET.maxPieceSize) : SETTINGS.maxPieceSize
+
+				// update settings inputs
+					ELEMENTS.settings.x.value = SETTINGS.x
+					ELEMENTS.settings.y.value = SETTINGS.y
+					ELEMENTS.settings.z.value = SETTINGS.z
 			}
 
 		/* detectScreen */
@@ -149,7 +162,36 @@ window.addEventListener("load", function() {
 			}
 
 	/*** setup ***/
+		/* reloadGame */
+			ELEMENTS.settings.form.addEventListener("submit", reloadGame)
+			function reloadGame() {
+				// get values
+					var x = Number(ELEMENTS.settings.x.value) || 0
+					var y = Number(ELEMENTS.settings.y.value) || 0
+					var z = Number(ELEMENTS.settings.z.value) || 0
+
+				// missing
+					if (x < 3 || y < 3 || z < 3) {
+						return
+					}
+
+				// update URL
+					var currentURL = new URL(window.location.href)
+					currentURL.search = "?x=" + x + "&y=" + y + "&z=" + z
+					window.history.pushState({}, "", currentURL)
+
+				// change settings
+					SETTINGS.x = x
+					SETTINGS.y = y
+					SETTINGS.z = z
+
+				// new game
+					createGame()
+			}
+
+
 		/* createGame */
+			createGame()
 			ELEMENTS.play.addEventListener(TRIGGERS.click, createGame)
 			function createGame() {
 				// clear game
