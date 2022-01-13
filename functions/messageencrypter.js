@@ -132,8 +132,7 @@
 						success: true,
 						message: query.message,
 						keyword: query.keyword,
-						output: result,
-						html: result
+						output: result
 					})
 			}
 			catch (error) { console.log(error) }

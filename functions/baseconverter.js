@@ -153,6 +153,6 @@
 
 				// output
 					var number = (negative ? "-" : "") + (digits[0] == "." ? "0" : "") + digits.join("")
-					return JSON.stringify({success: true, number: number, html: number})
+					return JSON.stringify({success: true, number: number})
 			} catch (error) { return JSON.stringify({success: false, message: "unknown error in converting number"}) }
 		}

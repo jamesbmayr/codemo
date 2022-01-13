@@ -33,7 +33,7 @@
 			<li><code>newBase</code>: number</li>
 		</ul>
 		<h3>output</h3>
-		<p class="code">{"success":bool,"number":string,"html":string}</p>
+		<p class="code">{"success":bool,"number":string}</p>
 		<br>
 		<hr>
 		<h2><a href="chordanalyzer">/chordanalyzer</a></h2>
@@ -43,7 +43,7 @@
 			<li><code>notes</code>: comma-separated string <i>(ex: Eflat,G,Bdoubleflat,Csharp)</i></li>
 		</ul>
 		<h3>output</h3>
-		<p class="code">{"success":bool,"pitches":[numbers],"chord":[strings],"addedNotes":[strings],"rootName":string,"inversion":stirng,"intervals":[numbers],"chordType":string,"shortType":string,"bigOutput":string,"smallOutput":string}</p>
+		<p class="code">{"success":bool,"pitches":[numbers],"chord":[strings],"addedNotes":[strings],"rootName":string,"inversion":string,"intervals":[numbers],"chordType":string,"shortType":string,"shortName":string,"longName":string}</p>
 		<br>
 		<hr>
 		<h2><a href="factorfinder">/factorfinder</a></h2>
@@ -65,7 +65,7 @@
 			<li><code>keyword</code>: string</li>
 		</ul>
 		<h3>output</h3>
-		<p class="code">{"success":bool,"message":string,"keyword":string,"output":string,html":string}</p>
+		<p class="code">{"success":bool,"message":string,"keyword":string,"output":string}</p>
 		<br>
 		<hr>
 		<h2><a href="unitconverter">/unitconverter</a></h2>
@@ -78,16 +78,6 @@
 		</ul>
 		<h3>output</h3>
 		<p class="code">{"success":bool,"parameters":{"quantity":number,"from":{"prefix":string,"unit":string,"category":string,"system":string},"to":{"prefix":string,"unit":string,"category":string,"system":string}},"output":number,"message":string}</p>
-		<br>
-		<hr>
-		<h2><a href="wordshuffler">/wordshuffler</a></h2>
-		<p>get words comprised of the letters of a given word (<a href="../wordshuffler">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>word</code>: string</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"results":{number:[strings],number:[strings],...},"html":HTML string}</p>
 		<br>
 		<hr>
 		<h2><a href="wordsgenerator">/wordsgenerator</a></h2>
@@ -114,5 +104,15 @@
 		</ul>
 		<h3>output</h3>
 		<p class="code">{"success":bool,"words":[strings]}</p>
+		<br>
+		<hr>
+		<h2><a href="wordshuffler">/wordshuffler</a></h2>
+		<p>get words comprised of the letters of a given word (<a href="../wordshuffler">full project</a>)</p>
+		<h3>inputs</h3>
+		<ul>
+			<li><code>word</code>: string</li>
+		</ul>
+		<h3>output</h3>
+		<p class="code">{"success":bool,"results":{number:[strings],number:[strings],...},"html":HTML string}</p>
 	</body>
 </html>

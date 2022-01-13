@@ -30,8 +30,8 @@
 						var addedNotes = output["addedNotes"]
 
 					var output = getAnalysis(rootName,shortType,chordType,chord,inversion,addedNotes)
-						var bigOutput = output["bigOutput"]
-						var smallOutput = output["smallOutput"]
+						var shortName = output["shortName"]
+						var longName = output["longName"]
 
 					return JSON.stringify({
 						success: true,
@@ -44,8 +44,8 @@
 						chordType: chordType,
 						shortType: shortType,
 						chord: chord,
-						bigOutput: bigOutput,
-						smallOutput: smallOutput
+						shortName: shortName,
+						longName: longName
 					})
 				}
 			}
@@ -923,50 +923,50 @@
 
 	/* getAnalysis */
 		function getAnalysis(rootName,shortType,chordType,chord,inversion,addedNotes) {
-			//bigOutput
-				var bigOutput = rootName + " " + shortType
+			//shortName
+				var shortName = rootName + " " + shortType
 			
-			//smallOutput
-				var smallOutput = ""
+			//longName
+				var longName = ""
 
 			//rootName
-				smallOutput += rootName
+				longName += rootName
 
 			//chordType
-				smallOutput += " " + chordType
+				longName += " " + chordType
 
 			//chord
-				smallOutput += " ("
+				longName += " ("
 				for (i = 0; i < chord.length; i++) {
-					smallOutput += chord[i]
+					longName += chord[i]
 
 					if (i < chord.length - 1) {
-						smallOutput += " - "
+						longName += " - "
 					}
 					else {
-						smallOutput += ")"
+						longName += ")"
 					}
 				}
 
 			//inversion
 				if (inversion.length > 0) {
-					smallOutput += " in " + inversion
+					longName += " in " + inversion
 				}
 
 			//addedNotes
 				if (addedNotes.length > 0) {
-					smallOutput += " with added "
+					longName += " with added "
 					for (i = 0; i < addedNotes.length; i++) {
-						smallOutput += addedNotes[i]
+						longName += addedNotes[i]
 
 						if (i < addedNotes.length - 1) {
-							smallOutput += ", "
+							longName += ", "
 						}
 					}
 				}
 
 			return {
-				"bigOutput": bigOutput,
-				"smallOutput": smallOutput
+				"shortName": shortName,
+				"longName": longName
 			}
 		}
