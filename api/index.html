@@ -13,6 +13,9 @@
 		<link rel="shortcut icon" href="https://static.thenounproject.com/png/40023-200.png">
 		<style>
 			html, body { font-family: monospace; background: #111111; color: #dddddd; overflow-x: hidden; }
+			details summary { cursor: pointer; }
+			details { padding-bottom: 15px; }
+			h2 { display: inline-block; margin-bottom: 0px; }
 			a, a:visited { color: #04b1ff }
 			a:hover, a:focus { color: #0066aa }
 			#j-logo { position: fixed; top: 14px; right: 8px; background-color: transparent; background-image: url("../resources/j.png"); background-repeat: no-repeat; background-size: cover; background-position: center center; height: 32px; width: 32px; cursor: pointer; z-index: 1000; outline: none; filter: drop-shadow(0px 0px 2px #999999); }
@@ -24,95 +27,157 @@
 		<h1>James Mayr API</h1>	
 		<a href="https://jamesmayr.com" target="_blank" id="j-logo"></a>
 		<hr>
-		<h2><a href="baseconverter">/baseconverter</a></h2>
-		<p>convert a number from one base to another (<a href="../baseconverter">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>numberString</code>: string</li>
-			<li><code>oldBase</code>: number</li>
-			<li><code>newBase</code>: number</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"number":string}</p>
-		<br>
+		<details open>
+			<summary><h2><a href="baseconverter">/baseconverter</a></h2></summary>
+			<p>convert a number from one base to another (<a href="../baseconverter">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>numberString</code>: string</li>
+				<li><code>oldBase</code>: number</li>
+				<li><code>newBase</code>: number</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"number":string}</p>
+		</details>
 		<hr>
-		<h2><a href="chordanalyzer">/chordanalyzer</a></h2>
-		<p>get the chord and inversion of a group of notes (<a href="../chordanalyzer">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>notes</code>: comma-separated string <i>(ex: Eflat,G,Bdoubleflat,Csharp)</i></li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"pitches":[numbers],"chord":[strings],"addedNotes":[strings],"rootName":string,"inversion":string,"intervals":[numbers],"chordType":string,"shortType":string,"shortName":string,"longName":string}</p>
-		<br>
+		<details open>
+			<summary><h2><a href="chordanalyzer">/chordanalyzer</a></h2></summary>
+			<p>get the chord and inversion of a group of notes (<a href="../chordanalyzer">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>notes</code>: comma-separated string <i>(ex: Eflat,G,Bdoubleflat,Csharp)</i></li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"pitches":[numbers],"chord":[strings],"addedNotes":[strings],"rootName":string,"inversion":string,"intervals":[numbers],"chordType":string,"shortType":string,"shortName":string,"longName":string}</p>
+		</details>
 		<hr>
-		<h2><a href="factorfinder">/factorfinder</a></h2>
-		<p>get the factors and fun facts about a number (<a href="../factorfinder">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>number</code>: number</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"number":number,"qualities":[strings],"html":HTML string}</p>
-		<br>
+		<details open>
+			<summary><h2><a href="factorfinder">/factorfinder</a></h2></summary>
+			<p>get the factors and fun facts about a number (<a href="../factorfinder">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>number</code>: number</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"number":number,"qualities":[strings],"html":HTML string}</p>
+		</details>
 		<hr>
-		<h2><a href="messageencrypter">/messageencrypter</a></h2>
-		<p>encrypt or decrypt a message using the Vigenére cipher (<a href="../messageencrypter">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>action</code>: encrypt | decrypt</li>
-			<li><code>message</code>: string</li>
-			<li><code>keyword</code>: string</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"message":string,"keyword":string,"output":string}</p>
-		<br>
+		<details open>
+			<summary><h2><a href="messageencrypter">/messageencrypter</a></h2></summary>
+			<p>encrypt or decrypt a message using the Vigenére cipher (<a href="../messageencrypter">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>action</code>: encrypt | decrypt</li>
+				<li><code>message</code>: string</li>
+				<li><code>keyword</code>: string</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"message":string,"keyword":string,"output":string}</p>
+		</details>
 		<hr>
-		<h2><a href="unitconverter">/unitconverter</a></h2>
-		<p>convert a quantity from one unit of measurement to another (<a href="../unitconverter">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>quantity</code>: number</li>
-			<li><code>from</code>: string</li>
-			<li><code>to</code>: string</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"parameters":{"quantity":number,"from":{"prefix":string,"unit":string,"category":string,"system":string},"to":{"prefix":string,"unit":string,"category":string,"system":string}},"output":number,"message":string}</p>
-		<br>
+		<details open>
+			<summary><h2><a href="morsemessager">/morsemessager</a></h2></summary>
+			<p>convert between plain text and Morse code (<a href="../morsemessager">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>text</code>: string <i>(optional)</i></li>
+				<li><code>code</code>: string <i>(optional)</i></li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"output":string}</p>
+		</details>
 		<hr>
-		<h2><a href="wordsgenerator">/wordsgenerator</a></h2>
-		<p>get a list of randomly generated words (<a href="../wordsgenerator">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>numberOfWords</code>: number <i>(optional)</i></li>
-			<li><code>syllableCounts</code>: array of numbers <i>(optional)</i></li>
-			<li><code>type</code>: complex | random <i>(optional)</i></li>
-			<li><code>syllableTypes</code>: array of arrays <i>(optional)</i>
-				<ul>
-					<li>["vowelGroup", "endingConsonantGroup"]</li>
-					<li>["startingConsonantGroup", "vowelGroup", "endingConsonantGroup"]</li>
-					<li>["startingConsonantGroup", "vowelGroup"]</li>
-					<li>["vowelGroup", "endingConsonantGroupWithE"]</li>
-					<li>["startingConsonantGroup", "vowelGroup", "endingConsonantGroupWithE"]</li>
-				</ul>
-			</li>
-			<li><code>letterGroups</code>: array of strings <i>(optional)</i>
-				<ul>
-					<li>"a"</li><li>"ai"</li><li>"ar"</li><li>"au"</li><li>"aw"</li><li>"ay"</li><li>"b"</li><li>"be"</li><li>"bes"</li><li>"bl"</li><li>"ble"</li><li>"bles"</li><li>"br"</li><li>"bs"</li><li>"c"</li><li>"ce"</li><li>"ces"</li><li>"ch"</li><li>"ck"</li><li>"ckle"</li><li>"ckles"</li><li>"cks"</li><li>"cl"</li><li>"cle"</li><li>"cles"</li><li>"cr"</li><li>"ct"</li><li>"cts"</li><li>"d"</li><li>"de"</li><li>"dle"</li><li>"dles"</li><li>"des"</li><li>"dge"</li><li>"dges"</li><li>"dr"</li><li>"ds"</li><li>"dw"</li><li>"e"</li><li>"ea"</li><li>"eau"</li><li>"ee"</li><li>"er"</li><li>"ey"</li><li>"f"</li><li>"fe"</li><li>"ff"</li><li>"ffs"</li><li>"fl"</li><li>"fle"</li><li>"fles"</li><li>"fr"</li><li>"ft"</li><li>"g"</li><li>"ge"</li><li>"ges"</li><li>"gh"</li><li>"gl"</li><li>"gle"</li><li>"gles"</li><li>"gn"</li><li>"gr"</li><li>"gs"</li><li>"h"</li><li>"i"</li><li>"ie"</li><li>"igh"</li><li>"ir"</li><li>"j"</li><li>"k"</li><li>"ke"</li><li>"kes"</li><li>"kn"</li><li>"l"</li><li>"lb"</li><li>"lbs"</li><li>"lch"</li><li>"lches"</li><li>"ld"</li><li>"lds"</li><li>"le"</li><li>"les"</li><li>"lf"</li><li>"lfs"</li><li>"lk"</li><li>"lks"</li><li>"ll"</li><li>"lls"</li><li>"lm"</li><li>"lms"</li><li>"lp"</li><li>"lps"</li><li>"lt"</li><li>"lts"</li><li>"lve"</li><li>"lves"</li><li>"m"</li><li>"me"</li><li>"mes"</li><li>"mp"</li><li>"mps"</li><li>"ms"</li><li>"n"</li><li>"nch"</li><li>"nches"</li><li>"nd"</li><li>"nds"</li><li>"ne"</li><li>"nes"</li><li>"ng"</li><li>"ngs"</li><li>"ngst"</li><li>"nct"</li><li>"nk"</li><li>"nks"</li><li>"ns"</li><li>"nt"</li><li>"nts"</li><li>"o"</li><li>"oa"</li><li>"oe"</li><li>"oi"</li><li>"oo"</li><li>"or"</li><li>"ou"</li><li>"ow"</li><li>"oy"</li><li>"p"</li><li>"pe"</li><li>"pes"</li><li>"ph"</li><li>"phs"</li><li>"pl"</li><li>"ple"</li><li>"ples"</li><li>"pr"</li><li>"ps"</li><li>"qu"</li><li>"r"</li><li>"re"</li><li>"res"</li><li>"s"</li><li>"sc"</li><li>"scr"</li><li>"se"</li><li>"ses"</li><li>"sh"</li><li>"shes"</li><li>"shr"</li><li>"sk"</li><li>"sks"</li><li>"sl"</li><li>"sle"</li><li>"sles"</li><li>"sm"</li><li>"sn"</li><li>"sp"</li><li>"sph"</li><li>"spl"</li><li>"sps"</li><li>"squ"</li><li>"ss"</li><li>"sses"</li><li>"st"</li><li>"stle"</li><li>"stles"</li><li>"str"</li><li>"sts"</li><li>"t"</li><li>"te"</li><li>"tes"</li><li>"tch"</li><li>"tches"</li><li>"th"</li><li>"thr"</li><li>"ths"</li><li>"tle"</li><li>"tles"</li><li>"ts"</li><li>"tw"</li><li>"u"</li><li>"ue"</li><li>"ui"</li><li>"ur"</li><li>"v"</li><li>"ve"</li><li>"ves"</li><li>"w"</li><li>"wh"</li><li>"wr"</li><li>"x"</li><li>"xes"</li><li>"y"</li><li>"!y"</li><li>"z"</li><li>"ze"</li><li>"zes"</li><li>"zle"</li><li>"zles"</li><li>"zz"</li>
-				</ul>
-			</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"words":[strings]}</p>
-		<br>
+		<details open>
+			<summary><h2><a href="random">/random</a></h2></summary>
+			<p>various random generators (<a href="../diceroller">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>type</code>: number | string | selection | dice | color <i>(optional)</i></li>
+				<li><code>min</code>: number <i>(only for type:"number")</i></li>
+				<li><code>max</code>: number <i>(only for type:"number")</i></li>
+				<li><code>set</code>: string <i>(only for type:"string")</i><i>(optional)</i><i>(ex: "abc123XYZ")</i></li>
+				<li><code>size</code>: number <i>(only for type:"string")</i><i>(optional)</i></li>
+				<li><code>list</code>: string <i>(only for type:"selection")</i><i>(ex: "abc, 123, XYZ")</i></li>
+				<li><code>selections</code>: number <i>(only for type:"selection")</i><i>(optional)</i></li>
+				<li><code>groups</code>: number <i>(only for type:"selection")</i><i>(optional)</i></li>
+				<li><code>dice</code>: string <i>(only for type:"selection")</i><i>(ex: "3d6" or "1d7 * 2 + 13d95")</i></li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"output":number|string}</p>
+		</details>
 		<hr>
-		<h2><a href="wordshuffler">/wordshuffler</a></h2>
-		<p>get words comprised of the letters of a given word (<a href="../wordshuffler">full project</a>)</p>
-		<h3>inputs</h3>
-		<ul>
-			<li><code>word</code>: string</li>
-		</ul>
-		<h3>output</h3>
-		<p class="code">{"success":bool,"results":{number:[strings],number:[strings],...},"html":HTML string}</p>
+		<details open>
+			<summary><h2><a href="tiprounder">/tiprounder</a></h2></summary>
+			<p>calculate the gratuity with a rounded total (<a href="../tiprounder">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>amount</code>: number <i>(ex: 12.34)</i></li>
+				<li><code>percentage</code>: number <i>(ex: 18)</i></li>
+				<li><code>coin</code>: 0.01 | 0.05 | 0.10 | 0.25 | 0.50 | 1.00 <i>(optional)</i></li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"tip":number,"total":number}</p>
+		</details>
+		<hr>
+		<details open>
+			<summary><h2><a href="unitconverter">/unitconverter</a></h2></summary>
+			<p>convert a quantity from one unit of measurement to another (<a href="../unitconverter">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>quantity</code>: number</li>
+				<li><code>from</code>: string</li>
+				<li><code>to</code>: string</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"parameters":{"quantity":number,"from":{"prefix":string,"unit":string,"category":string,"system":string},"to":{"prefix":string,"unit":string,"category":string,"system":string}},"output":number,"message":string}</p>
+		</details>
+		<hr>
+		<details open>
+			<summary><h2><a href="wordcounter">/wordcounter</a></h2></summary>
+			<p>count the number of characters and words and get the longest word length (<a href="../wordcounter">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>text</code>: string</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"characters":number,"words":number,"longest":number}</p>
+			<br>
+			<hr>
+			<h2><a href="wordsgenerator">/wordsgenerator</a></h2>
+			<p>get a list of randomly generated words (<a href="../wordsgenerator">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>numberOfWords</code>: number <i>(optional)</i></li>
+				<li><code>syllableCounts</code>: array of numbers <i>(optional)</i></li>
+				<li><code>type</code>: complex | random <i>(optional)</i></li>
+				<li><code>syllableTypes</code>: array of arrays <i>(optional)</i>
+					<ul>
+						<li>["vowelGroup", "endingConsonantGroup"]</li>
+						<li>["startingConsonantGroup", "vowelGroup", "endingConsonantGroup"]</li>
+						<li>["startingConsonantGroup", "vowelGroup"]</li>
+						<li>["vowelGroup", "endingConsonantGroupWithE"]</li>
+						<li>["startingConsonantGroup", "vowelGroup", "endingConsonantGroupWithE"]</li>
+					</ul>
+				</li>
+				<li><code>letterGroups</code>: array of strings <i>(optional)</i>
+					<ul>
+						<li>"a"</li><li>"ai"</li><li>"ar"</li><li>"au"</li><li>"aw"</li><li>"ay"</li><li>"b"</li><li>"be"</li><li>"bes"</li><li>"bl"</li><li>"ble"</li><li>"bles"</li><li>"br"</li><li>"bs"</li><li>"c"</li><li>"ce"</li><li>"ces"</li><li>"ch"</li><li>"ck"</li><li>"ckle"</li><li>"ckles"</li><li>"cks"</li><li>"cl"</li><li>"cle"</li><li>"cles"</li><li>"cr"</li><li>"ct"</li><li>"cts"</li><li>"d"</li><li>"de"</li><li>"dle"</li><li>"dles"</li><li>"des"</li><li>"dge"</li><li>"dges"</li><li>"dr"</li><li>"ds"</li><li>"dw"</li><li>"e"</li><li>"ea"</li><li>"eau"</li><li>"ee"</li><li>"er"</li><li>"ey"</li><li>"f"</li><li>"fe"</li><li>"ff"</li><li>"ffs"</li><li>"fl"</li><li>"fle"</li><li>"fles"</li><li>"fr"</li><li>"ft"</li><li>"g"</li><li>"ge"</li><li>"ges"</li><li>"gh"</li><li>"gl"</li><li>"gle"</li><li>"gles"</li><li>"gn"</li><li>"gr"</li><li>"gs"</li><li>"h"</li><li>"i"</li><li>"ie"</li><li>"igh"</li><li>"ir"</li><li>"j"</li><li>"k"</li><li>"ke"</li><li>"kes"</li><li>"kn"</li><li>"l"</li><li>"lb"</li><li>"lbs"</li><li>"lch"</li><li>"lches"</li><li>"ld"</li><li>"lds"</li><li>"le"</li><li>"les"</li><li>"lf"</li><li>"lfs"</li><li>"lk"</li><li>"lks"</li><li>"ll"</li><li>"lls"</li><li>"lm"</li><li>"lms"</li><li>"lp"</li><li>"lps"</li><li>"lt"</li><li>"lts"</li><li>"lve"</li><li>"lves"</li><li>"m"</li><li>"me"</li><li>"mes"</li><li>"mp"</li><li>"mps"</li><li>"ms"</li><li>"n"</li><li>"nch"</li><li>"nches"</li><li>"nd"</li><li>"nds"</li><li>"ne"</li><li>"nes"</li><li>"ng"</li><li>"ngs"</li><li>"ngst"</li><li>"nct"</li><li>"nk"</li><li>"nks"</li><li>"ns"</li><li>"nt"</li><li>"nts"</li><li>"o"</li><li>"oa"</li><li>"oe"</li><li>"oi"</li><li>"oo"</li><li>"or"</li><li>"ou"</li><li>"ow"</li><li>"oy"</li><li>"p"</li><li>"pe"</li><li>"pes"</li><li>"ph"</li><li>"phs"</li><li>"pl"</li><li>"ple"</li><li>"ples"</li><li>"pr"</li><li>"ps"</li><li>"qu"</li><li>"r"</li><li>"re"</li><li>"res"</li><li>"s"</li><li>"sc"</li><li>"scr"</li><li>"se"</li><li>"ses"</li><li>"sh"</li><li>"shes"</li><li>"shr"</li><li>"sk"</li><li>"sks"</li><li>"sl"</li><li>"sle"</li><li>"sles"</li><li>"sm"</li><li>"sn"</li><li>"sp"</li><li>"sph"</li><li>"spl"</li><li>"sps"</li><li>"squ"</li><li>"ss"</li><li>"sses"</li><li>"st"</li><li>"stle"</li><li>"stles"</li><li>"str"</li><li>"sts"</li><li>"t"</li><li>"te"</li><li>"tes"</li><li>"tch"</li><li>"tches"</li><li>"th"</li><li>"thr"</li><li>"ths"</li><li>"tle"</li><li>"tles"</li><li>"ts"</li><li>"tw"</li><li>"u"</li><li>"ue"</li><li>"ui"</li><li>"ur"</li><li>"v"</li><li>"ve"</li><li>"ves"</li><li>"w"</li><li>"wh"</li><li>"wr"</li><li>"x"</li><li>"xes"</li><li>"y"</li><li>"!y"</li><li>"z"</li><li>"ze"</li><li>"zes"</li><li>"zle"</li><li>"zles"</li><li>"zz"</li>
+					</ul>
+				</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"words":[strings]}</p>
+		</details>
+		<hr>
+		<details open>
+			<summary><h2><a href="wordshuffler">/wordshuffler</a></h2></summary>
+			<p>get words comprised of the letters of a given word (<a href="../wordshuffler">full project</a>)</p>
+			<h3>inputs</h3>
+			<ul>
+				<li><code>word</code>: string</li>
+			</ul>
+			<h3>output</h3>
+			<p class="code">{"success":bool,"results":{number:[strings],number:[strings],...},"html":HTML string}</p>
+		</details>
 	</body>
 </html>
