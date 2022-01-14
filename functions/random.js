@@ -62,7 +62,7 @@
 		function randomizeDice(query) {
 			try {
 				// commands
-					var commands = String(query.dice).toLowerCase().replace(/%20/g," ").split(/\s/)
+					var commands = String(query.dice).toLowerCase().replace(/%20%20%20/g," + ").replace(/%20/g," ").split(/\s/)
 					var diceRegex = /^[\d]+d[\d]+$/
 
 				// roll dice
