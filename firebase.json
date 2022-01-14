@@ -24,8 +24,24 @@
         "function": "messageencrypter"
       },
       {
+        "source": "/api/morsemessager",
+        "function": "morsemessager"
+      },
+      {
+        "source": "/api/random",
+        "function": "random"
+      },
+      {
+        "source": "/api/tiprounder",
+        "function": "tiprounder"
+      },
+      {
         "source": "/api/unitconverter",
         "function": "unitconverter"
+      },
+      {
+        "source": "/api/wordcounter",
+        "function": "wordcounter"
       },
       {
         "source": "/api/wordsgenerator",

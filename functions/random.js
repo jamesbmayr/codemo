@@ -62,7 +62,7 @@
 		function randomizeDice(query) {
 			try {
 				// commands
-					var commands = String(query.dice).toLowerCase().split(/\s/)
+					var commands = String(query.dice).toLowerCase().replace(/%20/g," ").split(/\s/)
 					var diceRegex = /^[\d]+d[\d]+$/
 
 				// roll dice
@@ -81,7 +81,7 @@
 							}
 
 						// plus / multiply
-							if (commands[i] == "+" || commands[i] == "*") {
+							if (commands[i] == "+" || commands[i] == "*" || commands[i] == "-") {
 								continue
 							}
 
@@ -102,6 +102,10 @@
 								nextOperator = "*"
 								continue
 							}
+							if (commands[i] == "-") {
+								nextOperator = "-"
+								continue
+							}
 
 						// number
 							if (!isNaN(Number(commands[i]))) {
@@ -112,6 +116,11 @@
 
 								if (nextOperator == "*") {
 									output *= Number(commands[i])
+									continue
+								}
+
+								if (nextOperator == "-") {
+									output -= Number(commands[i])
 									continue
 								}
 							}
@@ -130,7 +139,7 @@
 		function randomizeString(query) {
 			try {
 				// no set
-					var set = String(query.set) || "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+					var set = query.set || "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 				// no length
 					var size = Number(query.size) || 16
@@ -211,7 +220,7 @@
 
 				// get list
 					var output = []
-					while (output.length < selections) {
+					while (output.length < selections && list.length) {
 						list = sortRandom(list)
 						output.push(list.pop())
 					}
@@ -277,6 +286,9 @@
 						array[x] = array[y]
 						array[y] = temp
 					}
+
+				// return
+					return array
 			} 
 			catch (error) { console.log(error) }
 		}
