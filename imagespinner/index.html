@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>imagespinner</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/348419-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="imageSpinner is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="imageSpinner">
+		<meta property="og:url" content="https://jamesmayr.com/imagespinner/">
+		<meta property="og:description" content="imageSpinner is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/imagespinner/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<a href="https://jamesmayr.com" target="_blank" id="j-logo"></a>
+		<details id="settings" open>
+			<summary id="settings-summary">&#x2699;</summary>
+			<form id="settings-inner" action="javascript:;" method="post">
+				<h1>imageSpinner</h1>
+				<input type="reset" id="settings-reset" value="&#x2715;">
+				<label>
+					<div># layers</div>
+					<input id="settings-layers" type="number" min="2" max="32" value="8" step="1" placeholder="#">
+				</label>
+				<label>
+					<div>
+						<input type="radio" name="settings-type" id="settings-type-url" value="url" checked>
+						url
+					</div>
+					<input id="settings-url" type="url" placeholder="web address">
+				</label>
+				<label>
+					<div>
+						<input type="radio" name="settings-type" id="settings-type-file" value="file">
+						file
+					</div>
+					<input id="settings-file" type="file">
+				</label>
+				<label>
+					<div>
+						<input type="radio" name="settings-type" id="settings-type-api" value="api">
+						random
+					</div>
+					<output id="settings-error"></output>
+				</label>
+				<button id="settings-submit">&orarr;</button>
+			</form>
+		</details>
+		<div id="puzzle"></div>
+		<div id="attribution">
+			Photo by <a href="#">James Mayr</a> on <a href="#">Unsplash</a>
+		</div>
+	</body>
+</html>

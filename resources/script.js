@@ -5,7 +5,7 @@
 			"music","audio","jazz","orchestral","piano","pop","synth",
 			"writing","autobiography","fantasy","lyric","poetry","prose","scifi",
 			"game","arcade","board","card","multiplayer","puzzle","tabletop","unity",
-			"design","art","canvas","draw","svg",
+			"design","art","canvas","draw","photography","svg",
 			"collaboration"
 		]
 
@@ -30,7 +30,7 @@
 				skipRandom: true,
 				name: "API",
 				size: "medium",
-				tags: ["code","api","node","tool"],
+				tags: ["code","api","node","tool","math"],
 				date: "December 27, 2019",
 				description: "Custom APIs derived from other projects, like chordAnalyzer, messageEncrypter, baseConverter, and more."
 			},
@@ -191,7 +191,7 @@
 			clevernacular: {
 				name: "Clevernacular",
 				size: "large",
-				tags: ["writing","design","prose","art"],
+				tags: ["writing","design","prose","art","photography"],
 				date: "December 2, 2014",
 				description: "Clevernacular is a blog about how amazing everyday design can be - a celebration of the brilliance all around us."
 			},
@@ -428,6 +428,13 @@
 				date: "September 14, 2017",
 				description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
 			},
+			imagespinner: {
+				name: "imageSpinner",
+				size: "small",
+				tags: ["code","game","puzzle","api","photography"],
+				date: "January 15, 2022",
+				description: "Transform a random image - or your own selection - into a simple rotation puzzle."
+			},
 			inputdetector: {
 				name: "inputDetector",
 				size: "small",
@@ -445,7 +452,7 @@
 			jigsawpuzzler: {
 				name: "jigsawPuzzler",
 				size: "small",
-				tags: ["code","game","art","api","puzzle"],
+				tags: ["code","game","api","puzzle","photography"],
 				date: "November 9, 2021",
 				description: "Use any image on the web, your device, or the Metropolitan Museum of Art website to make - and solve - a jigsaw puzzle."
 			},
@@ -565,7 +572,7 @@
 			mosaicmaker: {
 				name: "mosaicMaker",
 				size: "small",
-				tags: ["design","code","canvas","art","tool"],
+				tags: ["design","code","canvas","art","tool","photography"],
 				date: "November 5, 2021",
 				description: "Transform any image into a grid of colored tiles - or tile tons of tiny pictures to make a mosaic of a big one."
 			},
@@ -621,7 +628,7 @@
 			photofilterer: {
 				name: "photoFilterer",
 				size: "small",
-				tags: ["code","art","design","canvas","tool"],
+				tags: ["code","art","design","canvas","tool","photography"],
 				date: "January 1, 2022",
 				description: "Apply a color pass filter to the device's live camera feed and export the resulting photographs."
 			},
@@ -960,7 +967,7 @@
 			weatherexplorer: {
 				name: "weatherExplorer",
 				size: "medium",
-				tags: ["code","api","tool"],
+				tags: ["code","api","tool","photography"],
 				date: "June 10, 2017",
 				description: "Use the OpenWeather API and Google Maps API to find the weather for a random location."
 			},

@@ -62,7 +62,7 @@
 		function randomizeDice(query) {
 			try {
 				// commands
-					var commands = String(query.dice).toLowerCase().replace(/%20%20%20/g," + ").replace(/%20/g," ").split(/\s/)
+					var commands = String(query.dice).toLowerCase().replace(/%20%20%20/g," + ").replace(/%20/g," ").replace(/   /g," + ").split(/\s/)
 					var diceRegex = /^[\d]+d[\d]+$/
 
 				// roll dice
@@ -108,7 +108,7 @@
 							}
 
 						// number
-							if (!isNaN(Number(commands[i]))) {
+							if (String(commands[i]).length && !isNaN(Number(commands[i]))) {
 								if (nextOperator == "+") {
 									output += Number(commands[i])
 									continue
