@@ -28,7 +28,8 @@
 				// all or nothing range
 					gray: [],
 					all: [[0, 360]]
-			}
+			},
+			hueWedge: 40
 		}
 
 	/* triggers */
@@ -62,6 +63,7 @@
 			actions: {
 				form: document.querySelector("#actions"),
 				colors: document.querySelector("#colors"),
+				hue: document.querySelector("#hue"),
 				ranges: document.querySelector("#ranges"),
 				capture: document.querySelector("#capture"),
 				download: document.querySelector("#download")
@@ -180,6 +182,7 @@
 				// update styling
 					let colors = ["red", "yellow", "green", "cyan", "blue", "magenta", "gray"]
 					ELEMENTS.actions.colors.style.background = colors.includes(color) ? color : "white"
+					ELEMENTS.actions.hue.value = "#000000"
 
 				// update textarea
 					if (color == "gray") {
@@ -189,6 +192,39 @@
 						let stringifiedRanges = JSON.stringify(SETTINGS.relevantAngles)
 						ELEMENTS.actions.ranges.value = stringifiedRanges.slice(1, stringifiedRanges.length - 1)
 					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* selectHue */
+		ELEMENTS.actions.hue.addEventListener(TRIGGERS.input, selectHue)
+		function selectHue(event) {
+			try {
+				// get color
+					let color = ELEMENTS.actions.hue.value || "#000000"
+					let red = parseInt(color.slice(1,3).toUpperCase(), 16)
+					let green = parseInt(color.slice(3,5).toUpperCase(), 16)
+					let blue = parseInt(color.slice(5,7).toUpperCase(), 16)
+					let hsl = processColor([red, green, blue])
+
+				// get angles
+					let ccwEdge = (hsl[0] - (SETTINGS.hueWedge / 2) + 360) % 360
+					let cwEdge = (hsl[0] + (SETTINGS.hueWedge / 2) + 360) % 360
+
+				// goes around the top
+					if (cwEdge < ccwEdge) {
+						SETTINGS.relevantAngles = [[ccwEdge, 360], [0, cwEdge]]
+					}
+					else {
+						SETTINGS.relevantAngles = [[ccwEdge, cwEdge]]
+					}
+
+				// set type to custom
+					ELEMENTS.actions.colors.value = "custom"
+					ELEMENTS.actions.colors.style.background = "white"
+
+				// display ranges
+					let stringifiedRanges = JSON.stringify(SETTINGS.relevantAngles)
+					ELEMENTS.actions.ranges.value = stringifiedRanges.slice(1, stringifiedRanges.length - 1)
 			} catch (error) {console.log(error)}
 		}
 
@@ -203,6 +239,7 @@
 				// set type to custom
 					ELEMENTS.actions.colors.value = "custom"
 					ELEMENTS.actions.colors.style.background = "white"
+					ELEMENTS.actions.hue.value = "#000000"
 					SETTINGS.relevantAngles = []
 
 				// validate

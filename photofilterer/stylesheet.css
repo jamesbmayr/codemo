@@ -214,6 +214,32 @@
 			margin-bottom: var(--gap-size);
 		}
 
+	/* hue */
+		#explanation label {
+			display: block;
+			margin-bottom: var(--gap-size);
+		}
+
+		#explanation label div {
+			display: inline-block;
+			width: calc(3 * var(--font-size));
+			margin-right: var(--gap-size);
+		}
+
+		#hue {
+			display: inline-block;
+			width: calc(100% - 3 * var(--font-size) - 1 * var(--gap-size));
+			padding: var(--gap-size);
+			border-radius: var(--border-radius);
+			border: none;
+			outline: none;
+			cursor: pointer;
+		}
+
+		#hue:hover, #hue:focus {
+			box-shadow: 0 0 var(--gap-size) var(--light-gray);
+		}
+
 	/* ranges */
 		#ranges {
 			display: block;
