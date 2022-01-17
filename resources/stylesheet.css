@@ -117,7 +117,6 @@
 			height: calc(var(--image-size) / 2);
 			width: 100%;
 			margin: 0;
-			margin-bottom: ;
 			padding: 0;
 			line-height: 1;
 		}
@@ -151,6 +150,7 @@
 			word-break: keep-all !important;
 			outline: none;
 			margin: 0;
+			line-height: 1;
 			padding: 0;
 		}
 

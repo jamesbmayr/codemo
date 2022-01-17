@@ -1,0 +1,70 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #555555;
+		--dark-gray: #111111;
+		--fade-time: 1s;
+		--minimum-opacity: 0.2;
+		--ring-size: 5;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+		background: var(--light-gray);
+		font-size: 0;
+		overflow: hidden;
+		
+	}
+
+/*** game ***/
+	#thing {
+		position: absolute;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 100%;
+		height: calc(var(--thing-size) * var(--ring-size));
+		width: calc(var(--thing-size) * var(--ring-size));
+		background: transparent;
+		opacity: 1;
+		animation: fadeloop var(--fade-time) linear infinite;
+	}
+
+	#thing-inner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		border-radius: 100%;
+		height: var(--thing-size);
+		width: var(--thing-size);
+		transform: translateX(-50%) translateY(-50%);
+		background: var(--dark-gray);
+	}
+
+	@keyframes fadeloop {
+		0% {
+			opacity: 1;
+		}
+
+		50% {
+			opacity: var(--minimum-opacity);
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+
+	#thing[stunned] {
+		box-shadow: 0 0 var(--thing-size) var(--medium-gray) inset;
+		filter: drop-shadow(0 0 var(--thing-size) var(--dark-gray));
+		transition: var(--fade-time);
+	}
+
+	#thing[stunned] #thing-inner {
+		box-shadow: 0 0 var(--thing-size) var(--dark-gray);
+	}
