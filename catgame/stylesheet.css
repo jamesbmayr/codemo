@@ -68,3 +68,19 @@
 	#thing[stunned] #thing-inner {
 		box-shadow: 0 0 var(--thing-size) var(--dark-gray);
 	}
+
+/*** fullscreen ***/
+	#full-screen {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		height: 10px;
+		width: 10px;
+		background: var(--medium-gray);
+		border: 0;
+		cursor: pointer;
+		border-radius: 50% 0 0 0;
+		outline: none;
+		padding: 0;
+		font-size: 0;
+	}

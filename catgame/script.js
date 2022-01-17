@@ -2,13 +2,14 @@
 	/* constants */
 		const CONSTANTS = {
 			stunnedTime: 2000,
-			thingSize: 10,
+			thingSize: 20,
 			boundarySize: 100,
 			loopInterval: 33.333,
 			maxVelocity: 8,
 			velocityChange: 1,
 			sides: ["top", "right", "bottom", "left"],
 			settings: document.querySelector("#settings"),
+			fullScreenButton: document.querySelector("#full-screen"),
 			thing: document.querySelector("#thing")
 		}
 
@@ -120,5 +121,14 @@
 			try {
 				// set stunned
 					CONSTANTS.thing.setAttribute("stunned", CONSTANTS.stunnedTime / CONSTANTS.loopInterval)
+			} catch (error) {console.log(error)}
+		}
+
+	/* fullScreen */
+		CONSTANTS.fullScreenButton.addEventListener("click", goFullscreen)
+		function goFullscreen() {
+			try {
+				// go fullscreen
+					document.body.requestFullscreen()
 			} catch (error) {console.log(error)}
 		}
