@@ -192,7 +192,7 @@
 			background-color: transparent;
 			border: 0px;
 			cursor: pointer;
-			margin-top: calc(50% - 100px - 45px);
+			margin-top: calc(50vh - 100px - 45px);
 			outline: none;
 		}
 

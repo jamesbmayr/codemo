@@ -124,11 +124,22 @@
 		#capture, #colors, #explanation {
 			display: inline-block;
 			vertical-align: bottom;
+		}
+
+		#capture {
+			width: calc(var(--gap-size) * 8);
+		}
+
+		#capture span {
+			display: none;
+		}
+
+		#colors {
 			width: calc(var(--gap-size) * 25);
 		}
 
 		#explanation {
-			width: calc(100vw - 2 * var(--gap-size) * 31);
+			width: calc(100vw - var(--gap-size) * (2 + 1 + 8 + 1 + 2 + 1 + 25 + 1 + 2 + 2));
 		}
 
 		#explanation br {
