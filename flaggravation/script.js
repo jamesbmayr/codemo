@@ -275,6 +275,9 @@
 			},
 			players: {
 				form: document.querySelector("#players-form")
+			},
+			fullscreen: {
+				button: document.querySelector("#fullscreen-button")
 			}
 		}
 
@@ -663,5 +666,21 @@
 
 				// swap state
 					ELEMENTS.game.setAttribute("state", "flags")
+			} catch (error) { console.log(error) }
+		}
+
+/*** fullscreen ***/
+	/* toggleFullscreen */
+		ELEMENTS.fullscreen.button.addEventListener("click", toggleFullscreen)
+		function toggleFullscreen(event) {
+			try {
+				// already fullscreen
+					if (document.fullscreen) {
+						document.exitFullscreen()
+						return
+					}
+
+				// not yet fullscreen
+						document.body.requestFullscreen()
 			} catch (error) { console.log(error) }
 		}

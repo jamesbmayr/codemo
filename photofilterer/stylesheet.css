@@ -78,6 +78,35 @@
 		color: var(--light-gray);
 	}
 
+	#skip {
+		position: absolute;
+		top: calc(var(--font-size) * 5);
+		left: 0;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: var(--border-radius);
+		padding: var(--gap-size);
+		font-family: var(--font-family);
+		font-size: var(--font-size);
+		height: var(--font-size);
+		width: calc(15 * var(--font-size));
+		text-align: center;
+		color: var(--dark-gray);
+		background-color: var(--medium-gray);
+		cursor: pointer;
+		outline: none;
+		line-height: 1;
+		font-weight: bold;
+		border: 0;
+		text-transform: uppercase;
+		user-select: none;
+	}
+
+	#skip:hover, #skip:focus {
+		box-shadow: 0 0 var(--gap-size) var(--light-gray);
+		background-color: var(--dark-gray);
+		color: var(--light-gray);
+	}
+
 /*** video ***/
 	/* video */
 		video {
@@ -139,11 +168,18 @@
 		}
 
 		#explanation {
+			max-height: calc(100vh - 4 * var(--gap-size) - 20 * var(--gap-size));
 			width: calc(100vw - var(--gap-size) * (2 + 1 + 8 + 1 + 2 + 1 + 25 + 1 + 2 + 2));
+			overflow-x: hidden;
+			overflow-y: scroll;
 		}
 
 		#explanation br {
 			display: none;
+		}
+
+		#upload-outer, #upload, #skip {
+			display: none !important;
 		}
 	}
 
@@ -277,6 +313,43 @@
 
 		#ranges[invalid] {
 			background: red;
+		}
+
+	/* upload */
+		#upload-outer, #download-button {
+			border-radius: var(--border-radius);
+			padding: var(--gap-size);
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			height: calc(var(--font-size) + 1 * var(--gap-size));
+			color: var(--dark-gray);
+			background-color: var(--light-gray);
+			cursor: pointer;
+			margin: calc(2 * var(--gap-size)) 0 0 calc(2 * var(--gap-size));
+			outline: none;
+			line-height: 1;
+			font-weight: bold;
+			border: 0;
+			text-transform: uppercase;
+			user-select: none;
+			display: block;
+			width: calc(var(--gap-size) * 28);
+			text-align: center;
+			line-height: 1.5;
+		}
+
+		#upload-outer:hover, #upload-outer:focus, #download-button:hover, #download-button:focus {
+			box-shadow: 0 0 var(--gap-size) var(--light-gray);
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+		#upload {
+			display: none;
+		}
+
+		#download-button[hidden] {
+			display: none !important;
 		}
 
 /*** j-logo ***/

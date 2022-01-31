@@ -33,10 +33,11 @@
 
 	/* summary marker */
 		details summary::marker, details summary::-webkit-details-marker {
-			height: 0;
-			width: 0;
-			font-size: 0;
-			display: none;
+			height: 0px !important;
+			width: 0px !important;
+			font-size: 0px !important;
+			display: none !important;
+			overflow: hidden;
 		}
 
 /*** j-logo ***/
@@ -66,7 +67,7 @@
 		#menu-toggle {
 			position: absolute;
 			top: calc(2 * var(--gap-size));
-			left: calc(2 * var(--gap-size));
+			left: calc(var(--gap-size));
 			font-size: calc(2 * var(--font-size));
 			font-family: var(--font-family);
 			line-height: 1;
@@ -313,7 +314,7 @@
 		#puzzle-link, #puzzle-link:visited {
 			position: absolute;
 			top: calc(2 * var(--gap-size));
-			left: calc(4 * var(--gap-size) + 2 * var(--font-size));
+			left: calc(3 * var(--gap-size) + 2 * var(--font-size));
 			font-size: calc(2 * var(--font-size));
 			font-family: var(--font-family);
 			line-height: 1;
@@ -350,16 +351,15 @@
 		#puzzle-solve-submit {
 			position: absolute;
 			top: calc(4 * var(--gap-size) + 2 * var(--font-size));
-			left: calc(2 * var(--gap-size));
+			left: calc(1 * var(--gap-size));
 			font-size: calc(2 * var(--font-size));
 			font-family: var(--font-family);
 			line-height: 1;
 			margin: 0;
-			padding: 0;
 			border: none;
 			background: transparent;
-			width: calc(var(--font-size) * 2);
-			height: calc(var(--font-size) * 2);
+			width: calc(var(--font-size) * 2 + 2 * var(--gap-size));
+			height: calc(var(--font-size) * 2 + 2 * var(--gap-size));
 			padding: var(--gap-size);
 			cursor: pointer;
 			outline: none;

@@ -559,8 +559,8 @@
 
 	#navigation-about {
 		position: absolute;
-		top: calc(4 * var(--gap-size));
-		left: calc(2 * var(--gap-size));
+		top: calc(3 * var(--gap-size));
+		left: calc(3 * var(--gap-size));
 		height: calc(1.5 * var(--font-size));
 		width: calc(1.5 * var(--font-size));
 		background-color: transparent;
@@ -572,8 +572,8 @@
 
 	#navigation-close {
 		position: absolute;
-		top: calc(4 * var(--gap-size));
-		left: calc(2 * var(--gap-size));
+		top: calc(3 * var(--gap-size));
+		left: calc(3 * var(--gap-size));
 		height: calc(1.5 * var(--font-size));
 		width: calc(1.5 * var(--font-size));
 		background-color: transparent;
@@ -585,7 +585,7 @@
 
 	#navigation-setup {
 		position: absolute;
-		top: calc(4 * var(--gap-size));
+		top: calc(3 * var(--gap-size));
 		height: calc(1.5 * var(--font-size));
 		width: calc(1.5 * var(--font-size));
 		left: 50%;
@@ -833,4 +833,23 @@
 
 		#about-form a:hover, #about-form a:focus {
 			filter: drop-shadow(0 0 var(--gap-size) var(--medium-blue));
+		}
+
+/*** fullscreen ***/
+	/* button */
+		#fullscreen-button {
+			position: absolute;
+			bottom: calc(var(--gap-size) * 3);
+			right: calc(var(--gap-size) * 3);
+			background-image: url("components/component_block.png");
+			height: calc(1.5 * var(--font-size));
+			width: calc(1.5 * var(--font-size));
+			background-color: transparent;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: contain;
+		}
+
+		#fullscreen-button:hover, #fullscreen-button:focus {
+			filter: drop-shadow(0 0 var(--gap-size) var(--light-gray));
 		}

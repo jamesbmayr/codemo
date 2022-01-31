@@ -1,6 +1,7 @@
 /*** globals ***/
 	/* settings */
 		const SETTINGS = {
+			source: null,
 			relevantAngles: [],
 			playing: false,
 			processingLoop: null,
@@ -47,7 +48,8 @@
 			ratio: document.querySelector("#ratio"),
 			overlay: {
 				form: document.querySelector("#overlay"),
-				begin: document.querySelector("#begin")
+				begin: document.querySelector("#begin"),
+				skip: document.querySelector("#skip")
 			},
 			video: {
 				element: document.querySelector("#video")
@@ -66,7 +68,9 @@
 				hue: document.querySelector("#hue"),
 				ranges: document.querySelector("#ranges"),
 				capture: document.querySelector("#capture"),
-				download: document.querySelector("#download")
+				downloadLink: document.querySelector("#download-link"),
+				upload: document.querySelector("#upload"),
+				downloadButton: document.querySelector("#download-button")
 			}
 		}
 
@@ -94,6 +98,20 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* skip */
+		ELEMENTS.overlay.skip.addEventListener(TRIGGERS.click, skipCamera)
+		function skipCamera() {
+			try {
+				// hide overlay
+					ELEMENTS.overlay.form.setAttribute("hidden", true)
+					ELEMENTS.processed.canvas.removeAttribute("hidden")
+					ELEMENTS.actions.form.removeAttribute("hidden")
+
+				// change capture text
+					ELEMENTS.actions.capture.querySelector("span").innerText = "camera"
+			} catch (error) {console.log(error)}
+		}
+
 	/* streamVideo */
 		function streamVideo(stream) {
 			try {
@@ -102,6 +120,9 @@
 					ELEMENTS.video.element.muted = true
 					ELEMENTS.video.element.addEventListener(TRIGGERS.play, playVideo)
 					let playPromise = ELEMENTS.video.element.play()
+
+				// set source
+					SETTINGS.source = ELEMENTS.video.element
 
 				// handle promise
 					if (playPromise !== undefined) {
@@ -143,20 +164,18 @@
 		window.addEventListener(TRIGGERS.resize, resizeVideo)
 		function resizeVideo(event) {
 			try {
-				// get dimensions
-					let videoWidth = ELEMENTS.video.element.videoWidth
-					let videoHeight = ELEMENTS.video.element.videoHeight
+				// dimensions
+					let sourceWidth = SETTINGS.source.videoWidth || SETTINGS.source.width
+					let sourceHeight = SETTINGS.source.videoHeight || SETTINGS.source.height
 
 				// ratio
-					let ratio = videoWidth / videoHeight
-					let maxWidth = Math.min(window.innerWidth, window.innerHeight * ratio)
-					let maxHeight = Math.min(window.innerHeight, window.innerWidth / ratio)
+					let ratio = sourceWidth / sourceHeight
 
 				// resize canvas
-					ELEMENTS.raw.canvas.width = videoWidth
-					ELEMENTS.raw.canvas.height = videoHeight
-					ELEMENTS.processed.canvas.width = videoWidth
-					ELEMENTS.processed.canvas.height = videoHeight
+					ELEMENTS.raw.canvas.width = sourceWidth
+					ELEMENTS.raw.canvas.height = sourceHeight
+					ELEMENTS.processed.canvas.width = sourceWidth
+					ELEMENTS.processed.canvas.height = sourceHeight
 
 				// update ratio style
 					ELEMENTS.ratio.innerText = ":root {--ratio: " + ratio + "}"
@@ -277,18 +296,81 @@
 		ELEMENTS.actions.form.addEventListener(TRIGGERS.submit, capturePhoto)
 		function capturePhoto(event) {
 			try {
+				// not recording?
+					if (SETTINGS.source !== ELEMENTS.video.element) {
+						ELEMENTS.actions.capture.querySelector("span").innerText = "capture"
+						ELEMENTS.actions.downloadButton.setAttribute("hidden", true)
+						startVideo()
+						return
+					}
+
+				// download image
+					downloadImage()
+			} catch (error) {console.log(error)}
+		}
+
+	/* uploadImage */
+		ELEMENTS.actions.upload.addEventListener(TRIGGERS.change, uploadImage)
+		function uploadImage(event) {
+			try {
+				// get file
+					let file = ELEMENTS.actions.upload.files[0]
+
+				// get file
+					let imageReader = new FileReader()
+						imageReader.onload = function(event) {
+							let rawImage = new Image
+								rawImage.onload = function() {
+									// save
+										SETTINGS.source = rawImage
+
+									// get dimensions
+										let imageWidth = rawImage.width
+										let imageHeight = rawImage.height
+
+									// ratio
+										let ratio = imageWidth / imageHeight
+
+									// resize canvas
+										ELEMENTS.raw.canvas.width = imageWidth
+										ELEMENTS.raw.canvas.height = imageHeight
+										ELEMENTS.processed.canvas.width = imageWidth
+										ELEMENTS.processed.canvas.height = imageHeight
+
+									// update ratio style
+										ELEMENTS.ratio.innerText = ":root {--ratio: " + ratio + "}"
+
+									// processing loop
+										SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
+
+									// show download
+										ELEMENTS.actions.downloadButton.removeAttribute("hidden")
+										ELEMENTS.actions.capture.querySelector("span").innerText = "camera"
+								}
+								rawImage.src = event.target.result
+						}
+						imageReader.readAsDataURL(file)
+
+				// push to canvas
+			} catch (error) {console.log(error)}
+		}
+
+	/* downloadImage */
+		ELEMENTS.actions.downloadButton.addEventListener(TRIGGERS.click, downloadImage)
+		function downloadImage(event) {
+			try {
 				// get current data
 					let data = ELEMENTS.processed.canvas.toDataURL("image/png")
 
 				// set as download link
-					ELEMENTS.actions.download.setAttribute("href", data)
-					ELEMENTS.actions.download.setAttribute("download", "photoFilterer_" + (new Date().getTime()) + ".png")
+					ELEMENTS.actions.downloadLink.setAttribute("href", data)
+					ELEMENTS.actions.downloadLink.setAttribute("download", "photoFilterer_" + (new Date().getTime()) + ".png")
 
 				// download
-					ELEMENTS.actions.download.click()
+					ELEMENTS.actions.downloadLink.click()
 
 				// blur
-					ELEMENTS.actions.download.blur()
+					ELEMENTS.actions.downloadLink.blur()
 					ELEMENTS.actions.capture.blur()
 			} catch (error) {console.log(error)}
 		}
@@ -300,7 +382,7 @@
 				// push video to raw canvas
 					let rawContext = ELEMENTS.raw.context
 					let rawCanvas = ELEMENTS.raw.canvas
-					rawContext.drawImage(ELEMENTS.video.element, 0, 0, rawCanvas.width, rawCanvas.height)
+					rawContext.drawImage(SETTINGS.source, 0, 0, rawCanvas.width, rawCanvas.height)
 
 				// get frame
 					let frame = rawContext.getImageData(0, 0, rawCanvas.width, rawCanvas.height)
