@@ -1,0 +1,104 @@
+body{
+	margin:0;
+	padding:0;
+	font-size:0;
+	background:black;
+	text-align:center;
+}
+section {
+	width:calc(100% - 10px - 10px);
+	text-align:center;
+	padding:10px; 
+}
+button{
+	font-family: 'Do Hyeon', sans-serif;
+	color:white;
+	background:transparent;
+	font-size:30px;
+}
+button:hover{
+	box-shadow:0px 0px 10px white;
+}
+#Startscreen{
+	color:white;
+	font-size:50px;
+	font-family: 'Do Hyeon', sans-serif; 
+	position:absolute;
+	top:50%;
+	transform:translateY(-50%);
+}
+
+#return1{
+	display:none;
+	font-family: 'Do Hyeon', sans-serif; 
+}
+#coloroffset{
+	display:block;
+	width:50%;
+	margin:auto auto;
+	text-align:center;
+	margin-bottom:20px;
+}
+#Timemenu{
+	display:none;
+	font-size:20px;	
+	font-family: 'Do Hyeon', sans-serif; 
+	position:absolute;
+	text-align:center;
+	top:50%;
+	transform:translateY(-50%);
+	color:white;
+}
+
+#game{
+	display:none;
+	height:70vw;
+	width:70vw;
+	max-height:70vh;
+	max-width:70vh; 
+	margin:auto auto;
+}
+
+#ScoreandTime{
+	display:none;
+	color:white;
+	font-size:20px;
+	font-family: 'Do Hyeon', sans-serif; 
+}
+
+#endscreen{
+	display:none;
+	font-size: 90px;
+	color:white;
+	font-family: 'Do Hyeon', sans-serif; 
+	position:absolute;
+	top:50%;
+	transform:translateY(-50%);
+
+}
+
+.stats{
+	display:inline-block;
+	width:auto;
+	margin-left:75px;
+	margin-right:75px;
+	vertical-align:text-top; 
+}
+
+.row{
+	width:100%;
+	height:calc(100% / 7);
+}
+
+.cell{
+	height:100%;
+	width:calc(100% / 7);
+	display:inline-block;
+	border-radius:0px; 
+	box-shadow:0px 0px 10px black inset;
+
+}
+
+#credit {
+	margin-top: -50px;
+}

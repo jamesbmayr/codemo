@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ColorBlock</title>
+		<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+		<link rel = "stylesheet" href = "stylesheet.css" ></link>
+		<script src = "script.js"></script>
+	</head>
+	<body>
+		<section id= "Startscreen">
+			<h1>ColorBlock</h1>
+			<div id="credit">created by Tom Mayr</div>
+			<button id="StartButton">Start ColorBlock</button>
+		</section>
+		<section id= "Timemenu">
+			<p>This slider represents game difficulty. Everyone perceives color in different ways, for an easier game move the slider to the right, for more of a challenge move it to the left. The slider starts at the recommended difficulty. </p>
+			<input id = "coloroffset" type="range" min = "5" max = "125" value = "20" step = "1"></input>
+			<button id="Time30">Time 30 Seconds</button>
+			<button id="Time60">Time 60 Seconds</button>
+			<button id="Timeinfinite"> Free Play</button>
+			<p>The object of the game is simple, use the mouse and click the one block that shows as a different color.</p>	
+		</section>	
+		<section id = "return1">
+			<button id = "Return2">Go back</button>
+		</section>
+		<section id ="game">
+		</section>
+		<section id = "ScoreandTime">
+			<div class = "stats">
+				Score
+				<div id = "scorenumber"></div>
+			</div>
+			<div id = "time" class = "stats">
+				Time
+				<div id = "seconds"></div>
+			</div>	
+		</section>
+		<section id = "endscreen">
+			Final Score
+			<div id = "finalscore"></div>
+			<button id = "Reset">New Game</button>
+		</section>
+	</body>
+</html>
