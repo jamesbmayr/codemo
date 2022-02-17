@@ -1,0 +1,95 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #777777;
+		--dark-gray: #111111;
+		--font-family: sans-serif;
+		--font-size: 25px;
+		--gap-size: 10px;
+		--border-size: 5px;
+		--border-radius: 5px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		background: var(--medium-gray);
+		font-size: 0;
+	}
+
+/*** form ***/
+	/* button */
+		#recording {
+			border: var(--border-size) solid var(--dark-gray);
+			border-radius: var(--border-radius);
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			font-weight: bold;
+			text-transform: uppercase;
+			color: var(--dark-gray);
+			background-color: var(--light-gray);
+			margin: var(--gap-size);
+			cursor: pointer;
+			outline: none;
+		}
+
+		#recording:hover, #recording:focus {
+			box-shadow: 0 0 var(--border-size) var(--dark-gray);
+		}
+
+		#recording[state="off"] span:first-child {
+			display: none;
+		}
+
+		#recording[state="off"] {
+			background-color: var(--medium-gray);
+		}
+
+		#recording[state="on"] span:last-child {
+			display: none;
+		}
+
+	/* textbox */
+		#output {
+			min-height: 400px;
+			max-height: calc(100vh - var(--border-size) * 4 - var(--gap-size) * 8);
+			min-width: calc(100vw - var(--border-size) * 2 - var(--gap-size) * 4);
+			width: calc(100vw - var(--border-size) * 2 - var(--gap-size) * 4);
+			max-width: calc(100vw - var(--border-size) * 2 - var(--gap-size) * 4);
+			padding: var(--gap-size);
+			border: var(--border-size) solid var(--dark-gray);
+			border-radius: var(--border-radius);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--dark-gray);
+			margin: var(--gap-size);
+			margin-top: 0;
+			outline: none;
+			background-color: var(--light-gray);
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url(../resources/j.png);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0 0 var(--border-size) var(--medium-gray));
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--border-size) var(--dark-gray));
+	}

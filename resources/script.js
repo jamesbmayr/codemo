@@ -834,7 +834,7 @@
 			speechrepeater: {
 				name: "speechRepeater",
 				size: "small",
-				tags: ["code","tool","simulation"],
+				tags: ["code","tool","simulation","api"],
 				date: "December 11, 2019",
 				description: "Say something and see your device turn your speech into text, then read it back."
 			},
@@ -964,6 +964,13 @@
 				date: "December 24, 2019",
 				description: "Convert between all kinds of units measuring all kinds of quantities."
 			},
+			voicetranscriber: {
+				name: "voiceTranscriber",
+				size: "small",
+				tags: ["code","tool","simulation","api"],
+				date: "February 5, 2022",
+				description: "Use the Google Chrome Speech Recognition API to output a continuous stream of speech-to-text."
+			},
 			weatherexplorer: {
 				name: "weatherExplorer",
 				size: "medium",
@@ -999,6 +1006,13 @@
 				tags: ["code","tool"],
 				date: "May 2, 2021",
 				description: "Build branching chains of words that differ by letter insertion, deletion, substitution, or transposition."
+			},
+			wordcompleter: {
+				name: "wordCompleter",
+				size: "small",
+				tags: ["code","game","puzzle"],
+				date: "February 13, 2022",
+				description: "Find as many words as you can that contain the given letters in order."
 			},
 			wordcounter: {
 				name: "wordCounter",
