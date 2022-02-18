@@ -42,6 +42,7 @@
 			font-weight: bold;
 			cursor: pointer;
 			transition: var(--transition);
+			outline: none;
 		}
 
 		#reset:focus, #reset:hover {
@@ -182,6 +183,34 @@
 		}
 
 /*** mobile ***/
+	#keyboard-button {
+		position: absolute;
+		bottom: calc(2 * var(--gap-size));
+		left: 50%;
+		transform: translateX(-50%);
+		background-color: var(--medium-gray);
+		padding: var(--gap-size);
+		color: var(--dark-gray);
+		border-radius: var(--border-radius);
+		font-size: calc(4 * var(--font-size));
+		font-family: var(--font-family);
+		line-height: 0.5;
+		cursor: pointer;
+		outline: none;
+		border: none;
+	}
+
+	#keyboard-button:focus, #keyboard-button:hover {
+		box-shadow: 0 0 var(--gap-size) var(--light-gray);
+		background-color: var(--light-gray);
+	}
+
+	#keyboard-button[invisible] {
+		opacity: 0;
+		pointer-events: none;
+		display: none;
+	}
+
 	@media screen and (max-width: 500px) {
 		:root {
 			--font-size: 20px;

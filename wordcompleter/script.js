@@ -16,7 +16,8 @@
 			segments: [],
 			slots: [],
 			count: document.querySelector("#count"),
-			list: document.querySelector("#list")
+			list: document.querySelector("#list"),
+			keyboardButton: document.querySelector("#keyboard-button")
 		}
 
 	/* settings */
@@ -62,6 +63,18 @@
 		}
 
 /*** setup ***/
+	/* loadDevice */
+		loadDevice()
+		function loadDevice() {
+			try {
+				// mobile only
+					if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+						ELEMENTS.keyboardButton.removeAttribute("invisible")
+					}
+			}
+			catch (error) { console.log(error) }
+		}
+
 	/* resetGame */
 		resetGame()
 		ELEMENTS.reset.addEventListener(TRIGGERS.click, resetGame)
@@ -103,6 +116,9 @@
 				// input
 					ELEMENTS.input.removeAttribute("success")
 					ELEMENTS.word.value = ""
+
+				// score
+					ELEMENTS.slots = []
 					ELEMENTS.count.innerHTML = ""
 
 				// letters
@@ -242,6 +258,17 @@
 		}
 
 /*** gameplay ***/
+	/* openKeyboard */
+		ELEMENTS.keyboardButton.addEventListener(TRIGGERS.click, openKeyboard)
+		function openKeyboard() {
+			try {
+				// focus on input
+					ELEMENTS.word.focus()
+					ELEMENTS.word.click()
+			}
+			catch (error) { console.log(error) }
+		}
+
 	/* typeLetter */
 		document.addEventListener(TRIGGERS.keydown, typeLetter)
 		ELEMENTS.word.addEventListener(TRIGGERS.input, typeLetter)
@@ -351,6 +378,7 @@
 					ELEMENTS.input.setAttribute("success", true)
 					SETTINGS.play = false
 					SETTINGS.foundWords.push(word)
+					ELEMENTS.word.value = ""
 
 				// hide description
 					ELEMENTS.description.setAttribute("invisible", true)
@@ -371,8 +399,6 @@
 							for (let i in ELEMENTS.letters) {
 								ELEMENTS.letters[i].removeAttribute("active")
 							}
-
-							ELEMENTS.word.value = ""
 
 						// count
 							if (SETTINGS.foundWords.length <= SETTINGS.slots) {
