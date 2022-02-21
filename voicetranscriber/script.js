@@ -1,6 +1,17 @@
 /*** globals ***/
+	/* elements */
+		let ELEMENTS = {
+			recording: document.querySelector("#recording"),
+			output: document.querySelector("#output"),
+			warning: document.querySelector("#warning")
+		}
+
 	/* recognition */
 		window.speechRecognition = window.webkitSpeechRecognition || window.speechRecognition
+		if (!window.speechRecognition) {
+			ELEMENTS.warning.removeAttribute("invisible")
+			throw new Error("Speech recognition not supported.")
+		}
 
 		let RECOGNITION = new window.speechRecognition()
 			RECOGNITION.continuous = true
@@ -9,12 +20,6 @@
 
 	/* previous text */
 		let PREVIOUSTEXT = ""
-
-	/* elements */
-		let ELEMENTS = {
-			recording: document.querySelector("#recording"),
-			output: document.querySelector("#output")
-		}
 
 /*** interaction ***/
 	/* toggleRecording */

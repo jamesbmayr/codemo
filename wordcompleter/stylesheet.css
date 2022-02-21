@@ -21,6 +21,7 @@
 		overflow: hidden;
 		font-size: 0;
 		background: var(--dark-gray);
+		text-align: center;
 	}
 
 /*** interactive ***/
@@ -86,7 +87,7 @@
 	/* input */
 		#input {
 			float: left;
-			width: 100%;
+			width: 100vw;
 			background-color: transparent;
 			text-align: center;
 			height: calc(2 * var(--font-size) + 4 * var(--gap-size));
@@ -95,6 +96,30 @@
 
 		#input[success] {
 			text-shadow: 0 0 calc(2 * var(--gap-size)) var(--light-gray);
+		}
+
+		#clear {
+			height: var(--font-size);
+			background: transparent;
+			border: none;
+			outline: none;
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			color: var(--medium-gray);
+			cursor: pointer;
+			transition: var(--transition);
+			padding: 0;
+			line-height: 1;
+			user-select: none;
+		}
+
+		#clear[invisible] {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		#clear:focus, #clear:hover {
+			color: var(--light-gray);
 		}
 
 		.segment {
@@ -160,7 +185,7 @@
 		#list {
 			float: left;
 			width: 100%;
-			height: calc(100vh - (12 * var(--gap-size) + var(--font-size)) - (var(--font-size) + 2 * var(--gap-size)) - (2 * var(--font-size) + 4 * var(--gap-size)));
+			height: calc(100vh - (12 * var(--gap-size) + var(--font-size)) - (var(--font-size) + 2 * var(--gap-size)) - (2 * var(--font-size) + 4 * var(--gap-size)) - var(--font-size));
 			overflow-x: hidden;
 			overflow-y: scroll;
 		}

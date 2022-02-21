@@ -12,6 +12,7 @@
 			description: document.querySelector("#description"),
 			input: document.querySelector("#input"),
 			word: document.querySelector("#word"),
+			clear: document.querySelector("#clear"),
 			letters: [],
 			segments: [],
 			slots: [],
@@ -259,6 +260,7 @@
 
 /*** gameplay ***/
 	/* openKeyboard */
+		document.addEventListener(TRIGGERS.keydown, openKeyboard)
 		ELEMENTS.keyboardButton.addEventListener(TRIGGERS.click, openKeyboard)
 		function openKeyboard() {
 			try {
@@ -270,7 +272,6 @@
 		}
 
 	/* typeLetter */
-		document.addEventListener(TRIGGERS.keydown, typeLetter)
 		ELEMENTS.word.addEventListener(TRIGGERS.input, typeLetter)
 		function typeLetter(event) {
 			try {
@@ -284,6 +285,12 @@
 
 				// get value of word
 					let currentValue = (ELEMENTS.word.value || "").toLowerCase().trim()
+					if (currentValue && currentValue.length) {
+						ELEMENTS.clear.removeAttribute("invisible")
+					}
+					else {
+						ELEMENTS.clear.setAttribute("invisible", true)
+					}
 
 				// output
 					let output = chunkWord(currentValue, SETTINGS.currentLetters)
@@ -379,6 +386,7 @@
 					SETTINGS.play = false
 					SETTINGS.foundWords.push(word)
 					ELEMENTS.word.value = ""
+					ELEMENTS.clear.setAttribute("invisible", true)
 
 				// hide description
 					ELEMENTS.description.setAttribute("invisible", true)
@@ -412,12 +420,36 @@
 							ELEMENTS.input.removeAttribute("success")
 							SETTINGS.play = true
 							ELEMENTS.word.focus()
+							ELEMENTS.word.click()
 
 						// unselect word
 							setTimeout(function() {
 								entry.removeAttribute("new")
 							}, SETTINGS.freezeTime)
 					}, SETTINGS.freezeTime)
+			}
+			catch (error) { console.log(error) }
+		}
+
+	/* clearWord */
+		ELEMENTS.clear.addEventListener(TRIGGERS.click, clearWord)
+		function clearWord() {
+			try {
+				// clear out input
+					ELEMENTS.word.value = ""
+
+				// clear out letters
+					for (let i in ELEMENTS.segments) {
+						ELEMENTS.segments[i].value = ""
+					}
+					for (let i in ELEMENTS.letters) {
+						ELEMENTS.letters[i].removeAttribute("active")
+					}
+
+				// hide & blur
+					ELEMENTS.clear.setAttribute("invisible", true)
+					ELEMENTS.word.focus()
+					ELEMENTS.word.click()
 			}
 			catch (error) { console.log(error) }
 		}
