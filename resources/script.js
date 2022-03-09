@@ -125,6 +125,15 @@
 				date: "April 1, 2012",
 				description: "After studying musical traditions from all over the world, I created a concept album to explore time and space with Captain Chrono."
 			},
+			carnival: {
+				skipRandom: true,
+				hidden: true,
+				name: "Carnival",
+				size: "small",
+				tags: [],
+				date: "March 8, 2022",
+				description: "A Renaissance Amusement Park by Gregory Mayr."
+			},
 			cascade: {
 				name: "Cascade",
 				size: "large",
@@ -138,6 +147,15 @@
 				tags: ["code","game","arcade"],
 				date: "May 8, 2019",
 				description: "A simple javascript game of cat and mouse, with artwork from opengameart.org"
+			},
+			catgame: {
+				skipRandom: true,
+				hidden: true,
+				name: "catgame",
+				size: "small",
+				tags: [],
+				date: "January 16, 2022",
+				description: "A touchscreen swatting game for cats."
 			},
 			cellsimulator: {
 				name: "cellSimulator",
@@ -236,6 +254,15 @@
 				tags: ["code","tool","simulation"],
 				date: "May 3, 2017",
 				description: "Built as part of AI Arenas, this web app evaluates your custom javascript in slow motion."
+			},
+			colorblock: {
+				skipRandom: true,
+				hidden: true,
+				name: "Color Block",
+				size: "medium",
+				tags: [],
+				date: "October 1, 2020",
+				description: "Find the one square that's a slightly different color in this web game by Tom Mayr."
 			},
 			colorflooder: {
 				name: "colorFlooder",
@@ -456,6 +483,15 @@
 				date: "November 9, 2021",
 				description: "Use any image on the web, your device, or the Metropolitan Museum of Art website to make - and solve - a jigsaw puzzle."
 			},
+			jobweb: {
+				skipRandom: true,
+				hidden: true,
+				name: "jobweb",
+				size: "medium",
+				tags: [],
+				date: "November 30, 2021",
+				description: "A choose-your-own-adventure autobiography depicting alternate timelines of my professional career."
+			},
 			keyspinner: {
 				name: "keySpinner",
 				size: "small",
@@ -478,10 +514,11 @@
 				description: "Play hangman against a bank of tens of thousands of common words."
 			},
 			lexpose: {
+				hidden: true,
 				skipRandom: true,
 				name: "Lexpose",
 				size: "extra-large",
-				tags: ["writing","prose"],
+				tags: [],
 				date: "May 1, 2015",
 				description: "Lexpose is a collection of original short-form fiction I've written, in college and afterwards."
 			},
@@ -1113,7 +1150,13 @@
 					let searchPairs = searchString.split("?")[1].split("&")
 					for (let i in searchPairs) {
 						searchPairs[i] = searchPairs[i].split("=")
-						searchParameters[searchPairs[i][0]] = searchPairs[i][1] !== undefined ? searchPairs[i][1] : null
+						searchParameters[searchPairs[i][0].toLowerCase()] = searchPairs[i][1] !== undefined ? searchPairs[i][1] : null
+					}
+
+				// random
+					if (searchParameters.random) {
+						clickRandom()
+						return
 					}
 
 				// no query
@@ -1196,7 +1239,7 @@
 			try {
 				// get random key
 					let keys = Object.keys(PROJECTS).filter(function(p) {
-						return !PROJECTS[p].skipRandom
+						return !PROJECTS[p].skipRandom && !PROJECTS[p].hidden
 					}) || []
 					let index = Math.floor(Math.random() * keys.length)
 
@@ -1216,7 +1259,9 @@
 					if (!options || !options.query || !options.query.length) {
 						// add all
 							for (let i in projectsObject) {
-								projectsArray.push(projectsObject[i])
+								if (!projectsObject[i].hidden) {
+									projectsArray.push(projectsObject[i])
+								}
 							}
 
 						// return
@@ -1225,6 +1270,11 @@
 
 				// add based on search query
 					for (let i in projectsObject) {
+						// hidden
+							if (projectsObject[i].hidden && options.query !== i) {
+								continue
+							}
+
 						// name (id)
 							if (options.name && i.includes(options.query)) {
 								projectsArray.push(projectsObject[i])
@@ -1289,6 +1339,9 @@
 						element.target = "_blank"
 						element.className = "project"
 						element.id = id
+					if (project.hidden) {
+						element.setAttribute("rel", "nofollow noopener noreferrer")
+					}
 
 				// name
 					let nameOuter           = document.createElement("div")

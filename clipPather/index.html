@@ -1,81 +1,94 @@
 <html>
-<head>
-	<title>clipPather</title>
-	<link rel="shortcut icon" href="https://cdn2.iconfinder.com/data/icons/mosaicon-11/512/cut-512.png"/>
-	<link rel="stylesheet" href="stylesheet.css">
-	<meta charset="UTF-8"/>
-	<meta name="description" content="clipPather is a Javascript web demo by James Mayr"/>
-	<meta name="author" content="James Mayr"/>
-	<meta property="og:title" content="clipPather"/>
-	<meta property="og:url" content="https://jamesmayr.com/clippather/"/>
-	<meta property="og:description" content="clipPather is a Javascript web demo by James Mayr"/>
-	<meta property="og:image" content="https://jamesmayr.com/clippather/banner.png"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-	<script text="text/javascript" src="script.js"></script>
-</head>
-<body>
-	<div id="controls">
-		<div id="selector">
-			<select id="color">
-				<option value="red">red</option>
-				<option value="green">green</option>
-				<option value="blue">blue</option>
-				<option value="black">black</option>
-				<option value="purple">purple</option>
-				<option value="orange">orange</option>
-				<option value="brown">brown</option>
-				<option value="gray">gray</option>
-				<option value="yellow">yellow</option>
-				<option value="white">white</option>
-				<option value="cyan">cyan</option>
-				<option value="magenta">magenta</option>
-			</select>
+	<head>
+		<title>clipPather</title>
+		<link rel="shortcut icon" href="https://cdn2.iconfinder.com/data/icons/mosaicon-11/512/cut-512.png"/>
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="clipPather is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="clipPather"/>
+		<meta property="og:url" content="https://jamesmayr.com/clippather/"/>
+		<meta property="og:description" content="clipPather is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/clippather/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script text="text/javascript" src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="controls">
+			<div id="background-outer">
+				<label>
+					<span>background</span>
+					<input type="file" id="background-file">
+				</label>
+				<button id="background-clear">clear</button>
+			</div>
 			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+			<div id="selector">
+				<select id="color">
+					<option value="red">red</option>
+					<option value="orange">orange</option>
+					<option value="yellow">yellow</option>
+					<option value="green">green</option>
+					<option value="cyan">cyan</option>
+					<option value="blue">blue</option>
+					<option value="purple">purple</option>
+					<option value="magenta">magenta</option>
+					<option value="brown">brown</option>
+					<option value="white">white</option>
+					<option value="gray">gray</option>
+					<option value="black">black</option>
+				</select>
+				<label id="shapeOpacity-outer">
+					<span>opacity</span>
+					<input id="shapeOpacity" type="number" min="0" max="1" step="0.1" value="1"/>
+				</label>
+			</div>
+			<div id="transformers">
+				<select id="direction">
+					<option value="x">x</option>
+					<option value="y">y</option>
+					<option value="angle">θ</option>
+					<option value="mirror-x">&#8596;</option>
+					<option value="mirror-y">&#8597;</option>
+					<option value="resize">&#10035;</option>
+				</select>
+				<input id="distance" type="number" value="0"></input>
+				<button id="translate">translate</button>
+				<button id="rotate" class="hidden">rotate</button>
+				<button id="mirror" class="hidden">mirror</button>
+				<button id="resize" class="hidden">resize</button>
+				<label id="dotToggle-outer">
+					<span>dots</span>
+					<input id="dotToggle" type="checkbox" checked/>
+				</label>
+			</div>
+			<textarea class="textbox" id="redText" placeholder="red path">0% 0%, 0% 50%, 50% 0%</textarea>
+			<textarea class="textbox hidden" id="orangeText" placeholder="orange path"></textarea>
+			<textarea class="textbox hidden" id="yellowText" placeholder="yellow path"></textarea>
+			<textarea class="textbox hidden" id="greenText" placeholder="green path">100% 100%, 50% 100%, 100% 50%</textarea>
+			<textarea class="textbox hidden" id="cyanText" placeholder="cyan path"></textarea>
+			<textarea class="textbox hidden" id="blueText" placeholder="blue path">40% 40%, 40% 60%, 60% 60%, 60% 40%</textarea>
+			<textarea class="textbox hidden" id="purpleText" placeholder="purple path"></textarea>
+			<textarea class="textbox hidden" id="magentaText" placeholder="magenta path"></textarea>
+			<textarea class="textbox hidden" id="brownText" placeholder="brown path"></textarea>
+			<textarea class="textbox hidden" id="whiteText" placeholder="white path"></textarea>
+			<textarea class="textbox hidden" id="grayText" placeholder="gray path"></textarea>
+			<textarea class="textbox hidden" id="blackText" placeholder="black path"></textarea>
 		</div>
-		<div id="transformers">
-			<select id="direction">
-				<option value="x">x</option>
-				<option value="y">y</option>
-				<option value="angle">θ</option>
-				<option value="mirror-x">&#8596;</option>
-				<option value="mirror-y">&#8597;</option>
-				<option value="resize">&#10035;</option>
-			</select>
-			<input id="distance" type="number" value="0"></input>
-			<button id="translate">translate</button>
-			<button id="rotate" class="hidden">rotate</button>
-			<button id="mirror" class="hidden">mirror</button>
-			<button id="resize" class="hidden">resize</button>
-			<label id="dotToggle-outer">dots <input id="dotToggle" type="checkbox" checked/></label>
+		<div id="container">
+			<div id="dots"></div>
+			<div class="path" id="redPath"></div>
+			<div class="path" id="orangePath"></div>
+			<div class="path" id="yellowPath"></div>
+			<div class="path" id="greenPath"></div>
+			<div class="path" id="cyanPath"></div>
+			<div class="path" id="bluePath"></div>
+			<div class="path" id="purplePath"></div>
+			<div class="path" id="magentaPath"></div>
+			<div class="path" id="brownPath"></div>
+			<div class="path" id="whitePath"></div>
+			<div class="path" id="grayPath"></div>
+			<div class="path" id="blackPath"></div>
 		</div>
-		<textarea class="textbox" id="redText" placeholder="red path">0% 0%, 0% 50%, 50% 0%</textarea>
-		<textarea class="textbox hidden" id="greenText" placeholder="green path">100% 100%, 50% 100%, 100% 50%</textarea>
-		<textarea class="textbox hidden" id="blueText" placeholder="blue path">40% 40%, 40% 60%, 60% 60%, 60% 40%</textarea>
-		<textarea class="textbox hidden" id="blackText" placeholder="black path"></textarea>
-		<textarea class="textbox hidden" id="purpleText" placeholder="purple path"></textarea>
-		<textarea class="textbox hidden" id="orangeText" placeholder="orange path"></textarea>
-		<textarea class="textbox hidden" id="brownText" placeholder="brown path"></textarea>
-		<textarea class="textbox hidden" id="grayText" placeholder="gray path"></textarea>
-		<textarea class="textbox hidden" id="yellowText" placeholder="yellow path"></textarea>
-		<textarea class="textbox hidden" id="whiteText" placeholder="white path"></textarea>
-		<textarea class="textbox hidden" id="cyanText" placeholder="cyan path"></textarea>
-		<textarea class="textbox hidden" id="magentaText" placeholder="magenta path"></textarea>
-	</div>
-	<div id="container">
-		<div id="dots"></div>
-		<div class="path" id="redPath"></div>
-		<div class="path" id="greenPath"></div>
-		<div class="path" id="bluePath"></div>
-		<div class="path" id="blackPath"></div>
-		<div class="path" id="purplePath"></div>
-		<div class="path" id="orangePath"></div>
-
-		<div class="path" id="brownPath"></div>
-		<div class="path" id="grayPath"></div>
-		<div class="path" id="yellowPath"></div>
-		<div class="path" id="whitePath"></div>
-		<div class="path" id="cyanPath"></div>
-		<div class="path" id="magentaPath"></div>
-	</div>
-</body>
+	</body>
 </html>

@@ -31,21 +31,97 @@
 		overflow: hidden;
 	}
 
+	#background-outer {
+		float: left;
+		height: 40px;
+		width: calc(100% - 40px);
+		background-color: white;
+		border-radius: 10px;
+		margin-bottom: 10px;
+		font-size: 20px;
+		font-family: sans-serif;
+		box-sizing: border-box;
+		padding: 10px;
+		line-height: 1;
+	}
+
+	#background-outer span {
+		float: left;
+		cursor: pointer;
+		font-size: 12px;
+		padding: 5px 0px;
+		width: 65px;
+	}
+
+	#background-file {
+		float: left;
+		margin: 0px 5px;
+		color: #333333;
+		outline: none;
+		cursor: pointer;
+		font-family: sans-serif;
+		font-size: 12px;
+		max-width: calc(100% - 70px - 45px);
+	}
+
+	#background-clear {
+		float: right;
+		height: 20px;
+		width: 40px;
+		font-size: 12px;
+		font-family: sans-serif;
+		color: #333333;
+		outline: none;
+		cursor: pointer;
+		border-radius: 5px;
+		border: none;
+		background-color: white;
+		padding: 0;
+	}
+
 	#selector {
-		height: 50px;
+		float: left;
+		height: 40px;
 		width: calc(100% - 10px);
+		margin-bottom: 10px;
 	}
 
 	#color {
+		float: left;
 		height: 40px;
-		width: calc(100% - 48px);
-		margin: 0px;
+		width: calc(100% - 125px);
+		margin: 0px 10px 0px 0px;
 		outline: none;
 		cursor: pointer;
 		border: 0px;
 		border-radius: 10px;
 		font-size: 20px;
 		color: #333333;
+	}
+
+	#shapeOpacity-outer {
+		float: right;
+		width: 105px;
+	}
+
+	#shapeOpacity-outer span {
+		float: left;
+		font-size: 12px;
+		padding: 8px 0px 5px 0px;
+	}
+
+	#shapeOpacity {
+		border: 0px;
+		border-radius: 5px;
+		padding: 5px;
+		margin: 0px;
+		font-size: 20px;
+		color: #333333;
+		width: 65px;
+		height: 40px;
+		vertical-align: bottom;
+		outline: none;
+		background: transparent;
 	}
 
 	/* j-logo */
@@ -69,13 +145,13 @@
 			filter: drop-shadow(0px 0px 2px #222222);
 		}
 
-	#dotToggle-outer {
+	#dotToggle-outer, #shapeOpacity-outer {
 		float: right;
 		font-family: sans-serif;
 		height: 30px;
 		padding: 1px 5px 9px 5px;
 		background-color: white;
-		border-radius: 5px;
+		border-radius: 10px;
 		color: #333333;
 		line-height: 2;
 		font-size: 20px;
@@ -88,20 +164,27 @@
 		cursor: pointer;
 	}
 
+	#dotToggle-outer span {
+		float: left;
+		font-size: 12px;
+		padding: 8px 0px 5px 0px;
+	}
+
 	#dotToggle {
-		zoom: 2.5;
+		height: 30px;
+		width: 30px;
 		outline: none;
-		margin: 0px;
-		vertical-align: middle;
+		margin: 5px 5px;
 		cursor: pointer;
+		border-radius: 5px;
 	}
 
 /* text boxes */
 	.textbox {
 		min-width: calc(100% - 10px);
 		max-width: calc(100% - 10px);
-		min-height: calc(100% - 100px);
-		max-height: calc(100% - 100px);
+		min-height: calc(100% - 150px);
+		max-height: calc(100% - 150px);
 		border: 0px;
 		border-radius: 10px;
 		padding: 5px;
@@ -113,14 +196,16 @@
 
 /* transform controls */
 	#transformers {
+		float: left;
 		width: calc(100% - 10px);
-		height: 50px;
+		height: 40px;
+		margin-bottom: 10px;
 	}
 
 	#direction {
 		float: left;
 		border: 0px;
-		border-radius: 10px;
+		border-radius: 10px 0px 0px 10px;
 		margin: 0px;
 		font-size: 20px;
 		color: #333333;
@@ -128,27 +213,29 @@
 		height: 40px;
 		outline: none;
 		cursor: pointer;
+		margin-bottom: 10px;
 	}
 
 	#distance {
 		float: left;
 		border: 0px;
-		border-radius: 5px;
+		border-radius: 0px;
 		padding: 5px;
-		margin: 0px 0px 0px 10px;
+		margin: 0px;
 		font-size: 20px;
 		color: #333333;
 		width: 60px;
 		height: 40px;
 		vertical-align: bottom;
 		outline: none;
+		margin-bottom: 10px;
 	}
 
 	#translate, #rotate, #mirror, #resize {
 		border: 0px;
-		border-radius: 5px;
+		border-radius: 0px 10px 10px 0px;
 		padding: 5px;
-		margin: 0px 0px 0px 10px;
+		margin: 0px 10px 10px 0px;
 		font-size: 20px;
 		color: #333333;
 		min-width: 75px;
@@ -159,7 +246,7 @@
 		outline: none;
 	}
 
-	#translate:hover, #rotate:hover, #mirror:hover, #resize:hover {
+	#translate:hover, #rotate:hover, #mirror:hover, #resize:hover, #background-clear:hover {
 		background-color: #333333;
 		color: #ffffff;
 	}
@@ -174,6 +261,9 @@
 		background-color: lightgray;
 		border: 5px solid gray;
 		border-radius: 5px;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		background-position: center;
 	}
 
 	.path {
@@ -281,12 +371,12 @@
 	}
 
 /* mobile */
-	@media screen and (max-width: 600px) {
+	@media screen and (max-width: 1100px) {
 		#controls {
 			position: fixed;
 			width: calc(100vw - 20px);
 			height: calc(100% - 100vw - 10px);
-			min-height: 150px;
+			min-height: 250px;
 			z-index: 30;
 		}
 
@@ -298,15 +388,16 @@
 		#container {
 			position: fixed;
 			top: 10px;
-			right: 10px;
+			left: 50%;
+			transform: translateX(-50%);
 			height: calc(100vw - 30px); 
-			width: calc(100vw - 30px); 
+			width: calc(100vw - 30px);
+			max-height: calc(100vh - 300px);
+			max-width: calc(100vh - 300px);
 		}
 
 		.textbox {
 			min-width: 100%;
 			max-width: 100%;
-			min-height: calc(100% - 100px);
-			max-height: calc(100% - 100px);
 		}
 	}
