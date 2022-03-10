@@ -676,6 +676,13 @@
 				date: "December 31, 2017",
 				description: "An Othello/Reversi clone, pieceFlipper features both PVP and human-vs.-AI games."
 			},
+			piecetalks: {
+				name: "Piece Talks",
+				size: "large",
+				tags: ["code","game","tool","design","multiplayer","puzzle","mongo","node","websockets","collaboration"],
+				date: "March 9, 2022",
+				description: "A virtual barrier task game about communication - a collaboration with Ayelet Kershenbaum."
+			},
 			pipestriper: {
 				name: "pipeStriper",
 				size: "medium",
