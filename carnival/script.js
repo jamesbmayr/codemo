@@ -31,7 +31,7 @@
 				clippath: "polygon(52.61% 88.11%, 54.83% 88.37%, 57.31% 91.64%, 56.66% 98.96%, 51.57% 99.09%, 51.04% 91.91%, 52.09% 90.07%)"
 			},
 			"thekeepsake": {
-				description: "Just inside the entrance to the Park is a Keep known as “The Keepsake” which contains souvenir and food shops, with an area outside for enjoying a relaxing game of lawn bowling.",
+				description: "Inside the entrance to the Park is a Keep known as “The Keepsake” which contains souvenir and food shops, with an area outside for enjoying a relaxing game of lawn bowling.",
 				clippath: "polygon(51.96% 73.76%, 55.22% 72.85%, 57.05% 77.15%, 58.09% 79.9%, 58.22% 83.29%, 54.31% 87.21%, 49.87% 83.94%, 47.65% 77.42%)"
 			},
 			"fieldofhonor": {
@@ -59,15 +59,15 @@
 				clippath: "polygon(49.22% 51.83%, 52.61% 51.04%, 63.32% 60.84%, 63.58% 64.49%, 60.44% 65.67%, 59.14% 64.49%, 58.75% 62.53%, 54.7% 60.18%, 50.13% 62.66%, 50.26% 66.06%, 48.56% 67.1%, 46.34% 66.84%, 46.21% 63.19%, 48.17% 60.31%)"
 			},
 			"allthekingshorsesandallthekingsmen": {
-				description: "Just to the west of The Knights’ Court-Yard is “All the King’s Horses and all the King’s Men” where egg-shaped transports sway passengers precariously all the way around the top of the wall. Hopefully, they will not fall...",
+				description: "To the west of The Knights’ Court-Yard is “All the King’s Horses and all the King’s Men” where egg-shaped transports sway passengers precariously all the way around the top of the wall. Hopefully, they will not fall...",
 				clippath: "polygon(35.64% 55.87%, 46.87% 51.57%, 48.3% 58.75%, 43.99% 67.1%, 38.25% 73.37%, 35.51% 71.28%, 36.95% 63.32%)"
 			},
 			"thehive": {
-				description: "Just northwest of the Keepsake can be found “The Hive”. Here you can see and taste how special honey was in medieval life. Mead is obtainable here for adults.",
+				description: "Northwest of the Keepsake can be found “The Hive”. Here you can see and taste how special honey was in medieval life. Mead is obtainable here for adults.",
 				clippath: "polygon(43.99% 66.97%, 46.08% 66.19%, 50.65% 68.54%, 51.96% 71.67%, 46.61% 75.85%, 42.43% 74.41%, 42.3% 68.93%)"
 			},
 			"thewindmill": {
-				description: "Just north of All the King’s Horses and all the King’s Men is the “Windmill”. Sit in one of the curved sections at the ends of the arms and enjoy a swirling ride as the whole windmill spins and rises and falls.",
+				description: "North of All the King’s Horses and all the King’s Men is the “Windmill”. Sit in one of the curved sections at the ends of the arms and enjoy a swirling ride as the whole windmill spins and rises and falls.",
 				clippath: "polygon(35.9% 43.08%, 39.3% 47.91%, 39.43% 50.39%, 35.12% 52.48%, 33.42% 50.65%, 30.81% 48.43%, 30.81% 45.3%)"
 			},
 			"magicalfruit": {
@@ -87,7 +87,7 @@
 				clippath: "polygon(38.12% 23.89%, 40.34% 24.41%, 41.12% 25.72%, 38.77% 27.68%, 36.55% 27.94%, 37.21% 25.72%)"
 			},
 			"followtherainbow": {
-				description: "Just west of the Keepsake is “Follow the Rainbow”. It is a series of large different colored slides which can be ridden to the Pot of Gold at the end. Some colors dip below and then over others.",
+				description: "West of the Keepsake is “Follow the Rainbow”. It is a series of large different colored slides which can be ridden to the Pot of Gold at the end. Some colors dip below and then over others.",
 				clippath: "polygon(33.55% 80.55%, 34.99% 75.07%, 38.9% 74.54%, 44.65% 77.68%, 48.43% 85.38%, 46.34% 86.55%, 36.81% 84.46%)"
 			},
 			"theknarr": {
@@ -95,11 +95,11 @@
 				clippath: "polygon(49.61% 85.51%, 51.57% 87.34%, 51.17% 97.91%, 47% 98.04%, 47.13% 88.51%)"
 			},
 			"onceaknightisenough": {
-				description: "Just west of The Knarr is “Once a Knight is Enough!” This is place where costumes can be rented for the day and returned, or purchased before leaving.",
+				description: "West of The Knarr is “Once a Knight is Enough!” This is place where costumes can be rented for the day and returned, or purchased before leaving.",
 				clippath: "polygon(28.59% 87.73%, 45.56% 88.64%, 45.56% 94.91%, 26.5% 95.69%)"
 			},
 			"thejuggle": {
-				description: "Just west of Once a Knight is Enough is “The Juggle”. Three large balls carrying adventurers travel simultaneously along a complicated pathway while spinning. Hopefully, none of the balls collide!",
+				description: "West of Once a Knight is Enough is “The Juggle”. Three large balls carrying adventurers travel simultaneously along a complicated pathway while spinning. Hopefully, none of the balls collide!",
 				clippath: "polygon(23.24% 79.24%, 26.37% 83.42%, 32.77% 81.46%, 32.9% 85.64%, 26.89% 87.34%, 23.5% 94.78%, 20.1% 93.08%, 22.45% 86.55%, 20.5% 81.98%)"
 			},
 			"thejoust": {
@@ -187,7 +187,7 @@
 				clippath: "polygon(61.1% 87.99%, 63.32% 85.12%, 69.58% 85.25%, 73.76% 85.9%, 76.5% 89.16%, 77.02% 92.43%, 76.89% 95.82%, 72.72% 96.74%, 64.49% 96.08%, 61.23% 91.64%)"
 			},
 			"armory": {
-				description: "North of the Odeum is the “Armory”. Here you can look at armor and weapons of leather, wood or metal. Armor is bespoke and must fitted to each customer and must be shipped for delivery. Real weapons are not permitted in the park.",
+				description: "North of the Odeum is the “Armory”. Here you can look at armor and weapons of leather, wood or metal. Armor is bespoke and must be fitted to each customer and must be shipped for delivery. Real weapons are not permitted in the park.",
 				clippath: "polygon(60.44% 82.51%, 63.84% 81.07%, 65.27% 82.38%, 65.4% 84.2%, 61.62% 86.03%, 60.57% 84.73%)"
 			},
 			"abandonhope": {
@@ -195,7 +195,7 @@
 				clippath: "polygon(64.36% 78.98%, 68.54% 74.93%, 71.15% 74.41%, 72.06% 75.72%, 68.8% 81.33%)"
 			},
 			"maypole": {
-				description: "Just east of Abandon Hope is a large “May Pole” and “Musicians and Dancers” tent. You can learn to play an instrument or dance so you can participate, or you can just watch.",
+				description: "East of Abandon Hope is a large “May Pole” and “Musicians and Dancers” tent. You can learn to play an instrument or dance so you can participate, or you can just watch.",
 				clippath: "polygon(71.93% 78.33%, 74.8% 80.16%, 78.33% 78.72%, 80.81% 80.68%, 81.59% 82.77%, 80.81% 86.16%, 78.2% 87.34%, 76.11% 86.03%, 74.41% 83.68%, 71.28% 84.07%, 69.32% 82.64%)"
 			},
 			"heavensawait": {
@@ -207,7 +207,7 @@
 				clippath: "polygon(86.81% 77.02%, 87.99% 78.46%, 86.55% 79.5%, 86.29% 81.07%, 86.68% 82.9%, 89.69% 83.55%, 89.56% 88.12%, 85.77% 87.73%, 85.38% 86.16%, 86.16% 85.25%, 86.16% 83.94%, 84.99% 82.11%, 83.81% 82.38%, 83.03% 84.07%, 84.33% 86.16%, 84.2% 87.47%, 82.64% 87.34%, 82.64% 82.51%, 80.94% 79.24%, 81.59% 76.89%, 84.33% 76.37%)"
 			},
 			"sherwood": {
-				description: "Just north of Checkmate can be found “Sherwood”. Here in the forest, you can learn from Robin’s friends how to climb rope ladders, play tug of war, or try log rolling or quarter staff dueling. Be sure to explore the tree castle.",
+				description: "North of Checkmate can be found “Sherwood”. Here in the forest, you can learn from Robin’s friends how to climb rope ladders, play tug of war, or try log rolling or quarter staff dueling. Be sure to explore the tree castle.",
 				clippath: "polygon(86.29% 62.79%, 90.08% 61.88%, 93.99% 64.1%, 94.39% 68.41%, 95.3% 71.15%, 95.04% 75.46%, 92.17% 76.89%, 87.99% 78.72%, 86.55% 77.15%, 84.07% 76.37%, 81.72% 77.02%, 80.81% 78.98%, 78.33% 77.94%, 75.07% 79.5%, 74.15% 75.59%, 72.58% 71.93%, 74.41% 68.8%, 74.93% 67.23%, 80.94% 64.62%)"
 			},
 			"southeastrestrooms": {
