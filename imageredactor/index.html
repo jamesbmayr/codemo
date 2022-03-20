@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>imageRedactor</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/28201-200.png">
+		<style id="configs">:root {--image-ratio: 1}</style>
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="imageRedactor is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="imageRedactor">
+		<meta property="og:url" content="https://jamesmayr.com/imageredactor/">
+		<meta property="og:description" content="imageRedactor is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/imageredactor/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<a href="https://jamesmayr.com" target="_blank" id="j-logo"></a>
+		<div id="message">upload an image to redact</div>
+		<canvas id="canvas"></canvas>
+		<canvas id="blur-canvas"></canvas>
+		<label id="upload-outer">&uarr;<input type="file" id="upload"></label>
+		<button id="undo">&#x238c;</button>
+		<details id="options-outer">
+			<summary id="options-button">&#x2699;</summary>
+			<div id="options-inner">
+				<label>
+					<input id="option-color" type="color">
+				</label>
+				<label>
+					<input id="option-stroke" type="range" min="0" max="0.1" step="0.01">
+					<span>paint</span>
+				</label>
+				<label>
+					<input id="option-opacity" type="range" min="0" max="1" step="0.1">
+					<span>blend</span>
+				</label>
+				<label>
+					<input id="option-blur" type="range" min="0" max="0.1" step="0.01">
+					<span>blur</span>
+				</label>
+			</div>
+		</details>
+		<button id="download">&darr;</button>
+		<a href="#" id="download-link"></a>
+	</body>
+</html>

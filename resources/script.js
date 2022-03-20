@@ -462,6 +462,13 @@
 				date: "January 15, 2022",
 				description: "Transform a random image - or your own selection - into a simple rotation puzzle."
 			},
+			imageredactor: {
+				name: "imageRedactor",
+				size: "small",
+				tags: ["code","tool","design","art","canvas","draw","photography"],
+				date: "March 20, 2022",
+				description: "Draw on an image to blur sections and cover up sensitive information."
+			},
 			inputdetector: {
 				name: "inputDetector",
 				size: "small",
