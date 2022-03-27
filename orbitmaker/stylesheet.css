@@ -1,0 +1,619 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #555555;
+		--dark-gray: #111111;
+		--translucent-light: rgba(221, 221, 221, 0.5);
+		--translucent-medium: rgba(85, 85, 85, 0.5);
+		--translucent-dark: rgba(17, 17, 17, 0.5);
+		--gap-size: 5px;
+		--panel-size: 250px;
+		--font-family: monospace;
+		--font-size: 25px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+		--transition: 0.5s;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		touch-action: none;
+		font-size: 0;
+		background-color: var(--dark-gray);
+	}
+
+	/* details / summary */
+		details {
+			outline: none;
+		}
+
+		details summary {
+			list-style-type: none !important;
+			-webkit-appearance: none !important;
+			outline: none;
+			transition: var(--transition);
+		}
+
+		details summary::marker {
+			display: none !important;
+		}
+
+		details summary::-webkit-details-marker {
+			display: none !important;
+		}
+
+/*** canvas ***/
+	#simulation {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: 100vh;
+		width: 100vw;
+		cursor: grab;
+	}
+
+	#simulation[grabbing] {
+		cursor: grabbing;
+	}
+
+/*** options ***/
+	#options {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	/* button */
+		#options-button {
+			position: absolute;
+			top: calc(2 * var(--gap-size));
+			left: 0;
+			box-sizing: border-box;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--medium-gray);
+			line-height: 1;
+			padding: var(--gap-size);
+			transition: var(--transition);
+			border-radius: 0 50% 50% 0;
+			background-color: var(--translucent-dark);
+			box-shadow: 0 0 var(--shadow-size) var(--medium-gray);
+			cursor: pointer;
+			user-select: none;
+			text-align: center;
+			border: 0;
+			outline: none;
+		}
+
+		#options-button[active] {
+			left: calc(var(--panel-size));
+		}
+
+		#options-button[active], #options-button:hover, #options-button:focus {
+			background-color: var(--light-gray);
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+	/* overlay */
+		#options-overlay {
+			position: absolute;
+			top: 0;
+			left: calc(-1 * var(--panel-size));
+			height: 100vh;			
+			box-sizing: border-box;
+			overflow-x: hidden;
+			overflow-y: scroll;
+			font-size: var(--font-size);
+			color: var(--light-gray);
+			background-color: var(--translucent-dark);
+			width: var(--panel-size);
+			transition: var(--transition);
+			scroll-behavior: smooth;
+		}
+
+		#options-overlay[active] {
+			left: 0;
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		/* sections */
+			#options-overlay .section {
+				width: 100%;
+				height: auto;
+				box-sizing: border-box;
+				margin: 0 0 calc(2 * var(--gap-size)) 0 0;
+				font-size: 0;
+			}
+
+			#options-overlay .section[open] {
+				padding-bottom: calc(var(--gap-size) * 6);
+			}
+
+			#planets.section[open] {
+				border-bottom: none !important;
+			}
+
+			#options-overlay .section > summary {
+				cursor: pointer;
+			}
+
+			#options-overlay .section:not([open]) > summary:before {
+				content: "▶";
+				color: var(--light-gray);
+				font-size: calc(var(--font-size) / 2);
+				float: left;
+				margin: calc(var(--gap-size) * 2);
+			}
+
+			#options-overlay .section[open] > summary:before {
+				content: "▼";
+				color: var(--light-gray);
+				font-size: calc(var(--font-size) / 2);
+				float: left;
+				margin: calc(var(--gap-size) * 2);
+			}
+
+		/* headers */
+			#options-overlay h1 {
+				width: 100%;
+				font-size: var(--font-size);
+				font-family: var(--font-family);
+				height: calc(var(--font-size) + 4 * var(--gap-size));
+				box-sizing: border-box;
+				line-height: 1;
+				margin: 0;
+				padding: calc(3 * var(--gap-size)) calc(2 * var(--gap-size)) var(--gap-size) calc(2 * var(--gap-size));
+				text-align: left;
+				background-color: var(--light-gray);
+				color: var(--medium-gray);
+				font-weight: bold;
+				user-select: none;
+			}
+
+			#options-overlay h2 {
+				width: 100%;
+				font-size: var(--font-size);
+				font-family: var(--font-family);
+				height: auto;
+				box-sizing: border-box;
+				line-height: 1;
+				margin: 0;
+				text-transform: uppercase;
+				font-weight: bold;
+				padding: var(--gap-size);
+				text-align: left;
+				color: var(--light-gray);
+				user-select: none;
+			}
+
+			#options-overlay h2:hover, #options-overlay h2:focus {
+				text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+				transition: var(--transition);
+			}
+
+			#options-overlay h3 {
+				width: 100%;
+				font-size: calc(var(--font-size) * 3 / 4);
+				font-family: var(--font-family);
+				height: auto;
+				box-sizing: border-box;
+				line-height: 1;
+				margin: 0;
+				text-transform: uppercase;
+				font-weight: bold;
+				padding: 0;
+				text-align: left;
+				color: var(--light-gray);
+				user-select: none;
+			}
+
+	/* buttons */
+		#options-overlay button {
+			width: calc(100% - 4 * var(--gap-size));
+			height: var(--font-size);
+			font-size: calc(var(--font-size) / 2);
+			font-family: var(--font-family);
+			background: var(--light-gray);
+			color: var(--medium-gray);
+			transition: var(--transition);
+			cursor: pointer;
+			user-select: none;
+			text-transform: uppercase;
+			padding: var(--gap-size);
+			margin: calc(var(--gap-size) * 2) calc(var(--gap-size) * 2) 0 calc(var(--gap-size) * 2);
+			border: none;
+			border-radius: var(--border-radius);
+			font-weight: bold;
+			box-sizing: border-box;
+			outline: none;
+			vertical-align: bottom;
+		}
+
+		#options-overlay button:hover, #options-overlay button:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+	/* inputs */
+		#options-overlay select {
+			width: 100%;
+			height: var(--font-size);
+			margin: var(--gap-size) 0 0 0;
+			border-radius: var(--border-radius);
+			border: 0;
+			box-sizing: border-box;
+			padding: var(--gap-size);
+			font-family: var(--font-family);
+			font-size: calc(var(--font-size) / 2);
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			outline: none;
+			transition: var(--transition);
+			cursor: pointer;
+		}
+
+		#options-overlay input[type="range"] {
+			width: 50%;
+			height: var(--font-size);
+			margin: 0;
+			cursor: pointer;
+			outline: none;
+			vertical-align: bottom;
+			transition: var(--transition);
+		}
+
+		#options-overlay input[type="range"]:hover, #options-overlay input[type="range"]:focus {
+			filter: drop-shadow(0 0 calc(var(--shadow-size) / 2) var(--light-gray));
+		}
+
+		#options-overlay input[type="number"], #options-overlay input[type="text"] {
+			width: 50%;
+			height: var(--font-size);
+			margin: var(--gap-size) 0 0 0;
+			border-radius: var(--border-radius);
+			box-sizing: border-box;
+			padding: var(--gap-size);
+			font-family: var(--font-family);
+			font-size: calc(var(--font-size) / 2);
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			border: 0;
+			outline: none;
+			vertical-align: bottom;
+			transition: var(--transition);
+		}
+
+		#options-overlay input[type="text"] {
+			width: 100%;
+		}
+
+		#options-overlay textarea {
+			width: 100%;
+			min-width: 100%;
+			max-width: 100%;
+			min-height: var(--font-size);
+			max-height: calc(4 * var(--font-size));
+			padding: var(--gap-size);
+			margin: var(--gap-size) 0 0 0;
+			font-family: var(--font-family);
+			font-size: calc(var(--font-size) / 2);
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			border: 0;
+			outline: none;
+			transition: 0;
+			border-radius: var(--border-radius);
+			box-sizing: border-box;
+		}
+
+		#options-overlay input[type="color"] {
+			width: 100%;
+			height: var(--font-size);
+			border-radius: var(--border-radius);
+			box-sizing: border-box;
+			user-select: none;
+			margin: var(--gap-size) 0 0 0;
+			padding: 0;
+			border: 0;
+			cursor: pointer;
+			outline: none;
+			transition: var(--transition);
+		}
+
+		#options-overlay select:hover, #options-overlay select:focus, #options-overlay input[type="number"]:hover, #options-overlay input[type="number"]:focus, #options-overlay input[type="text"]:hover, #options-overlay input[type="text"]:focus, #options-overlay textarea:hover, #options-overlay textarea:focus, #options-overlay input[type="color"]:hover, #options-overlay input[type="color"]:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#options-overlay input[type="radio"], #options-overlay input[type="checkbox"] {
+			width: var(--font-size);
+			height: var(--font-size);
+			outline: none;
+			cursor: pointer;
+			transition: var(--transition);
+			border: 0;
+			background-color: var(--light-gray);
+			margin: 0;
+		}
+
+		#options-overlay input[type="radio"]:focus, #options-overlay input[type="radio"]:hover, #options-overlay input[type="checkbox"]:focus, #options-overlay input[type="checkbox"]:hover {
+			filter: drop-shadow(0 0 calc(var(--shadow-size) / 2) var(--light-gray));
+		}
+
+	/* labels */
+		#options-overlay label {
+			display: block;
+			width: 100%;
+			height: auto;
+			box-sizing: border-box;
+			padding: calc(var(--gap-size) * 2);
+		}
+
+		#options-overlay label span {
+			display: inline-block;
+			max-width: 50%;
+			font-size: calc(var(--font-size) / 2);
+			height: var(--font-size);
+			box-sizing: border-box;
+			font-family: var(--font-family);
+			color: var(--medium-gray);
+			user-select: none;
+			padding: var(--gap-size);
+			line-height: 1;
+			vertical-align: bottom;
+		}
+
+		#options-overlay input[type="radio"] ~ span, #options-overlay input[type="checkbox"] ~ span {
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+
+		#options-overlay input[type="radio"]:checked ~ span, #options-overlay input[type="checkbox"]:checked ~ span {
+			color: var(--light-gray);
+		}
+
+	/* controls */
+		#controls-play[play="true"] #pause {
+			display: none;
+		}
+
+		#controls-play[play="false"] #play {
+			display: none;
+		}
+
+		#controls-rate-power {
+			width: 100% !important;
+		}
+
+		#controls-zoom-power {
+			width: 100% !important;
+		}
+
+		#controls-x, #controls-y {
+			width: 30% !important;
+		}
+
+		#controls-upload {
+			display: none;
+		}
+
+		#controls-upload-outer {
+			width: calc(50% - 3 * var(--gap-size)) !important;
+			height: var(--font-size);
+			font-size: calc(var(--font-size) / 2);
+			font-family: var(--font-family);
+			background: var(--light-gray);
+			color: var(--medium-gray);
+			transition: var(--transition);
+			cursor: pointer;
+			user-select: none;
+			text-transform: uppercase;
+			padding: var(--gap-size) !important;
+			margin: calc(var(--gap-size) * 2) var(--gap-size) 0 calc(var(--gap-size) * 2);
+			border: none;
+			border-radius: var(--border-radius);
+			font-weight: bold;
+			box-sizing: border-box;
+			text-align: center;
+			display: inline-block !important;
+		}
+
+		#controls-upload-outer:focus, #controls-upload-outer:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+		#controls-download {
+			display: inline-block;
+			width: calc(50% - 3 * var(--gap-size)) !important;
+			margin-left: var(--gap-size) !important;
+		}
+
+	/* celestial bodies */
+		.star, .planet, .moon {
+			display: block;
+			box-sizing: border-box;
+			margin: calc(2 * var(--gap-size)) !important;
+			width: calc(100% - 4 * var(--gap-size)) !important;
+			height: auto !important;
+			background-color: var(--translucent-medium);
+			border-radius: calc(2 * var(--border-radius));
+			padding: 0 !important;
+		}
+
+		.star:last-child, .planet:last-child, .moon:last-child {
+			margin-bottom: 0 !important;
+		}
+
+		.star > summary, .planet > summary, .moon > summary {
+			display: block;
+			box-sizing: border-box;
+			width: 100%;
+			padding: var(--gap-size) !important;
+			height: auto !important;
+			user-select: none;
+			font-size: 0 !important;
+		}
+
+		.star > summary > h3, .planet > summary > h3, .moon > summary > h3 {
+			width: auto;
+			height: calc(var(--font-size) * 3 / 4);
+			font-size: var(--font-size) !important;
+			font-family: var(--font-family);
+			line-height: 1;
+			color: var(--light-gray);
+			cursor: pointer;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.star summary > h3:hover, .star summary > h3:focus, .planet summary > h3:hover, .planet summary > h3:focus, .moon summary > h3:hover, .moon summary > h3:focus {
+			text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			transition: var(--transition);
+		}
+
+		.star:not([open]) > summary > h3:before, .planet:not([open]) > summary > h3:before, .moon:not([open]) > summary > h3:before {
+			content: "▶";
+			color: var(--light-gray);
+			font-size: calc(var(--font-size) * 3 / 4) !important;
+			float: left;
+			margin: calc(var(--gap-size) * 3 / 4) calc(var(--gap-size) * 2) !important;
+		}
+
+		.star[open] > summary > h3:before, .planet[open] > summary > h3:before, .moon[open] > summary > h3:before {
+			content: "▼";
+			color: var(--light-gray);
+			font-size: calc(var(--font-size) * 3 / 4) !important;
+			float: left;
+			margin: calc(var(--gap-size) * 3 / 4) calc(var(--gap-size) * 2) !important;
+		}
+
+	/* inputs */
+		.star > summary > label, .planet > summary > label, .moon > summary > label {
+			display: inline-block !important;
+			width: 50% !important;
+		}
+
+		.star-remove, .planet-remove, .moon-remove {
+			box-sizing: border-box !important;
+			height: calc(var(--font-size) * 3 / 4) !important;
+			width: calc(var(--font-size) * 3 / 4) !important;
+			background-color: var(--medium-gray) !important;
+			font-size: calc(var(--font-size) * 3 / 4) !important;
+			font-family: var(--font-family) !important;
+			font-weight: bold !important;
+			color: var(--dark-gray) !important;
+			border-radius: 100% !important;
+			padding: 0 !important;
+			float: right !important;
+			margin: 0 !important;
+			line-height: 1 !important;
+			vertical-align: middle !important;
+			margin-top: calc(-2 * var(--gap-size) - 2 * var(--font-size)) !important;
+			margin-right: calc(2 * var(--gap-size)) !important;
+		}
+
+		.star-mass-factor, .planet-mass-factor, .moon-mass-factor {
+			width: 35% !important;
+		}
+
+		.star-mass-power, .planet-mass-power, .moon-mass-power {
+			width: 20% !important;
+		}
+
+		.star-day, .planet-day, .moon-day, .star-period, .planet-period, .moon-period {
+			width: 35% !important;
+		}
+
+		#planets-add, #planets-clear, .planet-addmoon, .planet-clearmoons {
+			display: inline-block !important;
+			width: calc(50% - 3 * var(--gap-size)) !important;
+		}
+
+		#planets-add, .planet-addmoon {
+			margin-right: var(--gap-size) !important;
+		}
+
+		#planets-clear, .planet-clearmoons {
+			margin-left: var(--gap-size) !important;
+		}
+
+	/* subsections */
+		.star details, .planet details, .moon details {
+			display: block;
+			width: 100%;
+			height: auto;
+			padding: calc(2 * var(--gap-size)) 0;
+		}
+
+		.star details summary, .planet details summary, .moon details summary {
+			display: block;
+			width: 100%;
+			height: calc(var(--font-size) * 3 / 4);
+			font-size: calc(var(--font-size) * 3 / 4);
+			font-family: var(--font-family);
+			line-height: 1;
+			color: var(--light-gray);
+			cursor: pointer;
+			outline: none;
+			text-transform: uppercase;
+			user-select: none;
+			font-weight: bold;
+		}
+
+		.star > details:not([open]) > summary:before, .planet > details:not([open]) > summary:before, .moon > details:not([open]) > summary:before {
+			content: "▶";
+			color: var(--light-gray);
+			font-size: calc(var(--font-size) / 2);
+			float: left;
+			margin: calc(var(--gap-size) / 2) calc(var(--gap-size) * 2);
+		}
+
+		.star > details[open] > summary:before, .planet > details[open] > summary:before, .moon > details[open] > summary:before {
+			content: "▼";
+			color: var(--light-gray);
+			font-size: calc(var(--font-size) / 2);
+			float: left;
+			margin: calc(var(--gap-size) / 2) calc(var(--gap-size) * 2);
+		}
+
+		.star-advanced, .planet-advanced, .moon-advanced {
+			padding: 0 calc(2 * var(--gap-size));
+		}
+
+		.star-advanced label input[type="checkbox"], .planet-advanced label input[type="checkbox"], .moon-advanced label input[type="checkbox"] {
+			margin-top: var(--gap-size) !important;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url(../resources/j.png);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: saturate(0%) drop-shadow(0 0 var(--shadow-size) var(--medium-gray)) brightness(0.25);
+		transition: var(--transition);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: saturate(100%) drop-shadow(0 0 var(--shadow-size) var(--light-gray)) brightness(1);
+	}

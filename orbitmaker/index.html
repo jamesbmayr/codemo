@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>OrbitMaker</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/36931-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="orbitMaker is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="orbitMaker">
+		<meta property="og:url" content="https://jamesmayr.com/orbitmaker/">
+		<meta property="og:description" content="orbitMaker is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/orbitmaker/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<canvas id="simulation"></canvas>
+		<button id="options-button">&#x2699;</button>
+		<div id="options-overlay">
+			<h1>OrbitMaker</h1>
+			<details class="section" id="controls" open>
+				<summary>
+					<h2>controls</h2>
+				</summary>
+				<button id="controls-play"><span id="play">&#x25B6; playing</span><span id="pause">|| paused</span></button>
+				<label>
+					<h3>rate</h3>
+					<input type="range" id="controls-rate-power"><input type="number" id="controls-rate" min="1" placeholder="rate"><span>days / second</span>
+				</label>
+				<label>
+					<h3>zoom</h3>
+					<input type="range" id="controls-zoom-power"><input type="number" id="controls-zoom" min="1" placeholder="zoom"><span>pixels / AU</span>
+				</label>
+				<label>
+					<h3>offset</h3>
+					<input type="radio" name="tracking" id="controls-tracking" checked>
+					<span>x</span><input type="number" id="controls-x" placeholder="x">
+					<span>y</span><input type="number" id="controls-y" placeholder="y">
+					<span>AU</span>
+				</label>
+				<label id="controls-upload-outer">
+					&uarr; upload<input type="file" id="controls-upload"> 
+				</label>
+				<button id="controls-download">&darr; download</button>
+			</details>
+			<details class="section" id="stars">
+				<summary>
+					<h2>star</h2>
+				</summary>
+			</details>
+			<details class="section" id="planets">
+				<summary>
+					<h2>planets</h2>
+				</summary>
+				<button id="planets-add">+ add planet</button>
+				<button id="planets-clear">&#x2715; clear all</button>
+			</details>
+		</div>
+		<a href="https://jamesmayr.com" target="_blank" id="j-logo"></a>
+	</body>
+</html>
