@@ -119,6 +119,7 @@
 			width: var(--panel-size);
 			transition: var(--transition);
 			scroll-behavior: smooth;
+			padding-bottom: calc(var(--gap-size) * 10);
 		}
 
 		#options-overlay[active] {
@@ -136,7 +137,7 @@
 			}
 
 			#options-overlay .section[open] {
-				padding-bottom: calc(var(--gap-size) * 6);
+				padding-bottom: calc(var(--gap-size) * 4);
 			}
 
 			#planets.section[open] {
@@ -145,22 +146,26 @@
 
 			#options-overlay .section > summary {
 				cursor: pointer;
+				height: var(--font-size);
+				padding: var(--gap-size) 0 0 0;
 			}
 
 			#options-overlay .section:not([open]) > summary:before {
 				content: "▶";
 				color: var(--light-gray);
 				font-size: calc(var(--font-size) / 2);
-				float: left;
+				display: inline;
 				margin: calc(var(--gap-size) * 2);
+				vertical-align: text-bottom;
 			}
 
 			#options-overlay .section[open] > summary:before {
 				content: "▼";
 				color: var(--light-gray);
 				font-size: calc(var(--font-size) / 2);
-				float: left;
+				display: inline;
 				margin: calc(var(--gap-size) * 2);
+				vertical-align: text-bottom;
 			}
 
 		/* headers */
@@ -178,6 +183,9 @@
 				color: var(--medium-gray);
 				font-weight: bold;
 				user-select: none;
+				position: sticky;
+				top: 0;
+				cursor: pointer;
 			}
 
 			#options-overlay h2 {
@@ -194,6 +202,7 @@
 				text-align: left;
 				color: var(--light-gray);
 				user-select: none;
+				display: inline;
 			}
 
 			#options-overlay h2:hover, #options-overlay h2:focus {

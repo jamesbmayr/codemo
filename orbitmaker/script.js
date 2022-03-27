@@ -1211,7 +1211,8 @@
 		const ELEMENTS = {
 			options: {
 				button: document.querySelector("#options-button"),
-				overlay: document.querySelector("#options-overlay")
+				overlay: document.querySelector("#options-overlay"),
+				header: document.querySelector("#options-header"),
 			},
 			controls: {
 				element: document.querySelector("#controls"),
@@ -1321,6 +1322,15 @@
 				// close --> open
 					ELEMENTS.options.button.setAttribute("active", true)
 					ELEMENTS.options.overlay.setAttribute("active", true)
+			} catch (error) {console.log(error)}
+		}
+
+	/* scrollToTop */
+		ELEMENTS.options.header.addEventListener(TRIGGERS.click, scrollToTop)
+		function scrollToTop(event) {
+			try {
+				// change scroll position
+					ELEMENTS.options.overlay.scrollTop = 0
 			} catch (error) {console.log(error)}
 		}
 
