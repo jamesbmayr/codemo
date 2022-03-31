@@ -374,11 +374,12 @@
 			height: var(--font-size);
 			box-sizing: border-box;
 			font-family: var(--font-family);
-			color: var(--medium-gray);
+			color: var(--light-gray);
 			user-select: none;
 			padding: var(--gap-size);
 			line-height: 1;
 			vertical-align: bottom;
+			opacity: 0.5;
 		}
 
 		#options-overlay input[type="radio"] ~ span, #options-overlay input[type="checkbox"] ~ span {
@@ -387,7 +388,7 @@
 		}
 
 		#options-overlay input[type="radio"]:checked ~ span, #options-overlay input[type="checkbox"]:checked ~ span {
-			color: var(--light-gray);
+			opacity: 1;
 		}
 
 	/* controls */
@@ -537,24 +538,34 @@
 		}
 
 		.star-mass-power, .planet-mass-power, .moon-mass-power {
+			min-width: calc(var(--font-size) * 1.5) !important;
 			width: 20% !important;
 		}
 
 		.star-day, .planet-day, .moon-day, .star-period, .planet-period, .moon-period {
+			min-width: calc(var(--font-size) * 1.5) !important;
 			width: 35% !important;
 		}
 
-		#planets-add, #planets-clear, .planet-addmoon, .planet-clearmoons {
+		.star-addplanet, .star-clearall, .planet-addmoon, .planet-clearall {
 			display: inline-block !important;
 			width: calc(50% - 3 * var(--gap-size)) !important;
 		}
 
-		#planets-add, .planet-addmoon {
+		.star-addplanet, .planet-addmoon {
 			margin-right: var(--gap-size) !important;
 		}
 
-		#planets-clear, .planet-clearmoons {
+		.star-clearall, .planet-clearall {
 			margin-left: var(--gap-size) !important;
+		}
+
+		.star-color-label, .planet-color-label, .moon-color-label {
+			pointer-events: none;
+		}
+
+		.star-color, .planet-color, .moon-color {
+			pointer-events: all;
 		}
 
 	/* subsections */
@@ -603,6 +614,27 @@
 		.star-advanced label input[type="checkbox"], .planet-advanced label input[type="checkbox"], .moon-advanced label input[type="checkbox"] {
 			margin-top: var(--gap-size) !important;
 		}
+
+	/* binary */
+		#system > .star > .star-advanced-outer {
+			display: none !important;
+		}
+
+		.star[binary] > .star-description-label, .star[binary] > .star-color-label, .star[binary] > .star-habitablezone-label, .star[binary] > .star-radius-label {
+			display: none !important;
+		}
+
+		.star[binary] > .star-mass-label {
+			pointer-events: none;
+		}
+
+		.star[binary] > .star-mass-label > .star-mass-factor, .star[binary] > .star-mass-label > .star-mass-power {
+			cursor: default;
+			background-color: var(--dark-gray) !important;
+			color: var(--light-gray) !important;
+			opacity: 0.5;
+			pointer-events: none !important;
+		} 
 
 /*** j-logo ***/
 	#j-logo {

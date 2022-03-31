@@ -20,6 +20,7 @@
 
 	/* constants */
 		const CONSTANTS = {
+			ignoreKeys: ["id", "elements", "computed", "position", "children"],
 			rounding: 1000000,
 			"4π^2": 4 * Math.PI ** 2, // radians --> for calculating orbits
 			G: 6.67 * (10 ** -11), // N * m^2 / kg^2
@@ -47,20 +48,22 @@
 				stepRatePower: 0.1, // 10^x
 				maximumRatePower: 5, // 10^x
 				stepOffset: 0.1, // AU
+				initialBarycenterPeriod: 100, // days
 			},
 			canvas: {
-				star_log_kg_to_pixel: 0.1, // pixels
+				barycenter_log_kg_to_pixel: 0.1, // pixels
 				planet_log_kg_to_pixel: 0.05, // pixels
 				moon_log_kg_to_pixel: 0.05, // pixels
 				scroll_to_zoom: 0.05, // 10^x
 				orbitThickness: 2, // pixels
 				orbitAboveOpacity: 0.75, // ratio
 				orbitBelowOpacity: 0.25, // ratio
-				starOpacity: 1, // ratio
-				planetOpacity: 1, // ratio
-				moonOpacity: 0.75, // ratio
+				celestialBodyOpacity: 1, // ratio
+				barycenterColor: "#777777", // #hex
+				barycenterOpacity: 0.5, // ratio
 				glowThickness: 10, // pixels
 				spaceColor: "#111111", // #hex
+				uninhabitableZoneColor: "#c63a3a", // #hex
 				habitableZoneColor: "#2cdd6a", // #hex
 				habitableZoneOpacity: 0.05, // ratio
 				habitableZoneThickness: 0.8, // ratio
@@ -77,15 +80,39 @@
 				starColors: ["#7ffeff", "#ffffff", "#ffffff", "#fdff99", "#fdff99", "#f9ef22", "#f9ef22", "#f9ef22", "#ed991c", "#ed991c", "#ed991c", "#be102e", "#be102e", "#be102e", "#be102e"], // #hex
 			},
 			star: {
+				type: "star",
 				name: null,
 				description: null,
 				color: null, // #hex
 				massFactor: 0, // kg
 				massPower: 0, // 10^x
 				radius: 0, // AU
+				habitableZone: 0, // AU
 				day: 0, // d
 				period: 0, // d
-				habitableZone: 0, // AU
+				semiMajorAxis: 0, // AU
+				retrograde: false,
+				inclination: 0, // radians
+				longitudeOfAscendingNode: 0, // radians
+				eccentricity: 0, // ratio
+				apoapsis: 0, // AU
+				periapsis: 0, // AU
+				argumentOfPeriapsis: 0, // radians
+				computed: {
+					semiMinorAxis: 0, // AU
+					focalDistance: 0, // AU
+					longitudeOfPeriapsis: 0, // radians
+					ascendingNode: {
+						x: 0, // AU
+						y: 0, // AU
+						a: 0 // radians
+					},
+					descendingNode: {
+						x: 0, // AU
+						y: 0, // AU
+						a: 0 // radians
+					}
+				},
 				position: {
 					x: 0, // AU
 					y: 0, // AU
@@ -95,9 +122,10 @@
 					visible: true
 				},
 				elements: {},
-				planets: {}
+				children: {}
 			},
 			planet: {
+				type: "planet",
 				name: null,
 				description: null,
 				color: null, // #hex
@@ -138,9 +166,10 @@
 					visible: true
 				},
 				elements: {},
-				moons: {}
+				children: {}
 			},
 			moon: {
+				type: "moon",
 				name: null,
 				description: null,
 				color: null, // #hex
@@ -180,7 +209,8 @@
 					tracking: false,
 					visible: true
 				},
-				elements: {}
+				elements: {},
+				children: {}
 			},
 			classes: {
 				stars: {
@@ -295,6 +325,14 @@
 						massPower: 30, // 10^x
 						radius: 0.000047, // AU
 						habitableZone: 0.01, // AU
+					},
+					"binary": {
+						name: "binary",
+						color: "transparent", // hex
+						massFactor: 0, // kg
+						massPower: 0, // 10^x
+						radius: 0, // AU
+						habitableZone: 0, // AU
 					}
 				},
 				planets: {
@@ -365,15 +403,26 @@
 						periapsis: 0.1875, // AU
 					},
 					"asteroidan": {
-						name: "Asteroid / Comet",
-						color: "#ff7777", // #hex
+						name: "Asteroid",
+						color: "#7777dd", // #hex
 						massFactor: 5, // kg
-						massPower: 15, // 10^x
+						massPower: 18, // 10^x
 						semiMajorAxis: 3, // AU
 						retrograde: false,
+						eccentricity: 0.5, // ratio
+						apoapsis: 4.5, // AU
+						periapsis: 1.5, // AU
+					},
+					"comet": {
+						name: "Comet",
+						color: "#ff7777",
+						massFactor: 5, // kg
+						massPower: 15, // 10^x
+						semiMajorAxis: 10, // AU
+						retrograde: false,
 						eccentricity: 0.75, // ratio
-						apoapsis: 5.25, // AU
-						periapsis: 0.75, // AU
+						apoapsis: 17.5, // AU
+						periapsis: 2.5, // AU
 					}
 				},
 				moons: {
@@ -439,8 +488,11 @@
 	/* default simulation */
 		// from https://ssd.jpl.nasa.gov/sats/elem and also wikipedia
 		CONSTANTS.defaults = {
-			stars: {
+			massFactor: 1.989, // kg
+			massPower: 30, // 10^x
+			children: {
 				"star-0": {
+					type: "star",
 					name: "Sun",
 					class: "main-sequence-g",
 					description: "",
@@ -450,10 +502,15 @@
 					radius: 0.004650, // AU
 					day: 0, // d
 					period: 0, // d
+					semiMajorAxis: 0, // AU
+					eccentricity: 0, // ratio
+					apoapsis: 0, // AU
+					periapsis: 0, // AU
 					habitableZone: 1.06, // AU
 					position: {tracking: true},
-					planets: {
+					children: {
 						"star-0-planet-0": {
+							type: "planet",
 							name: "Mercury",
 							description: "",
 							color: "#8e8888", // #hex
@@ -469,9 +526,9 @@
 							apoapsis: 0.466697, // AU
 							periapsis: 0.307499, // AU
 							argumentOfPeriapsis: 29.124 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {}
 						},
 						"star-0-planet-1": {
+							type: "planet",
 							name: "Venus",
 							description: "",
 							color: "#f1e9dc", // #hex
@@ -487,9 +544,9 @@
 							apoapsis: 0.728213, // AU
 							periapsis: 0.718440, // AU
 							argumentOfPeriapsis: 54.884 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {}
 						},
 						"star-0-planet-2": {
+							type: "planet",
 							name: "Earth",
 							description: "",
 							color: "#516e8d", // #hex
@@ -505,8 +562,9 @@
 							apoapsis: 1.016726, // AU
 							periapsis: 0.983269, // AU
 							argumentOfPeriapsis: -114.20783 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-2-moon-0": {
+									type: "moon",
 									name: "Moon",
 									description: "",
 									color: "#cabcb7",
@@ -526,6 +584,7 @@
 							}
 						},
 						"star-0-planet-3": {
+							type: "planet",
 							name: "Mars",
 							description: "",
 							color: "#ea7a56", // #hex
@@ -541,8 +600,9 @@
 							apoapsis: 1.666, // AU
 							periapsis: 1.382, // AU
 							argumentOfPeriapsis: 286.502 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-3-moon-0": {
+									type: "moon",
 									name: "Phobos",
 									description: "",
 									color: "#958075",
@@ -560,6 +620,7 @@
 									argumentOfPeriapsis: 216.3 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-3-moon-1": {
+									type: "moon",
 									name: "Deimos",
 									description: "",
 									color: "#bfa78d",
@@ -579,6 +640,7 @@
 							}
 						},
 						"star-0-planet-4": {
+							type: "planet",
 							name: "Vesta",
 							description: "",
 							color: "#8c877b", // #hex
@@ -595,9 +657,9 @@
 							periapsis: 2.15221, // AU
 							argumentOfPeriapsis: 151.19853 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-5": {
+							type: "planet",
 							name: "Ceres",
 							description: "",
 							color: "#847d77", // #hex
@@ -614,9 +676,9 @@
 							periapsis: 2.55, // AU
 							argumentOfPeriapsis: 73.6 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-6": {
+							type: "planet",
 							name: "Pallas",
 							description: "",
 							color: "#dedede", // #hex
@@ -633,9 +695,9 @@
 							periapsis: 2.13, // AU
 							argumentOfPeriapsis: 310.7 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-7": {
+							type: "planet",
 							name: "Jupiter",
 							description: "",
 							color: "#ba9779", // #hex
@@ -651,8 +713,9 @@
 							apoapsis: 5.4588, // AU
 							periapsis: 4.9501, // AU
 							argumentOfPeriapsis: 273.867 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-7-moon-0": {
+									type: "moon",
 									name: "Io",
 									description: "",
 									color: "#fbf690",
@@ -670,6 +733,7 @@
 									argumentOfPeriapsis: 49.1 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-7-moon-1": {
+									type: "moon",
 									name: "Europa",
 									description: "",
 									color: "#8c6438",
@@ -687,6 +751,7 @@
 									argumentOfPeriapsis: 45.0 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-7-moon-2": {
+									type: "moon",
 									name: "Ganymede",
 									description: "",
 									color: "#9c8b79",
@@ -704,6 +769,7 @@
 									argumentOfPeriapsis: 198.3 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-7-moon-3": {
+									type: "moon",
 									name: "Callisto",
 									description: "",
 									color: "#5a523b",
@@ -723,6 +789,7 @@
 							}
 						},
 						"star-0-planet-8": {
+							type: "planet",
 							name: "Saturn",
 							description: "",
 							color: "#e2c17f", // #hex
@@ -738,8 +805,9 @@
 							apoapsis: 10.1238, // AU
 							periapsis: 9.0412, // AU
 							argumentOfPeriapsis: 339.392 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-8-moon-0": {
+									type: "moon",
 									name: "Mimas",
 									description: "",
 									color: "#7D7D7D",
@@ -757,6 +825,7 @@
 									argumentOfPeriapsis: 160.4 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-8-moon-1": {
+									type: "moon",
 									name: "Enceladus",
 									description: "",
 									color: "#F2F2F2",
@@ -774,6 +843,7 @@
 									argumentOfPeriapsis: 119.5 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-8-moon-2": {
+									type: "moon",
 									name: "Tethys",
 									description: "",
 									color: "#BEBEBE",
@@ -791,6 +861,7 @@
 									argumentOfPeriapsis: 335.3 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-8-moon-3": {
+									type: "moon",
 									name: "Dione",
 									description: "",
 									color: "#C1C1C1",
@@ -808,6 +879,7 @@
 									argumentOfPeriapsis: 116.0 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-8-moon-4": {
+									type: "moon",
 									name: "Rhea",
 									description: "",
 									color: "#D7D2BF",
@@ -825,6 +897,7 @@
 									argumentOfPeriapsis: 44.3 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-8-moon-5": {
+									type: "moon",
 									name: "Titan",
 									description: "",
 									color: "#765A32",
@@ -842,6 +915,7 @@
 									argumentOfPeriapsis: 78.3 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-8-moon-6": {
+									type: "moon",
 									name: "Iapetus",
 									description: "",
 									color: "#5C5A47",
@@ -861,6 +935,7 @@
 							}
 						},
 						"star-0-planet-9": {
+							type: "planet",
 							name: "Uranus",
 							description: "",
 							color: "#6c7e87", // #hex
@@ -876,8 +951,9 @@
 							apoapsis: 20.0965, // AU
 							periapsis: 18.2861, // AU
 							argumentOfPeriapsis: 96.998857 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-9-moon-0": {
+									type: "moon",
 									name: "Miranda",
 									description: "",
 									color: "#bababa",
@@ -895,6 +971,7 @@
 									argumentOfPeriapsis: 155.6 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-9-moon-1": {
+									type: "moon",
 									name: "Ariel",
 									description: "",
 									color: "#d6d6d6",
@@ -912,6 +989,7 @@
 									argumentOfPeriapsis: 83.3 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-9-moon-2": {
+									type: "moon",
 									name: "Umbriel",
 									description: "",
 									color: "#5b5b5b",
@@ -929,6 +1007,7 @@
 									argumentOfPeriapsis: 157.5 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-9-moon-3": {
+									type: "moon",
 									name: "Titania",
 									description: "",
 									color: "#c8bfb2",
@@ -946,6 +1025,7 @@
 									argumentOfPeriapsis: 202.0 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-9-moon-4": {
+									type: "moon",
 									name: "Oberon",
 									description: "",
 									color: "#b0a299",
@@ -965,6 +1045,7 @@
 							}
 						},
 						"star-0-planet-10": {
+							type: "planet",
 							name: "Neptune",
 							description: "",
 							color: "#6280af", // #hex
@@ -980,8 +1061,9 @@
 							apoapsis: 30.33, // AU
 							periapsis: 29.81, // AU
 							argumentOfPeriapsis: 273.187 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-10-moon-0": {
+									type: "moon",
 									name: "Proteus",
 									description: "",
 									color: "#e4e4e4",
@@ -999,6 +1081,7 @@
 									argumentOfPeriapsis: 0 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-10-moon-1": {
+									type: "moon",
 									name: "Triton",
 									description: "",
 									color: "#6f6457",
@@ -1016,6 +1099,7 @@
 									argumentOfPeriapsis: 0 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 								},
 								"star-0-planet-10-moon-2": {
+									type: "moon",
 									name: "Nereid",
 									description: "",
 									color: "#e2e2e2",
@@ -1035,6 +1119,7 @@
 							}
 						},
 						"star-0-planet-11": {
+							type: "planet",
 							name: "Pluto",
 							description: "",
 							color: "#d8cab7", // #hex
@@ -1050,8 +1135,9 @@
 							apoapsis: 49.305, // AU
 							periapsis: 29.658, // AU
 							argumentOfPeriapsis: 113.834 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {
+							children: {
 								"star-0-planet-11-moon-0": {
+									type: "moon",
 									name: "Charon",
 									description: "",
 									color: "#979596",
@@ -1071,6 +1157,7 @@
 							}
 						},
 						"star-0-planet-12": {
+							type: "planet",
 							name: "Encke",
 							description: "",
 							color: "#cbcbcb", // #hex
@@ -1087,9 +1174,9 @@
 							periapsis: 0.3302, // AU
 							argumentOfPeriapsis: 186.5665 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-13": {
+							type: "planet",
 							name: "Tempel 1",
 							description: "",
 							color: "#494949", // #hex
@@ -1106,9 +1193,9 @@
 							periapsis: 1.542, // AU
 							argumentOfPeriapsis: 179.21 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-14": {
+							type: "planet",
 							name: "Wild 2",
 							description: "",
 							color: "#a2a2a2", // #hex
@@ -1125,9 +1212,9 @@
 							periapsis: 1.592, // AU
 							argumentOfPeriapsis: 41.731965 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-15": {
+							type: "planet",
 							name: "Borrelly",
 							description: "",
 							color: "#929292", // #hex
@@ -1144,9 +1231,9 @@
 							periapsis: 1.35, // AU
 							argumentOfPeriapsis: 351.92 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-16": {
+							type: "planet",
 							name: "Tempel-Tuttle",
 							description: "",
 							color: "#a2a2a2", // #hex
@@ -1163,9 +1250,9 @@
 							periapsis: 0.9766, // AU
 							argumentOfPeriapsis: 172.5893 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 						"star-0-planet-17": {
+							type: "planet",
 							name: "Halley's Comet",
 							description: "",
 							color: "#da671b", // #hex
@@ -1181,9 +1268,9 @@
 							apoapsis: 35.082, // AU
 							periapsis: 0.586, // AU
 							argumentOfPeriapsis: 111.33 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
-							moons: {}
 						},
 						"star-0-planet-18": {
+							type: "planet",
 							name: "Hale-Bopp",
 							description: "",
 							color: "#7698d8", // #hex
@@ -1200,7 +1287,6 @@
 							periapsis: 0.914, // AU
 							argumentOfPeriapsis: 282.47 * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree, // radians
 							position: {visible: false},
-							moons: {}
 						},
 					}
 				}
@@ -1227,10 +1313,7 @@
 				upload: document.querySelector("#controls-upload"),
 				download: document.querySelector("#controls-download")
 			},
-			stars: document.querySelector("#stars"),
-			planets: document.querySelector("#planets"),
-			planetsAdd: document.querySelector("#planets-add"),
-			planetsClear: document.querySelector("#planets-clear"),
+			system: document.querySelector("#system"),
 			simulation: {
 				canvas: document.querySelector("#simulation"),
 				context: document.querySelector("#simulation").getContext("2d")
@@ -1251,16 +1334,19 @@
 				zoom: 100, // AU/px
 				x: 0, // AU
 				y: 0, // AU
-				tracking: {
-					star: null,
-					planet: null,
-					moon: null
-				}
+				tracking: null
 			},
 			field: {
 				stars: []
 			},
-			stars: {}
+			system: {
+				massFactor: 0, // kg
+				massPower: 0, // 10^x
+				children: {},
+				elements: {
+					children: ELEMENTS.system
+				}
+			}
 		}
 
 /*** inputs - controls menu ***/
@@ -1289,17 +1375,16 @@
 					ELEMENTS.controls.y.value = STATE.controls.y // AU
 					ELEMENTS.controls.play.setAttribute("play", STATE.controls.play || false)
 
-				// loop through stars
-					for (let i in CONSTANTS.defaults.stars) {
-						let star = createStar(CONSTANTS.defaults.stars[i])
-						STATE.stars[star.id] = star
-						ELEMENTS.stars.appendChild(star.elements.section)
+				// loop through children
+					for (let i in CONSTANTS.defaults.children) {
+						let child = createCelestialBody(CONSTANTS.defaults.children[i], null)
+						STATE.system.children[child.id] = child
+						ELEMENTS.system.appendChild(child.elements.section)
 					}
 
-				// no tracking
-					STATE.controls.tracking.star = null
-					STATE.controls.tracking.planet = null
-					STATE.controls.tracking.moon = null
+				// barycenter (at 0, 0)
+					STATE.system.massFactor = CONSTANTS.defaults.massFactor // kg
+					STATE.system.massPower = CONSTANTS.defaults.massPower // 10^x
 
 				// begin loop
 					resizeCanvas()
@@ -1434,7 +1519,7 @@
 					STATE.controls.y = roundNumber(y) // AU
 
 				// stop tracking
-					if (STATE.controls.tracking.star || STATE.controls.tracking.planet || STATE.controls.tracking.moon) {
+					if (STATE.controls.tracking) {
 						changeTracking(false)
 					}
 			} catch (error) {console.log(error)}
@@ -1444,24 +1529,15 @@
 		function changeTracking(event) {
 			try {
 				// previous tracking
-					if (STATE.controls.tracking.star) {
-						if (STATE.controls.tracking.planet) {
-							if (STATE.controls.tracking.moon) {
-								STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon].position.tracking = false
-							}
-							else {
-								STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].position.tracking = false
-							}
-						}
-						else {
-							STATE.stars[STATE.controls.tracking.star].position.tracking = false
+					if (STATE.controls.tracking) {
+						let previousCelestialBody = getCelestialBodyFromId(STATE.controls.tracking)
+						if (previousCelestialBody) {
+							previousCelestialBody.position.tracking = false
 						}
 					}
 
 				// clear tracking
-					STATE.controls.tracking.star = null
-					STATE.controls.tracking.planet = null
-					STATE.controls.tracking.moon = null
+					STATE.controls.tracking = null
 
 				// no event
 					if (!event) {
@@ -1470,28 +1546,13 @@
 					}
 
 				// new tracking
-					let current = event.target.value
-					STATE.controls.tracking.star   = current.includes("star-")   ? current.split("-planet-")[0] : null
-					STATE.controls.tracking.planet = current.includes("planet-") ? current.split("-moon-")[0] : null
-					STATE.controls.tracking.moon   = current.includes("moon-")   ? current : null
-
-					if (STATE.controls.tracking.star) {
-						if (STATE.controls.tracking.planet) {
-							if (STATE.controls.tracking.moon) {
-								STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon].position.tracking = true
-								STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon].elements.visible.checked = STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon].position.visible = true
-							}
-							else {
-								STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].position.tracking = true
-								STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].elements.visible.checked = STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].position.visible = true
-							}
-						}
-						else {
-							STATE.stars[STATE.controls.tracking.star].position.tracking = true
-							STATE.stars[STATE.controls.tracking.star].elements.visible.checked = STATE.stars[STATE.controls.tracking.star].position.visible = true
-						}
-					}
-
+					let currentId = event.target.value
+					let currentCelestialBody = getCelestialBodyFromId(currentId)
+						currentCelestialBody.position.tracking = true
+						currentCelestialBody.elements.tracking.checked = true
+						currentCelestialBody.position.visible = true
+						currentCelestialBody.elements.visible.checked = true
+					STATE.controls.tracking = currentId
 			} catch (error) {console.log(error)}
 		}
 
@@ -1520,20 +1581,19 @@
 									data = JSON.parse(data)
 
 								// clear existing data
-									for (let starId in STATE.stars) {
-										for (let planetId in STATE.stars[starId].planets) {
-											STATE.stars[starId].planets[planetId].elements.section.remove()
-										}
-										STATE.stars[starId].elements.section.remove()
+									for (let childId in STATE.system.children) {
+										STATE.system.children[childId].elements.section.remove()
 									}
-									STATE.stars = {}
+									STATE.system.children = {}
 
-								// loop through data to create stars
-									for (let i in data) {
-										let star = createStar(data[i])
-										STATE.stars[star.id] = star
-										ELEMENTS.stars.appendChild(star.elements.section)
+								// loop through data to create system
+									for (let i in data.children) {
+										let child = createCelestialBody(data.children[i], null)
+										STATE.system.children[child.id] = child
+										ELEMENTS.system.appendChild(child.elements.section)
 									}
+									STATE.system.massFactor = data.massFactor // kg
+									STATE.system.massPower = data.massPower // 10^x
 							} catch (error) {console.log(error)}
 							ELEMENTS.controls.upload.value = null
 						}
@@ -1545,33 +1605,15 @@
 		function downloadFile() {
 			try {
 				// copy
-					let stars = duplicateObject(STATE.stars)
+					let system = duplicateObject(STATE.system)
 
-				// loop through stars
-					for (let starId in stars) {
-						// remove elements & computed
-							delete stars[starId].elements
-							delete stars[starId].computed
-
-						// loop through planets
-							for (let planetId in stars[starId].planets) {
-								// remove elements & computed
-									delete stars[starId].planets[planetId].elements
-									delete stars[starId].planets[planetId].computed
-
-								// loop through moons
-									for (let moonId in stars[starId].planets[planetId].moons) {
-										// remove elements & computed
-											delete stars[starId].planets[planetId].moons[moonId].elements
-											delete stars[starId].planets[planetId].moons[moonId].computed
-									}
-							}
-					}
+				// sanitize
+					system = sanitizeObject(system)
 
 				// package up
 					let link = document.createElement("a")
 						link.id = "controls-download-link"
-						link.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(stars)))
+						link.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(system)))
 						link.setAttribute("download", "orbitMaker_" + (new Date().getTime()) + ".json")
 						link.addEventListener(TRIGGERS.click, function() {
 							var link = document.getElementById("controls-download-link")
@@ -1635,34 +1677,22 @@
 				// arrows --> offset
 					if (event.key == "ArrowLeft" || event.keyCode == 37 || event.code == "ArrowLeft") {
 						ELEMENTS.controls.x.value = STATE.controls.x = STATE.controls.x - CONSTANTS.limit.stepOffset
-						ELEMENTS.controls.tracking.checked = true
-						STATE.controls.tracking.star = null
-						STATE.controls.tracking.planet = null
-						STATE.controls.tracking.moon = null
+						changeTracking(false)
 						return
 					}
 					if (event.key == "ArrowRight" || event.keyCode == 39 || event.code == "ArrowRight") {
 						ELEMENTS.controls.x.value = STATE.controls.x = STATE.controls.x + CONSTANTS.limit.stepOffset
-						ELEMENTS.controls.tracking.checked = true
-						STATE.controls.tracking.star = null
-						STATE.controls.tracking.planet = null
-						STATE.controls.tracking.moon = null
+						changeTracking(false)
 						return
 					}
 					if (event.key == "ArrowUp" || event.keyCode == 38 || event.code == "ArrowUp") {
 						ELEMENTS.controls.y.value = STATE.controls.y = STATE.controls.y + CONSTANTS.limit.stepOffset
-						ELEMENTS.controls.tracking.checked = true
-						STATE.controls.tracking.star = null
-						STATE.controls.tracking.planet = null
-						STATE.controls.tracking.moon = null
+						changeTracking(false)
 						return
 					}
 					if (event.key == "ArrowDown" || event.keyCode == 40 || event.code == "ArrowDown") {
 						ELEMENTS.controls.y.value = STATE.controls.y = STATE.controls.y - CONSTANTS.limit.stepOffset
-						ELEMENTS.controls.tracking.checked = true
-						STATE.controls.tracking.star = null
-						STATE.controls.tracking.planet = null
-						STATE.controls.tracking.moon = null
+						changeTracking(false)
 						return
 					}
 			} catch (error) {console.log(error)}
@@ -1723,8 +1753,16 @@
 				// set cursor
 					ELEMENTS.simulation.canvas.setAttribute("grabbing", true)
 
-				// anything there?
-					selectCelestialBody(x, y)
+				// get position in-universe
+					let invariableX = x - (ELEMENTS.simulation.canvas.width / 2)
+						invariableX /= STATE.controls.zoom
+						invariableX += STATE.controls.x
+					let invariableY = (ELEMENTS.simulation.canvas.height - y) - (ELEMENTS.simulation.canvas.height / 2)
+						invariableY /= STATE.controls.zoom
+						invariableY += STATE.controls.y
+
+				// select object, if exists
+					selectCelestialBody(invariableX, invariableY, STATE.system.children)
 			} catch (error) {console.log(error)}
 		}
 
@@ -1758,7 +1796,7 @@
 					ELEMENTS.controls.y.value = STATE.controls.y = -offsetY // AU/px
 
 				// stop tracking
-					if (STATE.controls.tracking.star || STATE.controls.tracking.planet || STATE.controls.tracking.moon) {
+					if (STATE.controls.tracking) {
 						changeTracking(false)
 					}
 			} catch (error) {console.log(error)}
@@ -1784,93 +1822,77 @@
 		}
 
 	/* selectCelestialBody */
-		function selectCelestialBody(x, y) {
+		function selectCelestialBody(x, y, list) {
 			try {
-				// get position
-					let invariableX = x - (ELEMENTS.simulation.canvas.width / 2)
-						invariableX /= STATE.controls.zoom
-						invariableX += STATE.controls.x
-					let invariableY = (ELEMENTS.simulation.canvas.height - y) - (ELEMENTS.simulation.canvas.height / 2)
-						invariableY /= STATE.controls.zoom
-						invariableY += STATE.controls.y
-
 				// loop through to find something
-					for (let starId in STATE.stars) {
-						// star
-							let star = STATE.stars[starId]
+					for (let i in list) {
+						// get this celestial body
+							let celestialBody = list[i]
 						
 						// if visible, get distance
-							if (star.position.visible) {
-								let distance = getDistance({x: star.position.invariableX, y: star.position.invariableY}, {x: invariableX, y: invariableY}) // AU
+							if (celestialBody.position.visible) {
+								let distance = getDistance({x: celestialBody.position.invariableX, y: celestialBody.position.invariableY}, {x: x, y: y}) // AU
 								if (distance < CONSTANTS.limit.minimumDistanceForSelection / STATE.controls.zoom) { // AU
-									star.position.tracking = true
-									star.elements.tracking.checked = true
-									STATE.controls.tracking.star = starId
-									STATE.controls.tracking.planet = null
-									STATE.controls.tracking.moon = null
-									return
+									celestialBody.position.tracking = true
+									celestialBody.elements.tracking.checked = true
+									STATE.controls.tracking = celestialBody.id
+									return true
 								}
 							}
 
-						// loop through planets
-							for (let planetId in star.planets) {
-								// planet
-									let planet = star.planets[planetId]
-								
-								// if visible, get distance
-									if (planet.position.visible) {
-										let distance = getDistance({x: planet.position.invariableX, y: planet.position.invariableY}, {x: invariableX, y: invariableY}) // AU
-										if (distance < CONSTANTS.limit.minimumDistanceForSelection / STATE.controls.zoom) { // AU
-											planet.position.tracking = true
-											planet.elements.tracking.checked = true
-											STATE.controls.tracking.star = starId
-											STATE.controls.tracking.planet = planetId
-											STATE.controls.tracking.moon = null
-											return
-										}
-									}
-
-								// loop through moons
-									for (let moonId in planet.moons) {
-										// moon
-											let moon = planet.moons[moonId]
-
-										// if visible, get distance
-											if (moon.position.visible) {
-												let distance = getDistance({x: moon.position.invariableX, y: moon.position.invariableY}, {x: invariableX, y: invariableY}) // AU
-												if (distance < CONSTANTS.limit.minimumDistanceForSelection / STATE.controls.zoom) { // AU
-													moon.position.tracking = true
-													moon.elements.tracking.checked = true
-													STATE.controls.tracking.star = starId
-													STATE.controls.tracking.planet = planetId
-													STATE.controls.tracking.moon = moonId
-													return
-												}
-											}
-									}
+						// loop through children
+							if (selectCelestialBody(x, y, celestialBody.children)) {
+								return true
 							}
 					}
+
+				// not here
+					return false
+			} catch (error) {console.log(error)}
+		}
+
+/*** inputs - general ***/
+	/* createCelestialBody */
+		function createCelestialBody(celestialBody, parentId) {
+			try {
+				// get type
+					if (celestialBody.type == "star") {
+						return createStar(celestialBody, parentId)
+					}
+					if (celestialBody.type == "planet") {
+						return createPlanet(celestialBody, parentId)
+					}
+					if (celestialBody.type == "moon") {
+						return createMoon(celestialBody, parentId)
+					}
+
+				// nothing
+					return false
 			} catch (error) {console.log(error)}
 		}
 
 /*** inputs - star ***/
 	/* createStar */
-		function createStar(starSeed) {
+		function createStar(starSeed, parentId) {
 			try {
 				// values
 					let star = duplicateObject(CONSTANTS.star)
 					for (let i in starSeed) {
-						if (i !== "planets" && i !== "position") {
+						if (!CONSTANTS.ignoreKeys.includes(i)) {
 							star[i] = starSeed[i]
 						}
 					}
 
 				// id
-					star.id = "star-" + generateRandom()
+					star.id = (parentId || "") + "-star-" + generateRandom()
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
 
 				// tracking / visible
-					if (starSeed && starSeed.position && starSeed.position.tracking !== undefined) {
+					if (starSeed && starSeed.position && starSeed.position.tracking) {
 						star.position.tracking = starSeed.position.tracking
+						STATE.controls.tracking = star.id
 					}
 					if (starSeed && starSeed.position && starSeed.position.visible !== undefined) {
 						star.position.visible = starSeed.position.visible
@@ -1880,8 +1902,11 @@
 					var section = document.createElement("details")
 						section.id = star.id
 						section.className = "star"
-					ELEMENTS.stars.appendChild(section)
 					star.elements.section = section
+
+					if (star.class == "binary") {
+						section.setAttribute("binary", true)
+					}
 
 					var summary = document.createElement("summary")
 					section.appendChild(summary)
@@ -1893,6 +1918,7 @@
 
 				// track
 					var label = document.createElement("label")
+						label.className = "star-tracking-label"
 					summary.appendChild(label)
 
 					var input = document.createElement("input")
@@ -1905,11 +1931,12 @@
 					star.elements.tracking = input
 
 					var span = document.createElement("span")
-						span.innerText = "tracking"
+						span.innerText = "track"
 					label.appendChild(span)
 
 				// visible
 					var label = document.createElement("label")
+						label.className = "star-visible-label"
 					summary.appendChild(label)
 
 					var input = document.createElement("input")
@@ -1920,11 +1947,12 @@
 					star.elements.visible = input
 
 					var span = document.createElement("span")
-						span.innerText = "visible"
+						span.innerText = "show"
 					label.appendChild(span)
 
 				// name
 					var label = document.createElement("label")
+						label.className = "star-name-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -1942,6 +1970,7 @@
 
 				// class
 					var label = document.createElement("label")
+						label.className = "star-class-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -1969,6 +1998,7 @@
 
 				// description
 					var label = document.createElement("label")
+						label.className = "star-description-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -1985,6 +2015,7 @@
 
 				// color
 					var label = document.createElement("label")
+						label.className = "star-color-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2001,6 +2032,7 @@
 
 				// mass
 					var label = document.createElement("label")
+						label.className = "star-mass-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2038,31 +2070,9 @@
 						span.innerText = "kg"
 					label.appendChild(span)
 
-				// radius
-					var label = document.createElement("label")
-					section.appendChild(label)
-
-					var heading = document.createElement("h3")
-						heading.innerText = "radius"
-					label.appendChild(heading)
-
-					var input = document.createElement("input")
-						input.type = "number"
-						input.className = "star-radius"
-						input.min = 0
-						input.step = 0.01
-						input.placeholder = "radius"
-						input.value = star.radius
-						input.addEventListener(TRIGGERS.input, changeStarRadius)
-					label.appendChild(input)
-					star.elements.radius = input
-
-					var span = document.createElement("span")
-						span.innerText = "AU"
-					label.appendChild(span)
-
 				// habitableZone
 					var label = document.createElement("label")
+						label.className = "star-habitablezone-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2084,12 +2094,313 @@
 						span.innerText = "AU"
 					label.appendChild(span)
 
-				// planets
-					if (starSeed && starSeed.planets) {
-						for (let i in starSeed.planets) {
-							var planet = createPlanet(star.id, starSeed.planets[i])
-							star.planets[planet.id] = planet
-							ELEMENTS.planets.appendChild(planet.elements.section)
+				// radius
+					var label = document.createElement("label")
+						label.className = "star-radius-label"
+					section.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "radius"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-radius"
+						input.min = 0
+						input.step = 0.01
+						input.placeholder = "radius"
+						input.value = star.radius
+						input.addEventListener(TRIGGERS.input, changeStarRadius)
+					label.appendChild(input)
+					star.elements.radius = input
+
+					var span = document.createElement("span")
+						span.innerText = "AU"
+					label.appendChild(span)
+
+				// advanced
+					var details = document.createElement("details")
+						details.className = "star-advanced-outer"
+					section.appendChild(details)
+
+					var summary = document.createElement("summary")
+					details.appendChild(summary)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "advanced"
+					summary.appendChild(heading)
+
+					var inner = document.createElement("div")
+						inner.className = "star-advanced"
+					details.appendChild(inner)
+
+				// orbit
+					var label = document.createElement("label")
+						label.className = "star-orbit-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "orbit"
+					label.appendChild(heading)
+
+					var span = document.createElement("span")
+						span.innerText = "day"
+					label.appendChild(span)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-day"
+						input.min = 0
+						input.step = 1
+						input.placeholder = "day"
+						input.value = star.day
+						input.addEventListener(TRIGGERS.input, changeStarDay)
+					label.appendChild(input)
+					star.elements.day = input
+
+					var span = document.createElement("span")
+						span.innerText = "/"
+					label.appendChild(span)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-period"
+						input.min = 0
+						input.step = 1
+						input.placeholder = "period"
+						input.value = star.period
+						input.addEventListener(TRIGGERS.input, changeStarPeriod)
+					label.appendChild(input)
+					star.elements.period = input
+
+				// distance
+					var label = document.createElement("label")
+						label.className = "star-distance-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "distance"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-semimajoraxis"
+						input.min = 0
+						input.placeholder = "distance"
+						input.value = star.semiMajorAxis
+						input.addEventListener(TRIGGERS.input, changeStarSemiMajorAxis)
+					label.appendChild(input)
+					star.elements.semiMajorAxis = input
+
+					var span = document.createElement("span")
+						span.innerText = "AU"
+					label.appendChild(span)
+
+				// retrograde
+					var label = document.createElement("label")
+						label.className = "star-retrograde-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "retrograde"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "checkbox"
+						input.checked = star.retrograde
+						input.addEventListener(TRIGGERS.input, changeStarRetrograde)
+					label.appendChild(input)
+					star.elements.retrograde = input
+
+				// eccentricity
+					var label = document.createElement("label")
+						label.className = "star-eccentricity-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "eccentricity"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-eccentricity"
+						input.min = 0
+						input.max = 1 - (1 / CONSTANTS.rounding)
+						input.step = 0.01
+						input.placeholder = "eccentricity"
+						input.value = star.eccentricity
+						input.addEventListener(TRIGGERS.input, changeStarEccentricity)
+					label.appendChild(input)
+					star.elements.eccentricity = input
+
+					var span = document.createElement("span")
+						span.innerText = " /1"
+					label.appendChild(span)
+
+				// apoapsis
+					var label = document.createElement("label")
+						label.className = "star-aphelion-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "aphelion"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-apoapsis"
+						input.min = 0
+						input.step = 0.01
+						input.placeholder = "apoapsis"
+						input.value = star.apoapsis
+						input.addEventListener(TRIGGERS.input, changeStarApoapsisOrPeriapsis)
+					label.appendChild(input)
+					star.elements.apoapsis = input
+
+					var span = document.createElement("span")
+						span.innerText = "AU"
+					label.appendChild(span)
+
+				// periapsis
+					var label = document.createElement("label")
+						label.className = "star-perihelion-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "perihelion"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-periapsis"
+						input.min = 0
+						input.step = 0.01
+						input.placeholder = "periapsis"
+						input.value = star.periapsis
+						input.addEventListener(TRIGGERS.input, changeStarApoapsisOrPeriapsis)
+					label.appendChild(input)
+					star.elements.periapsis = input
+
+					var span = document.createElement("span")
+						span.innerText = "AU"
+					label.appendChild(span)
+
+				// inclination
+					var label = document.createElement("label")
+						label.className = "star-inclination-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "inclination"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-inclination"
+						input.min = 0
+						input.max = CONSTANTS.convert.circle_to_degree - (1 / CONSTANTS.rounding)
+						input.step = 0.1
+						input.placeholder = "inclination"
+						input.value = roundNumber(star.inclination * CONSTANTS.convert.circle_to_degree / CONSTANTS.convert.circle_to_radian)
+						input.addEventListener(TRIGGERS.input, changeStarInclination)
+					label.appendChild(input)
+					star.elements.inclination = input
+
+					var span = document.createElement("span")
+						span.innerText = "°"
+					label.appendChild(span)
+
+				// longitude of ascending node
+					var label = document.createElement("label")
+						label.className = "star-longitudeofascendingnode-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "longitude of ascending node"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-longitudeofascendingnode"
+						input.min = 0
+						input.max = CONSTANTS.convert.circle_to_degree - (1 / CONSTANTS.rounding)
+						input.step = 0.1
+						input.placeholder = "angle"
+						input.value = roundNumber(star.longitudeOfAscendingNode * CONSTANTS.convert.circle_to_degree / CONSTANTS.convert.circle_to_radian)
+						input.addEventListener(TRIGGERS.input, changeStarLongitudeOfAscendingNode)
+					label.appendChild(input)
+					star.elements.longitudeOfAscendingNode = input
+
+					var span = document.createElement("span")
+						span.innerText = "°"
+					label.appendChild(span)
+
+				// argument of periapsis
+					var label = document.createElement("label")
+						label.className = "star-argumentofperiapsis-label"
+					inner.appendChild(label)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "argument of perihelion"
+					label.appendChild(heading)
+
+					var input = document.createElement("input")
+						input.type = "number"
+						input.className = "star-argumentofperiapsis"
+						input.min = 0
+						input.max = CONSTANTS.convert.circle_to_degree - (1 / CONSTANTS.rounding)
+						input.step = 0.1
+						input.placeholder = "angle"
+						input.value = roundNumber(star.argumentOfPeriapsis * CONSTANTS.convert.circle_to_degree / CONSTANTS.convert.circle_to_radian)
+						input.addEventListener(TRIGGERS.input, changeStarArgumentOfPeriapsis)
+					label.appendChild(input)
+					star.elements.argumentOfPeriapsis = input
+
+					var span = document.createElement("span")
+						span.innerText = "°"
+					label.appendChild(span)
+
+				// children
+					var details = document.createElement("details")
+					section.appendChild(details)
+
+					var summary = document.createElement("summary")
+					details.appendChild(summary)
+
+					var heading = document.createElement("h3")
+						heading.innerText = "satellites"
+					summary.appendChild(heading)
+
+					var inner = document.createElement("div")
+						inner.className = "star-children"
+					details.appendChild(inner)
+
+				// children buttons
+					var button = document.createElement("button")
+						button.className = "star-addplanet"
+						button.innerText = "+ planet"
+						button.addEventListener(TRIGGERS.click, addPlanet)
+					inner.appendChild(button)
+					star.elements.addPlanet = button
+
+					var button = document.createElement("button")
+						button.className = "star-clearall"
+						button.innerHTML = "&#x2715; all"
+						button.addEventListener(TRIGGERS.click, clearPlanets)
+					inner.appendChild(button)
+					star.elements.clearAll = button
+
+				// children list
+					var list = document.createElement("div")
+					inner.appendChild(list)
+					star.elements.children = list
+
+				// children
+					if (starSeed && starSeed.children) {
+						for (let i in starSeed.children) {
+							var child = createCelestialBody(starSeed.children[i], star.id)
+							star.children[child.id] = child
+							star.elements.children.appendChild(child.elements.section)
 						}
 					}
 
@@ -2103,12 +2414,13 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
 
 				// get visible
-					let visible = STATE.stars[starId].elements.visible.checked || false
+					let visible = star.elements.visible.checked || false
 
 				// save new value
-					STATE.stars[starId].position.visible = visible
+					star.position.visible = visible
 			} catch (error) {console.log(error)}
 		}
 
@@ -2117,13 +2429,14 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
 
 				// get name
-					let name = STATE.stars[starId].elements.name.value
+					let name = star.elements.name.value
 
 				// save new value
-					STATE.stars[starId].name = name
-					STATE.stars[starId].elements.summary.innerText = name
+					star.name = name
+					star.elements.summary.innerText = name
 			} catch (error) {console.log(error)}
 		}
 
@@ -2132,51 +2445,45 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// star --> binary?
+					if (star.elements.class.value == "binary" && star.class !== "binary") {
+						changeStarToBinary(star)
+						return
+					}
+
+				// binary --> star?					
+					if (star.class == "binary" && star.elements.class.value !== "binary") {
+						let success = changeBinaryToStar(star)
+						if (!success) {
+							event.target.value = "binary"
+							return
+						}
+					}
 
 				// update class
 					// get class
-						let starClass = STATE.stars[starId].class = STATE.stars[starId].elements.class.value
+						let starClass = star.class = star.elements.class.value
 						if (!CONSTANTS.classes.stars[starClass]) {
 							return
 						}
 
 					// set & save values
-						STATE.stars[starId].elements.color.value = STATE.stars[starId].color = CONSTANTS.classes.stars[starClass].color // #hex
-						STATE.stars[starId].elements.massFactor.value = STATE.stars[starId].massFactor = CONSTANTS.classes.stars[starClass].massFactor // kg
-						STATE.stars[starId].elements.massPower.value = STATE.stars[starId].massPower = CONSTANTS.classes.stars[starClass].massPower // kg
-						STATE.stars[starId].elements.radius.value = STATE.stars[starId].radius = CONSTANTS.classes.stars[starClass].radius // kg
-						STATE.stars[starId].elements.habitableZone.value = STATE.stars[starId].habitableZone = CONSTANTS.classes.stars[starClass].habitableZone // AU
+						star.elements.color.value = star.color = CONSTANTS.classes.stars[starClass].color // #hex
+						star.elements.massFactor.value = star.massFactor = CONSTANTS.classes.stars[starClass].massFactor // kg
+						star.elements.massPower.value = star.massPower = CONSTANTS.classes.stars[starClass].massPower // kg
+						star.elements.radius.value = star.radius = CONSTANTS.classes.stars[starClass].radius // kg
+						star.elements.habitableZone.value = star.habitableZone = CONSTANTS.classes.stars[starClass].habitableZone // AU
 
-				// mass & semiMajorAxis --> period
-					// get mass
-						let mass = STATE.stars[starId].massFactor * Math.pow(10, STATE.stars[starId].massPower) // kg
+				// update children orbits
+					updateChildrenOrbits(star)
 
-					// loop through planets
-						for (let planetId in STATE.stars[starId].planets) {
-							// get orbitalFraction
-								let day = STATE.stars[starId].planets[planetId].day // d
-								let period = STATE.stars[starId].planets[planetId].period // d
-								let orbitalFraction = (day / period) || 0 // ratio
-
-							// get semiMajorAxis
-								let semiMajorAxis = STATE.stars[starId].planets[planetId].semiMajorAxis // AU
-
-							// convert to SI
-								semiMajorAxis = semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
-
-							// get period
-								period = calculateOrbit(mass, null, semiMajorAxis) // s
-
-							// convert from SI
-								period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
-
-							// get equivalent day in new period
-								day = roundNumber(orbitalFraction * period) // d
-
-							// set & save values
-								STATE.stars[starId].planets[planetId].elements.period.value = STATE.stars[starId].planets[planetId].period = period // d
-								STATE.stars[starId].planets[planetId].elements.day.value = STATE.stars[starId].planets[planetId].day = day // d
-						}
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (sibling) {
+						updateBinarySystem(star, sibling, parent)
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -2185,12 +2492,13 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
 
 				// get description
-					let description = STATE.stars[starId].elements.description.value
+					let description = star.elements.description.value
 
 				// save new value
-					STATE.stars[starId].description = description
+					star.description = description
 			} catch (error) {console.log(error)}
 		}
 
@@ -2199,15 +2507,16 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
 
 				// get color
-					let color = STATE.stars[starId].elements.color.value // #hex
+					let color = star.elements.color.value // #hex
 
 				// save new value
-					STATE.stars[starId].color = color // #hex
+					star.color = color // #hex
 
 				// custom class
-					STATE.stars[starId].elements.class.value = STATE.stars[starId].class = "custom"
+					star.elements.class.value = star.class = "custom"
 			} catch (error) {console.log(error)}
 		}
 
@@ -2216,61 +2525,528 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
 
 				// update values
 					// get star mass
-						let massFactor = Number(STATE.stars[starId].elements.massFactor.value) // kg
-						let massPower = Number(STATE.stars[starId].elements.massPower.value) // 10^x
+						let massFactor = Number(star.elements.massFactor.value) // kg
+						let massPower = Number(star.elements.massPower.value) // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
 							return
 						}
 
-					// save new values
-						STATE.stars[starId].massFactor = massFactor // kg
-						STATE.stars[starId].massPower = massPower // 10^x
-
-				// mass & semiMajorAxis --> period
 					// get mass
 						let mass = massFactor * Math.pow(10, massPower) // kg
 
-					// loop through planets
-						for (let planetId in STATE.stars[starId].planets) {
-							// get orbitalFraction
-								let day = STATE.stars[starId].planets[planetId].day // d
-								let period = STATE.stars[starId].planets[planetId].period // d
-								let orbitalFraction = (day / period) || 0 // ratio
-
-							// get semiMajorAxis
-								let semiMajorAxis = STATE.stars[starId].planets[planetId].semiMajorAxis // AU
-
-							// convert to SI
-								semiMajorAxis = semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
-
-							// get period
-								period = calculateOrbit(mass, null, semiMajorAxis) // s
-
-							// convert from SI
-								period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
-
-							// get equivalent day in new period
-								day = roundNumber(orbitalFraction * period) // d
-
-							// set & save values
-								STATE.stars[starId].planets[planetId].elements.period.value = STATE.stars[starId].planets[planetId].period = period // d
-								STATE.stars[starId].planets[planetId].elements.day.value = STATE.stars[starId].planets[planetId].day = day // d
-						}
+					// save new values
+						star.massFactor = massFactor // kg
+						star.massPower = massPower // 10^x
 
 				// mass --> habitable zone
 					// get habitable zone
-						let habitableZone = calculateHabitableZone(mass, null) // AU
+						let habitableZone = (star.class == "binary") ? 0 : calculateHabitableZone(mass, null) // AU
 
 					// set & save value
-						STATE.stars[starId].elements.habitableZone.value = STATE.stars[starId].habitableZone = habitableZone // AU
+						star.elements.habitableZone.value = star.habitableZone = habitableZone // AU
 
 				// custom class
-					STATE.stars[starId].elements.class.value = STATE.stars[starId].class = "custom"
+					star.elements.class.value = star.class = "custom"
+
+				// update children orbits
+					updateChildrenOrbits(star)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (sibling) {
+						updateBinarySystem(star, sibling, parent)
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarDay */
+		function changeStarDay(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.day.value = star.day = 0 // d
+						return
+					}
+
+				// day
+					// get star day
+						let day = Number(star.elements.day.value) // d
+
+					// save new values
+						star.day = roundNumber(day) // d
+
+					// sibling is the same
+						sibling.elements.day.value = sibling.day = star.day // d
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarPeriod */
+		function changeStarPeriod(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.period.value = star.period = 0 // d
+						return
+					}
+
+				// update value
+					// get period
+						let period = Number(star.elements.period.value) // d
+
+					// errors
+						if (!period) {
+							return
+						}
+
+					// save new value
+						star.period = period // d
+
+					// update sibling
+						sibling.elements.period.value = sibling.period = star.period // d
+
+				// update day
+					if (star.day > star.period) {
+						star.elements.day.value = star.day = 0 // d
+						sibling.elements.day.value = sibling.day = 0 // d
+					}
+
+				// mass & period --> semiMajorAxis
+					// masses
+						let starMass = star.massFactor * (10 ** star.massPower) // kg
+						let siblingMass = sibling.massFactor * (10 ** sibling.massPower) // kg
+
+					// convert to SI
+						period = period * CONSTANTS.convert.day_to_hour * CONSTANTS.convert.hour_to_second // s
+
+					// orbit distances
+						let [starDistance, siblingDistance, totalDistance] = calculateBarycenterOrbit(starMass, siblingMass, period, null) // m
+
+					// convert from SI
+						starDistance = roundNumber(starDistance / CONSTANTS.convert.AU_to_meter) // AU
+						siblingDistance = roundNumber(siblingDistance / CONSTANTS.convert.AU_to_meter) // AU
+
+					// set & save values
+						star.elements.semiMajorAxis.value = star.semiMajorAxis = starDistance // AU
+						sibling.elements.semiMajorAxis.value = sibling.semiMajorAxis = siblingDistance // AU
+
+				// semiMajorAxis & eccentricity --> apoapsis & periapsis
+					// get eccentricity
+						let eccentricity = star.eccentricity // ratio
+
+					// errors
+						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
+							return
+						}
+
+					// get apoapsis & periapsis
+						let [starApoapsis, starPeriapsis] = calculateEllipse(star.semiMajorAxis, eccentricity, [null, null]) // AU, AU
+						let [siblingApoapsis, siblingPeriapsis] = calculateEllipse(sibling.semiMajorAxis, eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						star.elements.apoapsis.value  = star.apoapsis  = starApoapsis // AU
+						star.elements.periapsis.value = star.periapsis = starPeriapsis // AU
+
+						sibling.elements.apoapsis.value  = sibling.apoapsis  = siblingApoapsis // AU
+						sibling.elements.periapsis.value = sibling.periapsis = siblingPeriapsis // AU
+
+				// computed values
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarSemiMajorAxis */
+		function changeStarSemiMajorAxis(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.semiMajorAxis.value = star.semiMajorAxis = 0 // AU
+						return
+					}
+
+				// update value
+					// get semiMajorAxis
+						let starSemiMajorAxis = Number(star.elements.semiMajorAxis.value) // AU
+
+					// errors
+						if (!starSemiMajorAxis) {
+							return
+						}
+
+					// save new value
+						star.semiMajorAxis = starSemiMajorAxis // AU
+
+				// semiMajorAxis & eccentricity --> apoapsis & periapsis
+					// get eccentricity
+						let eccentricity = star.eccentricity // ratio
+
+					// errors
+						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
+							return
+						}
+
+					// semiMajorAxis & eccentricity --> apoapsis & periapsis
+						let [starApoapsis, starPeriapsis] = calculateEllipse(starSemiMajorAxis, eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						star.elements.apoapsis.value  = star.apoapsis  = starApoapsis // AU
+						star.elements.periapsis.value = star.periapsis = starPeriapsis // AU
+
+				// sibling orbit
+					// get masses
+						let starMass = star.massFactor * (10 ** star.massPower) // kg
+						let siblingMass = sibling.massFactor * (10 ** sibling.massPower) // 10^x
+
+					// m1d1 = m2d2 --> get semiMajorAxis
+						let siblingSemiMajorAxis = starMass / siblingMass * starSemiMajorAxis // AU
+						sibling.elements.semiMajorAxis.value = sibling.semiMajorAxis = siblingSemiMajorAxis // AU
+
+					// semiMajorAxis & eccentricity --> apoapsis & periapsis
+						let [siblingApoapsis, siblingPeriapsis] = calculateEllipse(siblingSemiMajorAxis, eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						sibling.elements.apoapsis.value  = sibling.apoapsis  = siblingApoapsis // AU
+						sibling.elements.periapsis.value = sibling.periapsis = siblingPeriapsis // AU
+
+				// semiMajorAxis & mass --> period
+					// convert to SI
+						starSemiMajorAxis = starSemiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						siblingSemiMajorAxis = siblingSemiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let totalDistance = starSemiMajorAxis + siblingSemiMajorAxis // m
+
+					// get period
+						let period = calculateBarycenterOrbit(starMass, siblingMass, null, totalDistance) // s
+
+					// convert from SI
+						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
+
+					// set & save value
+						star.elements.period.value = star.period = period // d
+						sibling.elements.period.value = sibling.period = period // d
+
+					// update day
+						if (star.day > star.period) {
+							star.elements.day.value = star.day = 0 // d
+							sibling.elements.day.value = sibling.day = 0 // d
+						}
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarRetrograde */
+		function changeStarRetrograde(event) {
+			try {
+				// retrograde
+					// get id
+						let starId = event.target.closest(".star").id
+						let star = getCelestialBodyFromId(starId)
+
+					// part of a binary?
+						let [sibling, parent] = getBinaryFamilyFromId(starId)
+						if (!sibling) {
+							star.elements.retrograde.checked = star.retrograde = false // d
+							return
+						}
+
+					// get retrograde
+						let retrograde = star.elements.retrograde.checked || false
+
+					// save new value
+						star.retrograde = retrograde
+						sibling.elements.retrograde.checked = sibling.retrograde = retrograde
+
+				// update day
+					// current
+						let day = star.day // d
+						let period = star.period // d
+
+					// flip
+						day = roundNumber((period - day + period) % period) // d
+
+					// set & save value
+						star.elements.day.value = star.day = day // d
+						sibling.elements.day.value = sibling.day = day // d
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarInclination */
+		function changeStarInclination(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.inclination.value = star.inclination = 0 // AU
+						return
+					}
+
+				// angle
+					// get angle
+						let angle = Number(star.elements.inclination.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							star.elements.inclination.value = angle // °
+						}
+						sibling.elements.inclination.value = angle // °
+
+					// convert to SI
+						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+					// save new values
+						sibling.inclination = star.inclination = angle // radians
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+			} catch (error) {console.log(error)}
+		}
+	
+	/* changeStarEccentricity */
+		function changeStarEccentricity(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.eccentricity.value = star.eccentricity = 0 // d
+						return
+					}
+
+				// update new value
+					// get eccentricity
+						let eccentricity = Number(star.elements.eccentricity.value) // ratio
+
+					// errors
+						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
+							return
+						}
+
+					// save new value
+						star.eccentricity = eccentricity // ratio
+						sibling.elements.eccentricity.value = sibling.eccentricity = eccentricity // ratio
+
+				// semiMajorAxis & eccentricity --> apoapsis & periapsis
+					// get apoapsis & periapsis
+						let [starApoapsis, starPeriapsis] = calculateEllipse(star.semiMajorAxis, eccentricity, [null, null]) // AU, AU
+						let [siblingApoapsis, siblingPeriapsis] = calculateEllipse(sibling.semiMajorAxis, eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						star.elements.apoapsis.value  = star.apoapsis  = starApoapsis // AU
+						star.elements.periapsis.value = star.periapsis = starPeriapsis // AU
+						sibling.elements.apoapsis.value  = sibling.apoapsis  = siblingApoapsis // AU
+						sibling.elements.periapsis.value = sibling.periapsis = siblingPeriapsis // AU
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarApoapsisOrPeriapsis */
+		function changeStarApoapsisOrPeriapsis(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.apoapsis.value = star.apoapsis = 0 // d
+						star.elements.periapsis.value = star.periapsis = 0 // d
+						return
+					}
+
+				// update new values
+					// get apoapsis & periapsis
+						let starApoapsis  = Number(star.elements.apoapsis.value) // AU
+						let starPeriapsis = Number(star.elements.periapsis.value) // AU
+
+					// errors
+						if (!starApoapsis || !starPeriapsis) {
+							return
+						}
+
+					// save new values
+						star.apoapsis  = starApoapsis // AU
+						star.periapsis = starPeriapsis // AU
+
+				// apoapsis & periapsis --> semiMajorAxis
+					// get semiMajorAxis
+						let starSemiMajorAxis = calculateEllipse(null, null, [starApoapsis, starPeriapsis]) // AU
+
+					// set & save value
+						star.elements.semiMajorAxis.value = star.semiMajorAxis = starSemiMajorAxis // AU
+
+				// semiMajorAxis & apoapsis & periapsis --> eccentricity
+					// calculate eccentricity
+						let eccentricity = calculateEllipse(starSemiMajorAxis, null, [starApoapsis, starPeriapsis]) // ratio
+
+					// set & save value
+						star.elements.eccentricity.value = star.eccentricity = eccentricity // ratio
+						sibling.elements.eccentricity.value = sibling.eccentricity = eccentricity // ratio
+				
+				// sibling orbit
+					// get masses
+						let starMass = star.massFactor * (10 ** star.massPower) // kg
+						let siblingMass = sibling.massFactor * (10 ** sibling.massPower) // 10^x
+
+					// m1d1 = m2d2 --> get semiMajorAxis
+						let siblingSemiMajorAxis = starMass / siblingMass * starSemiMajorAxis // AU
+						sibling.elements.semiMajorAxis.value = sibling.semiMajorAxis = siblingSemiMajorAxis // AU
+
+					// semiMajorAxis & eccentricity --> apoapsis & periapsis
+						let [siblingApoapsis, siblingPeriapsis] = calculateEllipse(siblingSemiMajorAxis, eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						sibling.elements.apoapsis.value  = sibling.apoapsis  = siblingApoapsis // AU
+						sibling.elements.periapsis.value = sibling.periapsis = siblingPeriapsis // AU
+
+				// semiMajorAxis & mass --> period
+					// convert to SI
+						starSemiMajorAxis = starSemiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						siblingSemiMajorAxis = siblingSemiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let totalDistance = starSemiMajorAxis + siblingSemiMajorAxis // m
+
+					// get period
+						let period = calculateBarycenterOrbit(starMass, siblingMass, null, totalDistance) // s
+
+					// convert from SI
+						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
+
+					// set & save value
+						star.elements.period.value = star.period = period // d
+						sibling.elements.period.value = sibling.period = period // d
+
+					// update day
+						if (star.day > star.period) {
+							star.elements.day.value = star.day = 0 // d
+							sibling.elements.day.value = sibling.day = 0 // d
+						}
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarLongitudeOfAscendingNode */
+		function changeStarLongitudeOfAscendingNode(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.longitudeOfAscendingNode.value = star.longitudeOfAscendingNode = 0 // ° | radians
+						return
+					}
+
+				// angle
+					// get angle
+						let angle = Number(star.elements.longitudeOfAscendingNode.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							star.elements.longitudeOfAscendingNode.value = angle // °
+						}
+						sibling.elements.longitudeOfAscendingNode.value = angle // °
+
+					// convert to SI
+						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+					// save new values
+						sibling.longitudeOfAscendingNode = star.longitudeOfAscendingNode = angle // radians
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarArgumentOfPeriapsis */
+		function changeStarArgumentOfPeriapsis(event) {
+			try {
+				// get id
+					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (!sibling) {
+						star.elements.argumentOfPeriapsis.value = star.argumentOfPeriapsis = 0 // ° | radians
+						return
+					}
+
+				// angle
+					// get angle
+						let angle = Number(star.elements.argumentOfPeriapsis.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							star.elements.argumentOfPeriapsis.value = angle // °
+						}
+
+					// opposite
+						let oppositeAngle = angle + (CONSTANTS.convert.circle_to_degree / 2) % CONSTANTS.convert.circle_to_degree // °
+						sibling.elements.argumentOfPeriapsis.value = oppositeAngle // °
+
+					// convert to SI
+						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+						oppositeAngle = roundNumber(oppositeAngle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+					// save new values
+						star.argumentOfPeriapsis = angle // radians
+						sibling.argumentOfPeriapsis = oppositeAngle // radians
+
+				// computed
+					star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -2279,21 +3055,22 @@
 			try {
 				// get id
 					let starId = event.target.closest(".star").id
+					let star = getCelestialBodyFromId(starId)
 
 				// update values
 					// get star radius
-						let radius = Number(STATE.stars[starId].elements.radius.value) // AU
+						let radius = Number(star.elements.radius.value) // AU
 
 					// errors
-						if (!radius) {
+						if (!radius || star.class == "binary") {
 							return
 						}
 
 					// save new values
-						STATE.stars[starId].radius = radius // AU
+						star.radius = radius // AU
 
 				// custom class
-					STATE.stars[starId].elements.class.value = STATE.stars[starId].class = "custom"
+					star.elements.class.value = star.class = "custom"
 			} catch (error) {console.log(error)}
 		}
 
@@ -2303,81 +3080,221 @@
 				// save value
 					// get id
 						let starId = event.target.closest(".star").id
+						let star = getCelestialBodyFromId(starId)
 
 					// get habitableZone
-						let habitableZone = Number(STATE.stars[starId].elements.habitableZone.value) // AU
+						let habitableZone = Number(star.elements.habitableZone.value) // AU
 
 					// errors
-						if (!habitableZone) {
+						if (!habitableZone || star.class == "binary") {
 							return
 						}
 
 					// save new value
-						STATE.stars[starId].habitableZone = habitableZone // AU
+						star.habitableZone = habitableZone // AU
 
 				// habitable zone --> mass
 					// get mass
-						let mass = calculateHabitableZone(null, habitableZone) // kg
-
-					// split
-						let massPower = 1 // 10^x
-						while (mass / (10 ** massPower) > 10) {
-							massPower += 1
-						}
-						massFactor = roundNumber(mass / (10 ** massPower)) // kg
+						let [massFactor, massPower, mass] = calculateHabitableZone(null, habitableZone) // kg, 10^x, kg
 
 					// set & save values
-						STATE.stars[starId].elements.massFactor.value = STATE.stars[starId].massFactor = massFactor // kg
-						STATE.stars[starId].elements.massPower.value = STATE.stars[starId].massPower = massPower // kg
-
-				// mass & semiMajorAxis --> period
-					// get mass
-						mass = massFactor * Math.pow(10, massPower) // kg
-
-					// loop through planets
-						for (let planetId in STATE.stars[starId].planets) {
-							// get orbitalFraction
-								let day = STATE.stars[starId].planets[planetId].day // d
-								let period = STATE.stars[starId].planets[planetId].period // d
-								let orbitalFraction = (day / period) || 0 // ratio
-
-							// get semiMajorAxis
-								let semiMajorAxis = STATE.stars[starId].planets[planetId].semiMajorAxis // AU
-
-							// convert to SI
-								semiMajorAxis = semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
-
-							// get period
-								period = calculateOrbit(mass, null, semiMajorAxis) // s
-
-							// convert from SI
-								period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
-
-							// get equivalent day in new period
-								day = roundNumber(orbitalFraction * period) // d
-
-							// set & save values
-								STATE.stars[starId].planets[planetId].elements.period.value = STATE.stars[starId].planets[planetId].period = period // d
-								STATE.stars[starId].planets[planetId].elements.day.value = STATE.stars[starId].planets[planetId].day = day // d
-						}
+						star.elements.massFactor.value = star.massFactor = massFactor // kg
+						star.elements.massPower.value = star.massPower = massPower // kg
 
 				// custom class
-					STATE.stars[starId].elements.class.value = STATE.stars[starId].class = "custom"
+					star.elements.class.value = star.class = "custom"
+
+				// update children
+					updateChildrenOrbits(star)
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(starId)
+					if (sibling) {
+						updateBinarySystem(star, sibling, parent)
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeStarToBinary */
+		function changeStarToBinary(parentStar) {
+			try {
+				// create substars
+					// first substar gets existing star's children
+						let starA = createStar(parentStar, parentStar.id)
+							starA.name += " A (+planets)"
+							starA.elements.summary.innerText = starA.elements.name.value = starA.name
+						parentStar.children[starA.id] = starA
+
+					// second substar has no children
+						let secondSeed = {}
+						for (let i in parentStar) {
+							if (!CONSTANTS.ignoreKeys.includes(i)) {
+								secondSeed[i] = parentStar[i]
+							}
+						}
+						let starB = createStar(secondSeed, parentStar.id)
+							starB.name += " B (empty)"
+							starB.elements.summary.innerText = starB.elements.name.value = starB.name
+						parentStar.children[starB.id] = starB
+
+					// add to element
+						parentStar.elements.children.prepend(starB.elements.section)
+						parentStar.elements.children.prepend(starA.elements.section)
+
+				// substar values
+					// get masses
+						let starAmass = starA.massFactor * (10 ** starA.massPower) // kg
+						let starBmass = starB.massFactor * (10 ** starB.massPower) // kg
+
+					// get starting period
+						let period = CONSTANTS.limit.initialBarycenterPeriod // d
+						let periodSeconds = period * CONSTANTS.convert.day_to_hour * CONSTANTS.convert.hour_to_second // s
+						let [starAdistance, starBdistance, totalDistance] = calculateBarycenterOrbit(starAmass, starBmass, periodSeconds, null) // m
+							starAdistance = roundNumber(starAdistance / CONSTANTS.convert.AU_to_meter) // AU
+							starBdistance = roundNumber(starBdistance / CONSTANTS.convert.AU_to_meter) // AU
+
+					// starA
+						starA.elements.period.value = starA.period = period // d
+						starA.elements.day.value = starA.day = 0 // d
+						starA.elements.retrograde.checked = starA.retrograde = false
+						starA.elements.semiMajorAxis.value = starA.semiMajorAxis = starAdistance // AU
+						starA.elements.eccentricity.value = starA.eccentricity = 0 // ratio
+						starA.elements.apoapsis.value = starA.apoapsis = starAdistance // AU
+						starA.elements.periapsis.value = starA.periapsis = starAdistance // AU
+						starA.elements.inclination.value = starA.inclination = 0 // ° | radians
+						starA.elements.longitudeOfAscendingNode.value = starA.longitudeOfAscendingNode = 0 // ° | radians
+						starA.argumentOfPeriapsis = roundNumber(CONSTANTS.convert.circle_to_radian / 2) // radians
+						starA.elements.argumentOfPeriapsis.value = (CONSTANTS.convert.circle_to_degree / 2) // °
+						starA.computed = calculateComputedValues(starA.semiMajorAxis, starA.eccentricity, starA.longitudeOfAscendingNode, starA.argumentOfPeriapsis, starA.inclination)
+
+					// starB
+						starB.elements.period.value = starB.period = period // d
+						starB.elements.day.value = starB.day = 0 // d
+						starB.elements.retrograde.checked = starB.retrograde = false
+						starB.elements.semiMajorAxis.value = starB.semiMajorAxis = starBdistance // AU
+						starB.elements.eccentricity.value = starB.eccentricity = 0 // ratio
+						starB.elements.apoapsis.value = starB.apoapsis = starBdistance // AU
+						starB.elements.periapsis.value = starB.periapsis = starBdistance // AU
+						starB.elements.inclination.value = starB.inclination = 0 // ° | radians
+						starB.elements.longitudeOfAscendingNode.value = starB.longitudeOfAscendingNode = 0 // ° | radians
+						starB.elements.argumentOfPeriapsis.value = starB.argumentOfPeriapsis = 0 // ° | radians
+						starB.computed = calculateComputedValues(starB.semiMajorAxis, starB.eccentricity, starB.longitudeOfAscendingNode, starB.argumentOfPeriapsis, starB.inclination)
+
+				// transform parent into binary
+					// adjust listing
+						parentStar.class = "binary"
+						parentStar.elements.color.value = parentStar.color = CONSTANTS.canvas.barycenterColor
+						parentStar.elements.summary.innerText = parentStar.elements.name.value = parentStar.name = ""
+						parentStar.elements.section.setAttribute("binary", true)
+						parentStar.elements.massFactor.setAttribute("readonly", true)
+						parentStar.elements.massPower.setAttribute("readonly", true)
+						parentStar.elements.radius.value = parentStar.radius = 0 // AU
+						parentStar.elements.habitableZone.value = parentStar.habitableZone = 0 // AU
+
+					// barycenter mass
+						let [totalMassFactor, totalMassPower, totalMass] = calculateBarycenterMass(starAmass, starBmass) // kg
+						parentStar.elements.massFactor.value = parentStar.massFactor = totalMassFactor // kg
+						parentStar.elements.massPower.value = parentStar.massPower = totalMassPower // 10^x
+
+					// track
+						if (STATE.controls.tracking) {
+							let trackingCelestialBody = getCelestialBodyFromId(STATE.controls.tracking)
+							if (trackingCelestialBody) {
+								trackingCelestialBody.position.tracking = false
+							}
+						}
+						STATE.controls.tracking = parentStar.id
+						parentStar.position.tracking = true
+						parentStar.elements.tracking.checked = true
+
+					// this binary is itself part of a binary?
+						let [uncleStar, grandparentStar] = getBinaryFamilyFromId(parentStar.id)
+						if (uncleStar) {
+							updateBinarySystem(parentStar, uncleStar, grandparentStar)
+						}
+
+					// success
+						return true
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeBinaryToStar */
+		function changeBinaryToStar(parentBinary) {
+			try {
+				// consolidate children
+					// identify substars
+						let childKeys = Object.keys(parentBinary.children).filter(function(id) {
+							return parentBinary.children[id].type == "star"
+						})
+						let starA = parentBinary.children[childKeys[0]]
+						let starB = parentBinary.children[childKeys[1]]
+
+					// if either star is itself a binary, stop
+						if (starA.class == "binary" || starB.class == "binary") {
+							return false
+						}
+
+					// combine names
+						let newName = starA.name + " - " + starB.name
+
+					// move all of the substars' children up
+						let starAidFragment = starA.id.split("-")
+							starAidFragment = "-" + starAidFragment.slice(starAidFragment.length - 2).join("-")
+						for (let i in starA.children) {
+							let child = reduceAncestry(starA.children[i], starAidFragment)
+							parentBinary.children[child.id] = child
+							parentBinary.elements.children.appendChild(child.elements.section)
+						}
+
+						let starBidFragment = starB.id.split("-")
+							starBidFragment = "-" + starBidFragment.slice(starBidFragment.length - 2).join("-")
+						for (let i in starB.children) {
+							let child = reduceAncestry(starB.children[i], starBidFragment)
+							parentBinary.children[child.id] = child
+							parentBinary.elements.children.appendChild(child.elements.section)
+						}
+
+					// destroy substars
+						starA.elements.section.remove()
+						delete parentBinary.children[starA.id]
+						starB.elements.section.remove()
+						delete parentBinary.children[starB.id]
+
+				// make parent not a binary
+					// adjust listing
+						parentBinary.elements.summary.innerText = parentBinary.elements.name.value = parentBinary.name = newName
+						parentBinary.elements.section.removeAttribute("binary", true)
+						parentBinary.elements.massFactor.removeAttribute("readonly")
+						parentBinary.elements.massPower.removeAttribute("readonly")
+
+					// track
+						if (STATE.controls.tracking) {
+							let trackingCelestialBody = getCelestialBodyFromId(STATE.controls.tracking)
+							if (trackingCelestialBody) {
+								trackingCelestialBody.position.tracking = false
+							}
+						}
+						STATE.controls.tracking = parentBinary.id
+						parentBinary.position.tracking = true
+						parentBinary.elements.tracking.checked = true
+
+					// success
+						return true
 			} catch (error) {console.log(error)}
 		}
 
 /*** inputs - planet ***/
 	/* addPlanet */
-		ELEMENTS.planetsAdd.addEventListener(TRIGGERS.click, addPlanet)
 		function addPlanet(event) {
 			try {
-				// get starId
-					let starId = Object.keys(STATE.stars)[0]
+				// get parent
+					let parentId = event.target.closest(".star").id
+					let parent = getCelestialBodyFromId(parentId)
 
 				// createPlanet
-					let planet = createPlanet(starId)
-					STATE.stars[starId].planets[planet.id] = planet
-					ELEMENTS.planets.appendChild(planet.elements.section)
+					let planet = createPlanet(null, parentId)
+					parent.children[planet.id] = planet
+					parent.elements.children.appendChild(planet.elements.section)
 
 				// jump
 					planet.elements.section.setAttribute("open", true)
@@ -2386,42 +3303,43 @@
 		}
 
 	/* clearPlanets */
-		ELEMENTS.planetsClear.addEventListener(TRIGGERS.click, clearPlanets)
 		function clearPlanets(event) {
 			try {
-				// get starId
-					let starId = Object.keys(STATE.stars)[0]
+				// get parent
+					let parentId = event.target.closest(".star").id
+					let parent = getCelestialBodyFromId(parentId)
 
-				// remove all planets from HTML
-					for (let i in STATE.stars[starId].planets) {
-						STATE.stars[starId].planets[i].elements.section.remove()
+				// remove all planets from HTML & object
+					for (let i in parent.children) {
+						if (parent.children[i].type == "planet") {
+							parent.children[i].elements.section.remove()
+							delete parent.children[i]
+						}
 					}
-
-				// remove from object
-					STATE.stars[starId].planets = {}
 			} catch (error) {console.log(error)}
 		}
 
 	/* createPlanet */
-		function createPlanet(starId, planetSeed) {
+		function createPlanet(planetSeed, parentId) {
 			try {
 				// values
 					let planet = duplicateObject(CONSTANTS.planet)
 					for (let i in planetSeed) {
-						if (i !== "moons" && i !== "position") {
+						if (!CONSTANTS.ignoreKeys.includes(i)) {
 							planet[i] = planetSeed[i]
 						}
 					}
 
 				// id
-					planet.id = starId + "-planet-" + generateRandom()
+					planet.id = (parentId || "") + "-planet-" + generateRandom()
 
 				// computed
 					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 
 				// tracking / visible
-					if (planetSeed && planetSeed.position && planetSeed.position.tracking !== undefined) {
+					if (planetSeed && planetSeed.position && planetSeed.position.tracking) {
 						planet.position.tracking = planetSeed.position.tracking
+						STATE.controls.tracking = planet.id
 					}
 					if (planetSeed && planetSeed.position && planetSeed.position.visible !== undefined) {
 						planet.position.visible = planetSeed.position.visible
@@ -2443,6 +3361,7 @@
 
 				// track
 					var label = document.createElement("label")
+						label.className = "planet-tracking-label"
 					summary.appendChild(label)
 
 					var input = document.createElement("input")
@@ -2455,11 +3374,12 @@
 					planet.elements.tracking = input
 
 					var span = document.createElement("span")
-						span.innerText = "tracking"
+						span.innerText = "track"
 					label.appendChild(span)
 
 				// visible
 					var label = document.createElement("label")
+						label.className = "planet-visible-label"
 					summary.appendChild(label)
 
 					var input = document.createElement("input")
@@ -2470,11 +3390,12 @@
 					planet.elements.visible = input
 
 					var span = document.createElement("span")
-						span.innerText = "visible"
+						span.innerText = "show"
 					label.appendChild(span)
 
 				// name
 					var label = document.createElement("label")
+						label.className = "planet-name-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2499,6 +3420,7 @@
 
 				// class
 					var label = document.createElement("label")
+						label.className = "planet-class-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2526,6 +3448,7 @@
 
 				// description
 					var label = document.createElement("label")
+						label.className = "planet-description-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2542,6 +3465,7 @@
 
 				// color
 					var label = document.createElement("label")
+						label.className = "planet-color-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2558,6 +3482,7 @@
 
 				// mass
 					var label = document.createElement("label")
+						label.className = "planet-mass-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2597,6 +3522,7 @@
 
 				// orbit
 					var label = document.createElement("label")
+						label.className = "planet-orbit-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2635,6 +3561,7 @@
 
 				// distance
 					var label = document.createElement("label")
+						label.className = "planet-distance-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2657,6 +3584,7 @@
 
 				// advanced
 					var details = document.createElement("details")
+						details.className = "planet-advanced-outer"
 					section.appendChild(details)
 
 					var summary = document.createElement("summary")
@@ -2672,6 +3600,7 @@
 
 				// retrograde
 					var label = document.createElement("label")
+						label.className = "planet-retrograde-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2687,6 +3616,7 @@
 
 				// eccentricity
 					var label = document.createElement("label")
+						label.className = "planet-eccentricity-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2711,6 +3641,7 @@
 
 				// apoapsis
 					var label = document.createElement("label")
+						label.className = "planet-apoapsis-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2734,6 +3665,7 @@
 
 				// periapsis
 					var label = document.createElement("label")
+						label.className = "planet-periapsis-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2757,6 +3689,7 @@
 
 				// inclination
 					var label = document.createElement("label")
+						label.className = "planet-inclination-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2781,6 +3714,7 @@
 
 				// longitude of ascending node
 					var label = document.createElement("label")
+						label.className = "planet-longitudeofascendingnode-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2805,6 +3739,7 @@
 
 				// argument of periapsis
 					var label = document.createElement("label")
+						label.className = "planet-argumentofperiapsis-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -2835,35 +3770,39 @@
 					details.appendChild(summary)
 
 					var heading = document.createElement("h3")
-						heading.innerText = "moons"
+						heading.innerText = "satellites"
 					summary.appendChild(heading)
 
 					var inner = document.createElement("div")
-						inner.className = "planet-moons"
+						inner.className = "planet-children"
 					details.appendChild(inner)
-					planet.elements.moons = inner
 
 				// moon buttons
 					var button = document.createElement("button")
 						button.className = "planet-addmoon"
-						button.innerText = "+ add moon"
+						button.innerText = "+ moon"
 						button.addEventListener(TRIGGERS.click, addMoon)
 					inner.appendChild(button)
 					planet.elements.addMoon = button
 
 					var button = document.createElement("button")
-						button.className = "planet-clearmoons"
-						button.innerHTML = "&#x2715; clear all"
+						button.className = "planet-clearall"
+						button.innerHTML = "&#x2715; all"
 						button.addEventListener(TRIGGERS.click, clearMoons)
 					inner.appendChild(button)
 					planet.elements.clearMoons = button
 
+				// children list
+					var list = document.createElement("div")
+					inner.appendChild(list)
+					planet.elements.children = list
+
 				// moons
-					if (planetSeed && planetSeed.moons) {
-						for (let i in planetSeed.moons) {
-							var moon = createMoon(planet.id, planetSeed.moons[i])
-							planet.moons[moon.id] = moon
-							planet.elements.moons.appendChild(moon.elements.section)
+					if (planetSeed && planetSeed.children) {
+						for (let i in planetSeed.children) {
+							var moon = createMoon(planetSeed.children[i], planet.id)
+							planet.children[moon.id] = moon
+							planet.elements.children.appendChild(moon.elements.section)
 						}
 					}
 
@@ -2877,13 +3816,16 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
+
+					let parentId = event.target.closest(".star").id
+					let parent = getCelestialBodyFromId(parentId)
 
 				// remove elements
-					STATE.stars[starId].planets[planetId].elements.section.remove()
+					planet.elements.section.remove()
 
 				// remove from state
-					delete STATE.stars[starId].planets[planetId]
+					delete parent.children[planetId]
 			} catch (error) {console.log(error)}
 		}
 
@@ -2892,13 +3834,13 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// get visible
-					let visible = STATE.stars[starId].planets[planetId].elements.visible.checked || false
+					let visible = planet.elements.visible.checked || false
 
 				// save new value
-					STATE.stars[starId].planets[planetId].position.visible = visible
+					planet.position.visible = visible
 			} catch (error) {console.log(error)}
 		}
 
@@ -2907,14 +3849,14 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// get name
-					let name = STATE.stars[starId].planets[planetId].elements.name.value
+					let name = planet.elements.name.value
 
 				// save new value
-					STATE.stars[starId].planets[planetId].name = name
-					STATE.stars[starId].planets[planetId].elements.summary.innerText = name
+					planet.name = name
+					planet.elements.summary.innerText = name
 			} catch (error) {console.log(error)}
 		}
 
@@ -2923,92 +3865,68 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// update class
 					// get class
-						let planetClass = STATE.stars[starId].planets[planetId].class = STATE.stars[starId].planets[planetId].elements.class.value
+						let planetClass = planet.class = planet.elements.class.value
 						if (!CONSTANTS.classes.planets[planetClass]) {
 							return
 						}
 
 					// get orbitalFraction
-						let day = STATE.stars[starId].planets[planetId].day // d
-						let period = STATE.stars[starId].planets[planetId].period // d
+						let day = planet.day // d
+						let period = planet.period // d
 						let orbitalFraction = (day / period) || 0 // ratio
-						let retrograde = STATE.stars[starId].planets[planetId].retrograde
+						let retrograde = planet.retrograde
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].elements.color.value = STATE.stars[starId].planets[planetId].color = CONSTANTS.classes.planets[planetClass].color // #hex
-						STATE.stars[starId].planets[planetId].elements.massFactor.value = STATE.stars[starId].planets[planetId].massFactor = CONSTANTS.classes.planets[planetClass].massFactor // kg
-						STATE.stars[starId].planets[planetId].elements.massPower.value = STATE.stars[starId].planets[planetId].massPower = CONSTANTS.classes.planets[planetClass].massPower // kg
-						STATE.stars[starId].planets[planetId].elements.semiMajorAxis.value = STATE.stars[starId].planets[planetId].semiMajorAxis = CONSTANTS.classes.planets[planetClass].semiMajorAxis // AU
-						STATE.stars[starId].planets[planetId].elements.retrograde.checked = STATE.stars[starId].planets[planetId].retrograde = CONSTANTS.classes.planets[planetClass].retrograde
-						STATE.stars[starId].planets[planetId].elements.eccentricity.value = STATE.stars[starId].planets[planetId].eccentricity = CONSTANTS.classes.planets[planetClass].eccentricity // ratio
-						STATE.stars[starId].planets[planetId].elements.apoapsis.value = STATE.stars[starId].planets[planetId].apoapsis = CONSTANTS.classes.planets[planetClass].apoapsis // AU
-						STATE.stars[starId].planets[planetId].elements.periapsis.value = STATE.stars[starId].planets[planetId].periapsis = CONSTANTS.classes.planets[planetClass].periapsis // AU
+						planet.elements.color.value = planet.color = CONSTANTS.classes.planets[planetClass].color // #hex
+						planet.elements.massFactor.value = planet.massFactor = CONSTANTS.classes.planets[planetClass].massFactor // kg
+						planet.elements.massPower.value = planet.massPower = CONSTANTS.classes.planets[planetClass].massPower // kg
+						planet.elements.semiMajorAxis.value = planet.semiMajorAxis = CONSTANTS.classes.planets[planetClass].semiMajorAxis // AU
+						planet.elements.retrograde.checked = planet.retrograde = CONSTANTS.classes.planets[planetClass].retrograde
+						planet.elements.eccentricity.value = planet.eccentricity = CONSTANTS.classes.planets[planetClass].eccentricity // ratio
+						planet.elements.apoapsis.value = planet.apoapsis = CONSTANTS.classes.planets[planetClass].apoapsis // AU
+						planet.elements.periapsis.value = planet.periapsis = CONSTANTS.classes.planets[planetClass].periapsis // AU
 
 					// computed
-						STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].inclination)
+						planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 
 				// update period
-					// get star mass
-						let starMass = STATE.stars[starId].massFactor * (10 ** STATE.stars[starId].massPower) // kg
+					// get parent
+						let parentId = event.target.closest(".star").id
+						let parent = getCelestialBodyFromId(parentId)
+
+					// get parent mass
+						let parentMass = parent.massFactor * (10 ** parent.massPower) // kg
 
 					// convert to SI
-						let semiMajorAxis = STATE.stars[starId].planets[planetId].semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let semiMajorAxis = planet.semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
 
 					// get period
-						period = calculateOrbit(starMass, null, semiMajorAxis) // s
+						period = calculateOrbit(parentMass, null, semiMajorAxis) // s
 
 					// convert from SI
 						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
 
 					// set & save period
-						STATE.stars[starId].planets[planetId].elements.period.value = STATE.stars[starId].planets[planetId].period = period // d
+						planet.elements.period.value = planet.period = period // d
 
 				// update day
 					// get equivalent day in new period
 						day = roundNumber(orbitalFraction * period) // d
 
 					// flip
-						if (retrograde != STATE.stars[starId].planets[planetId].retrograde) {
+						if (retrograde != planet.retrograde) {
 							day = roundNumber((period - day + period) % period) // d
 						}
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].elements.day.value = STATE.stars[starId].planets[planetId].day = day // d
+						planet.elements.day.value = planet.day = day // d
 
-				// mass & semiMajorAxis --> period
-					// get mass
-						let planetMass = STATE.stars[starId].planets[planetId].massFactor * Math.pow(10, STATE.stars[starId].planets[planetId].massPower) // kg
-
-					// loop through moons
-						for (let moonId in STATE.stars[starId].planets[planetId].moons) {
-							// get orbitalFraction
-								let day = STATE.stars[starId].planets[planetId].moons[moonId].day // d
-								let period = STATE.stars[starId].planets[planetId].moons[moonId].period // d
-								let orbitalFraction = (day / period) || 0 // ratio
-
-							// get semiMajorAxis
-								let semiMajorAxis = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis // AU
-
-							// convert to SI
-								semiMajorAxis = semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
-
-							// get period
-								period = calculateOrbit(planetMass, null, semiMajorAxis) // s
-
-							// convert from SI
-								period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
-
-							// get equivalent day in new period
-								day = roundNumber(orbitalFraction * period) // d
-
-							// set & save values
-								STATE.stars[starId].planets[planetId].moons[moonId].elements.period.value = STATE.stars[starId].planets[planetId].moons[moonId].period = period // d
-								STATE.stars[starId].planets[planetId].moons[moonId].elements.day.value = STATE.stars[starId].planets[planetId].moons[moonId].day = day // d
-						}
+				// update children orbits
+					updateChildrenOrbits(planet)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3017,13 +3935,13 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// get description
-					let description = STATE.stars[starId].planets[planetId].elements.description.value
+					let description = planet.elements.description.value
 
 				// save new value
-					STATE.stars[starId].planets[planetId].description = description
+					planet.description = description
 			} catch (error) {console.log(error)}
 		}
 
@@ -3032,13 +3950,13 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// get color
-					let color = STATE.stars[starId].planets[planetId].elements.color.value // #hex
+					let color = planet.elements.color.value // #hex
 
 				// save new value
-					STATE.stars[starId].planets[planetId].color = color // #hex
+					planet.color = color // #hex
 			} catch (error) {console.log(error)}
 		}
 
@@ -3047,55 +3965,42 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
+
+					let parentElement = event.target.closest(".star")
+					let parentId = parentElement ? parentElement.id : null
+					let parent = getCelestialBodyFromId(parentId) || null
 
 				// mass
 					// get planet mass
-						let massFactor = Number(STATE.stars[starId].planets[planetId].elements.massFactor.value) // kg
-						let massPower = Number(STATE.stars[starId].planets[planetId].elements.massPower.value) // 10^x
+						let massFactor = Number(planet.elements.massFactor.value) // kg
+						let massPower = Number(planet.elements.massPower.value) // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
 							return
 						}
 
-					// save new values
-						STATE.stars[starId].planets[planetId].massFactor = massFactor // kg
-						STATE.stars[starId].planets[planetId].massPower = massPower // 10^x
-
-				// mass & semiMajorAxis --> period
 					// get mass
-						let mass = massFactor * Math.pow(10, massPower) // kg
+						let mass = massFactor * (10 ** massPower) // kg
 
-					// loop through moons
-						for (let moonId in STATE.stars[starId].planets[planetId].moons) {
-							// get orbitalFraction
-								let day = STATE.stars[starId].planets[planetId].moons[moonId].day // d
-								let period = STATE.stars[starId].planets[planetId].moons[moonId].period // d
-								let orbitalFraction = (day / period) || 0 // ratio
-
-							// get semiMajorAxis
-								let semiMajorAxis = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis // AU
-
-							// convert to SI
-								semiMajorAxis = semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
-
-							// get period
-								period = calculateOrbit(mass, null, semiMajorAxis) // s
-
-							// convert from SI
-								period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
-
-							// get equivalent day in new period
-								day = roundNumber(orbitalFraction * period) // d
-
-							// set & save values
-								STATE.stars[starId].planets[planetId].moons[moonId].elements.period.value = STATE.stars[starId].planets[planetId].moons[moonId].period = period // d
-								STATE.stars[starId].planets[planetId].moons[moonId].elements.day.value = STATE.stars[starId].planets[planetId].moons[moonId].day = day // d
+					// get parent mass
+						if (parent) {
+							let parentMass = parent.massFactor * (10 ** parent.massPower) // kg
+							if (parentMass < mass) {
+								return
+							}
 						}
 
+					// save new values
+						planet.massFactor = massFactor // kg
+						planet.massPower = massPower // 10^x
+
 				// custom class
-					STATE.stars[starId].planets[planetId].elements.class.value = STATE.stars[starId].planets[planetId].class = "custom"
+					planet.elements.class.value = planet.class = "custom"
+
+				// update children orbits
+					updateChildrenOrbits(planet)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3104,14 +4009,14 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// day
 					// get planet day
-						let day = Number(STATE.stars[starId].planets[planetId].elements.day.value) // d
+						let day = Number(planet.elements.day.value) // d
 
 					// save new values
-						STATE.stars[starId].planets[planetId].day = roundNumber(day) // d
+						planet.day = roundNumber(day) // d
 			} catch (error) {console.log(error)}
 		}
 
@@ -3120,11 +4025,11 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// update value
 					// get period
-						let period = Number(STATE.stars[starId].planets[planetId].elements.period.value) // d
+						let period = Number(planet.elements.period.value) // d
 
 					// errors
 						if (!period) {
@@ -3132,12 +4037,21 @@
 						}
 
 					// save new value
-						STATE.stars[starId].planets[planetId].period = period // d
+						planet.period = period // d
+
+				// update day
+					if (planet.day > planet.period) {
+						planet.elements.day.value = planet.day = 0 // d
+					}
 
 				// mass & period --> semiMajorAxis
+					// get parent
+						let parentId = event.target.closest(".star").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get star mass
-						let massFactor = STATE.stars[starId].massFactor // kg
-						let massPower = STATE.stars[starId].massPower // 10^x
+						let massFactor = parent.massFactor // kg
+						let massPower = parent.massPower // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
@@ -3155,11 +4069,11 @@
 						semiMajorAxis = semiMajorAxis / CONSTANTS.convert.AU_to_meter // AU
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].elements.semiMajorAxis.value = STATE.stars[starId].planets[planetId].semiMajorAxis = semiMajorAxis // AU
+						planet.elements.semiMajorAxis.value = planet.semiMajorAxis = semiMajorAxis // AU
 
 				// semiMajorAxis & eccentricity --> apoapsis & periapsis
 					// get eccentricity
-						let eccentricity = STATE.stars[starId].planets[planetId].eccentricity // ratio
+						let eccentricity = planet.eccentricity // ratio
 
 					// errors
 						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity || !semiMajorAxis) {
@@ -3170,11 +4084,11 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].elements.apoapsis.value   = STATE.stars[starId].planets[planetId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].elements.periapsis.value = STATE.stars[starId].planets[planetId].periapsis = periapsis // AU
+						planet.elements.apoapsis.value   = planet.apoapsis   = apoapsis // AU
+						planet.elements.periapsis.value = planet.periapsis = periapsis // AU
 
 				// computed values
-					STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].argumentOfPeriapsis)
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3183,11 +4097,11 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// update value
 					// get semiMajorAxis
-						let semiMajorAxis = Number(STATE.stars[starId].planets[planetId].elements.semiMajorAxis.value) // AU
+						let semiMajorAxis = Number(planet.elements.semiMajorAxis.value) // AU
 
 					// errors
 						if (!semiMajorAxis) {
@@ -3195,11 +4109,11 @@
 						}
 
 					// save new value
-						STATE.stars[starId].planets[planetId].semiMajorAxis = semiMajorAxis // AU
+						planet.semiMajorAxis = semiMajorAxis // AU
 
 				// semiMajorAxis & eccentricity --> apoapsis & periapsis
 					// get eccentricity
-						let eccentricity = STATE.stars[starId].planets[planetId].eccentricity // ratio
+						let eccentricity = planet.eccentricity // ratio
 
 					// errors
 						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
@@ -3210,13 +4124,17 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].elements.apoapsis.value   = STATE.stars[starId].planets[planetId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].elements.periapsis.value = STATE.stars[starId].planets[planetId].periapsis = periapsis // AU
+						planet.elements.apoapsis.value   = planet.apoapsis   = apoapsis // AU
+						planet.elements.periapsis.value = planet.periapsis = periapsis // AU
 
 				// semiMajorAxis & mass --> period
+					// get parent
+						let parentId = event.target.closest(".star").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get star mass
-						let massFactor = STATE.stars[starId].massFactor // kg
-						let massPower = STATE.stars[starId].massPower // 10^x
+						let massFactor = parent.massFactor // kg
+						let massPower = parent.massPower // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
@@ -3234,10 +4152,10 @@
 						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].elements.period.value = STATE.stars[starId].planets[planetId].period = period // d
+						planet.elements.period.value = planet.period = period // d
 
 				// computed
-					STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].argumentOfPeriapsis)
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3247,24 +4165,24 @@
 				// retrograde
 					// get id
 						let planetId = event.target.closest(".planet").id
-						let starId = planetId.split("-planet-")[0]
+						let planet = getCelestialBodyFromId(planetId)
 
 					// get retrograde
-						let retrograde = STATE.stars[starId].planets[planetId].elements.retrograde.checked || false
+						let retrograde = planet.elements.retrograde.checked || false
 
 					// save new value
-						STATE.stars[starId].planets[planetId].retrograde = retrograde
+						planet.retrograde = retrograde
 
 				// update day
 					// current
-						let day = STATE.stars[starId].planets[planetId].day // d
-						let period = STATE.stars[starId].planets[planetId].period // d
+						let day = planet.day // d
+						let period = planet.period // d
 
 					// flip
 						day = roundNumber((period - day + period) % period) // d
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].elements.day.value = STATE.stars[starId].planets[planetId].day = day // d
+						planet.elements.day.value = planet.day = day // d
 			} catch (error) {console.log(error)}
 		}
 
@@ -3273,17 +4191,29 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// angle
 					// get angle
-						let angle = Number(STATE.stars[starId].planets[planetId].elements.inclination.value) // °
+						let angle = Number(planet.elements.inclination.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							planet.elements.inclination.value = angle // °
+						}
 
 					// convert to SI
 						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
 
 					// save new values
-						STATE.stars[starId].planets[planetId].inclination = angle // radians
+						planet.inclination = angle // radians
+
+					// computed
+						planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3292,11 +4222,11 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// update new value
 					// get eccentricity
-						let eccentricity = Number(STATE.stars[starId].planets[planetId].elements.eccentricity.value) // ratio
+						let eccentricity = Number(planet.elements.eccentricity.value) // ratio
 
 					// errors
 						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
@@ -3304,11 +4234,11 @@
 						}
 
 					// save new value
-						STATE.stars[starId].planets[planetId].eccentricity = eccentricity // ratio
+						planet.eccentricity = eccentricity // ratio
 
 				// semiMajorAxis & eccentricity --> apoapsis & periapsis
 					// get semiMajorAxis
-						let semiMajorAxis = STATE.stars[starId].planets[planetId].semiMajorAxis // AU
+						let semiMajorAxis = planet.semiMajorAxis // AU
 
 					// errors
 						if (!semiMajorAxis) {
@@ -3319,11 +4249,11 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].elements.apoapsis.value   = STATE.stars[starId].planets[planetId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].elements.periapsis.value = STATE.stars[starId].planets[planetId].periapsis = periapsis // AU
+						planet.elements.apoapsis.value   = planet.apoapsis   = apoapsis // AU
+						planet.elements.periapsis.value = planet.periapsis = periapsis // AU
 
 				// computed
-					STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].argumentOfPeriapsis)
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3332,12 +4262,12 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// update new values
 					// get apoapsis & periapsis
-						let apoapsis   = Number(STATE.stars[starId].planets[planetId].elements.apoapsis.value) // AU
-						let periapsis = Number(STATE.stars[starId].planets[planetId].elements.periapsis.value) // AU
+						let apoapsis   = Number(planet.elements.apoapsis.value) // AU
+						let periapsis = Number(planet.elements.periapsis.value) // AU
 
 					// errors
 						if (!apoapsis || !periapsis) {
@@ -3345,27 +4275,31 @@
 						}
 
 					// save new values
-						STATE.stars[starId].planets[planetId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].periapsis = periapsis // AU
+						planet.apoapsis   = apoapsis // AU
+						planet.periapsis = periapsis // AU
 
 				// apoapsis & periapsis --> semiMajorAxis
 					// get semiMajorAxis
 						let semiMajorAxis = calculateEllipse(null, null, [apoapsis, periapsis]) // AU
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].elements.semiMajorAxis.value = STATE.stars[starId].planets[planetId].semiMajorAxis = semiMajorAxis // AU
+						planet.elements.semiMajorAxis.value = planet.semiMajorAxis = semiMajorAxis // AU
 
 				// semiMajorAxis & apoapsis & periapsis --> eccentricity
 					// calculate eccentricity
 						let eccentricity = calculateEllipse(semiMajorAxis, null, [apoapsis, periapsis]) // ratio
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].elements.eccentricity.value = STATE.stars[starId].planets[planetId].eccentricity = eccentricity // ratio
+						planet.elements.eccentricity.value = planet.eccentricity = eccentricity // ratio
 
 				// semiMajorAxis & mass --> period
+					// get parent
+						let parentId = event.target.closest(".star").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get star mass
-						let massFactor = STATE.stars[starId].massFactor // kg
-						let massPower = STATE.stars[starId].massPower // 10^x
+						let massFactor = parent.massFactor // kg
+						let massPower = parent.massPower // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
@@ -3383,10 +4317,10 @@
 						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].elements.period.value = STATE.stars[starId].planets[planetId].period = period // d
+						planet.elements.period.value = planet.period = period // d
 
 				// computed
-					STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].argumentOfPeriapsis)
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3395,20 +4329,29 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// angle
 					// get angle
-						let angle = Number(STATE.stars[starId].planets[planetId].elements.longitudeOfAscendingNode.value) // °
+						let angle = Number(planet.elements.longitudeOfAscendingNode.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							planet.elements.longitudeOfAscendingNode.value = angle // °
+						}
 
 					// convert to SI
 						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
 
 					// save new values
-						STATE.stars[starId].planets[planetId].longitudeOfAscendingNode = angle // radians
+						planet.longitudeOfAscendingNode = angle // radians
 
 				// computed
-					STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].argumentOfPeriapsis)
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3417,20 +4360,29 @@
 			try {
 				// get id
 					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+					let planet = getCelestialBodyFromId(planetId)
 
 				// angle
 					// get angle
-						let angle = Number(STATE.stars[starId].planets[planetId].elements.argumentOfPeriapsis.value) // °
+						let angle = Number(planet.elements.argumentOfPeriapsis.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							planet.elements.argumentOfPeriapsis.value = angle // °
+						}
 
 					// convert to SI
 						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
 
 					// save new values
-						STATE.stars[starId].planets[planetId].argumentOfPeriapsis = angle // radians
+						planet.argumentOfPeriapsis = angle // radians
 
 				// computed
-					STATE.stars[starId].planets[planetId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].semiMajorAxis, STATE.stars[starId].planets[planetId].eccentricity, STATE.stars[starId].planets[planetId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].argumentOfPeriapsis)
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -3438,14 +4390,14 @@
 	/* addMoon */
 		function addMoon(event) {
 			try {
-				// get ids
-					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+				// get parent
+					let parentId = event.target.closest(".planet").id
+					let parent = getCelestialBodyFromId(parentId)
 
 				// createMoon
-					let moon = createMoon(planetId)
-					STATE.stars[starId].planets[planetId].moons[moon.id] = moon
-					STATE.stars[starId].planets[planetId].elements.moons.appendChild(moon.elements.section)
+					let moon = createMoon(null, parentId)
+					parent.children[moon.id] = moon
+					parent.elements.children.appendChild(moon.elements.section)
 
 				// jump
 					moon.elements.section.setAttribute("open", true)
@@ -3456,40 +4408,41 @@
 	/* clearMoons */
 		function clearMoons(event) {
 			try {
-				// get ids
-					let planetId = event.target.closest(".planet").id
-					let starId = planetId.split("-planet-")[0]
+				// get parent
+					let parentId = event.target.closest(".planet").id
+					let parent = getCelestialBodyFromId(parentId)
 
-				// remove all moons from HTML
-					for (let i in STATE.stars[starId].planets[planetId].moons) {
-						STATE.stars[starId].planets[planetId].moons[i].elements.section.remove()
+				// remove all moons from HTML & object
+					for (let i in parent.children) {
+						if (parent.children[i].type == "moon") {
+							parent.children[i].elements.section.remove()
+							delete parent.children[i]
+						}
 					}
-
-				// remove from object
-					STATE.stars[starId].planets[planetId].moons = {}
 			} catch (error) {console.log(error)}
 		}
 
 	/* createMoon */
-		function createMoon(planetId, moonSeed) {
+		function createMoon(moonSeed, parentId) {
 			try {
 				// values
 					let moon = duplicateObject(CONSTANTS.moon)
 					for (let i in moonSeed) {
-						if (i !== "position") {
+						if (!CONSTANTS.ignoreKeys.includes(i)) {
 							moon[i] = moonSeed[i]
 						}
 					}
 
 				// id
-					moon.id = planetId + "-moon-" + generateRandom()
+					moon.id = (parentId || "") + "-moon-" + generateRandom()
 
 				// computed
 					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 
 				// tracking / visible
-					if (moonSeed && moonSeed.position && moonSeed.position.tracking !== undefined) {
+					if (moonSeed && moonSeed.position && moonSeed.position.tracking) {
 						moon.position.tracking = moonSeed.position.tracking
+						STATE.controls.tracking = moon.id
 					}
 					if (moonSeed && moonSeed.position && moonSeed.position.visible !== undefined) {
 						moon.position.visible = moonSeed.position.visible
@@ -3511,6 +4464,7 @@
 
 				// track
 					var label = document.createElement("label")
+						label.className = "moon-tracking-label"
 					summary.appendChild(label)
 
 					var input = document.createElement("input")
@@ -3523,11 +4477,12 @@
 					moon.elements.tracking = input
 
 					var span = document.createElement("span")
-						span.innerText = "tracking"
+						span.innerText = "track"
 					label.appendChild(span)
 
 				// visible
 					var label = document.createElement("label")
+						label.className = "moon-visible-label"
 					summary.appendChild(label)
 
 					var input = document.createElement("input")
@@ -3538,11 +4493,12 @@
 					moon.elements.visible = input
 
 					var span = document.createElement("span")
-						span.innerText = "visible"
+						span.innerText = "show"
 					label.appendChild(span)
 
 				// name
 					var label = document.createElement("label")
+						label.className = "moon-name-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3567,6 +4523,7 @@
 
 				// class
 					var label = document.createElement("label")
+						label.className = "moon-class-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3594,6 +4551,7 @@
 
 				// description
 					var label = document.createElement("label")
+						label.className = "moon-description-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3610,6 +4568,7 @@
 
 				// color
 					var label = document.createElement("label")
+						label.className = "moon-color-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3626,6 +4585,7 @@
 
 				// mass
 					var label = document.createElement("label")
+						label.className = "moon-mass-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3665,6 +4625,7 @@
 
 				// orbit
 					var label = document.createElement("label")
+						label.className = "moon-orbit-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3703,6 +4664,7 @@
 
 				// distance
 					var label = document.createElement("label")
+						label.className = "moon-distance-label"
 					section.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3726,6 +4688,7 @@
 
 				// advanced
 					var details = document.createElement("details")
+						details.className = "moon-advanced-outer"
 					section.appendChild(details)
 
 					var summary = document.createElement("summary")
@@ -3741,6 +4704,7 @@
 
 				// retrograde
 					var label = document.createElement("label")
+						label.className = "moon-retrograde-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3756,6 +4720,7 @@
 
 				// eccentricity
 					var label = document.createElement("label")
+						label.className = "moon-eccentricity-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3780,6 +4745,7 @@
 
 				// apoapsis
 					var label = document.createElement("label")
+						label.className = "moon-apoapsis-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3803,6 +4769,7 @@
 
 				// periapsis
 					var label = document.createElement("label")
+						label.className = "moon-periapsis-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3826,6 +4793,7 @@
 
 				// inclination
 					var label = document.createElement("label")
+						label.className = "moon-inclination-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3850,6 +4818,7 @@
 
 				// longitude of ascending node
 					var label = document.createElement("label")
+						label.className = "moon-longitudeofascendingnode-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3874,6 +4843,7 @@
 
 				// argument of periapsis
 					var label = document.createElement("label")
+						label.className = "moon-argumentofperiapsis-label"
 					inner.appendChild(label)
 
 					var heading = document.createElement("h3")
@@ -3906,14 +4876,16 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
+
+					let parentId = event.target.closest(".planet").id
+					let parent = getCelestialBodyFromId(parentId)
 
 				// remove elements
-					STATE.stars[starId].planets[planetId].moons[moonId].elements.section.remove()
+					moon.elements.section.remove()
 
 				// remove from state
-					delete STATE.stars[starId].planets[planetId].moons[moonId]
+					delete parent.children[moonId]
 			} catch (error) {console.log(error)}
 		}
 
@@ -3922,14 +4894,13 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// get visible
-					let visible = STATE.stars[starId].planets[planetId].moons[moonId].elements.visible.checked || false
+					let visible = moon.elements.visible.checked || false
 
 				// save new value
-					STATE.stars[starId].planets[planetId].moons[moonId].position.visible = visible
+					moon.position.visible = visible
 			} catch (error) {console.log(error)}
 		}
 
@@ -3938,15 +4909,14 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// get name
-					let name = STATE.stars[starId].planets[planetId].moons[moonId].elements.name.value
+					let name = moon.elements.name.value
 
 				// save new value
-					STATE.stars[starId].planets[planetId].moons[moonId].name = name
-					STATE.stars[starId].planets[planetId].moons[moonId].elements.summary.innerText = name
+					moon.name = name
+					moon.elements.summary.innerText = name
 			} catch (error) {console.log(error)}
 		}
 
@@ -3955,41 +4925,44 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// update class
 					// get class
-						let moonClass = STATE.stars[starId].planets[planetId].moons[moonId].class = STATE.stars[starId].planets[planetId].moons[moonId].elements.class.value
+						let moonClass = moon.class = moon.elements.class.value
 						if (!CONSTANTS.classes.moons[moonClass]) {
 							return
 						}
 
 					// get orbitalFraction
-						let day = STATE.stars[starId].planets[planetId].moons[moonId].day // d
-						let period = STATE.stars[starId].planets[planetId].moons[moonId].period // d
+						let day = moon.day // d
+						let period = moon.period // d
 						let orbitalFraction = (day / period) || 0 // ratio
-						let retrograde = STATE.stars[starId].planets[planetId].moons[moonId].retrograde
+						let retrograde = moon.retrograde
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.color.value = STATE.stars[starId].planets[planetId].moons[moonId].color = CONSTANTS.classes.moons[moonClass].color // #hex
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.massFactor.value = STATE.stars[starId].planets[planetId].moons[moonId].massFactor = CONSTANTS.classes.moons[moonClass].massFactor // kg
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.massPower.value = STATE.stars[starId].planets[planetId].moons[moonId].massPower = CONSTANTS.classes.moons[moonClass].massPower // kg
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.semiMajorAxis.value = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis = CONSTANTS.classes.moons[moonClass].semiMajorAxis // AU
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.retrograde.checked = STATE.stars[starId].planets[planetId].moons[moonId].retrograde = CONSTANTS.classes.moons[moonClass].retrograde
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.eccentricity.value = STATE.stars[starId].planets[planetId].moons[moonId].eccentricity = CONSTANTS.classes.moons[moonClass].eccentricity // ratio
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.apoapsis.value = STATE.stars[starId].planets[planetId].moons[moonId].apoapsis = CONSTANTS.classes.moons[moonClass].apoapsis // AU
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.periapsis.value = STATE.stars[starId].planets[planetId].moons[moonId].periapsis = CONSTANTS.classes.moons[moonClass].periapsis // AU
+						moon.elements.color.value = moon.color = CONSTANTS.classes.moons[moonClass].color // #hex
+						moon.elements.massFactor.value = moon.massFactor = CONSTANTS.classes.moons[moonClass].massFactor // kg
+						moon.elements.massPower.value = moon.massPower = CONSTANTS.classes.moons[moonClass].massPower // kg
+						moon.elements.semiMajorAxis.value = moon.semiMajorAxis = CONSTANTS.classes.moons[moonClass].semiMajorAxis // AU
+						moon.elements.retrograde.checked = moon.retrograde = CONSTANTS.classes.moons[moonClass].retrograde
+						moon.elements.eccentricity.value = moon.eccentricity = CONSTANTS.classes.moons[moonClass].eccentricity // ratio
+						moon.elements.apoapsis.value = moon.apoapsis = CONSTANTS.classes.moons[moonClass].apoapsis // AU
+						moon.elements.periapsis.value = moon.periapsis = CONSTANTS.classes.moons[moonClass].periapsis // AU
 
 					// computed
-						STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+						moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 
 				// update period
+					// get parent
+						let parentId = event.target.closest(".planet").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get planet mass
-						let planetMass = STATE.stars[starId].planets[planetId].massFactor * (10 ** STATE.stars[starId].planets[planetId].massPower) // kg
+						let planetMass = parent.massFactor * (10 ** parent.massPower) // kg
 
 					// convert to SI
-						let semiMajorAxis = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let semiMajorAxis = moon.semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
 
 					// get period
 						period = calculateOrbit(planetMass, null, semiMajorAxis) // s
@@ -3998,19 +4971,19 @@
 						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
 
 					// set & save period
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.period.value = STATE.stars[starId].planets[planetId].moons[moonId].period = period // d
+						moon.elements.period.value = moon.period = period // d
 
 				// update day
 					// get equivalent day in new period
 						day = roundNumber(orbitalFraction * period) // d
 
 					// flip
-						if (retrograde != STATE.stars[starId].planets[planetId].retrograde) {
+						if (retrograde != moon.retrograde) {
 							day = roundNumber((period - day + period) % period) // d
 						}
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.day.value = STATE.stars[starId].planets[planetId].moons[moonId].day = day // d
+						moon.elements.day.value = moon.day = day // d
 			} catch (error) {console.log(error)}
 		}
 
@@ -4019,14 +4992,13 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// get description
-					let description = STATE.stars[starId].planets[planetId].moons[moonId].elements.description.value
+					let description = moon.elements.description.value
 
 				// save new value
-					STATE.stars[starId].planets[planetId].moons[moonId].description = description
+					moon.description = description
 			} catch (error) {console.log(error)}
 		}
 
@@ -4035,14 +5007,13 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// get color
-					let color = STATE.stars[starId].planets[planetId].moons[moonId].elements.color.value // #hex
+					let color = moon.elements.color.value // #hex
 
 				// save new value
-					STATE.stars[starId].planets[planetId].moons[moonId].color = color // #hex
+					moon.color = color // #hex
 			} catch (error) {console.log(error)}
 		}
 
@@ -4051,25 +5022,39 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
+
+					let parentElement = event.target.closest(".planet")
+					let parentId = parentElement ? parentElement.id : null
+					let parent = getCelestialBodyFromId(parentId) || null
 
 				// mass
 					// get moon mass
-						let massFactor = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.massFactor.value) // kg
-						let massPower = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.massPower.value) // 10^x
+						let massFactor = Number(moon.elements.massFactor.value) // kg
+						let massPower = Number(moon.elements.massPower.value) // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
 							return
 						}
 
+					// get mass
+						let mass = massFactor * (10 ** massPower) // kg
+
+					// get parent mass
+						if (parent) {
+							let parentMass = parent.massFactor * (10 ** parent.massPower) // kg
+							if (parentMass < mass) {
+								return
+							}
+						}
+
 					// save new values
-						STATE.stars[starId].planets[planetId].moons[moonId].massFactor = massFactor // kg
-						STATE.stars[starId].planets[planetId].moons[moonId].massPower = massPower // 10^x
+						moon.massFactor = massFactor // kg
+						moon.massPower = massPower // 10^x
 
 				// custom class
-					STATE.stars[starId].planets[planetId].moons[moonId].elements.class.value = STATE.stars[starId].planets[planetId].moons[moonId].class = "custom"
+					moon.elements.class.value = moon.class = "custom"
 			} catch (error) {console.log(error)}
 		}
 
@@ -4078,15 +5063,14 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// day
 					// get moon day
-						let day = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.day.value) // d
+						let day = Number(moon.elements.day.value) // d
 
 					// save new values
-						STATE.stars[starId].planets[planetId].moons[moonId].day = roundNumber(day) // d
+						moon.day = roundNumber(day) // d
 			} catch (error) {console.log(error)}
 		}
 
@@ -4095,12 +5079,11 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// update value
 					// get period
-						let period = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.period.value) // d
+						let period = Number(moon.elements.period.value) // d
 
 					// errors
 						if (!period) {
@@ -4108,12 +5091,21 @@
 						}
 
 					// save new value
-						STATE.stars[starId].planets[planetId].moons[moonId].period = period // d
+						moon.period = period // d
+
+				// update day
+					if (moon.day > moon.period) {
+						moon.elements.day.value = moon.day = 0 // d
+					}
 
 				// mass & period --> semiMajorAxis
+					// get parent
+						let parentId = event.target.closest(".planet").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get planet mass
-						let massFactor = STATE.stars[starId].planets[planetId].massFactor // kg
-						let massPower = STATE.stars[starId].planets[planetId].massPower // 10^x
+						let massFactor = parent.massFactor // kg
+						let massPower = parent.massPower // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
@@ -4131,11 +5123,11 @@
 						semiMajorAxis = semiMajorAxis / CONSTANTS.convert.AU_to_meter // AU
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.semiMajorAxis.value = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis = semiMajorAxis // AU
+						moon.elements.semiMajorAxis.value = moon.semiMajorAxis = semiMajorAxis // AU
 
 				// semiMajorAxis & eccentricity --> apoapsis & periapsis
 					// get eccentricity
-						let eccentricity = STATE.stars[starId].planets[planetId].moons[moonId].eccentricity // ratio
+						let eccentricity = moon.eccentricity // ratio
 
 					// errors
 						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity || !semiMajorAxis) {
@@ -4146,11 +5138,11 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.apoapsis.value   = STATE.stars[starId].planets[planetId].moons[moonId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.periapsis.value = STATE.stars[starId].planets[planetId].moons[moonId].periapsis = periapsis // AU
+						moon.elements.apoapsis.value   = moon.apoapsis   = apoapsis // AU
+						moon.elements.periapsis.value = moon.periapsis = periapsis // AU
 
 				// computed
-					STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -4159,12 +5151,11 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// update value
 					// get semiMajorAxis
-						let semiMajorAxis = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.semiMajorAxis.value) // AU
+						let semiMajorAxis = Number(moon.elements.semiMajorAxis.value) // AU
 
 					// errors
 						if (!semiMajorAxis) {
@@ -4172,11 +5163,11 @@
 						}
 
 					// save new value
-						STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis = semiMajorAxis // AU
+						moon.semiMajorAxis = semiMajorAxis // AU
 
 				// semiMajorAxis & eccentricity --> apoapsis & periapsis
 					// get eccentricity
-						let eccentricity = STATE.stars[starId].planets[planetId].moons[moonId].eccentricity // ratio
+						let eccentricity = moon.eccentricity // ratio
 
 					// errors
 						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
@@ -4187,13 +5178,17 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.apoapsis.value   = STATE.stars[starId].planets[planetId].moons[moonId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.periapsis.value = STATE.stars[starId].planets[planetId].moons[moonId].periapsis = periapsis // AU
+						moon.elements.apoapsis.value   = moon.apoapsis   = apoapsis // AU
+						moon.elements.periapsis.value = moon.periapsis = periapsis // AU
 
 				// semiMajorAxis & mass --> period
+					// get parent
+						let parentId = event.target.closest(".planet").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get planet mass
-						let massFactor = STATE.stars[starId].planets[planetId].massFactor // kg
-						let massPower = STATE.stars[starId].planets[planetId].massPower // 10^x
+						let massFactor = parent.massFactor // kg
+						let massPower = parent.massPower // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
@@ -4211,10 +5206,10 @@
 						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.period.value = STATE.stars[starId].planets[planetId].moons[moonId].period = period // d
+						moon.elements.period.value = moon.period = period // d
 
 				// computed
-					STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -4224,25 +5219,24 @@
 				// retrograde
 					// get id
 						let moonId = event.target.closest(".moon").id
-						let planetId = moonId.split("-moon-")[0]
-						let starId = planetId.split("-planet-")[0]
+						let moon = getCelestialBodyFromId(moonId)
 
 					// get retrograde
-						let retrograde = STATE.stars[starId].planets[planetId].moons[moonId].elements.retrograde.checked || false
+						let retrograde = moon.elements.retrograde.checked || false
 
 					// save new value
-						STATE.stars[starId].planets[planetId].moons[moonId].retrograde = retrograde
+						moon.retrograde = retrograde
 
 				// update day
 					// current
-						let day = STATE.stars[starId].planets[planetId].moons[moonId].day // d
-						let period = STATE.stars[starId].planets[planetId].moons[moonId].period // d
+						let day = moon.day // d
+						let period = moon.period // d
 
 					// flip
 						day = roundNumber((period - day + period) % period) // d
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.day.value = STATE.stars[starId].planets[planetId].moons[moonId].day = day // d
+						moon.elements.day.value = moon.day = day // d
 			} catch (error) {console.log(error)}
 		}
 
@@ -4251,18 +5245,26 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// angle
 					// get angle
-						let angle = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.inclination.value) // °
+						let angle = Number(moon.elements.inclination.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							moon.elements.inclination.value = angle // °
+						}
 
 					// convert to SI
 						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
 
 					// save new values
-						STATE.stars[starId].planets[planetId].moons[moonId].inclination = angle // radians
+						moon.inclination = angle // radians
 			} catch (error) {console.log(error)}
 		}
 
@@ -4271,12 +5273,11 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// update new value
 					// get eccentricity
-						let eccentricity = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.eccentricity.value) // ratio
+						let eccentricity = Number(moon.elements.eccentricity.value) // ratio
 
 					// errors
 						if (CONSTANTS.limit.minimumEccentricity > eccentricity || eccentricity >= CONSTANTS.limit.maximumEccentricity) {
@@ -4284,11 +5285,11 @@
 						}
 
 					// save new value
-						STATE.stars[starId].planets[planetId].moons[moonId].eccentricity = eccentricity // ratio
+						moon.eccentricity = eccentricity // ratio
 
 				// semiMajorAxis & eccentricity --> apoapsis & periapsis
 					// get semiMajorAxis
-						let semiMajorAxis = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis // AU
+						let semiMajorAxis = moon.semiMajorAxis // AU
 
 					// errors
 						if (!semiMajorAxis) {
@@ -4299,11 +5300,11 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.apoapsis.value   = STATE.stars[starId].planets[planetId].moons[moonId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.periapsis.value = STATE.stars[starId].planets[planetId].moons[moonId].periapsis = periapsis // AU
+						moon.elements.apoapsis.value   = moon.apoapsis   = apoapsis // AU
+						moon.elements.periapsis.value = moon.periapsis = periapsis // AU
 
 				// computed
-					STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -4312,13 +5313,12 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// update new values
 					// get apoapsis & periapsis
-						let apoapsis   = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.apoapsis.value) // AU
-						let periapsis = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.periapsis.value) // AU
+						let apoapsis   = Number(moon.elements.apoapsis.value) // AU
+						let periapsis = Number(moon.elements.periapsis.value) // AU
 
 					// errors
 						if (!apoapsis || !periapsis) {
@@ -4326,27 +5326,31 @@
 						}
 
 					// save new values
-						STATE.stars[starId].planets[planetId].moons[moonId].apoapsis   = apoapsis // AU
-						STATE.stars[starId].planets[planetId].moons[moonId].periapsis = periapsis // AU
+						moon.apoapsis   = apoapsis // AU
+						moon.periapsis = periapsis // AU
 
 				// apoapsis & periapsis --> semiMajorAxis
 					// get semiMajorAxis
 						let semiMajorAxis = calculateEllipse(null, null, [apoapsis, periapsis]) // AU
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.semiMajorAxis.value = STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis = semiMajorAxis // AU
+						moon.elements.semiMajorAxis.value = moon.semiMajorAxis = semiMajorAxis // AU
 
 				// semiMajorAxis & apoapsis & periapsis --> eccentricity
 					// calculate eccentricity
 						let eccentricity = calculateEllipse(semiMajorAxis, null, [apoapsis, periapsis]) // ratio
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.eccentricity.value = STATE.stars[starId].planets[planetId].moons[moonId].eccentricity = eccentricity // ratio
+						moon.elements.eccentricity.value = moon.eccentricity = eccentricity // ratio
 
 				// semiMajorAxis & mass --> period
+					// get parent
+						let parentId = event.target.closest(".planet").id
+						let parent = getCelestialBodyFromId(parentId)
+
 					// get planet mass
-						let massFactor = STATE.stars[starId].moons[moonId].massFactor // kg
-						let massPower = STATE.stars[starId].moons[moonId].massPower // 10^x
+						let massFactor = parent.massFactor // kg
+						let massPower = parent.massPower // 10^x
 
 					// errors
 						if (!massFactor || !massPower) {
@@ -4364,10 +5368,10 @@
 						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
 
 					// set & save value
-						STATE.stars[starId].planets[planetId].moons[moonId].elements.period.value = STATE.stars[starId].planets[planetId].moons[moonId].period = period // d
+						moon.elements.period.value = moon.period = period // d
 
 				// computed
-					STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 			} catch (error) {console.log(error)}
 		}
 	
@@ -4376,21 +5380,29 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// angle
 					// get angle
-						let angle = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.longitudeOfAscendingNode.value) // °
+						let angle = Number(moon.elements.longitudeOfAscendingNode.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							moon.elements.longitudeOfAscendingNode.value = angle // °
+						}
 
 					// convert to SI
 						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
 
 					// save new values
-						STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode = angle // radians
+						moon.longitudeOfAscendingNode = angle // radians
 
 				// computed
-					STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -4399,21 +5411,29 @@
 			try {
 				// get id
 					let moonId = event.target.closest(".moon").id
-					let planetId = moonId.split("-moon-")[0]
-					let starId = planetId.split("-planet-")[0]
+					let moon = getCelestialBodyFromId(moonId)
 
 				// angle
 					// get angle
-						let angle = Number(STATE.stars[starId].planets[planetId].moons[moonId].elements.argumentOfPeriapsis.value) // °
+						let angle = Number(moon.elements.argumentOfPeriapsis.value) // °
+
+					// bound
+						if (angle < 0 || angle >= CONSTANTS.convert.circle_to_degree) {
+							while (angle < 0) {
+								angle += CONSTANTS.convert.circle_to_degree // °
+							}
+							angle = angle % CONSTANTS.convert.circle_to_degree // °
+							moon.elements.argumentOfPeriapsis.value = angle // °
+						}
 
 					// convert to SI
 						angle = roundNumber(angle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
 
 					// save new values
-						STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis = angle // radians
+						moon.argumentOfPeriapsis = angle // radians
 
 				// computed
-					STATE.stars[starId].planets[planetId].moons[moonId].computed = calculateComputedValues(STATE.stars[starId].planets[planetId].moons[moonId].semiMajorAxis, STATE.stars[starId].planets[planetId].moons[moonId].eccentricity, STATE.stars[starId].planets[planetId].moons[moonId].longitudeOfAscendingNode, STATE.stars[starId].planets[planetId].moons[moonId].argumentOfPeriapsis, STATE.stars[starId].planets[planetId].moons[moonId].inclination)
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
 			} catch (error) {console.log(error)}
 		}
 
@@ -4422,8 +5442,8 @@
 		function simulateSystem() {
 			try {
 				// recompute positions
-					for (let i in STATE.stars) {
-						computeStar(STATE.stars[i], 0, 0)
+					for (let i in STATE.system.children) {
+						computeCelestialBody(STATE.system.children[i], 0, 0, 0)
 					}
 
 				// tracking
@@ -4439,162 +5459,89 @@
 
 						// move to user offset (pan * zoom)
 							translateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, (-STATE.controls.x * STATE.controls.zoom), (-STATE.controls.y * STATE.controls.zoom), function() {
-								// loop through stars
-									for (let i in STATE.stars) {
-										simulateStar(STATE.stars[i])
+								// loop through children
+									for (let i in STATE.system.children) {
+										simulateCelestialBody(STATE.system.children[i], i)
 									}
 							})
 					})
 			} catch (error) {console.log(error)}
 		}
 
-	/* computeStar */
-		function computeStar(star, x, y) {
+	/* computeCelestialBody */
+		function computeCelestialBody(celestialBody, x, y, inclination) {
 			try {
-				// get localPoint
-					let starPoint = {
-						x: star.position.x,
-						y: star.position.y
-					}
+				// update inclination
+					inclination = ((inclination || 0) + Math.abs(celestialBody.inclination)) % CONSTANTS.convert.circle_to_radian
 
-				// move to point
-					x -= starPoint.x
-					y -= starPoint.y
-
-				// save
-					star.position.invariableX = x
-					star.position.invariableY = y
-
-				// loop through planets
-					for (let i in star.planets) {
-						computePlanet(star.planets[i], x, y)
-					}
-
-				// increment day
-					iterateDay(star)
-			} catch (error) {console.log(error)}
-		}
-
-	/* computePlanet */
-		function computePlanet(planet, x, y) {
-			try {
-				// calculate planet's position at day
-					planet.position.trueAnomaly = calculateTrueAnomaly(planet.day, planet.period, planet.retrograde, planet.eccentricity)
-					let position = calculatePositionOnEllipse(planet.semiMajorAxis, planet.computed.semiMinorAxis, planet.position.trueAnomaly)
-					planet.position.x = position.x - planet.computed.focalDistance
-					planet.position.y = position.y
-
-				// get local point
-					let planetPoint = {
-						x: planet.position.x * Math.abs(Math.cos(planet.inclination)),
-						y: planet.position.y
-					}
-
-				// rotate around orbit & move to point
-					planetPoint = rotatePoint(planetPoint.x, planetPoint.y, planet.computed.longitudeOfPeriapsis)
-					x += planetPoint.x
-					y += planetPoint.y
-
-				// save
-					planet.position.invariableX = x
-					planet.position.invariableY = y
-
-				// loop through moons
-					for (let i in planet.moons) {
-						computeMoon(planet.moons[i], x, y, planet.inclination)
-					}
-
-				// increment day
-					iterateDay(planet)
-			} catch (error) {console.log(error)}
-		}
-
-	/* computeMoon */
-		function computeMoon(moon, x, y, i) {
-			try {
 				// calculate moon's position at day
-					moon.position.trueAnomaly = calculateTrueAnomaly(moon.day, moon.period, moon.retrograde, moon.eccentricity)
-					let position = calculatePositionOnEllipse(moon.semiMajorAxis, moon.computed.semiMinorAxis, moon.position.trueAnomaly)
-					moon.position.x = position.x - moon.computed.focalDistance
-					moon.position.y = position.y
+					celestialBody.position.trueAnomaly = calculateTrueAnomaly(celestialBody.day, celestialBody.period, celestialBody.retrograde, celestialBody.eccentricity)
+					let position = calculatePositionOnEllipse(celestialBody.semiMajorAxis, celestialBody.computed.semiMinorAxis, celestialBody.position.trueAnomaly)
+					celestialBody.position.x = position.x - celestialBody.computed.focalDistance
+					celestialBody.position.y = position.y
 
 				// get local point
-					let moonPoint = {
-						x: moon.position.x * Math.abs(Math.cos(i + moon.inclination)),
-						y: moon.position.y
+					let celestialBodyPoint = {
+						x: celestialBody.position.x * Math.abs(Math.cos(inclination)),
+						y: celestialBody.position.y
 					}
 
 				// rotate around orbit & move to point
-					moonPoint = rotatePoint(moonPoint.x, moonPoint.y, moon.computed.longitudeOfPeriapsis)
-					x += moonPoint.x
-					y += moonPoint.y
+					celestialBodyPoint = rotatePoint(celestialBodyPoint.x, celestialBodyPoint.y, (celestialBody.computed.longitudeOfPeriapsis || 0))
+					x += celestialBodyPoint.x
+					y += celestialBodyPoint.y
 
 				// save
-					moon.position.invariableX = x
-					moon.position.invariableY = y
+					celestialBody.position.invariableX = x
+					celestialBody.position.invariableY = y
+
+				// loop through children
+					for (let i in celestialBody.children) {
+						computeCelestialBody(celestialBody.children[i], x, y, inclination)
+					}
 
 				// increment day
-					iterateDay(moon)
+					iterateDay(celestialBody)
 			} catch (error) {console.log(error)}
 		}
 
 	/* computeTracking */
 		function computeTracking() {
 			try {
-				// star
-					if (STATE.controls.tracking.star) {
-						// star does not exist
-							if (!STATE.stars[STATE.controls.tracking.star]) {
-								STATE.controls.tracking.star = null
-								ELEMENTS.controls.tracking.checked = true
-								return
-							}
-
-						// planet
-							if (STATE.controls.tracking.planet) {
-								// planet does not exist --> switch to star
-									if (!STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet]) {
-										STATE.controls.tracking.planet = null
-										STATE.stars[STATE.controls.tracking.star].position.tracking = true
-										STATE.stars[STATE.controls.tracking.star].elements.tracking.checked = true
-									}
-
-								// moon
-									else if (STATE.controls.tracking.moon) {
-										// moon does not exist --> switch to planet
-											if (!STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon]) {
-												STATE.controls.tracking.moon = null
-												STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].position.tracking = true
-												STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].elements.tracking.checked = true
-											}
-
-										// track to moon
-											else {
-												STATE.controls.x = STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon].position.invariableX
-												STATE.controls.y = STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].moons[STATE.controls.tracking.moon].position.invariableY
-												ELEMENTS.controls.x.value = STATE.controls.x
-												ELEMENTS.controls.y.value = STATE.controls.y
-												return
-											}
-									}
-
-								// track to planet
-									if (STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet]) {
-										STATE.controls.x = STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].position.invariableX
-										STATE.controls.y = STATE.stars[STATE.controls.tracking.star].planets[STATE.controls.tracking.planet].position.invariableY
-										ELEMENTS.controls.x.value = STATE.controls.x
-										ELEMENTS.controls.y.value = STATE.controls.y
-										return
-									}
-							}
-
-						// track to star
-							STATE.controls.x = STATE.stars[STATE.controls.tracking.star].position.invariableX
-							STATE.controls.y = STATE.stars[STATE.controls.tracking.star].position.invariableY
-							ELEMENTS.controls.x.value = STATE.controls.x
-							ELEMENTS.controls.y.value = STATE.controls.y
-							return
+				// not tracking
+					if (!STATE.controls.tracking) {
+						return
 					}
+
+				// get position of tracked object
+					let celestialBody = null
+					let changed = false
+					while (!celestialBody && STATE.controls.tracking && STATE.controls.tracking.length) {
+						celestialBody = getCelestialBodyFromId(STATE.controls.tracking)
+						if (!celestialBody) {
+							changed = true
+							STATE.controls.tracking = STATE.controls.tracking.split("-")
+							STATE.controls.tracking.pop()
+							STATE.controls.tracking.pop()
+							STATE.controls.tracking = STATE.controls.tracking.join()
+						}
+					}
+
+				// not tracking anymore
+					if (!STATE.controls.tracking) {
+						ELEMENTS.controls.tracking.checked = true
+						return
+					}
+
+				// different celestialBody
+					if (changed) {
+						celestialBody.position.tracking = true
+						celestialBody.elements.tracking.checked = true
+					}
+
+				// tracking something
+					ELEMENTS.controls.x.value = STATE.controls.x = celestialBody.position.invariableX
+					ELEMENTS.controls.y.value = STATE.controls.y = celestialBody.position.invariableY
 			} catch (error) {console.log(error)}
 		}
 
@@ -4627,210 +5574,125 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* simulateStar */
-		function simulateStar(star) {
+	/* simulateCelestialBody */
+		function simulateCelestialBody(celestialBody, inclination) {
 			try {
-				// move to star's perspective
-					translateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, star.position.x * STATE.controls.zoom, star.position.y * STATE.controls.zoom, function() {
-						// draw habitable zone
-							if (star.position.visible) {
-								drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: 0,
-									y: 0,
-									eccentricity: 0,
-									semiMajorAxis: star.habitableZone * STATE.controls.zoom,
-									stroke: CONSTANTS.canvas.habitableZoneColor,
-									lineWidth: CONSTANTS.canvas.habitableZoneThickness * star.habitableZone * STATE.controls.zoom,
-									opacity: CONSTANTS.canvas.habitableZoneOpacity,
-									shadowColor: CONSTANTS.canvas.habitableZoneColor,
-									shadowBlur: CONSTANTS.canvas.habitableZoneShadowBlur * star.habitableZone * STATE.controls.zoom
-								})
-							}
+				// type
+					let type = celestialBody.type
 
-						// draw star
-							if (star.position.visible) {
-								drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: 0,
-									y: 0,
-									eccentricity: 0,
-									semiMajorAxis: star.radius * STATE.controls.zoom,
-									fill: star.color,
-									opacity: CONSTANTS.canvas.starOpacity,
-									shadowColor: star.color,
-									shadowBlur: CONSTANTS.canvas.glowThickness
-								})
-							}
+				// update inclination
+					inclination = ((inclination || 0) + Math.abs(celestialBody.inclination)) % CONSTANTS.convert.circle_to_radian
 
-						// draw text
-							if (star.position.visible) {
-								drawText(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: 0,
-									y: CONSTANTS.canvas.starFontSize,
-									body: star.name,
-									fill: star.color,
-									opacity: CONSTANTS.canvas.starOpacity,
-									fontSize: CONSTANTS.canvas.starFontSize,
-									fontFamily: CONSTANTS.canvas.fontFamily
-								})
-							}
-
-						// loop through planets
-							for (let i in star.planets) {
-								simulatePlanet(star.planets[i])
-							}
-					})
-			} catch (error) {console.log(error)}
-		}
-
-	/* simulatePlanet */
-		function simulatePlanet(planet) {
-			try {
-				// rotate planet's orbit
-					rotateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, planet.computed.longitudeOfPeriapsis, function() {
+				// rotate orbit
+					rotateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, celestialBody.computed.longitudeOfPeriapsis, function() {
 						// save
 							ELEMENTS.simulation.context.save()
 
 						// stretch
-							ELEMENTS.simulation.context.scale(Math.abs(Math.cos(planet.inclination)), 1)
+							ELEMENTS.simulation.context.scale(Math.abs(Math.cos(inclination)), 1)
 
 						// draw orbit
-							if (planet.position.visible) {
-								drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: -planet.computed.focalDistance * STATE.controls.zoom,
-									y: 0,
-									eccentricity: planet.eccentricity,
-									semiMajorAxis: planet.semiMajorAxis * STATE.controls.zoom,
-									startAngle: planet.computed.ascendingNode.a,
-									endAngle: planet.computed.descendingNode.a,
-									stroke: planet.color,
-									lineWidth: CONSTANTS.canvas.orbitThickness,
-									opacity: CONSTANTS.canvas.orbitAboveOpacity
-								})
+							if (celestialBody.position.visible && celestialBody.semiMajorAxis) {
+								// above
+									drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
+										x: -celestialBody.computed.focalDistance * STATE.controls.zoom,
+										y: 0,
+										eccentricity: celestialBody.eccentricity,
+										semiMajorAxis: celestialBody.semiMajorAxis * STATE.controls.zoom,
+										startAngle: celestialBody.computed.ascendingNode.a,
+										endAngle: celestialBody.computed.descendingNode.a,
+										stroke: celestialBody.color,
+										lineWidth: CONSTANTS.canvas.orbitThickness,
+										opacity: CONSTANTS.canvas.orbitAboveOpacity
+									})
 
-								drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: -planet.computed.focalDistance * STATE.controls.zoom,
-									y: 0,
-									eccentricity: planet.eccentricity,
-									semiMajorAxis: planet.semiMajorAxis * STATE.controls.zoom,
-									startAngle: planet.computed.descendingNode.a,
-									endAngle: planet.computed.ascendingNode.a,
-									stroke: planet.color,
-									lineWidth: CONSTANTS.canvas.orbitThickness,
-									opacity: CONSTANTS.canvas.orbitBelowOpacity
-								})
+								// below
+									drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
+										x: -celestialBody.computed.focalDistance * STATE.controls.zoom,
+										y: 0,
+										eccentricity: celestialBody.eccentricity,
+										semiMajorAxis: celestialBody.semiMajorAxis * STATE.controls.zoom,
+										startAngle: celestialBody.computed.descendingNode.a,
+										endAngle: celestialBody.computed.ascendingNode.a,
+										stroke: celestialBody.color,
+										lineWidth: CONSTANTS.canvas.orbitThickness,
+										opacity: CONSTANTS.canvas.orbitBelowOpacity
+									})
 							}
 
-						// move to planet
-							translateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, planet.position.x * STATE.controls.zoom, planet.position.y * STATE.controls.zoom, function() {
-								ELEMENTS.simulation.context.scale(1 / Math.abs(Math.cos(planet.inclination)), 1)
-								rotateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, -planet.computed.longitudeOfPeriapsis, function() {
-									// draw planet
-										if (planet.position.visible) {
+						// move to object
+							translateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, celestialBody.position.x * STATE.controls.zoom, celestialBody.position.y * STATE.controls.zoom, function() {
+								ELEMENTS.simulation.context.scale(1 / Math.abs(Math.cos(-inclination)), 1)
+								rotateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, -celestialBody.computed.longitudeOfPeriapsis, function() {
+									// draw habitableZone (for stars)
+										if (celestialBody.position.visible && celestialBody.habitableZone && celestialBody.class !== "binary") {
 											drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
 												x: 0,
 												y: 0,
 												eccentricity: 0,
-												semiMajorAxis: Math.log10(planet.massFactor * (10 ** planet.massPower)) * CONSTANTS.canvas.planet_log_kg_to_pixel,
-												fill: planet.color,
-												opacity: CONSTANTS.canvas.planetOpacity,
-												shadowColor: planet.color,
-												shadowBlur: CONSTANTS.canvas.glowThickness
+												semiMajorAxis: celestialBody.habitableZone * STATE.controls.zoom,
+												stroke: CONSTANTS.canvas.habitableZoneColor,
+												lineWidth: CONSTANTS.canvas.habitableZoneThickness * celestialBody.habitableZone * STATE.controls.zoom,
+												opacity: CONSTANTS.canvas.habitableZoneOpacity,
+												shadowColor: CONSTANTS.canvas.habitableZoneColor,
+												shadowBlur: CONSTANTS.canvas.habitableZoneShadowBlur * celestialBody.habitableZone * STATE.controls.zoom
 											})
-										}
-								
-									// draw text
-										if (planet.position.visible) {
-											drawText(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-												x: 0,
-												y: CONSTANTS.canvas.planetFontSize,
-												body: planet.name,
-												fill: planet.color,
-												opacity: CONSTANTS.canvas.planetOpacity,
-												fontSize: CONSTANTS.canvas.planetFontSize,
-												fontFamily: CONSTANTS.canvas.fontFamily
-											})
-										}
 
-									// loop through moons
-										for (let i in planet.moons) {
-											simulateMoon(planet, planet.moons[i])
-										}
-								})
-							})
-
-						// restore
-							ELEMENTS.simulation.context.restore()
-					})
-			} catch (error) {console.log(error)}
-		}
-
-	/* simulateMoon */
-		function simulateMoon(planet, moon) {
-			try {
-				// rotate moon's orbit
-					rotateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, moon.computed.longitudeOfPeriapsis, function() {
-						// save
-							ELEMENTS.simulation.context.save()
-
-						// stretch
-							ELEMENTS.simulation.context.scale(Math.abs(Math.cos(-planet.inclination + moon.inclination)), 1)
-
-						// draw orbit
-							if (moon.position.visible) {
-								drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: -moon.computed.focalDistance * STATE.controls.zoom,
-									y: 0,
-									eccentricity: moon.eccentricity,
-									semiMajorAxis: moon.semiMajorAxis * STATE.controls.zoom,
-									startAngle: moon.computed.ascendingNode.a,
-									endAngle: moon.computed.descendingNode.a,
-									stroke: moon.color,
-									lineWidth: CONSTANTS.canvas.orbitThickness,
-									opacity: CONSTANTS.canvas.orbitAboveOpacity
-								})
-
-								drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
-									x: -moon.computed.focalDistance * STATE.controls.zoom,
-									y: 0,
-									eccentricity: moon.eccentricity,
-									semiMajorAxis: moon.semiMajorAxis * STATE.controls.zoom,
-									startAngle: moon.computed.descendingNode.a,
-									endAngle: moon.computed.ascendingNode.a,
-									stroke: moon.color,
-									lineWidth: CONSTANTS.canvas.orbitThickness,
-									opacity: CONSTANTS.canvas.orbitBelowOpacity
-								})
-							}
-
-						// move to moon
-							translateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, moon.position.x * STATE.controls.zoom, moon.position.y * STATE.controls.zoom, function() {
-								ELEMENTS.simulation.context.scale(1 / Math.abs(Math.cos(planet.inclination + -moon.inclination)), 1)
-								rotateCanvas(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, -moon.computed.longitudeOfPeriapsis, function() {
-									// draw moon
-										if (moon.position.visible) {
 											drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
 												x: 0,
 												y: 0,
 												eccentricity: 0,
-												semiMajorAxis: Math.log10(moon.massFactor * (10 ** moon.massPower)) * CONSTANTS.canvas.moon_log_kg_to_pixel,
-												fill: moon.color,
-												opacity: CONSTANTS.canvas.moonOpacity,
-												shadowColor: moon.color,
+												semiMajorAxis: celestialBody.habitableZone * CONSTANTS.canvas.habitableZoneThickness * STATE.controls.zoom,
+												fill: CONSTANTS.canvas.uninhabitableZoneColor,
+												opacity: CONSTANTS.canvas.habitableZoneOpacity,
+												shadowColor: CONSTANTS.canvas.uninhabitableZoneColor,
+												shadowBlur: CONSTANTS.canvas.habitableZoneShadowBlur * celestialBody.habitableZone * STATE.controls.zoom
+											})
+										}
+
+									// draw celestial body (and label)
+										if (celestialBody.position.visible && celestialBody.class == "binary") {
+											drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
+												x: 0,
+												y: 0,
+												eccentricity: 0,
+												semiMajorAxis: Math.log10(celestialBody.massFactor * (10 ** celestialBody.massPower)) * CONSTANTS.canvas.barycenter_log_kg_to_pixel,
+												fill: CONSTANTS.canvas.barycenterColor,
+												opacity: CONSTANTS.canvas.barycenterOpacity,
+												shadowColor: CONSTANTS.canvas.barycenterColor,
 												shadowBlur: CONSTANTS.canvas.glowThickness
 											})
 										}
-								
-									// draw text
-										if (moon.position.visible) {
+										else if (celestialBody.position.visible) {
+											let radius = (type == "star") ? (celestialBody.radius * STATE.controls.zoom) : Math.log10(celestialBody.massFactor * (10 ** celestialBody.massPower)) * ((type == "planet") ? CONSTANTS.canvas.planet_log_kg_to_pixel : CONSTANTS.canvas.moon_log_kg_to_pixel)
+											drawEllipse(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
+												x: 0,
+												y: 0,
+												eccentricity: 0,
+												semiMajorAxis: radius,
+												fill: celestialBody.color,
+												opacity: CONSTANTS.canvas.celestialBodyOpacity,
+												shadowColor: celestialBody.color,
+												shadowBlur: CONSTANTS.canvas.glowThickness
+											})
+										}
+
+										if (celestialBody.position.visible) {
+											let fontSize = (type == "star") ? CONSTANTS.canvas.starFontSize : (type == "planet") ? CONSTANTS.canvas.planetFontSize : CONSTANTS.canvas.moonFontSize
 											drawText(ELEMENTS.simulation.canvas, ELEMENTS.simulation.context, {
 												x: 0,
-												y: CONSTANTS.canvas.moonFontSize,
-												body: moon.name,
-												fill: moon.color,
-												opacity: CONSTANTS.canvas.moonOpacity,
-												fontSize: CONSTANTS.canvas.moonFontSize,
+												y: fontSize,
+												body: celestialBody.name,
+												fill: celestialBody.color,
+												opacity: CONSTANTS.canvas.celestialBodyOpacity,
+												fontSize: fontSize,
 												fontFamily: CONSTANTS.canvas.fontFamily
 											})
+										}
+
+									// loop through children
+										for (let i in celestialBody.children) {
+											simulateCelestialBody(celestialBody.children[i], inclination)
 										}
 								})
 							})
@@ -4871,6 +5733,106 @@
 		}
 
 /*** tools ***/
+	/* getCelestialBodyFromId */
+		function getCelestialBodyFromId(id, list) {
+			try {
+				// no id
+					if (!id || id.length == 0) {
+						return STATE.system
+					}
+
+				// no list
+					if (!list) {
+						list = STATE.system.children
+					}
+
+				// loop through list
+					for (let i in list) {
+						if (i == id) {
+							return list[i]
+						}
+						else if (id.includes(i) && list[i].children) {
+							return getCelestialBodyFromId(id, list[i].children)
+						}
+					}
+
+				// something broke
+					return null
+			} catch (error) {console.log(error)}
+		}
+
+	/* getBinaryFamilyFromId */
+		function getBinaryFamilyFromId(starId) {
+			try {
+				// get parentId
+					let parentId = starId.split("-")
+						parentId.pop()
+						parentId.pop()
+					parentId = parentId.join("-")
+
+				// no parent
+					if (!parentId || !parentId.length) {
+						return [null, null]
+					}
+
+				// get parent
+					let parent = getCelestialBodyFromId(parentId)
+
+				// get sibling
+					let siblingId = Object.keys(parent.children).find(function(id) {
+						return id !== starId && parent.children[id].type == "star"
+					})
+					let sibling = parent.children[siblingId]
+
+				// return
+					return [sibling, parent]
+			} catch (error) {console.log(error)}
+		}
+
+	/* reduceAncestry */
+		function reduceAncestry(celestialBody, idToRemove) {
+			try {
+				// update its id
+					celestialBody.id = celestialBody.id.replace(idToRemove, "")
+
+				// update its elements
+					celestialBody.elements.section.id = celestialBody.id
+					celestialBody.elements.tracking.value = celestialBody.id
+
+				// loop through children
+					for (let i in celestialBody.children) {
+						reduceAncestry(celestialBody.children[i], idToRemove)
+					}
+
+				// return
+					return celestialBody
+			} catch (error) {console.log(error)}
+		}
+
+	/* sanitizeObject */
+		function sanitizeObject(obj) {
+			try {
+				// clear out unnecessary things
+					if (obj.elements) {
+						delete obj.elements
+					}
+					if (obj.position) {
+						delete obj.position
+					}
+					if (obj.computed) {
+						delete obj.computed
+					}
+
+				// clean children
+					for (let i in obj.children) {
+						obj.children[i] = sanitizeObject(obj.children[i])
+					}
+
+				// return
+					return obj
+			} catch (error) {console.log(error)}
+		}
+
 	/* generateRandom */
 		function generateRandom(a, b) {
 			try {
@@ -4926,10 +5888,111 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* getDistnace */
+	/* getDistance */
 		function getDistance(a, b) {
 			try {
 				return Math.sqrt(((a.x - b.x) ** 2) + ((a.y - b.y) ** 2))
+			} catch (error) {console.log(error)}
+		}
+
+	/* updateChildrenOrbits */
+		function updateChildrenOrbits(parent) {
+			try {
+				// get mass
+					let mass = parent.massFactor * (10 ** parent.massPower) // kg
+
+				// loop through children
+					for (let childId in parent.children) {
+						// get child
+							let child = parent.children[childId]
+							if (child.type == "star") {
+								continue
+							}
+
+						// get orbitalFraction
+							let day = child.day // d
+							let period = child.period // d
+							let orbitalFraction = (day / period) || 0 // ratio
+
+						// get semiMajorAxis
+							let semiMajorAxis = child.semiMajorAxis // AU
+
+						// convert to SI
+							semiMajorAxis = semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+
+						// get period
+							period = calculateOrbit(mass, null, semiMajorAxis) // s
+
+						// convert from SI
+							period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
+
+						// get equivalent day in new period
+							day = roundNumber(orbitalFraction * period) // d
+
+						// set & save values
+							child.elements.period.value = child.period = period // d
+							child.elements.day.value = child.day = day // d
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* updateBinarySystem */
+		function updateBinarySystem(changedStar, siblingStar, parentBinary) {
+			try {
+				// get masses
+					let changedStarMass = changedStar.massFactor * (10 ** changedStar.massPower) // kg
+					let siblingStarMass = siblingStar.massFactor * (10 ** siblingStar.massPower) // kg
+
+				// update parent
+					// parent mass
+						let [totalMassFactor, totalMassPower, totalMass] = calculateBarycenterMass(changedStarMass, siblingStarMass) // kg, 10^x, kg
+						parentBinary.elements.massFactor.value = parentBinary.massFactor = totalMassFactor // kg
+						parentBinary.elements.massPower.value = parentBinary.massPower = totalMassPower // 10^x
+
+					// children orbits
+						updateChildrenOrbits(parentBinary)
+
+				// update sibling
+					// new semiMajorAxis
+						// m1r1 = m2r2
+						siblingStar.elements.semiMajorAxis.value = siblingStar.semiMajorAxis = (changedStarMass / siblingStarMass) * changedStar.semiMajorAxis // AU
+						let [siblingStarApoapsis, siblingStarPeriapsis] = calculateEllipse(siblingStar.semiMajorAxis, siblingStar.eccentricity, [null, null]) // AU, AU
+						siblingStar.elements.apoapsis.value = siblingStar.apoapsis = siblingStarApoapsis // AU
+						siblingStar.elements.periapsis.value = siblingStar.periapsis = siblingStarPeriapsis // AU
+
+					// convert to SI
+						let changedStarSemiMajorAxis = changedStar.semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let siblingStarSemiMajorAxis = siblingStar.semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+
+				// get new barycenter period
+					// get totalDistance
+						let totalDistance = changedStarSemiMajorAxis + siblingStarSemiMajorAxis // m
+
+					// get period
+						let period = calculateBarycenterOrbit(changedStarMass, siblingStarMass, null, totalDistance) // s
+
+					// convert from SI
+						period = roundNumber(period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour) // d
+
+					// save new value
+						changedStar.elements.period.value = changedStar.period = period // d
+						siblingStar.elements.period.value = siblingStar.period = period // d
+
+				// update day
+					if (changedStar.day > changedStar.period) {
+						changedStar.elements.day.value = changedStar.day = 0 // d
+						siblingStar.elements.day.value = siblingStar.day = 0 // d
+					}
+
+				// computed
+					changedStar.computed = calculateComputedValues(changedStar.semiMajorAxis, changedStar.eccentricity, changedStar.longitudeOfAscendingNode, changedStar.argumentOfPeriapsis, changedStar.inclination)
+					siblingStar.computed = calculateComputedValues(siblingStar.semiMajorAxis, siblingStar.eccentricity, siblingStar.longitudeOfAscendingNode, siblingStar.argumentOfPeriapsis, siblingStar.inclination)
+
+				// parent is itself part of a binary?
+					let [uncleStar, grandparentStar] = getBinaryFamilyFromId(parentBinary.id)
+					if (uncleStar) {
+						updateBinarySystem(parentBinary, uncleStar, grandparentStar)
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -4966,7 +6029,74 @@
 							}
 
 						// convert to SI
-							return mass * CONSTANTS.convert.solarMass_to_kg // kg
+							mass = mass * CONSTANTS.convert.solarMass_to_kg // kg
+
+						// split
+							let massPower = 0 // 10^x
+							let massFactor = mass // kg
+							while (massFactor >= 10) { // kg
+								massFactor /= 10 // kg
+								massPower++ // 10^x
+							}
+							massFactor = roundNumber(massFactor) // kg
+
+						// return
+							return [massFactor, massPower, mass] // kg, 10^x, kg
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* calculateBarycenterMass */
+		function calculateBarycenterMass(starAmass, starBmass) {
+			try {
+				// combine
+					let totalMass = roundNumber(starAmass + starBmass) // kg
+
+				// split factor / power
+					let totalMassPower = 0 // 10^x
+					let totalMassFactor = totalMass // kg
+					while (totalMassFactor >= 10) { // kg
+						totalMassFactor /= 10 // kg
+						totalMassPower++ // 10^x
+					}
+					totalMassFactor = roundNumber(totalMassFactor) // kg
+
+				// return
+					return [totalMassFactor, totalMassPower, totalMass] // kg, 10^x, kg
+			} catch (error) {console.log(error)}
+		}
+
+	/* calculateBarycenterOrbit */
+		function calculateBarycenterOrbit(starAmass, starBmass, period, distance) {
+			try {
+				// formula for binary orbital period
+					// T^2 / d^3 = 4π^2 / G(m1 + m2)
+
+				// get total mass
+					let [totalMassFactor, totalMassPower, totalMass] = calculateBarycenterMass(starAmass, starBmass) // kg, 10^x, kg
+
+				// missing period
+					// T^2 = (4π^2 / G(m1 + m2)) * d^3
+					// T = ((4π^2 / G(m1 + m2)) * d^3) ^ (1/2)
+					if (!period) {
+						return roundNumber( Math.sqrt((CONSTANTS['4π^2'] * Math.pow(distance, 3)) / (CONSTANTS.G * totalMass)) ) // s
+					}
+
+				// missing distance
+					// d^3 = (G * (m1 + m2) * T^2) / 4π^2
+					// d = ((G * (m1 + m2) * T^2) / 4π^2) ^ (1/3)
+					if (!distance) {
+						let totalDistance = roundNumber( Math.cbrt((CONSTANTS.G * totalMass * (period ** 2)) / CONSTANTS['4π^2']) ) // m
+
+						// formula for binary star radii
+							// m1r1 = m2r2
+							// r1 + r2 = d
+							// r1 = m2d / (m1 + m2)
+
+						// starAdistance
+							let starAdistance = roundNumber( (starBmass * totalDistance) / totalMass ) // m
+							let starBdistance = roundNumber( (starAmass * totalDistance) / totalMass ) // m
+						return [starAdistance, starBdistance, totalDistance] // m
 					}
 			} catch (error) {console.log(error)}
 		}
@@ -5016,6 +6146,11 @@
 				// semiMinorAxis & focalDistance
 					computed.semiMinorAxis = calculateSemiMinorAxis(semiMajorAxis, eccentricity) // AU
 					computed.focalDistance = calculateFocalDistance(semiMajorAxis, computed.semiMinorAxis) // AU
+
+				// stars --> return early
+					if (longitudeOfAscendingNode == undefined || argumentOfPeriapsis == undefined || inclination == undefined) {
+						return computed
+					}
 
 				// inclination --> flip ascending / descending
 					let inclinationFlip = 1
@@ -5083,7 +6218,7 @@
 
 				// missing period
 					if (!period) {
-						return roundNumber(Math.sqrt( ((CONSTANTS['4π^2'] / (CONSTANTS.G * mass)) * (semiMajorAxis ** 3)) )) // days
+						return roundNumber(Math.sqrt( ((CONSTANTS['4π^2'] / (CONSTANTS.G * mass)) * (semiMajorAxis ** 3)) )) // s
 					}
 
 				// missing semiMajorAxis
@@ -5124,6 +6259,11 @@
 	/* calculateTrueAnomaly */
 		function calculateTrueAnomaly(day, period, retrograde, eccentricity) {
 			try {
+				// no period
+					if (!period) {
+						return 0
+					}
+
 				// formula for true anomaly
 					// E = eccentricAnomaly
 					// tan(v / 2) = sqrt(1+e/1-e) * tan(E / 2)
@@ -5162,6 +6302,11 @@
 	/* calculatePositionOnEllipse */
 		function calculatePositionOnEllipse(semiMajorAxis, semiMinorAxis, trueAnomaly) {
 			try {
+				// no ellipse
+					if (!semiMajorAxis || !semiMinorAxis) {
+						return {x: 0, y: 0}
+					}
+
 				// formula for a line
 					// y = mx + c // c = 0, m = tanθ
 					// y = tanθ * x
