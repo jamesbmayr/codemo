@@ -329,6 +329,7 @@
 			},
 			eternalhorizon: {
 				skipRandom: true,
+				hidden: true,
 				name: "Eternal Horizon",
 				size: "large",
 				tags: ["music","fantasy","orchestral"],
@@ -362,6 +363,13 @@
 				tags: ["design","code","canvas","fantasy","scifi","art","tool"],
 				date: "November 15, 2018",
 				description: "With flagMaker, randomly generate amazing flags - or build your own."
+			},
+			flappyword: {
+				name: "flappy word",
+				size: "small",
+				tags: ["code","writing","game","arcade"],
+				date: "April 5, 2022",
+				description: "Type quickly to keep the words flapping between the ever-encroaching clouds and mountains."
 			},
 			flashcardmemory: {
 				name: "Flash Card Memory",

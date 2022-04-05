@@ -1,0 +1,254 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #777777;
+		--light-gray: #dddddd;
+		--light-blue: #04b1ff;
+		--light-red: #d94c4c;
+		--medium-green: #26a53f;
+		--gap-size: 5px;
+		--border-radius: 10px;
+		--font-size: 30px;
+		--font-family: monospace;
+		--shadow-size: 5px;
+		--border-size: 5px;
+		--transition: 1s;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: var(--dark-gray);
+		font-size: 0;
+		overflow: hidden;
+	}
+
+/*** game ***/
+	#game {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: calc(100vw - 2 * var(--border-size));
+		width: calc(100vw - 2 * var(--border-size));
+		max-height: calc(100vh - 2 * var(--border-size));
+		max-width: calc(100vh - 2 * var(--border-size));
+		border-radius: calc(var(--border-size) * 2);
+		box-shadow: 0 0 var(--shadow-size) var(--dark-gray) inset;
+		overflow: hidden;
+		background: linear-gradient(to bottom, var(--medium-gray), var(--light-blue), var(--medium-green));
+	}
+
+	#game[gameover] {
+		filter: blur(var(--gap-size));
+		pointer-events: none;
+	}
+
+	/* word */
+		#word {
+			position: absolute;
+			top: 0;
+			left: 1%;
+			transform: translateY(-50%);
+			height: 1%;
+			width: auto;
+			line-height: 1;
+			font-size: calc((1vw + 1vh) / 2);
+			border-radius: var(--border-radius);
+			padding: var(--gap-size);
+ 			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+			user-select: none;
+			pointer-events: none;
+			font-family: var(--font-family);
+			background: var(--dark-gray);
+		}
+
+		#word[mistake] {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-red)) !important;
+		}
+
+		#word[typed]:not([mistake]) {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+		}
+
+		#word .letter {
+			color: var(--light-gray);
+			text-shadow: 0 0 calc(var(--shadow-size) / 2) var(--medium-gray);
+		}
+
+		#word .letter[typed] {
+			color: var(--light-blue);
+		}
+
+		#wings {
+			position: absolute;
+			bottom: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			background-color: var(--light-gray);
+			clip-path: polygon(50% 100%, 40.47% 100%, 37.86% 94.91%, 35.12% 96.74%, 32.64% 92.43%, 29.63% 94.91%, 28.07% 89.43%, 23.89% 92.82%, 23.37% 86.16%, 18.15% 90.34%, 17.75% 80.94%, 11.49% 84.99%, 13.45% 74.54%, 7.05% 76.11%, 0.52% 77.94%, 6.66% 67.89%, 13.19% 63.32%, 20.5% 62.01%, 27.55% 64.49%, 32.77% 69.71%, 36.16% 79.37%, 38.38% 87.73%, 45.56% 93.34%, 50% 100%, 59.53% 100%, 62.14% 94.91%, 64.88% 96.74%, 67.36% 92.43%, 70.37% 94.91%, 71.93% 89.43%, 76.11% 92.82%, 76.63% 86.16%, 81.85% 90.34%, 82.25% 80.94%, 88.51% 84.99%, 86.55% 74.54%, 92.95% 76.11%, 99.48% 77.94%, 93.34% 67.89%, 86.81% 63.32%, 79.5% 62.01%, 72.45% 64.49%, 67.23% 69.71%, 63.84% 79.37%, 61.62% 87.73%, 54.44% 93.34%);
+			height: 300%;
+			width: calc((1vw + 1vh) * 2);
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+			transition: calc(var(--transition) / 4);
+		}
+
+		#wings[flap] {
+			height: 100%;
+		}
+
+	/* background word */
+		#background-word {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			font-size: calc(var(--font-size) * 2);
+			font-family: var(--font-family);
+			font-weight: bold;
+			opacity: 0.5;
+		}
+
+		#background-word .letter {
+			color: var(--medium-gray);
+			text-shadow: 0 0 calc(var(--shadow-size) / 2) var(--dark-gray);
+		}
+
+		#background-word .letter[typed] {
+			color: var(--light-blue);
+		}
+
+	/* obstacles */
+		#obstacles {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: transparent;
+			user-select: none;
+			pointer-events: none;
+		}
+
+		.obstacle {
+			position: absolute;
+			left: 0;
+		}
+
+		.obstacle-top {
+			top: 0;
+			border-radius: 0 0 var(--border-radius) var(--border-radius);
+			background-color: var(--medium-gray);
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+		.obstacle-bottom {
+			bottom: 0;
+			background-color: var(--medium-green);
+			border-radius: var(--border-radius) var(--border-radius) 0 0;
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+		.obstacle[collision] {
+			background: var(--light-red) !important;
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-red)) !important;
+		}
+
+	/* score */
+		#score {
+			position: absolute;
+			top: calc(2 * var(--gap-size));
+			left: calc(2 * var(--gap-size));
+			font-size: var(--font-size);
+			font-weight: bold;
+			font-family: var(--font-family);
+			color: var(--light-gray);
+			text-shadow: 0 0 calc(var(--shadow-size) / 2) var(--medium-gray);
+			user-select: none;
+			pointer-events: none;
+		}
+
+/*** inputs ***/
+	/* reset */
+		#reset {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			border-radius: 100%;
+			font-size: calc(var(--font-size) * 4);
+			height: calc(var(--font-size) * 4);
+			width: calc(var(--font-size) * 4);
+			font-family: var(--font-family);
+			padding: 0;
+			border: 0;
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-gray));
+			outline: none;
+			cursor: pointer;
+			transition: var(--transition);
+			line-height: 1;
+			text-align: center;
+			transition: var(--transition);
+			background: transparent;
+			color: var(--medium-gray);
+			font-weight: bold;
+			box-sizing: border-box;
+			text-shadow: 0 0 calc(var(--shadow-size) / 2) var(--light-gray);
+		}
+
+		#reset:hover, #reset:focus {
+			background: var(--light-gray);
+			color: var(--medium-gray);
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+			text-shadow: none;
+		}
+
+		#game:not([gameover]) ~ #reset {
+			display: none;
+			pointer-events: none;
+		}
+
+	/* input */
+		#input {
+			position: absolute;
+			top: -100vh;
+			left: -100vw;
+			height: 0;
+			width: 0;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			font-size: 0;
+			opacity: 0;
+			cursor: none;
+			outline: 0;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url(../resources/j.png);
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		transition: var(--transition);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+	}
