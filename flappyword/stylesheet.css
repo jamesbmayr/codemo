@@ -43,6 +43,9 @@
 		box-shadow: 0 0 var(--shadow-size) var(--dark-gray) inset;
 		overflow: hidden;
 		background: linear-gradient(to bottom, var(--medium-gray), var(--light-blue), var(--medium-green));
+		transition: var(--transition);
+		pointer-events: none;
+		user-select: none;
 	}
 
 	#game[gameover] {
@@ -53,7 +56,7 @@
 	/* word */
 		#word {
 			position: absolute;
-			top: 0;
+			top: 50%;
 			left: 1%;
 			transform: translateY(-50%);
 			height: 1%;
@@ -113,6 +116,8 @@
 			font-family: var(--font-family);
 			font-weight: bold;
 			opacity: 0.5;
+			user-select: none;
+			pointer-events: none;
 		}
 
 		#background-word .letter {
@@ -183,8 +188,8 @@
 			transform: translateX(-50%) translateY(-50%);
 			border-radius: 100%;
 			font-size: calc(var(--font-size) * 4);
-			height: calc(var(--font-size) * 4);
-			width: calc(var(--font-size) * 4);
+			height: calc(var(--font-size) * 6);
+			width: calc(var(--font-size) * 6);
 			font-family: var(--font-family);
 			padding: 0;
 			border: 0;
@@ -200,6 +205,7 @@
 			font-weight: bold;
 			box-sizing: border-box;
 			text-shadow: 0 0 calc(var(--shadow-size) / 2) var(--light-gray);
+			user-select: none;
 		}
 
 		#reset:hover, #reset:focus {
@@ -224,10 +230,9 @@
 			padding: 0;
 			margin: 0;
 			border: 0;
-			font-size: 0;
 			opacity: 0;
-			cursor: none;
 			outline: 0;
+			overflow: hidden;
 		}
 
 /*** j-logo ***/
