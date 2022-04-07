@@ -35,7 +35,7 @@
 			YpercentPerGapMin: 30,
 			YpercentPerGapEdge: 10,
 			msPerLoop: 50,
-			alphabet: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","y","z"],
+			alphabet: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
 			dictionaryCounts: null
 		}
 
@@ -83,6 +83,7 @@
 			"v": ["vacation","vaccine","vacuum","valid","validity","valley","valuable","value","valued","values","valve","valves","vampire","vanilla","variable","variance","varied","varies","variety","various","vary","varying","vast","vault","vector","vehicle","vehicles","velocity","velvet","vendor","vendors","venture","ventures","venue","venues","verbal","verified","verify","verse","version","versions","versus","vertex","vertical","very","vessel","vessels","veteran","veterans","vice","victim","victims","victor","victory","video","videos","view","viewed","viewer","viewers","viewing","views","viking","villa","village","villages","villas","vintage","vinyl","violence","violent","violin","viral","virgin","virtual","virtue","virus","viruses","visa","visible","vision","visit","visited","visiting","visitor","visitors","visits","vista","visual","vital","vitamin","vitamins","vocal","vocals","voice","voices","void","volt","voltage","volume","volumes","vote","voted","voters","votes","voting","voyeur"],
 			"w": ["wage","wages","wagon","wait","waiting","waiver","wake","wales","walk","walked","walker","walking","walks","wall","wallet","walls","walnut","want","wanted","wanting","wants","ward","ware","warm","warming","warned","warner","warning","warnings","warrant","warranty","warren","warrior","warriors","wars","wash","washer","washing","waste","watch","watched","watches","watching","water","waters","watt","watts","wave","waves","ways","weak","wealth","weapon","weapons","wear","wearing","weather","webcam","webcams","webpage","website","websites","wedding","weddings","weed","week","weekend","weekends","weekly","weeks","weight","weighted","weights","weird","welcome","welding","welfare","well","wellness","wells","went","were","west","western","whale","what","whatever","whats","wheat","wheel","wheels","when","whenever","where","whereas","wherever","whether","which","while","whilst","white","whole","whom","whose","wicked","wide","widely","wider","width","wife","wild","wildlife","will","willing","willow","wind","window","windows","winds","wine","wines","wing","wings","winner","winners","winning","wins","winter","wire","wired","wireless","wires","wiring","wisdom","wise","wish","wishes","wishing","wishlist","witch","with","within","without","witness","wives","wizard","wolf","woman","women","wonder","wood","wooden","woods","wool","word","words","work","worked","worker","workers","workflow","working","workout","works","workshop","world","worlds","worm","worn","worried","worry","worse","worship","worst","worth","worthy","would","wound","wrap","wrapped","wrapping","wright","wrist","write","writer","writers","writes","writing","writings","written","wrong","wrote"],
 			"y": ["yacht","yard","yards","yarn","yeah","year","yearly","years","yeast","yellow","yield","yields","yoga","young","younger","your","yours","yourself","youth"],
+			"x": [],
 			"z": ["zero","zinc","zone","zones","zoning","zoom"]
 		}
 
