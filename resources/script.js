@@ -367,7 +367,7 @@
 			flappyword: {
 				name: "flappy word",
 				size: "small",
-				tags: ["code","writing","game","arcade"],
+				tags: ["code","game","arcade"],
 				date: "April 5, 2022",
 				description: "Type quickly to keep the words flapping between the ever-encroaching clouds and mountains."
 			},
@@ -476,6 +476,13 @@
 				tags: ["code","tool","design","art","canvas","draw","photography"],
 				date: "March 20, 2022",
 				description: "Draw on an image to blur sections and cover up sensitive information."
+			},
+			infinitesnake: {
+				name: "Infinite Snake",
+				size: "small",
+				tags: ["code","game","arcade","unity"],
+				date: "April 14, 2022",
+				description: "This is a Unity clone of the classic arcade game, modified from a tutorial to a wrap-around plane."
 			},
 			inputdetector: {
 				name: "inputDetector",
