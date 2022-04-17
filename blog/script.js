@@ -3,7 +3,8 @@
 		const TRIGGERS = {
 			input: "input",
 			click: "click",
-			resize: "resize"
+			resize: "resize",
+			back: "popstate"
 		}
 
 	/* constants */
@@ -11,7 +12,8 @@
 			allowedFilters: ["id", "tags", "since", "before", "search"],
 			databaseURL: "https://script.google.com/macros/s/AKfycbwWy5nVYgWr933LQ5Gqm7G5Xs4w8eugCwzqG4XEHbTbjzWzy_e6Q82zu2v5EOUtLjTTzw/exec",
 			waitTime: 1000,
-			breakpoints: [750, 1050, 1400],
+			scrollWait: 10,
+			breakpoints: [0, 750, 1050, 1400],
 			blogTitle: "James Mayr | blog"
 		}
 
@@ -29,7 +31,7 @@
 
 	/* cache */
 		const STATE = {
-			columns: (window.innerWidth > CONSTANTS.breakpoints[2] ? 4 : window.innerWidth > CONSTANTS.breakpoints[1] ? 3 : window.innerWidth > CONSTANTS.breakpoints[0] ? 2 : 1),
+			columns: (window.innerWidth > CONSTANTS.breakpoints[3] ? 4 : window.innerWidth > CONSTANTS.breakpoints[2] ? 3 : window.innerWidth > CONSTANTS.breakpoints[1] ? 2 : 1),
 			cache: [],
 			cachedFilters: [],
 			filters: {},
@@ -39,24 +41,15 @@
 
 /*** onload ***/
 	/* loadBlog */
-		loadBlog()
-		function loadBlog() {
+		loadBlog(true)
+		window.addEventListener(TRIGGERS.back, loadBlog)
+		function loadBlog(event) {
 			try {
-				// hash
-					let hash = detectHash()
-					if (hash) {
-						updateFilters({id: hash})
-						updateDisplay()
-						return
-					}
-
-				// params
-					let queryParams = detectQueryParams()
-					if (queryParams) {
-						updateFilters(queryParams)
-						updateDisplay()
-						return
-					}
+				// hash & params
+					const hash = detectHash()
+					const queryParams = detectQueryParams()
+						queryParams.id = hash
+					updateFilters(queryParams, event ? true : false)
 
 				// update display
 					updateDisplay()
@@ -67,11 +60,11 @@
 		function detectHash() {
 			try {
 				// get hash
-					let hash = (window.location.hash || "").slice(1).trim()
+					const hash = (window.location.hash || "").slice(1).trim()
 
 				// no hash
 					if (!hash || !hash.length) {
-						return
+						return null
 					}
 
 				// clean
@@ -83,19 +76,25 @@
 		function detectQueryParams() {
 			try {
 				// get query string
-					let queryString = (window.location.search || "").slice(1).trim()
+					const queryString = (window.location.search || "").slice(1).trim()
 
 				// no query string
 					if (!queryString || !queryString.length) {
-						return
+						return {}
 					}
 
 				// parse
-					let queryParams = {}
-					queryString = queryString.split("&")
-					for (let i in queryString) {
-						let pair = queryString[i].split("=")
-						queryParams[pair[0].trim().toLowerCase()] = pair[1].trim() || null
+					const queryParams = {}
+					const queryStringList = queryString.split("&")
+					for (let i in queryStringList) {
+						const pair = queryStringList[i].split("=")
+						const key = pair[0].trim().toLowerCase()
+						if (key == "tags") {
+							queryParams[key] = pair[1].trim().split(/,\s?/g) || []
+						}
+						else {
+							queryParams[key] = pair[1].trim() || null
+						}
 					}
 
 				// return
@@ -109,8 +108,8 @@
 		function resizeScreen() {
 			try {
 				// get columns
-					let previousColumns = STATE.columns
-					STATE.columns = (window.innerWidth > CONSTANTS.breakpoints[2] ? 4 : window.innerWidth > CONSTANTS.breakpoints[1] ? 3 : window.innerWidth > CONSTANTS.breakpoints[0] ? 2 : 1)
+					const previousColumns = STATE.columns
+					STATE.columns = (window.innerWidth > CONSTANTS.breakpoints[3] ? 4 : window.innerWidth > CONSTANTS.breakpoints[2] ? 3 : window.innerWidth > CONSTANTS.breakpoints[1] ? 2 : 1)
 
 				// no change
 					if (previousColumns == STATE.columns || window.location.hash) {
@@ -135,12 +134,12 @@
 
 				// split
 					searchString = searchString.trim().toLowerCase().replace(/[^a-z0-9\s]/g, "") || null
-				
-				// update filters
-					updateFilters(searchString ? {search: searchString} : null)
 
-				// update display
+				// update filters / search
 					STATE.searchWait = setTimeout(function() {
+						// update filters
+							updateFilters(searchString ? {search: searchString} : null)
+
 						// stop waiting
 							clearTimeout(STATE.searchWait)
 							STATE.searchWait = null
@@ -184,7 +183,7 @@
 					event.preventDefault()
 
 				// get the tag text
-					let tagValue = event.target.getAttribute("data-value")
+					const tagValue = event.target.getAttribute("data-value")
 
 				// update filter
 					updateFilters({tags: [tagValue.trim()]})
@@ -202,8 +201,8 @@
 					event.preventDefault()
 
 				// get the url
-					let card = event.target.closest(".card")
-					let id = card.getAttribute("href").slice(1)
+					const card = event.target.closest(".card")
+					const id = card.getAttribute("href").slice(1)
 
 				// update filter
 					updateFilters({id: id})
@@ -231,7 +230,7 @@
 
 /*** tools ***/
 	/* updateFilters */
-		function updateFilters(parameters) {
+		function updateFilters(parameters, ignoreHistory) {
 			try {
 				// reset filter
 					STATE.filters = {}
@@ -239,7 +238,12 @@
 				// loop through parameters
 					for (let i in parameters) {
 						if (CONSTANTS.allowedFilters.includes(i)) {
-							STATE.filters[i] = parameters[i]
+							if (parameters[i]) {
+								STATE.filters[i] = parameters[i]
+							}
+							else if (STATE.filters[i]) {
+								delete STATE.filters[i]
+							}
 						}
 					}
 
@@ -254,19 +258,21 @@
 							currentURL = currentURL + "#" + STATE.filters[i]
 							break
 						}
-
 						queryString += (i + "=" + STATE.filters[i])
 					}
 					
 					if (queryString && queryString.length) {
 						currentURL = currentURL + "?" + queryString
 					}
-				
-				// update url
-					window.history.pushState({}, "", currentURL)
 
 				// update search
 					ELEMENTS.search.value = STATE.filters.search || (STATE.filters.tags ? STATE.filters.tags.join(", ") : "")
+				
+				// update url
+					if (ignoreHistory) {
+						return
+					}
+					window.history.pushState({}, "", currentURL)
 			} catch (error) {console.log(error)}
 		}
 
@@ -286,28 +292,21 @@
 					ELEMENTS.loading.setAttribute("spin", true)
 
 				// request
-					let request = new XMLHttpRequest()
-						request.open("GET", url, true)
-						request.onload = function(data) {
-							receivePosts(data)
-							callback()
-						}
-						request.send()
+					fetch(url, {method: "GET"})
+					.then(function(response){ return response.json() })
+					.then(function(data) {
+						receivePosts(data)
+						callback()
+					})
 			} catch (error) {console.log(error)}
 		}
 
 	/* receivePosts */
-		function receivePosts(request) {
+		function receivePosts(data) {
 			try {
-				// no response
-					if (!request || !request.target || !request.target.response) {
-						return
-					}
-
 				// get posts
-					let data = JSON.parse(request.target.response)
-					let posts = data.posts || []
-					let filters = data.filters || {}
+					const posts = data.posts || []
+					const filters = data.filters || {}
 
 				// loading spinner
 					ELEMENTS.loading.removeAttribute("spin")
@@ -315,10 +314,10 @@
 				// add posts to cache
 					for (let i in posts) {
 						// this one
-							let newPost = posts[i]
+							const newPost = posts[i]
 
 						// already cached ?
-							let cachedPost = STATE.cache.find(function(c) {
+							const cachedPost = STATE.cache.find(function(c) {
 								return c.id == newPost.id
 							}) || null
 
@@ -341,7 +340,7 @@
 					})
 
 				// add current filter to cache
-					let stringifiedFilter = JSON.stringify(filters)
+					const stringifiedFilter = JSON.stringify(filters)
 					if (!STATE.cachedFilters.includes(stringifiedFilter)) {
 						STATE.cachedFilters.push(stringifiedFilter)
 					}
@@ -360,59 +359,59 @@
 					html = html.replace(/\n/g, "<br>")
 
 				// code
-					let codeMatches = html.match(/\`([^\`]*?)\`/g)
+					const codeMatches = html.match(/\`([^\`]*?)\`/g)
 					if (codeMatches && codeMatches.length) {
 						for (let i in codeMatches) {
-							let match = codeMatches[i]
+							const match = codeMatches[i]
 							html = html.replace(match, "<code>" + match.replace(/\`/g, "").replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</code>")
 						}
 					}
 
 				// linked images
-					let imageMatches = html.match(/\!\[[^\]]*?\]\([^)]*?\)/g)
+					const imageMatches = html.match(/\!\[[^\]]*?\]\([^)]*?\)/g)
 					if (imageMatches && imageMatches.length) {
 						for (let i in imageMatches) {
-							let match = imageMatches[i]
-							let text = match.match(/\[(.*?)\]/)[1]
-							let url  = match.match(/\((.*?)\)/)[1]
+							const match = imageMatches[i]
+							const text = match.match(/\[(.*?)\]/)[1]
+							const url  = match.match(/\((.*?)\)/)[1]
 							html = html.replace(match, "<img class='post-image' alt='" + text + "' src='" + url + "'>")
 						}
 					}
 
 				// links
-					let linkMatches = html.match(/\[[^\]]*?\]\([^)]*?\)/g)
+					const linkMatches = html.match(/\[[^\]]*?\]\([^)]*?\)/g)
 					if (linkMatches && linkMatches.length) {
 						for (let i in linkMatches) {
-							let match = linkMatches[i]
-							let text = match.match(/\[(.*?)\]/)[1]
-							let url  = match.match(/\((.*?)\)/)[1]
+							const match = linkMatches[i]
+							const text = match.match(/\[(.*?)\]/)[1]
+							const url  = match.match(/\((.*?)\)/)[1]
 							html = html.replace(match, "<a href='" + url + "' target='_blank'>" + text + "</a>")
 						}
 					}
 
 				// bold
-					let boldMatches = html.match(/\*\*([^\*\*]*?)\*\*/g)
+					const boldMatches = html.match(/\*\*([^\*\*]*?)\*\*/g)
 					if (boldMatches && boldMatches.length) {
 						for (let i in boldMatches) {
-							let match = boldMatches[i]
+							const match = boldMatches[i]
 							html = html.replace(match, "<b>" + match.replace(/\*\*/g, "") + "</b>")
 						}
 					}
 
 				// italic
-					let italicMatches = html.match(/\_([^\_]*?)\_/g)
+					const italicMatches = html.match(/\_([^\_]*?)\_/g)
 					if (italicMatches && italicMatches.length) {
 						for (let i in italicMatches) {
-							let match = italicMatches[i]
+							const match = italicMatches[i]
 							html = html.replace(match, "<i>" + match.replace(/\_/g, "") + "</i>")
 						}
 					}
 
 				// line
-					let lineMatches = html.match(/\-\-\-/g)
+					const lineMatches = html.match(/\-\-\-/g)
 					if (lineMatches && lineMatches.length) {
 						for (let i in lineMatches) {
-							let match = lineMatches[i]
+							const match = lineMatches[i]
 							html = html.replace(match, "<hr>")
 						}
 					}
@@ -427,7 +426,7 @@
 		function updateDisplay() {
 			try {
 				// stringified filter
-					let stringifiedFilter = JSON.stringify(STATE.filters)
+					const stringifiedFilter = JSON.stringify(STATE.filters)
 
 				// haven't fetched this before?
 					if (!STATE.cachedFilters.includes(stringifiedFilter)) {
@@ -444,7 +443,7 @@
 				// display individual post
 					if (STATE.filters.id) {
 						// get that post (with body)
-							let post = STATE.cache.find(function(c) {
+							const post = STATE.cache.find(function(c) {
 								return c.id == STATE.filters.id && c.body
 							}) || null
 
@@ -461,7 +460,7 @@
 
 				// display cards
 					// get the filtered posts
-						let posts = STATE.cache.filter(function(c) {
+						const posts = STATE.cache.filter(function(c) {
 							// date filters
 								if (STATE.filters.since && c.date < STATE.filters.since) {
 									return false
@@ -541,9 +540,9 @@
 					ELEMENTS.title.innerText = CONSTANTS.blogTitle
 
 				// columns
-					let columns = []
+					const columns = []
 					for (let c = 0; c < STATE.columns; c++) {
-						let column = document.createElement("div")
+						const column = document.createElement("div")
 							column.className = "card-column"
 							column.id = "card-column-" + c
 						ELEMENTS.cards.appendChild(column)
@@ -562,7 +561,9 @@
 					}
 
 				// scroll to top of page
-					window.scrollTo(0, 0)
+					setTimeout(function() {
+						window.scrollTo(0, 0)
+					}, CONSTANTS.scrollWait)
 			} catch (error) {console.log(error)}
 		}
 
@@ -570,7 +571,7 @@
 		function displayCard(post, column) {
 			try {
 				// build card
-					let card = document.createElement("a")
+					const card = document.createElement("a")
 						card.className = "card"
 						card.href = "#" + post.id
 						card.addEventListener(TRIGGERS.click, clickCard)
@@ -578,37 +579,37 @@
 
 				// image
 					if (post.cardImage) {
-						let image = document.createElement("img")
+						const image = document.createElement("img")
 							image.className = "card-image"
 							image.src = post.cardImage
 						card.appendChild(image)
 					}
 
 				// title
-					let title = document.createElement("h2")
+					const title = document.createElement("h2")
 						title.className = "card-title"
 						title.innerText = post.title || ""
 					card.appendChild(title)
 
 				// date
-					let date = document.createElement("p")
+					const date = document.createElement("p")
 						date.className = "card-date"
 						date.innerText = new Date(post.date).toLocaleDateString()
 					card.appendChild(date)
 
 				// summary
-					let summary = document.createElement("p")
+					const summary = document.createElement("p")
 						summary.className = "card-summary"
 						summary.innerText = post.cardText || ""
 					card.appendChild(summary)
 
 				// tags
-					let tagsContainer = document.createElement("div")
+					const tagsContainer = document.createElement("div")
 						tagsContainer.className = "card-tags"
 					card.appendChild(tagsContainer)
 
 					for (let i in post.tags) {
-						let tag = document.createElement("div")
+						const tag = document.createElement("div")
 							tag.className = "card-tag"
 							tag.innerText = post.tags[i]
 							tag.setAttribute("data-value", post.tags[i])
@@ -633,29 +634,29 @@
 					ELEMENTS.title.innerText = (post.title ? (post.title + " | ") : "") + CONSTANTS.blogTitle
 
 				// build header
-					let header = document.createElement("div")
+					const header = document.createElement("div")
 						header.className = "post-header"
 					ELEMENTS.post.appendChild(header)
 
 					// title
-						let title = document.createElement("h1")
+						const title = document.createElement("h1")
 							title.className = "post-title"
 							title.innerText = post.title || ""
 						header.appendChild(title)
 
 					// date
-						let date = document.createElement("p")
+						const date = document.createElement("p")
 							date.className = "post-date"
 							date.innerText = new Date(post.date).toLocaleDateString()
 						header.appendChild(date)
 
 					// tags
-						let tagsContainer = document.createElement("div")
+						const tagsContainer = document.createElement("div")
 							tagsContainer.className = "post-tags"
 						header.appendChild(tagsContainer)
 
 						for (let i in post.tags) {
-							let tag = document.createElement("div")
+							const tag = document.createElement("div")
 								tag.className = "post-tag"
 								tag.innerText = post.tags[i]
 								tag.setAttribute("data-value", post.tags[i])
@@ -664,19 +665,19 @@
 						}
 
 				// body
-					let body = document.createElement("div")
+					const body = document.createElement("div")
 						body.className = "post-body"
 					ELEMENTS.post.appendChild(body)
 
 					// loop through
 						for (let i in post.body) {
-							let block = document.createElement("div")
+							const block = document.createElement("div")
 								block.className = "post-block"
 							body.appendChild(block)
 
 							// image
 								if (post.body[i].type == "image") {
-									let image = document.createElement("img")
+									const image = document.createElement("img")
 										image.className = "post-image"
 										image.src = post.body[i].content
 									block.appendChild(image)
@@ -685,7 +686,7 @@
 
 							// heading
 								if (post.body[i].type.includes("heading")) {
-									let heading = document.createElement("h" + post.body[i].type.replace("heading", ""))
+									const heading = document.createElement("h" + post.body[i].type.replace("heading", ""))
 										heading.className = "post-heading"
 										heading.innerHTML = processMarkdown(post.body[i].content)
 									block.appendChild(heading)
@@ -694,13 +695,15 @@
 
 							// content
 								// replace markdown
-									let paragraph = document.createElement("p")
+									const paragraph = document.createElement("p")
 										paragraph.className = "post-paragraph"
 										paragraph.innerHTML = processMarkdown(post.body[i].content)
 									block.appendChild(paragraph)
 						}
 
 				// scroll to top of page
-					window.scrollTo(0, 0)
+					setTimeout(function() {
+						window.scrollTo(0, 0)
+					}, CONSTANTS.scrollWait)
 			} catch (error) {console.log(error)}
 		}

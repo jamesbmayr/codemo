@@ -83,6 +83,14 @@
 				date: "October 4, 2017",
 				description: "blockDescender is a web clone of Tetris, where players must fit colored blocks together."
 			},
+			blog: {
+				skipRandom: true,
+				name: "blog",
+				size: "small",
+				tags: ["code","api","writing","autobiography"],
+				date: "April 17, 2022",
+				description: "An ongoing blog about making projects with and for people."
+			},
 			bluejay: {
 				name: "bluejay",
 				size: "extra-large",
