@@ -272,11 +272,13 @@
 		height: auto;
 		width: 100%;
 		background-color: var(--medium-gray);
-		padding: var(--medium-gap-size) var(--large-gap-size);
+		padding: calc(var(--medium-gap-size) + var(--small-gap-size));
 		box-sizing: border-box;
 		overflow: hidden;
 		display: flex;
 		flex-direction: row;
+		justify-content: space-between;
+		column-gap: calc(var(--medium-gap-size) + var(--small-gap-size));
 	}
 
 	#cards:empty {
@@ -299,11 +301,12 @@
 		.card, .card:visited {
 			display: block;
 			box-sizing: border-box;
-			margin: var(--medium-gap-size);
+			margin: 0 0 calc(var(--medium-gap-size) + var(--small-gap-size)) 0;
 			background-color: var(--dark-gray);
 			padding: var(--medium-gap-size);
 			height: auto;
-			width: var(--card-size);
+			min-width: var(--card-size);
+			width: 100%;
 			overflow: hidden;
 			transition: var(--transition-time);
 			border-radius: calc(var(--border-radius) * 2);
@@ -312,7 +315,8 @@
 		}
 
 		.card-image {
-			width: calc(var(--card-size) - 2 * var(--medium-gap-size));
+			min-width: calc(var(--card-size) - 2 * var(--medium-gap-size));
+			width: 100%;
 			height: auto;
 			border-radius: var(--border-radius);
 			user-select: none;
@@ -364,7 +368,7 @@
 			color: var(--light-blue);
 			font-size: var(--small-font-size);
 			font-family: var(--font-family);
-			margin: var(--small-gap-size) calc(var(--small-gap-size) / 2) 0 calc(var(--small-gap-size) / 2);
+			margin: var(--border-size);
 			cursor: pointer;
 			user-select: none;
 			outline: none;
@@ -557,7 +561,7 @@
 			padding: var(--small-gap-size);
 			display: block;
 			border-radius: var(--border-radius);
-			margin: var(--large-gap-size) 0;
+			margin: var(--medium-gap-size) 0;
 			color: var(--light-gray);
 		}
 
@@ -572,7 +576,7 @@
 
 		.post-block b {
 			font-weight: bold;
-			text-shadow: 0 0 var(--border-size) var(--medium-gray);
+			text-shadow: 0 0 calc(var(--border-size) / 2) var(--dark-gray);
 		}
 
 		.post-block i {

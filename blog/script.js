@@ -385,7 +385,7 @@
 							const match = linkMatches[i]
 							const text = match.match(/\[(.*?)\]/)[1]
 							const url  = match.match(/\((.*?)\)/)[1]
-							html = html.replace(match, "<a href='" + url + "' target='_blank'>" + text + "</a>")
+							html = html.replace(match, "<a href='" + url + "' target='blank'>" + text + "</a>")
 						}
 					}
 
