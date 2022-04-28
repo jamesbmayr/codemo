@@ -10,7 +10,7 @@
 	/* constants */
 		const CONSTANTS = {
 			allowedFilters: ["id", "tags", "since", "before", "search"],
-			databaseURL: "https://script.google.com/macros/s/AKfycbwWy5nVYgWr933LQ5Gqm7G5Xs4w8eugCwzqG4XEHbTbjzWzy_e6Q82zu2v5EOUtLjTTzw/exec",
+			databaseURL: "https://script.google.com/macros/s/AKfycbxeMGoNlrE0RlTLLH2Ibfh1Wk8vcM5RHJr1Nxq2ve0Bg8J6EkoNX3DZrwhlI43FqkSZtw/exec",
 			waitTime: 1000,
 			scrollWait: 10,
 			breakpoints: [0, 750, 1050, 1400],
@@ -350,71 +350,109 @@
 	/* processMarkdown */
 		function processMarkdown(html) {
 			try {
-				// blockquote
-					if (html[0] == ">") {
-						html = "<blockquote>" + html.replace(/>\s?/, "") + "</blockquote>"
-					}
+				// wrappers
+					// list item
+						if (html.indexOf("* ") == 0) {
+							html = "<li>" + html.replace(/\*\s?/, "") + "</li>"
+						}
 
-				// newlines
+					// blockquote
+						else if (html.indexOf(">>>>") == 0) {
+							html = "<blockquote><blockquote><blockquote><blockquote>" + html.replace(/>>>>\s?/, "") + "</blockquote></blockquote></blockquote></blockquote>"
+						}
+						else if (html.indexOf(">>>") == 0) {
+							html = "<blockquote><blockquote><blockquote>" + html.replace(/>>>\s?/, "") + "</blockquote></blockquote></blockquote>"
+						}
+						else if (html.indexOf(">>") == 0) {
+							html = "<blockquote><blockquote>" + html.replace(/>>\s?/, "") + "</blockquote></blockquote>"
+						}
+						else if (html.indexOf(">") == 0) {
+							html = "<blockquote>" + html.replace(/>\s?/, "") + "</blockquote>"
+						}
+
+					// headers
+						else if (html.indexOf("######") == 0) {
+							html = "<h6>" + html.replace(/^######\s?/, "") + "</h6>"
+						}
+						else if (html.indexOf("#####") == 0) {
+							html = "<h5>" + html.replace(/^#####\s?/, "") + "</h5>"
+						}
+						else if (html.indexOf("####") == 0) {
+							html = "<h4>" + html.replace(/^####\s?/, "") + "</h4>"
+						}
+						else if (html.indexOf("###") == 0) {
+							html = "<h3>" + html.replace(/^###\s?/, "") + "</h3>"
+						}
+						else if (html.indexOf("##") == 0) {
+							html = "<h2>" + html.replace(/^##\s?/, "") + "</h2>"
+						}
+						else if (html.indexOf("#") == 0) {
+							html = "<h1>" + html.replace(/^#\s?/, "") + "</h1>"
+						}
+
+				// lines & newlines
 					html = html.replace(/\n/g, "<br>")
+					html = html.replace(/\-\-\-/g, "<hr>")
 
-				// code
-					const codeMatches = html.match(/\`([^\`]*?)\`/g)
-					if (codeMatches && codeMatches.length) {
-						for (let i in codeMatches) {
-							const match = codeMatches[i]
-							html = html.replace(match, "<code>" + match.replace(/\`/g, "").replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</code>")
+				// inline components
+					// code
+						const codeMatches = html.match(/\`([^\`]*?)\`/g)
+						if (codeMatches && codeMatches.length) {
+							for (let i in codeMatches) {
+								const match = codeMatches[i]
+								html = html.replace(match, "<code>" + match.replace(/\`/g, "").replace(/\</g, "&lt;").replace(/\>/g, "&gt;") + "</code>")
+							}
 						}
-					}
 
-				// linked images
-					const imageMatches = html.match(/\!\[[^\]]*?\]\([^)]*?\)/g)
-					if (imageMatches && imageMatches.length) {
-						for (let i in imageMatches) {
-							const match = imageMatches[i]
-							const text = match.match(/\[(.*?)\]/)[1]
-							const url  = match.match(/\((.*?)\)/)[1]
-							html = html.replace(match, "<img class='post-image' alt='" + text + "' src='" + url + "'>")
+					// bold
+						const boldMatches = html.match(/\*\*([^\*\*]*?)\*\*/g)
+						if (boldMatches && boldMatches.length) {
+							for (let i in boldMatches) {
+								const match = boldMatches[i]
+								html = html.replace(match, "<b>" + match.replace(/\*\*/g, "") + "</b>")
+							}
 						}
-					}
+
+					// italic
+						const italicMatches = html.match(/\_([^\_]*?)\_/g)
+						if (italicMatches && italicMatches.length) {
+							for (let i in italicMatches) {
+								const match = italicMatches[i]
+								html = html.replace(match, "<i>" + match.replace(/\_/g, "") + "</i>")
+							}
+						}
+
+					// strikethrough
+						const strikethroughMatches = html.match(/\~([^\~]*?)\~/g)
+						if (strikethroughMatches && strikethroughMatches.length) {
+							for (let i in strikethroughMatches) {
+								const match = strikethroughMatches[i]
+								html = html.replace(match, "<span class='strikethrough'>" + match.replace(/\~/g, "") + "</span>")
+							}
+						}
 
 				// links
-					const linkMatches = html.match(/\[[^\]]*?\]\([^)]*?\)/g)
-					if (linkMatches && linkMatches.length) {
-						for (let i in linkMatches) {
-							const match = linkMatches[i]
-							const text = match.match(/\[(.*?)\]/)[1]
-							const url  = match.match(/\((.*?)\)/)[1]
-							html = html.replace(match, "<a href='" + url + "' target='blank'>" + text + "</a>")
+					// linked images
+						const imageMatches = html.match(/\!\[[^\]]*?\]\([^)]*?\)/g)
+						if (imageMatches && imageMatches.length) {
+							for (let i in imageMatches) {
+								const match = imageMatches[i]
+								const text = match.match(/\[(.*?)\]/)[1]
+								const url  = match.match(/\((.*?)\)/)[1]
+								html = html.replace(match, "<img class='post-image' alt='" + text + "' src='" + url + "'>")
+							}
 						}
-					}
 
-				// bold
-					const boldMatches = html.match(/\*\*([^\*\*]*?)\*\*/g)
-					if (boldMatches && boldMatches.length) {
-						for (let i in boldMatches) {
-							const match = boldMatches[i]
-							html = html.replace(match, "<b>" + match.replace(/\*\*/g, "") + "</b>")
+					// links
+						const linkMatches = html.match(/\[[^\]]*?\]\([^)]*?\)/g)
+						if (linkMatches && linkMatches.length) {
+							for (let i in linkMatches) {
+								const match = linkMatches[i]
+								const text = match.match(/\[(.*?)\]/)[1]
+								const url  = match.match(/\((.*?)\)/)[1]
+								html = html.replace(match, "<a href='" + url + "' target='_blank'>" + text + "</a>")
+							}
 						}
-					}
-
-				// italic
-					const italicMatches = html.match(/\_([^\_]*?)\_/g)
-					if (italicMatches && italicMatches.length) {
-						for (let i in italicMatches) {
-							const match = italicMatches[i]
-							html = html.replace(match, "<i>" + match.replace(/\_/g, "") + "</i>")
-						}
-					}
-
-				// line
-					const lineMatches = html.match(/\-\-\-/g)
-					if (lineMatches && lineMatches.length) {
-						for (let i in lineMatches) {
-							const match = lineMatches[i]
-							html = html.replace(match, "<hr>")
-						}
-					}
 
 				// return
 					return html || ""
@@ -681,15 +719,6 @@
 										image.className = "post-image"
 										image.src = post.body[i].content
 									block.appendChild(image)
-									continue
-								}
-
-							// heading
-								if (post.body[i].type.includes("heading")) {
-									const heading = document.createElement("h" + post.body[i].type.replace("heading", ""))
-										heading.className = "post-heading"
-										heading.innerHTML = processMarkdown(post.body[i].content)
-									block.appendChild(heading)
 									continue
 								}
 

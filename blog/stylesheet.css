@@ -496,8 +496,27 @@
 			max-width: calc(var(--card-size) * 2);
 		}
 
-	/* headings */
-		h1.post-heading {
+		.post-paragraph {
+			text-align: left;
+			font-size: var(--small-font-size);
+			color: var(--dark-gray);
+			line-height: var(--line-height);
+			margin: var(--medium-gap-size) 0;
+		}
+
+		.post-image {
+			border-radius: var(--border-radius);
+			width: 100%;
+			height: auto;
+			margin: var(--medium-gap-size) 0;
+		}
+
+		.post-paragraph .post-image {
+			margin: 0;
+		}
+
+	/* headers */
+		.post-block h1 {
 			text-align: left;
 			font-size: calc(var(--medium-font-size) * 3 / 2);
 			font-weight: bold;
@@ -506,7 +525,7 @@
 			margin: var(--medium-gap-size) 0 var(--medium-gap-size) 0;
 		}
 
-		h2.post-heading {
+		.post-block h2 {
 			text-align: left;
 			font-size: calc(var(--medium-font-size));
 			font-weight: bold;
@@ -515,30 +534,83 @@
 			margin: var(--medium-gap-size) 0 var(--medium-gap-size) 0;
 		}
 
-		h3.post-heading, h4.post-heading, h5.post-heading, h6.post-heading {
+		.post-block h3 {
 			text-align: left;
 			font-size: calc(var(--medium-font-size) * 3 / 4);
 			font-weight: bold;
 			color: var(--dark-gray);
 			line-height: var(--line-height);
 			margin: var(--medium-gap-size) 0 var(--medium-gap-size) 0;
-		}	
-
-	/* images */
-		.post-image {
-			border-radius: var(--border-radius);
-			width: 100%;
-			height: auto;
-			margin: var(--medium-gap-size) 0;
 		}
 
-	/* paragraphs */
-		.post-paragraph {
+		.post-block h4, .post-block h5, .post-block h6 {
 			text-align: left;
 			font-size: var(--small-font-size);
+			font-weight: bold;
 			color: var(--dark-gray);
 			line-height: var(--line-height);
+			text-transform: uppercase;
+			margin: var(--medium-gap-size) 0 var(--medium-gap-size) 0;
+			text-shadow: 0 0 calc(var(--border-size) / 2) var(--medium-gray);
+		}
+
+	/* other full block */
+		.post-block blockquote {
+			background: var(--medium-gray);
+			box-sizing: border-box;
+			width: 100%;
+			padding: var(--small-gap-size);
+			display: block;
+			border-radius: var(--border-radius);
 			margin: var(--medium-gap-size) 0;
+			color: var(--light-gray);
+			border-left: var(--small-gap-size) solid var(--dark-gray);
+		}
+
+		.post-block blockquote blockquote {
+			margin: 0;
+		}
+
+		.post-block li {
+			margin: calc(-1 * var(--medium-gap-size)) var(--medium-gap-size) 0 var(--medium-gap-size);
+		}
+
+		.post-block hr {
+			border: var(--border-size) solid var(--dark-gray);
+			margin: var(--medium-gap-size) 0;
+			border-radius: var(--border-radius);
+		}
+
+		.post-block iframe {
+			width: 100%;
+			min-height: var(--card-size);
+			border: 0;
+			border-radius: var(--border-radius);
+		}
+
+	/* paragraph content */
+		.post-block code {
+			background: var(--dark-gray);
+			color: var(--medium-orange);
+			font-family: monospace;
+			padding: var(--border-size);
+			display: inline-block;
+			border-radius: var(--border-radius);
+			line-height: 1;
+		}
+
+		.post-block b {
+			font-weight: bold;
+			text-shadow: 0 0 calc(var(--border-size) / 2) var(--medium-gray);
+		}
+
+		.post-block i {
+			font-style: italic;
+		}
+
+		.post-block span.strikethrough {
+			text-decoration: line-through;
+			text-decoration-thickness: var(--border-size);
 		}
 
 		.post-block a, .post-block a:visited {
@@ -552,39 +624,4 @@
 
 		.post-block a:hover, .post-block a:focus {
 			color: var(--medium-blue);
-		}
-
-		.post-block blockquote {
-			background: var(--medium-gray);
-			box-sizing: border-box;
-			width: 100%;
-			padding: var(--small-gap-size);
-			display: block;
-			border-radius: var(--border-radius);
-			margin: var(--medium-gap-size) 0;
-			color: var(--light-gray);
-		}
-
-		.post-block code {
-			background: var(--dark-gray);
-			color: var(--medium-orange);
-			font-family: monospace;
-			padding: var(--border-size);
-			display: inline-block;
-			border-radius: var(--border-radius);
-		}
-
-		.post-block b {
-			font-weight: bold;
-			text-shadow: 0 0 calc(var(--border-size) / 2) var(--dark-gray);
-		}
-
-		.post-block i {
-			font-style: italic;
-		}
-
-		.post-block hr {
-			border: var(--border-size) solid var(--dark-gray);
-			margin: var(--large-gap-size) 0;
-			border-radius: var(--border-radius);
 		}
