@@ -427,7 +427,7 @@
 						if (strikethroughMatches && strikethroughMatches.length) {
 							for (let i in strikethroughMatches) {
 								const match = strikethroughMatches[i]
-								html = html.replace(match, "<span class='strikethrough'>" + match.replace(/\~/g, "") + "</span>")
+								html = html.replace(match, "<s>" + match.replace(/\~/g, "") + "</s>")
 							}
 						}
 
@@ -439,7 +439,7 @@
 								const match = imageMatches[i]
 								const text = match.match(/\[(.*?)\]/)[1]
 								const url  = match.match(/\((.*?)\)/)[1]
-								html = html.replace(match, "<img class='post-image' alt='" + text + "' src='" + url + "'>")
+								html = html.replace(match, "<img alt='" + (text || "image") + "' src='" + url + "'>")
 							}
 						}
 
@@ -716,7 +716,6 @@
 							// image
 								if (post.body[i].type == "image") {
 									const image = document.createElement("img")
-										image.className = "post-image"
 										image.src = post.body[i].content
 									block.appendChild(image)
 									continue
@@ -724,10 +723,7 @@
 
 							// content
 								// replace markdown
-									const paragraph = document.createElement("p")
-										paragraph.className = "post-paragraph"
-										paragraph.innerHTML = processMarkdown(post.body[i].content)
-									block.appendChild(paragraph)
+									block.innerHTML = processMarkdown(post.body[i].content)
 						}
 
 				// scroll to top of page
