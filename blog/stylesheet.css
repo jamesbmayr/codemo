@@ -567,6 +567,19 @@
 			margin: 0;
 		}
 
+		.post-block figcaption {
+			width: 100%;
+			height: auto;
+			margin-top: calc(-1 * var(--small-gap-size));
+			text-align: center;
+			background-color: var(--dark-gray);
+			border-radius: 0 0 var(--border-radius) var(--border-radius);
+			padding: var(--border-size) var(--border-size) calc(var(--border-size) * 2) var(--border-size);
+			box-sizing: border-box;
+			color: var(--medium-gray);
+			line-height: var(--line-height);
+		}
+
 		.post-block iframe {
 			width: 100%;
 			min-height: var(--card-size);
@@ -576,7 +589,6 @@
 
 		.post-block audio {
 			width: 100%;
-			height: auto;
 			display: block;
 			background: #eeeeee;
 			border-radius: var(--border-radius);
@@ -647,3 +659,57 @@
 		.post-block a:hover, .post-block a:focus {
 			color: var(--medium-blue);
 		}
+
+	/* gallery */
+		.post-block .gallery {
+			width: 100%;
+			text-align: center;
+			font-size: 0;
+		}
+
+		.post-block .gallery-left, .post-block .gallery-right {
+			font-family: var(--font-family);
+			font-size: var(--medium-font-size);
+			font-weight: bold;
+			color: var(--light-blue);
+			cursor: pointer;
+			outline: none;
+			transition: var(--transition-time);
+			border: none;
+			line-height: var(--line-height);
+			background: transparent;
+			padding: 0 var(--large-gap-size);
+		}
+
+		.post-block .gallery-left {
+			transform: rotate(-90deg);
+		}
+
+		.post-block .gallery-right {
+			transform: rotate(90deg);
+		}
+
+		.post-block .gallery-left:hover, .post-block .gallery-left:focus, .post-block .gallery-right:hover, .post-block .gallery-right:focus {
+			color: var(--medium-blue) !important;
+		}
+
+		.post-block .gallery figcaption {
+			margin-top: calc(-1 * var(--border-size));
+			font-size: var(--small-font-size);
+		}
+
+		.post-block .gallery img:not([selected="true"]) {
+			float: left;
+			height: 0 !important;
+			width: 0 !important;
+			opacity: 0;
+		}
+
+		.post-block .gallery img:not([selected="true"])+figcaption {
+			float: left;
+			height: 0 !important;
+			width: 0 !important;
+			opacity: 0;
+		}
+
+

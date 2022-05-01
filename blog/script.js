@@ -228,6 +228,42 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* clickGalleryButton */
+		function clickGalleryButton(button) {
+			try {
+				// type of button
+					const direction = button.className.replace("gallery-", "")
+
+				// parent
+					const gallery = button.closest(".gallery")
+					let position = Number(gallery.getAttribute("data-position")) || 0
+
+				// list of images
+					const images = Array.from(gallery.querySelectorAll("img"))
+
+				// unselect image
+					images[position].removeAttribute("selected")
+
+				// change position
+					if (direction == "left") {
+						position -= 1
+						if (position < 0) {
+							position = images.length - 1
+						}
+					}
+					else if (direction == "right") {
+						position += 1
+						if (position >= images.length) {
+							position = 0
+						}
+					}
+					gallery.setAttribute("data-position", position)
+
+				// select image
+					images[position].setAttribute("selected", true)
+			} catch (error) {console.log(error)}
+		}
+
 /*** tools ***/
 	/* updateFilters */
 		function updateFilters(parameters, ignoreHistory) {
@@ -437,9 +473,9 @@
 						if (imageMatches && imageMatches.length) {
 							for (let i in imageMatches) {
 								const match = imageMatches[i]
-								const text = match.match(/\[(.*?)\]/)[1]
-								const url  = match.match(/\((.*?)\)/)[1]
-								html = html.replace(match, "<img alt='" + (text || "image") + "' src='" + url + "'>")
+								const text = match.match(/^\!\[(.*?)\]/)[1]
+								const url  = match.match(/\]\((.*?)\)/)[1].replace(/\<hr\>/g, "---").replace(/\<code\>/g, "`").replace(/\<\/code\>/g, "`").replace(/\<b\>/g, "**").replace(/\<\/b\>/g, "**").replace(/\<i\>/g, "_").replace(/\<\/i\>/g, "_").replace(/\<s\>/g, "~").replace(/\<\/s\>/g, "~")
+								html = html.replace(match, "<img alt='" + (text || "image") + "' src='" + url + "'>" + (text ? ("<figcaption>" + text + "</figcaption>") : ""))
 							}
 						}
 
@@ -448,9 +484,20 @@
 						if (linkMatches && linkMatches.length) {
 							for (let i in linkMatches) {
 								const match = linkMatches[i]
-								const text = match.match(/\[(.*?)\]/)[1]
-								const url  = match.match(/\((.*?)\)/)[1]
+								const text = match.match(/^\[(.*?)\]/)[1]
+								const url  = match.match(/\]\((.*?)\)/)[1].replace(/\<hr\>/g, "---").replace(/\<code\>/g, "`").replace(/\<\/code\>/g, "`").replace(/\<b\>/g, "**").replace(/\<\/b\>/g, "**").replace(/\<i\>/g, "_").replace(/\<\/i\>/g, "_").replace(/\<s\>/g, "~").replace(/\<\/s\>/g, "~")
 								html = html.replace(match, "<a href='" + url + "' target='_blank'>" + text + "</a>")
+							}
+						}
+
+					// gallery
+						const galleryMatches = html.match(/\<gallery\>.*?\<\/gallery\>/g)
+						if (galleryMatches && galleryMatches.length) {
+							for (let i in galleryMatches) {
+								const match = galleryMatches[i]
+								const beforeImages = "<div class='gallery' data-position='0'>"
+								const afterImages = "<button class='gallery-left' onclick='clickGalleryButton(this)'>&uarr;</button><button class='gallery-right' onclick='clickGalleryButton(this)'>&uarr;</button></div>"
+								html = html.replace(match, beforeImages + match.replace("<gallery>", "").replace("</gallery>", "").replace("<img", "<img selected='true'") + afterImages)
 							}
 						}
 
