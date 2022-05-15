@@ -10,7 +10,7 @@
 	/* constants */
 		const CONSTANTS = {
 			allowedFilters: ["id", "tags", "since", "before", "search"],
-			databaseURL: "https://script.google.com/macros/s/AKfycbxeMGoNlrE0RlTLLH2Ibfh1Wk8vcM5RHJr1Nxq2ve0Bg8J6EkoNX3DZrwhlI43FqkSZtw/exec",
+			databaseURL: "https://script.google.com/macros/s/AKfycbwfbDayv8W_F1I_2dBbpZ3s3akBMvstLG6OaKKoGNZN0racYcwCJN55P3Gw30QP78T6eA/exec",
 			waitTime: 1000,
 			scrollWait: 10,
 			breakpoints: [0, 750, 1050, 1400],

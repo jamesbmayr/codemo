@@ -333,7 +333,7 @@
 			margin: 0 0 var(--medium-gap-size) 0;
 			user-select: none;
 			text-align: left;
-			line-height: 1;
+			line-height: var(--line-height);
 			transition: var(--transition-time);
 		}
 
