@@ -14,7 +14,7 @@
 			--medium-gap-size: 20px;
 			--large-gap-size: 40px;
 			--border-radius: 5px;
-			--icon-size: 30px;
+			--icon-size: 40px;
 			--small-font-size: 20px;
 			--medium-font-size: 40px;
 			--large-font-size: 80px;
@@ -156,7 +156,6 @@
 
 		.tag-button:hover, .tag-button:focus {
 			color: var(--medium-blue);
-			text-shadow: 0 0 calc(var(--shadow-size) * 2) var(--medium-blue);
 		}
 
 	/* links */
@@ -170,8 +169,9 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			-o-user-select: none;
-			padding: 0;
+			padding: var(--small-gap-size) 0 0 0;
 			margin: 0;
+			box-sizing: border-box;
 		}
 
 		#info-links li {
@@ -188,19 +188,20 @@
 			color: var(--light-blue);
 			cursor: pointer;
 			border-radius: var(--border-radius);
-			padding: var(--small-gap-size);
+			padding: 0 calc(var(--small-gap-size) / 2);
 			font-size: var(--icon-size);
 			transition: var(--transition-time);
 			outline: none;
+			line-height: 1;
 		}
 
 		#info-links a:hover, #info-links a:focus {
 			color: var(--medium-blue);
-			text-shadow: 0 0 calc(var(--shadow-size) * 2) var(--medium-blue);
 		}
 
 		#info-links li:first-child a {
 			padding-left: 0;
+			padding-right: var(--small-gap-size);
 		}
 
 		#j-logo {
@@ -209,7 +210,7 @@
 			height: var(--icon-size);
 			background-color: transparent;
 			border: 0;
-			margin: var(--small-gap-size);
+			margin: 0;
 			padding: 0;
 			background-image: url("j.png");
 			background-size: contain;
@@ -379,21 +380,31 @@
 		padding: var(--small-gap-size) 0;
 		padding-bottom: calc(var(--small-gap-size) + var(--icon-size));
 		background-color: var(--medium-gray);
+		text-align: center;
 	}
 
 	#back-to-top {
 		color: var(--light-blue);
-		font-size: var(--icon-size);
+		font-size: 0;
 		cursor: pointer;
 		text-decoration: none;
 		transition: var(--transition-time);
 		text-align: center;
 		outline: none;
+		height: var(--large-font-size);
+		width: var(--large-font-size);
+		line-height: 1;
+		display: block;
+		margin: auto auto;
+	}
+
+	#back-to-top svg {
+		width: var(--large-font-size);
+		height: var(--large-font-size);
 	}
 
 	#back-to-top:hover, #back-to-top:focus {
 		color: var(--medium-blue);
-		text-shadow: 0 0 calc(var(--shadow-size) * 2) var(--medium-blue);
 	}
 
 /*** footer ***/
@@ -452,7 +463,6 @@
 
 		#footer-friends a:hover, #footer-friends a:focus {
 			color: var(--medium-blue);
-			text-shadow: 0 0 calc(var(--shadow-size) * 2)  var(--medium-blue);
 		}
 
 	/* copyright */
@@ -481,7 +491,6 @@
 
 		#footer-copyright a:hover, #footer-copyright a:focus {
 			color: var(--medium-blue);
-			text-shadow: 0 0 calc(var(--shadow-size) * 2) var(--medium-blue);
 		}
 
 /*** media queries ***/
@@ -510,8 +519,23 @@
 		}
 
 	/** mobile **/
+		@media screen and (max-width: 499px) {
+			/* info */
+				#j-logo {
+					display: none;
+				}
+
+				#info-links li:nth-last-child(2) a {
+					padding-right: 0 !important;
+				}
+		}
+
 		@media screen and (max-width: 799px) {
 			/* info */
+				#info-name {
+					font-size: var(--medium-font-size);
+				}
+
 				#info, #info-content, #info-name, #info-bio {
 					height: auto;
 					text-align: center;
@@ -524,10 +548,6 @@
 				#info-content, #info-name, #info-bio {
 					width: 100%;
 					margin-bottom: var(--small-gap-size);
-				}
-
-				#j-logo {
-					display: none;
 				}
 
 			/* projects */
