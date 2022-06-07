@@ -1,0 +1,277 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #666666;
+		--dark-gray: #111111;
+		--light-blue: #04b1ff;
+		--medium-red: #d94c4c;
+		--font-family: monospace;
+		--font-size: 20px;
+		--border-radius: 5px;
+		--gap-size: 10px;
+		--shadow-size: 5px;
+		--column-width: 1000px;
+		--transition-time: 0.5s;
+	}
+
+	html, body {
+		margin: 0;
+		padding: 0;
+		background-color: var(--medium-gray);
+		min-height: 100vh;
+		min-width: 100vw;
+		font-size: 0;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+
+/*** form ***/
+	#form {
+		width: var(--column-width);
+		max-width: calc(100vw - 10 * var(--gap-size));
+		box-sizing: border-box;
+		margin: calc(5 * var(--gap-size)) auto calc(5 * var(--gap-size)) auto;
+	}
+
+	/* textarea */
+		#statements {
+			width: 100%;
+			min-width: 100%;
+			max-width: 100%;
+			min-height: calc(var(--font-size) * 5);
+			max-height: calc(100vh - 10 * var(--gap-size));
+			border: none;
+			border-radius: var(--border-radius);
+			background-color: var(--light-gray);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--dark-gray);
+			padding: var(--gap-size);
+			outline: none;
+			box-sizing: border-box;
+		}
+
+		#statements:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+	/* buttons */
+		#operators {
+			width: 100%;
+			min-width: 100%;
+			max-width: 100%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			gap: var(--gap-size) var(--gap-size);
+			margin-top: var(--gap-size);
+		}
+
+		#operators button {
+			flex-grow: 1;
+			height: calc(var(--font-size) * 2);
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			padding: var(--gap-size);
+			border-radius: var(--border-radius);
+			border: none;
+			outline: none;
+			cursor: pointer;
+			text-align: center;
+			vertical-align: text-bottom;
+			line-height: 1;
+			transition: var(--transition-time);
+			min-width: calc(var(--font-size) * 2);
+		}
+
+		#operators button:focus, #operators button:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#evaluate {
+			margin-top: var(--gap-size);
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+			border: none;
+			border-radius: var(--border-radius);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			height: calc(var(--font-size) * 2);
+			width: 100%;
+			text-transform: uppercase;
+			cursor: pointer;
+			outline: none;
+			line-height: 1;
+			padding: var(--gap-size);
+			transition: var(--transition-time);
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		#evaluate:focus, #evaluate:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+	/* errors */
+		#errors {
+			width: 100%;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			margin-top: var(--gap-size);
+			color: var(--dark-gray);
+			background: var(--medium-red);
+			padding: var(--gap-size);
+			border-radius: var(--border-radius);
+			box-sizing: border-box;
+		}
+
+		#errors:empty {
+			display: none;
+		}
+
+/*** truths ***/
+	#truths-outer {
+		width: var(--column-width);
+		max-width: calc(100vw - 10 * var(--gap-size));
+		max-height: calc(100vh - 10 * var(--gap-size));
+		box-sizing: border-box;
+		margin: 0 auto calc(5 * var(--gap-size)) auto;
+		border-radius: var(--border-radius);
+		overflow-x: scroll;
+		overflow-y: scroll;
+		background-color: var(--dark-gray);
+	}
+
+	/* checkbox */
+		#truths-outer:not([evaluated]) #show-all-outer {
+			display: none;
+		}
+
+		#show-all-outer {
+			display: block;
+			width: 100%;
+			padding: var(--gap-size);
+			background: var(--dark-gray);
+			box-sizing: border-box;
+			text-transform: uppercase;
+			line-height: 1;
+			vertical-align: bottom;
+		}
+
+		#show-all-outer span {
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--light-gray);
+			font-weight: bold;
+			cursor: pointer;
+			transition: var(--transition-time);
+		}
+
+		#show-all-outer span:hover {
+			text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#show-all {
+			height: var(--font-size);
+			width: var(--font-size);
+			border-radius: var(--border-radius);
+			margin: 0 var(--gap-size) 0 0;
+			cursor: pointer;
+			outline: none;
+			vertical-align: bottom;
+			transition: var(--transition-time);
+		}
+
+		#show-all:focus, #show-all:hover {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+		}
+
+	/* table */
+		#truths {
+			width: auto;
+			min-width: 100%;
+			height: auto;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			border: none;
+			border-collapse: collapse;
+		}
+
+		#truths thead {
+			position: sticky;
+			top: 0;
+		}
+
+		#truths th {
+			border: none;
+			background: var(--dark-gray);
+			color: var(--medium-gray);
+			min-width: calc(2 * var(--font-size));
+			padding: var(--gap-size);
+			text-align: center;
+			box-sizing: border-box;
+			font-weight: bold;
+		}
+
+		#truths th.statement {
+			color: var(--light-gray);
+			font-weight: normal;
+		}
+
+		#truths th.conclusion[unsupported] {
+			color: var(--medium-red);
+		}
+
+		#truths th.conclusion:not([unsupported]) {
+			color: var(--light-blue);
+		}
+
+		#truths:not([show-all]) tr:not([all-true]) {
+			display: none;
+		}
+
+		#truths td {
+			min-width: calc(2 * var(--font-size));
+			padding: var(--gap-size);
+			border: none;
+			text-align: center;
+			box-sizing: border-box;
+			text-transform: uppercase;
+		}
+
+		#truths .symbol[truth="true"], #truths .statement[truth="true"] {
+			background-color: var(--light-blue);
+		}
+
+		#truths .symbol[truth="false"], #truths .statement[truth="false"] {
+			background-color: var(--medium-red);
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		transition: var(--transition-time);
+		filter: drop-shadow(0 0 1px var(--dark-gray));
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+	}

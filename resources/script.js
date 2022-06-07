@@ -559,6 +559,14 @@
 				date: "January 22, 2020",
 				description: "A combination lock puzzle where sensing vibrations helps you know how to rotate a dial."
 			},
+			logicevaluator: {
+				skipRandom: true,
+				name: "logicEvaluator",
+				size: "small",
+				tags: ["code","tool","math"],
+				date: "June 6, 2022",
+				description: "Submit statements of symbolic logic to calculate truth tables and evaluate conclusions."
+			},
 			magnetmaker: {
 				name: "magnetMaker",
 				size: "large",

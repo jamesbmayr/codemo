@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>logicEvaluator</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/711162-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta charset="UTF-8"/>
+		<meta name="description" content="logicEvaluator is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="logicEvaluator"/>
+		<meta property="og:url" content="https://jamesmayr.com/logicevaluator/"/>
+		<meta property="og:description" content="logicEvaluator is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/logicevaluator/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="form">
+			<textarea id="statements" placeholder="ONE STATEMENT PER LINE (ex: p⊃q). &#x0a;∴ TO TEST CONCLUSION (ex: ∴~p∨q)."></textarea>
+			<div id="operators">
+				<button id="operator-not" value="~" title="not">~</button>
+				<button id="operator-biconditional" value="≡" title="if and only if">≡</button>
+				<button id="operator-conditional" value="⊃" title="implies">⊃</button>
+				<button id="operator-and" value="•" title="and">•</button>
+				<button id="operator-or" value="∨" title="or">∨</button>
+				<button id="operator-xor" value="⊻" title="xor">⊻</button>
+				<button id="operator-nand" value="⊼" title="nand">⊼</button>
+				<button id="operator-nor" value="⊽" title="nor">⊽</button>
+				<button id="operator-parenthesis-left" value="(" title="left parenthesis">(</button>
+				<button id="operator-parenthesis-right" value=")" title="right parenthesis">)</button>
+				<button id="operator-therefore" value="∴" title="therefore">∴</button>
+			</div>
+			<button id="evaluate">evaluate &rarr;</button>
+			<div id="errors"></div>
+		</div>
+		<div id="truths-outer">
+			<label id="show-all-outer">
+				<input id="show-all" type="checkbox">
+				<span>show full truth table</span>
+			</label>
+			<table id="truths"></table>
+		</div>
+	</body>
+</html>
