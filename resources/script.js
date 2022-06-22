@@ -85,6 +85,7 @@
 			},
 			blog: {
 				skipRandom: true,
+				hidden: true,
 				name: "blog",
 				size: "small",
 				tags: ["code","api","writing","autobiography"],
@@ -677,7 +678,7 @@
 				size: "medium",
 				tags: ["code","extension","math","simulation","tool","scifi","design","canvas"],
 				date: "March 27, 2022",
-				description: "Simulate your own solar system using real orbital mechanics - planets, moons, and more."
+				description: "Customize or randomly generate a solar system with real orbital mechanics - planets, moons, and more."
 			},
 			pawnpusher: {
 				name: "pawnPusher",
@@ -755,6 +756,13 @@
 				tags: ["design","code","draw","art","tool"],
 				date: "June 10, 2017",
 				description: "With pixelPainter, blocky 8-bit art is just a click-and-drag away."
+			},
+			poemmaker: {
+				name: "poemMaker",
+				size: "large",
+				tags: ["code","tool","writing","autobiography","lyric","poetry"],
+				date: "June 22, 2022",
+				description: "Randomly generate poetry in dozens of forms from thousands of original lines."
 			},
 			pointfinder: {
 				name: "pointFinder",

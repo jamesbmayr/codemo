@@ -567,7 +567,16 @@
 			margin: calc(var(--gap-size) * 3 / 4) calc(var(--gap-size) * 2) !important;
 		}
 
+		.star summary > h3 > span.name-symbol, .planet summary > h3 > span.name-symbol, .moon summary > h3 > span.name-symbol {
+			font-size: calc(var(--font-size) * 3 / 4) !important;
+			padding-right: var(--gap-size);
+		}
+
 	/* inputs */
+		.star-randomize, .planet-randomize, .moon-randomize {
+			margin: calc(var(--gap-size) * 2) !important;
+		}
+
 		.star > summary > label, .planet > summary > label, .moon > summary > label {
 			display: inline-block !important;
 			width: 50% !important;
@@ -679,7 +688,7 @@
 			display: none !important;
 		}
 
-		.star[binary] > .star-description-label, .star[binary] > .star-color-label, .star[binary] > .star-habitablezone-label, .star[binary] > .star-radius-label {
+		.star[binary] > .star-description-label, .star[binary] > .star-color-label, .star[binary] > .star-habitablezone-label, .star[binary] > .star-radius-label, .star[binary] > .star-randomize {
 			display: none !important;
 		}
 

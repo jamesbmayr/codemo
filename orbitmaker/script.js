@@ -482,6 +482,52 @@
 						periapsis: 0.00002, // AU
 					}
 				}
+			},
+			random: {
+				attempts: 10, // count
+				names: ["Oub","Peague","Frau","Oomp","Cleyost","Hougeatree","Sluild","Stothseag","Therct","Lernmo","Yoasce","Kir","Sefood","Bloilo","Neeploa","Rerndleyne","Twiwur","Sershthiep","Yetoudphoe","Glolp","Oolb","Iskthy","Drorbimock","Yoasmo","Sca","Olf","Shaimstie","Lysmycroag","Ishbriequa","Marm","Taponoin","Eaphgorhit","Outch","Mighriet","Degroryi","Epyash","Aut","Yoilchaix","Irntlob","Quoscy","Matbloamop","Smea","Lutbendelb","Pefub","Tentspidou","Elp","Griskubea","Otmuedoith","Uinbroop","Lui","Narck","Ighx","Luimpstom","Fackhurma","Vied","Ailkig","Ceydrish","Ooshoon","Asturntpay","Yueph","Dighntilk","Poloskolt","Aldaiftree","Eeckgran","Erct","Goysqualk","Blirp","Eelmclig","Soo","Glie","Yurth","Skerdog","Amslon","Auteesk","Idaumurt","Ientspoulk","Cleblo","Eskpethath","Shoun","Ag","Durm","Bact","Terdsmoi","Oomgo","Stoi","Tweat","Oostskaw","Jerflalt","Dwoulp","Timoiyieth","Goolmna","Urntgir","Thror","Prieshdwo","Sinurtch","Arshpo","Porlp","Twosptynea","Easpseenlo","Ackpersh","Pypra","Ra","Bletvoisk","Poatieshzy","Irntpick","Weyboom","Cinroy","Aspyosh","Quaclarn","Slou","Urddart","Oonoump","Ne","Dalp","Meaphli","Beebu","Eylk","Snippu","Rea","Aib","Prui","Muistar","Geckuepcex","Zitoig","Sawirtdau","Oackfry","Sker","Lawpomstui","Ealchgudar","Iskhay","Ealdvi","Naumpbawd","Dee","Soumout","Oock","Chooph","Furoyrulp","Oaskzea","Yoopeab","Palchfe","Flirsh","Eagve","Maw","Aistdorpaw","Nernisp","Twaxdwoo","Orm","Smerlkjay","Toet","Quoosni","Erph","Iect","Irb","Oabbub","Twooloth","Puempsposk","Forpoyth","Ortchoin","Nabmoa","Yonnoo","Shoutarg","Aphped","Soquoo"," quorboust","Oon","Neaberb","Oadoctyick","Bapow","Omintked","Raytch","Stertstoe","Uisp","Crundalb","Oogbubalp","Oackolf","Snau","Teest","Oin","Groon","Cla","Toulf","Chuenoylf","Phiedsee","Shoomphoe","Rylailt","Teelerct","Osp","Oit","Cleptouxob","Glash","Tooslo","Aigseesh","Puifai","Salk","Sistockoem","Clodirt","Cargurfla","Ornted","Ish","Rartdrauty","Erstdroock","Uem","Bawrayth","Groatch","Twalchkor","Irsk","Jinyhi","Aitchspim","Toosea","Sep","Leethealb","Barspmar","Tox","Unroend","Oatob","Eshayd","Thuimmie","Spuileyd","Smiskwent","Foithgror","Oskerth","Ragpho","Poam","Sincim","Impirtwou","Owld","Tesuipre","Du","Skitee","Grirmnick","Froosh","Ulb","Yoashump","Lerfliefri","Backcrood","Gounkoyhoi","Uigoyft","Soduip","Eabscue","Ilf","Honchmoun","Otog","Ix","Siseeph","Yaiton","Larmarshfa","Ood","Puiroat","Ien","Bea","Oask","Athglea","Claitood","Stowld","Eed","Tebsterlt","Laderpu","Inchtorn","Pofunch","Fesend","Meem","Ploo","Scoobith","Cougor","Piegatherb","Supuinchmu","Gar","Pranarndre","Outchdwa","Inirntint","Belbeagoit","Indaft","Irpsmi","Ootkilt","Oct","Fru","Proolt","Seboa","Umyuickpar","Uepteyph","Od","Orgquay","Tir","Crurpra","Arlf","Moa","Un","Ietch","Oack","Astkacrod","Cetstoi","Oupbisci","Scoagcoilm","Tanormthi","Pavoypheb","Gargree","Felm","Yylb","Sleeck","Oeft","Skurtoob","Iep","Keaulkdulk","Gerck","Gaulchold","Nunchfeg","Edoondsoi","Eathtotoe","Erlp","Smuwhoo","Aid","Dea","Arp","Seyvooboon","Omnorca","Kaphchoa","Bralkausp","Awshgrost","Uictfuhee","Eld","Obnulpeeg","Kethwyvy","Scuemeft","Coanchcro","Yolftaylar","Tweelp","Drey","Ielkstush","Buigsurft","Fyprob","Erctconir","Olch","Itlictirlt","Flesnorct","Snerkith","Irlch","Cheascib","Uiltun","Figroytalk","Seapdopip","Mompdir","Leabowt","Erlchphi","Urncloi","Ubthaid","Irpiguim","Om","Brorsorui","Ulkaymclee","Mortoolt","Tardaux","Erlkack","Lai","Yarlt","Fysmighvi","Righ","Katoospflo","Slee","Uinch","Sar","Ouct","Meabarb","Rer","Excro","Unuesp","Darnuict","Chawg","Raultadkar","Dockroa","Droump","Blod","Fumpkui","Tor","Arckarshva","Rin","Ersk","Skead","Omtwogshi","Oapalkdin","Alk","Lienese","Feelp","Roeproy","Skiesk","Uth","Frowgoi","Thect","Paspaup","Uldirnd","Girn","Panbooroi","Broalieck","Otdrash","Erskyay","Caltje","Kalf","Tuclorn","Skea","Fuilo","Zea","Ki","Colch","Eackam","Zowm","Pra","Arnerph","Guibkoydaw","Idhejorth","Roibneelch","Bo","Snaupso","Vou","Ud","Threy","Athpuit","Stoant","Orsteth","Um","Sceed","Inmigh","Orltblui","Eadrowmgla","Oop","Eaphuilkri","Hooth","Nuemp","Burpowckip","Alm","Irntlorn","Greytchuim","Drenmu","Ny","Een","Bleretwu","Skeauty","Ooshquee","Owpnui","Estyon","Aupree","Uck","Dy","Ertgerd","Pyvovoa","Twurnufe","Thy","Aimp","Plu","Oeck","Stowhou","Uipuithap","Crerstpe","Thaulb","Suifeagrea","Oomyuinch","Prolt","Deapgluem","Bray","Suth","Erck","Ab","Ailfpep","Oebbyree","Ipfly","Shigh","Unverth","Uigthywui","Eelk","Alfni","Etchsni","Flitch","Bree","Arlkobeep","Orddeblont","Spaict","Arneed","Urlp","Fley","Zuipeasp","Chukalk","Scurlp","Yie","Whuesp","Gytir","Eapeld","Greau","Toold","Gowhen","Eanch","Ertorck","Throa","Leelp","Sheeli","Proa","Oumpnalp","Murnspip","Jaycrairy","Rix","Roameap","Smui","Oyg","Uemcar","Narposcod","Grageanch","Smerbshint","Twarpind","Scovighn","Isk","Builb","Uint","Artruep","Slectact","Imrirnd","Sard","Rotdu","Ashbeemp","Gruinch","Droict","Sheautch","Auck","Chirtoo","Mu","Chayn","Si","Thuro","Nucoo","Roeth","Depee","Ha","Tieckdrum","Quarnt","Askgem","Skawmstart","Oash","Ebsketskor","Oanhayft","Blarnishab","Gloag","Jien","Jaushow","Ixilch","Chowb","Ophnargock","Ornwau","Seyn","Kadipoyth","Bidreasnir","Mutch","Leshflupe","Ug","Udectep","Erntlu","Dwaquoiceb","Narmchoeg","Bied","Oep","Arneest","Skain","Uedlea","Wum","Oepsmi","Pricibfrar","Ard","Goosawsai","Loa","Thighft","Dibandbleg","Uim","It","Doyartch","Itchouthme","Muidriryai","Sloapath","Puefooth","Eetjospuck","Sliesup","Amglui","Yee","Ib","Leausty","Ailt","Reckgayp","Glesichat","Har","Inthab","Idirst","Bernirbsu","Lurd","Pliemir","Broi","Teyshsoib","Pailpfoa","Choo","Irdbee","Clon","Oontflern","Thruep","Ithborp","Aisktu","Snir","Dra","Ceant","Sheygilflo","Prer","Ceegan","Uigmer","Oygirbdu","Vailm","Lu","Drailpmi","Oylkargque","Plersnird","Boip","Muiskchar","Deeboab","Ormarsh","Uetnoa","Snaisipaib","Steeslid","Aptebslar","Tikacotch","Ain","Co","Glamig","Nedien","Rostin","Twyyoot","Ceautdraip","Uipskeact","Leadrerlk","Eageepsoe","Easp","Bou","Foi","Rofar","Spui","Oshclecie","Frelk","Varfieb","Ormemzeelk","Fruboocir","Oimp","Ighlk","Gruproanai","Gir","Rayquer","Cli","Enob","Rau","Rirst","Nayde","Oad","Floo","Ooctielk","Noo","Wheskock","Irdroustum","Shoonch","Halpbo","Yithowdseg","Sau","Uinchpra","Ayn","Onshee","Drea","Oulk","Groche","Idooph","Oskoabyoo","Scortch","Ickpoiyaw","Scoond","Jeasnag","Eelm","Uibidflond","Andoymptu","Seecre","Girckscy","Lolp","Icksmoo","Sparsurst","Depo","Oyst","Spealf","Wowt","Margke","Ainthrerg","Ailtirpoib","Twep","Skershcoo","Ont","Scorph","Ordfo","Creameau","Arlmoam","Foodawgrin","Koisheeloe","Aip","Ockowm","Wolt","Smoushelf","Eex","Joist","Meyd","Owx","Tufoot","Meack","Oud","Arsh","Agult","Chethoag","Atkuilp","Yood","Dond","Foutar","Orctstee","Crayb","Guesno","Seck","Luit","Prergnousy","Ishaulp","Pondroihy","Twi","Kue","Po","Chugawdwid","Quo","Naiboop","Yoithack","Ergomdash","Twyspeelk","Kou"],
+				star: {
+					emoji: {
+						"star": ["☀️"],
+						"black-hole": ["⚫"],
+						"binary": ["⚇"]
+					},
+					massFactor: [0,10], // kg
+					massPower: [30, 32], // 10^x
+					semiMajorAxis: [0.1, 25], // AU
+					radius: [0.001, 0.1], // AU
+					inclination: [0, 15], // °
+					longitudeOfAscendingNode: [0, 360], // °
+					eccentricity: [0, 0.2], // ratio
+					argumentOfPeriapsis: [0, 360], // °
+					children: [1, 7], // count
+					binaryChance: 0.2 // ratio
+				},
+				planet: {
+					emoji: {
+						"0-19": ["☄️"],
+						"20-24": ["🌎", "🌍", "🌏"],
+						"25-29": ["🪐"]
+					},
+					massFactor: [0,10], // kg
+					massPower: [20, 29], // 10^x
+					semiMajorAxis: [0.1, 25], // AU
+					inclination: [0, 30], // °
+					longitudeOfAscendingNode: [0, 360], // °
+					eccentricity: [0, 0.3], // ratio
+					argumentOfPeriapsis: [0, 360], // °
+					children: [0, 4] // count
+				},
+				moon: {
+					emoji: ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"],
+					massFactor: [0,10], // kg
+					massPower: [17, 23], // 10^x
+					semiMajorAxis: [0.001, 0.01], // AU
+					inclination: [0, 45], // °
+					longitudeOfAscendingNode: [0, 360], // °
+					eccentricity: [0, 0.5], // ratio
+					argumentOfPeriapsis: [0, 360] // °
+				}
 			}
 		}
 
@@ -1310,6 +1356,7 @@
 				tracking: document.querySelector("#controls-tracking"),
 				x: document.querySelector("#controls-x"),
 				y: document.querySelector("#controls-y"),
+				randomize: document.querySelector("#controls-randomize"),
 				upload: document.querySelector("#controls-upload"),
 				download: document.querySelector("#controls-download")
 			},
@@ -1340,8 +1387,6 @@
 				stars: []
 			},
 			system: {
-				massFactor: 0, // kg
-				massPower: 0, // 10^x
 				children: {},
 				elements: {
 					children: ELEMENTS.system
@@ -1381,10 +1426,6 @@
 						STATE.system.children[child.id] = child
 						ELEMENTS.system.appendChild(child.elements.section)
 					}
-
-				// barycenter (at 0, 0)
-					STATE.system.massFactor = CONSTANTS.defaults.massFactor // kg
-					STATE.system.massPower = CONSTANTS.defaults.massPower // 10^x
 
 				// begin loop
 					resizeCanvas()
@@ -1556,6 +1597,75 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* randomizeSystem */
+		ELEMENTS.controls.randomize.addEventListener(TRIGGERS.click, randomizeSystem)
+		function randomizeSystem(event, celestialBody, parent) {
+			try {
+				// get celestialBody
+					if (!celestialBody) {
+						// reset top-level
+							let celestialBody = STATE.system.children[Object.keys(STATE.system.children)[0]]
+								celestialBody.class = "custom"
+							return randomizeSystem(null, celestialBody, STATE.system)
+					}
+
+				// star
+					if (celestialBody.type == "star") {
+						// clear children
+							for (let i in celestialBody.children) {
+								celestialBody.children[i].elements.section.remove()
+								delete celestialBody.children[i]
+							}
+
+						// binary?
+							if (Math.random() < CONSTANTS.random.star.binaryChance) {
+								changeStarToBinary(celestialBody, true)
+
+								for (let i in celestialBody.children) {
+									randomizeSystem(null, celestialBody.children[i], celestialBody)
+								}
+								return
+							}
+
+						// normal star --> randomize
+							randomizeStar(null, celestialBody)
+
+						// add planets
+							let numberOfChildren = generateRandom(CONSTANTS.random.star.children[0], CONSTANTS.random.star.children[1])
+							for (let i = 0; i < numberOfChildren; i++) {
+								let planet = createPlanet(null, celestialBody.id)
+								celestialBody.children[planet.id] = planet
+								celestialBody.elements.children.appendChild(planet.elements.section)
+								randomizeSystem(null, planet, celestialBody)
+							}
+						return
+					}
+
+				// planet
+					if (celestialBody.type == "planet") {
+						// randomize
+							randomizePlanet(null, celestialBody, parent)
+
+						// add moons
+							let numberOfChildren = generateRandom(CONSTANTS.random.planet.children[0], CONSTANTS.random.planet.children[1])
+							for (let i = 0; i < numberOfChildren; i++) {
+								let moon = createMoon(null, celestialBody.id)
+								celestialBody.children[moon.id] = moon
+								celestialBody.elements.children.appendChild(moon.elements.section)
+								randomizeSystem(null, moon, celestialBody)
+							}
+						return
+					}
+
+				// moon
+					if (celestialBody.type == "moon") {
+						// randomize
+							randomizeMoon(null, celestialBody, parent)
+						return
+					}
+			} catch (error) {console.log(error)}
+		}
+
 	/* uploadFile */
 		ELEMENTS.controls.upload.addEventListener(TRIGGERS.input, uploadFile)
 		function uploadFile() {
@@ -1592,8 +1702,6 @@
 										STATE.system.children[child.id] = child
 										ELEMENTS.system.appendChild(child.elements.section)
 									}
-									STATE.system.massFactor = data.massFactor // kg
-									STATE.system.massPower = data.massPower // 10^x
 							} catch (error) {console.log(error)}
 							ELEMENTS.controls.upload.value = null
 						}
@@ -1912,7 +2020,7 @@
 					section.appendChild(summary)
 
 					var header = document.createElement("h3")
-						header.innerText = star.name
+						header.innerHTML = getNameSymbol(star) + (star.name || "")
 					summary.appendChild(header)
 					star.elements.summary = header
 
@@ -1949,6 +2057,14 @@
 					var span = document.createElement("span")
 						span.innerText = "show"
 					label.appendChild(span)
+
+				// randomize
+					var button = document.createElement("button")
+						button.className = "star-randomize"
+						button.innerHTML = "&olarr; randomize"
+						button.addEventListener(TRIGGERS.click, randomizeStar)
+					section.appendChild(button)
+					star.elements.randomize = button
 
 				// name
 					var label = document.createElement("label")
@@ -2409,6 +2525,122 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* randomizeStar */
+		function randomizeStar(event, starData) {
+			try {
+				// get id
+					let star = null
+
+					if (starData) {
+						star = starData
+					}
+					else {
+						let starId = event.target.closest(".star").id
+						star = getCelestialBodyFromId(starId)
+					}
+
+				// part of a binary?
+					let [sibling, parent] = getBinaryFamilyFromId(star.id)
+
+				// visible
+					star.elements.visible.checked = star.position.visible = true
+
+				// name
+					star.elements.name.value = star.name = chooseRandom(CONSTANTS.random.names)
+					star.elements.summary.innerHTML = getNameSymbol(star) + (star.name || "")
+
+				// class
+					star.elements.class.value = star.class = "custom"
+					star.elements.section.removeAttribute("binary")
+
+				// description
+					star.elements.description.value = star.description = ""
+
+				// color
+					star.elements.color.value = star.color = generateRandomColor() // #hex
+
+				// mass
+					star.elements.massFactor.value = star.massFactor = generateRandom(CONSTANTS.random.star.massFactor[0], CONSTANTS.random.star.massFactor[1] * CONSTANTS.rounding) / CONSTANTS.rounding // kg
+					star.elements.massPower.value = star.massPower = generateRandom(CONSTANTS.random.star.massPower[0], CONSTANTS.random.star.massPower[1]) // 10^x
+
+				// habitableZone
+					let starMass = star.massFactor * (10 ** star.massPower) // kg
+					star.elements.habitableZone.value = star.habitableZone = calculateHabitableZone(starMass, null) // AU
+
+				// radius
+					star.elements.radius.value = star.radius = generateRandom(CONSTANTS.random.star.radius[0] * CONSTANTS.rounding, Math.min(CONSTANTS.random.star.radius[1], star.habitableZone) * CONSTANTS.rounding) / CONSTANTS.rounding // AU
+				
+				// not part of binary?
+					if (!sibling) {
+						star.elements.semiMajorAxis.value = star.semiMajorAxis = 0 // AU
+						star.elements.eccentricity.value = star.eccentricity = 0 // ratio
+						star.elements.apoapsis.value = star.apoapsis = 0 // AU
+						star.elements.periapsis.value = star.periapsis = 0 // AU
+						star.elements.period.value = star.period = 0 // d
+						star.elements.day.value = star.day = 0 // d
+						star.elements.retrograde.checked = star.retrograde = false
+						star.elements.inclination.value = star.inclination = 0 // ° & AU
+						star.elements.longitudeOfAscendingNode.value = star.longitudeOfAscendingNode = 0 // ° & AU
+						star.elements.argumentOfPeriapsis.value = star.argumentOfPeriapsis = 0 // ° & AU
+						star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+					}
+
+				// part of binary
+					else {
+						// semiMajorAxis
+							star.elements.semiMajorAxis.value = star.semiMajorAxis = generateRandom(CONSTANTS.random.star.semiMajorAxis[0] * CONSTANTS.rounding, Math.max(CONSTANTS.random.star.semiMajorAxis[1], star.radius + sibling.radius) * CONSTANTS.rounding) / CONSTANTS.rounding // AU
+
+						// eccentricity
+							star.elements.eccentricity.value = star.eccentricity = generateRandom(CONSTANTS.random.star.eccentricity[0] * CONSTANTS.rounding, CONSTANTS.random.star.eccentricity[1] * CONSTANTS.rounding) / CONSTANTS.rounding // ratio
+							sibling.elements.eccentricity.value = sibling.eccentricity = star.eccentricity // ratio
+
+						// semiMajorAxis & eccentricity --> apoapsis & periapsis
+							let [apoapsis, periapsis] = calculateEllipse(star.semiMajorAxis, star.eccentricity, [null, null]) // AU, AU
+
+							// set & save values
+								star.elements.apoapsis.value  = star.apoapsis  = apoapsis // AU
+								star.elements.periapsis.value = star.periapsis = periapsis // AU
+
+						// update binary system
+							updateBinarySystem(star, sibling, parent)
+
+						// period --> day
+							star.elements.day.value = star.day = generateRandom(0, Math.floor(star.period)) // d
+							sibling.elements.day.value = sibling.day = star.day // d
+
+						// retrograde
+							star.elements.retrograde.checked = star.retrograde = chooseRandom([true, false])
+							sibling.elements.retrograde.checked = sibling.retrograde = star.retrograde
+
+						// inclination
+							let inclination = generateRandom(CONSTANTS.random.star.inclination[0], CONSTANTS.random.star.inclination[1]) // °
+							sibling.elements.inclination.value = star.elements.inclination.value = inclination // °
+							sibling.inclination = star.inclination = roundNumber(inclination * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+						// longitudeOfAscendingNode
+							let longitudeOfAscendingNode = generateRandom(CONSTANTS.random.star.longitudeOfAscendingNode[0], CONSTANTS.random.star.longitudeOfAscendingNode[1]) // °
+							sibling.elements.longitudeOfAscendingNode.value = star.elements.longitudeOfAscendingNode.value = longitudeOfAscendingNode // °
+							sibling.longitudeOfAscendingNode = star.longitudeOfAscendingNode = roundNumber(longitudeOfAscendingNode * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+						// argumentOfPeriapsis
+							let argumentOfPeriapsis = generateRandom(CONSTANTS.random.star.argumentOfPeriapsis[0], CONSTANTS.random.star.argumentOfPeriapsis[1]) // °
+							star.elements.argumentOfPeriapsis.value = argumentOfPeriapsis // °
+							star.argumentOfPeriapsis = roundNumber(argumentOfPeriapsis * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+							
+							let oppositeAngle = argumentOfPeriapsis + (CONSTANTS.convert.circle_to_degree / 2) % CONSTANTS.convert.circle_to_degree // °
+							sibling.elements.argumentOfPeriapsis.value = oppositeAngle // °
+							sibling.argumentOfPeriapsis = roundNumber(oppositeAngle * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+							
+						// computed
+							star.computed = calculateComputedValues(star.semiMajorAxis, star.eccentricity, star.longitudeOfAscendingNode, star.argumentOfPeriapsis, star.inclination)
+							sibling.computed = calculateComputedValues(sibling.semiMajorAxis, sibling.eccentricity, sibling.longitudeOfAscendingNode, sibling.argumentOfPeriapsis, sibling.inclination)
+					}
+
+				// update children orbits
+					updateChildrenOrbits(star)
+			} catch (error) {console.log(error)}
+		}
+
 	/* changeStarVisible */
 		function changeStarVisible(event) {
 			try {
@@ -2436,7 +2668,7 @@
 
 				// save new value
 					star.name = name
-					star.elements.summary.innerText = name
+					star.elements.summary.innerHTML = getNameSymbol(star) + (name || "")
 			} catch (error) {console.log(error)}
 		}
 
@@ -2475,6 +2707,7 @@
 						star.elements.massPower.value = star.massPower = CONSTANTS.classes.stars[starClass].massPower // kg
 						star.elements.radius.value = star.radius = CONSTANTS.classes.stars[starClass].radius // kg
 						star.elements.habitableZone.value = star.habitableZone = CONSTANTS.classes.stars[starClass].habitableZone // AU
+						star.elements.summary.innerHTML = getNameSymbol(star) + (star.name || "")
 
 				// update children orbits
 					updateChildrenOrbits(star)
@@ -2539,6 +2772,9 @@
 
 					// get mass
 						let mass = massFactor * Math.pow(10, massPower) // kg
+						if (mass <= 0) {
+							return
+						}
 
 					// save new values
 						star.massFactor = massFactor // kg
@@ -2553,6 +2789,7 @@
 
 				// custom class
 					star.elements.class.value = star.class = "custom"
+					star.elements.summary.innerHTML = getNameSymbol(star) + (star.name || "")
 
 				// update children orbits
 					updateChildrenOrbits(star)
@@ -3116,30 +3353,60 @@
 		}
 
 	/* changeStarToBinary */
-		function changeStarToBinary(parentStar) {
+		function changeStarToBinary(parentStar, override) {
 			try {
-				// create substars
-					// first substar gets existing star's children
-						let starA = createStar(parentStar, parentStar.id)
-							starA.name += " A (+planets)"
-							starA.elements.summary.innerText = starA.elements.name.value = starA.name
-						parentStar.children[starA.id] = starA
+				// cancel
+					if (!override && !window.confirm("This will create " + parentStar.name + " A and " + parentStar.name + " B. Proceed?")) {
+						parentStar.elements.class.value = parentStar.class
+						return
+					}
 
-					// second substar has no children
-						let secondSeed = {}
-						for (let i in parentStar) {
-							if (!CONSTANTS.ignoreKeys.includes(i)) {
-								secondSeed[i] = parentStar[i]
+				// what to do with satellites
+					let starASatellites = override ? false : window.confirm("Copy satellites to " + parentStar.name + " A?")
+					let starBSatellites = override ? false : window.confirm("Copy satellites to " + parentStar.name + " B?")
+					let barycenterSatellites = override ? false : window.confirm("Also keep satellites orbiting A/B barycenter?")
+
+				// create substars
+					// first substar
+						let firstSeed = duplicateObject(parentStar)
+						for (let i in firstSeed) {
+							if (CONSTANTS.ignoreKeys.includes(i) && !(starASatellites && i == "children")) {
+								delete firstSeed[i]
+							}
+						}
+						let starA = createStar(firstSeed, parentStar.id)
+							starA.name += " A"
+							starA.elements.name.value = starA.name
+							starA.elements.summary.innerHTML = getNameSymbol(starA) + (starA.name || "")
+
+					// second substar
+						let secondSeed = duplicateObject(parentStar)
+						for (let i in secondSeed) {
+							if (CONSTANTS.ignoreKeys.includes(i) && !(starBSatellites && i == "children")) {
+								delete secondSeed[i]
 							}
 						}
 						let starB = createStar(secondSeed, parentStar.id)
-							starB.name += " B (empty)"
-							starB.elements.summary.innerText = starB.elements.name.value = starB.name
-						parentStar.children[starB.id] = starB
+							starB.name += " B"
+							starB.elements.name.value = starB.name
+							starB.elements.summary.innerHTML = getNameSymbol(starB) + (starB.name || "")
 
-					// add to element
+					// add to parent / elements
+						parentStar.children[starA.id] = starA
+						parentStar.children[starB.id] = starB
 						parentStar.elements.children.prepend(starB.elements.section)
 						parentStar.elements.children.prepend(starA.elements.section)
+
+					// planets
+						if (!barycenterSatellites) {
+							for (let i in parentStar.children) {
+								if (i == starA.id || i == starB.id) {
+									continue
+								}
+								parentStar.children[i].elements.section.remove()
+								delete parentStar.children[i]
+							}
+						}
 
 				// substar values
 					// get masses
@@ -3182,9 +3449,10 @@
 
 				// transform parent into binary
 					// adjust listing
-						parentStar.class = "binary"
+						parentStar.elements.class.value = parentStar.class = "binary"
 						parentStar.elements.color.value = parentStar.color = CONSTANTS.canvas.barycenterColor
-						parentStar.elements.summary.innerText = parentStar.elements.name.value = parentStar.name = ""
+						parentStar.elements.name.value = parentStar.name = ""
+						parentStar.elements.summary.innerHTML = getNameSymbol(parentStar) + (parentStar.name || "")
 						parentStar.elements.section.setAttribute("binary", true)
 						parentStar.elements.massFactor.setAttribute("readonly", true)
 						parentStar.elements.massPower.setAttribute("readonly", true)
@@ -3262,7 +3530,8 @@
 
 				// make parent not a binary
 					// adjust listing
-						parentBinary.elements.summary.innerText = parentBinary.elements.name.value = parentBinary.name = newName
+						parentBinary.elements.name.value = parentBinary.name = newName
+						parentBinary.elements.summary.innerHTML = getNameSymbol(parentBinary) + (parentBinary.name || "")
 						parentBinary.elements.section.removeAttribute("binary", true)
 						parentBinary.elements.massFactor.removeAttribute("readonly")
 						parentBinary.elements.massPower.removeAttribute("readonly")
@@ -3355,7 +3624,7 @@
 					section.appendChild(summary)
 
 					var header = document.createElement("h3")
-						header.innerText = planet.name
+						header.innerHTML = getNameSymbol(planet) + (planet.name || "")
 					summary.appendChild(header)
 					planet.elements.summary = header
 
@@ -3392,6 +3661,14 @@
 					var span = document.createElement("span")
 						span.innerText = "show"
 					label.appendChild(span)
+
+				// randomize
+					var button = document.createElement("button")
+						button.className = "planet-randomize"
+						button.innerHTML = "&olarr; randomize"
+						button.addEventListener(TRIGGERS.click, randomizePlanet)
+					section.appendChild(button)
+					planet.elements.randomize = button
 
 				// name
 					var label = document.createElement("label")
@@ -3829,6 +4106,107 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* randomizePlanet */
+		function randomizePlanet(event, planetData, starData) {
+			try {
+				// get id
+					let planet = null
+					let parent = null
+
+					if (planetData && starData) {
+						planet = planetData
+						parent = starData
+					}
+					else {
+						let planetId = event.target.closest(".planet").id
+						planet = getCelestialBodyFromId(planetId)
+
+						let parentElement = event.target.closest(".star")
+						let parentId = parentElement ? parentElement.id : null
+						parent = getCelestialBodyFromId(parentId) || null
+					}
+
+				// visible
+					planet.elements.visible.checked = planet.position.visible = true
+
+				// name
+					planet.elements.name.value = planet.name = chooseRandom(CONSTANTS.random.names)
+
+				// class
+					planet.elements.class.value = planet.class = "custom"
+
+				// description
+					planet.elements.description.value = planet.description = ""
+
+				// color
+					planet.elements.color.value = planet.color = generateRandomColor() // #hex
+
+				// mass
+					let parentMass = parent.massFactor * (10 ** parent.massPower) // kg
+					let attempts = CONSTANTS.random.attempts
+					do {
+						planet.elements.massFactor.value = planet.massFactor = generateRandom(CONSTANTS.random.planet.massFactor[0], CONSTANTS.random.planet.massFactor[1] * CONSTANTS.rounding) / CONSTANTS.rounding // kg
+						planet.elements.massPower.value = planet.massPower = generateRandom(CONSTANTS.random.planet.massPower[0], CONSTANTS.random.planet.massPower[1]) // 10^x
+						attempts--
+					} while (attempts && planet.massFactor * (10 ** planet.massPower) > parentMass)
+
+				// name symbol
+					planet.elements.summary.innerHTML = getNameSymbol(planet) + (planet.name || "")
+
+				// semiMajorAxis
+					planet.elements.semiMajorAxis.value = planet.semiMajorAxis = generateRandom(CONSTANTS.random.planet.semiMajorAxis[0] * CONSTANTS.rounding, CONSTANTS.random.planet.semiMajorAxis[1] * CONSTANTS.rounding) / CONSTANTS.rounding // AU
+
+				// eccentricity
+					planet.elements.eccentricity.value = planet.eccentricity = generateRandom(CONSTANTS.random.planet.eccentricity[0] * CONSTANTS.rounding, CONSTANTS.random.planet.eccentricity[1] * CONSTANTS.rounding) / CONSTANTS.rounding // ratio
+
+				// semiMajorAxis & eccentricity --> apoapsis & periapsis
+					// ellipse
+						let [apoapsis, periapsis] = calculateEllipse(planet.semiMajorAxis, planet.eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						planet.elements.apoapsis.value  = planet.apoapsis  = apoapsis // AU
+						planet.elements.periapsis.value = planet.periapsis = periapsis // AU
+
+				// semiMajorAxis & mass --> period
+					// get period
+						let semiMajorAxis = planet.semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let period = calculateOrbit(parentMass, null, semiMajorAxis) // s
+
+					// convert from SI
+						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
+
+					// set & save value
+						planet.elements.period.value = planet.period = period // d
+
+				// period --> day
+					planet.elements.day.value = planet.day = generateRandom(0, Math.floor(planet.period)) // d
+
+				// retrograde
+					planet.elements.retrograde.checked = planet.retrograde = chooseRandom([true, false])
+
+				// inclination
+					let inclination = generateRandom(CONSTANTS.random.planet.inclination[0], CONSTANTS.random.planet.inclination[1]) // °
+					planet.elements.inclination.value = inclination // °
+					planet.inclination = roundNumber(inclination * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+				// longitudeOfAscendingNode
+					let longitudeOfAscendingNode = generateRandom(CONSTANTS.random.planet.longitudeOfAscendingNode[0], CONSTANTS.random.planet.longitudeOfAscendingNode[1]) // °
+					planet.elements.longitudeOfAscendingNode.value = longitudeOfAscendingNode // °
+					planet.longitudeOfAscendingNode = roundNumber(longitudeOfAscendingNode * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+				// argumentOfPeriapsis
+					let argumentOfPeriapsis = generateRandom(CONSTANTS.random.planet.argumentOfPeriapsis[0], CONSTANTS.random.planet.argumentOfPeriapsis[1]) // °
+					planet.elements.argumentOfPeriapsis.value = argumentOfPeriapsis // °
+					planet.argumentOfPeriapsis = roundNumber(argumentOfPeriapsis * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+				// computed
+					planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
+
+				// update children orbits
+					updateChildrenOrbits(planet)
+			} catch (error) {console.log(error)}
+		}
+
 	/* changePlanetVisible */
 		function changePlanetVisible(event) {
 			try {
@@ -3856,7 +4234,7 @@
 
 				// save new value
 					planet.name = name
-					planet.elements.summary.innerText = name
+					planet.elements.summary.innerHTML = getNameSymbol(planet) + (name || "")
 			} catch (error) {console.log(error)}
 		}
 
@@ -3889,6 +4267,7 @@
 						planet.elements.eccentricity.value = planet.eccentricity = CONSTANTS.classes.planets[planetClass].eccentricity // ratio
 						planet.elements.apoapsis.value = planet.apoapsis = CONSTANTS.classes.planets[planetClass].apoapsis // AU
 						planet.elements.periapsis.value = planet.periapsis = CONSTANTS.classes.planets[planetClass].periapsis // AU
+						planet.elements.summary.innerHTML = getNameSymbol(planet) + (planet.name || "")
 
 					// computed
 						planet.computed = calculateComputedValues(planet.semiMajorAxis, planet.eccentricity, planet.longitudeOfAscendingNode, planet.argumentOfPeriapsis, planet.inclination)
@@ -3983,6 +4362,9 @@
 
 					// get mass
 						let mass = massFactor * (10 ** massPower) // kg
+						if (mass <= 0) {
+							return
+						}
 
 					// get parent mass
 						if (parent) {
@@ -3998,6 +4380,7 @@
 
 				// custom class
 					planet.elements.class.value = planet.class = "custom"
+					planet.elements.summary.innerHTML = getNameSymbol(planet) + (planet.name || "")
 
 				// update children orbits
 					updateChildrenOrbits(planet)
@@ -4458,7 +4841,7 @@
 					section.appendChild(summary)
 
 					var header = document.createElement("h3")
-						header.innerText = moon.name
+						header.innerHTML = getNameSymbol(moon) + (moon.name || "")
 					summary.appendChild(header)
 					moon.elements.summary = header
 
@@ -4495,6 +4878,14 @@
 					var span = document.createElement("span")
 						span.innerText = "show"
 					label.appendChild(span)
+
+				// randomize
+					var button = document.createElement("button")
+						button.className = "moon-randomize"
+						button.innerHTML = "&olarr; randomize"
+						button.addEventListener(TRIGGERS.click, randomizeMoon)
+					section.appendChild(button)
+					moon.elements.randomize = button
 
 				// name
 					var label = document.createElement("label")
@@ -4889,6 +5280,102 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* randomizeMoon */
+		function randomizeMoon(event, moonData, planetData) {
+			try {
+				// get id
+					let moon = null
+					let parent = null
+
+					if (moonData && planetData) {
+						moon = moonData
+						parent = planetData
+					}
+					else {
+						let moonId = event.target.closest(".moon").id
+						moon = getCelestialBodyFromId(moonId)
+
+						let parentElement = event.target.closest(".planet")
+						let parentId = parentElement ? parentElement.id : null
+						parent = getCelestialBodyFromId(parentId) || null
+					}
+
+				// visible
+					moon.elements.visible.checked = moon.position.visible = true
+
+				// name
+					moon.elements.name.value = moon.name = chooseRandom(CONSTANTS.random.names)
+					moon.elements.summary.innerHTML = getNameSymbol(moon) + (moon.name || "")
+
+				// class
+					moon.elements.class.value = moon.class = "custom"
+
+				// description
+					moon.elements.description.value = moon.description = ""
+
+				// color
+					moon.elements.color.value = moon.color = generateRandomColor() // #hex
+
+				// mass
+					let parentMass = parent.massFactor * (10 ** parent.massPower) // kg
+					let attempts = CONSTANTS.random.attempts
+					do {
+						moon.elements.massFactor.value = moon.massFactor = generateRandom(CONSTANTS.random.moon.massFactor[0], CONSTANTS.random.moon.massFactor[1] * CONSTANTS.rounding) / CONSTANTS.rounding // kg
+						moon.elements.massPower.value = moon.massPower = generateRandom(CONSTANTS.random.moon.massPower[0], CONSTANTS.random.moon.massPower[1]) // 10^x
+						attempts--
+					} while (attempts && moon.massFactor * (10 ** moon.massPower) > parentMass)
+
+				// semiMajorAxis
+					moon.elements.semiMajorAxis.value = moon.semiMajorAxis = generateRandom(CONSTANTS.random.moon.semiMajorAxis[0] * CONSTANTS.rounding, CONSTANTS.random.moon.semiMajorAxis[1] * CONSTANTS.rounding) / CONSTANTS.rounding // AU
+
+				// eccentricity
+					moon.elements.eccentricity.value = moon.eccentricity = generateRandom(CONSTANTS.random.moon.eccentricity[0] * CONSTANTS.rounding, CONSTANTS.random.moon.eccentricity[1] * CONSTANTS.rounding) / CONSTANTS.rounding // ratio
+
+				// semiMajorAxis & eccentricity --> apoapsis & periapsis
+					// get ellipse
+						let [apoapsis, periapsis] = calculateEllipse(moon.semiMajorAxis, moon.eccentricity, [null, null]) // AU, AU
+
+					// set & save values
+						moon.elements.apoapsis.value  = moon.apoapsis  = apoapsis // AU
+						moon.elements.periapsis.value = moon.periapsis = periapsis // AU
+
+				// semiMajorAxis & mass --> period
+					// get period
+						let semiMajorAxis = moon.semiMajorAxis * CONSTANTS.convert.AU_to_meter // m
+						let period = calculateOrbit(parentMass, null, semiMajorAxis) // s
+
+					// convert from SI
+						period = period / CONSTANTS.convert.hour_to_second / CONSTANTS.convert.day_to_hour // d
+
+					// set & save value
+						moon.elements.period.value = moon.period = period // d
+
+				// period --> day
+					moon.elements.day.value = moon.day = generateRandom(0, Math.floor(moon.period)) // d
+
+				// retrograde
+					moon.elements.retrograde.checked = moon.retrograde = chooseRandom([true, false])
+
+				// inclination
+					let inclination = generateRandom(CONSTANTS.random.moon.inclination[0], CONSTANTS.random.moon.inclination[1]) // °
+					moon.elements.inclination.value = inclination // °
+					moon.inclination = roundNumber(inclination * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+				// longitudeOfAscendingNode
+					let longitudeOfAscendingNode = generateRandom(CONSTANTS.random.moon.longitudeOfAscendingNode[0], CONSTANTS.random.moon.longitudeOfAscendingNode[1]) // °
+					moon.elements.longitudeOfAscendingNode.value = longitudeOfAscendingNode // °
+					moon.longitudeOfAscendingNode = roundNumber(longitudeOfAscendingNode * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+				// argumentOfPeriapsis
+					let argumentOfPeriapsis = generateRandom(CONSTANTS.random.moon.argumentOfPeriapsis[0], CONSTANTS.random.moon.argumentOfPeriapsis[1]) // °
+					moon.elements.argumentOfPeriapsis.value = argumentOfPeriapsis // °
+					moon.argumentOfPeriapsis = roundNumber(argumentOfPeriapsis * CONSTANTS.convert.circle_to_radian / CONSTANTS.convert.circle_to_degree) // radians
+
+				// computed
+					moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
+			} catch (error) {console.log(error)}
+		}
+
 	/* changeMoonVisible */
 		function changeMoonVisible(event) {
 			try {
@@ -4916,7 +5403,7 @@
 
 				// save new value
 					moon.name = name
-					moon.elements.summary.innerText = name
+					moon.elements.summary.innerHTML = getNameSymbol(moon) + (name || "")
 			} catch (error) {console.log(error)}
 		}
 
@@ -4949,6 +5436,7 @@
 						moon.elements.eccentricity.value = moon.eccentricity = CONSTANTS.classes.moons[moonClass].eccentricity // ratio
 						moon.elements.apoapsis.value = moon.apoapsis = CONSTANTS.classes.moons[moonClass].apoapsis // AU
 						moon.elements.periapsis.value = moon.periapsis = CONSTANTS.classes.moons[moonClass].periapsis // AU
+						moon.elements.summary.innerHTML = getNameSymbol(moon) + (moon.name || "")
 
 					// computed
 						moon.computed = calculateComputedValues(moon.semiMajorAxis, moon.eccentricity, moon.longitudeOfAscendingNode, moon.argumentOfPeriapsis, moon.inclination)
@@ -5040,6 +5528,9 @@
 
 					// get mass
 						let mass = massFactor * (10 ** massPower) // kg
+						if (mass <= 0) {
+							return
+						}
 
 					// get parent mass
 						if (parent) {
@@ -5055,6 +5546,7 @@
 
 				// custom class
 					moon.elements.class.value = moon.class = "custom"
+					moon.elements.summary.innerHTML = getNameSymbol(moon) + (moon.name || "")
 			} catch (error) {console.log(error)}
 		}
 
@@ -5178,7 +5670,7 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						moon.elements.apoapsis.value   = moon.apoapsis   = apoapsis // AU
+						moon.elements.apoapsis.value  = moon.apoapsis  = apoapsis // AU
 						moon.elements.periapsis.value = moon.periapsis = periapsis // AU
 
 				// semiMajorAxis & mass --> period
@@ -5300,7 +5792,7 @@
 						let [apoapsis, periapsis] = calculateEllipse(semiMajorAxis, eccentricity, [null, null]) // AU, AU
 
 					// set & save values
-						moon.elements.apoapsis.value   = moon.apoapsis   = apoapsis // AU
+						moon.elements.apoapsis.value  = moon.apoapsis  = apoapsis // AU
 						moon.elements.periapsis.value = moon.periapsis = periapsis // AU
 
 				// computed
@@ -5809,6 +6301,40 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* getNameSymbol */
+		function getNameSymbol(celestialBody) {
+			try {
+				// star
+					if (celestialBody.type == "star") {
+						if (celestialBody.class == "binary") {
+							return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.emoji.binary) + "</span>"
+						}
+						if (celestialBody.class == "black-hole") {
+							return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.emoji["black-hole"]) + "</span>"
+						}
+						return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.emoji.star) + "</span>"
+					}
+
+				// planet
+					if (celestialBody.type == "planet") {
+						for (let i in CONSTANTS.random.planet.emoji) {
+							let range = i.split("-")
+							if (range[0] <= celestialBody.massPower && celestialBody.massPower <= range[1]) { // 10^x
+								return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.planet.emoji[i]) + "</span>"
+							}
+						}
+					}
+
+				// moon
+					if (celestialBody.type == "moon") {
+						return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.moon.emoji) + "</span>"
+					}
+
+				// something else
+					return ""
+			} catch (error) {console.log(error)}
+		}
+
 	/* sanitizeObject */
 		function sanitizeObject(obj) {
 			try {
@@ -5843,6 +6369,19 @@
 
 				// random number
 					return String(Math.floor(Math.random() * 1000000000000000)).slice(3, 13) // middle 10 digits of a ~15 digit number
+			} catch (error) {console.log(error)}
+		}
+
+	/* generateRandomColor */
+		function generateRandomColor() {
+			try {
+				// rgb
+					const r = generateRandom(0, 256)
+					const g = generateRandom(0, 256)
+					const b = generateRandom(0, 256)
+
+				// hex
+					return "#" + ("0" + r.toString(16)).slice(-2) + ("0" + g.toString(16)).slice(-2) + ("0" + b.toString(16)).slice(-2)
 			} catch (error) {console.log(error)}
 		}
 
