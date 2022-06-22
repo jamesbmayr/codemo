@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="description" content="poem maker is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="poem maker is a Javascript web demo by James Mayr">
+		<meta property="og:url" content="https://jamesmayr.com/poemmaker/">
+		<meta property="og:description" content="poem maker is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/poemmaker/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<title>Poem Maker</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/2494107-200.png">
+		<link href="https://fonts.googleapis.com/css2?family=Nunito&family=Roboto+Mono&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="poetry.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="controls">
+			<button id="controls-edit" title="edit mode">
+				<span id="controls-edit-show">&#x1F4DD;</span>
+				<span id="controls-edit-hide">&#10004;</span>
+			</button>
+			<select id="controls-forms" title="form preset"></select>
+			<button id="controls-refresh" title="regenerate poem">
+				<span class="controls-button-normal">&orarr;</span>
+				<span class="controls-button-success">&#10004;</span>
+			</button>
+			<button id="controls-download" title="download as text file">
+				<span class="controls-button-normal">&#x1F4C2;</span>
+				<span class="controls-button-success">&#10004;</span>
+			</button>
+			<button id="controls-copy" title="copy to clipboard">
+				<span class="controls-button-normal">&#x1F4CB;</span>
+				<span class="controls-button-success">&#10004;</span>
+			</button>
+			<a href="https://jamesmayr.com" id="j-logo" title="all projects"></a>
+			<div id="controls-toast"></div>
+		</div>
+		<div id="rhyme-controls">
+			<button id="rhyme-controls-minimum" title="when decreasing strictness, manually regenerate a line" value="0">slant rhyme</button>
+			<input id="rhyme-controls-input" type="range" min="0" step="1" title="increasing strictness will change invalid lines">
+			<button id="rhyme-controls-maximum" title="increasing strictness will change invalid lines">exact rhyme</button>
+		</div>
+		<div id="poem"></div>
+		<div id="footer">
+			© 2022 <a href="https://jamesmayr.com" target="_blank">James Mayr</a>. Non-commercial use allowed with attribution.
+			<br>
+			Poem forms from <a href="https://www.writersdigest.com/write-better-poetry/list-of-50-poetic-forms-for-poets" target="_blank" rel="nofollow">here</a> and <a href="https://poetscollective.org/poetryforms/example-index/" target="_blank" rel="nofollow">here</a>.
+		</div>
+	</body>
+</html>

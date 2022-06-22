@@ -1,0 +1,580 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #999999;
+		--medium-dark-gray: #777777;
+		--dark-gray: #111111;
+		--medium-blue: #0066aa;
+		--light-blue: #04b1ff;
+		--gap-size: 5px;
+		--monospace-font: "Roboto Mono", monospace;
+		--monospace-font-size: 15px;
+		--poem-font: "Nunito", sans-serif;
+		--poem-font-size: 25px;
+		--transition-time: 1s;
+		--border-size: 1px;
+		--border-radius: 5px;
+		--gutter-size: 50px;
+		--line-height: 1.2;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		background: var(--light-gray);
+		color: var(--dark-gray);
+		font-family: var(--monospace-font);
+		font-size: 0;
+	}
+
+	[hidden] {
+		display: none;
+	}
+
+/*** poem ***/
+	#poem {
+		display: block;
+		margin-top: calc(2 * var(--monospace-font-size) + 6 * var(--gap-size) + var(--gutter-size));
+		margin-right: var(--gutter-size);
+		margin-bottom: var(--gutter-size);
+		margin-left: var(--gutter-size);
+		height: auto;
+		min-height: calc(100vh - (2 * var(--monospace-font-size) + 6 * var(--gap-size) + var(--gutter-size)) - (var(--gutter-size) + 2 * var(--monospace-font-size) + 5 * var(--gap-size)));
+		box-sizing: border-box;
+		width: calc(100vw - 2 * var(--gutter-size));
+	}
+
+	/* components */
+		#poem .poem-line {
+			min-height: calc(var(--poem-font-size) + var(--gap-size));
+			line-height: 1;
+			border: none;
+			padding: 0;
+			width: 100%;
+			display: block;
+			margin-bottom: var(--gap-size);
+		}
+
+		#poem .poem-structure, #poem .poem-content, #poem .poem-actions {
+			box-sizing: border-box;
+			border: none;
+			padding: 0;
+			text-align: left;
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: top;
+		}
+
+	/* content */
+		.poem-content {
+			font-family: var(--poem-font);
+			font-size: var(--poem-font-size);
+			min-height: calc(var(--poem-font-size) + var(--gap-size));
+			width: calc(100vw - 2 * var(--gutter-size) - (10 * var(--monospace-font-size) + 7 * var(--monospace-font-size) + 8 * var(--monospace-font-size) + 2 * var(--monospace-font-size)) - 5 * (2 * var(--monospace-font-size)) - 3 * var(--gap-size));
+			color: var(--dark-gray);
+			padding: 0 calc(2 * var(--gap-size)) 0 0 !important;
+			line-height: var(--line-height);
+			transition: var(--transition-time);
+		}
+
+	/* structure */
+		.poem-structure {
+			border-radius: var(--border-radius);
+			background-color: var(--medium-gray);
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			transition: var(--transition-time);
+			opacity: 1;
+			width: calc(10 * var(--monospace-font-size) + 7 * var(--monospace-font-size) + 8 * var(--monospace-font-size) + 2 * var(--monospace-font-size));
+			height: calc(var(--monospace-font-size) * 2);
+			overflow: hidden;
+		}
+
+		.poem-structure select {
+			border-radius: 0;
+			background-color: transparent;
+			color: var(--dark-gray);
+			font-size: var(--monospace-font-size);
+			height: calc(var(--monospace-font-size) + 3 * var(--gap-size));
+			font-family: var(--monospace-font);
+			padding: var(--gap-size) 0;
+			outline: none;
+			border: none;
+			text-align: right;
+			cursor: pointer;
+			transition: var(--transition-time);
+			line-height: var(--line-height);
+		}
+
+		.poem-structure select:hover, .poem-structure select:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+		.poem-line-main {
+			width: calc(10 * var(--monospace-font-size));
+		}
+
+		.poem-line-rhythm {
+			padding-left: var(--gap-size);
+			width: calc(7 * var(--monospace-font-size));
+		}
+
+		.poem-line-meter, .poem-line-syllables {
+			padding-left: var(--gap-size);
+			width: calc(8 * var(--monospace-font-size));
+		}
+
+		.poem-line-rhyme {
+			padding-left: var(--gap-size);
+			width: calc(2 * var(--monospace-font-size));
+		}
+
+	/* add/remove */
+		.poem-actions {
+			background: transparent;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			transition: var(--transition-time);
+			opacity: 1;
+			margin: 0;
+			width: calc(5 * (2 * var(--monospace-font-size)) + 3 * var(--gap-size));
+			height: calc(var(--monospace-font-size) * 2);
+			overflow: hidden;
+		}
+
+		.poem-actions button {
+			font-size: var(--poem-font-size);
+			font-family: var(--monospace-font);
+			height: calc(2 * var(--monospace-font-size));
+			width: calc(2 * var(--monospace-font-size));
+			padding: 0 0 var(--gap-size) 0;
+			border: none;
+			border-radius: var(--border-radius);
+			cursor: pointer;
+			outline: none;
+			transition: var(--transition-time);
+			color: var(--light-gray);
+			background-color: var(--medium-gray);
+			line-height: 1;
+			margin-left: var(--gap-size);
+		}
+
+		.poem-actions button:hover, .poem-actions button:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+		.poem-line-refresh[invisible] {
+			pointer-events: none;
+			opacity: 0 !important;
+		}
+
+		.poem-line-up {
+			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+		}
+
+		.poem-line-down {
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			margin-left: 0 !important;
+		}
+
+		.poem-line-remove {
+			vertical-align: bottom;
+			padding: 0 0 calc(2 * var(--border-size)) 0 !important;
+			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+		}
+
+		.poem-line-add {
+			vertical-align: bottom;
+			margin-left: 0 !important;
+			padding: 0 0 calc(2 * var(--border-size)) 0 !important;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+		}
+
+		#poem .poem-line:first-child .poem-line-down {
+			border-radius: var(--border-radius) !important;
+		}
+
+		#poem .poem-line:first-child .poem-line-up {
+			background-color: transparent;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		#poem .poem-line:last-child .poem-line-up {
+			border-radius: var(--border-radius) !important;
+		}
+
+		#poem .poem-line:last-child .poem-line-down {
+			background-color: transparent;
+			opacity: 0;
+			pointer-events: none;
+		}
+
+	/* mode */
+		body:not([mode="edit"]) .poem-content {
+			width: calc(100vw - 2 * var(--gutter-size));
+		}
+
+		body:not([mode="edit"]) .poem-structure {
+			height: 0 !important;
+			width: 0 !important;
+			opacity: 0 !important;
+			pointer-events: none;
+		}
+
+		body:not([mode="edit"]) .poem-actions {
+			height: 0 !important;
+			width: 0 !important;
+			opacity: 0 !important;
+			pointer-events: none;
+		}
+
+/*** controls ***/
+	#controls {
+		position: fixed;
+		top: 0;
+		left: 0;
+		padding: calc(2 * var(--gap-size) + 4 * var(--border-size)) calc(var(--gap-size) + 3 * var(--border-size));
+		width: 100%;
+		box-sizing: border-box;
+		height: calc(2 * var(--monospace-font-size) + 6 * var(--gap-size));
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+		background-color: var(--medium-gray);
+		box-shadow: 0 0 var(--gap-size) var(--dark-gray);
+		text-align: left;
+		z-index: 3;
+	}
+
+	/* select */
+		#controls-forms {
+			font-family: var(--monospace-font);
+			font-size: var(--monospace-font-size);
+			padding: var(--border-size);
+			border-radius: 0;
+			cursor: pointer;
+			outline: none;
+			transition: var(--transition-time);
+			line-height: 1;
+			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			width: calc(var(--monospace-font-size) * 14);
+			max-width: calc(100vw - 5 * (2 * var(--monospace-font-size) + 2 * var(--border-size)) - 2 * (var(--gap-size) + 3 * var(--border-size)) - 2 * var(--gap-size));
+			text-align: left;
+			background-color: var(--medium-dark-gray);
+			box-sizing: border-box;
+			float: left;
+			border: none;
+		}
+
+		#controls-forms:hover, #controls-forms:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+	/* buttons */
+		#controls button {
+			font-size: calc(1.5 * var(--monospace-font-size));
+			font-family: var(--font-family);
+			background-color: var(--medium-dark-gray);
+			border-radius: var(--border-radius);
+			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			width: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			line-height: 1;
+			text-align: center;
+			cursor: pointer;
+			outline: none;
+			transition: var(--transition-time);
+			vertical-align: bottom;
+			overflow: hidden;
+			margin: 0;
+			padding: var(--border-size);
+			border: none;
+		}
+
+		#controls button:hover, #controls button:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+		#controls button span {
+			display: inline-block;
+			height: calc(1.5 * var(--monospace-font-size));
+		}
+
+		#controls-edit {
+			float: left;
+			margin: 0 !important;
+			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+		}
+
+		#controls-refresh {
+			float: left;
+			margin: 0 !important;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+		}
+
+		#controls-copy {
+			float: right;
+			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+		}
+
+		#controls-download {
+			float: right;
+			border-radius: 0 !important;
+			margin-right: calc(2 * var(--monospace-font-size) + 2 * var(--border-size)) !important;
+		}
+
+		#controls-refresh .controls-button-normal, #controls button .controls-button-success, #controls-edit-hide {
+			padding: 0 0 calc(4 * var(--border-size)) 0;
+		}
+
+	/* success */
+		#controls button[success] {
+			pointer-events: none;
+		}
+
+		#controls button[success] .controls-button-normal {
+			display: none;
+		}
+
+		#controls button:not([success]) .controls-button-success {
+			display: none;
+		}
+
+	/* mode */
+		body[mode="edit"] #controls-edit-show {
+			display: none;
+		}
+
+		body:not([mode="edit"]) #controls-edit-hide {
+			display: none;
+		}
+
+	/* j-logo */
+		#j-logo {
+			position: fixed;
+			top: 14px;
+			right: 8px;
+			background-color: var(--medium-dark-gray);
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px; width: 32px;
+			cursor: pointer; z-index: 1000;
+			outline: none;			
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+			transition: var(--transition-time);
+		}
+			
+		#j-logo:hover, #j-logo:focus {
+			background-color: var(--dark-gray);
+		}
+
+	/* toast */
+		#controls-toast {
+			position: absolute;
+			top: calc(2 * var(--gap-size) + 4 * var(--border-size));
+			left: 50%;
+			z-index: 1001;
+			transform: translateX(-50%);
+			text-align: center;
+			width: 100%;
+			max-width: calc(100vw - 2 * var(--gap-size) - 8 * var(--border-size));
+			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			line-height: 1;
+			font-size: var(--monospace-font-size);
+			font-family: var(--monospace-font);
+			background-color: var(--dark-gray);
+			color: var(--medium-gray);
+			border-radius: var(--border-radius);
+			box-shadow: 0 0 var(--gap-size) var(--dark-gray);
+			pointer-events: none;
+			opacity: 0;
+			transition: var(--transition-time);
+			padding: calc(1.5 * var(--gap-size)) calc(2 * var(--gap-size));
+			box-sizing: border-box;
+			user-select: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		#controls-toast[visible] {
+			opacity: 1;
+		}
+
+/*** rhyme-controls ***/
+	#rhyme-controls {
+		position: fixed;
+		top: calc(2 * var(--monospace-font-size) + 6 * var(--gap-size));
+		left: 0;
+		width: 100%;
+		text-align: center;
+		height: calc(var(--monospace-font-size) + 4 * var(--gap-size));
+		box-sizing: border-box;
+		padding: var(--gap-size) calc(var(--gap-size) + 3 * var(--border-size));
+		background-color: var(--medium-gray);
+		line-height: var(--line-height);
+		border-top: var(--gap-size) solid var(--light-gray);
+		transition: var(--transition-time);
+		overflow: hidden;
+		box-shadow: 0 0 var(--gap-size) var(--dark-gray);
+		z-index: 2;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	/* components */
+		#rhyme-controls button {
+			display: inline-block;
+			height: 100%;
+			font-family: var(--monospace-font);
+			font-size: var(--monospace-font-size);
+			color: var(--dark-gray);
+			cursor: pointer;
+			width: calc(var(--monospace-font-size) * 8);
+			vertical-align: top;
+			transition: var(--transition-time);
+			background-color: transparent;
+			border-radius: var(--border-radius);
+			padding: 0;
+			box-sizing: border-box;
+			border: 0;
+		}
+
+		#rhyme-controls button:hover, #rhyme-controls button:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-gray);
+		}
+
+		#rhyme-controls-input {
+			margin: 0 var(--gap-size);
+			height: calc(var(--monospace-font-size) + var(--gap-size));
+			width: calc(100vw - 2 * (var(--gap-size) + 3 * var(--border-size)) - 2 * (var(--monospace-font-size) * 8 + var(--gap-size)));
+			vertical-align: top;
+			outline: none;
+			cursor: pointer;
+			transition: var(--transition-time);
+		}
+
+	/* mode */
+		body:not([mode="edit"]) #rhyme-controls {
+			height: 0;
+			margin: 0;
+			padding: 0;
+			border-width: 0;
+			box-shadow: none;
+		}
+
+/*** mobile ***/
+	@media screen and (max-width: 1000px) {
+		#poem {
+			margin-right: calc(2 * var(--gap-size)) !important;
+			margin-left: calc(2 * var(--gap-size)) !important;
+			width: calc(100vw - 4 * var(--gap-size));
+		}
+
+		.poem-content, .poem-structure, .poem-actions {
+			width: calc(100vw - 4 * var(--gap-size)) !important;
+			padding: 0 !important;
+		}
+
+		body[mode="edit"] .poem-structure {
+			margin: var(--gap-size) 0 0 0 !important;
+		}
+
+		.poem-line-main {
+			width: calc((100vw - 4 * var(--gap-size)) * 0.30);
+		}
+
+		.poem-line-rhythm {
+			width: calc((100vw - 4 * var(--gap-size)) * 0.30);
+		}
+
+		.poem-line-meter {
+			width: calc((100vw - 4 * var(--gap-size)) * 0.30);
+		}
+
+		.poem-line-rhyme {
+			width: calc((100vw - 4 * var(--gap-size)) * 0.10);
+		}
+
+		body[mode="edit"] .poem-actions {
+			margin: var(--gap-size) 0 calc(var(--gap-size) * 2) 0 !important;
+			text-align: center !important;
+		}
+
+		body[mode="edit"] .poem-actions button:first-child {
+			margin-left: 0 !important;
+		}
+	}
+
+/*** footer ***/
+	#footer {
+		margin-top: var(--gutter-size);
+		width: 100%;
+		height: calc(2 * var(--monospace-font) + 5 * var(--gap-size));
+		text-align: center;
+		background-color: var(--dark-gray);
+		color: var(--medium-gray);
+		font-size: var(--monospace-font-size);
+		font-family: var(--monospace-font);
+		line-height: 1;
+		box-sizing: border-box;
+		padding: calc(2.5 * var(--gap-size));
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+	#footer a, #footer a:visited {
+		color: var(--light-blue);
+		cursor: pointer;
+		transition: var(--transition-time);
+		text-decoration: none;
+		outline: none;
+	}
+
+	#footer a:hover, #footer a:focus {
+		color: var(--medium-blue);
+	}
+
+/*** temporary ***/
+	#download-link {
+		display: none;
+		height: 0 !important;
+		width: 0 !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		border: 0 !important;
+		font-size: 0 !important;
+		opacity: 0 !important;
+	}
