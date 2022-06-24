@@ -157,6 +157,11 @@
 						return false
 					}
 
+				// not enough options?
+					if (Object.keys(STATE.options).length < 2) {
+						return false
+					}
+
 				// disable spin button
 					ELEMENTS.spin.setAttribute("disabled", true)
 					ELEMENTS.options.setAttribute("disabled", true)
