@@ -1,0 +1,130 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #777777;
+		--light-gray: #dddddd;
+		--dark-blue: #003377;
+		--medium-blue: #0066aa;
+		--light-blue: #04b1ff;
+		--font-family: sans-serif;
+		--font-size: 20px;
+		--gap-size: 10px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+		--transition-time: 0.5s;
+	}
+
+	html, body {
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background-color: var(--dark-gray);
+		font-size: 0;
+		margin: 0;
+		padding: 0;
+		transition: var(--transition-time)
+	}
+
+	body[post-spin] {
+		box-shadow: 0 0 calc(10 * var(--shadow-size)) var(--light-blue) inset;
+	}
+
+/*** header ***/
+	/* spin */
+		#spin {
+			float: left;
+			width: calc(100vw - 2.5 * var(--gap-size) - 32px);
+			height: calc(var(--font-size) * 2);
+			box-sizing: border-box;
+			cursor: pointer;
+			background-color: var(--light-blue);
+			color: var(--dark-gray);
+			font-size: calc(var(--font-size) * 2);
+			font-weight: bold;
+			text-transform: uppercase;
+			font-family: var(--font-family);
+			padding: 0;
+			cursor: pointer;
+			border-radius: var(--border-radius);
+			border: none;
+			margin: var(--gap-size);
+			line-height: 1;
+			transition: var(--transition-time);
+			user-select: none;
+		}
+
+		#spin:focus, #spin:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--medium-blue);
+			background-color: var(--medium-blue);
+		}
+
+		#spin[disabled] {
+			pointer-events: none;
+			cursor: not-allowed;
+			background-color: var(--medium-gray);
+		}
+
+		#spin[disabled] span {
+			font-size: 0;
+		}
+
+	/* j-logo */
+		#j-logo {
+			position: fixed;
+			top: 14px;
+			right: 8px;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			transition: var(--transition-time);
+		}
+		
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
+		}
+
+	/* options */
+		#options {
+			float: left;
+			min-width: calc(100vw - 2 * var(--gap-size));
+			max-width: calc(100vw - 2 * var(--gap-size));
+			min-height: calc(var(--font-size) * 4);
+			max-height: calc(var(--font-size) * 4);
+			border-radius: var(--border-radius);
+			border: none;
+			margin: 0 var(--gap-size) var(--gap-size) var(--gap-size);
+			outline: none;
+			background-color: var(--light-gray);
+			color: var(--dark-gray);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			transition: var(--transition-time);
+		}
+
+		#options:focus, #options:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--medium-blue) inset;
+		}
+
+		#options[disabled] {
+			pointer-events: none;
+			background-color: var(--medium-gray);
+		}
+
+/*** canvas ***/
+	#canvas {
+		float: left;
+		width: 100vw;
+		height: calc(100vh - var(--gap-size) * 3 - var(--font-size) * 6);
+		border-radius: var(--border-radius);
+	}

@@ -287,6 +287,13 @@
 				date: "July 22, 2019",
 				description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
 			},
+			decisionmaker: {
+				name: "decisionMaker",
+				size: "large",
+				tags: ["code","tool","canvas"],
+				date: "June 24, 2022",
+				description: "Why choose wisely when you can choose randomly?"
+			},
 			diamondcheckers: {
 				name: "Diamond Checkers",
 				size: "large",
