@@ -109,7 +109,7 @@ window.onload = function() {
 					button.className = ""
 				})
 
-				var button = event.path[0].id ? event.path[0] : event.path[1]
+				var button = event.target.closest("button")
 					button.className = "selected"
 				color = button.value
 
@@ -132,7 +132,7 @@ window.onload = function() {
 					button.className = ""
 				})
 
-				var button = event.path[0].id ? event.path[0] : event.path[1]
+				var button = event.target.closest("button")
 					button.className = "selected"
 				size = parseInt(button.value)
 			}
