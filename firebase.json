@@ -8,6 +8,10 @@
     ],
     "rewrites": [
       {
+        "source": "/.git/**",
+        "destination": "/404"
+      },
+      {
         "source": "/api/baseconverter",
         "function": "baseconverter"
       },

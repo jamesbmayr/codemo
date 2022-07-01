@@ -1012,6 +1012,13 @@
 				date: "June 20, 2020",
 				description: "This is a Unity demo of the classic game, built from scratch with a customizable grid."
 			},
+			tilecycler: {
+				name: "tileCycler",
+				size: "small",
+				tags: ["code","api","photography"],
+				date: "June 29, 2022",
+				description: "A cycling gallery of random photos from Unsplash. Customize with query params: x, y, & interval."
+			},
 			tileslider: {
 				name: "tileSlider",
 				size: "small",

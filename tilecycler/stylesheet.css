@@ -1,0 +1,127 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #777777;
+		--light-gray: #dddddd;
+		--medium-blue: #0066aa;
+		--light-blue: #04b1ff;
+		--font-family: sans-serif;
+		--font-size: 20px;
+		--line-height: 1.2;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--transition-time: 1s;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		border: 0;
+		overflow: hidden;
+		font-size: 0;
+	}
+
+/*** tiles ***/
+	#tiles {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100vh;
+		width: 100vw;
+		overflow: hidden;
+	}
+
+	/* image */
+		.tile {
+			position: absolute;
+			background-size: cover;
+			background-repeat: no-repeat;
+			background-position: center;
+			transition: var(--transition-time);
+			filter: saturate(100%);
+			overflow: hidden;
+		}
+
+		.tile[x="main"][y="main"] {
+			height: calc(100vh - (100vh / var(--rows) * 2));
+			width: calc(100vw - (100vw / var(--columns) * 2));
+			top: calc(100vh / var(--rows));
+			left: calc(100vw / var(--columns));
+		}
+
+		.tile:not([x="main"][y="main"]) {
+			cursor: pointer;
+			height: calc(100vh / var(--rows));
+			width: calc(100vw / var(--columns));
+		}
+
+		.tile:not([x="main"][y="main"]):not(:hover) {
+			filter: saturate(0%);
+		}
+
+	/* info */
+		.tile .info {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			max-height: calc(100vh / var(--rows) - 2 * var(--gap-size));
+			width: calc(100vw / var(--columns) - 2 * var(--gap-size));
+			text-align: center;
+			line-height: var(--line-height);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			color: var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+			transition: var(--transition-time);
+			opacity: 1;
+			pointer-events: none;
+		}
+
+		.tile:not(:hover) .info {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.tile .info a, .tile .info a:visited {
+			cursor: pointer;
+			text-decoration: none;
+			color: var(--light-blue);
+			transition: var(--transition-time);
+			outline: none;
+			pointer-events: all;
+		}
+
+		.tile .info a:hover, .tile .info a:focus {
+			color: var(--medium-blue);
+			text-shadow: 0 0 var(--shadow-size) var(--light-blue);
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		transition: var(--transition-time);
+		filter: drop-shadow(0 0 calc(var(--shadow-size) / 2) var(--medium-gray));
+	}
+	
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+	}
