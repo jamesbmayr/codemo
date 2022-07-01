@@ -4,13 +4,10 @@
     "ignore": [
       "firebase.json",
       "**/.*",
-      "**/node_modules/**"
+      "**/node_modules/**",
+      "**/.git/**"
     ],
     "rewrites": [
-      {
-        "source": "/.git/**",
-        "destination": "/404"
-      },
       {
         "source": "/api/baseconverter",
         "function": "baseconverter"
