@@ -169,7 +169,7 @@
 				menuCount: 12,
 				startingCount: 3,
 				scoreFactor: 0.3,
-				creationCooldown: 100,
+				creationCooldown: 75,
 				untilCollidable: 15,
 				radiusRatio: 0.3, // hex
 				startingVelocity: 0.025, // hex
