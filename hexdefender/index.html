@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>hexDefender</title>
+		<link rel="shortcut icon" href="favicon.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="hexDefender is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="hexDefender">
+		<meta property="og:url" content="https://jamesmayr.com/hexdefender/">
+		<meta property="og:description" content="hexDefender is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/hexdefender/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+	</head>
+	<body gameover>
+		<canvas id="canvas"></canvas>
+		<div id="score"></div>
+		<div id="controls">
+			<button id="controls-w" value="w">w</button>
+			<button id="controls-e" value="e">e</button>
+			<button id="controls-a" value="a">a</button>
+			<button id="controls-s" value="s">s</button>
+			<button id="controls-d" value="d">d</button>
+			<button id="controls-z" value="z">z</button>
+			<button id="controls-x" value="x">x</button>
+		</div>
+		<div id="indicators">
+			<label id="blasts-label">
+				<div class="indicator" id="blasts-indicator">
+					<div id="blasts-indicator-inner"></div>
+				</div>
+				<div class="text" id="blasts-text">ammo</div>
+			</label>
+			<label id="fuel-label">
+				<div class="indicator" id="fuel-indicator">
+					<div id="fuel-indicator-inner"></div>
+				</div>
+				<div class="text" id="fuel-text">fuel</div>
+			</label>
+			<label id="shield-label">
+				<div class="indicator" id="shield-indicator">
+					<div id="shield-indicator-inner"></div>
+				</div>
+				<div class="text" id="shield-text">shield</div>
+			</label>
+		</div>
+		<div id="menu">
+			<input id="menu-x" min="6" max="12" placeholder="x" value="9">
+			<input id="menu-y" min="6" max="12" placeholder="y" value="9">
+			<input id="menu-z" min="6" max="12" placeholder="z" value="9">
+			<button id="menu-start">start</button>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>

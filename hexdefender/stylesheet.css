@@ -1,0 +1,354 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #777777;
+		--dark-gray: #111111;
+		--medium-red: #d94c4c;
+		--light-orange: #cc8b2f;
+		--light-green: #39ac1b;
+		--light-blue: #04b1ff;
+		--font-size: 20px;
+		--font-family: monospace;
+		--shadow-size: 5px;
+		--gap-size: 20px;
+		--transition-time: 0.5s;
+		--hex-radius: 30px;
+		--hex-short-to-long-ratio: 0.86602540378;
+		--hex-clip-path: polygon(0% 25%, 50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%);
+		--blur-amount: 3px;
+		--controls-opacity: 0.8;
+		--border-radius: 10px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 0;
+		background: var(--dark-gray);
+	}
+
+/*** canvas ***/
+	#canvas {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 100vh;
+		width: 100vh;
+		max-height: 100vw;
+		max-width: 100vw;
+		transition: var(--transition-time);
+		cursor: crosshair;
+	}
+
+	body[gameover] #canvas {
+		filter: blur(var(--blur-amount));
+		cursor: default;
+	}
+
+/*** score ***/
+	#score {
+		position: absolute;
+		top: var(--gap-size);
+		left: var(--gap-size);
+		font-family: var(--font-family);
+		font-size: var(--font-size);
+		text-align: left;
+		color: var(--medium-gray);
+		font-weight: bold;
+		line-height: 1;
+		user-select: none;
+		pointer-events: none;
+	}
+
+/*** controls ***/
+	#controls {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		padding: calc(var(--gap-size));
+		height: calc(var(--hex-radius) * 5);
+		width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 6);
+		transition: var(--transition-time);
+		opacity: var(--controls-opacity);
+	}
+
+	body[gameover] #controls {
+		filter: blur(var(--blur-amount));
+	}
+
+	#controls button {
+		position: absolute;
+		border: none;
+		height: calc(var(--hex-radius) * 2);
+		width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 2);
+		font-size: var(--font-size);
+		font-weight: bold;
+		font-family: var(--font-family);
+		text-transform: uppercase;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		line-height: 1;
+		transition: var(--transition-time);
+		clip-path: var(--hex-clip-path);
+		background-color: var(--light-gray);
+		color: var(--dark-gray);
+		cursor: pointer;
+		outline: none;
+		user-select: none;
+	}
+
+	/* states */
+		#controls button:hover {
+			background-color: var(--medium-gray);
+		}
+
+		#controls button[pressed] {
+			color: var(--light-gray);
+			background-color: var(--light-orange);
+		}
+
+	/* placement */
+		#controls-w {
+			top: calc(var(--gap-size));
+			left: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) + var(--gap-size));
+		}
+
+		#controls-e {
+			top: calc(var(--gap-size));
+			left: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 3 + var(--gap-size));
+		}
+
+		#controls-a {
+			top: calc(var(--hex-radius) * 3 / 2 + var(--gap-size));
+			left: calc(var(--gap-size));
+		}
+
+		#controls-s {
+			top: calc(var(--hex-radius) * 3 / 2 + var(--gap-size));
+			left: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 2 + var(--gap-size));
+		}
+
+		#controls-d {
+			top: calc(var(--hex-radius) * 3 / 2 + var(--gap-size));
+			left: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 4 + var(--gap-size));
+		}
+
+		#controls-z {
+			top: calc(var(--hex-radius) * 3 + var(--gap-size));
+			left: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) + var(--gap-size));
+		}
+
+		#controls-x {
+			top: calc(var(--hex-radius) * 3 + var(--gap-size));
+			left: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 3 + var(--gap-size));
+		}
+
+/*** indicators ***/
+	#indicators {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		padding: calc(var(--gap-size));
+		height: calc(var(--hex-radius) * 5);
+		width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 6);
+		transition: var(--transition-time);
+		pointer-events: none;
+		user-select: none;
+		opacity: var(--controls-opacity);
+	}
+
+	body[gameover] #indicators {
+		filter: blur(var(--blur-amount));
+	}
+
+	/* indicators */
+		#indicators label {
+			float: left;
+			height: 100%;
+			width: calc(100% / 3);
+		}
+
+		#indicators .indicator {
+			height: calc(100% - var(--font-size));
+			width: 100%;
+			text-align: center;
+			display: flex;
+		}
+
+		#indicators .indicator div {
+			min-height: calc(var(--border-radius) * 2);
+			align-self: flex-end;
+			margin: 0 calc(var(--gap-size));
+			width: calc(100% - 2 * var(--gap-size));
+			height: 100%;
+			border-radius: calc(var(--border-radius) * 2);
+		}
+
+		#indicators label .text {
+			box-sizing: border-box;
+			height: calc(var(--font-size));
+			font-size: calc(var(--font-size) / 2);
+			font-family: var(--font-family);
+			line-height: 1;
+			text-align: center;
+			text-transform: uppercase;
+			padding: calc(var(--font-size) / 4) 0 calc(var(--font-size) / 4) 0;
+			transition: var(--transition-time);
+		}
+
+	/* blasts */
+		#blasts-label .text {
+			color: var(--light-blue);
+		}
+
+		#blasts-indicator-inner {
+			background-color: var(--light-blue);
+		}
+
+	/* fuel */
+		#fuel-label .text {
+			color: var(--light-orange);
+		}
+
+		#fuel-indicator-inner {
+			background-color: var(--light-orange);
+		}
+
+	/* shields */
+		#shield-label .text {
+			color: var(--light-green);
+		}
+
+		#shield-indicator-inner {
+			background-color: var(--light-green);
+		}
+
+	/* empty */
+		#indicators label .text[depleted] {
+			color: var(--medium-red) !important;
+		}
+
+		#indicators .indicator div[depleted] {
+			background-color: var(--medium-red) !important;
+		}
+
+/*** menu ***/
+	#menu {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		height: calc(var(--hex-radius) * 2 * 5);
+		width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 2 * 5);
+		transition: var(--transition-time);
+		clip-path: var(--hex-clip-path);
+		opacity: 0.5;
+		filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		background-color: var(--medium-gray);
+	}
+
+	body:not([gameover]) #menu {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	/* start */
+		#menu-start {
+			position: absolute;
+			left: 50%;
+			top: calc(7 * var(--hex-radius));
+			transform: translateX(-50%) translateY(-50%);
+			border: none;
+			height: calc(var(--hex-radius) * 5);
+			width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 5);
+			font-size: var(--font-size);
+			font-weight: bold;
+			font-family: var(--font-family);
+			text-transform: uppercase;
+			padding: 0;
+			margin: 0;
+			text-align: center;
+			line-height: 1;
+			transition: var(--transition-time);
+			clip-path: var(--hex-clip-path);
+			background-color: var(--light-gray);
+			color: var(--dark-gray);
+			cursor: pointer;
+			outline: none;
+			user-select: none;
+		}
+
+		#menu-start:hover, #menu-start:focus {
+			background-color: var(--dark-gray);
+			color: var(--light-blue);
+		}
+
+	/* inputs */
+		#menu input {
+			position: absolute;
+			transform: translateX(-50%) translateY(-50%);
+			border: none;
+			height: calc(var(--hex-radius) * 2);
+			width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 2);
+			font-size: var(--font-size);
+			font-weight: bold;
+			font-family: var(--font-family);
+			text-transform: uppercase;
+			padding: 0;
+			margin: 0;
+			text-align: center;
+			line-height: 1;
+			transition: var(--transition-time);
+			clip-path: var(--hex-clip-path);
+			background-color: var(--light-gray);
+			color: var(--dark-gray);
+			outline: none;
+			user-select: none;
+		}
+
+		#menu-x {
+			top: calc(2.5 * var(--hex-radius));
+			left: calc(50% - 2 * var(--hex-radius) * var(--hex-short-to-long-ratio));
+		}
+
+		#menu-y {
+			top: calc(2.5 * var(--hex-radius));
+			left: 50%;
+		}
+
+		#menu-z {
+			top: calc(2.5 * var(--hex-radius));
+			left: calc(50% + 2 * var(--hex-radius) * var(--hex-short-to-long-ratio));
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		transition: var(--transition-time);
+		filter: drop-shadow(0 0 var(--shadow-size) var(--medium-gray));
+	}
+	
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+	}

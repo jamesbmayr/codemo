@@ -451,6 +451,13 @@
 				date: "November 14, 2020",
 				description: "This puzzle challenges you to fit all the random hexagon chunks back on the board."
 			},
+			hexdefender: {
+				name: "hexDefender",
+				size: "medium",
+				tags: ["code","scifi","game","arcade","canvas"],
+				date: "July 5, 2022",
+				description: "Pilot a spacecraft, blast some asteroids, defend the stations... in hexagonal space."
+			},
 			hexsequencer: {
 				name: "hexSequencer",
 				size: "small",
