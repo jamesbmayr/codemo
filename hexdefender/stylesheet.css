@@ -315,8 +315,28 @@
 			user-select: none;
 		}
 
+		#menu input + .menu-text {
+			position: absolute;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			color: var(--light-gray);
+			pointer-events: none;
+			user-select: none;
+			width: calc(var(--hex-radius) * var(--hex-short-to-long-ratio) * 2);
+			transform: translateX(-50%) translateY(-50%);
+			text-align: center;
+			line-height: 1;
+			text-transform: uppercase;
+		}
+
 		#menu-x {
 			top: calc(2.5 * var(--hex-radius));
+			left: calc(50% - 2 * var(--hex-radius) * var(--hex-short-to-long-ratio));
+		}
+
+		#menu-x + .menu-text {
+			top: calc(3.5 * var(--hex-radius) + var(--gap-size) / 2);
 			left: calc(50% - 2 * var(--hex-radius) * var(--hex-short-to-long-ratio));
 		}
 
@@ -325,8 +345,18 @@
 			left: 50%;
 		}
 
+		#menu-y + .menu-text {
+			top: calc(3.5 * var(--hex-radius) + var(--gap-size) / 2);
+			left: 50%;
+		}
+
 		#menu-z {
 			top: calc(2.5 * var(--hex-radius));
+			left: calc(50% + 2 * var(--hex-radius) * var(--hex-short-to-long-ratio));
+		}
+
+		#menu-z + .menu-text {
+			top: calc(3.5 * var(--hex-radius) + var(--gap-size) / 2);
 			left: calc(50% + 2 * var(--hex-radius) * var(--hex-short-to-long-ratio));
 		}
 
