@@ -97,6 +97,7 @@
 				radiusRatio: 0.2, // hex
 				backgroundColor: CONSTANTS.canvas["light-gray"],
 				shadowColor: CONSTANTS.canvas["light-blue"],
+				deadColor: CONSTANTS.canvas["medium-red"],
 				shadowWidthRatio: 0.1, // hexagon
 				gunColor: CONSTANTS.canvas["light-blue"],
 				gunOpacity: 1,
@@ -165,14 +166,16 @@
 			}
 			CONSTANTS.asteroid = {
 				shieldReductionPerHit: 60,
-				shieldReductionPerMiniHit: 30,
+				shieldReductionPerMiniHit: 35,
 				menuCount: 12,
 				startingCount: 3,
-				scoreFactor: 0.3,
-				creationCooldown: 75,
+				maxCreationCooldown: 100,
+				minCreationCooldown: 50,
+				creationCooldownFactorPerScore: 0.2,
 				untilCollidable: 15,
 				radiusRatio: 0.3, // hex
-				startingVelocity: 0.025, // hex
+				startingVelocity: 0.02, // hex
+				startingVelocityMini: 0.03, // hex
 				startingVelocityFromBase: 0.005, // hex
 				backgroundColor: CONSTANTS.canvas["medium-gray"],
 				shadowColor: CONSTANTS.canvas["medium-red"],
@@ -180,10 +183,10 @@
 				craterColor: CONSTANTS.canvas["dark-gray"],
 				craterRadiusRatio: 0.25, // hex
 				craterOpacity: 0.25,
-				minCraters: 10,
-				maxCraters: 15,
-				minMiniCraters: 2,
-				maxMiniCraters: 5,
+				minCraters: isMobile ? 5 : 10,
+				maxCraters: isMobile ? 8 : 15,
+				minMiniCraters: isMobile ? 1 : 2,
+				maxMiniCraters: isMobile ? 3 : 5,
 				opacity: 1,
 				opacityChangePerIterationWhenDestroyed: 0.1
 			}
@@ -253,7 +256,7 @@
 					STATE.player.styling.opacity = 0
 				
 				// asteroids
-					STATE.asteroids = []
+					STATE.asteroids = {}
 					for (let i = 0; i < CONSTANTS.asteroid.menuCount; i++) {
 						const asteroid = createAsteroid()
 						STATE.asteroids[asteroid.id] = asteroid
@@ -498,6 +501,17 @@
 		}
 
 /*** math ***/
+	/* getHexagonalNumber */
+		function getHexagonalNumber(hexagon) {
+			try {
+				// average
+					const averageRadius = Math.ceil((hexagon.x + hexagon.y + hexagon.z) / 3)
+
+				// 2n^2 - n
+					return 2 * (averageRadius ** 2) - averageRadius
+			} catch (error) {console.log(error)}
+		}
+
 	/* getScalar */
 		function getScalar(x, y) {
 			try {
@@ -684,10 +698,10 @@
 
 				// player
 					STATE.player = createPlayer()
-					STATE.blasts = []
+					STATE.blasts = {}
 
 				// bases
-					STATE.bases = []
+					STATE.bases = {}
 					for (let i in CONSTANTS.base.locations) {
 						const coordinates = CONSTANTS.base.locations[i].split(",")
 						const base = createBase(Number(coordinates[0]), Number(coordinates[1]), Number(coordinates[2]))
@@ -695,7 +709,7 @@
 					}
 
 				// asteroids
-					STATE.asteroids = []
+					STATE.asteroids = {}
 					for (let i = 0; i < CONSTANTS.asteroid.startingCount; i++) {
 						const asteroid = createAsteroid()
 						STATE.asteroids[asteroid.id] = asteroid
@@ -772,7 +786,7 @@
 
 				// new asteroids?
 					STATE.cooldowns.asteroid = Math.max(0, STATE.cooldowns.asteroid - 1)
-					if (STATE.playing && !STATE.cooldowns.asteroid && STATE.asteroids.length < Math.max(CONSTANTS.asteroid.startingCount, Math.floor(STATE.player.score * CONSTANTS.asteroid.scoreFactor))) {
+					if (STATE.playing && !STATE.cooldowns.asteroid && Object.keys(STATE.asteroids).length < getHexagonalNumber(CONSTANTS.grid)) {
 						const asteroid = createAsteroid()
 						STATE.asteroids[asteroid.id] = asteroid
 					}
@@ -818,6 +832,7 @@
 							backgroundColor: CONSTANTS.player.backgroundColor,
 							shadowColor: CONSTANTS.player.shadowColor,
 							shadowWidth: CONSTANTS.player.shadowWidthRatio,
+							deadColor: CONSTANTS.player.deadColor,
 							opacity: CONSTANTS.player.opacity,
 							shieldColor: CONSTANTS.player.shieldColor,
 							shieldOpacity: CONSTANTS.player.shieldOpacity,
@@ -1428,7 +1443,7 @@
 			try {
 				// update cooldown
 					if (!type || type !== "base") {
-						STATE.cooldowns.asteroid = CONSTANTS.asteroid.creationCooldown
+						STATE.cooldowns.asteroid = Math.max(CONSTANTS.asteroid.minCreationCooldown, Math.min(CONSTANTS.asteroid.maxCreationCooldown, CONSTANTS.asteroid.maxCreationCooldown - STATE.player.score * CONSTANTS.asteroid.creationCooldownFactorPerScore))
 					}
 
 				// random border hex
@@ -1460,16 +1475,16 @@
 						},
 						velocity: {
 							x: rangeRandom(
-								(type == "base") ? -CONSTANTS.asteroid.startingVelocityFromBase : (hex[0] < 0 ? 0 : -CONSTANTS.asteroid.startingVelocity),
-								(type == "base") ?  CONSTANTS.asteroid.startingVelocityFromBase : (hex[0] > 0 ? 0 :  CONSTANTS.asteroid.startingVelocity)
+								(type == "base") ? -CONSTANTS.asteroid.startingVelocityFromBase : (type == "mini-asteroid") ? -CONSTANTS.asteroid.startingVelocityMini : (hex[0] < 0 ? 0 : -CONSTANTS.asteroid.startingVelocity),
+								(type == "base") ?  CONSTANTS.asteroid.startingVelocityFromBase : (type == "mini-asteroid") ?  CONSTANTS.asteroid.startingVelocityMini : (hex[0] > 0 ? 0 :  CONSTANTS.asteroid.startingVelocity)
 							),
 							y: rangeRandom(
-								(type == "base") ? -CONSTANTS.asteroid.startingVelocityFromBase : (hex[1] < 0 ? 0 : -CONSTANTS.asteroid.startingVelocity),
-								(type == "base") ?  CONSTANTS.asteroid.startingVelocityFromBase : (hex[1] > 0 ? 0 :  CONSTANTS.asteroid.startingVelocity)
+								(type == "base") ? -CONSTANTS.asteroid.startingVelocityFromBase : (type == "mini-asteroid") ? -CONSTANTS.asteroid.startingVelocityMini : (hex[1] < 0 ? 0 : -CONSTANTS.asteroid.startingVelocity),
+								(type == "base") ?  CONSTANTS.asteroid.startingVelocityFromBase : (type == "mini-asteroid") ?  CONSTANTS.asteroid.startingVelocityMini : (hex[1] > 0 ? 0 :  CONSTANTS.asteroid.startingVelocity)
 							),
 							z: rangeRandom(
-								(type == "base") ? -CONSTANTS.asteroid.startingVelocityFromBase : (hex[2] < 0 ? 0 : -CONSTANTS.asteroid.startingVelocity),
-								(type == "base") ?  CONSTANTS.asteroid.startingVelocityFromBase : (hex[2] > 0 ? 0 :  CONSTANTS.asteroid.startingVelocity)
+								(type == "base") ? -CONSTANTS.asteroid.startingVelocityFromBase : (type == "mini-asteroid") ? -CONSTANTS.asteroid.startingVelocityMini : (hex[2] < 0 ? 0 : -CONSTANTS.asteroid.startingVelocity),
+								(type == "base") ?  CONSTANTS.asteroid.startingVelocityFromBase : (type == "mini-asteroid") ?  CONSTANTS.asteroid.startingVelocityMini : (hex[2] > 0 ? 0 :  CONSTANTS.asteroid.startingVelocity)
 							)
 						},
 						styling: {
@@ -1707,6 +1722,10 @@
 			try {
 				// spawn
 					if (!asteroid.collidable && asteroid.cooldowns.untilCollidable) {
+						if (asteroid.outside) {
+							return true
+						}
+
 						asteroid.cooldowns.untilCollidable = Math.max(0, asteroid.cooldowns.untilCollidable - 1)
 						if (!asteroid.cooldowns.untilCollidable) {
 							asteroid.collidable = true
@@ -2106,15 +2125,28 @@
 					})
 
 				// shield
-					drawArc({
-						x: player.position.rectilinearX,
-						y: player.position.rectilinearY,
-						radius: player.radius * player.styling.shieldRadius * (player.indicators.shield / 100),
-						styling: {
-							backgroundColor: player.styling.shieldColor,
-							opacity: player.styling.shieldOpacity
-						}
-					})
+					if (player.indicators.shield) {
+						drawArc({
+							x: player.position.rectilinearX,
+							y: player.position.rectilinearY,
+							radius: player.radius * player.styling.shieldRadius * (player.indicators.shield / 100),
+							styling: {
+								backgroundColor: player.styling.shieldColor,
+								opacity: player.styling.shieldOpacity
+							}
+						})
+					}
+					else {
+						drawArc({
+							x: player.position.rectilinearX,
+							y: player.position.rectilinearY,
+							radius: player.radius * player.styling.shieldRadius,
+							styling: {
+								backgroundColor: player.styling.deadColor,
+								opacity: player.styling.shieldOpacity
+							}
+						})
+					}
 			} catch (error) {console.log(error)}
 		}
 
