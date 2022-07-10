@@ -85,7 +85,6 @@
 			},
 			blog: {
 				skipRandom: true,
-				hidden: true,
 				name: "blog",
 				size: "small",
 				tags: ["code","api","writing","autobiography"],
