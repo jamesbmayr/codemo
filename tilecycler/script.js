@@ -5,6 +5,7 @@
 				columns: 5,
 				rows: 5,
 				interval: 2000,
+				topics: null
 			},
 			localStorageLimit: 120,
 			api: {
@@ -17,6 +18,32 @@
 							'<a target="_blank" nofollow href="https://unsplash.com/?utm_source=tilecycler&utm_medium=referral">' + 
 							'Unsplash'
 				}
+			},
+			topics: {
+				"current-events": "BJJMtteDJA4",
+				"wallpapers": "bo8jQKTaE0Y",
+				"3d-renders": "CDwuwXJAbEw",
+				"textures-patterns": "iUIsnVtjB0Y",
+				"experimental": "qPYsDzvJOYc",
+				"architecture": "rnSKDHwwYUk",
+				"nature": "6sMVjTLSkeQ",
+				"business-work": "aeu6rL-j6ew",
+				"fashion": "S4MKLAsBB74",
+				"film": "hmenvQhUmxM",
+				"food-drink": "xjPR4hlkBGA",
+				"health": "_hb-dl4Q-4U",
+				"people": "towJZFskpGg",
+				"interiors": "R_Fyn-Gwtlw",
+				"street-photography": "xHxYTMHLgOc",
+				"travel": "Fzo3zuOHN6w",
+				"animals": "Jpg6Kidl-Hk",
+				"spirituality": "_8zFHuhRhyo",
+				"arts-culture": "bDo48cUhwnY",
+				"history": "dijpbw99kQQ",
+				"athletics": "Bn-DjrcBrwo",
+				"digital-screens": "FY4YHxYhY-4",
+				"covid-19": "c7USHrQ0Ljw",
+				"architecture-interior": "M8jVbLbTRws"
 			}
 		}
 
@@ -47,6 +74,10 @@
 						const searchPairs = location.search.slice(1).split("&")
 						for (let i in searchPairs) {
 							const pair = searchPairs[i].split("=")
+							if (pair[0].toLowerCase().trim() == "reset") {
+								localStorage.setItem("tilecycler", "")
+							}
+
 							if (pair[0].toLowerCase().trim() == "x" && !isNaN(pair[1])) {
 								CONSTANTS.grid.columns = Math.round(pair[1])
 							}
@@ -55,6 +86,15 @@
 							}
 							if (pair[0].toLowerCase().trim() == "interval" && !isNaN(pair[1])) {
 								CONSTANTS.grid.interval = Math.round(pair[1])
+							}
+							if (pair[0].toLowerCase().trim() == "topics" && pair[1].length) {
+								CONSTANTS.grid.topics = pair[1].trim().replace(/\%2C/g, ",").toLowerCase().split(",")
+								for (let i in CONSTANTS.grid.topics) {
+									if (CONSTANTS.topics[CONSTANTS.grid.topics[i]]) {
+										CONSTANTS.grid.topics[i] = CONSTANTS.topics[CONSTANTS.grid.topics[i]]
+									}
+								}
+								CONSTANTS.grid.topics = CONSTANTS.grid.topics.join(",")
 							}
 						}
 					}
@@ -255,7 +295,7 @@
 		function fetchImages(callback) {
 			try {
 				// fetch
-					fetch(CONSTANTS.api.url + CONSTANTS.api.key, {method: "GET"})
+					fetch(CONSTANTS.api.url + CONSTANTS.api.key + (CONSTANTS.grid.topics ? ("&topics=" + CONSTANTS.grid.topics) : ""), {method: "GET"})
 						.then(function(response){ return response.json() })
 						.then(function(data) {
 							receiveImages(data)
