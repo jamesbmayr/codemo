@@ -117,6 +117,10 @@
 		</div>
 		<script>
 			if (window.location.protocol !== "file:" && window.location.pathname.length > 1) {
+				if (window.location.pathname.toLowerCase() !== window.location.pathname) {
+					window.location.pathname = window.location.pathname.toLowerCase()
+				}
+
 				// 404 container
 					let container = document.createElement("div")
 						container.style = "position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); text-align: center; font-family: Alata, sans-serif;"
