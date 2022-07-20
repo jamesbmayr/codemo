@@ -1,7 +1,7 @@
 /* j-logo */
 	#j-logo {
 		position: fixed;
-		top: 114px;
+		top: 14px;
 		right: 8px;
 		background-color: transparent;
 		background-image: url("../resources/j.png");
@@ -48,42 +48,31 @@
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		height: 100px;
-		padding: auto auto;
+		height: 60px;
+		padding: 0px;
 		text-align: center;
 		color: #dddddd;
-		font-size: 60px;
+		font-size: 30px;
 		font-family: Courier, monospace;
 		font-weight: bold;
 		background-color: #222222;
 		box-shadow: 0px 0px 50px white;
 	}
 
-/* title */
-	#title {
-		float: left;
-		height: 80px;
-		width: auto;
-		padding: 10px;
-	}
-
 /* controls */
 	#controls {
 		position: fixed;
 		top: 0px;
-		left: 50%;
-		transform: translateX(-50%);
-		height: 80px;
-		width: auto;
+		left: 0px;
+		height: 40px;
+		width: 40px;
 		padding: 10px;
 	}
 
 	#go {
-		position: fixed;
-		top: 50%;
-		transform: translateY(-50%);
-		height: 80px;
-		width: 80px;
+		float: left;
+		height: 40px;
+		width: 40px;
 		border: 0px;
 		border-radius: 100%;
 		background-color: #dddddd;
@@ -92,7 +81,7 @@
 		box-shadow: 0px 0px 20px #dddddd;
 		cursor: pointer;
 		outline: none;
-		font-size: 50px;
+		font-size: 30px;
 		font-weight: bold;
 	}
 
@@ -103,15 +92,18 @@
 
 /* speed */
 	#speed-outer {
+		position: fixed;
+		right: 36px;
 		float: right;
-		height: 80px;
+		height: 40px;
 		width: auto;
 		padding: 10px;
+		line-height: 1.3;
 	}
 
 	#speed, #units {
 		float: left;
-		height: 80px;
+		height: 40px;
 		width: auto;
 		border: 0px;
 		margin: 0px;
@@ -120,7 +112,7 @@
 /* quote */
 	#quote-outer {
 		position: fixed;
-		top: 125px;
+		top: 60px;
 		height: 100px;
 		width: calc(100vw - 50px);
 		padding: 25px;
@@ -162,15 +154,16 @@
 		position: fixed;
 		bottom: 0px;
 		left: 0px;
-		width: calc(100vw - 50px);
-		height: calc(100vh - 350px);
-		padding: 0px 25px 25px 25px;
+		width: calc(100vw - 4px);
+		height: auto;
+		padding: 2px;
 		margin: 0px;
 	}
 
 	#input {
-		min-width: calc(100vw - 100px);
-		max-width: calc(100vw - 100px);
+		min-width: calc(100vw - 54px);
+		max-width: calc(100vw - 54px);
+		width: calc(100vw - 54px);
 		min-height: calc(100vh - 400px);
 		max-height: calc(100vh - 400px);
 		border-radius: 10px;
@@ -191,61 +184,4 @@
 		background-color: #aaaaaa;
 		color: #666666;
 		cursor: not-allowed;
-	}
-
-/* mobile */
-	@media screen and (max-width: 800px) {
-		#title {
-			display: none;
-		}
-
-		#header {
-			height: 60px;
-			padding: 0px;
-			font-size: 30px;
-		}
-
-		#controls {
-			transform: translateX(0px);
-			left: 0px;
-			width: 50px;
-			height: 40px;
-		}
-
-		#go {
-			transform: translateY(-50%) translateX(-50%);
-			height: 50px;
-			width: 50px;
-			font-size: 30px;
-		}
-
-		#speed-outer, #speed, #units {
-			height: 40px;
-		}
-
-		#speed-outer {
-			position: fixed;
-			right: 36px;
-		}
-
-		#j-logo {
-			position: fixed;
-			top: 15px;
-		}
-
-		#quote-outer {
-			top: 60px;
-		}
-
-		#input-outer {
-			height: auto;
-			padding: 2px;
-			width: calc(100vw - 4px);
-		}
-
-		#input {
-			width: calc(100vw - 54px);
-			min-width: calc(100vw - 54px);
-			max-width: calc(100vw - 54px);
-		}
 	}
