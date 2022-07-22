@@ -131,7 +131,7 @@
 					},
 					{
 						name: "bedside lights",
-						image: "https://static.thenounproject.com/png/88338-200.png",
+						image: "https://static.thenounproject.com/png/670981-200.png",
 						top: 15,
 						left: 33.5,
 						buttons: {
@@ -157,7 +157,7 @@
 						name: "craft room lamp",
 						image: "https://static.thenounproject.com/png/88338-200.png",
 						top: 20.5,
-						left: 4.5,
+						left: 1.5,
 						buttons: {
 							"on": "ifttt_url||craft_room_lamp_on||ifttt_key",
 							"off": "ifttt_url||craft_room_lamp_off||ifttt_key"
@@ -167,7 +167,7 @@
 						name: "space heater",
 						image: "https://static.thenounproject.com/png/2296512-200.png",
 						top: 17.5,
-						left: 7.5,
+						left: 8.25,
 						buttons: {
 							"on": "ifttt_url||craft_room_heater_on||ifttt_key",
 							"off": "ifttt_url||craft_room_heater_off||ifttt_key"
@@ -176,7 +176,7 @@
 					{
 						name: "living room lamp",
 						image: "https://static.thenounproject.com/png/88338-200.png",
-						top: 20.5,
+						top: 23.5,
 						left: 14.5,
 						buttons: {
 							"on": "ifttt_url||living_room_lamp_on||ifttt_key",
@@ -185,8 +185,8 @@
 					},
 					{
 						name: "humidifier",
-						image: "https://static.thenounproject.com/png/3716925-200.png",
-						top: 23.5,
+						image: "https://static.thenounproject.com/png/3645130-200.png",
+						top: 17.5,
 						left: 14.5,
 						buttons: {
 							"on": "ifttt_url||humidifier_on||ifttt_key",
@@ -250,8 +250,8 @@
 					{
 						name: "craft room speaker",
 						image: "https://static.thenounproject.com/png/3422-200.png",
-						top: 17.5,
-						left: 1.5,
+						top: 20.5,
+						left: 5.5,
 						buttons: {
 							"on": "ifttt_url||craft_room_speaker_on||ifttt_key",
 							"off": "ifttt_url||craft_room_speaker_off||ifttt_key",
@@ -299,7 +299,7 @@
 						name: "roam",
 						image: "https://static.thenounproject.com/png/3422-200.png",
 						top: 20.5,
-						left: 10.5,
+						left: 11,
 						buttons: {
 							"on": "ifttt_url||roam_on||ifttt_key",
 							"off": "ifttt_url||roam_off||ifttt_key",
@@ -321,7 +321,7 @@
 					{
 						name: "thermostat",
 						image: "https://static.thenounproject.com/png/3127378-200.png",
-						top: 17.5,
+						top: 20.5,
 						left: 14.5,
 						buttons: {
 							"65": "ifttt_url||thermostat_to||ifttt_key||?value1=65",
