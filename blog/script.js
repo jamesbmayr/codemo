@@ -10,7 +10,7 @@
 	/* constants */
 		const CONSTANTS = {
 			allowedFilters: ["id", "tags", "since", "before", "search"],
-			databaseURL: "https://script.google.com/macros/s/AKfycbwfbDayv8W_F1I_2dBbpZ3s3akBMvstLG6OaKKoGNZN0racYcwCJN55P3Gw30QP78T6eA/exec",
+			databaseURL: "https://script.google.com/macros/s/AKfycbyHy7DBOWPbT6oFxCXasuhGcRbwnflGknq6KZGdOVtCWYIiesXJsjnF-xDVVsGZFeDDqQ/exec",
 			waitTime: 1000,
 			scrollWait: 10,
 			breakpoints: [0, 750, 1050, 1400],
@@ -35,6 +35,7 @@
 			cache: [],
 			cachedFilters: [],
 			filters: {},
+			index: 0,
 			searchWait: null,
 			homeWait: null
 		}
@@ -270,6 +271,7 @@
 			try {
 				// reset filter
 					STATE.filters = {}
+					STATE.index = 0
 
 				// loop through parameters
 					for (let i in parameters) {
@@ -288,17 +290,17 @@
 						currentURL.search = ""
 						currentURL.hash = ""
 
-					let queryString = ""
+					let queryParamsList = []
 					for (let i in STATE.filters) {
 						if (i == "id") {
 							currentURL = currentURL + "#" + STATE.filters[i]
 							break
 						}
-						queryString += (i + "=" + STATE.filters[i])
+						queryParamsList.push(i + "=" + STATE.filters[i])
 					}
 					
-					if (queryString && queryString.length) {
-						currentURL = currentURL + "?" + queryString
+					if (queryParamsList && queryParamsList.length) {
+						currentURL = currentURL + "?" + queryParamsList.join("&")
 					}
 
 				// update search
@@ -313,15 +315,16 @@
 		}
 
 	/* requestPosts */
-		function requestPosts(callback) {
+		function requestPosts(callback, ignoreSpinner) {
 			try {
 				// build url
-					let url = CONSTANTS.databaseURL
+					let url = CONSTANTS.databaseURL + "?index=" + STATE.index
 					if (Object.keys(STATE.filters).length) {
-						url += "?"
+						let queryParamsList = []
 						for (let i in STATE.filters) {
-							url += (i + "=" + STATE.filters[i])
+							queryParamsList.push(i + "=" + STATE.filters[i])
 						}
+						url = url + "&" + queryParamsList.join("&")
 					}
 
 				// loading spinner
@@ -343,6 +346,7 @@
 				// get posts
 					const posts = data.posts || []
 					const filters = data.filters || {}
+					const nextIndex = data.nextIndex || 0
 
 				// loading spinner
 					ELEMENTS.loading.removeAttribute("spin")
@@ -379,6 +383,14 @@
 					const stringifiedFilter = JSON.stringify(filters)
 					if (!STATE.cachedFilters.includes(stringifiedFilter)) {
 						STATE.cachedFilters.push(stringifiedFilter)
+					}
+
+				// more?
+					if (nextIndex) {
+						STATE.index = nextIndex
+						setTimeout(function() {
+							requestPosts(updateDisplay)
+						}, 0)
 					}
 			} catch (error) {console.log(error)}
 		}
