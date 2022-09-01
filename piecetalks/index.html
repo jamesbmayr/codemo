@@ -7,10 +7,132 @@
 	<meta property="og:title" content="Piece Talks"/>
 	<meta property="og:url" content="http://piecetalksthegame.com"/>
 	<meta property="og:description" content="Piece Talks is a virtual barrier task game about communication"/>
-	<meta property="og:image" content="http://jamesmayr.com/piecetalks/banner.png"/>
-	<script>window.onload = function() { window.location = "http://www.piecetalksthegame.com" }</script>
+	<meta property="og:image" content="https://jamesmayr.com/piecetalks/banner.png"/>
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+	<link rel="shortcut icon" href="https://jamesmayr.com/resources/j.png">
+	<script>
+		const URL = "http://piecetalksthegame.com"
+		const TITLE = "Piece Talks"
+	</script>
+	<style>
+		:root {
+			--dark-gray: #111111;
+			--dark-blue: #003377;
+			--medium-blue: #0066aa;
+			--light-blue: #04b1ff;
+			--font-family: "Alata", sans-serif;
+			--small-gap-size: 10px;
+			--small-font-size: 20px;
+			--transition-time: 0.5s;
+		}
+
+		html, body {
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: var(--dark-gray);
+			font-family: var(--font-family);
+		}
+
+		#banner {
+			float: left;
+			width: 100%;
+			height: calc(2 * var(--small-gap-size) + 2 * var(--small-font-size));
+			background: var(--medium-blue);
+			box-sizing: border-box;
+			padding: var(--small-gap-size);
+			user-select: none;
+			font-style: italic;
+			line-height: 1;
+		}
+
+		h1 {
+			float: left;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			font-size: var(--small-font-size);
+			text-align: left;
+		}
+
+		h3 {
+			float: left;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			font-size: var(--small-font-size);
+			text-align: right;
+		}
+
+		a, a:visited {
+			font-weight: bold;
+			color: var(--light-blue);
+			text-decoration: none;
+			cursor: pointer;
+			transition: var(--transition-time);
+		}
+
+		a:focus, a:hover {
+			color: var(--dark-blue);
+		}
+
+		iframe {
+			float: left;
+			width: 100%;
+			height: calc(100vh - (2 * var(--small-gap-size) + 2 * var(--small-font-size)));
+			border: none;
+			opacity: 1;
+			transition: calc(var(--transition-time) * 10);
+		}
+
+		iframe[invisible] {
+			opacity: 0;
+		}
+	</style>
 </head>
 <body>
-	[redirecting to <a href="http://www.piecetalksthegame.com">Piece Talks</a>]
+	<div id="banner">
+		<h1><a id="main-link" target="_blank"></a> is loading...</h1>
+		<h3>...play <a id="game-link" target="_blank"></a> while you wait?</h3>
+	</div>
+	<iframe id="game" invisible></iframe>
+	<script>
+		// title & redirect
+			const TITLE_ELEMENT = document.querySelector("title")
+			let counter = 0
+			function checkURL() {
+				if      (counter % 4 == 1) { TITLE_ELEMENT.innerHTML = TITLE + "&nbsp;&nbsp;&#x25DD;" }
+				else if (counter % 4 == 2) { TITLE_ELEMENT.innerHTML = TITLE + "&nbsp;&nbsp;&#x25DE;" }
+				else if (counter % 4 == 3) { TITLE_ELEMENT.innerHTML = TITLE + "&nbsp;&#x25DF;" }
+				else if (counter % 4 == 0) { TITLE_ELEMENT.innerHTML = TITLE + "&nbsp;&#x25DC;" 
+					fetch(URL + "/ping", {method: "GET", mode: "no-cors"})
+						.then(function(response){ if (response) { window.location = URL } })
+						.catch(function(error) {console.log(error)})
+				}
+				counter++
+			}
+			checkURL()
+			setInterval(checkURL, 1000)
+
+		// main link
+			document.querySelector("#main-link").href = URL
+			document.querySelector("#main-link").innerText = TITLE
+
+		// mini game
+			const GAMES = ["balloonpopper", "blockdescender", "brickbreaker", "cableconnector", "colorflooder", "flappyword", "hexagonplacer", "keyspinner", "minefinder", "pegjumper", "pieceflipper", "rectangleplacer", "runjumper", "spherecollector", "snakesnacker", "tileslider"]
+			let game = GAMES[Math.floor(Math.random() * GAMES.length)]
+			document.querySelector("#game-link").href = "https://jamesmayr.com/" + game
+			document.querySelector("#game-link").innerText = game
+
+			setTimeout(function() {
+				document.querySelector("#game").setAttribute("src", "https://jamesmayr.com/" + game)
+				document.querySelector("#game").removeAttribute("invisible")
+			}, 1000)
+	</script>
 </body>
 </html>

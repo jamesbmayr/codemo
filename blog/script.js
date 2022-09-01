@@ -656,11 +656,6 @@
 							currentColumn = 0
 						}
 					}
-
-				// scroll to top of page
-					setTimeout(function() {
-						window.scrollTo(0, 0)
-					}, CONSTANTS.scrollWait)
 			} catch (error) {console.log(error)}
 		}
 
