@@ -31,7 +31,7 @@ window.onload = function() {
 						zoom: 1
 					},
 					cursor: {
-						color: "black",
+						color: "orange",
 						tool:  "draw",
 						shift: false,
 						press: false,
@@ -47,6 +47,17 @@ window.onload = function() {
 					live: {
 						x: null,
 						y: null
+					},
+					instruments: {
+						"red": null,
+						"orange": null,
+						"yellow": null,
+						"green": null,
+						"cyan": null,
+						"blue": null,
+						"purple": null,
+						"magenta": null,
+						"black": null
 					}
 				}
 
@@ -73,7 +84,12 @@ window.onload = function() {
 			function createGrid() {
 				resetGlobals()
 				resizeScreen()
-				selectInstrument()
+
+				if (!AUDIO_J.audio) {
+					AUDIO_J.buildAudio()
+					buildList()
+					selectInstrument()
+				}
 				
 				settings.canvas.shape   =          document.getElementById( "shape" ).value  || "square"
 				settings.canvas.spacing = parseInt(document.getElementById("spacing").value) || 30
@@ -96,6 +112,14 @@ window.onload = function() {
 
 				document.getElementById("color").style.color = settings.cursor.color
 				document.getElementById("draw" ).style.color = settings.cursor.color
+
+				if (settings.instruments[settings.cursor.color]) {
+					document.getElementById("instrument").value = settings.instruments[settings.cursor.color]
+				}
+				else {
+					document.getElementById("instrument").value = "honeyharp"
+					settings.instruments[settings.cursor.color] = "honeyharp"
+				}
 			}
 
 		/* selectTool */
@@ -664,35 +688,33 @@ window.onload = function() {
 
 	/*** music ***/
 		/* buildList */
-			buildList()
 			function buildList() {
-				var list = window.getInstruments() || []
+				var list = AUDIO_J.getInstruments() || []
 				var instruments = document.getElementById("instrument")
 
 				for (var l in list) {
 					instruments.innerHTML += "<option value='" + list[l] + "'>" + list[l] + "</option>"
 				}
 
-				if (list.includes("honeyharp")) {
-					instruments.value = "honeyharp"
-				}
-				else {
-					instruments.value = "triangle"
-				}
+				instruments.value = "honeyharp"
 			}
 
 		/* selectInstrument */
 			document.getElementById("instrument").addEventListener("change", selectInstrument)
 			function selectInstrument() {
-				var name = document.getElementById("instrument").value || "triangle"
-				var obj = window.getInstrument(name)
-
-				if (obj) {
-					window.instrument = window.buildInstrument(obj)
+				var name = document.getElementById("instrument").value || "honeyharp"
+				if (AUDIO_J.instruments[name]) {
+					AUDIO_J.activeInstrumentId = name
 				}
 				else {
-					window.instrument = null
+					var obj = AUDIO_J.getInstrument(name)
+					if (obj) {
+						AUDIO_J.activeInstrumentId = name
+						AUDIO_J.instruments[AUDIO_J.activeInstrumentId] = AUDIO_J.buildInstrument(obj)
+					}
 				}
+
+				settings.instruments[settings.cursor.color] = AUDIO_J.activeInstrumentId
 
 				selectTool({target: document.getElementById("music")})
 			}
@@ -703,11 +725,15 @@ window.onload = function() {
 				var y = (settings.cursor.y - settings.canvas.y) / settings.canvas.zoom
 
 				findLines(x, y, function(l) {
+					var color = lines[l].color
 					var wavelength = getDistance(lines[l].start.x, lines[l].start.y, lines[l].end.x, lines[l].end.y)
 					var frequency  = 343.2 / wavelength * 200
 
-					window.instrument.press(frequency, 0  )
-					window.instrument.lift( frequency, 0.25)
+					var instrumentName = settings.instruments[color]
+					if (AUDIO_J.instruments[instrumentName]) {
+						AUDIO_J.instruments[instrumentName].press(frequency)
+						AUDIO_J.instruments[instrumentName].lift( frequency, 250)
+					}
 				})
 			}
 }

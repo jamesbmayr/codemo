@@ -202,8 +202,8 @@
 
 	#staff {
 		float: left;
-		margin-top: 32px;
-		height: 624px;
+		margin-top: calc(16px * 2);
+		height: calc(16px * 51);
 		width: calc(100vw - 128px);
 		background-color: #111111;
 		box-shadow: 0px 0px 40px #000000;
@@ -255,8 +255,8 @@
 	}
 
 	#scroll-left, #scroll-right {
-		width: 32px;
-		height: 656px;
+		width: calc(16px * 2);
+		height: calc(16px * 53);
 		border: 0px;
 		font-size: 36px;
 		color: #dddddd;
@@ -287,8 +287,8 @@
 	.keyboard {
 		z-index: 5;
 		float: left;
-		height: 432px;
-		width: 32px;
+		height: calc(16px * 53);
+		width: calc(16px * 2);
 		box-shadow: 0px 0px 20px #111111;
 	}
 
@@ -306,6 +306,17 @@
 		background-color: #111111;
 		box-shadow: 0px 0px 20px #111111 inset;
 		cursor: pointer;
+		font-size: 8px;
+		font-family: monospace;
+		color: #dddddd;
+		box-sizing: border-box;
+		padding: 4px;
+		line-height: 1;
+	}
+
+	.key:empty {
+		cursor: default;
+		pointer-events: none;
 	}
 
 	.key-black {
@@ -331,9 +342,9 @@
 		position: relative;
 		display: inline-block;
 		left: 0px;
-		top: -5px;
-		height: 608px;
-		width: 64px;
+		top: 0px;
+		height: calc(16px * 51);
+		width: calc(16px * 4);
 		z-index: 1;
 		vertical-align: bottom;
 	}
@@ -353,12 +364,14 @@
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-o-user-select: none;
+		box-sizing: border-box;
+		font-family: monospace;
 	}
 
 /* beats */
 	.beat {
 		float: left;
-		height: 592px;
+		height: calc(16px * 49);
 		width: 16px;
 	}
 
@@ -423,6 +436,7 @@
 		}
 
 		#staff {
+			font-size: 0;
 			margin-top: 16px;
 		}
 

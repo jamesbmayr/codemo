@@ -86,6 +86,10 @@
 		cursor: zoom-out;
 	}
 
+	#canvas[tool="music"] {
+		cursor: crosshair;
+	}
+
 /*** navbar ***/
 	#navbar-outer {
 		position: fixed;
@@ -135,6 +139,20 @@
 		#spacing {
 			height: 40px;
 			width: 50px;
+		}
+
+		#instructions {
+			font-family: monospace;
+			vertical-align: top;
+			display: inline-block;
+			color: #dddddd;
+			font-size: 25px;
+			box-sizing: border-box;
+			padding: 10px;
+		}
+
+		#navbar:not([mode="creation"]) #instructions {
+			display: none;
 		}
 
 	/* tools */

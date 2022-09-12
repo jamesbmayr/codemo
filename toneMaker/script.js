@@ -1,191 +1,331 @@
-window.addEventListener("load", function() {
+/*** globals ***/
+	/* audio */
+		if (!AUDIO_J) {
+			AUDIO_J = window.AUDIO_J
+		}
 
-	/*** load ***/
-		/* triggers */
-			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+	/* triggers */
+		const TRIGGERS = {
+			click: "click",
+			mousedown: "mousedown",
+			mousemove: "mousemove",
+			mouseup: "mouseup",
+			keydown: "keydown",
+			keyup: "keyup",
+			change: "change"
+		}
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			TRIGGERS.click = "touchstart"
+			TRIGGERS.mousedown = "touchstart"
+			TRIGGERS.mousemove = "touchmove"
+			TRIGGERS.mouseup = "touchend"
+		}
+
+	/* constants */
+		const CONSTANTS = {
+			percentage: 100,
+			envelopeComponentMaxPercentage: 25,
+			envelopeComponentMinPercentage: 3,
+			decayClippath: "polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%)",
+			bitcrusherBorderRadiusPercentage: 5,
+			filterStartingWidthPercentage: 20,
+			filterEdgePercentage: 5,
+			echoBeamStart: 3,
+			echoBeamCount: 32,
+			keyboardLetters: ["a","w","s","e","d", "f","t","g","y","h","u","j","k","o","l","p",";","'","]","&#8629;","\\"],
+			keyboardStartPitch: 48,
+			keyboardEndPitch: 72,
+			whiteKeyCount: 15,
+			blackKeyOffset: 0.4,
+			blackKeys: [1,3,6,8,10],
+			whichToPitch: {
+				"65": "48",
+				"87": "49",
+				"83": "50",
+				"69": "51",
+				"68": "52",
+				"70": "53",
+				"84": "54",
+				"71": "55",
+				"89": "56",
+				"72": "57",
+				"85": "58",
+				"74": "59",
+				"75": "60",
+				"79": "61",
+				"76": "62",
+				"80": "63",
+				"186":"64",
+				"222":"65",
+				"221":"66",
+				"13": "67",
+				"220":"68"
 			}
-			else {
-				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
-			}
+		}
 
-		/* globals */
-			var tool = null
-			var parameter = null
-			var key = null
-			var defaults = window.getInstruments(true)
+	/* state */
+		const STATE = {
+			tool: null,
+			parameter: null,
+			key: null
+		}
 
-		/* prevention */
-			document.body.ondragstart   = function() { return false }
-			document.body.ondrop        = function() { return false }
-			document.body.oncontextmenu = function() { return false }
+	/* elements */
+		const ELEMENTS = {
+			html: document,
+			body: document.body,
+			tools: document.querySelector("#tools"),
+			toolSections: {
+				"tool-meta": document.querySelector("#tool-meta"),
+				"tool-polysynth": document.querySelector("#tool-polysynth"),
+				"tool-wave": document.querySelector("#tool-wave"),
+				"tool-noise": document.querySelector("#tool-noise"),
+				"tool-envelope": document.querySelector("#tool-envelope"),
+				"tool-bitcrusher": document.querySelector("#tool-bitcrusher"),
+				"tool-filter": document.querySelector("#tool-filter"),
+				"tool-echo": document.querySelector("#tool-echo")
+			},
+			switcher: document.querySelector("#switcher"),
+			switcherButtons: {
+				"tool-meta": document.querySelector("#switcher button[value='tool-meta']"),
+				"tool-polysynth": document.querySelector("#switcher button[value='tool-polysynth']"),
+				"tool-wave": document.querySelector("#switcher button[value='tool-wave']"),
+				"tool-noise": document.querySelector("#switcher button[value='tool-noise']"),
+				"tool-envelope": document.querySelector("#switcher button[value='tool-envelope']"),
+				"tool-bitcrusher": document.querySelector("#switcher button[value='tool-bitcrusher']"),
+				"tool-filter": document.querySelector("#switcher button[value='tool-filter']"),
+				"tool-echo": document.querySelector("#switcher button[value='tool-echo']")
+			},
+			keyboard: document.querySelector("#keyboard"),
+			keys: {},
+			"tool-meta": {},
+			"tool-polysynth": {},
+			"tool-wave": {},
+			"tool-noise": {},
+			"tool-envelope": {},
+			"tool-bitcrusher": {},
+			"tool-filter": {},
+			"tool-echo": {}
+		}
 
-		/* builds */
-			buildTools()
-			document.addEventListener(on.click, function() {
-				if (window.audio && !window.instrument) { loadFile(null, "random") }
-			})
-			
-	/*** tools ***/
-		/* selectTool */
-			Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) { b.addEventListener(on.click, selectTool) })
-			function selectTool(event) {
+	/* prevent right-click / drag-&-drop */
+		ELEMENTS.body.ondragstart   = function() { return false }
+		ELEMENTS.body.ondrop        = function() { return false }
+		ELEMENTS.body.oncontextmenu = function() { return false }
+
+	/* builds */
+		buildTools()
+		
+/*** tools ***/
+	/* selectTool */
+		for (let b in ELEMENTS.switcherButtons) {
+			ELEMENTS.switcherButtons[b].addEventListener(TRIGGERS.click, selectTool) 
+		}
+		function selectTool(event) {
+			try {
 				// deselect all tools & buttons
-					Array.from(document.querySelectorAll("#switcher button")).forEach(function(b) {
-						b.removeAttribute("selected")
-						document.getElementById(b.value).removeAttribute("selected")
-					})
+					for (let t in ELEMENTS.toolSections) {
+						ELEMENTS.switcherButtons[t].removeAttribute("selected")
+						ELEMENTS.toolSections[t].removeAttribute("selected")
+					}
 
 				// select tool & button
 					event.target.setAttribute("selected", true)
-					tool = document.getElementById(event.target.value)
-					tool.setAttribute("selected", true)
-			}
+					STATE.tool = ELEMENTS.toolSections[event.target.value]
+					STATE.tool.setAttribute("selected", true)
+			} catch (error) {console.log(error)}
+		}
 
-		/* buildTools */
-			function buildTools() {
-				buildMetaTools()
-				buildPolysynthTool()
-				buildWaveTool()
-				buildNoiseTool()
-				buildEnvelopeTool()
-				buildBitcrusherTool()
-				buildFilterTool()
-				buildEchoTool()
-				buildKeyboard()
+	/* buildTools */
+		function buildTools() {
+			try {
+				// build tools
+					buildMetaTools()
+					buildWaveTool()
+					buildPolysynthTool()
+					buildNoiseTool()
+					buildEnvelopeTool()
+					buildBitcrusherTool()
+					buildFilterTool()
+					buildEchoTool()
+					buildKeyboard()
 
-				selectTool({target: Array.from(document.querySelectorAll("#switcher button[value='tool-meta']"))[0]})
-			}
+				// select meta
+					selectTool({target: ELEMENTS.switcherButtons["tool-meta"]})
 
-		/* setInstrument */
-			function setInstrument(parameters, setup) {
-				try {
+				// default instrument from list
+					const defaultInstruments = AUDIO_J.getInstruments("default")
+					AUDIO_J.activeInstrumentId = defaultInstruments[Math.floor(Math.random() * defaultInstruments.length)]
+					ELEMENTS["tool-meta"]["select"].value = AUDIO_J.activeInstrumentId
+					ELEMENTS["tool-meta"]["name"].value = AUDIO_J.activeInstrumentId
+			} catch (error) {console.log(error)}
+		}
 
-					// audio
-						window.instrument = buildInstrument(parameters)
+	/* first click */
+		ELEMENTS.html.addEventListener(TRIGGERS.click, firstClick)
+		function firstClick() {
+			try {
+				if (AUDIO_J.audio) {
+					return
+				}
+				
+				buildAudio()
+				if (!AUDIO_J.activeInstrumentId) {
+					return
+				}
 
-					// name
-						document.getElementById("tool-meta-name").value = parameters["name"] || "synthesizer"
+				const parameters = AUDIO_J.getInstrument(AUDIO_J.activeInstrumentId)
+				if (!parameters) {
+					return
+				}
 
-					// polysynth
-						for (var x = -12; x <= 12; x++) {
-							var value = parameters["polysynth"] ? (parameters["polysynth"][x] || false) : false
-							var target = document.getElementById("tool-polysynth-toggle--" + x)
-							if (!target.getAttribute("selected") && value) {
-								adjustPolysynthToolToggle({target: target}, setup)
-							}
-							else if (target.getAttribute("selected") && !value) {
-								adjustPolysynthToolToggle({target: target}, setup)
-							}
+				setInstrument(parameters, true)
+			} catch (error) {console.log(error)}
+		}
+
+	/* setInstrument */
+		function setInstrument(parameters, setup) {
+			try {
+				// existing instrument
+					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
+						AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ power: 0 })
+					}
+
+				// no parameters
+					if (!parameters || !Object.keys(parameters).length) {
+						return
+					}
+
+				// audio
+					const instrument = AUDIO_J.buildInstrument(parameters)
+					AUDIO_J.activeInstrumentId = instrument.parameters.name
+					AUDIO_J.instruments[AUDIO_J.activeInstrumentId] = instrument
+
+				// name & meta
+					instrument.parameters.name = parameters.name || "synthesizer #" + Math.floor(Math.random() * 10e6)
+					ELEMENTS["tool-meta"]["name"].value = parameters["name"]
+					if (!ELEMENTS["tool-meta"]["select"].querySelector("option[value='" + instrument.parameters.name + "']")) {
+						const option = document.createElement("option")
+							option.value = instrument.parameters.name
+							option.innerText = instrument.parameters.name
+						ELEMENTS["tool-meta"]["group-custom"].appendChild(option)
+					}
+					ELEMENTS["tool-meta"]["select"].value = instrument.parameters.name
+
+					if (AUDIO_J.getInstruments("simple").includes(instrument.parameters.name) || AUDIO_J.getInstruments("default").includes(instrument.parameters.name)) {
+						ELEMENTS.toolSections["tool-meta"].removeAttribute("custom")
+					}
+					else {
+						ELEMENTS.toolSections["tool-meta"].setAttribute("custom", true)
+					}
+
+				// wave
+					for (let x = 1; x <= AUDIO_J.constants.waveCount; x++) {
+						const value = parameters.imag ? (parameters.imag[x] || 0) : 0
+						const target = ELEMENTS["tool-wave"]["input--" + x]
+							target.value = CONSTANTS.percentage * value
+						adjustWaveToolInput({target: target}, setup)
+					}
+
+				// polysynth
+					for (let x = -AUDIO_J.constants.semitonesPerOctave; x <= AUDIO_J.constants.semitonesPerOctave; x++) {
+						const value = parameters["polysynth"] ? (parameters["polysynth"][x] || false) : false
+						const target = ELEMENTS["tool-polysynth"]["toggle--" + x]
+						if (!target.getAttribute("selected") && value) {
+							adjustPolysynthToolToggle({target: target}, setup)
 						}
-					
-					// wave
-						for (var x = 1; x < 33; x++) {
-							var value = parameters.imag ? (parameters.imag[x] || 0) : 0
-							var target = document.getElementById("tool-wave-input--" + x)
-								target.value = 100 * value
-							adjustWaveToolInput({target: target}, setup)
+						else if (target.getAttribute("selected") && !value) {
+							adjustPolysynthToolToggle({target: target}, setup)
 						}
-					
-					// noise
-						var colors = ["white", "pink", "brown"]
-						for (var x in colors) {
-							var value = parameters.noise ? (parameters.noise[colors[x]] || 0) : 0
-							var target = document.getElementById("tool-noise-volume-input--" + colors[x])
-								target.value = (100 * Number(value)) || 0
-							adjustNoiseToolInput({target: target}, setup)
-						}
+					}
+				
+				// noise
+					for (let color in AUDIO_J.noise) {
+						const value = parameters.noise ? (parameters.noise[color] || 0) : 0
+						const target = ELEMENTS["tool-noise"]["volume-input--" + color]
+							target.value = (CONSTANTS.percentage * Number(value)) || 0
+						adjustNoiseToolInput({target: target}, setup)
+					}
 
-					// envelope
-						var type = ["attack", "decay", "sustain", "release"]
-						for (var x in type) {
-							var value = parameters.envelope ? (parameters.envelope[type[x]] || 0) : (type[x] == "sustain" ? 1 : 0)
-							var target = document.getElementById("tool-envelope-input--" + type[x])
-								target.value = 100 * value
-							adjustEnvelopeToolInput({target: target}, setup)
-						}
+				// envelope
+					for (let x in AUDIO_J.constants.envelopeComponents) {
+						const value = parameters.envelope ? (parameters.envelope[AUDIO_J.constants.envelopeComponents[x]] || 0) : (AUDIO_J.constants.envelopeComponents[x] == "sustain" ? 1 : 0)
+						const target = ELEMENTS["tool-envelope"]["input--" + AUDIO_J.constants.envelopeComponents[x]]
+							target.value = CONSTANTS.percentage * value
+						adjustEnvelopeToolInput({target: target}, setup)
+					}
 
-					// bitcrusher
-						for (var x = 0; x <= 6; x++) {
-							var target = document.getElementById("tool-bitcrusher-bits-toggle--" + Math.pow(2, x))
-							if (parameters.bitcrusher && (parameters.bitcrusher.bits == Math.pow(2, x))) {
-								if (!target.getAttribute("selected")) {
-									adjustBitcrusherToolToggle({target: target}, setup)	
-								}
-							}
-							else {
-								if (target.getAttribute("selected")) {
-									adjustBitcrusherToolToggle({target: target}, setup)	
-								}
-							}
-							
-							if (parameters.bitcrusher) {
-								var target = document.getElementById("tool-bitcrusher-norm-input")
-									target.value = Math.max(0, Math.min(1, parameters.bitcrusher.norm)) * 100
-								adjustBitcrusherToolInput({target: target}, setup)
-							}
+				// bitcrusher
+					if (parameters.bitcrusher) {
+						const target = ELEMENTS["tool-bitcrusher"]["bits-toggle--" + parameters.bitcrusher.bits]
+						if (!target.getAttribute("selected")) {
+							adjustBitcrusherToolToggle({target: target}, setup)
 						}
-							
-					// filters
-						var filters = Array.from(document.querySelectorAll("#tool-filter-track .blob"))
-						for (var x in filters) {
-							deselectFilterToolBar(null, Number(filters[x].id.split("--")[1]))
+					}
+					else {
+						const target = ELEMENTS["tool-bitcrusher"]["bits-toggle--0"]
+						if (!target.getAttribute("selected")) {
+							adjustBitcrusherToolToggle({target: target}, setup)
 						}
+					}
 
-						for (var x in parameters.filters) {
-							x = Number(x)
-							var obj = (parameters.filters && parameters.filters[x]) ? parameters.filters[x] : {
-								low:  440 * Math.pow(2, ((24 + 12 * (x - 0.4)) - 45) / 12),
-								high: 440 * Math.pow(2, ((24 + 12 * (x + 0.4)) - 45) / 12),
-								gain: 0
+					const bitcrusherNorm = ELEMENTS["tool-bitcrusher"]["norm-input"]
+						bitcrusherNorm.value = Math.max(0, Math.min(1, parameters.bitcrusher ? parameters.bitcrusher.norm : 0)) * CONSTANTS.percentage
+					adjustBitcrusherToolInput({target: bitcrusherNorm}, setup)
+						
+				// filters
+					const filters = Array.from(document.querySelectorAll("#tool-filter-track .blob"))
+					for (let x in filters) {
+						deselectFilterToolBar(null, Number(filters[x].id.split("--")[1]))
+					}
+
+					if (parameters.filters && Object.keys(parameters.filters).length) {
+						for (let x = 0; x < Object.keys(parameters.filters).length; x++) {
+							const obj = parameters.filters[x] || null
+							if (!obj || !obj.gain || Math.abs(obj.gain) < AUDIO_J.constants.filterGainThreshold) {
+								continue
 							}
 							obj.number = x
 							createFilter(null, obj)
-
-							var target = document.getElementById("tool-filter-input--low--" + x)
-								target.value = 45 + 12 * Math.log2(obj.low / 440)
-							adjustFilterToolInput({target: target}, setup)
-
-							var target = document.getElementById("tool-filter-input--high--" + x)
-								target.value = 45 + 12 * Math.log2(obj.high / 440)
-							adjustFilterToolInput({target: target}, setup)
-
-							var target = document.getElementById("tool-filter-input--gain--" + x)
-								target.value = obj.gain
-							adjustFilterToolInput({target: target}, setup)
 						}
-					
-					// echo
-						var type = ["delay", "feedback"]
-						for (var x in type) {
-							var value = parameters.echo ? (parameters.echo[type[x]] || 0) : 0
-							var target = document.getElementById("tool-echo-input--" + type[x])
-								target.value = 100 * value
-							adjustEchoToolInput({target: target}, setup)
-						}
+					}
 				
-				} catch (error) { }
-			}
+				// echo
+					const delayValue = parameters.echo ? (parameters.echo.delay || 0) : 0
+					const delayTarget = ELEMENTS["tool-echo"]["input--delay"]
+						delayTarget.value = CONSTANTS.percentage * delayValue
+					adjustEchoToolInput({target: delayTarget}, setup)
 
-	/*** bars & inputs ***/
-		/* selectBar */
-			Array.from(document.querySelectorAll(".bar")  ).forEach(function (p) { p.addEventListener(on.mousedown, selectBar) })
-			Array.from(document.querySelectorAll(".shape")).forEach(function (p) { p.addEventListener(on.mousedown, selectBar) })
-			function selectBar(event) {
-				if (tool) {
-					parameter = event.target
+					const feedbackValue = parameters.echo ? (parameters.echo.feedback || 0) : 0
+					const feedbackTarget = ELEMENTS["tool-echo"]["input--feedback"]
+						feedbackTarget.value = CONSTANTS.percentage * feedbackValue
+					adjustEchoToolInput({target: feedbackTarget}, setup)
+
+				// localstorage
+					saveFile()
+			} catch (error) {console.log(error)}
+		}
+
+/*** bars & inputs ***/
+	/* selectBar */
+		function selectBar(event) {
+			try {
+				if (STATE.tool) {
+					STATE.parameter = event.target
 					event.target.setAttribute("selected", true)
-					tool.setAttribute("grabbing", true)
+					STATE.tool.setAttribute("grabbing", true)
 
 					moveBar(event)
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* moveBar */
-			document.addEventListener(on.mousemove, moveBar)
-			function moveBar(event) {
-				if (tool && parameter) {
-					switch (tool.id) {
+	/* moveBar */
+		window.addEventListener(TRIGGERS.mousemove, moveBar)
+		function moveBar(event) {
+			try {
+				if (STATE.tool && STATE.parameter) {
+					switch (STATE.tool.id) {
 						case "tool-meta":
 							adjustVolumeToolBar(event)
 						break
@@ -209,1450 +349,1527 @@ window.addEventListener("load", function() {
 						break
 					}
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* deselectBar */
-			document.addEventListener(on.mouseup,  deselectBar)
-			function deselectBar(event) {
-				if (tool && parameter) {
-					if (tool.id == "tool-filter") {
+	/* deselectBar */
+		window.addEventListener(TRIGGERS.mouseup, deselectBar)
+		function deselectBar(event) {
+			try {
+				if (STATE.tool && STATE.parameter) {
+					if (STATE.tool.id == "tool-filter") {
 						deselectFilterToolBar(event)
 					}
 
-					tool.removeAttribute("grabbing")
-					parameter.removeAttribute("selected")
-					parameter = null	
+					STATE.tool.removeAttribute("grabbing")
+					STATE.parameter.removeAttribute("selected")
+					STATE.parameter = null
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* changeInput */
-			Array.from(document.querySelectorAll("input")).forEach(function (i) { i.addEventListener("change", changeInput) })
-			function changeInput(event) {
-				if (tool) {
-					switch (tool.id) {
-						case "tool-meta":
-							if (event.target.id == "tool-meta-volume-input") {
-								adjustVolumeToolInput(event)
-							}
-						break
-						case "tool-wave": 
-							adjustWaveToolInput(event)
-						break
-						case "tool-noise": 
-							adjustNoiseToolInput(event)
-						break
-						case "tool-envelope":
-							adjustEnvelopeToolInput(event)
-						break
-						case "tool-bitcrusher":
-							adjustBitcrusherToolInput(event)
-						break
-						case "tool-filter":
-							adjustFilterToolInput(event)
-						break
-						case "tool-echo":
-							adjustEchoToolInput(event)
-						break
-					}
-				}
-			}
-
-		/* changeToggle */
-			Array.from(document.querySelectorAll(".toggle")).forEach(function (t) { t.addEventListener(on.click, changeToggle) })
-			function changeToggle(event) {
-				if (tool) {
-					switch (tool.id) {
-						case "tool-meta":
-							adjustPowerToolToggle(event)
-						break
-						case "tool-polysynth":
-							adjustPolysynthToolToggle(event)
-						break
-						case "tool-bitcrusher":
-							adjustBitcrusherToolToggle(event)
-						break
-					}
-				}
-			}
-
-	/*** tool-meta ***/
-		/* buildMetaTools */
-			function buildMetaTools() {
-				var metaTool = document.getElementById("tool-meta")
-
+/*** tool-meta ***/
+	/* buildMetaTools */
+		function buildMetaTools() {
+			try {
 				// file (name, save, download, select, load, upload)
-					var element = document.createElement("div")
-						element.id = "tool-meta-file"
-						element.className = "section"
-					metaTool.appendChild(element)
-
-				// name
-					var input = document.createElement("input")
-						input.id = "tool-meta-name"
-						input.className = "input"
-						input.setAttribute("placeholder", "instrument name")
-						input.value = "synthesizer"
-						input.addEventListener("change", nameFile)
-					element.appendChild(input)
-
-				// download
-					var input = document.createElement("button")
-						input.id = "tool-meta-download"
-						input.className = "button"
-						input.innerHTML = '<span class="fas fa-download"></span>'
-						input.addEventListener(on.click, downloadFile)
-					element.appendChild(input)
+					const fileSection = document.createElement("div")
+						fileSection.id = "tool-meta-file"
+						fileSection.className = "section"
+					ELEMENTS.toolSections["tool-meta"].appendChild(fileSection)
 
 				// select
-					var options = window.getInstruments()
+					const instrumentSelect = document.createElement("select")
+						instrumentSelect.id = "tool-meta-select"
+						instrumentSelect.className = "input"
+						instrumentSelect.addEventListener(TRIGGERS.change, loadFile)
+						fileSection.appendChild(instrumentSelect)
+					ELEMENTS["tool-meta"]["select"] = instrumentSelect
 
-					var select = document.createElement("select")
-						select.id = "tool-meta-select"
-						select.className = "input"
-						select.addEventListener("change", loadFile)
-						for (var o in options) {
-							var option = document.createElement("option")
-								option.innerText = options[o]
-								option.value = options[o]
-							select.appendChild(option)
-						}
-					element.appendChild(select)
+						const randomGroup = document.createElement("optgroup")
+							randomGroup.id = "tool-meta-select-group-random"
+							randomGroup.label = "--- RANDOM ---"
+						instrumentSelect.appendChild(randomGroup)
+						ELEMENTS["tool-meta"]["group-random"] = randomGroup
+
+							const randomOption = document.createElement("option")
+								randomOption.innerText = "random"
+								randomOption.value = "random"
+							randomGroup.appendChild(randomOption)
+
+						const simpleGroup = document.createElement("optgroup")
+							simpleGroup.id = "tool-meta-select-group-simple"
+							simpleGroup.label = "--- SIMPLE ---"
+						instrumentSelect.appendChild(simpleGroup)
+						ELEMENTS["tool-meta"]["group-simple"] = simpleGroup
+
+							const simpleInstruments = AUDIO_J.getInstruments("simple")
+							for (let o in simpleInstruments) {
+								const instrumentOption = document.createElement("option")
+									instrumentOption.innerText = simpleInstruments[o]
+									instrumentOption.value = simpleInstruments[o]
+								simpleGroup.appendChild(instrumentOption)
+							}
+
+						const defaultsGroup = document.createElement("optgroup")
+							defaultsGroup.id = "tool-meta-select-group-defaults"
+							defaultsGroup.label = "--- DEFAULTS ---"
+						instrumentSelect.appendChild(defaultsGroup)
+						ELEMENTS["tool-meta"]["group-defaults"] = defaultsGroup
+
+							const defaultInstruments = AUDIO_J.getInstruments("default")
+							for (let o in defaultInstruments) {
+								const instrumentOption = document.createElement("option")
+									instrumentOption.innerText = defaultInstruments[o]
+									instrumentOption.value = defaultInstruments[o]
+								defaultsGroup.appendChild(instrumentOption)
+							}
+
+						const customGroup = document.createElement("optgroup")
+							customGroup.id = "tool-meta-select-group-custom"
+							customGroup.label = "--- CUSTOM ---"
+						instrumentSelect.appendChild(customGroup)
+						ELEMENTS["tool-meta"]["group-custom"] = customGroup
+
+							const customInstruments = AUDIO_J.getInstruments("custom")
+							for (let o in customInstruments) {
+								const instrumentOption = document.createElement("option")
+									instrumentOption.innerText = customInstruments[o]
+									instrumentOption.value = customInstruments[o]
+								customGroup.appendChild(instrumentOption)
+							}
 
 				// upload
-					var input = document.createElement("label")
-						input.id = "tool-meta-upload"
-						input.className = "button"
-						input.innerHTML = '<input id="upload-link" type="file"><span class="fas fa-upload"></span>'
-						input.addEventListener(on.click, uploadFile)
-					element.appendChild(input)
+					const uploadLabel = document.createElement("label")
+						uploadLabel.id = "tool-meta-upload"
+						uploadLabel.className = "button"
+					fileSection.appendChild(uploadLabel)
+
+						const uploadInput = document.createElement("input")
+							uploadInput.id = "upload-link"
+							uploadInput.type = "file"
+							uploadInput.addEventListener(TRIGGERS.change, uploadFile)
+						uploadLabel.appendChild(uploadInput)
+						ELEMENTS["tool-meta"]["upload-link"] = uploadInput
+
+						const uploadSpan = document.createElement("span")
+							uploadSpan.className = "fas fa-upload"
+						uploadLabel.appendChild(uploadSpan)
+
+				// delete
+					const deleteButton = document.createElement("button")
+						deleteButton.id = "tool-meta-delete"
+						deleteButton.className = "button"
+						deleteButton.innerHTML = '<span class="fas fa-trash"></span>'
+						deleteButton.addEventListener(TRIGGERS.click, deleteFile)
+					fileSection.appendChild(deleteButton)
+					ELEMENTS["tool-meta"]["delete"] = deleteButton
+
+				// name
+					const nameInput = document.createElement("input")
+						nameInput.id = "tool-meta-name"
+						nameInput.className = "input"
+						nameInput.setAttribute("placeholder", "instrument name")
+						nameInput.value = "synthesizer"
+						nameInput.addEventListener(TRIGGERS.change, nameFile)
+					fileSection.appendChild(nameInput)
+					ELEMENTS["tool-meta"]["name"] = nameInput
+
+				// download
+					const downloadButton = document.createElement("button")
+						downloadButton.id = "tool-meta-download"
+						downloadButton.className = "button"
+						downloadButton.innerHTML = '<span class="fas fa-download"></span>'
+						downloadButton.addEventListener(TRIGGERS.click, downloadFile)
+					fileSection.appendChild(downloadButton)
+					ELEMENTS["tool-meta"]["download"] = downloadButton
 
 				// power
-					var element = document.createElement("div")
-						element.id = "tool-meta-volume"
-						element.className = "section"
-					metaTool.appendChild(element)
+					const powerSection = document.createElement("div")
+						powerSection.id = "tool-meta-volume"
+						powerSection.className = "section"
+					ELEMENTS.toolSections["tool-meta"].appendChild(powerSection)
 
-					var toggle = document.createElement("button")
-						toggle.id = "tool-meta-power"
-						toggle.className = "toggle"
-						toggle.setAttribute("selected", true)
-						toggle.innerHTML = '<span class="fas fa-power-off"></span>'
-					element.appendChild(toggle)
+					const powerToggle = document.createElement("button")
+						powerToggle.id = "tool-meta-power"
+						powerToggle.className = "toggle"
+						powerToggle.setAttribute("selected", true)
+						powerToggle.innerHTML = '<span class="fas fa-power-off"></span>'
+						powerToggle.addEventListener(TRIGGERS.click, adjustPowerToolToggle)
+					powerSection.appendChild(powerToggle)
+					ELEMENTS["tool-meta"]["power"] = powerToggle
 
 				// volume
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-meta-volume-input"
-						input.value = 50
-					element.appendChild(input)
+					const volumeInput = document.createElement("input")
+						volumeInput.setAttribute("type", "number")
+						volumeInput.setAttribute("min", 0)
+						volumeInput.setAttribute("max", CONSTANTS.percentage)
+						volumeInput.className = "input"
+						volumeInput.id = "tool-meta-volume-input"
+						volumeInput.value = 50
+						volumeInput.addEventListener(TRIGGERS.change, adjustVolumeToolInput)
+					powerSection.appendChild(volumeInput)
+					ELEMENTS["tool-meta"]["volume-input"] = volumeInput
 
-					var track = document.createElement("div")
-						track.id = "tool-meta-volume-track"
-						track.className = "track"
-					element.appendChild(track)
+					const volumeTrack = document.createElement("div")
+						volumeTrack.id = "tool-meta-volume-track"
+						volumeTrack.className = "track"
+					powerSection.appendChild(volumeTrack)
+					ELEMENTS["tool-meta"]["volume-track"] = volumeTrack
 
-					var bar = document.createElement("div")
-						bar.id = "tool-meta-volume-bar"
-						bar.className = "bar"
-						bar.style.width = "50%"
-						bar.innerHTML = 'volume&nbsp;<span class="fas fa-volume-up"></span>'
-					track.appendChild(bar)
-			}
+						const volumeBar = document.createElement("div")
+							volumeBar.id = "tool-meta-volume-bar"
+							volumeBar.className = "bar"
+							volumeBar.style.width = "50%"
+							volumeBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							volumeBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						volumeTrack.appendChild(volumeBar)
+						ELEMENTS["tool-meta"]["volume-bar"] = volumeBar
+			} catch (error) {console.log(error)}
+		}
 
-		/* nameFile */
-			function nameFile(event) {
-				if (event.target.id == "tool-meta-name") {
-					var oldName = window.instrument.parameters.name
+	/* nameFile */
+		function nameFile(event) {
+			try {
+				// name
+					const oldName = AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.name
+					const newName = event.target.value.trim()
 					
-					var options = Array.from(document.getElementById("tool-meta-select").querySelectorAll("option"))
-					var option = options.filter(function (o) {
+					AUDIO_J.activeInstrumentId = newName
+					AUDIO_J.instruments[AUDIO_J.activeInstrumentId] = AUDIO_J.instruments[oldName]
+					deleteFile(null, oldName)
+
+				// options
+					const options = Array.from(ELEMENTS["tool-meta"]["select"].querySelectorAll("option"))
+					const option = options.find(function (o) {
 						return o.value == oldName
 					}) || null
 					if (option) {
-						option.value = event.target.value
-						option.innerText = event.target.value
+						option.value = newName
+						option.innerText = newName
 					}
 
-					if (window.instrument) { window.instrument.setParameters({ name: event.target.value }) }
-					if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-						saveFile()
+				// save
+					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ name: newName }) }
+					saveFile()
+			} catch (error) {console.log(error)}
+		}
+
+	/* saveFile */
+		function saveFile(event) {
+			try {
+				// default
+					const name = AUDIO_J.activeInstrumentId
+					if (!name || AUDIO_J.getInstruments("simple").includes(name) || AUDIO_J.getInstruments("default").includes(name)) {
+						return
 					}
-				}
-			}
 
-		/* saveFile */
-			function saveFile(event) {
 				// get data
-					var name = document.getElementById("tool-meta-name").value
-					try {
-						if (window.localStorage.synthesizers) {
-							var custom = JSON.parse(window.localStorage.synthesizers)
-							if (!custom) {
-								custom = {}
-							}
-						}
-						else {
-							var custom = {}
-						}
-					} catch (error) { }
+					let custom = {}
+					if (window.localStorage.synthesizers) {
+						custom = JSON.parse(window.localStorage.synthesizers) || {}
+					}
 
-				if (name !== "synthesizer") {
-					// package up
-						custom[name] = JSON.parse(JSON.stringify(window.instrument.parameters))
-						custom[name].imag = Array.from(window.instrument.parameters.imag)
-						custom[name].real = Array.from(window.instrument.parameters.real)
-					
-					// save
-						if (custom) {
-							window.localStorage.synthesizers = JSON.stringify(custom)
-						}
+				// package up
+					custom[name] = JSON.parse(JSON.stringify(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters))
+					custom[name].imag = Array.from(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.imag)
+					custom[name].real = Array.from(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.real)
+				
+				// save
+					window.localStorage.synthesizers = JSON.stringify(custom)
 
-						if (!Array.from(document.querySelectorAll("#tool-meta-select option[value='" + name + "']")).length) {
-							var option = document.createElement("option")
-								option.value = option.innerText = name
-							document.getElementById("tool-meta-select").appendChild(option)
-						}
-				}
-			}
+					const options = Array.from(ELEMENTS["tool-meta"]["select"].querySelectorAll("option[value='" + name + "']"))
+					if (!options.length) {
+						const option = document.createElement("option")
+							option.value = option.innerText = name
+						ELEMENTS["tool-meta"]["group-custom"].appendChild(option)
+					}
+			} catch (error) {console.log(error)}
+		}
 
-		/* downloadFile */
-			function downloadFile(event) {
+	/* downloadFile */
+		function downloadFile(event) {
+			try {
 				// get data
-					var name = document.getElementById("tool-meta-name").value.replace(/\s/g, "_")
-					var file = JSON.parse(JSON.stringify(window.instrument.parameters))
-						file.imag = Array.from(window.instrument.parameters.imag)
-						file.real = Array.from(window.instrument.parameters.real)
+					const name = ELEMENTS["tool-meta"]["name"].value.trim().replace(/\s/g, "_")
+					const file = JSON.parse(JSON.stringify(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters))
+						file.imag = Array.from(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.imag)
+						file.name = name
+						delete file.real
+						delete file.wave
 
 				//  package up
-					var downloadLink = document.createElement("a")
+					const downloadLink = document.createElement("a")
 						downloadLink.id = "download-link"
 						downloadLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(file)))
 						downloadLink.setAttribute("download", "toneMaker_" + name + ".json")
-						downloadLink.addEventListener(on.click, function() {
-							var downloadLink = document.getElementById("download-link")
+						downloadLink.addEventListener(TRIGGERS.click, function() {
+							const downloadLink = document.querySelector("#download-link")
 							document.body.removeChild(downloadLink)
 						})
 				
 				// click
-					document.body.appendChild(downloadLink)
-					document.getElementById("download-link").click()
-			}
+					ELEMENTS.body.appendChild(downloadLink)
+					downloadLink.click()
+			} catch (error) {console.log(error)}
+		}
 
-		/* loadFile */
-			function loadFile(event, name) {
-				// kill notes
-					if (window.instrument) {
-						document.querySelectorAll(".key").forEach(function(k) {
-							k.removeAttribute("selected")
-							window.instrument.lift(window.getFrequency(k.value)[0])
-						})
-					}
-
+	/* loadFile */
+		function loadFile(event, name) {
+			try {
 				// data
-					var name = name || document.getElementById("tool-meta-select").value
-					setInstrument((window.getInstrument(name) || {}), true)
-			}
-
-		/* uploadFile */
-			function uploadFile(event) {
-				document.getElementById("upload-link").addEventListener("change", function(event) {
-					var upload = document.getElementById("upload-link")
-
-					if (upload.value && upload.value.length) {
-						var reader = new FileReader()
-							reader.readAsText(event.target.files[0])
-						reader.onload = function(event) {
-							// kill notes
-								if (window.instrument) {
-									document.querySelectorAll(".key").forEach(function(k) {
-										k.removeAttribute("selected")
-										window.instrument.lift(window.getFrequency(k.value)[0])
-									})
-								}
-
-							// data
-								var obj = String(event.target.result)
-								try {
-									obj = JSON.parse(obj)
-									setInstrument(obj, true)
-								} catch (error) { }
-						}
+					if (!name) {
+						name = ELEMENTS["tool-meta"]["select"].value
 					}
-				})
-			}
+					setInstrument((AUDIO_J.getInstrument(name) || {}), true)
 
-		/* adjustPowerToolToggle */
-			function adjustPowerToolToggle(event) {
+					if (event) {
+						ELEMENTS["tool-meta"]["select"].blur()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* uploadFile */
+		function uploadFile(event) {
+			try {
+				if (!ELEMENTS["tool-meta"]["upload-link"].value || !ELEMENTS["tool-meta"]["upload-link"].value.length) {
+					return
+				}
+
+				const reader = new FileReader()
+					reader.readAsText(event.target.files[0])
+					reader.onload = function(event) {
+						try {
+							const fileString = String(event.target.result)
+							const fileJSON = JSON.parse(fileString)
+							setInstrument(fileJSON, true)
+							ELEMENTS["tool-meta"]["upload-link"].blur()
+						} catch (error) {console.log(error)}
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* deleteFile */
+		function deleteFile(event, overrideName) {
+			try {
+				// get default instruments
+					const simpleInstruments = AUDIO_J.getInstruments("simple")
+					const defaultInstruments = AUDIO_J.getInstruments("default")
+					const currentInstrument = overrideName || AUDIO_J.activeInstrumentId
+					if (!currentInstrument || simpleInstruments.includes(currentInstrument) || defaultInstruments.includes(currentInstrument)) {
+						return
+					}
+
+				// choose a new random instrument
+					if (!overrideName) {
+						const instrumentName = defaultInstruments[Math.floor(Math.random() * defaultInstruments.length)]
+						setInstrument(AUDIO_J.getInstrument(instrumentName) || {}, true)
+					}
+
+				// find old one from localstorage
+					let custom = {}
+					if (window.localStorage.synthesizers) {
+						custom = JSON.parse(window.localStorage.synthesizers) || {}
+					}
+					if (!custom || !(currentInstrument in custom)) {
+						return
+					}
+
+				// remove from localstorage
+					delete custom[currentInstrument]
+					window.localStorage.synthesizers = JSON.stringify(custom)
+
+				// remove from AUDIO_J instruments
+					if (AUDIO_J.instruments[currentInstrument]) {
+						delete AUDIO_J.instruments[currentInstrument]
+					}
+
+				// update selection
+					if (event) {
+						ELEMENTS["tool-meta"]["group-custom"].querySelector("[value='" + currentInstrument + "']").remove()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustPowerToolToggle */
+		function adjustPowerToolToggle(event) {
+			try {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
-					if (window.audio) {
-						window.audio.close().then(function() {
-							window.buildAudio()
-							if (window.instrument) {
-								window.instrument = buildInstrument(window.instrument.parameters)
-								window.instrument.setParameters({ power: 0 })
-							}
-						})
+					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
+						AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ power: 0 })
 					}
 				}
 				else {
 					event.target.setAttribute("selected", true)
-					if (window.instrument) {
-						window.instrument.setParameters({ power: 1 })
+					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
+						AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ power: 1 })
 					}
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustVolumeToolBar */
-			function adjustVolumeToolBar(event) {
+	/* adjustVolumeToolBar */
+		function adjustVolumeToolBar(event) {
+			try {
 				// display
-					var rectangle  = document.getElementById("tool-meta-volume-track").getBoundingClientRect()
-					var input = document.getElementById("tool-meta-volume-input")
-					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					const rectangle = ELEMENTS["tool-meta"]["volume-track"].getBoundingClientRect()
+					const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 
-					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-						percentage = Math.min(100, Math.max(0, percentage))
-					parameter.style.width = percentage + "%"
-					input.value = percentage
+					let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					STATE.parameter.style.width = percentage + "%"
+					ELEMENTS["tool-meta"]["volume-input"].value = percentage
 
 				// data
-					adjustVolumeToolInput({target: input})
-			}
+					adjustVolumeToolInput({target: ELEMENTS["tool-meta"]["volume-input"]})
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustVolumeToolInput */
-			function adjustVolumeToolInput(event) {
+	/* adjustVolumeToolInput */
+		function adjustVolumeToolInput(event) {
+			try {
 				// display
-					var bar = document.getElementById("tool-meta-volume-bar")
-					var percentage = Number(event.target.value)
-						percentage = Math.min(100, Math.max(0, percentage))
-					bar.style.width = percentage + "%"
+					let percentage = Number(event.target.value)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					ELEMENTS["tool-meta"]["volume-bar"].style.width = percentage + "%"
 
 				// audio
-					if (window.instrument) { window.instrument.setParameters({ volume: (percentage / 100) }) }
-			}
+					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ volume: (percentage / CONSTANTS.percentage) }) }
+			} catch (error) {console.log(error)}
+		}
 
-	/*** tool-polysynth ***/
-		/* buildPolysynthTool **/
-			function buildPolysynthTool() {
-				var polysynthTool = document.getElementById("tool-polysynth")
+/*** tool-wave ***/	
+	/* buildWaveTool */
+		function buildWaveTool() {
+			try {
+				const waveLeftOffset = CONSTANTS.percentage / AUDIO_J.constants.waveCount
+				for (let i = 1; i <= AUDIO_J.constants.waveCount; i++) {
+					const waveInput = document.createElement("input")
+						waveInput.setAttribute("type", "number")
+						waveInput.setAttribute("min", 0)
+						waveInput.setAttribute("max", CONSTANTS.percentage)
+						waveInput.className = "input"
+						waveInput.id = "tool-wave-input--" + i
+						waveInput.style.left = ((i - 1) * waveLeftOffset) + "%"
+						waveInput.value = 0
+						waveInput.addEventListener(TRIGGERS.change, adjustWaveToolInput)
+					ELEMENTS.toolSections["tool-wave"].appendChild(waveInput)
+					ELEMENTS["tool-wave"]["input--" + i] = waveInput
 
-				for (var i = -12; i <= 12; i++) {
-					var toggle = document.createElement("button")
-						toggle.className = "toggle"
-						toggle.id = "tool-polysynth-toggle--" + i
-						toggle.value = i
-						toggle.style.left = 4 * (i + 12) + "%"
-					polysynthTool.appendChild(toggle)
+					const waveTrack = document.createElement("div")
+						waveTrack.className = "track"
+						waveTrack.id = "tool-wave-track--" + i
+						waveTrack.style.left = ((i - 1) * waveLeftOffset) + "%"
+					ELEMENTS.toolSections["tool-wave"].appendChild(waveTrack)
+					ELEMENTS["tool-wave"]["track--" + i] = waveTrack
 
-					switch (Math.abs(i)) {
-						case 12:
-							toggle.innerHTML = "12<br>8ve"
-						break
-						case 11:
-							toggle.innerHTML = "11<br>M7"
-						break
-						case 10:
-							toggle.innerHTML = "10<br>m7"
-						break
-						case 9:
-							toggle.innerHTML = "9<br>M6"
-						break
-						case 8:
-							toggle.innerHTML = "8<br>m6"
-						break
-						case 7:
-							toggle.innerHTML = "7<br>P5"
-						break
-						case 6:
-							toggle.innerHTML = "6<br>Tt"
-						break
-						case 5:
-							toggle.innerHTML = "5<br>P4"
-						break
-						case 4:
-							toggle.innerHTML = "4<br>M3"
-						break
-						case 3:
-							toggle.innerHTML = "3<br>m3"
-						break
-						case 2:
-							toggle.innerHTML = "2<br>M2"
-						break
-						case 1:
-							toggle.innerHTML = "1<br>m2"
-						break
-						case 0:
-							toggle.innerHTML = "0<br>root"
-					}
+						const waveBar = document.createElement("div")
+							waveBar.className = "bar"
+							waveBar.id = "tool-wave-bar--" + i
+							waveBar.innerText = i
+							waveBar.style.height = "0%"
+							waveBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						waveTrack.appendChild(waveBar)
+						ELEMENTS["tool-wave"]["bar--" + i] = waveBar
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustPolysynthToolToggle */
-			function adjustPolysynthToolToggle(event, setup) {
+	/* adjustWaveToolBar */
+		function adjustWaveToolBar(event) {
+			try {
+				// display
+					const harmonic  = STATE.parameter.id.split("--")[1]
+					const rectangle = ELEMENTS["tool-wave"]["track--" + harmonic].getBoundingClientRect()
+					const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+
+					let percentage = (rectangle.bottom - y) * CONSTANTS.percentage / (rectangle.height)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					STATE.parameter.style.height = percentage + "%"
+					ELEMENTS["tool-wave"]["input--" + harmonic].value = percentage
+
+				// data
+					adjustWaveToolInput({target: ELEMENTS["tool-wave"]["input--" + harmonic]})
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustWaveToolInput */
+		function adjustWaveToolInput(event, setup) {
+			try {
+				// display
+					const harmonic = event.target.id.split("--")[1]
+					let percentage = Number(event.target.value)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					ELEMENTS["tool-wave"]["bar--" + harmonic].style.height = percentage + "%"
+
+				// audio
+					if (!setup) {
+						const wave = {}
+							wave[event.target.id.split("--")[1]] = percentage / CONSTANTS.percentage
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({harmonic: wave}) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** tool-polysynth ***/
+	/* buildPolysynthTool **/
+		function buildPolysynthTool() {
+			try {
+				for (let i = -AUDIO_J.constants.semitonesPerOctave; i <= AUDIO_J.constants.semitonesPerOctave; i++) {
+					const polysynthToggle = document.createElement("button")
+						polysynthToggle.className = "toggle"
+						polysynthToggle.id = "tool-polysynth-toggle--" + i
+						polysynthToggle.value = i
+						polysynthToggle.style.left = CONSTANTS.percentage / (AUDIO_J.constants.semitonesPerOctave * 2 + 1) * (i + AUDIO_J.constants.semitonesPerOctave) + "%"
+						polysynthToggle.innerHTML = Math.abs(i) + "<br>" + AUDIO_J.constants.intervals[String(Math.abs(i))][0]
+						polysynthToggle.addEventListener(TRIGGERS.click, adjustPolysynthToolToggle)
+					ELEMENTS.toolSections["tool-polysynth"].appendChild(polysynthToggle)
+					ELEMENTS["tool-polysynth"]["toggle--" + i] = polysynthToggle
+				}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustPolysynthToolToggle */
+		function adjustPolysynthToolToggle(event, setup) {
+			try {
 				if (event.target.getAttribute("selected")) {
 					event.target.removeAttribute("selected")
 
 					if (!setup) {
-						var polysynth = {}
+						const polysynth = {}
 							polysynth[Number(event.target.value)] = false
-						if (window.instrument) { window.instrument.setParameters({ polysynth: polysynth }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
-						}
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ polysynth: polysynth }) }
+						saveFile()
 					}
 				}
 				else {
 					event.target.setAttribute("selected", true)
 					
 					if (!setup) {
-						var polysynth = {}
+						const polysynth = {}
 							polysynth[Number(event.target.value)] = true
-						if (window.instrument) { window.instrument.setParameters({ polysynth: polysynth }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
-						}
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ polysynth: polysynth }) }
+						saveFile()
 					}
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-	/*** tool-wave ***/	
-		/* buildWaveTool */
-			function buildWaveTool() {
-				var waveTool = document.getElementById("tool-wave")
-
-				for (var i = 1; i <= 33; i++) {
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-wave-input--" + i
-						input.style.left = (i * 3) - 1.5 + "%"
-						input.value = 0
-					waveTool.appendChild(input)
-
-					var track = document.createElement("div")
-						track.className = "track"
-						track.id = "tool-wave-track--" + i
-						track.style.left = (i * 3) - 1.5 + "%"
-					waveTool.appendChild(track)
-
-					var bar = document.createElement("div")
-						bar.className = "bar"
-						bar.id = "tool-wave-bar--" + i
-						bar.innerText = i
-						bar.style.height = "0%"
-					track.appendChild(bar)
-				}
-			}
-
-		/* adjustWaveToolBar */
-			function adjustWaveToolBar(event) {
-				// display
-					var harmonic   = parameter.id.split("--")[1]
-					var rectangle  = document.getElementById("tool-wave-track--" + harmonic).getBoundingClientRect()
-					var input = document.getElementById("tool-wave-input--" + harmonic)
-					var y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
-
-					var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
-						percentage = Math.min(100, Math.max(0, percentage))
-					parameter.style.height = percentage + "%"
-					input.value = percentage
-
-				// data
-					adjustWaveToolInput({target: input})
-			}
-
-		/* adjustWaveToolInput */
-			function adjustWaveToolInput(event, setup) {
-				// display
-					var harmonic   = event.target.id.split("--")[1]
-					var bar        = document.getElementById("tool-wave-bar--" + harmonic)
-					var percentage = Number(event.target.value)
-						percentage = Math.min(100, Math.max(0, percentage))
-					bar.style.height = percentage + "%"
-
-				// audio
-					if (!setup) {
-						var harmonic = {}
-							harmonic[event.target.id.split("--")[1]] = percentage / 100
-						if (window.instrument) { window.instrument.setParameters({harmonic: harmonic}) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
-						}
-					}
-			}
-
-	/*** tool-noise ***/
-		/* buildNoiseTool */
-			function buildNoiseTool() {
-				var noiseTool = document.getElementById("tool-noise")
-				var colors = ["white", "pink", "brown"]
-
-				for (var c = 0; c < colors.length; c++) {
-					var color = colors[c]
-					
+/*** tool-noise ***/
+	/* buildNoiseTool */
+		function buildNoiseTool() {
+			try {
+				for (let color in AUDIO_J.noise) {					
 					// volume
-						var element = document.createElement("div")
-							element.className = "section"
-							element.id = "tool-noise-volume--" + color
-							element.style.top = (c * 75) + 10 + "px"
-						noiseTool.appendChild(element)
+						const volumeSection = document.createElement("div")
+							volumeSection.className = "section"
+							volumeSection.id = "tool-noise-volume--" + color
+						ELEMENTS.toolSections["tool-noise"].appendChild(volumeSection)
 
-						var input = document.createElement("input")
-							input.setAttribute("type", "number")
-							input.setAttribute("min", 0)
-							input.setAttribute("max", 100)
-							input.setAttribute("placeholder", color)
-							input.className = "input"
-							input.id = "tool-noise-volume-input--" + color
-							input.value = 10
-						element.appendChild(input)
+						const volumeInput = document.createElement("input")
+							volumeInput.setAttribute("type", "number")
+							volumeInput.setAttribute("min", 0)
+							volumeInput.setAttribute("max", CONSTANTS.percentage)
+							volumeInput.setAttribute("placeholder", color)
+							volumeInput.className = "input"
+							volumeInput.id = "tool-noise-volume-input--" + color
+							volumeInput.value = 0
+							volumeInput.addEventListener(TRIGGERS.change, adjustNoiseToolInput)
+						volumeSection.appendChild(volumeInput)
+						ELEMENTS["tool-noise"]["volume-input--" + color] = volumeInput
 
-						var track = document.createElement("div")
-							track.id = "tool-noise-volume-track--" + color
-							track.className = "track"
-						element.appendChild(track)
+						const volumeTrack = document.createElement("div")
+							volumeTrack.id = "tool-noise-volume-track--" + color
+							volumeTrack.className = "track"
+						volumeSection.appendChild(volumeTrack)
+						ELEMENTS["tool-noise"]["volume-track--" + color] = volumeTrack
 
-						var bar = document.createElement("div")
-							bar.id = "tool-noise-volume-bar--" + color
-							bar.className = "bar"
-							bar.style.width = "10%"
-							bar.innerHTML = color + '&nbsp;<span class="fas fa-volume-up"></span>'
-						track.appendChild(bar)
+							const volumeBar = document.createElement("div")
+								volumeBar.id = "tool-noise-volume-bar--" + color
+								volumeBar.className = "bar"
+								volumeBar.style.width = "0%"
+								volumeBar.innerHTML = color
+								volumeBar.addEventListener(TRIGGERS.mousedown, selectBar)
+							volumeTrack.appendChild(volumeBar)
+							ELEMENTS["tool-noise"]["volume-bar--" + color] = volumeBar
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustNoiseToolBar */
-			function adjustNoiseToolBar(event) {
+	/* adjustNoiseToolBar */
+		function adjustNoiseToolBar(event) {
+			try {
 				// display
-					var type = parameter.id.split("--")[1]
-					var rectangle  = document.getElementById("tool-noise-volume-track--" + type).getBoundingClientRect()
-					var input = document.getElementById("tool-noise-volume-input--" + type)
-					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					const type = STATE.parameter.id.split("--")[1]
+					const rectangle  = ELEMENTS["tool-noise"]["volume-track--" + type].getBoundingClientRect()
+					const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 
-					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-						percentage = Math.min(100, Math.max(0, percentage))
-					parameter.style.width = percentage + "%"
-					input.value = percentage
+					let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					STATE.parameter.style.width = percentage + "%"
+					ELEMENTS["tool-noise"]["volume-input--" + type].value = percentage
 
 				// data
-					adjustNoiseToolInput({target: input})
-			}
+					adjustNoiseToolInput({target: ELEMENTS["tool-noise"]["volume-input--" + type]})
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustNoiseToolInput */
-			function adjustNoiseToolInput(event, setup) {
+	/* adjustNoiseToolInput */
+		function adjustNoiseToolInput(event, setup) {
+			try {
 				// display
-					var type = event.target.id.split("--")[1]
-					var bar = document.getElementById("tool-noise-volume-bar--" + type)
-					var percentage = Number(event.target.value)
-						percentage = Math.min(100, Math.max(0, percentage))
-					bar.style.width = percentage + "%"
+					const type = event.target.id.split("--")[1]
+					let percentage = Number(event.target.value)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					ELEMENTS["tool-noise"]["volume-bar--" + type].style.width = percentage + "%"
 
 				// audio
 					if (!setup) {
-						var noise = {}
-							noise[type] = percentage / 100
-						if (window.instrument) { window.instrument.setParameters({ noise: noise }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
-						}
+						const noise = {}
+							noise[type] = percentage / CONSTANTS.percentage
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ noise: noise }) }
+						saveFile()
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-	/*** tool-envelope ***/	
-		/* buildEnvelopeTool */
-			function buildEnvelopeTool() {
-				var envelopeTool = document.getElementById("tool-envelope")
-
+/*** tool-envelope ***/	
+	/* buildEnvelopeTool */
+		function buildEnvelopeTool() {
+			try {
 				// track
-					var track = document.createElement("div")
-						track.className = "track"
-						track.id = "tool-envelope-track"
-					envelopeTool.appendChild(track)
+					const envelopeTrack = document.createElement("div")
+						envelopeTrack.className = "track"
+						envelopeTrack.id = "tool-envelope-track"
+					ELEMENTS.toolSections["tool-envelope"].appendChild(envelopeTrack)
+					ELEMENTS["tool-envelope"]["track"] = envelopeTrack
 
 				// attack
-					var attack = document.createElement("div")
-						attack.className = "shape"
-						attack.id = "tool-envelope-shape--attack"
-						attack.style.width = "2%"
-						attack.innerHTML = "&#8672;attack&#8674;"
-					track.appendChild(attack)
+					const attackShape = document.createElement("div")
+						attackShape.className = "shape"
+						attackShape.id = "tool-envelope-shape--attack"
+						attackShape.style.width = "2%"
+						attackShape.innerHTML = "&#8672;attack&#8674;"
+						attackShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					envelopeTrack.appendChild(attackShape)
+					ELEMENTS["tool-envelope"]["shape--attack"] = attackShape
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-envelope-input--attack"
-						input.value = 0
-					envelopeTool.appendChild(input)
+					const attackInput = document.createElement("input")
+						attackInput.setAttribute("type", "number")
+						attackInput.setAttribute("min", 0)
+						attackInput.setAttribute("max", CONSTANTS.percentage)
+						attackInput.className = "input"
+						attackInput.id = "tool-envelope-input--attack"
+						attackInput.value = 0
+						attackInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
+					ELEMENTS.toolSections["tool-envelope"].appendChild(attackInput)
+					ELEMENTS["tool-envelope"]["input--attack"] = attackInput
 
 				// decay
-					var decay = document.createElement("div")
-						decay.className = "shape"
-						decay.id = "tool-envelope-shape--decay"
-						decay.style.left = "2%"
-						decay.style.width = "2%"
-						decay.innerHTML = "&#8672;decay&#8674;"
-						decay.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%)"
-						decay.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%)"
-					track.appendChild(decay)
+					const decayShape = document.createElement("div")
+						decayShape.className = "shape"
+						decayShape.id = "tool-envelope-shape--decay"
+						decayShape.style.left = "0%"
+						decayShape.style.width = "0%"
+						decayShape.innerHTML = "&#8672;decay&#8674;"
+						decayShape.style["clip-path"] = CONSTANTS.decayClippath
+						decayShape.style["-webkit-clip-path"] = CONSTANTS.decayClippath
+						decayShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					envelopeTrack.appendChild(decayShape)
+					ELEMENTS["tool-envelope"]["shape--decay"] = decayShape
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-envelope-input--decay"
-						input.style.left = "2%"
-						input.value = 0
-					envelopeTool.appendChild(input)
+					const decayInput = document.createElement("input")
+						decayInput.setAttribute("type", "number")
+						decayInput.setAttribute("min", 0)
+						decayInput.setAttribute("max", CONSTANTS.percentage)
+						decayInput.className = "input"
+						decayInput.id = "tool-envelope-input--decay"
+						decayInput.style.left = "0%"
+						decayInput.value = 0
+						decayInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
+					ELEMENTS.toolSections["tool-envelope"].appendChild(decayInput)
+					ELEMENTS["tool-envelope"]["input--decay"] = decayInput
 
 				// sustain
-					var sustain = document.createElement("div")
-						sustain.className = "shape"
-						sustain.id = "tool-envelope-shape--sustain"
-						sustain.style.left = "4%"
-						sustain.style.width = "94%"
-						sustain.style.height = "0%"
-						sustain.innerHTML = "&#8673;sustain&#8675;"
-					track.appendChild(sustain)
+					const sustainShape = document.createElement("div")
+						sustainShape.className = "shape"
+						sustainShape.id = "tool-envelope-shape--sustain"
+						sustainShape.style.left = "0%"
+						sustainShape.style.width = "0%"
+						sustainShape.style.height = "0%"
+						sustainShape.innerHTML = "&#8673;sustain&#8675;"
+						sustainShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					envelopeTrack.appendChild(sustainShape)
+					ELEMENTS["tool-envelope"]["shape--sustain"] = sustainShape
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-envelope-input--sustain"
-						input.style.left = "4%"
-						input.value = 0
-					envelopeTool.appendChild(input)
+					const sustainInput = document.createElement("input")
+						sustainInput.setAttribute("type", "number")
+						sustainInput.setAttribute("min", 0)
+						sustainInput.setAttribute("max", CONSTANTS.percentage)
+						sustainInput.className = "input"
+						sustainInput.id = "tool-envelope-input--sustain"
+						sustainInput.style.left = "0%"
+						sustainInput.value = 0
+						sustainInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
+					ELEMENTS.toolSections["tool-envelope"].appendChild(sustainInput)
+					ELEMENTS["tool-envelope"]["input--sustain"] = sustainInput
 
 				// release
-					var release = document.createElement("div")
-						release.className = "shape"
-						release.id = "tool-envelope-shape--release"
-						release.style.width = "2%"
-						release.style.height = "0%"
-						release.innerHTML = "&#8672;release&#8674;"
-					track.appendChild(release)
+					const releaseShape = document.createElement("div")
+						releaseShape.className = "shape"
+						releaseShape.id = "tool-envelope-shape--release"
+						releaseShape.style.width = "0%"
+						releaseShape.style.height = "0%"
+						releaseShape.innerHTML = "&#8672;release&#8674;"
+						releaseShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					envelopeTrack.appendChild(releaseShape)
+					ELEMENTS["tool-envelope"]["shape--release"] = releaseShape
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-envelope-input--release"
-						input.style.left = "94"
-						input.value = 0
-					envelopeTool.appendChild(input)
-			}
+					const releaseInput = document.createElement("input")
+						releaseInput.setAttribute("type", "number")
+						releaseInput.setAttribute("min", 0)
+						releaseInput.setAttribute("max", CONSTANTS.percentage)
+						releaseInput.className = "input"
+						releaseInput.id = "tool-envelope-input--release"
+						releaseInput.style.left = "0%"
+						releaseInput.value = 0
+						releaseInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
+					ELEMENTS.toolSections["tool-envelope"].appendChild(releaseInput)
+					ELEMENTS["tool-envelope"]["input--release"] = releaseInput
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustEnvelopeToolBar */
-			function adjustEnvelopeToolBar(event) {
+	/* adjustEnvelopeToolBar */
+		function adjustEnvelopeToolBar(event) {
+			try {
 				// display
-					var rectangle = document.getElementById("tool-envelope-track").getBoundingClientRect()
-					var shape     = parameter.getBoundingClientRect()
-					var type      = parameter.id.split("--")[1]
-					var input     = document.getElementById("tool-envelope-input--" + type)
-					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
-					var y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+					const rectangle = ELEMENTS["tool-envelope"]["track"].getBoundingClientRect()
+					const shape     = STATE.parameter.getBoundingClientRect()
+					const type      = STATE.parameter.id.split("--")[1]
+					const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+					let percentage  = 0
 					
 					switch (type) {
 						case "attack":
 						case "decay":
-							var percentage = (x - shape.left) * 100 / (rectangle.width)
-								percentage = Math.min(25, Math.max(0, percentage))
-							parameter.style.width = percentage + "%"
-							input.value = Math.pow(percentage * 4 / 10, 2)
+							percentage = (x - shape.left) * CONSTANTS.percentage / (rectangle.width)
+							percentage = Math.min(CONSTANTS.envelopeComponentMaxPercentage, Math.max(0, percentage))
+							STATE.parameter.style.width = percentage + "%"
+							ELEMENTS["tool-envelope"]["input--" + type].value = Math.pow(percentage * 10 / CONSTANTS.envelopeComponentMaxPercentage, 2)
 						break
 						case "release":
-							var percentage = (shape.right - x) * 100 / (rectangle.width)
-								percentage = Math.min(25, Math.max(0, percentage))
-							parameter.style.width = percentage + "%"
-							input.value = Math.pow(percentage * 4 / 10, 2)
+							percentage = (shape.right - x) * CONSTANTS.percentage / (rectangle.width)
+							percentage = Math.min(CONSTANTS.envelopeComponentMaxPercentage, Math.max(0, percentage))
+							STATE.parameter.style.width = percentage + "%"
+							ELEMENTS["tool-envelope"]["input--" + type].value = Math.pow(percentage * 10 / CONSTANTS.envelopeComponentMaxPercentage, 2)
 						break
 						case "sustain":
-							var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
-								percentage = Math.min(100, Math.max(0, percentage))
-							parameter.style.height = percentage + "%"
-							input.value = percentage
+							percentage = (rectangle.bottom - y) * CONSTANTS.percentage / (rectangle.height)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							STATE.parameter.style.height = percentage + "%"
+							ELEMENTS["tool-envelope"]["input--" + type].value = percentage
 						break
 					}
 
 				// data
-					adjustEnvelopeToolInput({target: input})
-			}
+					adjustEnvelopeToolInput({target: ELEMENTS["tool-envelope"]["input--" + type]})
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustEnvelopeToolInput */
-			function adjustEnvelopeToolInput(event, setup) {
+	/* adjustEnvelopeToolInput */
+		function adjustEnvelopeToolInput(event, setup) {
+			try {
 				// inputs
-					var attackInput  = document.getElementById("tool-envelope-input--attack" )
-					var decayInput   = document.getElementById("tool-envelope-input--decay"  )
-					var sustainInput = document.getElementById("tool-envelope-input--sustain")
-					var releaseInput = document.getElementById("tool-envelope-input--release")
+					const attackInput  = ELEMENTS["tool-envelope"]["input--attack"]
+					const decayInput   = ELEMENTS["tool-envelope"]["input--decay"]
+					const sustainInput = ELEMENTS["tool-envelope"]["input--sustain"]
+					const releaseInput = ELEMENTS["tool-envelope"]["input--release"]
 
 				// shapes
-					var attackShape  = document.getElementById("tool-envelope-shape--attack" )
-					var decayShape   = document.getElementById("tool-envelope-shape--decay"  )
-					var sustainShape = document.getElementById("tool-envelope-shape--sustain")
-					var releaseShape = document.getElementById("tool-envelope-shape--release")
+					const attackShape  = ELEMENTS["tool-envelope"]["shape--attack"]
+					const decayShape   = ELEMENTS["tool-envelope"]["shape--decay"]
+					const sustainShape = ELEMENTS["tool-envelope"]["shape--sustain"]
+					const releaseShape = ELEMENTS["tool-envelope"]["shape--release"]
 
 				// values
-					var attackValue  = Math.min(100, Math.max(0, attackInput.value ))
-						attackValue  = Math.pow(attackValue,  0.5) * 10 / 4
-					var decayValue   = Math.min(100, Math.max(0, decayInput.value  ))
-						decayValue   = Math.pow(decayValue,   0.5) * 10 / 4
-					var sustainValue = Math.min(100, Math.max(0, sustainInput.value))
-					var releaseValue = Math.min(100, Math.max(0, releaseInput.value))
-						releaseValue = Math.pow(releaseValue, 0.5) * 10 / 4
+					let attackValue  = Math.min(CONSTANTS.percentage, Math.max(0, attackInput.value ))
+						attackValue  = Math.pow(attackValue,  0.5) * CONSTANTS.envelopeComponentMaxPercentage / 10
+					let decayValue   = Math.min(CONSTANTS.percentage, Math.max(0, decayInput.value  ))
+						decayValue   = Math.pow(decayValue,   0.5) * CONSTANTS.envelopeComponentMaxPercentage / 10
+					let sustainValue = Math.min(CONSTANTS.percentage, Math.max(0, sustainInput.value))
+					let releaseValue = Math.min(CONSTANTS.percentage, Math.max(0, releaseInput.value))
+						releaseValue = Math.pow(releaseValue, 0.5) * CONSTANTS.envelopeComponentMaxPercentage / 10
 
 				// display
-					attackShape.style.width   = Math.max(2, attackValue) + "%"
+					attackShape.style.width   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
+					attackInput.style.width   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
 					
-					decayShape.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (100 - sustainValue) + "%)"
-					decayShape.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (100 - sustainValue) + "%)"
-					decayShape.style.width    = Math.max(2, decayValue) + "%"
-					decayShape.style.left     = Math.max(2, attackValue) + "%"
-					decayInput.style.left     = Math.max(2, attackValue) + "%"
+					decayShape.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (CONSTANTS.percentage - Math.max(sustainValue, CONSTANTS.envelopeComponentMinPercentage)) + "%)"
+					decayShape.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (CONSTANTS.percentage - Math.max(sustainValue, CONSTANTS.envelopeComponentMinPercentage)) + "%)"
+					decayShape.style.width    = Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
+					decayShape.style.left     = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
+					decayInput.style.left     = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
+					decayInput.style.width    = Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
 
-					releaseShape.style.width  = Math.max(2, releaseValue) + "%"
+					releaseShape.style.width  = Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
 					releaseShape.style.height = sustainValue + "%"
-					releaseInput.style.left   = 100 - Math.max(2, releaseValue) + "%"
+					releaseInput.style.left   = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
+					releaseInput.style.width  = Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
 
-					sustainShape.style.width  = 100 - Math.max(2, attackValue) - Math.max(2, decayValue) - Math.max(2, releaseValue) + "%"
+					sustainShape.style.width  = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
 					sustainShape.style.height = sustainValue + "%"
-					sustainShape.style.left   = Math.max(2, attackValue) + Math.max(2, decayValue) + "%"
-					sustainInput.style.left   = Math.max(2, attackValue) + Math.max(2, decayValue) + "%"
+					sustainShape.style.left   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
+					sustainInput.style.left   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
+					sustainInput.style.width  = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
 
 				// audio
 					if (!setup) {
-						var envelope = {
-							attack:  (Math.min(100, Math.max(0, attackInput.value )) / 100),
-							decay:   (Math.min(100, Math.max(0, decayInput.value  )) / 100),
-							sustain: (Math.min(100, Math.max(0, sustainInput.value)) / 100),
-							release: (Math.min(100, Math.max(0, releaseInput.value)) / 100)
+						const envelope = {
+							attack:  (Math.min(CONSTANTS.percentage, Math.max(0, attackInput.value )) / CONSTANTS.percentage),
+							decay:   (Math.min(CONSTANTS.percentage, Math.max(0, decayInput.value  )) / CONSTANTS.percentage),
+							sustain: (Math.min(CONSTANTS.percentage, Math.max(0, sustainInput.value)) / CONSTANTS.percentage),
+							release: (Math.min(CONSTANTS.percentage, Math.max(0, releaseInput.value)) / CONSTANTS.percentage)
 						}
 
-						if (window.instrument) { window.instrument.setParameters({ envelope: envelope }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
-						}
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ envelope: envelope }) }
+						saveFile()
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-	/*** tool-bitcrusher ***/
-		/* buildBitcrusherTool */
-			function buildBitcrusherTool() {
-				var bitcrusherTool = document.getElementById("tool-bitcrusher")
-
+/*** tool-bitcrusher ***/
+	/* buildBitcrusherTool */
+		function buildBitcrusherTool() {
+			try {
 				// toggles
-					var element = document.createElement("div")
-						element.className = "section"
-						element.id = "tool-bitcrusher-bits"
-					bitcrusherTool.appendChild(element)
+					const bitsSection = document.createElement("div")
+						bitsSection.className = "section"
+						bitsSection.id = "tool-bitcrusher-bits"
+					ELEMENTS.toolSections["tool-bitcrusher"].appendChild(bitsSection)
 
-					var toggle = document.createElement("button")
-						toggle.id = "tool-bitcrusher-bits-toggle--0"
-						toggle.value = 0
-						toggle.className = "toggle"
-						toggle.style.left = "5%"
-						toggle.innerHTML = '<span class="fas fa-ban"></span>'
-						toggle.style["border-radius"] = "100%"
-						toggle.setAttribute("selected", true)
-					element.appendChild(toggle)
+					const bitcrusherToggle = document.createElement("button")
+						bitcrusherToggle.id = "tool-bitcrusher-bits-toggle--0"
+						bitcrusherToggle.value = 0
+						bitcrusherToggle.className = "toggle"
+						bitcrusherToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						bitcrusherToggle.setAttribute("selected", true)
+						bitcrusherToggle.addEventListener(TRIGGERS.click, adjustBitcrusherToolToggle)
+					bitsSection.appendChild(bitcrusherToggle)
+					ELEMENTS["tool-bitcrusher"]["bits-toggle--0"] = bitcrusherToggle
 					
-					for (var i = 6; i >= 0; i--) {
-						var toggle = document.createElement("button")
-							toggle.id = "tool-bitcrusher-bits-toggle--" + Math.pow(2, i)
-							toggle.value = Math.pow(2, i)
-							toggle.className = "toggle"
-							toggle.style.left = (7 - i) * 12.5 + 5 + "%"
-							toggle.innerHTML = Math.pow(2, i) + "<span class='tool-bitcrusher-bits-toggle-bit'>-bit</span>"
-							toggle.style["border-radius"] = 7 * i + "%"
-						element.appendChild(toggle)
+					for (let i in AUDIO_J.constants.bitcrusherBits) {
+						const bitValue = AUDIO_J.constants.bitcrusherBits[i]
+						const bitToggle = document.createElement("button")
+							bitToggle.id = "tool-bitcrusher-bits-toggle--" + bitValue
+							bitToggle.value = bitValue
+							bitToggle.className = "toggle"
+							bitToggle.innerHTML = bitValue + "<span class='tool-bitcrusher-bits-toggle-bit'>bit</span>"
+							bitToggle.style["border-radius"] = (AUDIO_J.constants.bitcrusherBits.length - i - 1) * CONSTANTS.bitcrusherBorderRadiusPercentage + "%"
+							bitToggle.addEventListener(TRIGGERS.click, adjustBitcrusherToolToggle)
+						bitsSection.appendChild(bitToggle)
+						ELEMENTS["tool-bitcrusher"]["bits-toggle--" + bitValue] = bitToggle
 					}
 
 				// norm
-					var element = document.createElement("div")
-						element.className = "section"
-						element.id = "tool-bitcrusher-norm"
-					bitcrusherTool.appendChild(element)
+					const normSection = document.createElement("div")
+						normSection.className = "section"
+						normSection.id = "tool-bitcrusher-norm"
+					ELEMENTS.toolSections["tool-bitcrusher"].appendChild(normSection)
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-bitcrusher-norm-input"
-						input.value = 50
-					element.appendChild(input)
+					const normInput = document.createElement("input")
+						normInput.setAttribute("type", "number")
+						normInput.setAttribute("min", 0)
+						normInput.setAttribute("max", CONSTANTS.percentage)
+						normInput.className = "input"
+						normInput.id = "tool-bitcrusher-norm-input"
+						normInput.value = 0
+						normInput.addEventListener(TRIGGERS.change, adjustBitcrusherToolInput)
+					normSection.appendChild(normInput)
+					ELEMENTS["tool-bitcrusher"]["norm-input"] = normInput
 
-					var track = document.createElement("div")
-						track.id = "tool-bitcrusher-norm-track"
-						track.className = "track"
-					element.appendChild(track)
+					const normTrack = document.createElement("div")
+						normTrack.id = "tool-bitcrusher-norm-track"
+						normTrack.className = "track"
+					normSection.appendChild(normTrack)
+					ELEMENTS["tool-bitcrusher"]["norm-track"] = normTrack
 
-					var bar = document.createElement("div")
-						bar.id = "tool-bitcrusher-norm-bar"
-						bar.className = "bar"
-						bar.style.width = "50%"
-						bar.innerHTML = '<span class="fas fa-adjust"></span>'
-					track.appendChild(bar)
-			}
+						const normBar = document.createElement("div")
+							normBar.id = "tool-bitcrusher-norm-bar"
+							normBar.className = "bar"
+							normBar.style.width = "0%"
+							normBar.innerHTML = '<span class="fas fa-adjust"></span>'
+							normBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						normTrack.appendChild(normBar)
+						ELEMENTS["tool-bitcrusher"]["norm-bar"] = normBar
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustBitcrusherToolToggle */
-			function adjustBitcrusherToolToggle(event, setup) {
+	/* adjustBitcrusherToolToggle */
+		function adjustBitcrusherToolToggle(event, setup) {
+			try {
 				// data
-					var bits = Math.max(0, Math.min(64, event.target.value))
-					var norm = Math.max(0, Math.min(100, document.getElementById("tool-bitcrusher-norm-input").value)) / 100
+					let bits = Number(event.target.value) || 0
+					const norm = Math.max(0, Math.min(CONSTANTS.percentage, ELEMENTS["tool-bitcrusher"]["norm-input"].value)) / CONSTANTS.percentage
+
+					if (!AUDIO_J.constants.bitcrusherBits.includes(bits)) {
+						bits = 0
+					}
 
 				// unselect
 					if (event.target.getAttribute("selected")) {
 						event.target.removeAttribute("selected")
 
-						if (!Array.from(document.querySelectorAll("#tool-bitcrusher .toggle[selected]")).length) {
-							document.getElementById("tool-bitcrusher-bits-toggle--0").setAttribute("selected", true)
+						if (!Array.from(ELEMENTS.toolSections["tool-bitcrusher"].querySelectorAll(".toggle[selected]")).length) {
+							ELEMENTS["tool-bitcrusher"]["bits-toggle--0"].setAttribute("selected", true)
 						}
 
 						if (!setup) {
-							var bitcrusher = {}
-								bitcrusher.bits = bits
-								bitcrusher.norm = norm
-							if (window.instrument) { window.instrument.setParameters({ bitcrusher: bitcrusher }) }
-							if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-								saveFile()
+							const bitcrusher = {
+								bits: bits,
+								norm: norm
 							}
+							if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ bitcrusher: bitcrusher }) }
+							saveFile()
 						}
 					}
 
 				// select
 					else {
-						Array.from(document.querySelectorAll("#tool-bitcrusher .toggle:not([value='power'])")).forEach(function (t) {
+						Array.from(ELEMENTS.toolSections["tool-bitcrusher"].querySelectorAll(".toggle:not([value='power'])")).forEach(function (t) {
 							t.removeAttribute("selected")
 						})
 						event.target.setAttribute("selected", true)
 
 						if (!setup) {
-							var bitcrusher = {}
-								bitcrusher.bits = bits
-								bitcrusher.norm = norm
-
-							if (window.instrument) { window.instrument.setParameters({ bitcrusher: bitcrusher }) }
-							if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-								saveFile()
+							const bitcrusher = {
+								bits: bits,
+								norm: norm
 							}
-						}
-					}
-			}
 
-		/* adjustBitcrusherToolBar */
-			function adjustBitcrusherToolBar(event) {
-				// display
-					var rectangle  = document.getElementById("tool-bitcrusher-norm-track").getBoundingClientRect()
-					var input = document.getElementById("tool-bitcrusher-norm-input")
-					var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
-
-					var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-						percentage = Math.min(100, Math.max(0, percentage))
-					parameter.style.width = percentage + "%"
-					input.value = percentage
-
-				// data
-					adjustBitcrusherToolInput({target: input})
-			}
-
-		/* adjustBitcrusherToolInput */
-			function adjustBitcrusherToolInput(event, setup) {
-				// display
-					var bar = document.getElementById("tool-bitcrusher-norm-bar")
-					var percentage = Number(event.target.value)
-						percentage = Math.min(100, Math.max(0, percentage))
-					bar.style.width = percentage + "%"
-
-				// audio
-					if (!setup) {
-						var norm = percentage / 100
-						var bits = Array.from(document.querySelectorAll("#tool-bitcrusher .toggle[selected]")) || []
-							bits = bits[0] || 0
-						if (bits) {
-							bits = Math.min(64, Math.max(0, bits.value))
-						}
-
-						var bitcrusher = {}
-							bitcrusher.bits = bits
-							bitcrusher.norm = norm
-						if (window.instrument) { window.instrument.setParameters({ bitcrusher: bitcrusher }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
+							if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ bitcrusher: bitcrusher }) }
 							saveFile()
 						}
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-	/*** tool-filter ***/
-		/* buildFilterTool */
-			function buildFilterTool() {
-				var filterTool = document.getElementById("tool-filter")
+	/* adjustBitcrusherToolBar */
+		function adjustBitcrusherToolBar(event) {
+			try {
+				// display
+					const rectangle  = ELEMENTS["tool-bitcrusher"]["norm-track"].getBoundingClientRect()
+					const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 
+					let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					STATE.parameter.style.width = percentage + "%"
+					ELEMENTS["tool-bitcrusher"]["norm-input"].value = percentage
+
+				// data
+					adjustBitcrusherToolInput({target: ELEMENTS["tool-bitcrusher"]["norm-input"]})
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustBitcrusherToolInput */
+		function adjustBitcrusherToolInput(event, setup) {
+			try {
+				// display
+					let percentage = Number(event.target.value)
+						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+					ELEMENTS["tool-bitcrusher"]["norm-bar"].style.width = percentage + "%"
+
+				// audio
+					if (!setup) {
+						const norm = Math.max(0, Math.min(1, percentage / CONSTANTS.percentage))
+						const selectedToggles = Array.from(ELEMENTS.toolSections["tool-bitcrusher"].querySelectorAll(".toggle[selected]")) || []
+						const bits = selectedToggles.length ? Number(selectedToggles[0].value) : 0
+						if (!AUDIO_J.constants.bitcrusherBits.includes(bits)) {
+							bits = 0
+						}
+
+						const bitcrusher = {
+							bits: bits,
+							norm: norm
+						}
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ bitcrusher: bitcrusher }) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** tool-filter ***/
+	/* buildFilterTool */
+		function buildFilterTool() {
+			try {
 				// track
-					var track = document.createElement("div")
-						track.className = "track"
-						track.id = "tool-filter-track"
-					filterTool.appendChild(track)
+					const filterTrack = document.createElement("div")
+						filterTrack.className = "track"
+						filterTrack.id = "tool-filter-track"
+					ELEMENTS.toolSections["tool-filter"].appendChild(filterTrack)
+					ELEMENTS["tool-filter"]["track"] = filterTrack
 
 				// lines
-					for (var i = 0; i <= 100; i++) {
-						if (i % 12 == 0) {
-							var line = document.createElement("div")
+					for (let i = 0; i <= AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave; i++) {
+						if (i % AUDIO_J.constants.semitonesPerOctave == 0) {
+							const line = document.createElement("div")
 								line.id = "tool-filter-line--" + i
 								line.className = "line"
-								line.innerHTML = "C" + ((i / 12) + 2) + "<span class='tool-filter-line-frequency'>" + window.getFrequency(i + 24)[0].toFixed(2) + "<br>Hz</span>"
-								line.style.left = i + "%"
-							track.appendChild(line)
+								line.innerHTML = "<span class='tool-filter-line-note'>C" + (i / AUDIO_J.constants.semitonesPerOctave) + "</span>" +
+									"<span class='tool-filter-line-frequency'>" + AUDIO_J.getNote(i + AUDIO_J.constants.semitonesPerOctave)[0].toFixed(2) + "<br>Hz</span>"
+								line.style.left = i * CONSTANTS.percentage / ((AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave)) + "%"
+							filterTrack.appendChild(line)
 						}
 					}
 
 				// baseline
-					var baseline = document.createElement("div")
+					const baseline = document.createElement("div")
 						baseline.id = "tool-filter-baseline"
-						baseline.addEventListener(on.mousedown,  createFilter)
-					track.appendChild(baseline)
-			}
+						baseline.addEventListener(TRIGGERS.mousedown, createFilter)
+					filterTrack.appendChild(baseline)
+			} catch (error) {console.log(error)}
+		}
 
-		/* createFilter */
-			function createFilter(event, options) {
-				// parents
-					var filterTool = document.getElementById("tool-filter")
-					var track = document.getElementById("tool-filter-track")
-
+	/* createFilter */
+		function createFilter(event, options) {
+			try {
 				// click or load?
+					let num, lowPercentage, highPercentage, gainPercentage, lowMidi, highMidi
 					if (!options) {
 						// display
-							var rectangle = track.getBoundingClientRect()
-							var x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
-							var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-								percentage = Math.min(100, Math.max(0, percentage))
+							const rectangle = ELEMENTS["tool-filter"]["track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
 
 						// data
-							var blobs = Array.from(document.querySelectorAll("#tool-filter-track .blob")) || []
+							let blobs = Array.from(document.querySelectorAll("#tool-filter-track .blob")) || []
 								blobs = blobs.map(function (b) {
 									return Number(b.id.split("--")[1])
 								}).sort(function (a, b) {
 									return b - a
 								}) || []
-							var num = (blobs[0] + 1) || 0
-							var low  = percentage - 5
-							var high = percentage + 5
-							var gain = 0
+							num = (blobs[0] + 1) || 0
+							lowPercentage  = percentage - (CONSTANTS.filterStartingWidthPercentage / 2)
+							highPercentage = percentage + (CONSTANTS.filterStartingWidthPercentage / 2)
+							gainPercentage = 0
+
+							lowMidi  = lowPercentage  / CONSTANTS.percentage * AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave + AUDIO_J.constants.semitonesPerOctave
+							highMidi = highPercentage / CONSTANTS.percentage * AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave + AUDIO_J.constants.semitonesPerOctave
 					}
 					else {
-						var num  = options.number
-						var low  = 45 + 12 * Math.log2(options.low  / 440)
-						var high = 45 + 12 * Math.log2(options.high / 440)
-						var gain = options.gain
+						lowMidi  = AUDIO_J.constants.semitonesPerOctave * Math.log2(options.low  / AUDIO_J.constants.tuningAHz) + AUDIO_J.constants.tuningAMidi
+						highMidi = AUDIO_J.constants.semitonesPerOctave * Math.log2(options.high / AUDIO_J.constants.tuningAHz) + AUDIO_J.constants.tuningAMidi
+
+						num  = options.number
+						lowPercentage  = (lowMidi  - AUDIO_J.constants.semitonesPerOctave) / AUDIO_J.constants.semitonesPerOctave / AUDIO_J.constants.filterOctaves * CONSTANTS.percentage
+						highPercentage = (highMidi - AUDIO_J.constants.semitonesPerOctave) / AUDIO_J.constants.semitonesPerOctave / AUDIO_J.constants.filterOctaves * CONSTANTS.percentage
+						gainPercentage = options.gain
 					}
 						
 				// blobs
-					var blob = document.createElement("div")
+					const blob = document.createElement("div")
 						blob.className = "blob"
 						blob.id = "tool-filter-blob--" + num
-						blob.style["clip-path"] = "polygon(" + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
-						blob.style["-webkit-clip-path"] = "polygon(" + low + "% 50%, " + ((low + high) / 2) + "% " + (50 - gain) + "%, " + high + "% 50%)"
-					track.appendChild(blob)
+						blob.style["clip-path"] = "polygon(" + lowPercentage + "% 50%, " + ((lowPercentage + highPercentage) / 2) + "% " + (50 - gainPercentage) + "%, " + highPercentage + "% 50%)"
+						blob.style["-webkit-clip-path"] = "polygon(" + lowPercentage + "% 50%, " + ((lowPercentage + highPercentage) / 2) + "% " + (50 - gainPercentage) + "%, " + highPercentage + "% 50%)"
+					ELEMENTS["tool-filter"]["track"].appendChild(blob)
+					ELEMENTS["tool-filter"]["blob--" + num] = blob
 
 				// low
-					var shape = document.createElement("div")
-						shape.className = "shape square"
-						shape.id = "tool-filter-shape--low--" + num
-						shape.addEventListener(on.mousedown,  selectBar)
-						shape.style.left = low + "%"
-						shape.style.top = "50%"
-					track.appendChild(shape)
+					const lowShape = document.createElement("div")
+						lowShape.className = "shape square"
+						lowShape.id = "tool-filter-shape--low--" + num
+						lowShape.addEventListener(TRIGGERS.mousedown, selectBar)
+						lowShape.style.left = lowPercentage + "%"
+						lowShape.style.top = "50%"
+						lowShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					ELEMENTS["tool-filter"]["track"].appendChild(lowShape)
+					ELEMENTS["tool-filter"]["shape--low--" + num] = lowShape
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.setAttribute("placeholder", "pitch #")
-						input.addEventListener("change", changeInput)
-						input.className = "input"
-						input.id = "tool-filter-input--low--" + num
-						input.value = low
-						input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-						input.style.bottom = "30px"
-					filterTool.appendChild(input)
+					const lowInput = document.createElement("input")
+						lowInput.setAttribute("type", "number")
+						lowInput.setAttribute("min", 0)
+						lowInput.setAttribute("max", CONSTANTS.percentage)
+						lowInput.setAttribute("placeholder", "pitch #")
+						lowInput.className = "input tool-filter-input--low"
+						lowInput.id = "tool-filter-input--low--" + num
+						lowInput.value = lowMidi
+						lowInput.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((lowPercentage + highPercentage) / 2))) + "%"
+						lowInput.addEventListener(TRIGGERS.change, adjustFilterToolInput)
+					ELEMENTS.toolSections["tool-filter"].appendChild(lowInput)
+					ELEMENTS["tool-filter"]["input--low--" + num] = lowInput
 
 				// gain
-					var shape = document.createElement("div")
-						shape.className = "shape circle"
-						shape.id = "tool-filter-shape--gain--" + num
-						shape.addEventListener(on.mousedown,  selectBar)
-						shape.style.left = ((low + high) / 2) + "%"
-						shape.style.top = (50 - gain) + "%"
-					track.appendChild(shape)
+					const gainShape = document.createElement("div")
+						gainShape.className = "shape circle"
+						gainShape.id = "tool-filter-shape--gain--" + num
+						gainShape.addEventListener(TRIGGERS.mousedown, selectBar)
+						gainShape.style.left = ((lowPercentage + highPercentage) / 2) + "%"
+						gainShape.style.top = (CONSTANTS.percentage / 2 - gainPercentage) + "%"
+						gainShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					ELEMENTS["tool-filter"]["track"].appendChild(gainShape)
+					ELEMENTS["tool-filter"]["shape--gain--" + num] = gainShape
 
 					if (!options) {
-						parameter = shape
-						tool = filterTool
+						STATE.parameter = gainShape
+						STATE.tool = ELEMENTS.toolSections["tool-filter"]
 					}
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", -50)
-						input.setAttribute("max", 50)
-						input.setAttribute("placeholder", "dB")
-						input.addEventListener("change", changeInput)
-						input.className = "input"
-						input.id = "tool-filter-input--gain--" + num
-						input.value = gain
-						input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-						input.style.bottom = "15px"
-					filterTool.appendChild(input)
+					const gainInput = document.createElement("input")
+						gainInput.setAttribute("type", "number")
+						gainInput.setAttribute("min", AUDIO_J.constants.filterGainMinimum)
+						gainInput.setAttribute("max", AUDIO_J.constants.filterGainMaximum)
+						gainInput.setAttribute("placeholder", "dB")
+						gainInput.className = "input tool-filter-input--gain"
+						gainInput.id = "tool-filter-input--gain--" + num
+						gainInput.value = gainPercentage
+						gainInput.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((lowPercentage + highPercentage) / 2))) + "%"
+						gainInput.addEventListener(TRIGGERS.change, adjustFilterToolInput)
+					ELEMENTS.toolSections["tool-filter"].appendChild(gainInput)
+					ELEMENTS["tool-filter"]["input--gain--" + num] = gainInput
 
 				// high
-					var shape = document.createElement("div")
-						shape.className = "shape square"
-						shape.id = "tool-filter-shape--high--" + num
-						shape.addEventListener(on.mousedown,  selectBar)
-						shape.style.left = high + "%"
-						shape.style.top = "50%"
-					track.appendChild(shape)
+					const highShape = document.createElement("div")
+						highShape.className = "shape square"
+						highShape.id = "tool-filter-shape--high--" + num
+						highShape.addEventListener(TRIGGERS.mousedown, selectBar)
+						highShape.style.left = highPercentage + "%"
+						highShape.style.top = "50%"
+						highShape.addEventListener(TRIGGERS.mousedown, selectBar)
+					ELEMENTS["tool-filter"]["track"].appendChild(highShape)
+					ELEMENTS["tool-filter"]["shape--high--" + num] = highShape
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.setAttribute("placeholder", "pitch #")
-						input.addEventListener("change", changeInput)
-						input.className = "input"
-						input.id = "tool-filter-input--high--" + num
-						input.value = high
-						input.style.left = Math.max(5, Math.min(95, ((low + high) / 2))) + "%"
-						input.style.bottom = "0px"
-					filterTool.appendChild(input)
-			}
+					const highInput = document.createElement("input")
+						highInput.setAttribute("type", "number")
+						highInput.setAttribute("min", 0)
+						highInput.setAttribute("max", CONSTANTS.percentage)
+						highInput.setAttribute("placeholder", "pitch #")
+						highInput.className = "input tool-filter-input--high"
+						highInput.id = "tool-filter-input--high--" + num
+						highInput.value = highMidi
+						highInput.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((lowPercentage + highPercentage) / 2))) + "%"
+						highInput.addEventListener(TRIGGERS.change, adjustFilterToolInput)
+					ELEMENTS.toolSections["tool-filter"].appendChild(highInput)
+					ELEMENTS["tool-filter"]["input--high--" + num] = highInput
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustFilterToolBar */
-			function adjustFilterToolBar(event) {
+	/* adjustFilterToolBar */
+		function adjustFilterToolBar(event) {
+			try {
 				// display
-					var rectangle = document.getElementById("tool-filter-track").getBoundingClientRect()
-					var shape     = parameter.getBoundingClientRect()
-					var type      = parameter.id.split("--")[1]
-					var num       = parameter.id.split("--")[2]
-					var input     = document.getElementById("tool-filter-input--" + type + "--" + num)
-					var blob      = document.getElementById("tool-filter-blob--" + num)
-					var x         = event.x !== undefined ? event.x : event.targetTouches[0].clientX
-					var y         = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+					const rectangle = ELEMENTS["tool-filter"]["track"].getBoundingClientRect()
+					const shape     = STATE.parameter.getBoundingClientRect()
+					const type      = STATE.parameter.id.split("--")[1]
+					const num       = STATE.parameter.id.split("--")[2]
+					const input     = ELEMENTS["tool-filter"]["input--" + type + "--" + num]
+					const blob      = ELEMENTS["tool-filter"]["tool-filter-blob--" + num]
+					const x         = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					const y         = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+
+				// already deleted?
+					if (!input) {
+						return
+					}
 				
 				// gain
 					if (type == "gain") {
-						var percentage = (y - rectangle.top) * 100 / (rectangle.height)
-							percentage = Math.min(100, Math.max(0, percentage))
-						parameter.style.top = percentage + "%"
-						input.value = (50 - percentage)
+						let yPercentage = (y - rectangle.top) * CONSTANTS.percentage / (rectangle.height)
+							yPercentage = Math.min(CONSTANTS.percentage, Math.max(0, yPercentage))
+						STATE.parameter.style.top = yPercentage + "%"
+						input.value = (CONSTANTS.percentage / 2 - yPercentage)
 
-						var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-							percentage = Math.min(100, Math.max(0, percentage))
-						parameter.style.left = percentage + "%"
+						let xPercentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							xPercentage = Math.min(CONSTANTS.percentage, Math.max(0, xPercentage))
+						STATE.parameter.style.left = xPercentage + "%"
 
-						var low  = document.getElementById("tool-filter-input--low--" + num)
-						var lowValue  = Math.min(200, Math.max(-100, low.value))
-						var high = document.getElementById("tool-filter-input--high--" + num)
-						var highValue = Math.min(200, Math.max(-100, high.value))
+						const low  = ELEMENTS["tool-filter"]["input--low--" + num]
+						const lowPercentage  = (low.value  - AUDIO_J.constants.semitonesPerOctave) / AUDIO_J.constants.semitonesPerOctave / AUDIO_J.constants.filterOctaves * CONSTANTS.percentage
+						const high = ELEMENTS["tool-filter"]["input--high--" + num]
+						const highPercentage = (high.value - AUDIO_J.constants.semitonesPerOctave) / AUDIO_J.constants.semitonesPerOctave / AUDIO_J.constants.filterOctaves * CONSTANTS.percentage
 
-						var distance = (highValue - lowValue) / 2
-						low.value  = percentage - distance
-						high.value = percentage + distance
+						const distance = ((lowPercentage + highPercentage) / 2) - xPercentage
+
+						const newLowPercentage  = lowPercentage  - distance
+						const newHighPercentage = highPercentage - distance
+
+						low.value  = newLowPercentage  / CONSTANTS.percentage * AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave + AUDIO_J.constants.semitonesPerOctave
+						high.value = newHighPercentage / CONSTANTS.percentage * AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave + AUDIO_J.constants.semitonesPerOctave
 					}
 
 				// low
 					else if (type == "low") {
-						var high = document.getElementById("tool-filter-input--high--" + num)
-						var highValue = Math.min(200, Math.max(-100, high.value))
+						let xPercentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							xPercentage = Math.min(CONSTANTS.percentage, Math.max(0, xPercentage))
 
-						var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-							percentage = Math.min(100, Math.max(0, percentage))
+						const high = ELEMENTS["tool-filter"]["input--high--" + num]
+						const highPercentage = (high.value - AUDIO_J.constants.semitonesPerOctave) / AUDIO_J.constants.semitonesPerOctave / AUDIO_J.constants.filterOctaves * CONSTANTS.percentage
 
-						if (percentage < highValue) {
-							parameter.style.left = percentage + "%"
-							input.value = percentage
+						if (xPercentage < highPercentage) {
+							STATE.parameter.style.left = xPercentage + "%"
+							input.value = xPercentage / CONSTANTS.percentage * AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave + AUDIO_J.constants.semitonesPerOctave
 						}
 					}
 
 				// high
 					else if (type == "high") {
-						var low = document.getElementById("tool-filter-input--low--" + num)
-						var lowValue = Math.min(200, Math.max(-100, low.value))
+						let xPercentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							xPercentage = Math.min(CONSTANTS.percentage, Math.max(0, xPercentage))
 
-						var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-							percentage = Math.min(100, Math.max(0, percentage))
+						const low = ELEMENTS["tool-filter"]["input--low--" + num]
+						const lowPercentage = (low.value - AUDIO_J.constants.semitonesPerOctave) / AUDIO_J.constants.semitonesPerOctave / AUDIO_J.constants.filterOctaves * CONSTANTS.percentage
 
-						if (percentage > lowValue) {
-							parameter.style.left = percentage + "%"
-							input.value = percentage
+						if (xPercentage > lowPercentage) {
+							STATE.parameter.style.left = xPercentage + "%"
+							input.value = xPercentage / CONSTANTS.percentage * AUDIO_J.constants.filterOctaves * AUDIO_J.constants.semitonesPerOctave + AUDIO_J.constants.semitonesPerOctave
 						}
 					}
 
 				// data
 					adjustFilterToolInput({target: input})
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustFilterToolInput */
-			function adjustFilterToolInput(event, setup) {
+	/* adjustFilterToolInput */
+		function adjustFilterToolInput(event, setup) {
+			try {
 				// data
-					var type = event.target.id.split("--")[1]
-					var num  = event.target.id.split("--")[2]
-					var blob = document.getElementById("tool-filter-blob--" + num)
+					const type = event.target.id.split("--")[1]
+					const num  = event.target.id.split("--")[2]
+					const blob = ELEMENTS["tool-filter"]["blob--" + num]
 
-					var low       = document.getElementById("tool-filter-input--low--"  + num)
-					var lowValue  = Math.min(200, Math.max(-100, low.value))
-					var high      = document.getElementById("tool-filter-input--high--" + num)
-					var highValue = Math.min(200, Math.max(-100, high.value))
-					var gain      = document.getElementById("tool-filter-input--gain--" + num)
-					var gainValue = Math.min(50, Math.max(-50, gain.value))
+					const low       = ELEMENTS["tool-filter"]["input--low--"  + num]
+					const lowMidi   = Number(low.value)
+					const lowPercentage =  (lowMidi - AUDIO_J.constants.semitonesPerOctave) * CONSTANTS.percentage / AUDIO_J.constants.filterOctaves / AUDIO_J.constants.semitonesPerOctave
+					const high      = ELEMENTS["tool-filter"]["input--high--" + num]
+					const highMidi  = Number(high.value)
+					const highPercentage = (highMidi - AUDIO_J.constants.semitonesPerOctave) * CONSTANTS.percentage / AUDIO_J.constants.filterOctaves / AUDIO_J.constants.semitonesPerOctave
+					const gain      = ELEMENTS["tool-filter"]["input--gain--" + num]
+					const gainPercentage = Math.min(AUDIO_J.constants.filterGainMaximum, Math.max(AUDIO_J.constants.filterGainMinimum, gain.value))
 
 				// display
-					blob.style["clip-path"] = "polygon(" + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
-					blob.style["-webkit-clip-path"] = "polygon(" + lowValue + "% 50%, " + ((lowValue + highValue) / 2) + "% " + (50 - gainValue) + "%, " + highValue + "% 50%)"
-					document.getElementById("tool-filter-shape--low--"  + num).style.left = lowValue  + "%"
-					document.getElementById("tool-filter-shape--high--" + num).style.left = highValue + "%"
-					document.getElementById("tool-filter-shape--gain--" + num).style.left = ((highValue + lowValue) / 2) + "%"
-					document.getElementById("tool-filter-shape--gain--" + num).style.top  = 50 - gainValue + "%"
+					if (Math.abs(gainPercentage) < AUDIO_J.constants.filterGainThreshold && !STATE.parameter) {
+						deselectFilterToolBar(null, num)
+					}
+					else {
+						blob.style["clip-path"] = "polygon(" + lowPercentage + "% 50%, " + ((lowPercentage + highPercentage) / 2) + "% " + (CONSTANTS.percentage / 2 - gainPercentage) + "%, " + highPercentage + "% 50%)"
+						blob.style["-webkit-clip-path"] = "polygon(" + lowPercentage + "% 50%, " + ((lowPercentage + highPercentage) / 2) + "% " + (CONSTANTS.percentage / 2 - gainPercentage) + "%, " + highPercentage + "% 50%)"
+						ELEMENTS["tool-filter"]["shape--low--"  + num].style.left = lowPercentage  + "%"
+						ELEMENTS["tool-filter"]["shape--high--" + num].style.left = highPercentage + "%"
+						ELEMENTS["tool-filter"]["shape--gain--" + num].style.left = ((highPercentage + lowPercentage) / 2) + "%"
+						ELEMENTS["tool-filter"]["shape--gain--" + num].style.top  = CONSTANTS.percentage / 2 - gainPercentage + "%"
+					}
 
-					low.style.left = high.style.left = gain.style.left = Math.max(5, Math.min(95, ((highValue + lowValue) / 2))) + "%"
+					low.style.left = high.style.left = gain.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((highPercentage + lowPercentage) / 2))) + "%"
 
 				// audio
 					if (!setup) {
-						var filters = {}
-							filters[num] = {
-								low:  (440 * Math.pow(2, (  lowValue                   - 45) / 12)),
-								mid:  (440 * Math.pow(2, (((lowValue + highValue) / 2) - 45) / 12)),
-								high: (440 * Math.pow(2, (             highValue       - 45) / 12)),
-								gain: gainValue
-							}
+						const midMidi = (lowMidi + highMidi) / 2
 
-						if (window.instrument) { window.instrument.setParameters({ filters: filters }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
+						const filters = {}
+						filters[num] = {
+							low:  (AUDIO_J.constants.tuningAHz * Math.pow(2, (lowMidi  - AUDIO_J.constants.tuningAMidi) / AUDIO_J.constants.semitonesPerOctave)),
+							mid:  (AUDIO_J.constants.tuningAHz * Math.pow(2, (midMidi  - AUDIO_J.constants.tuningAMidi) / AUDIO_J.constants.semitonesPerOctave)),
+							high: (AUDIO_J.constants.tuningAHz * Math.pow(2, (highMidi - AUDIO_J.constants.tuningAMidi) / AUDIO_J.constants.semitonesPerOctave)),
+							gain: gainPercentage
 						}
-					}
-			}
 
-		/* deselectFilterToolBar */
-			function deselectFilterToolBar(event, override) {
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ filters: filters }) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* deselectFilterToolBar */
+		function deselectFilterToolBar(event, override) {
+			try {
+				let num, circle, gain = 0
 				if (event && event.target.className.includes("circle")) {
-					var num  = event.target.id.split("--")[2]
-					var gain = document.getElementById("tool-filter-input--gain--" + num).value
+					circle = true
+					num  = event.target.id.split("--")[2]
+					gain = ELEMENTS["tool-filter"]["input--gain--" + num].value
 				}
 				else if ((override !== undefined) && (override !== null)) {
-					var num = override
+					num = override
 					override = true
 				}
 
-				if ((Math.abs(gain) < 2) || override) {
-					document.getElementById("tool-filter-shape--low--"  + num).remove()
-					document.getElementById("tool-filter-shape--high--" + num).remove()
-					document.getElementById("tool-filter-shape--gain--" + num).remove()
-					document.getElementById("tool-filter-input--low--"  + num).remove()
-					document.getElementById("tool-filter-input--high--" + num).remove()
-					document.getElementById("tool-filter-input--gain--" + num).remove()
-					document.getElementById("tool-filter-blob--"        + num).remove()
+				if ((circle && (Math.abs(gain) < AUDIO_J.constants.filterGainThreshold)) || override) {
+						   ELEMENTS["tool-filter"]["shape--low--"  + num].remove()
+					delete ELEMENTS["tool-filter"]["shape--low--"  + num]
+						   ELEMENTS["tool-filter"]["shape--high--" + num].remove()
+					delete ELEMENTS["tool-filter"]["shape--high--" + num]
+						   ELEMENTS["tool-filter"]["shape--gain--" + num].remove()
+					delete ELEMENTS["tool-filter"]["shape--gain--" + num]
+						   ELEMENTS["tool-filter"]["input--low--"  + num].remove()
+					delete ELEMENTS["tool-filter"]["input--low--"  + num]
+						   ELEMENTS["tool-filter"]["input--high--" + num].remove()
+					delete ELEMENTS["tool-filter"]["input--high--" + num]
+						   ELEMENTS["tool-filter"]["input--gain--" + num].remove()
+					delete ELEMENTS["tool-filter"]["input--gain--" + num]
+						   ELEMENTS["tool-filter"]["blob--"        + num].remove()
+					delete ELEMENTS["tool-filter"]["blob--"        + num]
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-	/*** tool-echo ***/
-		/* buildEchoTool */
-			function buildEchoTool() {
-				var echoTool = document.getElementById("tool-echo")
-
+/*** tool-echo ***/
+	/* buildEchoTool */
+		function buildEchoTool() {
+			try {
 				// feedback
-					var track = document.createElement("div")
-						track.id = "tool-echo-track--feedback"
-						track.className = "track"
-					echoTool.appendChild(track)
+					const feedbackTrack = document.createElement("div")
+						feedbackTrack.id = "tool-echo-track--feedback"
+						feedbackTrack.className = "track"
+					ELEMENTS.toolSections["tool-echo"].appendChild(feedbackTrack)
+					ELEMENTS["tool-echo"]["track--feedback"] = feedbackTrack
 
-					var bar = document.createElement("div")
-						bar.id = "tool-echo-bar--feedback"
-						bar.className = "bar"
-						bar.innerHTML = '<span class="fas fa-volume-up"></span>'
-						bar.style.height = "0%"
-					track.appendChild(bar)
+						const feedbackBar = document.createElement("div")
+							feedbackBar.id = "tool-echo-bar--feedback"
+							feedbackBar.className = "bar"
+							feedbackBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							feedbackBar.style.height = "0%"
+							feedbackBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						feedbackTrack.appendChild(feedbackBar)
+						ELEMENTS["tool-echo"]["bar--feedback"] = feedbackBar
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 90)
-						input.className = "input"
-						input.id = "tool-echo-input--feedback"
-						input.value = 0
-					echoTool.appendChild(input)
+					const feedbackInput = document.createElement("input")
+						feedbackInput.setAttribute("type", "number")
+						feedbackInput.setAttribute("min", 0)
+						feedbackInput.setAttribute("max", AUDIO_J.constants.echoFeedbackMaximum * CONSTANTS.percentage)
+						feedbackInput.className = "input"
+						feedbackInput.id = "tool-echo-input--feedback"
+						feedbackInput.value = 0
+						feedbackInput.addEventListener(TRIGGERS.change, adjustEchoToolInput)
+					ELEMENTS.toolSections["tool-echo"].appendChild(feedbackInput)
+					ELEMENTS["tool-echo"]["input--feedback"] = feedbackInput
 
 				// delay
-					var track = document.createElement("div")
-						track.id = "tool-echo-track--delay"
-						track.className = "track"
-					echoTool.appendChild(track)
+					const delayTrack = document.createElement("div")
+						delayTrack.id = "tool-echo-track--delay"
+						delayTrack.className = "track"
+					ELEMENTS.toolSections["tool-echo"].appendChild(delayTrack)
+					ELEMENTS["tool-echo"]["track--delay"] = delayTrack
 
-					var bar = document.createElement("div")
-						bar.id = "tool-echo-bar--delay"
-						bar.className = "bar"
-						bar.innerHTML = '<span class="fas fa-clock"></span>'
-						bar.style.left = "0%"
-						bar.style.height = "0%"
-					track.appendChild(bar)
+						const delayBar = document.createElement("div")
+							delayBar.id = "tool-echo-bar--delay"
+							delayBar.className = "bar"
+							delayBar.innerHTML = '<span class="fas fa-clock"></span>'
+							delayBar.style.left = "0%"
+							delayBar.style.height = "0%"
+							delayBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						delayTrack.appendChild(delayBar)
+						ELEMENTS["tool-echo"]["bar--delay"] = delayBar
 
-					var input = document.createElement("input")
-						input.setAttribute("type", "number")
-						input.setAttribute("min", 0)
-						input.setAttribute("max", 100)
-						input.className = "input"
-						input.id = "tool-echo-input--delay"
-						input.value = 0
-						input.style.left = "0%"
-					echoTool.appendChild(input)
+					const delayInput = document.createElement("input")
+						delayInput.setAttribute("type", "number")
+						delayInput.setAttribute("min", 0)
+						delayInput.setAttribute("max", CONSTANTS.percentage)
+						delayInput.className = "input"
+						delayInput.id = "tool-echo-input--delay"
+						delayInput.value = 0
+						delayInput.style.left = "0%"
+						delayInput.addEventListener(TRIGGERS.change, adjustEchoToolInput)
+					delayTrack.appendChild(delayInput)
+					ELEMENTS["tool-echo"]["input--delay"] = delayInput
 
 				// echoes
-					var track = document.createElement("div")
-						track.id = "tool-echo-track--echoes"
-						track.className = "track"
-					echoTool.appendChild(track)
+					const echoTrack = document.createElement("div")
+						echoTrack.id = "tool-echo-track--echoes"
+						echoTrack.className = "track"
+					ELEMENTS.toolSections["tool-echo"].appendChild(echoTrack)
+					ELEMENTS["tool-echo"]["track-echoes"] = echoTrack
 
-					for (var i = 3; i < 33; i++) {
-						var beam = document.createElement("div")
+					for (let i = CONSTANTS.echoBeamStart; i <= CONSTANTS.echoBeamCount; i++) {
+						const beam = document.createElement("div")
 							beam.className = "beam"
 							beam.id = "tool-echo-bar--" + i
 							beam.style.height = "0%"
 							beam.style.left   = "0%"
-						track.appendChild(beam)
+						echoTrack.appendChild(beam)
+						ELEMENTS["tool-echo"]["bar--" + i] = beam
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustEchoToolBar */
-			function adjustEchoToolBar(event) {
+	/* adjustEchoToolBar */
+		function adjustEchoToolBar(event) {
+			try {
 				// display
-					var type      = parameter.id.split("--")[1]
-					var shape     = parameter.getBoundingClientRect()
-					var rectangle = document.getElementById("tool-echo-track--" + type).getBoundingClientRect()
-					var input     = document.getElementById("tool-echo-input--" + type)
-					var x         = event.x !== undefined ? event.x : event.targetTouches[0].clientX
-					var y         = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+					const type      = STATE.parameter.id.split("--")[1]
+					const shape     = STATE.parameter.getBoundingClientRect()
+					const rectangle = ELEMENTS["tool-echo"]["track--" + type].getBoundingClientRect()
+					const x         = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+					const y         = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+					let percentage  = 0
 
 					switch (type) {
 						case "feedback":
-							var percentage = (rectangle.bottom - y) * 100 / (rectangle.height)
-								percentage = Math.min(90, Math.max(0, percentage))
-							parameter.style.height = percentage + "%"
-							input.value = percentage
+							percentage = (rectangle.bottom - y) * CONSTANTS.percentage / (rectangle.height)
+							percentage = Math.min(AUDIO_J.constants.echoFeedbackMaximum * CONSTANTS.percentage, Math.max(0, percentage))
+							STATE.parameter.style.height = percentage + "%"
+							ELEMENTS["tool-echo"]["input--" + type].value = percentage
 						break
 						case "delay":
-							var percentage = (x - rectangle.left) * 100 / (rectangle.width)
-								percentage = Math.min(100, Math.max(0, percentage))
-							parameter.style.left = percentage + "%"
-							input.value = percentage
+							percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							STATE.parameter.style.left = percentage + "%"
+							ELEMENTS["tool-echo"]["input--" + type].value = percentage
 						break
 					}
 
 				// data
-					adjustEchoToolInput({target: input})
-			}
+					adjustEchoToolInput({target: ELEMENTS["tool-echo"]["input--" + type]})
+			} catch (error) {console.log(error)}
+		}
 
-		/* adjustEchoToolInput */
-			function adjustEchoToolInput(event, setup) {
+	/* adjustEchoToolInput */
+		function adjustEchoToolInput(event, setup) {
+			try {
 				// inputs
-					var feedbackInput = document.getElementById("tool-echo-input--feedback")
-					var delayInput    = document.getElementById("tool-echo-input--delay")
+					const feedbackInput = ELEMENTS["tool-echo"]["input--feedback"]
+					const delayInput    = ELEMENTS["tool-echo"]["input--delay"]
 
 				// beams
-					var feedbackBeam  = document.getElementById("tool-echo-bar--feedback")
-					var delayBeam     = document.getElementById("tool-echo-bar--delay")
-					var beams         = Array.from(document.querySelectorAll("#tool-echo .beam"))
+					const feedbackBeam  = ELEMENTS["tool-echo"]["bar--feedback"]
+					const delayBeam     = ELEMENTS["tool-echo"]["bar--delay"]
 
 				// values
-					var feedbackValue = Math.min(90, Math.max(0, feedbackInput.value))
-					var delayValue    = Math.min(100, Math.max(0, delayInput.value   ))
+					const feedbackValue = Math.min(AUDIO_J.constants.echoFeedbackMaximum * CONSTANTS.percentage, Math.max(0, feedbackInput.value))
+					const delayValue    = Math.min(CONSTANTS.percentage                                        , Math.max(0, delayInput.value   ))
 
 				// display
 					feedbackBeam.style.height = feedbackValue + "%"
 
-					delayBeam.style.left      = delayValue - 1 + "%"
-					delayBeam.style.height    =	Math.pow((feedbackValue / 100), 2) * 100 + "%"
-					delayInput.style.left     = (2 + (delayValue / 100 * 94)) + "%"
+					delayBeam.style.left      = delayValue + "%"
+					delayBeam.style.height    =	Math.pow((feedbackValue / CONSTANTS.percentage), 2) * CONSTANTS.percentage + "%"
+					delayInput.style.left     = delayValue + "%"
 
-					beams.forEach(function (b) {
-						var i = b.id.split("--")[1]
-						b.style.left   = delayValue * (i - 1) + "%"
-						b.style.height = Math.pow((feedbackValue / 100), i) * 100 + "%"
-					})
+					for (let i = CONSTANTS.echoBeamStart; i <= CONSTANTS.echoBeamCount; i++) {
+						const beam = ELEMENTS["tool-echo"]["bar--" + i]
+							beam.style.left   = delayValue * i + "%"
+							beam.style.height = Math.pow((feedbackValue / CONSTANTS.percentage), i) * CONSTANTS.percentage + "%"
+					}
 
 				// audio
 					if (!setup) {
-						var echo = {
-							delay:    delayValue / 100,
-							feedback: feedbackValue / 100
+						const echo = {
+							delay:    delayValue / CONSTANTS.percentage,
+							feedback: feedbackValue / CONSTANTS.percentage
 						}
-						if (window.instrument) { window.instrument.setParameters({ echo: echo }) }
-						if (!defaults.includes(document.getElementById("tool-meta-name").value)) {
-							saveFile()
-						}
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ echo: echo }) }
+						saveFile()
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-	/*** helpers ***/
-		/* getKey */
-			function getKey(keycode) {
-				switch (keycode) {
-					case 65:
-						return 48
-					break
-					case 87:
-						return 49
-					break
-					case 83:
-						return 50
-					break
-					case 69:
-						return 51
-					break
-					case 68:
-						return 52
-					break
-					case 70:
-						return 53
-					break
-					case 84:
-						return 54
-					break
-					case 71:
-						return 55
-					break
-					case 89:
-						return 56
-					break
-					case 72:
-						return 57
-					break
-					case 85:
-						return 58
-					break
-					case 74:
-						return 59
-					break
-					case 75:
-						return 60
-					break
-					case 79:
-						return 61
-					break
-					case 76:
-						return 62
-					break
-					case 80:
-						return 63
-					break
-					case 186:
-						return 64
-					break
-					case 222:
-						return 65
-					break
-					case 221:
-						return 66
-					break
-					case 13:
-						return 67
-					break
-					case 220:
-						return 68
-					break
-					default:
-						return null
-				}
-			}
-
-	/*** keyboard ***/
-		/* buildKeyboard */
-			function buildKeyboard() {
-				// data
-					var keyboard = document.getElementById("keyboard")
-					var count = 0
-					var letters = ["a","w","s","e","d", "f","t","g","y","h","u","j","k","o","l","p",";","'","]","&#8629;","\\"]
-				
-				for (var i = 48; i <= 72; i++) {
+/*** keyboard ***/
+	/* buildKeyboard */
+		function buildKeyboard() {
+			try {
+				let count = 0
+				for (let i = CONSTANTS.keyboardStartPitch; i <= CONSTANTS.keyboardEndPitch; i++) {
 					// build key
-						var element = document.createElement("button")
-							element.className = "key"
-							element.id = "key--" + i
-							element.value = i
-							if (letters[i - 48]) { element.innerHTML = letters[i - 48] }
-						keyboard.appendChild(element)
+						const keyElement = document.createElement("button")
+							keyElement.className = "key"
+							keyElement.id = "key--" + i
+							keyElement.value = i
+							keyElement.addEventListener(TRIGGERS.mousedown, pressKey)
+							if (CONSTANTS.keyboardLetters[i - CONSTANTS.keyboardStartPitch]) {
+								keyElement.innerHTML = CONSTANTS.keyboardLetters[i - CONSTANTS.keyboardStartPitch]
+							}
+						ELEMENTS.keyboard.appendChild(keyElement)
+						ELEMENTS.keys[i] = keyElement
 
 					// color
-						if ([1,3,6,8,10].includes(i % 12)) {
-							element.setAttribute("color", "black")
-							element.style.left = (100 / 15 * (count - 0.4)) + "%"
+						if (CONSTANTS.blackKeys.includes(i % AUDIO_J.constants.semitonesPerOctave)) {
+							keyElement.setAttribute("color", "black")
+							keyElement.style.left = (CONSTANTS.percentage / CONSTANTS.whiteKeyCount * (count - CONSTANTS.blackKeyOffset)) + "%"
 						}
 						else {
-							element.setAttribute("color", "white")
-							element.style.left = (100 / 15 * count) + "%"
+							keyElement.setAttribute("color", "white")
+							keyElement.style.left = (CONSTANTS.percentage / CONSTANTS.whiteKeyCount * count) + "%"
 							count++
 						}
 				}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* pressKey */
-			Array.from(document.querySelectorAll(".key")).forEach(function (k) { k.addEventListener(on.mousedown, pressKey) })
-			document.addEventListener("keydown", pressKey)
-			function pressKey(event) {		
+	/* pressKey */
+		window.addEventListener(TRIGGERS.keydown, pressKey)
+		function pressKey(event) {
+			try {	
 				// keyboard or mouse?
-					if (event.type == on.mousedown) {
-						var press = event.target
-						key = press
+					let pressedKey = null
+					if (event.type == TRIGGERS.mousedown) {
+						pressedKey = event.target
+						STATE.key = pressedKey
 					}
-					else if (event.type == "keydown") {
-						if (document.activeElement.tagName !== "INPUT") {
-							var press = document.getElementById("key--" + getKey(event.which))
+					else if (event.type == TRIGGERS.keydown) {
+						if (!document.activeElement || document.activeElement.tagName !== "INPUT") {
+							pressedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which]]
 						}
 					}
 				
 				// select
-					if (press && !press.getAttribute("selected") && window.instrument) {
-						press.setAttribute("selected", true)
-						window.instrument.press(window.getFrequency(press.value)[0])
+					if (pressedKey && !pressedKey.getAttribute("selected") && AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
+						pressedKey.setAttribute("selected", true)
+						AUDIO_J.instruments[AUDIO_J.activeInstrumentId].press(AUDIO_J.getNote(pressedKey.value)[0])
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-		/* liftKey */
-			document.addEventListener(on.mouseup,  liftKey)
-			document.addEventListener("keyup",    liftKey)
-			function liftKey(event) {
+	/* liftKey */
+		window.addEventListener(TRIGGERS.mouseup, liftKey)
+		window.addEventListener(TRIGGERS.keyup,   liftKey)
+		function liftKey(event) {
+			try {
 				// keyboard or mouse?
-					if ((event.type == on.mouseup) && key) {
-						var lift = key
-						key = null
+					let liftedKey = null
+					if ((event.type == TRIGGERS.mouseup) && STATE.key) {
+						liftedKey = STATE.key
+						STATE.key = null
 					}
-					else if (event.type == "keyup") {
-						if (document.activeElement.tagName !== "INPUT") {
-							var lift = document.getElementById("key--" + getKey(event.which))
+					else if (event.type == TRIGGERS.keyup) {
+						if (!document.activeElement || document.activeElement.tagName !== "INPUT") {
+							liftedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which]]
 						}
 					}
 
 				// mobile deselection
-					if (event.type == on.mouseup && on.mouseup == "touchend" && window.instrument) {
-						document.querySelectorAll(".key").forEach(function(k) {
-							k.removeAttribute("selected")
-							window.instrument.lift(window.getFrequency(k.value)[0])
-						})
+					if (event.type == TRIGGERS.mouseup && TRIGGERS.mouseup == "touchend" && AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
+						for (let k in ELEMENTS.keys) {
+							ELEMENTS.keys[k].removeAttribute("selected")
+							AUDIO_J.instruments[AUDIO_J.activeInstrumentId].lift(AUDIO_J.getNote(ELEMENTS.keys[k].value)[0])
+						}
 					}
 				
 				// deselect
-					else if (lift && window.instrument) {
-						lift.removeAttribute("selected")
-						window.instrument.lift(window.getFrequency(lift.value)[0])
+					else if (liftedKey && AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
+						liftedKey.removeAttribute("selected")
+						AUDIO_J.instruments[AUDIO_J.activeInstrumentId].lift(AUDIO_J.getNote(liftedKey.value)[0])
 					}
-			}
+			} catch (error) {console.log(error)}
+		}
 
-})
+/*** midi hooks ***/
+	/* pressKey */
+		AUDIO_J.midi.pressKey = function(note, velocity) {
+			try {
+				if (ELEMENTS.keys[note]) {
+					ELEMENTS.keys[note].setAttribute("selected", true)
+				}
+			} catch (error) {console.log(error)}
+		}
+
+	/* liftKey */
+		AUDIO_J.midi.liftKey = function(note) {
+			try {
+				if (ELEMENTS.keys[note]) {
+					ELEMENTS.keys[note].removeAttribute("selected")
+				}
+			} catch (error) {console.log(error)}
+		}

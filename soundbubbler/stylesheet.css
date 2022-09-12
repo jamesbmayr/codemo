@@ -90,7 +90,7 @@
 		#controls-speed-outer, #controls-radius-outer, #controls-shrink-outer {
 			float: left;
 			width: calc(100% / 5 - 20px);
-			padding: 0px 10px;
+			padding: 0px;
 			height: 100%;
 			text-align: center;
 			font-family: monospace;
@@ -129,10 +129,10 @@
 	/* slider */
 		#controls-volume {
 			float: left;
-			width: calc(100% / 5 - 20px - 30px);
+			width: calc(100% / 5 + 20px);
 			height: 100%;
 			color: #222222;
-			margin: 0px 10px;
+			margin: 0px 0px 0px 10px;
 			padding: 0px;
 			cursor: pointer;
 			outline: none;
@@ -209,15 +209,16 @@
 
 		.key[color="white"][selected] {
 			z-index: 2;
-			background-color: #ffffff;
 			box-shadow: 0px 0px 20px #dddddd;
 		}
 
+		.key[color="white"]:not([selected]) {
+			background-color: #dddddd !important;
+		}
 
 	/* black */
 		.key[color="black"] {
 			z-index: 3;
-			background-color: #222222;
 			width: calc(75% / 15);
 			height: 75%;
 			color: rgba(0,0,0,0.5);
@@ -229,6 +230,9 @@
 
 		.key[color="black"][selected] {
 			z-index: 4;
-			background-color: #111111;
 			box-shadow: 0px 0px 20px #dddddd;
+		}
+
+		.key[color="black"]:not([selected]) {
+			background-color: #222222 !important;
 		}

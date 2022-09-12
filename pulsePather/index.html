@@ -12,18 +12,18 @@
 		<meta property="og:description" content="pulsePather is a Javascript web demo by James Mayr"/>
 		<meta property="og:image" content="https://jamesmayr.com/pulsepather/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-		<script type="text/javascript" src="audio.js"></script>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="audio.js" defer></script>
+		<script type="text/javascript" src="script.js" defer></script>
 	</head>
 	<body>
 		<div id="grid" blur></div>
 		<button id="menu-open" hidden>?</button>
-		<button id="menu-play" hidden>&gt;</button>
-		<button id="menu-pause">||</button>
+		<button id="menu-play">&gt;</button>
+		<button id="menu-pause" hidden>||</button>
 		<div id="menu">
 			<div id="menu-title">pulsePather</div>
 			<button id="menu-close">x</button>
-			<label>volume<input  id="menu-volume"        type="range"  min="0"  max="0.5"   step="0.05" value="0.5"/></label>
+			<label>volume<input  id="menu-volume"        type="range"  min="0"  max="1"   step="0.05" value="0.5"/></label>
 			<label>tempo<input   id="menu-tempo"         type="number" min="60" max="240" step="1"   value="120"/></label>
 			<label>time<input    id="menu-timesignature" type="number" min="1"  max="8"   step="1"   value="4"/></label>
 			<label>tone<select   id="menu-instrument"></select>

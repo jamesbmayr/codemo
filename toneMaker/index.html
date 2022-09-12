@@ -13,16 +13,15 @@
 		<meta property="og:description" content="toneMaker is a Javascript web demo by James Mayr"/>
 		<meta property="og:image" content="https://jamesmayr.com/tonemaker/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=0.5"/>
-		<script src="audio.js"></script>
-		<script src="script.js"></script>
+		<script src="audio.js" defer></script>
+		<script src="script.js" defer></script>
 	</head>
 	<body>
 		<div id="container">
-			<div id="title">toneMaker</div>
 			<div id="tools">
 				<div class="tool" id="tool-meta"></div>
-				<div class="tool" id="tool-polysynth"></div>
 				<div class="tool" id="tool-wave"></div>
+				<div class="tool" id="tool-polysynth"></div>
 				<div class="tool" id="tool-noise"></div>
 				<div class="tool" id="tool-envelope"></div>
 				<div class="tool" id="tool-bitcrusher"></div>
@@ -31,8 +30,8 @@
 			</div>
 			<div id="switcher">
 				<button value="tool-meta"><span class="fas fa-cog"></span><br>settings</button>
-				<button value="tool-polysynth"><span class="fas fa-sitemap"></span><br>polysynth</button>
 				<button value="tool-wave"><span class="fas fa-signal"></span><br>waveform</button>
+				<button value="tool-polysynth"><span class="fas fa-sitemap"></span><br>polysynth</button>				
 				<button value="tool-noise"><span class="fas fa-cloud"></span><br>noise</button>
 				<button value="tool-envelope"><span class="fas fa-envelope-open"></span><br>envelope</button>
 				<button value="tool-bitcrusher"><span class="fas fa-microchip"></span><br>bitcrusher</button>

@@ -12,8 +12,8 @@
 		<meta property="og:description" content="gridDrawer is a Javascript web demo by James Mayr"/>
 		<meta property="og:image" content="https://jamesmayr.com/griddrawer/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-		<script src="audio.js"></script>
-		<script src="script.js"></script>
+		<script src="audio.js" defer></script>
+		<script src="script.js" defer></script>
 	</head>
 	<body>
 		<div id="navbar-outer">
@@ -36,6 +36,7 @@
 				</select>
 				<button id="create" type="submit">&#x279C;</button>
 			</form>
+			<div id="instructions">select grid type & size to start</div>
 			<div class="spacer"></div>
 			<form id="tools" method="post" action="javascript:;">
 				<select id="color" style="color: orange">
