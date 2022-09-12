@@ -219,6 +219,14 @@
 						ELEMENTS.toolSections["tool-meta"].setAttribute("custom", true)
 					}
 
+				// power
+					const power = ELEMENTS["tool-meta"]["power"].getAttribute("selected") || false
+					instrument.setParameters({ power: power ? 1 : 0 })
+
+				// volume
+					const volume = Math.max(0, Math.min(CONSTANTS.percentage, ELEMENTS["tool-meta"]["volume-input"].value / CONSTANTS.percentage))
+					instrument.setParameters({ volume: volume })
+
 				// wave
 					for (let x = 1; x <= AUDIO_J.constants.waveCount; x++) {
 						const value = parameters.imag ? (parameters.imag[x] || 0) : 0
