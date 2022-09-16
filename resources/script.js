@@ -616,6 +616,13 @@
 				date: "October 9, 2018",
 				description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
 			},
+			melodyplayer: {
+				name: "melodyPlayer",
+				size: "medium",
+				tags: ["code","music","audio","piano","synth","game","arcade","collaboration"],
+				date: "September 16, 2022",
+				description: "A music & rhythm game with web audio synths - play your own custom compositions (and mine)."
+			},
 			memory: {
 				name: "Memory",
 				size: "medium",

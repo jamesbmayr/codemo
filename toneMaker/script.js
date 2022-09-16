@@ -479,6 +479,7 @@
 						nameInput.className = "input"
 						nameInput.setAttribute("placeholder", "instrument name")
 						nameInput.value = "synthesizer"
+						nameInput.setAttribute("spellcheck", "false")
 						nameInput.addEventListener(TRIGGERS.change, nameFile)
 					fileSection.appendChild(nameInput)
 					ELEMENTS["tool-meta"]["name"] = nameInput
@@ -542,19 +543,33 @@
 				// name
 					const oldName = AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.name
 					const newName = event.target.value.trim()
-					
 					AUDIO_J.activeInstrumentId = newName
 					AUDIO_J.instruments[AUDIO_J.activeInstrumentId] = AUDIO_J.instruments[oldName]
-					deleteFile(null, oldName)
 
-				// options
-					const options = Array.from(ELEMENTS["tool-meta"]["select"].querySelectorAll("option"))
-					const option = options.find(function (o) {
-						return o.value == oldName
-					}) || null
-					if (option) {
-						option.value = newName
-						option.innerText = newName
+				// simple / default?
+					if (AUDIO_J.getInstruments("simple").includes(oldName) || AUDIO_J.getInstruments("default").includes(oldName)) {
+						AUDIO_J.instruments[oldName] = AUDIO_J.buildInstrument(AUDIO_J.getInstrument(oldName))
+						AUDIO_J.instruments[oldName].setParameters({ power: 0 })
+
+						const option = document.createElement("option")
+							option.value = newName
+							option.innerText = newName
+						ELEMENTS["tool-meta"]["group-custom"].appendChild(option)
+						ELEMENTS["tool-meta"]["select"].value = newName
+					}
+				
+				// custom
+					else {
+						deleteFile(null, oldName)
+
+						const options = Array.from(ELEMENTS["tool-meta"]["select"].querySelectorAll("option"))
+						const option = options.find(function (o) {
+							return o.value == oldName
+						}) || null
+						if (option) {
+							option.value = newName
+							option.innerText = newName
+						}
 					}
 
 				// save
@@ -1293,7 +1308,7 @@
 					if (!setup) {
 						const norm = Math.max(0, Math.min(1, percentage / CONSTANTS.percentage))
 						const selectedToggles = Array.from(ELEMENTS.toolSections["tool-bitcrusher"].querySelectorAll(".toggle[selected]")) || []
-						const bits = selectedToggles.length ? Number(selectedToggles[0].value) : 0
+						let bits = selectedToggles.length ? Number(selectedToggles[0].value) : 0
 						if (!AUDIO_J.constants.bitcrusherBits.includes(bits)) {
 							bits = 0
 						}
