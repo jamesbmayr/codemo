@@ -52,7 +52,7 @@
 			margin-right: 0 !important;
 		}
 
-		#scoreboard[playing] #file-label, #scoreboard[playing] #title, #scoreboard[playing] #parts, #scoreboard[playing] #tempo-multiplier, #scoreboard[playing] #tempo-multiplier-x, #scoreboard[playing] #metronome, #scoreboard:not([playing]) #score {
+		#scoreboard[playing] #file-label, #scoreboard[playing] #tempo-multiplier, #scoreboard[playing] #tempo-multiplier-x, #scoreboard[playing] #metronome, #scoreboard:not([playing]) #score {
 			padding: 0 !important;
 			width: 0 !important;
 			border-left: 0 !important;
@@ -133,6 +133,13 @@
 			overflow: hidden;
 		}
 
+		#scoreboard[playing] #title {
+			background: var(--medium-gray);
+			color: var(--light-gray);
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+
 		#title:hover, #title:focus {
 			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
 		}
@@ -173,10 +180,18 @@
 			cursor: pointer;
 			transition: var(--transition-time);
 			background: var(--light-gray);
+			user-select: none;
 		}
 
 		#parts:hover, #parts:focus {
 			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#scoreboard[playing] #parts {
+			background: var(--medium-gray);
+			color: var(--light-gray);
+			cursor: not-allowed;
+			pointer-events: none;
 		}
 
 	/* synths list */
@@ -197,6 +212,7 @@
 			cursor: pointer;
 			transition: var(--transition-time);
 			background: var(--light-gray);
+			user-select: none;
 		}
 
 		#synths:hover, #synths:focus {
@@ -421,6 +437,10 @@
 			.key[color="black"], .block[color="black"] {
 				margin-left: calc(var(--gap-size) / 2) !important;
 				width: calc(100% / var(--key-count) - var(--gap-size)) !important;
+			}
+
+			#upload-helper {
+				display: none;
 			}
 		}
 

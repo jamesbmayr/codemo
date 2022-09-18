@@ -55,7 +55,7 @@
 			minute: 1000 * 60,
 			startingTickOffset: 24 * 4,
 			endingTickOffset: 0,
-			tickFudgeFactor: 3,
+			tickFudgeFactor: 5,
 			metronomeMS: 250,
 			metronomeHz: AUDIO_J.constants.tuningAHz * 2,
 			metronomeInstrument: "boombash",
@@ -676,9 +676,16 @@
 						reader.readAsText(file)
 						reader.onload = function(event) {
 							try {
-								const parser = new DOMParser()
-								STATE.xml = parser.parseFromString(event.target.result, "text/xml")
-								parseXML()
+								// remove custom options
+									const customOptions = Array.from(ELEMENTS.title.querySelectorAll("option[custom]")) || []
+									for (let i in customOptions) {
+										customOptions[i].remove()
+									}
+
+								// parse XML
+									const parser = new DOMParser()
+									STATE.xml = parser.parseFromString(event.target.result, "text/xml")
+									parseXML()
 							} catch (error) {console.log(error)}
 							ELEMENTS.upload.value = null
 						}
@@ -750,7 +757,7 @@
 					ELEMENTS.scoreboard.removeAttribute("pending")
 
 				// starting tempo
-					STATE.tempo = STATE.music.tempoChanges['1'] || CONSTANTS.tempo.default
+					STATE.tempo = STATE.music.tempoChanges['1'] || CONSTANTS.defaultTempo
 					STATE.interval = Math.round(CONSTANTS.minute / CONSTANTS.beatToTick.quarter / (STATE.tempo * STATE.tempoMultiplier))
 			} catch (error) {console.log(error)}
 		}
@@ -1412,7 +1419,6 @@
 
 				// dynamics
 					if (!STATE.currentTickOfMeasure && part[STATE.currentMeasure].dynamics) {
-						console.log(partId, STATE.currentMeasure, part[STATE.currentMeasure].dynamics)
 						instrument.setParameters({ volume: part[STATE.currentMeasure].dynamics * CONSTANTS.ensembleInstrumentVolume })
 					}
 
