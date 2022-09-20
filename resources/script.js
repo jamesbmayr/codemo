@@ -672,6 +672,15 @@
 				date: "November 5, 2021",
 				description: "Transform any image into a grid of colored tiles - or tile tons of tiny pictures to make a mosaic of a big one."
 			},
+			musicchallenge: {
+				skipRandom: true,
+				hidden: true,
+				name: "Music Challenge",
+				size: "medium",
+				tags: ["code","music","audio","jazz","orchestral","piano","pop","synth","lyric","collaboration"],
+				date: "September 19, 2021",
+				description: "A collection of compositions from a few musical friends; each event challenged us to make music in a new way."
+			},
 			nimbusnotes: {
 				name: "nimbusNotes",
 				size: "small",
