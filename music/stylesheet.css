@@ -299,7 +299,7 @@
 	/* tracks */
 		#discography ol {
 			margin: 0;
-			padding: var(--gap-size) var(--gap-size) var(--gap-size) var(--font-size);
+			padding: var(--gap-size) var(--gap-size) 0 var(--font-size);
 		}
 
 		#discography ol li {
