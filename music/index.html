@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<meta charset="UTF-8"/>
 		<title id="title">jamesmayr: music</title>
 		<link id="logo" rel="shortcut icon" href="logo.png"></link>
+		<link href="https://fonts.googleapis.com/css2?family=Alata&amp;display=swap" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
-		<meta charset="UTF-8"/>
 		<meta name="description" content="original compositions in jazz, classical, indie pop, synth, soundtrack, and more"/>
 		<meta name="author" content="James Mayr"/>
 		<meta property="og:title" content="music by James Mayr"/>
@@ -12,21 +13,24 @@
 		<meta property="og:description" content="original compositions in jazz, classical, indie pop, synth, soundtrack, and more"/>
 		<meta property="og:image" content="https://jamesmayr.com/music/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="script.js" defer></script>
 	</head>
 	<body>
 		<div id="header">
-			<audio controls autoplay id="player">
+			<audio controls autoplay id="player" controlsList="nodownload noplaybackrate">
 				<source id="source" src="#" type="audio/mpeg">
 			</audio>
 			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 			<div id="now-playing">
-				<div id="now-playing-track"></div>
-				<div id="now-playing-album"></div>
+				<span id="now-playing-album"></span>
+				<span id="now-playing-between">:</span>
+				<span id="now-playing-track"></span>
 			</div>
 		</div>
 		<div id="container">
-			<div id="artwork"></div>
+			<div id="artwork">
+				<div id="lyrics"></div>
+			</div>
 			<div id="discography"></div>
 		</div>
 	</body>
