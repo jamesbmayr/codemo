@@ -529,8 +529,8 @@
 					display: none;
 				}
 
-				#info-links li:nth-last-child(2) a {
-					padding-right: 0 !important;
+				#info-links-resume {
+					display: none;
 				}
 		}
 
