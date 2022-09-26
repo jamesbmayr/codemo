@@ -144,6 +144,7 @@
 			color: var(--light-blue);
 			font-size: var(--small-font-size);
 			font-weight: bold;
+			font-family: var(--font-family);
 			cursor: pointer;
 			transition: var(--transition-time);
 			pointer-events: all;
@@ -199,9 +200,12 @@
 			color: var(--medium-blue);
 		}
 
+		#info-links-resume {
+			padding: 0 !important;
+		}
+
 		#info-links li:first-child a {
 			padding-left: 0;
-			padding-right: var(--small-gap-size);
 		}
 
 		#j-logo {
