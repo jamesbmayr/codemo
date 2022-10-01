@@ -12,6 +12,7 @@
 	/* projects */
 		const PROJECTS = {
 			adventure: {
+				skipRandom: true,
 				name: "Adventure",
 				size: "large",
 				tags: ["game","code","fantasy","node","websockets","mongo","canvas","tabletop","multiplayer"],
@@ -92,6 +93,7 @@
 				description: "An ongoing blog about making projects with and for people."
 			},
 			bluejay: {
+				skipRandom: true,
 				name: "bluejay",
 				size: "extra-large",
 				tags: ["code","tool","design","api","node","audio"],
@@ -127,6 +129,7 @@
 				description: "Search the FEC's data to see who's financing the political campaigns of federal candidates."
 			},
 			captainchronosailsthroughtime: {
+				skipRandom: true,
 				name: "Captain Chrono Sails Through Time",
 				size: "large",
 				tags: ["music","fantasy","scifi","synth","orchestral","jazz","piano"],
@@ -143,6 +146,7 @@
 				description: "A Renaissance Amusement Park by Gregory Mayr."
 			},
 			cascade: {
+				skipRandom: true,
 				name: "Cascade",
 				size: "large",
 				tags: ["music","fantasy","orchestral","pop","piano","lyric"],
@@ -215,6 +219,7 @@
 				description: "chromaCreatures is a challenging shoot-em-up arcade game - players use a monochromatic blaster to fend off hybrid-hued enemies."
 			},
 			clevernacular: {
+				skipRandom: true,
 				name: "Clevernacular",
 				size: "large",
 				tags: ["writing","design","prose","art","photography"],
@@ -280,6 +285,7 @@
 				description: "colorFlooder is a web game where players click squares to collapse a grid to one color."
 			},
 			couplets: {
+				skipRandom: true,
 				name: "couplets",
 				size: "medium",
 				tags: ["writing","collaboration","api","lyric","poetry","autobiography"],
@@ -315,6 +321,7 @@
 				description: "This connect-the-dots game randomly generates points you must connect with non-overlapping lines."
 			},
 			draftsadrift: {
+				skipRandom: true,
 				name: "Drafts Adrift",
 				size: "large",
 				tags: ["music","scifi","orchestral","jazz","pop","synth","piano"],
@@ -322,6 +329,7 @@
 				description: "The first Drafts Adrift collection represents my love of video game music, from catchy melodies to looping scenic soundtracks."
 			},
 			draftsadrift2: {
+				skipRandom: true,
 				name: "Drafts Adrift 2",
 				size: "large",
 				tags: ["music","scifi","orchestral","jazz","pop","synth","piano","lyric"],
@@ -329,6 +337,7 @@
 				description: "Drafts Adrift 2 is a combination of various projects - including video game soundtracks, avant garde experiments, and some lyrical tracks."
 			},
 			dreamhatcher: {
+				skipRandom: true,
 				name: "Dreamhatcher",
 				size: "extra-large",
 				tags: ["game","tabletop","board","card","puzzle","multiplayer"],
@@ -352,6 +361,8 @@
 				description: "Eternal Horizon was the first album I composed - entirely orchestral music, in Finale - and it set the standard: 16 songs and 1 hour."
 			},
 			explorchestra: {
+				skipRandom: true,
+				hidden: true,
 				name: "Explorchestra",
 				size: "extra-large",
 				tags: ["collaboration","music","orchestral","jazz","pop","synth","lyric","piano"],
@@ -394,6 +405,7 @@
 				description: "Build your own deck of flash cards or find a friend's to play the classic matching game."
 			},
 			firestormsea: {
+				skipRandom: true,
 				name: "Firestorm Sea",
 				size: "large",
 				tags: ["game","fantasy","art"],
@@ -514,6 +526,7 @@
 				description: "A handy tool for determining which inputs are working on your device / browser / OS."
 			},
 			itswhoiamb: {
+				skipRandom: true,
 				name: "It's Who Iamb",
 				size: "large",
 				tags: ["writing","lyric","poetry","autobiography"],
@@ -731,6 +744,7 @@
 				description: "A canvas-powered simple art app for drawing on your screen."
 			},
 			penduluminous: {
+				skipRandom: true,
 				name: "Penduluminous",
 				size: "large",
 				tags: ["music","writing","jazz","pop","lyric","piano","poetry","autobiography"],
@@ -815,6 +829,7 @@
 				description: "Play the classic table-tennis arcade game against a friend."
 			},
 			portmantoasters: {
+				skipRandom: true,
 				name: "Portmantoasters",
 				size: "medium",
 				tags: ["writing","puzzle"],
@@ -830,6 +845,7 @@
 				description: "Some projects don't work out. Think of this gallery as a graveyard of old ideas."
 			},
 			prosandconsole: {
+				skipRandom: true,
 				name: "Pros and Console",
 				size: "large",
 				tags: ["writing","code","prose","autobiography"],
@@ -908,6 +924,7 @@
 				description: "Use shapeAnimator to create, style, and sequence animations for polygons."
 			},
 			singles: {
+				skipRandom: true,
 				name: "Singles",
 				size: "large",
 				tags: ["music","writing","orchestral","jazz","pop","lyric","piano","poetry","autobiography"],
@@ -1014,6 +1031,7 @@
 				description: "Keep the republic from crumbling - rule the fantasy realm together in The Council, a game of politics and persuasion."
 			},
 			thedeathmakerssymphony: {
+				skipRandom: true,
 				name: "The Deathmakers' Symphony",
 				size: "large",
 				tags: ["music","writing","fantasy","orchestral","lyric","piano","poetry"],
@@ -1084,6 +1102,8 @@
 				description: "A strategic bluffing asymmetrical card game about colors and symbols and sabotage."
 			},
 			underblue: {
+				skipRandom: true,
+				hidden: true,
 				name: "Underblue",
 				size: "extra-large",
 				tags: ["collaboration","music","jazz","pop","lyric","piano"],
@@ -1190,6 +1210,7 @@
 				description: "Get an exhaustive list of anagrams for a word, powered by webworkers."
 			},
 			wribbon: {
+				skipRandom: true,
 				name: "Wribbon",
 				size: "medium",
 				tags: ["design","svg","art"],
