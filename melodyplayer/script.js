@@ -27,17 +27,17 @@
 		const ELEMENTS = {
 			body: document.body,
 			scoreboard: document.querySelector("#scoreboard"),
-				upload: document.querySelector("#file-input"),
-				uploadHelper: document.querySelector("#upload-helper"),
-				parts: document.querySelector("#parts"),
-				synths: document.querySelector("#synths"),
-				tempoMultiplier: document.querySelector("#tempo-multiplier"),
-				metronome: document.querySelector("#metronome"),
-				play: document.querySelector("#play"),
-				score: document.querySelector("#score"),
-				title: document.querySelector("#title"),
+			upload: document.querySelector("#file-input"),
+			partsMenu: document.querySelector("#parts-menu-inner"),
+			synths: document.querySelector("#synths"),
+			tempoMultiplier: document.querySelector("#tempo-multiplier"),
+			metronome: document.querySelector("#metronome"),
+			play: document.querySelector("#play"),
+			score: document.querySelector("#score"),
+			title: document.querySelector("#title"),
 			keyboard: document.querySelector("#keyboard"),
-			blockboard: document.querySelector("#blockboard")
+			blockboard: document.querySelector("#blockboard-inner"),
+			blockboardScore: document.querySelector("#blockboard-score")
 		}
 
 	/* constants */
@@ -400,6 +400,7 @@
 
 	/* state */
 		const STATE = {
+			selectedParts: [],
 			tempo: CONSTANTS.defaultTempo,
 			tempoMultiplier: CONSTANTS.tempoMultiplier.default,
 			interval: Math.round(CONSTANTS.minute / CONSTANTS.beatToTick.quarter / (CONSTANTS.defaultTempo * CONSTANTS.tempoMultiplier.default)),
@@ -461,10 +462,7 @@
 			},
 			music: {},
 			blockboard: [],
-			part: {
-				partId: null,
-				staff: null
-			}
+			sheets: {}
 		}
 
 /*** scoreboard ***/
@@ -508,12 +506,12 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* buildSynthsList */
-		buildSynthsList()
-		function buildSynthsList() {
+	/* buildMainSynthsList */
+		buildMainSynthsList()
+		function buildMainSynthsList() {
 			try {
-				// clear out
-					ELEMENTS.synths.innerHTML = ""
+				// build out list
+					buildSynthsList(ELEMENTS.synths)
 
 				// group
 					const helper = document.createElement("option")
@@ -521,14 +519,27 @@
 						helper.value = null
 						helper.selected = true
 						helper.disabled = true
-					ELEMENTS.synths.appendChild(helper)
+					ELEMENTS.synths.prepend(helper)
+
+				// random to start
+					const defaultSynths = AUDIO_J.getInstruments("default")
+					AUDIO_J.activeInstrumentId = defaultSynths[Math.floor(Math.random() * defaultSynths.length)]
+					ELEMENTS.synths.value = AUDIO_J.activeInstrumentId
+			} catch (error) {console.log(error)}
+		}
+
+	/* buildSynthsList */
+		function buildSynthsList(selectElement) {
+			try {
+				// clear out
+					selectElement.innerHTML = ""
 
 				// synths
 					// simple
 						const simpleSynths = AUDIO_J.getInstruments("simple")
 						const simpleGroup = document.createElement("optgroup")
 							simpleGroup.label = "[simple]"
-						ELEMENTS.synths.appendChild(simpleGroup)
+						selectElement.appendChild(simpleGroup)
 						
 						for (let i in simpleSynths) {
 							const option = document.createElement("option")
@@ -541,7 +552,7 @@
 						const defaultSynths = AUDIO_J.getInstruments("default")
 						const defaultGroup = document.createElement("optgroup")
 							defaultGroup.label = "[default]"
-						ELEMENTS.synths.appendChild(defaultGroup)
+						selectElement.appendChild(defaultGroup)
 						
 						for (let i in defaultSynths) {
 							const option = document.createElement("option")
@@ -554,7 +565,7 @@
 						const customSynths = AUDIO_J.getInstruments("custom")
 						const customGroup = document.createElement("optgroup")
 							customGroup.label = "[custom]"
-						ELEMENTS.synths.appendChild(customGroup)
+						selectElement.appendChild(customGroup)
 						
 						for (let i in customSynths) {
 							const option = document.createElement("option")
@@ -562,10 +573,6 @@
 								option.value = customSynths[i]
 							customGroup.appendChild(option)
 						}
-
-				// random to start
-					AUDIO_J.activeInstrumentId = defaultSynths[Math.floor(Math.random() * defaultSynths.length)]
-					ELEMENTS.synths.value = AUDIO_J.activeInstrumentId
 			} catch (error) {console.log(error)}
 		}
 
@@ -597,9 +604,9 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* changeSynth */
-		ELEMENTS.synths.addEventListener(TRIGGERS.change, changeSynth)
-		function changeSynth() {
+	/* changeMainSynth */
+		ELEMENTS.synths.addEventListener(TRIGGERS.change, changeMainSynth)
+		function changeMainSynth() {
 			try {
 				// kill existing notes
 					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
@@ -623,6 +630,60 @@
 
 				// blur
 					ELEMENTS.synths.blur()
+			} catch (error) {console.log(error)}
+		}
+
+	/* togglePart */
+		function togglePart(event) {
+			try {
+				// get part
+					const checkbox = event.target
+					const row = checkbox.closest(".part-row")
+					const partAndStaff = row.id.split("-")[1]
+
+				// update state
+					if (checkbox.checked) {
+						if (!STATE.selectedParts.includes(partAndStaff)) {
+							STATE.selectedParts.push(partAndStaff)
+						}
+						STATE.sheets[partAndStaff].setAttribute("active", true)
+					}
+					else {
+						STATE.sheets[partAndStaff].removeAttribute("active")
+						STATE.selectedParts.splice(STATE.selectedParts.indexOf(partAndStaff), 1)
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* changeSynthForPart */
+		function changeSynthForPart(event) {
+			try {
+				// get part
+					const select = event.target
+					const row = select.closest(".part-row")
+					const partId = row.id.split("-")[1].split(".")[0]
+
+				// kill existing notes
+					if (AUDIO_J.instruments["_ensemble_" + partId]) {
+						AUDIO_J.instruments["_ensemble_" + partId].setParameters({ power: 0 })
+					}
+
+				// get new synth
+					const synthName = select.value.trim()
+					const parameters = AUDIO_J.getInstrument(synthName)
+					if (parameters) {
+						AUDIO_J.instruments["_ensemble_" + partId] = AUDIO_J.buildInstrument(parameters)
+						AUDIO_J.instruments["_ensemble_" + partId].setParameters({ volume: CONSTANTS.ensembleInstrumentVolume })
+						AUDIO_J.instruments["_ensemble_" + partId].setParameters({ power: 1 })
+					}
+
+				// update all staffs
+					const allRows = Array.from(ELEMENTS.partsMenu.querySelectorAll(".part-row"))
+					for (let i in allRows) {
+						if (allRows[i].id.includes("part-" + partId + ".")) {
+							allRows[i].querySelector(".part-synth").value = synthName
+						}
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -657,14 +718,6 @@
 		}
 
 /*** musicXML ***/
-	/* uploadHelper */
-		ELEMENTS.uploadHelper.addEventListener(TRIGGERS.click, uploadHelper)
-		function uploadHelper(event) {
-			try {
-				ELEMENTS.upload.click()
-			} catch (error) {console.log(error)}
-		}
-
 	/* uploadFile */
 		ELEMENTS.upload.addEventListener(TRIGGERS.change, uploadFile)
 		function uploadFile(event) {
@@ -699,19 +752,17 @@
 			try {
 				// clear out
 					STATE.music = {}
-					STATE.blockboard = []
-					STATE.part.partId = null
-					STATE.part.staff = null
 					STATE.currentMeasure = 0
 					STATE.currentTickOfMeasure = 0
 					STATE.currentOverallTick = -CONSTANTS.startingTickOffset
-					ELEMENTS.blockboard.innerHTML = ""
-					STATE.score = 0
-					ELEMENTS.score.innerHTML = ""
 
 				// title
 					STATE.music.title = (STATE.xml.querySelector("movement-title") || {}).innerHTML || ""
 					STATE.music.composer = (STATE.xml.querySelector("creator") || {}).innerHTML || ""
+
+				// clear score
+					STATE.score = 0
+					ELEMENTS.score.innerHTML = ""
 
 				// parts
 					STATE.music.parts = {}
@@ -727,6 +778,7 @@
 
 				// ticks, swing, tempo
 					STATE.music.totalTicks = 0
+					STATE.music.measureTicks = {}
 					STATE.music.swing = false
 					STATE.music.tempoChanges = {}
 					for (let p in STATE.music.parts) {
@@ -738,6 +790,9 @@
 						}
 
 						for (let m in STATE.music.parts[p].staves['1']) {
+							if (!STATE.music.measureTicks[m]) {
+								STATE.music.measureTicks[m] = STATE.music.parts[p].staves['1'][m].ticks
+							}
 							if (STATE.music.parts[p].staves['1'][m].tempo) {
 								STATE.music.tempoChanges[m] = STATE.music.parts[p].staves['1'][m].tempo
 							}
@@ -746,6 +801,9 @@
 
 				// parts list
 					buildPartsList()
+
+				// blocks
+					buildBlockboard()
 
 				// add to tracks list
 					const selectValue = STATE.music.title + (STATE.music.composer ? (" (" + STATE.music.composer + ")") : "")
@@ -757,10 +815,6 @@
 					}
 					ELEMENTS.title.value = selectValue
 					ELEMENTS.scoreboard.removeAttribute("pending")
-
-				// starting tempo
-					STATE.tempo = STATE.music.tempoChanges['1'] || CONSTANTS.defaultTempo
-					STATE.interval = Math.round(CONSTANTS.minute / CONSTANTS.beatToTick.quarter / (STATE.tempo * STATE.tempoMultiplier))
 			} catch (error) {console.log(error)}
 		}
 
@@ -952,39 +1006,48 @@
 		function buildPartsList() {
 			try {
 				// clear out
-					ELEMENTS.parts.innerHTML = ""
+					ELEMENTS.partsMenu.innerHTML = ""
+					STATE.selectedParts = []
 
-				// group
-					const helper = document.createElement("option")
-						helper.innerHTML = "[part]"
-						helper.value = null
-						helper.selected = true
-						helper.disabled = true
-					ELEMENTS.parts.appendChild(helper)
-
-				// parts
+				// loop through parts
 					for (let i in STATE.music.parts) {
-						for (let j in STATE.music.parts[i].staves) {
-							const option = document.createElement("option")
-								option.innerText = STATE.music.parts[i].name + " " + j
-								option.value = i + "." + j
-							ELEMENTS.parts.appendChild(option)
-						}
-					}
+						// create synth
+							const synthName = mapInstrument(STATE.music.parts[i].name)
+							STATE.music.parts[i].synth = synthName
 
-					const option = document.createElement("option")
-						option.innerText = "[listen]"
-						option.value = ""
-					ELEMENTS.parts.appendChild(option)
+							AUDIO_J.instruments["_ensemble_" + i] = AUDIO_J.buildInstrument(AUDIO_J.getInstrument(synthName))
+							AUDIO_J.instruments["_ensemble_" + i].setParameters({ volume: CONSTANTS.ensembleInstrumentVolume })
 
-				// ensemble synths
-					if (AUDIO_J.audio) {
-						for (let p in STATE.music.parts) {
-							const synthName = mapInstrument(STATE.music.parts[p].name)
-							STATE.music.parts[p].synth = synthName
-							AUDIO_J.instruments["_ensemble_" + p] = AUDIO_J.buildInstrument(AUDIO_J.getInstrument(synthName))
-							AUDIO_J.instruments["_ensemble_" + p].setParameters({ volume: CONSTANTS.ensembleInstrumentVolume })
-						}
+						// loop through staves to build row
+							for (let j in STATE.music.parts[i].staves) {
+								const row = document.createElement("div")
+									row.className = "part-row"
+									row.id = "part-" + i + "." + j
+								ELEMENTS.partsMenu.appendChild(row)
+
+									const label = document.createElement("label")
+										label.className = "part-label"
+									row.appendChild(label)
+
+										const checkbox = document.createElement("input")
+											checkbox.type = "checkbox"
+											checkbox.checked = false
+											checkbox.className = "part-checkbox"
+											checkbox.addEventListener(TRIGGERS.change, togglePart)
+										label.appendChild(checkbox)
+
+										const span = document.createElement("span")
+											span.className = "part-name"
+											span.innerText = STATE.music.parts[i].name + " " + j
+										label.appendChild(span)
+
+									const select = document.createElement("select")
+										select.className = "part-synth"
+										buildSynthsList(select)
+										select.value = synthName
+										select.addEventListener(TRIGGERS.change, changeSynthForPart)
+									row.appendChild(select)
+							}
 					}
 			} catch (error) {console.log(error)}
 		}
@@ -1206,46 +1269,45 @@
 
 /*** blockboard ***/
 	/* buildBlockboard */
-		ELEMENTS.parts.addEventListener(TRIGGERS.change, buildBlockboard)
-		function buildBlockboard(event) {
+		function buildBlockboard() {
 			try {
 				// clear out
-					ELEMENTS.blockboard.innerHTML = ""
 					STATE.blockboard = []
-					STATE.part.partId = null
-					STATE.part.staff = null
-					STATE.currentMeasure = 0
-					STATE.currentTickOfMeasure = 0
-					STATE.currentOverallTick = -CONSTANTS.startingTickOffset
-					STATE.score = 0
-					ELEMENTS.score.innerHTML = ""
+					STATE.sheets = {}
+					ELEMENTS.blockboard.innerHTML = ""
+					ELEMENTS.blockboard.style.bottom = "calc((" + (-STATE.currentOverallTick) + ") * var(--pxPerTick)"
 
-				// get selected part
-					let selectionValue = ELEMENTS.parts.value
-					if (!selectionValue) {
-						return
+				// starting tempo
+					STATE.tempo = STATE.music.tempoChanges['1'] || CONSTANTS.defaultTempo
+					STATE.interval = Math.round(CONSTANTS.minute / CONSTANTS.beatToTick.quarter / (STATE.tempo * STATE.tempoMultiplier))
+
+				// loop through all parts
+					for (let i in STATE.music.parts) {
+						for (let j in STATE.music.parts[i].staves) {
+							// sheet
+								const sheet = document.createElement("div")
+									sheet.id = "sheet-" + i + "." + j
+									sheet.className = "blockboard-sheet"
+								ELEMENTS.blockboard.appendChild(sheet)
+								STATE.sheets[i + "." + j] = sheet
+
+								if (STATE.selectedParts.includes(i + "." + j)) {
+									sheet.setAttribute("active", true)
+								}
+
+							// measures
+								const measures = STATE.music.parts[i].staves[j]
+								let currentOverallTick = 0
+								for (let m in measures) {
+									currentOverallTick = buildMeasure(i, j, sheet, Number(currentOverallTick), measures[m])
+								}
+						}
 					}
-
-				// set part
-					STATE.part.partId = selectionValue.split(".")[0]
-					STATE.part.staff = selectionValue.split(".")[1]
-					const part = STATE.music.parts[STATE.part.partId]
-					const staff = part.staves[STATE.part.staff]
-
-				// measures
-					let currentOverallTick = 0
-					for (let m in staff) {
-						currentOverallTick = buildMeasure(Number(currentOverallTick), staff[m])
-					}
-
-				// change synth
-					ELEMENTS.synths.value = part.synth
-					changeSynth()
 			} catch (error) {console.log(error)}
 		}
 
 	/* buildMeasure */
-		function buildMeasure(currentOverallTick, measure) {
+		function buildMeasure(partId, staff, sheetElement, currentOverallTick, measure) {
 			try {
 				// loop through notes
 					for (let i in measure.notes) {
@@ -1279,15 +1341,16 @@
 							// block
 								const blockElement = document.createElement("div")
 									blockElement.className = "block"
-									blockElement.style.bottom = "calc((" + (CONSTANTS.startingTickOffset + offsetTicks) + ") * var(--pxPerTick)"
+									blockElement.style.bottom = "calc((" + offsetTicks + ") * var(--pxPerTick)"
 									blockElement.style.height = "calc(" + durationTicks + " * var(--pxPerTick))"
 									blockElement.setAttribute("color", STATE.notes[midiModeMidi].color)
 									blockElement.style.background = STATE.notes[midiModeMidi].pressedColor
 									blockElement.style.left = STATE.midimode && STATE.notes[midiModeMidi] ? STATE.notes[midiModeMidi].leftOffset : STATE.notes[normalModeMidi].leftOffset
-								ELEMENTS.blockboard.appendChild(blockElement)
+								sheetElement.appendChild(blockElement)
 
 							// object
 								STATE.blockboard.push({
+									partAndStaff: partId + "." + staff,
 									midi: midi,
 									normalModeMidi: normalModeMidi,
 									midiModeMidi: midiModeMidi,
@@ -1339,6 +1402,7 @@
 				// --> play
 					STATE.playing = true
 					ELEMENTS.scoreboard.setAttribute("playing", true)
+					ELEMENTS.blockboardScore.innerHTML = ""
 					STATE.animationLoop = setInterval(updateGame, STATE.interval)
 					ELEMENTS.play.blur()
 
@@ -1364,8 +1428,11 @@
 					}
 
 				// move everything
+					ELEMENTS.blockboard.style.bottom = "calc((" + (-STATE.currentOverallTick) + ") * var(--pxPerTick)"
+
+				// capture pressed notes
 					for (let b in STATE.blockboard) {
-						updateBlock(STATE.blockboard[b])
+						potentiallyCaptureBlock(STATE.blockboard[b])
 					}
 
 				// tick / measure info --> if false, then end game
@@ -1383,7 +1450,7 @@
 		function soundMetronome() {
 			try {
 				// not active
-					if (!STATE.metronome && STATE.currentOverallTick >= 0) {
+					if (!STATE.metronome) {
 						return
 					}
 					
@@ -1467,10 +1534,6 @@
 						STATE.currentTickOfMeasure += 1
 					}
 
-				// get part & staff
-					const part = STATE.part.partId ? STATE.music.parts[STATE.part.partId] : STATE.music.parts[(Object.keys(STATE.music.parts)[0])]
-					const staff = STATE.part.staff ? part.staves[STATE.part.staff] : part.staves[(Object.keys(part.staves)[0])]
-
 				// before the blocks
 					if (STATE.currentMeasure == 0) {
 						if (STATE.currentTickOfMeasure >= CONSTANTS.startingTickOffset) {
@@ -1483,13 +1546,10 @@
 					else if (STATE.currentOverallTick >= STATE.music.totalTicks + CONSTANTS.endingTickOffset) {
 						return {end: true}
 					}
-					else if (STATE.currentMeasure > Object.keys(staff).length) {
-						return {again: again}
-					}
 
 				// during the blocks
 					else {
-						if (STATE.currentTickOfMeasure >= staff[STATE.currentMeasure].ticks) {
+						if (STATE.currentTickOfMeasure >= STATE.music.measureTicks[STATE.currentMeasure]) {
 							STATE.currentTickOfMeasure = 0
 							STATE.currentMeasure++
 
@@ -1507,22 +1567,30 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* updateBlock */
-		function updateBlock(block) {
+	/* potentiallyCaptureBlock */
+		function potentiallyCaptureBlock(block) {
 			try {
-				// info
-					const currentOffsetTicks = block.offsetTicks - STATE.currentOverallTick
-				
-				// move
-					block.element.style.bottom = "calc((" + currentOffsetTicks + ") * var(--pxPerTick)"
-
-				// already captured
-					if (block.captured) {
+				// already captured / past
+					if (block.captured || block.past) {
 						return
 					}
 
-				// not within the capturable zone
-					if (Math.abs(currentOffsetTicks) > CONSTANTS.tickFudgeFactor) {
+				// info
+					const currentOffsetTicks = block.offsetTicks - STATE.currentOverallTick
+
+				// past
+					if (currentOffsetTicks < -CONSTANTS.tickFudgeFactor) {
+						block.past = true
+						return
+					}
+
+				// upcoming
+					if (currentOffsetTicks > CONSTANTS.tickFudgeFactor) {
+						return
+					}
+
+				// not a selected track
+					if (!STATE.selectedParts.includes(block.partAndStaff)) {
 						return
 					}
 				
@@ -1541,7 +1609,7 @@
 					block.captured = true
 					block.element.setAttribute("captured", true)
 					STATE.score++
-					ELEMENTS.score.innerHTML = STATE.score + " " + CONSTANTS.emoji.notes
+					ELEMENTS.score.innerHTML = STATE.score + " <span>" + CONSTANTS.emoji.notes + "</span>"
 			} catch (error) {console.log(error)}
 		}
 
@@ -1564,18 +1632,19 @@
 					}
 
 				// display score
-					ELEMENTS.blockboard.innerHTML = ""
-					const final = document.createElement("div")
-						final.id = "score-final"
-						final.innerHTML = STATE.score + "/" + STATE.blockboard.length + " " + CONSTANTS.emoji.notes
-					ELEMENTS.blockboard.appendChild(final)
+					const totalPossibleScore = (STATE.blockboard.filter(function(block) {
+						return STATE.selectedParts.includes(block.partAndStaff)
+					}) || []).length
+					ELEMENTS.blockboardScore.innerHTML = STATE.score + "/" + totalPossibleScore + " " + CONSTANTS.emoji.notes
 
 				// reset stuff
-					STATE.blockboard = []
+					STATE.currentMeasure = 0
+					STATE.currentTickOfMeasure = 0
 					STATE.currentOverallTick = -CONSTANTS.startingTickOffset
 					STATE.score = 0
-					STATE.part.partId = null
-					STATE.part.staff = null
-					ELEMENTS.parts.value = null
+					ELEMENTS.score.innerHTML = ""
+
+				// rebuild
+					buildBlockboard()
 			} catch (error) {console.log(error)}
 		}

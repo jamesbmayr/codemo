@@ -18,28 +18,32 @@
 	</head>
 	<body>
 		<div id="scoreboard" pending>
-			<label id="file-label">
+			<label id="file-label" title="upload your own song">
 				<span>&mapstoup;</span>
 				<input type="file" id="file-input">
 			</label>
-			<select id="title">
+			<select id="title" title="select a song">
 				<option value="null" disabled selected>[title]</option>
 			</select>
 			<div id="title-helper">&uarr; pick a song</div>
-			<select id="parts"></select>
-			<select id="synths"></select>
-			<input type="number" id="tempo-multiplier" step="0.1" min="0.1" max="3" value="1">
-			<div id="tempo-multiplier-x">&times;</div>
-			<button id="metronome">
+			<details id="parts-menu">
+				<summary id="parts-menu-summary">parts</summary>
+				<div id="parts-menu-inner">[select/upload song]</div>
+			</details>
+			<button id="metronome" title="metronome">
 				<div id="metronome-outer">&#9750;</div>
 				<div id="metronome-inner">|</div>
 			</button>
-			<button id="play">&nbsp;&#9654;</button>
+			<input type="number" id="tempo-multiplier" step="0.1" min="0.1" max="3" value="1" title="tempo multiplier">
+			<div id="tempo-multiplier-x">&times;</div>
+			<button id="play" title="play/pause">&nbsp;&#9654;</button>
+			<select id="synths" title="select a sound"></select>
 			<div id="score"></div>
 			<a id="j-logo" href="https://jamesmayr.com"></a>
 		</div>
 		<div id="blockboard">
-			<button id="upload-helper">upload musicXML</button>
+			<div id="blockboard-score"></div>
+			<div id="blockboard-inner"></div>
 		</div>
 		<div id="keyboard"></div>
 	</body>
