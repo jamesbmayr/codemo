@@ -687,11 +687,10 @@
 			},
 			musicchallenge: {
 				skipRandom: true,
-				hidden: true,
 				name: "Music Challenge",
 				size: "medium",
 				tags: ["code","music","audio","jazz","orchestral","piano","pop","synth","lyric","collaboration"],
-				date: "September 19, 2021",
+				date: "October 2, 2022",
 				description: "A collection of compositions from a few musical friends; each event challenged us to make music in a new way."
 			},
 			nimbusnotes: {
