@@ -235,7 +235,7 @@
 	/* pressKey */
 		Array.from(document.querySelectorAll(".key")).forEach(function (k) { k.addEventListener(on.mousedown, pressKey) })
 		document.addEventListener("keydown", pressKey)
-		function pressKey(event) {		
+		function pressKey(event) {
 			// keyboard or mouse?
 				if (event.type == on.mousedown) {
 					var press = event.target
@@ -245,6 +245,9 @@
 					if (document.activeElement.tagName !== "INPUT") {
 						var press = document.getElementById("key--" + getKey(event.which))
 					}
+				}
+				else if (event.type == "midi") {
+					var press = document.getElementById("key--" + event.pitch)
 				}
 			
 			// select
@@ -270,6 +273,9 @@
 						var lift = document.getElementById("key--" + getKey(event.which))
 					}
 				}
+				else if (event.type == "midi") {
+					var lift = document.getElementById("key--" + event.pitch)
+				}
 
 			// mobile deselection
 				if (event.type == on.mouseup && on.mouseup == "touchend" && AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
@@ -290,21 +296,15 @@
 
 /*** midi hooks ***/
 	/* pressKey */
-		AUDIO_J.midi.pressKey = function(note, velocity) {
+		AUDIO_J.midi.pressKey = function(pitch, velocity) {
 			try {
-				var key = document.getElementById("key--" + note)
-				if (key) {
-					key.setAttribute("selected", true)
-				}
+				pressKey({type: "midi", pitch: pitch})
 			} catch (error) {console.log(error)}
 		}
 
 	/* liftKey */
-		AUDIO_J.midi.liftKey = function(note) {
+		AUDIO_J.midi.liftKey = function(pitch) {
 			try {
-				var key = document.getElementById("key--" + note)
-				if (key) {
-					key.removeAttribute("selected")
-				}
+				liftKey({type: "midi", pitch: pitch})
 			} catch (error) {console.log(error)}
 		}
