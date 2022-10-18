@@ -1147,25 +1147,29 @@
 	/* pressKey */
 		AUDIO_J.midi.pressKey = function(note, velocity) {
 			try {
-				var key = document.getElementById("key_" + (+note + 48))
-				if (key) {
-					key.setAttribute("pressed", true)
-					key.setAttribute("active", true)
+				var key = document.getElementById("key_" + (+note - 48))
+				if (key && key.className !== "pressed") {
+					key.className += " pressed"
 				}
+				if (key && key.className !== "active") {
+					key.className += " active"
+				}
+				analyzeChord()
 			} catch (error) {console.log(error)}
 		}
 
 	/* liftKey */
 		AUDIO_J.midi.liftKey = function(note) {
 			try {
-				var key = document.getElementById("key_" + (+note + 48))
+				var key = document.getElementById("key_" + (+note - 48))
 				if (key) {
-					key.removeAttribute("pressed")
+					key.className = key.className.replace(/\s?pressed/, "")
 
 					if (document.querySelector("#sustain").className !== "sustaining") {
-						key.removeAttribute("active")
+						key.className = key.className.replace(/\s?active/, "")
 					}
 				}
+				analyzeChord()
 			} catch (error) {console.log(error)}
 		}
 

@@ -489,11 +489,13 @@
 							AUDIO_J.instruments[AUDIO_J.activeInstrumentId] = AUDIO_J.buildInstrument(parameters)
 						}
 					}
+
+				// tracks list
+					buildTracksList()
 			} catch (error) {console.log(error)}
 		}
 
 	/* buildTracksList */
-		buildTracksList()
 		function buildTracksList() {
 			try {
 				// default

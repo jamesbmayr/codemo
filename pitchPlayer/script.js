@@ -319,7 +319,7 @@
 		//visual
 			var keys = document.querySelectorAll(".key[value='" + pitch + "']")
 				keys = Array.prototype.slice.call(keys)
-			var leftKey = keys[0]				
+			var leftKey = keys[0]
 			var rightKey = keys[1]
 				leftKey.className = leftKey.className.replace("key-inactive", "key-active")
 				rightKey.className = rightKey.className.replace("key-inactive", "key-active")
@@ -329,6 +329,31 @@
 				rightKey.className = rightKey.className.replace("key-active", "key-inactive")
 			}, 60 * 1000 / 500)
 	}
+
+/*** midi hooks ***/
+	/* pressKey */
+		AUDIO_J.midi.pressKey = function(pitch, velocity) {
+			try {
+				var keys = document.querySelectorAll(".key[value='" + pitch + "']")
+					keys = Array.prototype.slice.call(keys)
+				var leftKey = keys[0]
+				var rightKey = keys[1]
+					leftKey.className = leftKey.className.replace("key-inactive", "key-active")
+					rightKey.className = rightKey.className.replace("key-inactive", "key-active")
+			} catch (error) {console.log(error)}
+		}
+
+	/* liftKey */
+		AUDIO_J.midi.liftKey = function(pitch) {
+			try {
+				var keys = document.querySelectorAll(".key[value='" + pitch + "']")
+					keys = Array.prototype.slice.call(keys)
+				var leftKey = keys[0]
+				var rightKey = keys[1]
+					leftKey.className = leftKey.className.replace("key-active", "key-inactive")
+					rightKey.className = rightKey.className.replace("key-active", "key-inactive")
+			} catch (error) {console.log(error)}
+		}
 
 /*** load ***/
 	/* downloadScore */

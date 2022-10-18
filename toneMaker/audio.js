@@ -2469,6 +2469,8 @@
 					AUDIO_J.midi.system = midi
 					AUDIO_J.midi.controllers = {}
 					AUDIO_J.midi.consumers   = {}
+
+				// check inputs & outputs
 					AUDIO_J.midi.system.onstatechange = function(event) {
 						try {
 							console.log(event.port.name + " " + event.port.manufacturer + " " + event.port.state)
@@ -2476,6 +2478,12 @@
 							updateMidiOutputs()
 						} catch (error) {console.log(error)}
 					}
+
+				// wait until other javascript loads in case there are connection listeners
+					setTimeout(function() {
+						updateMidiInputs()
+						updateMidiOutputs()
+					}, 0)
 			} catch (error) {console.log(error)}
 		}
 
