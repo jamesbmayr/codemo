@@ -95,6 +95,9 @@
 					}
 				}
 
+				var volume = Math.min(1, Math.max(0, Number(controlsVolume.value)))
+				AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ volume: volume })
+
 				controlsInstrument.blur()
 			}
 			catch (error) { }

@@ -257,9 +257,10 @@
 
 				// envelope
 					for (let x in AUDIO_J.constants.envelopeComponents) {
-						const value = parameters.envelope ? (parameters.envelope[AUDIO_J.constants.envelopeComponents[x]] || 0) : (AUDIO_J.constants.envelopeComponents[x] == "sustain" ? 1 : 0)
-						const target = ELEMENTS["tool-envelope"]["input--" + AUDIO_J.constants.envelopeComponents[x]]
-							target.value = CONSTANTS.percentage * value
+						const component = AUDIO_J.constants.envelopeComponents[x]
+						const value = parameters.envelope ? (parameters.envelope[component] || 0) : (component == "sustain" ? 1 : 0)
+						const target = ELEMENTS["tool-envelope"]["input--" + component]
+							target.value = value * (component == "sustain" ? CONSTANTS.percentage : AUDIO_J.constants.ms)
 						adjustEnvelopeToolInput({target: target}, setup)
 					}
 
@@ -278,7 +279,7 @@
 					}
 
 					const bitcrusherNorm = ELEMENTS["tool-bitcrusher"]["norm-input"]
-						bitcrusherNorm.value = Math.max(0, Math.min(1, parameters.bitcrusher ? parameters.bitcrusher.norm : 0)) * CONSTANTS.percentage
+						bitcrusherNorm.value = parameters.bitcrusher && parameters.bitcrusher.norm ? (CONSTANTS.percentage - (Math.max(0, Math.min(1, parameters.bitcrusher.norm)) * CONSTANTS.percentage)) : 0
 					adjustBitcrusherToolInput({target: bitcrusherNorm}, setup)
 						
 				// filters
@@ -301,7 +302,7 @@
 				// echo
 					const delayValue = parameters.echo ? (parameters.echo.delay || 0) : 0
 					const delayTarget = ELEMENTS["tool-echo"]["input--delay"]
-						delayTarget.value = CONSTANTS.percentage * delayValue
+						delayTarget.value = AUDIO_J.constants.ms * delayValue
 					adjustEchoToolInput({target: delayTarget}, setup)
 
 					const feedbackValue = parameters.echo ? (parameters.echo.feedback || 0) : 0
@@ -390,6 +391,7 @@
 					const instrumentSelect = document.createElement("select")
 						instrumentSelect.id = "tool-meta-select"
 						instrumentSelect.className = "input"
+						instrumentSelect.title = "synth sound"
 						instrumentSelect.addEventListener(TRIGGERS.change, loadFile)
 						fileSection.appendChild(instrumentSelect)
 					ELEMENTS["tool-meta"]["select"] = instrumentSelect
@@ -451,6 +453,7 @@
 					const uploadLabel = document.createElement("label")
 						uploadLabel.id = "tool-meta-upload"
 						uploadLabel.className = "button"
+						uploadLabel.title = "upload synth JSON"
 					fileSection.appendChild(uploadLabel)
 
 						const uploadInput = document.createElement("input")
@@ -469,6 +472,7 @@
 						deleteButton.id = "tool-meta-delete"
 						deleteButton.className = "button"
 						deleteButton.innerHTML = '<span class="fas fa-trash"></span>'
+						deleteButton.title = "delete synth"
 						deleteButton.addEventListener(TRIGGERS.click, deleteFile)
 					fileSection.appendChild(deleteButton)
 					ELEMENTS["tool-meta"]["delete"] = deleteButton
@@ -477,9 +481,10 @@
 					const nameInput = document.createElement("input")
 						nameInput.id = "tool-meta-name"
 						nameInput.className = "input"
-						nameInput.setAttribute("placeholder", "instrument name")
+						nameInput.placeholder = "instrument name"
 						nameInput.value = "synthesizer"
 						nameInput.setAttribute("spellcheck", "false")
+						nameInput.title = "synth name"
 						nameInput.addEventListener(TRIGGERS.change, nameFile)
 					fileSection.appendChild(nameInput)
 					ELEMENTS["tool-meta"]["name"] = nameInput
@@ -489,6 +494,7 @@
 						downloadButton.id = "tool-meta-download"
 						downloadButton.className = "button"
 						downloadButton.innerHTML = '<span class="fas fa-download"></span>'
+						downloadButton.title = "download synth JSON"
 						downloadButton.addEventListener(TRIGGERS.click, downloadFile)
 					fileSection.appendChild(downloadButton)
 					ELEMENTS["tool-meta"]["download"] = downloadButton
@@ -504,6 +510,7 @@
 						powerToggle.className = "toggle"
 						powerToggle.setAttribute("selected", true)
 						powerToggle.innerHTML = '<span class="fas fa-power-off"></span>'
+						powerToggle.title = "power toggle"
 						powerToggle.addEventListener(TRIGGERS.click, adjustPowerToolToggle)
 					powerSection.appendChild(powerToggle)
 					ELEMENTS["tool-meta"]["power"] = powerToggle
@@ -513,9 +520,11 @@
 						volumeInput.setAttribute("type", "number")
 						volumeInput.setAttribute("min", 0)
 						volumeInput.setAttribute("max", CONSTANTS.percentage)
+						volumeInput.placeholder = "%"
 						volumeInput.className = "input"
 						volumeInput.id = "tool-meta-volume-input"
 						volumeInput.value = 50
+						volumeInput.title = "volume input"
 						volumeInput.addEventListener(TRIGGERS.change, adjustVolumeToolInput)
 					powerSection.appendChild(volumeInput)
 					ELEMENTS["tool-meta"]["volume-input"] = volumeInput
@@ -531,9 +540,20 @@
 							volumeBar.className = "bar"
 							volumeBar.style.width = "50%"
 							volumeBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							volumeBar.title = "volume bar"
 							volumeBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						volumeTrack.appendChild(volumeBar)
 						ELEMENTS["tool-meta"]["volume-bar"] = volumeBar
+
+				// recording
+					const recordingToggle = document.createElement("button")
+						recordingToggle.id = "tool-meta-recording-toggle"
+						recordingToggle.className = "toggle"
+						recordingToggle.innerHTML = '<span class="fas fa-circle"></span>'
+						recordingToggle.title = "audio recording toggle"
+						recordingToggle.addEventListener(TRIGGERS.click, adjustRecordingToolToggle)
+					powerSection.appendChild(recordingToggle)
+					ELEMENTS["tool-meta"]["recording"] = recordingToggle
 			} catch (error) {console.log(error)}
 		}
 
@@ -722,6 +742,8 @@
 					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
 						AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ power: 0 })
 					}
+					AUDIO_J.cancelRecording()
+					ELEMENTS["tool-meta"]["recording"].removeAttribute("selected")
 				}
 				else {
 					event.target.setAttribute("selected", true)
@@ -762,6 +784,24 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* adjustRecordingToolToggle */
+		function adjustRecordingToolToggle(event) {
+			try {
+				if (!AUDIO_J.audio) {
+					return
+				}
+
+				if (event.target.getAttribute("selected")) {
+					event.target.removeAttribute("selected")
+					AUDIO_J.stopRecording()
+				}
+				else {
+					event.target.setAttribute("selected", true)
+					AUDIO_J.startRecording()
+				}
+			} catch (error) {console.log(error)}
+		}
+
 /*** tool-wave ***/	
 	/* buildWaveTool */
 		function buildWaveTool() {
@@ -772,10 +812,12 @@
 						waveInput.setAttribute("type", "number")
 						waveInput.setAttribute("min", 0)
 						waveInput.setAttribute("max", CONSTANTS.percentage)
+						waveInput.placeholder = "%"
 						waveInput.className = "input"
 						waveInput.id = "tool-wave-input--" + i
 						waveInput.style.left = ((i - 1) * waveLeftOffset) + "%"
 						waveInput.value = 0
+						waveInput.title = "harmonic " + i
 						waveInput.addEventListener(TRIGGERS.change, adjustWaveToolInput)
 					ELEMENTS.toolSections["tool-wave"].appendChild(waveInput)
 					ELEMENTS["tool-wave"]["input--" + i] = waveInput
@@ -792,6 +834,7 @@
 							waveBar.id = "tool-wave-bar--" + i
 							waveBar.innerText = i
 							waveBar.style.height = "0%"
+							waveBar.title = "harmonic " + i
 							waveBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						waveTrack.appendChild(waveBar)
 						ELEMENTS["tool-wave"]["bar--" + i] = waveBar
@@ -847,6 +890,7 @@
 						polysynthToggle.value = i
 						polysynthToggle.style.left = CONSTANTS.percentage / (AUDIO_J.constants.semitonesPerOctave * 2 + 1) * (i + AUDIO_J.constants.semitonesPerOctave) + "%"
 						polysynthToggle.innerHTML = Math.abs(i) + "<br>" + AUDIO_J.constants.intervals[String(Math.abs(i))][0]
+						polysynthToggle.title = AUDIO_J.constants.intervals[String(Math.abs(i))][1] + (Math.sign(i) == 1 ? " up" : Math.sign(i) == -1 ? " down" : "")
 						polysynthToggle.addEventListener(TRIGGERS.click, adjustPolysynthToolToggle)
 					ELEMENTS.toolSections["tool-polysynth"].appendChild(polysynthToggle)
 					ELEMENTS["tool-polysynth"]["toggle--" + i] = polysynthToggle
@@ -895,10 +939,11 @@
 							volumeInput.setAttribute("type", "number")
 							volumeInput.setAttribute("min", 0)
 							volumeInput.setAttribute("max", CONSTANTS.percentage)
-							volumeInput.setAttribute("placeholder", color)
+							volumeInput.placeholder = "%"
 							volumeInput.className = "input"
 							volumeInput.id = "tool-noise-volume-input--" + color
 							volumeInput.value = 0
+							volumeInput.title = color + " noise"
 							volumeInput.addEventListener(TRIGGERS.change, adjustNoiseToolInput)
 						volumeSection.appendChild(volumeInput)
 						ELEMENTS["tool-noise"]["volume-input--" + color] = volumeInput
@@ -914,6 +959,7 @@
 								volumeBar.className = "bar"
 								volumeBar.style.width = "0%"
 								volumeBar.innerHTML = color
+								volumeBar.title = color + " noise"
 								volumeBar.addEventListener(TRIGGERS.mousedown, selectBar)
 							volumeTrack.appendChild(volumeBar)
 							ELEMENTS["tool-noise"]["volume-bar--" + color] = volumeBar
@@ -975,6 +1021,7 @@
 						attackShape.id = "tool-envelope-shape--attack"
 						attackShape.style.width = "2%"
 						attackShape.innerHTML = "&#8672;attack&#8674;"
+						attackShape.title = "attack"
 						attackShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					envelopeTrack.appendChild(attackShape)
 					ELEMENTS["tool-envelope"]["shape--attack"] = attackShape
@@ -982,10 +1029,12 @@
 					const attackInput = document.createElement("input")
 						attackInput.setAttribute("type", "number")
 						attackInput.setAttribute("min", 0)
-						attackInput.setAttribute("max", CONSTANTS.percentage)
+						attackInput.setAttribute("max", AUDIO_J.constants.ms)
+						attackInput.placeholder = "ms"
 						attackInput.className = "input"
 						attackInput.id = "tool-envelope-input--attack"
 						attackInput.value = 0
+						attackInput.title = "attack"
 						attackInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
 					ELEMENTS.toolSections["tool-envelope"].appendChild(attackInput)
 					ELEMENTS["tool-envelope"]["input--attack"] = attackInput
@@ -999,6 +1048,7 @@
 						decayShape.innerHTML = "&#8672;decay&#8674;"
 						decayShape.style["clip-path"] = CONSTANTS.decayClippath
 						decayShape.style["-webkit-clip-path"] = CONSTANTS.decayClippath
+						decayShape.title = "decay"
 						decayShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					envelopeTrack.appendChild(decayShape)
 					ELEMENTS["tool-envelope"]["shape--decay"] = decayShape
@@ -1006,11 +1056,13 @@
 					const decayInput = document.createElement("input")
 						decayInput.setAttribute("type", "number")
 						decayInput.setAttribute("min", 0)
-						decayInput.setAttribute("max", CONSTANTS.percentage)
+						decayInput.setAttribute("max", AUDIO_J.constants.ms)
+						decayInput.placeholder = "ms"
 						decayInput.className = "input"
 						decayInput.id = "tool-envelope-input--decay"
 						decayInput.style.left = "0%"
 						decayInput.value = 0
+						decayInput.title = "decay"
 						decayInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
 					ELEMENTS.toolSections["tool-envelope"].appendChild(decayInput)
 					ELEMENTS["tool-envelope"]["input--decay"] = decayInput
@@ -1023,6 +1075,7 @@
 						sustainShape.style.width = "0%"
 						sustainShape.style.height = "0%"
 						sustainShape.innerHTML = "&#8673;sustain&#8675;"
+						sustainShape.title = "sustain"
 						sustainShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					envelopeTrack.appendChild(sustainShape)
 					ELEMENTS["tool-envelope"]["shape--sustain"] = sustainShape
@@ -1031,10 +1084,12 @@
 						sustainInput.setAttribute("type", "number")
 						sustainInput.setAttribute("min", 0)
 						sustainInput.setAttribute("max", CONSTANTS.percentage)
+						sustainInput.placeholder = "%"
 						sustainInput.className = "input"
 						sustainInput.id = "tool-envelope-input--sustain"
 						sustainInput.style.left = "0%"
 						sustainInput.value = 0
+						sustainInput.title = "sustain"
 						sustainInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
 					ELEMENTS.toolSections["tool-envelope"].appendChild(sustainInput)
 					ELEMENTS["tool-envelope"]["input--sustain"] = sustainInput
@@ -1046,6 +1101,7 @@
 						releaseShape.style.width = "0%"
 						releaseShape.style.height = "0%"
 						releaseShape.innerHTML = "&#8672;release&#8674;"
+						releaseShape.title = "release"
 						releaseShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					envelopeTrack.appendChild(releaseShape)
 					ELEMENTS["tool-envelope"]["shape--release"] = releaseShape
@@ -1053,11 +1109,13 @@
 					const releaseInput = document.createElement("input")
 						releaseInput.setAttribute("type", "number")
 						releaseInput.setAttribute("min", 0)
-						releaseInput.setAttribute("max", CONSTANTS.percentage)
+						releaseInput.setAttribute("max", AUDIO_J.constants.ms)
+						releaseInput.placeholder = "ms"
 						releaseInput.className = "input"
 						releaseInput.id = "tool-envelope-input--release"
 						releaseInput.style.left = "0%"
 						releaseInput.value = 0
+						releaseInput.title = "release"
 						releaseInput.addEventListener(TRIGGERS.change, adjustEnvelopeToolInput)
 					ELEMENTS.toolSections["tool-envelope"].appendChild(releaseInput)
 					ELEMENTS["tool-envelope"]["input--release"] = releaseInput
@@ -1081,13 +1139,13 @@
 							percentage = (x - shape.left) * CONSTANTS.percentage / (rectangle.width)
 							percentage = Math.min(CONSTANTS.envelopeComponentMaxPercentage, Math.max(0, percentage))
 							STATE.parameter.style.width = percentage + "%"
-							ELEMENTS["tool-envelope"]["input--" + type].value = Math.pow(percentage * 10 / CONSTANTS.envelopeComponentMaxPercentage, 2)
+							ELEMENTS["tool-envelope"]["input--" + type].value = Math.pow(percentage / CONSTANTS.envelopeComponentMaxPercentage, 2) * AUDIO_J.constants.ms
 						break
 						case "release":
 							percentage = (shape.right - x) * CONSTANTS.percentage / (rectangle.width)
 							percentage = Math.min(CONSTANTS.envelopeComponentMaxPercentage, Math.max(0, percentage))
 							STATE.parameter.style.width = percentage + "%"
-							ELEMENTS["tool-envelope"]["input--" + type].value = Math.pow(percentage * 10 / CONSTANTS.envelopeComponentMaxPercentage, 2)
+							ELEMENTS["tool-envelope"]["input--" + type].value = Math.pow(percentage / CONSTANTS.envelopeComponentMaxPercentage, 2) * AUDIO_J.constants.ms
 						break
 						case "sustain":
 							percentage = (rectangle.bottom - y) * CONSTANTS.percentage / (rectangle.height)
@@ -1118,43 +1176,47 @@
 					const releaseShape = ELEMENTS["tool-envelope"]["shape--release"]
 
 				// values
-					let attackValue  = Math.min(CONSTANTS.percentage, Math.max(0, attackInput.value ))
-						attackValue  = Math.pow(attackValue,  0.5) * CONSTANTS.envelopeComponentMaxPercentage / 10
-					let decayValue   = Math.min(CONSTANTS.percentage, Math.max(0, decayInput.value  ))
-						decayValue   = Math.pow(decayValue,   0.5) * CONSTANTS.envelopeComponentMaxPercentage / 10
+					let attackValue  = Math.min(AUDIO_J.constants.ms, Math.max(0, attackInput.value ))
+					let attackPercentage = Math.pow(attackValue * (CONSTANTS.percentage / AUDIO_J.constants.ms), 0.5) * CONSTANTS.envelopeComponentMaxPercentage * (CONSTANTS.percentage / AUDIO_J.constants.ms)
+					
+					let decayValue   = Math.min(AUDIO_J.constants.ms, Math.max(0, decayInput.value  ))
+					let decayPercentage = Math.pow(decayValue * (CONSTANTS.percentage / AUDIO_J.constants.ms), 0.5) * CONSTANTS.envelopeComponentMaxPercentage * (CONSTANTS.percentage / AUDIO_J.constants.ms)
+					
 					let sustainValue = Math.min(CONSTANTS.percentage, Math.max(0, sustainInput.value))
-					let releaseValue = Math.min(CONSTANTS.percentage, Math.max(0, releaseInput.value))
-						releaseValue = Math.pow(releaseValue, 0.5) * CONSTANTS.envelopeComponentMaxPercentage / 10
+					let sustainPercentage = sustainValue
+					
+					let releaseValue = Math.min(AUDIO_J.constants.ms, Math.max(0, releaseInput.value))
+					let releasePercentage = Math.pow(releaseValue * (CONSTANTS.percentage / AUDIO_J.constants.ms), 0.5) * CONSTANTS.envelopeComponentMaxPercentage * (CONSTANTS.percentage / AUDIO_J.constants.ms)
 
 				// display
-					attackShape.style.width   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
-					attackInput.style.width   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
+					attackShape.style.width   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) + "%"
+					attackInput.style.width   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) + "%"
 					
-					decayShape.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (CONSTANTS.percentage - Math.max(sustainValue, CONSTANTS.envelopeComponentMinPercentage)) + "%)"
-					decayShape.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (CONSTANTS.percentage - Math.max(sustainValue, CONSTANTS.envelopeComponentMinPercentage)) + "%)"
-					decayShape.style.width    = Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
-					decayShape.style.left     = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
-					decayInput.style.left     = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + "%"
-					decayInput.style.width    = Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
+					decayShape.style["clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (CONSTANTS.percentage - Math.max(sustainPercentage, CONSTANTS.envelopeComponentMinPercentage)) + "%)"
+					decayShape.style["-webkit-clip-path"] = "polygon(0% 0%, 0% 100%, 100% 100%, 100% " + (CONSTANTS.percentage - Math.max(sustainPercentage, CONSTANTS.envelopeComponentMinPercentage)) + "%)"
+					decayShape.style.width    = Math.max(CONSTANTS.envelopeComponentMinPercentage, decayPercentage) + "%"
+					decayShape.style.left     = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) + "%"
+					decayInput.style.left     = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) + "%"
+					decayInput.style.width    = Math.max(CONSTANTS.envelopeComponentMinPercentage, decayPercentage) + "%"
 
-					releaseShape.style.width  = Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
-					releaseShape.style.height = sustainValue + "%"
-					releaseInput.style.left   = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
-					releaseInput.style.width  = Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
+					releaseShape.style.width  = Math.max(CONSTANTS.envelopeComponentMinPercentage, releasePercentage) + "%"
+					releaseShape.style.height = sustainPercentage + "%"
+					releaseInput.style.left   = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, releasePercentage) + "%"
+					releaseInput.style.width  = Math.max(CONSTANTS.envelopeComponentMinPercentage, releasePercentage) + "%"
 
-					sustainShape.style.width  = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
-					sustainShape.style.height = sustainValue + "%"
-					sustainShape.style.left   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
-					sustainInput.style.left   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) + Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) + "%"
-					sustainInput.style.width  = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, attackValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, decayValue) - Math.max(CONSTANTS.envelopeComponentMinPercentage, releaseValue) + "%"
+					sustainShape.style.width  = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) - Math.max(CONSTANTS.envelopeComponentMinPercentage, decayPercentage) - Math.max(CONSTANTS.envelopeComponentMinPercentage, releasePercentage) + "%"
+					sustainShape.style.height = sustainPercentage + "%"
+					sustainShape.style.left   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) + Math.max(CONSTANTS.envelopeComponentMinPercentage, decayPercentage) + "%"
+					sustainInput.style.left   = Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) + Math.max(CONSTANTS.envelopeComponentMinPercentage, decayPercentage) + "%"
+					sustainInput.style.width  = CONSTANTS.percentage - Math.max(CONSTANTS.envelopeComponentMinPercentage, attackPercentage) - Math.max(CONSTANTS.envelopeComponentMinPercentage, decayPercentage) - Math.max(CONSTANTS.envelopeComponentMinPercentage, releasePercentage) + "%"
 
 				// audio
 					if (!setup) {
 						const envelope = {
-							attack:  (Math.min(CONSTANTS.percentage, Math.max(0, attackInput.value )) / CONSTANTS.percentage),
-							decay:   (Math.min(CONSTANTS.percentage, Math.max(0, decayInput.value  )) / CONSTANTS.percentage),
+							attack:  (Math.min(AUDIO_J.constants.ms, Math.max(0, attackInput.value )) / AUDIO_J.constants.ms),
+							decay:   (Math.min(AUDIO_J.constants.ms, Math.max(0, decayInput.value  )) / AUDIO_J.constants.ms),
 							sustain: (Math.min(CONSTANTS.percentage, Math.max(0, sustainInput.value)) / CONSTANTS.percentage),
-							release: (Math.min(CONSTANTS.percentage, Math.max(0, releaseInput.value)) / CONSTANTS.percentage)
+							release: (Math.min(AUDIO_J.constants.ms, Math.max(0, releaseInput.value)) / AUDIO_J.constants.ms)
 						}
 
 						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ envelope: envelope }) }
@@ -1179,6 +1241,7 @@
 						bitcrusherToggle.className = "toggle"
 						bitcrusherToggle.innerHTML = '<span class="fas fa-ban"></span>'
 						bitcrusherToggle.setAttribute("selected", true)
+						bitcrusherToggle.title = "bitcrusher toggle"
 						bitcrusherToggle.addEventListener(TRIGGERS.click, adjustBitcrusherToolToggle)
 					bitsSection.appendChild(bitcrusherToggle)
 					ELEMENTS["tool-bitcrusher"]["bits-toggle--0"] = bitcrusherToggle
@@ -1191,6 +1254,7 @@
 							bitToggle.className = "toggle"
 							bitToggle.innerHTML = bitValue + "<span class='tool-bitcrusher-bits-toggle-bit'>bit</span>"
 							bitToggle.style["border-radius"] = (AUDIO_J.constants.bitcrusherBits.length - i - 1) * CONSTANTS.bitcrusherBorderRadiusPercentage + "%"
+							bitToggle.title = bitValue + "-bit toggle"
 							bitToggle.addEventListener(TRIGGERS.click, adjustBitcrusherToolToggle)
 						bitsSection.appendChild(bitToggle)
 						ELEMENTS["tool-bitcrusher"]["bits-toggle--" + bitValue] = bitToggle
@@ -1206,9 +1270,11 @@
 						normInput.setAttribute("type", "number")
 						normInput.setAttribute("min", 0)
 						normInput.setAttribute("max", CONSTANTS.percentage)
+						normInput.placeholder = "%"
 						normInput.className = "input"
 						normInput.id = "tool-bitcrusher-norm-input"
 						normInput.value = 0
+						normInput.title = "crush amount"
 						normInput.addEventListener(TRIGGERS.change, adjustBitcrusherToolInput)
 					normSection.appendChild(normInput)
 					ELEMENTS["tool-bitcrusher"]["norm-input"] = normInput
@@ -1223,7 +1289,8 @@
 							normBar.id = "tool-bitcrusher-norm-bar"
 							normBar.className = "bar"
 							normBar.style.width = "0%"
-							normBar.innerHTML = '<span class="fas fa-adjust"></span>'
+							normBar.innerHTML = '<span class="fas fa-robot"></span>'
+							normBar.title = "crush amount"
 							normBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						normTrack.appendChild(normBar)
 						ELEMENTS["tool-bitcrusher"]["norm-bar"] = normBar
@@ -1235,7 +1302,7 @@
 			try {
 				// data
 					let bits = Number(event.target.value) || 0
-					const norm = Math.max(0, Math.min(CONSTANTS.percentage, ELEMENTS["tool-bitcrusher"]["norm-input"].value)) / CONSTANTS.percentage
+					const norm = 1 - (Math.max(0, Math.min(CONSTANTS.percentage, ELEMENTS["tool-bitcrusher"]["norm-input"].value)) / CONSTANTS.percentage)
 
 					if (!AUDIO_J.constants.bitcrusherBits.includes(bits)) {
 						bits = 0
@@ -1306,7 +1373,7 @@
 
 				// audio
 					if (!setup) {
-						const norm = Math.max(0, Math.min(1, percentage / CONSTANTS.percentage))
+						const norm = (1 - Math.max(0, Math.min(1, percentage / CONSTANTS.percentage))) || 0
 						const selectedToggles = Array.from(ELEMENTS.toolSections["tool-bitcrusher"].querySelectorAll(".toggle[selected]")) || []
 						let bits = selectedToggles.length ? Number(selectedToggles[0].value) : 0
 						if (!AUDIO_J.constants.bitcrusherBits.includes(bits)) {
@@ -1401,26 +1468,32 @@
 					ELEMENTS["tool-filter"]["track"].appendChild(blob)
 					ELEMENTS["tool-filter"]["blob--" + num] = blob
 
+				// range
+					const MIDINotes = Object.keys(AUDIO_J.constants.notes)
+					const lowestValidMIDI = MIDINotes[0]
+					const highestValidMIDI = MIDINotes[MIDINotes.length - 1]
+
 				// low
 					const lowShape = document.createElement("div")
 						lowShape.className = "shape square"
 						lowShape.id = "tool-filter-shape--low--" + num
-						lowShape.addEventListener(TRIGGERS.mousedown, selectBar)
 						lowShape.style.left = lowPercentage + "%"
 						lowShape.style.top = "50%"
+						lowShape.title = "filter low-end slider"
 						lowShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					ELEMENTS["tool-filter"]["track"].appendChild(lowShape)
 					ELEMENTS["tool-filter"]["shape--low--" + num] = lowShape
 
 					const lowInput = document.createElement("input")
 						lowInput.setAttribute("type", "number")
-						lowInput.setAttribute("min", 0)
-						lowInput.setAttribute("max", CONSTANTS.percentage)
-						lowInput.setAttribute("placeholder", "pitch #")
+						lowInput.setAttribute("min", lowestValidMIDI)
+						lowInput.setAttribute("max", highestValidMIDI)
+						lowInput.placeholder = "pitch #"
 						lowInput.className = "input tool-filter-input--low"
 						lowInput.id = "tool-filter-input--low--" + num
 						lowInput.value = lowMidi
 						lowInput.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((lowPercentage + highPercentage) / 2))) + "%"
+						lowInput.title = "filter low-end input"
 						lowInput.addEventListener(TRIGGERS.change, adjustFilterToolInput)
 					ELEMENTS.toolSections["tool-filter"].appendChild(lowInput)
 					ELEMENTS["tool-filter"]["input--low--" + num] = lowInput
@@ -1429,9 +1502,9 @@
 					const gainShape = document.createElement("div")
 						gainShape.className = "shape circle"
 						gainShape.id = "tool-filter-shape--gain--" + num
-						gainShape.addEventListener(TRIGGERS.mousedown, selectBar)
 						gainShape.style.left = ((lowPercentage + highPercentage) / 2) + "%"
 						gainShape.style.top = (CONSTANTS.percentage / 2 - gainPercentage) + "%"
+						gainShape.title = "filter gain slider"
 						gainShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					ELEMENTS["tool-filter"]["track"].appendChild(gainShape)
 					ELEMENTS["tool-filter"]["shape--gain--" + num] = gainShape
@@ -1445,11 +1518,12 @@
 						gainInput.setAttribute("type", "number")
 						gainInput.setAttribute("min", AUDIO_J.constants.filterGainMinimum)
 						gainInput.setAttribute("max", AUDIO_J.constants.filterGainMaximum)
-						gainInput.setAttribute("placeholder", "dB")
+						gainInput.placeholder = "dB"
 						gainInput.className = "input tool-filter-input--gain"
 						gainInput.id = "tool-filter-input--gain--" + num
 						gainInput.value = gainPercentage
 						gainInput.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((lowPercentage + highPercentage) / 2))) + "%"
+						gainInput.title = "filter gain input"
 						gainInput.addEventListener(TRIGGERS.change, adjustFilterToolInput)
 					ELEMENTS.toolSections["tool-filter"].appendChild(gainInput)
 					ELEMENTS["tool-filter"]["input--gain--" + num] = gainInput
@@ -1458,22 +1532,23 @@
 					const highShape = document.createElement("div")
 						highShape.className = "shape square"
 						highShape.id = "tool-filter-shape--high--" + num
-						highShape.addEventListener(TRIGGERS.mousedown, selectBar)
 						highShape.style.left = highPercentage + "%"
 						highShape.style.top = "50%"
+						highShape.title = "filter high-end slider"
 						highShape.addEventListener(TRIGGERS.mousedown, selectBar)
 					ELEMENTS["tool-filter"]["track"].appendChild(highShape)
 					ELEMENTS["tool-filter"]["shape--high--" + num] = highShape
 
 					const highInput = document.createElement("input")
 						highInput.setAttribute("type", "number")
-						highInput.setAttribute("min", 0)
-						highInput.setAttribute("max", CONSTANTS.percentage)
-						highInput.setAttribute("placeholder", "pitch #")
+						highInput.setAttribute("min", lowestValidMIDI)
+						highInput.setAttribute("max", highestValidMIDI)
+						highInput.placeholder = "pitch #"
 						highInput.className = "input tool-filter-input--high"
 						highInput.id = "tool-filter-input--high--" + num
 						highInput.value = highMidi
 						highInput.style.left = Math.max(CONSTANTS.filterEdgePercentage, Math.min(CONSTANTS.percentage - CONSTANTS.filterEdgePercentage, ((lowPercentage + highPercentage) / 2))) + "%"
+						highInput.title = "filter high-end input"
 						highInput.addEventListener(TRIGGERS.change, adjustFilterToolInput)
 					ELEMENTS.toolSections["tool-filter"].appendChild(highInput)
 					ELEMENTS["tool-filter"]["input--high--" + num] = highInput
@@ -1655,6 +1730,7 @@
 							feedbackBar.className = "bar"
 							feedbackBar.innerHTML = '<span class="fas fa-volume-up"></span>'
 							feedbackBar.style.height = "0%"
+							feedbackBar.title = "feedback amount"
 							feedbackBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						feedbackTrack.appendChild(feedbackBar)
 						ELEMENTS["tool-echo"]["bar--feedback"] = feedbackBar
@@ -1663,9 +1739,11 @@
 						feedbackInput.setAttribute("type", "number")
 						feedbackInput.setAttribute("min", 0)
 						feedbackInput.setAttribute("max", AUDIO_J.constants.echoFeedbackMaximum * CONSTANTS.percentage)
+						feedbackInput.placeholder = "%"
 						feedbackInput.className = "input"
 						feedbackInput.id = "tool-echo-input--feedback"
 						feedbackInput.value = 0
+						feedbackInput.title = "feedback percentage"
 						feedbackInput.addEventListener(TRIGGERS.change, adjustEchoToolInput)
 					ELEMENTS.toolSections["tool-echo"].appendChild(feedbackInput)
 					ELEMENTS["tool-echo"]["input--feedback"] = feedbackInput
@@ -1683,6 +1761,7 @@
 							delayBar.innerHTML = '<span class="fas fa-clock"></span>'
 							delayBar.style.left = "0%"
 							delayBar.style.height = "0%"
+							delayBar.title = "delay time"
 							delayBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						delayTrack.appendChild(delayBar)
 						ELEMENTS["tool-echo"]["bar--delay"] = delayBar
@@ -1690,11 +1769,13 @@
 					const delayInput = document.createElement("input")
 						delayInput.setAttribute("type", "number")
 						delayInput.setAttribute("min", 0)
-						delayInput.setAttribute("max", CONSTANTS.percentage)
+						delayInput.setAttribute("max", AUDIO_J.constants.ms)
+						delayInput.placeholder = "ms"
 						delayInput.className = "input"
 						delayInput.id = "tool-echo-input--delay"
 						delayInput.value = 0
 						delayInput.style.left = "0%"
+						delayInput.title = "delay milliseconds"
 						delayInput.addEventListener(TRIGGERS.change, adjustEchoToolInput)
 					delayTrack.appendChild(delayInput)
 					ELEMENTS["tool-echo"]["input--delay"] = delayInput
@@ -1737,10 +1818,10 @@
 							ELEMENTS["tool-echo"]["input--" + type].value = percentage
 						break
 						case "delay":
-							percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
-							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							STATE.parameter.style.left = percentage + "%"
-							ELEMENTS["tool-echo"]["input--" + type].value = percentage
+							ms = (x - rectangle.left) * AUDIO_J.constants.ms / (rectangle.width)
+							ms = Math.min(AUDIO_J.constants.ms, Math.max(0, ms))
+							STATE.parameter.style.left = ms + "%"
+							ELEMENTS["tool-echo"]["input--" + type].value = ms
 						break
 					}
 
@@ -1762,25 +1843,25 @@
 
 				// values
 					const feedbackValue = Math.min(AUDIO_J.constants.echoFeedbackMaximum * CONSTANTS.percentage, Math.max(0, feedbackInput.value))
-					const delayValue    = Math.min(CONSTANTS.percentage                                        , Math.max(0, delayInput.value   ))
+					const delayValue    = Math.min(AUDIO_J.constants.ms                                        , Math.max(0, delayInput.value   ))
 
 				// display
 					feedbackBeam.style.height = feedbackValue + "%"
 
-					delayBeam.style.left      = delayValue + "%"
+					delayBeam.style.left      = delayValue * (CONSTANTS.percentage / AUDIO_J.constants.ms) + "%"
 					delayBeam.style.height    =	Math.pow((feedbackValue / CONSTANTS.percentage), 2) * CONSTANTS.percentage + "%"
-					delayInput.style.left     = delayValue + "%"
+					delayInput.style.left     = delayValue * (CONSTANTS.percentage / AUDIO_J.constants.ms) + "%"
 
 					for (let i = CONSTANTS.echoBeamStart; i <= CONSTANTS.echoBeamCount; i++) {
 						const beam = ELEMENTS["tool-echo"]["bar--" + i]
-							beam.style.left   = delayValue * i + "%"
+							beam.style.left   = delayValue * (CONSTANTS.percentage / AUDIO_J.constants.ms) * i + "%"
 							beam.style.height = Math.pow((feedbackValue / CONSTANTS.percentage), i) * CONSTANTS.percentage + "%"
 					}
 
 				// audio
 					if (!setup) {
 						const echo = {
-							delay:    delayValue / CONSTANTS.percentage,
+							delay:    delayValue / AUDIO_J.constants.ms,
 							feedback: feedbackValue / CONSTANTS.percentage
 						}
 						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ echo: echo }) }

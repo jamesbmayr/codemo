@@ -213,6 +213,12 @@
 				pressPedal: null,
 				liftPedal: null,
 			},
+			recorder: {
+				data: [],
+				mediaStreamDestination: null,
+				mediaRecorder: null,
+				download: false
+			},
 			instruments: [],
 			simpleInstruments: {
 				"sine": {
@@ -307,7 +313,8 @@
 						"release":1
 					},
 					"bitcrusher":{
-						"bits":0,"norm":0
+						"bits":0,
+						"norm":0
 					},
 					"filters":{},
 					"echo":{
@@ -1765,553 +1772,564 @@
 		}
 
 /*** buildAudio ***/
-	AUDIO_J.buildAudio = buildAudio
-	function buildAudio() {
-		try {
-			// audio context
-				AUDIO_J.audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
-				const now = (AUDIO_J.audio.currentTime || 0)
+	/* buildAudio */
+		AUDIO_J.buildAudio = buildAudio
+		function buildAudio() {
+			try {
+				// audio context
+					AUDIO_J.audio = new (window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.oAudioContext || window.msAudioContext)()
+					const now = (AUDIO_J.audio.currentTime || 0)
 
-			// master volume
-				AUDIO_J.master = AUDIO_J.audio.createGain()
-				AUDIO_J.master.connect(AUDIO_J.audio.destination)
-				AUDIO_J.master.gain.setValueAtTime(1, now)
+				// master volume
+					AUDIO_J.master = AUDIO_J.audio.createGain()
+					AUDIO_J.master.connect(AUDIO_J.audio.destination)
+					AUDIO_J.master.gain.setValueAtTime(1, now)
 
-			// noise
-				// white
-					AUDIO_J.noise.white = AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1)
-					AUDIO_J.noise.white.onaudioprocess = function(event) {
-						const output = event.outputBuffer.getChannelData(0)
-						
-						for (let i = 0; i < AUDIO_J.constants.bufferCount; i++) {
-							output[i] = Math.random() * 2 - 1
-						}
-					}
+				// recorder
+					buildRecorder()
 
-				// brown
-					AUDIO_J.noise.brown = AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1)
-					AUDIO_J.noise.brown.onaudioprocess = function(event) {
-						const output = event.outputBuffer.getChannelData(0)
-						let lastOut = 0.0
+				// noise
+					buildNoise()
+			} catch (error) {console.log(error)}
+		}
 
-						for (let i = 0; i < AUDIO_J.constants.bufferCount; i++) {
-							output[i] = (lastOut + (0.02 * (Math.random() * 2 - 1))) / 1.02
-							lastOut = output[i]
-							output[i] *= 3.5
-						}
-					}
-
-				// pink
-					AUDIO_J.noise.pink = AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1)
-					AUDIO_J.noise.pink.onaudioprocess = function(event) {
-						const output = event.outputBuffer.getChannelData(0)
-						
-						let b0,  b1,  b2,  b3,  b4,  b5,  b6
-							b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0
-						for (let i = 0; i < AUDIO_J.constants.bufferCount; i++) {
-							var random = Math.random() * 2 - 1
-							b0 = 0.99886 * b0 + random * 0.0555179
-							b1 = 0.99332 * b1 + random * 0.0750759
-							b2 = 0.96900 * b2 + random * 0.1538520
-							b3 = 0.86650 * b3 + random * 0.3104856
-							b4 = 0.55000 * b4 + random * 0.5329522
-							b5 = -0.7616 * b5 - random * 0.0168980
-							output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + random * 0.5362) * 0.11
-							b6 = random * 0.115926
-						}
-					}
-		} catch (error) {console.log(error)}
-	}
-
-/*** buildInstrument ***/
-	AUDIO_J.buildInstrument = buildInstrument
-	function buildInstrument(parameters) {
-		try {
-			// parameters & nodes
-				const now = AUDIO_J.audio.currentTime || 0
-				const instrument = {
-					parameters: {
-						polysynth:    {},
-						noise:        {},
-						imag:         new Float32Array(1 + AUDIO_J.constants.waveCount),
-						real:         new Float32Array(1 + AUDIO_J.constants.waveCount),
-						wave:         null,
-						envelope: {
-							attack:   0,
-							decay:    0,
-							sustain:  1,
-							release:  0,
-						},
-						bitcrusher:   {
-							bits: 0,
-							norm: 0
-						},
-						filters:      {},
-						echo: {
-							delay:    0,
-							feedback: 0
-						}
-					},
-					timeouts:      {},
-					noise:         {},
-					tones:         {},
-					velocities:    {},
-					envelopes:     {},
-					bitcrusherIn:  AUDIO_J.audio.createGain(),
-					bitcrusher:    AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1),
-					bitcrusherOut: AUDIO_J.audio.createGain(),
-					filterIn:      AUDIO_J.audio.createGain(),
-					filters:       {},
-					filterOut:     AUDIO_J.audio.createGain(),
-					delay:         AUDIO_J.audio.createDelay(),
-					feedback:      AUDIO_J.audio.createGain(),
-					volume:        AUDIO_J.audio.createGain(),
-					power:         AUDIO_J.audio.createGain(),
-					currentVolume: 0.5,
-					currentPower: 1
-				}
-
-			// wave (for tone oscillators)
-				instrument.parameters.imag[1] = 1
-				instrument.parameters.wave = AUDIO_J.audio.createPeriodicWave(instrument.parameters.real, instrument.parameters.imag)
-
-			// noise
-				for (let color in AUDIO_J.noise) {
-					instrument.noise[color] = AUDIO_J.audio.createGain()
-					instrument.noise[color].gain.setValueAtTime(0, now)
-					AUDIO_J.noise[color].connect(instrument.noise[color]) // noise in, but not out
-				}
-
-			// default values
-				instrument.filterIn.gain.setValueAtTime(1, now)
-				instrument.filterOut.gain.setValueAtTime(1, now)
-				instrument.delay.delayTime.setValueAtTime(0, now)
-				instrument.feedback.gain.setValueAtTime(0, now)
-				instrument.volume.gain.setValueAtTime(instrument.currentVolume, now)	
-				instrument.power.gain.setValueAtTime(instrument.currentPower, now)
-
-			// connections
-				instrument.bitcrusherIn.connect(instrument.bitcrusherOut) // bypass
-				instrument.bitcrusher.connect(instrument.bitcrusherOut)
-				instrument.bitcrusherOut.connect(instrument.filterIn)
-				
-				instrument.filterIn.connect(instrument.filterOut) // bypass
-				instrument.filterOut.connect(instrument.delay)  // split
-				instrument.filterOut.connect(instrument.volume) // bypass
-
-				instrument.delay.connect(instrument.feedback)
-				instrument.feedback.connect(instrument.delay) // loop back
-				instrument.feedback.connect(instrument.volume)
-
-				instrument.volume.connect(instrument.power)
-				instrument.power.connect(AUDIO_J.master)
-
-			/* crushBits */
-				instrument.crushBits = function(event) {
-					const input  = event.inputBuffer.getChannelData(0)
+	/* buildNoise */
+		function buildNoise() {
+			try {
+			// white
+				AUDIO_J.noise.white = AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1)
+				AUDIO_J.noise.white.onaudioprocess = function(event) {
 					const output = event.outputBuffer.getChannelData(0)
-					const step = Math.pow(0.5, instrument.parameters.bitcrusher.bits)
-
-					let wait = 0
-					let hold = 0
-
-					for (let x = 0; x < AUDIO_J.constants.bufferCount; x++) {
-						wait += instrument.parameters.bitcrusher.norm
-						if (wait >= 1) {
-							wait -= 1
-							hold  = step * Math.floor((input[x] / step) + 0.5)
-						}
-						output[x] = hold
+					
+					for (let i = 0; i < AUDIO_J.constants.bufferCount; i++) {
+						output[i] = Math.random() * 2 - 1
 					}
 				}
 
-			/* setParameters */
-				instrument.setParameters = function(parameters) {
-					try {
-						const now = AUDIO_J.audio.currentTime || 0
-						
-						// name
-							if (parameters.name !== undefined) {
-								instrument.parameters.name = parameters.name.trim()
-							}
+			// brown
+				AUDIO_J.noise.brown = AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1)
+				AUDIO_J.noise.brown.onaudioprocess = function(event) {
+					const output = event.outputBuffer.getChannelData(0)
+					let lastOut = 0.0
 
-						// power
-							if (parameters.power !== undefined) {
-								parameters.power = Math.max(0, Math.min(1, Math.floor(parameters.power || 0)))
-								instrument.currentPower = parameters.power
-								instrument.power.gain.setValueAtTime(parameters.power, now)
-
-								// off --> kill pitches & feedback
-									if (!instrument.currentPower) {
-										for (let p in instrument.velocities) {
-											instrument.kill(p)
-										}
-
-										instrument.feedback.gain.cancelScheduledValues(now)
-										instrument.delay.delayTime.setValueAtTime(0, now)
-										instrument.feedback.gain.setValueAtTime(0, now)
-									}
-
-								// on --> reactivate feedback
-									if (instrument.currentPower) {
-										instrument.delay.delayTime.setValueAtTime(instrument.parameters.echo.delay, now)
-										instrument.feedback.gain.setValueAtTime(instrument.parameters.echo.feedback, now)
-									}
-							}
-
-						// volume
-							if (parameters.volume !== undefined) {
-								parameters.volume = Math.max(0, Math.min(1, parameters.volume))
-								instrument.currentVolume = parameters.volume
-								instrument.volume.gain.setValueAtTime(parameters.volume, now)
-							}
-
-						// oscillator
-							if (parameters.imag !== undefined) {
-								instrument.parameters.imag = new Float32Array(1 + AUDIO_J.constants.waveCount)
-								instrument.parameters.real = new Float32Array(1 + AUDIO_J.constants.waveCount)
-								for (let x = 1; x < instrument.parameters.imag.length; x++) {
-									instrument.parameters.imag[x] = parameters.imag[x] || 0
-								}
-								instrument.parameters.wave = AUDIO_J.audio.createPeriodicWave(instrument.parameters.real, instrument.parameters.imag)
-							}
-
-							if (parameters.harmonic !== undefined) {
-								const harmonic = Object.keys(parameters.harmonic)[0]
-								instrument.parameters.imag[harmonic] = Math.max(0, Math.min(1, parameters.harmonic[harmonic]))
-								instrument.parameters.wave   = AUDIO_J.audio.createPeriodicWave(instrument.parameters.real, instrument.parameters.imag)
-							}
-
-						// polysynth
-							if (parameters.polysynth !== undefined) {
-								for (let x in parameters.polysynth) {
-									const tone = Math.max(-AUDIO_J.constants.semitonesPerOctave, Math.min(AUDIO_J.constants.semitonesPerOctave, x))
-									if (parameters.polysynth[tone] && !instrument.parameters.polysynth[tone]) {
-										instrument.parameters.polysynth[tone] = true
-									}
-									else if (!parameters.polysynth[tone] && instrument.parameters.polysynth[tone]) {
-										delete instrument.parameters.polysynth[tone]
-									}
-								}
-							}
-
-						// noise
-							if (parameters.noise !== undefined) {
-								for (let color in parameters.noise) {
-									const value = Math.min(1, Math.max(0, parameters.noise[color]))
-									if (value) {
-										instrument.parameters.noise[color] = value
-										instrument.noise[color].gain.setValueAtTime(value, now)
-									}
-									else if (color in instrument.parameters.noise) {
-										delete instrument.parameters.noise[color]
-										instrument.noise[color].gain.setValueAtTime(0, now)
-									}
-								}
-							}
-
-						// envelope
-							if (parameters.envelope !== undefined) {
-								instrument.parameters.envelope.attack  = Math.max(0, Math.min(1, parameters.envelope.attack ))
-								instrument.parameters.envelope.decay   = Math.max(0, Math.min(1, parameters.envelope.decay  ))
-								instrument.parameters.envelope.sustain = Math.max(0, Math.min(1, parameters.envelope.sustain))
-								instrument.parameters.envelope.release = Math.max(0, Math.min(1, parameters.envelope.release))
-							}
-
-						// bitcrusher
-							if (parameters.bitcrusher !== undefined) {
-								// parameters
-									const bits = AUDIO_J.constants.bitcrusherBits.includes(Number(parameters.bitcrusher.bits)) ? Number(parameters.bitcrusher.bits) : 0
-									const norm = Math.max(0, Math.min(1, parameters.bitcrusher.norm)) || 0
-
-								// no bits / norm now --> bypass
-									if (!bits || !norm) {
-										instrument.bitcrusherIn.disconnect()
-										instrument.bitcrusherIn.connect(instrument.bitcrusherOut)
-										instrument.bitcrusher.onaudioprocess = null
-									}
-
-								// bits & norm now, but not before --> reconnect
-									else if (!instrument.parameters.bitcrusher.bits || !instrument.parameters.bitcrusher.norm) {
-										instrument.bitcrusher.onaudioprocess = instrument.crushBits
-										instrument.bitcrusherIn.disconnect()
-										instrument.bitcrusherIn.connect(instrument.bitcrusher)
-									}
-
-								// set values
-									instrument.parameters.bitcrusher.bits = bits
-									instrument.parameters.bitcrusher.norm = norm
-							}
-
-						// filter
-							if (parameters.filters !== undefined) {
-								for (let f in parameters.filters) {
-									const gain = Math.max(AUDIO_J.constants.filterGainMinimum, Math.min(AUDIO_J.constants.filterGainMaximum, parameters.filters[f].gain))
-
-									// delete filter
-										if (Math.abs(gain) < AUDIO_J.constants.filterGainThreshold) {
-											if (instrument.filters[f]) {
-												instrument.filters[f].gain.cancelScheduledValues(now)
-												instrument.filters[f].disconnect()
-												delete instrument.filters[f]
-												delete instrument.parameters.filters[f]
-											}
-										}
-
-									// new / adjust filter
-										else {
-											const low  = Math.max(AUDIO_J.constants.minFrequency, Math.min(AUDIO_J.constants.maxFrequency, parameters.filters[f].low ))
-											const mid  = Math.max(AUDIO_J.constants.minFrequency, Math.min(AUDIO_J.constants.maxFrequency, parameters.filters[f].mid ))
-											const high = Math.max(AUDIO_J.constants.minFrequency, Math.min(AUDIO_J.constants.maxFrequency, parameters.filters[f].high))
-											const type = ((mid < AUDIO_J.constants.lowShelfThreshold) ? "lowshelf" : (mid > AUDIO_J.constants.highShelfThreshold) ? "highshelf" : "peaking")
-											
-											instrument.parameters.filters[f] = {
-												low: low,
-												mid: mid,
-												high: high,
-												type: type,
-												frequency: ((type == "lowshelf") ? high : (type == "highshelf") ? low : mid),
-												q:    mid / (high - low),
-												gain: gain
-											}
-
-											if (!instrument.filters[f]) {
-												instrument.filters[f] = AUDIO_J.audio.createBiquadFilter()	
-											}
-											instrument.filters[f].type = type
-											instrument.filters[f].frequency.setValueAtTime(                         instrument.parameters.filters[f].frequency,  now)
-											instrument.filters[f].Q.setValueAtTime(Math.min(AUDIO_J.constants.Qmax, instrument.parameters.filters[f].q),         now)
-											instrument.filters[f].gain.setValueAtTime(                              instrument.parameters.filters[f].gain,       now)
-										}
-								}
-
-								// manage connections
-									instrument.filterIn.disconnect()
-
-									var fkeys = Object.keys(instrument.filters) || []
-									if (fkeys.length) {
-										for (var f = 0; f < fkeys.length; f++) {
-											instrument.filters[fkeys[f]].disconnect()
-										}
-
-										for (var f = 0; f < fkeys.length; f++) {
-											if (!f) {
-												instrument.filterIn.connect(instrument.filters[fkeys[f]])
-											}
-											if (f + 1 == fkeys.length) {
-												instrument.filters[fkeys[f]].connect(instrument.filterOut)
-											}
-											else {
-												instrument.filters[fkeys[f]].connect(instrument.filters[fkeys[f + 1]])
-											}
-										}
-									}
-									else {
-										instrument.filterIn.connect(instrument.filterOut)
-									}
-							}
-
-						// echo
-							if (parameters.echo !== undefined) {
-								instrument.parameters.echo.delay    = Math.max(0, Math.min(1, parameters.echo.delay   )) || 0
-								instrument.parameters.echo.feedback = Math.max(0, Math.min(AUDIO_J.constants.echoFeedbackMaximum, parameters.echo.feedback)) || 0
-
-								instrument.delay.delayTime.setValueAtTime(instrument.parameters.echo.delay, now)
-								instrument.feedback.gain.setValueAtTime(instrument.parameters.echo.feedback, now)
-
-								if (!instrument.parameters.echo.delay || !instrument.parameters.echo.feedback) {
-									instrument.feedback.gain.cancelScheduledValues(now)
-									instrument.feedback.gain.setValueAtTime(0, now)
-								}
-							}
-					} catch (error) {console.log(error)}
+					for (let i = 0; i < AUDIO_J.constants.bufferCount; i++) {
+						output[i] = (lastOut + (0.02 * (Math.random() * 2 - 1))) / 1.02
+						lastOut = output[i]
+						output[i] *= 3.5
+					}
 				}
 
-			/* press */
-				instrument.press = function(pitch, velocity, waitToTriggerMS, waitToEndMS) {
-					try {
-						// scheduled
-							if (waitToTriggerMS) {
-								setTimeout(function() {
-									instrument.press(pitch, velocity, null, waitToEndMS)
-								}, waitToTriggerMS)
-								return
-							}
-
-						// off?
-							if (!instrument.currentPower) {
-								return
-							}
-
-						// info
-							pitch = Math.max(AUDIO_J.constants.minPitch, Math.min(AUDIO_J.constants.maxPitch, pitch))
-							const now = AUDIO_J.audio.currentTime || 0
-
-						// timeouts
-							if (instrument.timeouts[pitch]) {
-								clearInterval(instrument.timeouts[pitch])
-								delete instrument.timeouts[pitch]
-							}
-
-						// velocity
-							velocity = Math.max(AUDIO_J.constants.minVelocity, Math.min(AUDIO_J.constants.maxVelocity, (velocity || AUDIO_J.constants.defaultVelocity)))
-
-							if (instrument.velocities[pitch]) {
-								instrument.velocities[pitch].gain.cancelScheduledValues(now)
-								instrument.velocities[pitch].disconnect()
-								delete instrument.velocities[pitch]
-							}
-							
-							instrument.velocities[pitch] = AUDIO_J.audio.createGain()
-							instrument.velocities[pitch].gain.setValueAtTime(velocity, now)
-
-						// noise
-							for (let color in AUDIO_J.noise) {
-								instrument.noise[color].connect(instrument.velocities[pitch])
-							}
-
-						// oscillator
-							for (let p in instrument.parameters.polysynth) {
-								const distance = p
-								const multiplier = Math.pow(AUDIO_J.constants.oscillatorFactor, distance)
-
-								if (instrument.tones[pitch + "_" + distance]) {
-									instrument.tones[pitch + "_" + distance].stop(now)
-									instrument.tones[pitch + "_" + distance].disconnect()
-									delete instrument.tones[pitch + "_" + distance]
-								}
-
-								instrument.tones[pitch + "_" + distance] = AUDIO_J.audio.createOscillator()
-								instrument.tones[pitch + "_" + distance].connect(instrument.velocities[pitch])
-								instrument.tones[pitch + "_" + distance].frequency.setValueAtTime(pitch * multiplier, now)
-								instrument.tones[pitch + "_" + distance].setPeriodicWave(instrument.parameters.wave)
-								instrument.tones[pitch + "_" + distance].start(now)
-							}
-
-						// envelopes
-							if (instrument.envelopes[pitch]) {
-								instrument.envelopes[pitch].gain.cancelScheduledValues(now)
-								instrument.envelopes[pitch].disconnect()
-								delete instrument.envelopes[pitch]
-							}
-
-							const attackTime = now + (instrument.parameters.envelope.attack || 0)
-							const decayTime = attackTime + (instrument.parameters.envelope.decay || 0)
-							const sustainVolume = (instrument.parameters.envelope.sustain || 0)
-
-							instrument.envelopes[pitch] = AUDIO_J.audio.createGain()
-							instrument.velocities[pitch].connect(instrument.envelopes[pitch])
-							instrument.envelopes[pitch].connect(instrument.bitcrusherIn)
-
-							instrument.envelopes[pitch].gain.setValueAtTime(0, now)
-							instrument.envelopes[pitch].gain.linearRampToValueAtTime(1, attackTime)
-
-							instrument.envelopes[pitch].gain.exponentialRampToValueAtTime(sustainVolume + AUDIO_J.constants.arbitrarilySmall, decayTime)
-							instrument.envelopes[pitch].gain.linearRampToValueAtTime(sustainVolume, decayTime + AUDIO_J.constants.arbitrarilySmall)
-
-						// no sustain --> auto-delete
-							if (!sustainVolume) {
-								const postDecay = ((instrument.parameters.envelope.attack || 0) + (instrument.parameters.envelope.decay || 0) + AUDIO_J.constants.arbitrarilySmall) * AUDIO_J.constants.ms
-								instrument.timeouts[pitch] = setTimeout(function() {
-									instrument.kill(pitch)
-								}, postDecay)
-							}
-
-						// schedule lift
-							else if (waitToEndMS) {
-								instrument.lift(pitch, waitToEndMS)
-							}
-					} catch (error) {console.log(error)}
+			// pink
+				AUDIO_J.noise.pink = AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1)
+				AUDIO_J.noise.pink.onaudioprocess = function(event) {
+					const output = event.outputBuffer.getChannelData(0)
+					
+					let b0,  b1,  b2,  b3,  b4,  b5,  b6
+						b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0
+					for (let i = 0; i < AUDIO_J.constants.bufferCount; i++) {
+						var random = Math.random() * 2 - 1
+						b0 = 0.99886 * b0 + random * 0.0555179
+						b1 = 0.99332 * b1 + random * 0.0750759
+						b2 = 0.96900 * b2 + random * 0.1538520
+						b3 = 0.86650 * b3 + random * 0.3104856
+						b4 = 0.55000 * b4 + random * 0.5329522
+						b5 = -0.7616 * b5 - random * 0.0168980
+						output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + random * 0.5362) * 0.11
+						b6 = random * 0.115926
+					}
 				}
-
-			/* lift */
-				instrument.lift = function(pitch, waitToTriggerMS) {
-					try {
-						// scheduled
-							if (waitToTriggerMS) {
-								setTimeout(function() {
-									instrument.lift(pitch)
-								}, waitToTriggerMS)
-								return
-							}
-
-						// info
-							pitch = Math.max(AUDIO_J.constants.minPitch, Math.min(AUDIO_J.constants.maxPitch, pitch))
-							const now = AUDIO_J.audio.currentTime || 0
-
-						// no envelope
-							if (!instrument.envelopes[pitch]) {
-								return
-							}							
-
-						// already off
-							const currentVolume = instrument.envelopes[pitch].gain.value || 0
-							if (!currentVolume) {
-								instrument.kill(pitch)
-								return
-							}
-
-						// attack-decay only (kill already scheduled)
-							const sustainVolume = instrument.parameters.envelope.sustain || 0
-						 	if (!sustainVolume) {
-								return
-							}
-
-						// release
-							const releaseTime = now + (instrument.parameters.envelope.release || 0)
-							instrument.envelopes[pitch].gain.cancelScheduledValues(now)
-							instrument.envelopes[pitch].gain.setValueAtTime(currentVolume, now)
-							instrument.envelopes[pitch].gain.exponentialRampToValueAtTime(AUDIO_J.constants.arbitrarilySmall, releaseTime)
-							instrument.envelopes[pitch].gain.linearRampToValueAtTime(0, releaseTime + AUDIO_J.constants.arbitrarilySmall)
-
-						// delete
-							const postRelease = ((instrument.parameters.envelope.release || 0) + AUDIO_J.constants.arbitrarilySmall) * AUDIO_J.constants.ms
-							instrument.timeouts[pitch] = setTimeout(function() {
-								instrument.kill(pitch)
-							}, postRelease)
-					} catch (error) {console.log(error)}
-				}
-
-			/* kill */
-				instrument.kill = function(pitch) {
-					try {
-						// timeout
-							const now = AUDIO_J.audio.currentTime || 0
-							clearInterval(instrument.timeouts[pitch])
-							delete instrument.timeouts[pitch]
-
-						// envelope
-							if (instrument.envelopes[pitch]) {
-								instrument.envelopes[pitch].gain.cancelScheduledValues(now)
-								instrument.envelopes[pitch].disconnect()
-								delete instrument.envelopes[pitch]
-							}
-
-						// velocity
-							if (instrument.velocities[pitch]) {
-								instrument.velocities[pitch].gain.cancelScheduledValues(now)
-								instrument.velocities[pitch].disconnect()
-								delete instrument.velocities[pitch]
-							}
-
-						// tones
-							Object.keys(instrument.tones).forEach(function (t) {
-								if (t.split("_")[0] == pitch) {
-									instrument.tones[t].stop(now)
-									instrument.tones[t].disconnect()
-									delete instrument.tones[t]
-								}
-							})
-					} catch (error) {console.log(error)}
-				}
-			
-			// start
-				instrument.setParameters(parameters || {})
-				return instrument
-		} catch (error) {console.log(error)}
-	}
+			} catch (error) {console.log(error)}
+		}	
 
 /*** instruments ***/
+	/* buildInstrument */
+		AUDIO_J.buildInstrument = buildInstrument
+		function buildInstrument(parameters) {
+			try {
+				// parameters & nodes
+					const now = AUDIO_J.audio.currentTime || 0
+					const instrument = {
+						parameters: {
+							polysynth:    {},
+							noise:        {},
+							imag:         new Float32Array(1 + AUDIO_J.constants.waveCount),
+							real:         new Float32Array(1 + AUDIO_J.constants.waveCount),
+							wave:         null,
+							envelope: {
+								attack:   0,
+								decay:    0,
+								sustain:  1,
+								release:  0,
+							},
+							bitcrusher:   {
+								bits: 0,
+								norm: 0
+							},
+							filters:      {},
+							echo: {
+								delay:    0,
+								feedback: 0
+							}
+						},
+						timeouts:      {},
+						noise:         {},
+						tones:         {},
+						velocities:    {},
+						envelopes:     {},
+						bitcrusherIn:  AUDIO_J.audio.createGain(),
+						bitcrusher:    AUDIO_J.audio.createScriptProcessor(AUDIO_J.constants.bufferCount, 1, 1),
+						bitcrusherOut: AUDIO_J.audio.createGain(),
+						filterIn:      AUDIO_J.audio.createGain(),
+						filters:       {},
+						filterOut:     AUDIO_J.audio.createGain(),
+						delay:         AUDIO_J.audio.createDelay(),
+						feedback:      AUDIO_J.audio.createGain(),
+						volume:        AUDIO_J.audio.createGain(),
+						power:         AUDIO_J.audio.createGain(),
+						currentVolume: 0.5,
+						currentPower: 1
+					}
+
+				// wave (for tone oscillators)
+					instrument.parameters.imag[1] = 1
+					instrument.parameters.wave = AUDIO_J.audio.createPeriodicWave(instrument.parameters.real, instrument.parameters.imag)
+
+				// noise
+					for (let color in AUDIO_J.noise) {
+						instrument.noise[color] = AUDIO_J.audio.createGain()
+						instrument.noise[color].gain.setValueAtTime(0, now)
+						AUDIO_J.noise[color].connect(instrument.noise[color]) // noise in, but not out
+					}
+
+				// default values
+					instrument.filterIn.gain.setValueAtTime(1, now)
+					instrument.filterOut.gain.setValueAtTime(1, now)
+					instrument.delay.delayTime.setValueAtTime(0, now)
+					instrument.feedback.gain.setValueAtTime(0, now)
+					instrument.volume.gain.setValueAtTime(instrument.currentVolume, now)	
+					instrument.power.gain.setValueAtTime(instrument.currentPower, now)
+
+				// connections
+					instrument.bitcrusherIn.connect(instrument.bitcrusherOut) // bypass
+					instrument.bitcrusher.connect(instrument.bitcrusherOut)
+					instrument.bitcrusherOut.connect(instrument.filterIn)
+					
+					instrument.filterIn.connect(instrument.filterOut) // bypass
+					instrument.filterOut.connect(instrument.delay)  // split
+					instrument.filterOut.connect(instrument.volume) // bypass
+
+					instrument.delay.connect(instrument.feedback)
+					instrument.feedback.connect(instrument.delay) // loop back
+					instrument.feedback.connect(instrument.volume)
+
+					instrument.volume.connect(instrument.power)
+					instrument.power.connect(AUDIO_J.master)
+
+				/* crushBits */
+					instrument.crushBits = function(event) {
+						const input  = event.inputBuffer.getChannelData(0)
+						const output = event.outputBuffer.getChannelData(0)
+						const step = Math.pow(0.5, instrument.parameters.bitcrusher.bits)
+
+						let wait = 0
+						let hold = 0
+
+						for (let x = 0; x < AUDIO_J.constants.bufferCount; x++) {
+							wait += instrument.parameters.bitcrusher.norm
+							if (wait >= 1) {
+								wait -= 1
+								hold  = step * Math.floor((input[x] / step) + 0.5)
+							}
+							output[x] = hold
+						}
+					}
+
+				/* setParameters */
+					instrument.setParameters = function(parameters) {
+						try {
+							const now = AUDIO_J.audio.currentTime || 0
+							
+							// name
+								if (parameters.name !== undefined) {
+									instrument.parameters.name = parameters.name.trim()
+								}
+
+							// power
+								if (parameters.power !== undefined) {
+									parameters.power = Math.max(0, Math.min(1, Math.floor(parameters.power || 0)))
+									instrument.currentPower = parameters.power
+									instrument.power.gain.setValueAtTime(parameters.power, now)
+
+									// off --> kill pitches & feedback
+										if (!instrument.currentPower) {
+											for (let p in instrument.velocities) {
+												instrument.kill(p)
+											}
+
+											instrument.feedback.gain.cancelScheduledValues(now)
+											instrument.delay.delayTime.setValueAtTime(0, now)
+											instrument.feedback.gain.setValueAtTime(0, now)
+										}
+
+									// on --> reactivate feedback
+										if (instrument.currentPower) {
+											instrument.delay.delayTime.setValueAtTime(instrument.parameters.echo.delay, now)
+											instrument.feedback.gain.setValueAtTime(instrument.parameters.echo.feedback, now)
+										}
+								}
+
+							// volume
+								if (parameters.volume !== undefined) {
+									parameters.volume = Math.max(0, Math.min(1, parameters.volume))
+									instrument.currentVolume = parameters.volume
+									instrument.volume.gain.setValueAtTime(parameters.volume, now)
+								}
+
+							// oscillator
+								if (parameters.imag !== undefined) {
+									instrument.parameters.imag = new Float32Array(1 + AUDIO_J.constants.waveCount)
+									instrument.parameters.real = new Float32Array(1 + AUDIO_J.constants.waveCount)
+									for (let x = 1; x < instrument.parameters.imag.length; x++) {
+										instrument.parameters.imag[x] = parameters.imag[x] || 0
+									}
+									instrument.parameters.wave = AUDIO_J.audio.createPeriodicWave(instrument.parameters.real, instrument.parameters.imag)
+								}
+
+								if (parameters.harmonic !== undefined) {
+									const harmonic = Object.keys(parameters.harmonic)[0]
+									instrument.parameters.imag[harmonic] = Math.max(0, Math.min(1, parameters.harmonic[harmonic]))
+									instrument.parameters.wave   = AUDIO_J.audio.createPeriodicWave(instrument.parameters.real, instrument.parameters.imag)
+								}
+
+							// polysynth
+								if (parameters.polysynth !== undefined) {
+									for (let x in parameters.polysynth) {
+										const tone = Math.max(-AUDIO_J.constants.semitonesPerOctave, Math.min(AUDIO_J.constants.semitonesPerOctave, x))
+										if (parameters.polysynth[tone] && !instrument.parameters.polysynth[tone]) {
+											instrument.parameters.polysynth[tone] = true
+										}
+										else if (!parameters.polysynth[tone] && instrument.parameters.polysynth[tone]) {
+											delete instrument.parameters.polysynth[tone]
+										}
+									}
+								}
+
+							// noise
+								if (parameters.noise !== undefined) {
+									for (let color in parameters.noise) {
+										const value = Math.min(1, Math.max(0, parameters.noise[color]))
+										if (value) {
+											instrument.parameters.noise[color] = value
+											instrument.noise[color].gain.setValueAtTime(value, now)
+										}
+										else if (color in instrument.parameters.noise) {
+											delete instrument.parameters.noise[color]
+											instrument.noise[color].gain.setValueAtTime(0, now)
+										}
+									}
+								}
+
+							// envelope
+								if (parameters.envelope !== undefined) {
+									instrument.parameters.envelope.attack  = Math.max(0, Math.min(1, parameters.envelope.attack ))
+									instrument.parameters.envelope.decay   = Math.max(0, Math.min(1, parameters.envelope.decay  ))
+									instrument.parameters.envelope.sustain = Math.max(0, Math.min(1, parameters.envelope.sustain))
+									instrument.parameters.envelope.release = Math.max(0, Math.min(1, parameters.envelope.release))
+								}
+
+							// bitcrusher
+								if (parameters.bitcrusher !== undefined) {
+									// parameters
+										const bits = AUDIO_J.constants.bitcrusherBits.includes(Number(parameters.bitcrusher.bits)) ? Number(parameters.bitcrusher.bits) : 0
+										const norm = bits ? Math.max(0.001, Math.min(1, parameters.bitcrusher.norm)) || 1 : 0
+
+									// no bits / norm now --> bypass
+										if (!bits || !norm) {
+											instrument.bitcrusherIn.disconnect()
+											instrument.bitcrusherIn.connect(instrument.bitcrusherOut)
+											instrument.bitcrusher.onaudioprocess = null
+										}
+
+									// bits & norm now, but not before --> reconnect
+										else if (!instrument.parameters.bitcrusher.bits || !instrument.parameters.bitcrusher.norm) {
+											instrument.bitcrusher.onaudioprocess = instrument.crushBits
+											instrument.bitcrusherIn.disconnect()
+											instrument.bitcrusherIn.connect(instrument.bitcrusher)
+										}
+
+									// set values
+										instrument.parameters.bitcrusher.bits = bits
+										instrument.parameters.bitcrusher.norm = norm
+								}
+
+							// filter
+								if (parameters.filters !== undefined) {
+									for (let f in parameters.filters) {
+										const gain = Math.max(AUDIO_J.constants.filterGainMinimum, Math.min(AUDIO_J.constants.filterGainMaximum, parameters.filters[f].gain))
+
+										// delete filter
+											if (Math.abs(gain) < AUDIO_J.constants.filterGainThreshold) {
+												if (instrument.filters[f]) {
+													instrument.filters[f].gain.cancelScheduledValues(now)
+													instrument.filters[f].disconnect()
+													delete instrument.filters[f]
+													delete instrument.parameters.filters[f]
+												}
+											}
+
+										// new / adjust filter
+											else {
+												const low  = Math.max(AUDIO_J.constants.minFrequency, Math.min(AUDIO_J.constants.maxFrequency, parameters.filters[f].low ))
+												const mid  = Math.max(AUDIO_J.constants.minFrequency, Math.min(AUDIO_J.constants.maxFrequency, parameters.filters[f].mid ))
+												const high = Math.max(AUDIO_J.constants.minFrequency, Math.min(AUDIO_J.constants.maxFrequency, parameters.filters[f].high))
+												const type = ((mid < AUDIO_J.constants.lowShelfThreshold) ? "lowshelf" : (mid > AUDIO_J.constants.highShelfThreshold) ? "highshelf" : "peaking")
+												
+												instrument.parameters.filters[f] = {
+													low: low,
+													mid: mid,
+													high: high,
+													type: type,
+													frequency: ((type == "lowshelf") ? high : (type == "highshelf") ? low : mid),
+													q:    mid / (high - low),
+													gain: gain
+												}
+
+												if (!instrument.filters[f]) {
+													instrument.filters[f] = AUDIO_J.audio.createBiquadFilter()	
+												}
+												instrument.filters[f].type = type
+												instrument.filters[f].frequency.setValueAtTime(                         instrument.parameters.filters[f].frequency,  now)
+												instrument.filters[f].Q.setValueAtTime(Math.min(AUDIO_J.constants.Qmax, instrument.parameters.filters[f].q),         now)
+												instrument.filters[f].gain.setValueAtTime(                              instrument.parameters.filters[f].gain,       now)
+											}
+									}
+
+									// manage connections
+										instrument.filterIn.disconnect()
+
+										var fkeys = Object.keys(instrument.filters) || []
+										if (fkeys.length) {
+											for (var f = 0; f < fkeys.length; f++) {
+												instrument.filters[fkeys[f]].disconnect()
+											}
+
+											for (var f = 0; f < fkeys.length; f++) {
+												if (!f) {
+													instrument.filterIn.connect(instrument.filters[fkeys[f]])
+												}
+												if (f + 1 == fkeys.length) {
+													instrument.filters[fkeys[f]].connect(instrument.filterOut)
+												}
+												else {
+													instrument.filters[fkeys[f]].connect(instrument.filters[fkeys[f + 1]])
+												}
+											}
+										}
+										else {
+											instrument.filterIn.connect(instrument.filterOut)
+										}
+								}
+
+							// echo
+								if (parameters.echo !== undefined) {
+									instrument.parameters.echo.delay    = Math.max(0, Math.min(1, parameters.echo.delay   )) || 0
+									instrument.parameters.echo.feedback = Math.max(0, Math.min(AUDIO_J.constants.echoFeedbackMaximum, parameters.echo.feedback)) || 0
+
+									instrument.delay.delayTime.setValueAtTime(instrument.parameters.echo.delay, now)
+									instrument.feedback.gain.setValueAtTime(instrument.parameters.echo.feedback, now)
+
+									if (!instrument.parameters.echo.delay || !instrument.parameters.echo.feedback) {
+										instrument.feedback.gain.cancelScheduledValues(now)
+										instrument.feedback.gain.setValueAtTime(0, now)
+									}
+								}
+						} catch (error) {console.log(error)}
+					}
+
+				/* press */
+					instrument.press = function(pitch, velocity, waitToTriggerMS, waitToEndMS) {
+						try {
+							// scheduled
+								if (waitToTriggerMS) {
+									setTimeout(function() {
+										instrument.press(pitch, velocity, null, waitToEndMS)
+									}, waitToTriggerMS)
+									return
+								}
+
+							// off?
+								if (!instrument.currentPower) {
+									return
+								}
+
+							// info
+								pitch = Math.max(AUDIO_J.constants.minPitch, Math.min(AUDIO_J.constants.maxPitch, pitch))
+								const now = AUDIO_J.audio.currentTime || 0
+
+							// timeouts
+								if (instrument.timeouts[pitch]) {
+									clearInterval(instrument.timeouts[pitch])
+									delete instrument.timeouts[pitch]
+								}
+
+							// velocity
+								velocity = Math.max(AUDIO_J.constants.minVelocity, Math.min(AUDIO_J.constants.maxVelocity, (velocity || AUDIO_J.constants.defaultVelocity)))
+
+								if (instrument.velocities[pitch]) {
+									instrument.velocities[pitch].gain.cancelScheduledValues(now)
+									instrument.velocities[pitch].disconnect()
+									delete instrument.velocities[pitch]
+								}
+								
+								instrument.velocities[pitch] = AUDIO_J.audio.createGain()
+								instrument.velocities[pitch].gain.setValueAtTime(velocity, now)
+
+							// noise
+								for (let color in AUDIO_J.noise) {
+									instrument.noise[color].connect(instrument.velocities[pitch])
+								}
+
+							// oscillator
+								for (let p in instrument.parameters.polysynth) {
+									const distance = p
+									const multiplier = Math.pow(AUDIO_J.constants.oscillatorFactor, distance)
+
+									if (instrument.tones[pitch + "_" + distance]) {
+										instrument.tones[pitch + "_" + distance].stop(now)
+										instrument.tones[pitch + "_" + distance].disconnect()
+										delete instrument.tones[pitch + "_" + distance]
+									}
+
+									instrument.tones[pitch + "_" + distance] = AUDIO_J.audio.createOscillator()
+									instrument.tones[pitch + "_" + distance].connect(instrument.velocities[pitch])
+									instrument.tones[pitch + "_" + distance].frequency.setValueAtTime(pitch * multiplier, now)
+									instrument.tones[pitch + "_" + distance].setPeriodicWave(instrument.parameters.wave)
+									instrument.tones[pitch + "_" + distance].start(now)
+								}
+
+							// envelopes
+								if (instrument.envelopes[pitch]) {
+									instrument.envelopes[pitch].gain.cancelScheduledValues(now)
+									instrument.envelopes[pitch].disconnect()
+									delete instrument.envelopes[pitch]
+								}
+
+								const attackTime = now + (instrument.parameters.envelope.attack || 0)
+								const decayTime = attackTime + (instrument.parameters.envelope.decay || 0)
+								const sustainVolume = (instrument.parameters.envelope.sustain || 0)
+
+								instrument.envelopes[pitch] = AUDIO_J.audio.createGain()
+								instrument.velocities[pitch].connect(instrument.envelopes[pitch])
+								instrument.envelopes[pitch].connect(instrument.bitcrusherIn)
+
+								instrument.envelopes[pitch].gain.setValueAtTime(0, now)
+								instrument.envelopes[pitch].gain.linearRampToValueAtTime(1, attackTime)
+
+								instrument.envelopes[pitch].gain.exponentialRampToValueAtTime(sustainVolume + AUDIO_J.constants.arbitrarilySmall, decayTime)
+								instrument.envelopes[pitch].gain.linearRampToValueAtTime(sustainVolume, decayTime + AUDIO_J.constants.arbitrarilySmall)
+
+							// no sustain --> auto-delete
+								if (!sustainVolume) {
+									const postDecay = ((instrument.parameters.envelope.attack || 0) + (instrument.parameters.envelope.decay || 0) + AUDIO_J.constants.arbitrarilySmall) * AUDIO_J.constants.ms
+									instrument.timeouts[pitch] = setTimeout(function() {
+										instrument.kill(pitch)
+									}, postDecay)
+								}
+
+							// schedule lift
+								else if (waitToEndMS) {
+									instrument.lift(pitch, waitToEndMS)
+								}
+						} catch (error) {console.log(error)}
+					}
+
+				/* lift */
+					instrument.lift = function(pitch, waitToTriggerMS) {
+						try {
+							// scheduled
+								if (waitToTriggerMS) {
+									setTimeout(function() {
+										instrument.lift(pitch)
+									}, waitToTriggerMS)
+									return
+								}
+
+							// info
+								pitch = Math.max(AUDIO_J.constants.minPitch, Math.min(AUDIO_J.constants.maxPitch, pitch))
+								const now = AUDIO_J.audio.currentTime || 0
+
+							// no envelope
+								if (!instrument.envelopes[pitch]) {
+									return
+								}							
+
+							// already off
+								const currentVolume = instrument.envelopes[pitch].gain.value || 0
+								if (!currentVolume) {
+									instrument.kill(pitch)
+									return
+								}
+
+							// attack-decay only (kill already scheduled)
+								const sustainVolume = instrument.parameters.envelope.sustain || 0
+							 	if (!sustainVolume) {
+									return
+								}
+
+							// release
+								const releaseTime = now + (instrument.parameters.envelope.release || 0)
+								instrument.envelopes[pitch].gain.cancelScheduledValues(now)
+								instrument.envelopes[pitch].gain.setValueAtTime(currentVolume, now)
+								instrument.envelopes[pitch].gain.exponentialRampToValueAtTime(AUDIO_J.constants.arbitrarilySmall, releaseTime)
+								instrument.envelopes[pitch].gain.linearRampToValueAtTime(0, releaseTime + AUDIO_J.constants.arbitrarilySmall)
+
+							// delete
+								const postRelease = ((instrument.parameters.envelope.release || 0) + AUDIO_J.constants.arbitrarilySmall) * AUDIO_J.constants.ms
+								instrument.timeouts[pitch] = setTimeout(function() {
+									instrument.kill(pitch)
+								}, postRelease)
+						} catch (error) {console.log(error)}
+					}
+
+				/* kill */
+					instrument.kill = function(pitch) {
+						try {
+							// timeout
+								const now = AUDIO_J.audio.currentTime || 0
+								clearInterval(instrument.timeouts[pitch])
+								delete instrument.timeouts[pitch]
+
+							// envelope
+								if (instrument.envelopes[pitch]) {
+									instrument.envelopes[pitch].gain.cancelScheduledValues(now)
+									instrument.envelopes[pitch].disconnect()
+									delete instrument.envelopes[pitch]
+								}
+
+							// velocity
+								if (instrument.velocities[pitch]) {
+									instrument.velocities[pitch].gain.cancelScheduledValues(now)
+									instrument.velocities[pitch].disconnect()
+									delete instrument.velocities[pitch]
+								}
+
+							// tones
+								Object.keys(instrument.tones).forEach(function (t) {
+									if (t.split("_")[0] == pitch) {
+										instrument.tones[t].stop(now)
+										instrument.tones[t].disconnect()
+										delete instrument.tones[t]
+									}
+								})
+						} catch (error) {console.log(error)}
+					}
+				
+				// start
+					instrument.setParameters(parameters || {})
+					return instrument
+			} catch (error) {console.log(error)}
+		}
+
 	/* getInstrument */
 		AUDIO_J.getInstrument = getInstrument
 		function getInstrument(name) {
@@ -2457,7 +2475,9 @@
 
 /*** MIDI ***/
 	/* buildMidi */
-		navigator.requestMIDIAccess().then(buildMidi)
+		if (navigator.requestMIDIAccess) {
+			navigator.requestMIDIAccess().then(buildMidi)
+		}
 		function buildMidi(midi) {
 			try {
 				// no midi
@@ -2635,5 +2655,105 @@
 						}
 						return
 					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** recording ***/
+	/* buildRecorder */
+		function buildRecorder() {
+			try {
+				// destination
+					AUDIO_J.recorder.mediaStreamDestination = AUDIO_J.audio.createMediaStreamDestination()
+					AUDIO_J.master.connect(AUDIO_J.recorder.mediaStreamDestination)
+
+				// recorder
+					try {
+						AUDIO_J.recorder.mediaRecorder = new MediaRecorder(AUDIO_J.recorder.mediaStreamDestination.stream, {mimeType: "audio/webm;codecs=opus"})
+					} catch (e) {
+						AUDIO_J.recorder.mediaRecorder = new MediaRecorder(AUDIO_J.recorder.mediaStreamDestination.stream)
+					}
+
+				// data while recording
+					AUDIO_J.recorder.mediaRecorder.ondataavailable = function(event) {
+						AUDIO_J.recorder.data.push(event.data)
+					}
+
+				// stop recording
+					AUDIO_J.recorder.mediaRecorder.onstop = function(event) {
+						// download
+							if (AUDIO_J.recorder.data.length && AUDIO_J.recorder.download) {
+								const dataBlob = new Blob(AUDIO_J.recorder.data)
+								const downloadLink = document.createElement("a")
+									downloadLink.href = URL.createObjectURL(dataBlob, {"type": "audio/webm;codecs=opus"})
+									downloadLink.download = (document.title || "audio_j") + "_" + new Date().getTime() + ".webm"
+									downloadLink.style.display = "none"
+									downloadLink.onclick = function(event) { document.body.removeChild(event.target) }
+								document.body.appendChild(downloadLink)
+								downloadLink.click()
+							}
+
+						// clear data
+							AUDIO_J.recorder.download = false
+							AUDIO_J.recorder.data = []
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* startRecording */
+		AUDIO_J.startRecording = startRecording
+		function startRecording() {
+			try {
+				// no audio
+					if (!AUDIO_J.audio || !AUDIO_J.recorder || !AUDIO_J.recorder.mediaStreamDestination || !AUDIO_J.recorder.mediaRecorder) {
+						return
+					}
+
+				// already recording
+					if (AUDIO_J.recorder.mediaRecorder.state == "recording") {
+						return
+					}
+
+				// start recording
+					AUDIO_J.recorder.mediaRecorder.start()
+			} catch (error) {console.log(error)}
+		}
+
+	/* stopRecording */
+		AUDIO_J.stopRecording = stopRecording
+		function stopRecording() {
+			try {
+				// no audio
+					if (!AUDIO_J.audio || !AUDIO_J.recorder || !AUDIO_J.recorder.mediaStreamDestination || !AUDIO_J.recorder.mediaRecorder) {
+						return
+					}
+
+				// already stopped
+					if (AUDIO_J.recorder.mediaRecorder.state !== "recording") {
+						return
+					}
+
+				// stop recording
+					AUDIO_J.recorder.download = true
+					AUDIO_J.recorder.mediaRecorder.stop()
+			} catch (error) {console.log(error)}
+		}
+
+	/* cancelRecording */
+		AUDIO_J.cancelRecording = cancelRecording
+		function cancelRecording() {
+			try {
+				// no audio
+					if (!AUDIO_J.audio || !AUDIO_J.recorder || !AUDIO_J.recorder.mediaStreamDestination || !AUDIO_J.recorder.mediaRecorder) {
+						return
+					}
+
+				// already stopped
+					if (AUDIO_J.recorder.mediaRecorder.state !== "recording") {
+						return
+					}
+
+				// stop recording
+					AUDIO_J.recorder.download = false
+					AUDIO_J.recorder.mediaRecorder.stop()
 			} catch (error) {console.log(error)}
 		}
