@@ -1869,7 +1869,8 @@
 							echo: {
 								delay:    0,
 								feedback: 0
-							}
+							},
+							panning: 0
 						},
 						timeouts:      {},
 						noise:         {},
@@ -1886,6 +1887,7 @@
 						feedback:      AUDIO_J.audio.createGain(),
 						volume:        AUDIO_J.audio.createGain(),
 						power:         AUDIO_J.audio.createGain(),
+						panner:        AUDIO_J.audio.createStereoPanner(),
 						currentVolume: 0.5,
 						currentPower: 1
 					}
@@ -1922,7 +1924,8 @@
 					instrument.feedback.connect(instrument.delay) // loop back
 					instrument.feedback.connect(instrument.volume)
 
-					instrument.volume.connect(instrument.power)
+					instrument.volume.connect(instrument.panner)
+					instrument.panner.connect(instrument.power)
 					instrument.power.connect(AUDIO_J.master)
 
 				/* crushBits */
@@ -2142,6 +2145,14 @@
 										instrument.feedback.gain.cancelScheduledValues(now)
 										instrument.feedback.gain.setValueAtTime(0, now)
 									}
+								}
+
+							// panning
+								if (parameters.panning !== undefined) {
+									const value = Math.max(-1, Math.min(1, parameters.panning)) || 0
+									instrument.panner.pan.cancelScheduledValues(now)
+									instrument.parameters.panning = value
+									instrument.panner.pan.setValueAtTime(instrument.parameters.panning, now)
 								}
 						} catch (error) {console.log(error)}
 					}
