@@ -247,6 +247,13 @@
 				date: "January 15, 2019",
 				description: "A simple animation of cartoon clouds floating by, built for a tech demo at work."
 			},
+			cochords: {
+				name: "CoChords",
+				size: "large",
+				tags: ["code","api","mongo","node","tool","websockets","music","audio","jazz","orchestral","piano","pop","synth","multiplayer","design"],
+				date: "October 25, 2022",
+				description: "CoChords is a real-time collaborative music composition tool, supporting musicXML, audio export, and custom synths."
+			},
 			cocolors: {
 				name: "CoColors",
 				size: "medium",
