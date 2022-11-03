@@ -3,7 +3,7 @@
 	<head>
 		<title>toneMaker</title>
 		<link rel="shortcut icon" href="logo.png"/>
-		<link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet"/>
+		<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="stylesheet.css"/>
 		<meta charset="UTF-8"/>
 		<meta name="description" content="toneMaker is a Javascript web demo by James Mayr"/>
@@ -20,24 +20,29 @@
 		<div id="container">
 			<div id="tools">
 				<div class="tool" id="tool-meta"></div>
-				<div class="tool" id="tool-wave"></div>
+				<div class="tool" id="tool-harmonics"></div>
 				<div class="tool" id="tool-polysynth"></div>
+				<div class="tool" id="tool-vibrato"></div>
 				<div class="tool" id="tool-noise"></div>
 				<div class="tool" id="tool-envelope"></div>
 				<div class="tool" id="tool-bitcrusher"></div>
 				<div class="tool" id="tool-filter"></div>
+				<div class="tool" id="tool-tremolo"></div>
 				<div class="tool" id="tool-echo"></div>
+				<div class="tool" id="tool-effects"></div>
 			</div>
 			<div id="switcher">
-				<button value="tool-meta" title="meta tool"><span class="fas fa-cog"></span><br>settings</button>
-				<button value="tool-wave" title="wave tool"><span class="fas fa-signal"></span><br>waveform</button>
-				<button value="tool-polysynth" title="polysynth tool"><span class="fas fa-sitemap"></span><br>polysynth</button>
+				<button value="tool-meta" title="meta tool"><span class="fas fa-cog"></span><br>info</button>
+				<button value="tool-harmonics" title="harmonics tool"><span class="fas fa-wave-square"></span><br>harmonics</button>
+				<button value="tool-polysynth" title="polysynth tool"><span class="fas fa-bars"></span><br>polysynth</button>
+				<button value="tool-vibrato" title="vibrato tool"><span class="fas fa-water"></span><br>vibrato</button>
 				<button value="tool-noise" title="noise tool"><span class="fas fa-cloud"></span><br>noise</button>
 				<button value="tool-envelope" title="envelope tool"><span class="fas fa-envelope-open"></span><br>envelope</button>
-				<button value="tool-bitcrusher" title="bitcrusher tool"><span class="fas fa-microchip"></span><br>bitcrusher</button>
+				<button value="tool-bitcrusher" title="bitcrusher tool"><span class="fas fa-robot"></span><br>bitcrusher</button>
 				<button value="tool-filter" title="filter tool"><span class="fas fa-filter"></span><br>filters</button>
-				<button value="tool-echo" title="echo tool"><span class="fas fa-ellipsis-h"></span><br>echo</button>
-				<div><a id="j-logo" href="https://jamesmayr.com" target="_blank"></a></div>
+				<button value="tool-tremolo" title="tremolo tool"><span class="fas fa-ruler-horizontal"></span><br>tremolo</button>
+				<button value="tool-echo" title="echo tool"><span class="fas fa-signal"></span><br>echo</button>
+				<button value="tool-effects" title="effects tool"><span class="fas fa-microchip"></span><br>effects</button>
 			</div>
 			<div id="keyboard"></div>
 		</div>

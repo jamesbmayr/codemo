@@ -14,7 +14,7 @@
 			--transition-time: 0.2s;
 			--shadow-size: 10px;
 
-			--wave-count: 33;
+			--harmonics-count: 33;
 			--semitones-per-octave: 12;
 			--envelope-component-max-width: 25%;
 			--envelope-component-min-size: 3%;
@@ -75,7 +75,7 @@
 		background: linear-gradient(to bottom, transparent, var(--dark-gray));
 	}
 
-	#switcher button, #switcher div {
+	#switcher button {
 		font-family: var(--font-family);
 		font-size: var(--small-font-size);
 		color: var(--medium-gray);
@@ -89,6 +89,8 @@
 		cursor: pointer;
 		outline: none;
 		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		user-select: none;
 		box-sizing: border-box;
 		transition: calc(var(--transition-time) * 2);
@@ -112,21 +114,9 @@
 		box-shadow: 0 0 var(--shadow-size) var(--light-gray);
 	}
 
-	/* j-logo */
-		#j-logo {
-			float: left;
-			height: 100%;
-			width: 100%;
-			background-color: transparent;
-			background-image: url("../resources/j.png");
-			background-repeat: no-repeat;
-			background-size: contain;
-			background-position: center center;
-			cursor: pointer;
-			z-index: 1000;
-			outline: none;
-			filter: drop-shadow(0 0 4px #777777);
-		}
+	#switcher button[value="tool-echo"] span {
+		transform: scaleX(-1);
+	}
 
 /*** keyboard ***/
 	#keyboard {
@@ -391,12 +381,13 @@
 			position: relative;
 			font-size: var(--large-font-size);
 			height: calc(var(--large-font-size) + 2 * var(--gap-size));
-			width: calc(100% - var(--gap-size) - (var(--large-font-size) + 2 * var(--gap-size)));
+			width: calc(100% - 2 * (var(--gap-size) + (var(--large-font-size) + 2 * var(--gap-size))));
 			line-height: 1;
 			box-sizing: border-box;
 			cursor: pointer;
 			margin-bottom: var(--gap-size);
-			margin-right: var(--gap-size);
+			margin-left: var(--gap-size);
+			color: var(--light-gray);
 		}
 
 		#tool-meta-upload {
@@ -411,9 +402,30 @@
 			display: none;
 		}
 
+		#j-logo {
+			display: inline-block;
+			vertical-align: top;
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			background-color: var(--almost-dark-gray);
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: 50%;
+			background-position: center center;
+			cursor: pointer;
+			outline: none;
+			border-radius: var(--border-radius);
+			margin-left: var(--gap-size);
+			transition: var(--transition-time);
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
 	/* second row */
 		#tool-meta-delete {
-			margin-right: var(--gap-size);			
+			margin-left: var(--gap-size);			
 			overflow: hidden;
 		}
 
@@ -424,7 +436,7 @@
 			font-size: var(--large-font-size);
 			padding: var(--gap-size);
 			box-sizing: border-box;
-			margin-right: var(--gap-size);
+			margin-left: var(--gap-size);
 		}
 
 		#tool-meta:not([custom]) #tool-meta-delete {
@@ -490,20 +502,21 @@
 		line-height: 1;
 	}
 
-/*** tool-wave ***/
-	#tool-wave .track {
+/*** tool-harmonics ***/
+	#tool-harmonics .track {
 		bottom: calc(var(--small-font-size));
-		width: calc(100% / var(--wave-count));
-		height: calc(100% - (var(--gap-size) + var(--small-font-size)));
+		width: calc(100% / var(--harmonics-count));
+		height: calc(100% - var(--small-font-size));
 	}
 
-	#tool-wave .bar {
+	#tool-harmonics .bar {
 		width: 100%;
 		border-radius: var(--border-radius) var(--border-radius) 0 0;
 		min-height: var(--small-font-size);
+		color: var(--almost-dark-gray);
 	}
 
-	#tool-wave .input {
+	#tool-harmonics .input {
 		height: var(--small-font-size);
 		width: calc(100% / 33);
 		font-size: calc(var(--small-font-size) / 2);
@@ -512,13 +525,13 @@
 		box-sizing: border-box;
 	}
 
-	#tool-wave .input:focus, #tool-wave .input:hover {
+	#tool-harmonics .input:focus, #tool-harmonics .input:hover {
 		z-index: 2;
 		border-radius: 0 var(--border-radius) var(--border-radius) var(--border-radius);
-		width: calc(100% / var(--wave-count) * 3);
+		width: calc(100% / var(--harmonics-count) * 3);
 	}
 
-	#tool-wave .input:focus {
+	#tool-harmonics .input:focus {
 		z-index: 3 !important;
 	}
 
@@ -545,6 +558,184 @@
 	#tool-polysynth .toggle[selected] {
 		height: 100%;
 	}
+
+/*** tool-vibrato ***/
+	/* waves */
+		.tool-vibrato-waves-toggle {
+			position: relative;
+			top: 0;
+			left: 0;
+			display: block;
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			width: calc(var(--large-font-size) * 3 + 2 * var(--gap-size));
+			margin-right: var(--gap-size);
+			margin-bottom: var(--gap-size);
+			font-size: var(--medium-font-size);
+			line-height: 1;
+			vertical-align: top;
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+	/* pitch */
+		#tool-vibrato-waves-toggle--none[selected] ~ #tool-vibrato-pitch {
+			display: none;
+		}
+
+		#tool-vibrato-pitch {
+			position: absolute;
+			top: 0;
+			left: calc(var(--large-font-size) * 3 + 3 * var(--gap-size));
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			height: 100%;
+		}
+
+		#tool-vibrato-track--pitch {
+			position: relative;
+			top: 0;
+			left: 0;
+			height: calc((100% - (var(--large-font-size) + 2 * var(--gap-size))) / 2);
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+		#tool-vibrato-bar--pitch {
+			width: 100%;
+			min-height: calc(var(--medium-font-size) + 2 * var(--gap-size));
+			border-radius: var(--border-radius) var(--border-radius) 0 0;
+		}
+
+		#tool-vibrato-input--pitch {
+			position: relative;
+			top: 0;
+			left: 0;
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			border-radius: 0;
+		}
+
+		#tool-vibrato-mirror-track--pitch {
+			position: relative;
+			top: 0;
+			left: 0;
+			height: calc((100% - (var(--large-font-size) + 2 * var(--gap-size))) / 2);
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			pointer-events: none;
+		}
+
+		#tool-vibrato-mirror-bar--pitch {
+			position: relative;
+			top: 0;
+			width: 100%;
+			min-height: calc(var(--medium-font-size) + 2 * var(--gap-size));
+			border-radius: 0 0 var(--border-radius) var(--border-radius);
+			pointer-events: none;
+		}
+
+	/* interval */
+		#tool-vibrato-waves-toggle--none[selected] ~ #tool-vibrato-interval {
+			display: none;
+		}
+
+		#tool-vibrato-interval {
+			position: absolute;
+			top: 50%;
+			left: calc(var(--large-font-size) * 3 + 3 * var(--gap-size) + var(--large-font-size) + 3 * var(--gap-size));
+			transform: translateY(-50%);
+			width: calc(100% - (var(--large-font-size) * 3 + 3 * var(--gap-size) + var(--large-font-size) + 3 * var(--gap-size)));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+		#tool-vibrato-input--interval {
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			border-radius: var(--gap-size) 0 0 var(--gap-size);
+		}
+
+		#tool-vibrato-track--interval {
+			width: calc(100% - (var(--large-font-size) + 2 * var(--gap-size)));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			left: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+		#tool-vibrato-bar--interval {
+			height: 100%;
+			min-width: calc(var(--medium-font-size) + 2 * var(--gap-size));
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		}
+
+	/* depiction */
+		#tool-vibrato-depiction {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: calc(100% - (var(--large-font-size) * 3 + 3 * var(--gap-size) + var(--large-font-size) + 3 * var(--gap-size)) - (var(--large-font-size) + 2 * var(--gap-size)));
+			height: 100%;
+			z-index: -1;
+			pointer-events: none;
+			overflow: hidden;
+		}
+
+		#tool-vibrato-waves-toggle--none[selected] ~ #tool-vibrato-depiction {
+			display: none;
+		}
+
+		#tool-vibrato-depiction-inner {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			width: 100%;
+			min-width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+
+		.tool-vibrato-depiction--above {
+			float: left;
+			height: 50%;
+			background-color: var(--almost-dark-gray);
+		}
+
+		.tool-vibrato-depiction--below {
+			float: left;
+			height: 50%;
+			transform: translateY(100%);
+			background-color: var(--almost-dark-gray);
+		}
+
+		#tool-vibrato-waves-toggle--sine[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--above {
+			border-radius: 100% 100% 0 0;
+		}
+
+		#tool-vibrato-waves-toggle--sine[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--below {
+			border-radius: 0 0 100% 100%;
+		}
+
+		#tool-vibrato-waves-toggle--square[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--above {
+			border-radius: 0;
+		}
+
+		#tool-vibrato-waves-toggle--square[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--below {
+			border-radius: 0;
+		}
+
+		#tool-vibrato-waves-toggle--triangle[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--above {
+			clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+		}
+
+		#tool-vibrato-waves-toggle--triangle[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--below {
+			clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+		}
+
+		#tool-vibrato-waves-toggle--sawtooth[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--above {
+			clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
+		}
+
+		#tool-vibrato-waves-toggle--sawtooth[selected] ~ #tool-vibrato-depiction .tool-vibrato-depiction--below {
+			clip-path: polygon(0% 0%, 0% 100%, 100% 0%);
+		}
 
 /*** tool-noise ***/
 	#tool-noise .section {
@@ -828,6 +1019,184 @@
 			border-radius: 0 0 var(--border-radius) var(--border-radius);
 		}
 
+/*** tool-tremolo ***/
+	/* waves */
+		.tool-tremolo-waves-toggle {
+			position: relative;
+			top: 0;
+			left: 0;
+			display: block;
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			width: calc(var(--large-font-size) * 3 + 2 * var(--gap-size));
+			margin-right: var(--gap-size);
+			margin-bottom: var(--gap-size);
+			font-size: var(--medium-font-size);
+			line-height: 1;
+			vertical-align: top;
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+	/* depth */
+		#tool-tremolo-waves-toggle--none[selected] ~ #tool-tremolo-depth {
+			display: none;
+		}
+
+		#tool-tremolo-depth {
+			position: absolute;
+			top: 0;
+			left: calc(var(--large-font-size) * 3 + 3 * var(--gap-size));
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			height: 100%;
+		}
+
+		#tool-tremolo-track--depth {
+			position: relative;
+			top: 0;
+			left: 0;
+			height: calc((100% - (var(--large-font-size) + 2 * var(--gap-size))) / 2);
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+		#tool-tremolo-bar--depth {
+			width: 100%;
+			min-height: calc(var(--medium-font-size) + 2 * var(--gap-size));
+			border-radius: var(--border-radius) var(--border-radius) 0 0;
+		}
+
+		#tool-tremolo-input--depth {
+			position: relative;
+			top: 0;
+			left: 0;
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			border-radius: 0;
+		}
+
+		#tool-tremolo-mirror-track--depth {
+			position: relative;
+			top: 0;
+			left: 0;
+			height: calc((100% - (var(--large-font-size) + 2 * var(--gap-size))) / 2);
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			pointer-events: none;
+		}
+
+		#tool-tremolo-mirror-bar--depth {
+			position: relative;
+			top: 0;
+			width: 100%;
+			min-height: calc(var(--medium-font-size) + 2 * var(--gap-size));
+			border-radius: 0 0 var(--border-radius) var(--border-radius);
+			pointer-events: none;
+		}
+
+	/* interval */
+		#tool-tremolo-waves-toggle--none[selected] ~ #tool-tremolo-interval {
+			display: none;
+		}
+
+		#tool-tremolo-interval {
+			position: absolute;
+			top: 50%;
+			left: calc(var(--large-font-size) * 3 + 3 * var(--gap-size) + var(--large-font-size) + 3 * var(--gap-size));
+			transform: translateY(-50%);
+			width: calc(100% - (var(--large-font-size) * 3 + 3 * var(--gap-size) + var(--large-font-size) + 3 * var(--gap-size)));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+		#tool-tremolo-input--interval {
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			border-radius: var(--gap-size) 0 0 var(--gap-size);
+		}
+
+		#tool-tremolo-track--interval {
+			width: calc(100% - (var(--large-font-size) + 2 * var(--gap-size)));
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			left: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+		#tool-tremolo-bar--interval {
+			height: 100%;
+			min-width: calc(var(--medium-font-size) + 2 * var(--gap-size));
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		}
+
+	/* depiction */
+		#tool-tremolo-depiction {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: calc(100% - (var(--large-font-size) * 3 + 3 * var(--gap-size) + var(--large-font-size) + 3 * var(--gap-size)) - (var(--large-font-size) + 2 * var(--gap-size)));
+			height: 100%;
+			z-index: -1;
+			pointer-events: none;
+			overflow: hidden;
+		}
+
+		#tool-tremolo-waves-toggle--none[selected] ~ #tool-tremolo-depiction {
+			display: none;
+		}
+
+		#tool-tremolo-depiction-inner {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			left: 0;
+			width: 100%;
+			min-width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+
+		.tool-tremolo-depiction--above {
+			float: left;
+			height: 50%;
+			background-color: var(--almost-dark-gray);
+		}
+
+		.tool-tremolo-depiction--below {
+			float: left;
+			height: 50%;
+			transform: translateY(100%);
+			background-color: var(--almost-dark-gray);
+		}
+
+		#tool-tremolo-waves-toggle--sine[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--above {
+			border-radius: 100% 100% 0 0;
+		}
+
+		#tool-tremolo-waves-toggle--sine[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--below {
+			border-radius: 0 0 100% 100%;
+		}
+
+		#tool-tremolo-waves-toggle--square[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--above {
+			border-radius: 0;
+		}
+
+		#tool-tremolo-waves-toggle--square[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--below {
+			border-radius: 0;
+		}
+
+		#tool-tremolo-waves-toggle--triangle[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--above {
+			clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+		}
+
+		#tool-tremolo-waves-toggle--triangle[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--below {
+			clip-path: polygon(0% 0%, 50% 100%, 100% 0%);
+		}
+
+		#tool-tremolo-waves-toggle--sawtooth[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--above {
+			clip-path: polygon(0% 100%, 100% 0%, 100% 100%);
+		}
+
+		#tool-tremolo-waves-toggle--sawtooth[selected] ~ #tool-tremolo-depiction .tool-tremolo-depiction--below {
+			clip-path: polygon(0% 0%, 0% 100%, 100% 0%);
+		}
+
 /*** tool-echo ***/
 	#tool-echo .track {
 		position: absolute;
@@ -916,4 +1285,130 @@
 			z-index: 1;
 			left: calc(var(--medium-font-size) + 2 * var(--gap-size));
 			width: calc(100% - var(--medium-font-size) - 2 * var(--gap-size));
+		}
+
+/*** tool-effects ***/
+	/* distortion */
+		#tool-effects-distortion {
+			position: relative;
+			top: 0;
+			left: 0;
+			margin-bottom: var(--gap-size);
+		}
+
+		#tool-effects-distortion .input {
+			position: relative;
+			height: calc(2 * var(--large-font-size));
+			width: calc(4 * var(--large-font-size) + var(--gap-size));	
+			border-radius: var(--border-radius);
+			font-size: var(--large-font-size);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			margin-right: var(--gap-size);
+		}
+
+		#tool-effects-distortion .track {
+			vertical-align: top;
+			display: inline-block;
+			position: relative;
+			top: 0;
+			left: 0;
+			width: calc(100% - (4 * var(--large-font-size) + 2 * var(--gap-size)));
+			height: calc(2 * var(--large-font-size));
+			font-size: var(--large-font-size);
+		}
+
+		#tool-effects-distortion .bar {
+			position: relative;
+			height: 100%;
+			min-width: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+	/* reverb */
+		#tool-effects-reverb {
+			position: relative;
+			top: 0;
+			left: 0;
+			margin-bottom: var(--gap-size);
+		}
+
+		#tool-effects-reverb .input {
+			position: relative;
+			height: calc(2 * var(--large-font-size));
+			width: calc(4 * var(--large-font-size) + var(--gap-size));	
+			border-radius: var(--border-radius);
+			font-size: var(--large-font-size);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			margin-right: var(--gap-size);
+		}
+
+		#tool-effects-reverb .track {
+			vertical-align: top;
+			display: inline-block;
+			position: relative;
+			top: 0;
+			left: 0;
+			width: calc(100% - (4 * var(--large-font-size) + 2 * var(--gap-size)));
+			height: calc(2 * var(--large-font-size));
+			font-size: var(--large-font-size);
+		}
+
+		#tool-effects-reverb .bar {
+			position: relative;
+			height: 100%;
+			min-width: calc(var(--large-font-size) + 2 * var(--gap-size));
+		}
+
+	/* panning */
+		#tool-effects-panning {
+			position: relative;
+			top: 0;
+			left: 0;
+			margin-bottom: var(--gap-size);
+		}
+
+		#tool-effects-panning .input {
+			position: relative;
+			height: calc(2 * var(--large-font-size));
+			width: calc(4 * var(--large-font-size) + var(--gap-size));	
+			border-radius: var(--border-radius);
+			font-size: var(--large-font-size);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			margin-right: var(--gap-size);
+		}
+
+		#tool-effects-panning .track {
+			vertical-align: top;
+			display: inline-block;
+			position: relative;
+			top: 0;
+			left: 0;
+			width: calc(100% - (4 * var(--large-font-size) + 2 * var(--gap-size)) - 2 * var(--large-font-size));
+			height: calc(2 * var(--large-font-size));
+			font-size: var(--large-font-size);
+			margin-left: var(--large-font-size);
+		}
+
+		#tool-effects-panning .bar {
+			position: relative;
+			height: calc(2 * var(--large-font-size));
+			width: calc(2 * var(--large-font-size));
+			border-radius: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		#tool-effects-panning .line {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			margin-top: calc(var(--large-font-size) - var(--gap-size) / 2);
+			height: var(--gap-size);
+			background-color: var(--almost-dark-gray);
+			border-radius: var(--border-radius);
+			z-index: -1;
+			pointer-events: none;
 		}

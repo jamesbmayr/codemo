@@ -28,6 +28,7 @@
 			envelopeComponentMinPercentage: 3,
 			decayClippath: "polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%)",
 			bitcrusherBorderRadiusPercentage: 5,
+			distortionModifier: 11,
 			filterStartingWidthPercentage: 20,
 			filterEdgePercentage: 5,
 			echoBeamStart: 3,
@@ -77,34 +78,43 @@
 			tools: document.querySelector("#tools"),
 			toolSections: {
 				"tool-meta": document.querySelector("#tool-meta"),
+				"tool-harmonics": document.querySelector("#tool-harmonics"),
 				"tool-polysynth": document.querySelector("#tool-polysynth"),
-				"tool-wave": document.querySelector("#tool-wave"),
+				"tool-vibrato": document.querySelector("#tool-vibrato"),
 				"tool-noise": document.querySelector("#tool-noise"),
 				"tool-envelope": document.querySelector("#tool-envelope"),
 				"tool-bitcrusher": document.querySelector("#tool-bitcrusher"),
+				"tool-effects": document.querySelector("#tool-effects"),
 				"tool-filter": document.querySelector("#tool-filter"),
+				"tool-tremolo": document.querySelector("#tool-tremolo"),
 				"tool-echo": document.querySelector("#tool-echo")
 			},
 			switcher: document.querySelector("#switcher"),
 			switcherButtons: {
 				"tool-meta": document.querySelector("#switcher button[value='tool-meta']"),
+				"tool-harmonics": document.querySelector("#switcher button[value='tool-harmonics']"),
 				"tool-polysynth": document.querySelector("#switcher button[value='tool-polysynth']"),
-				"tool-wave": document.querySelector("#switcher button[value='tool-wave']"),
+				"tool-vibrato": document.querySelector("#switcher button[value='tool-vibrato']"),
 				"tool-noise": document.querySelector("#switcher button[value='tool-noise']"),
 				"tool-envelope": document.querySelector("#switcher button[value='tool-envelope']"),
 				"tool-bitcrusher": document.querySelector("#switcher button[value='tool-bitcrusher']"),
+				"tool-effects": document.querySelector("#switcher button[value='tool-effects']"),
 				"tool-filter": document.querySelector("#switcher button[value='tool-filter']"),
+				"tool-tremolo": document.querySelector("#switcher button[value='tool-tremolo']"),
 				"tool-echo": document.querySelector("#switcher button[value='tool-echo']")
 			},
 			keyboard: document.querySelector("#keyboard"),
 			keys: {},
 			"tool-meta": {},
+			"tool-harmonics": {},
 			"tool-polysynth": {},
-			"tool-wave": {},
+			"tool-vibrato": {},
 			"tool-noise": {},
 			"tool-envelope": {},
 			"tool-bitcrusher": {},
+			"tool-effects": {},
 			"tool-filter": {},
+			"tool-tremolo": {},
 			"tool-echo": {}
 		}
 
@@ -141,13 +151,16 @@
 			try {
 				// build tools
 					buildMetaTools()
-					buildWaveTool()
+					buildHarmonicsTool()
 					buildPolysynthTool()
+					buildVibratoTool()
 					buildNoiseTool()
 					buildEnvelopeTool()
 					buildBitcrusherTool()
 					buildFilterTool()
+					buildTremoloTool()
 					buildEchoTool()
+					buildEffectsTools()
 					buildKeyboard()
 
 				// select meta
@@ -157,7 +170,6 @@
 					const defaultInstruments = AUDIO_J.getInstruments("default")
 					AUDIO_J.activeInstrumentId = defaultInstruments[Math.floor(Math.random() * defaultInstruments.length)]
 					ELEMENTS["tool-meta"]["select"].value = AUDIO_J.activeInstrumentId
-					ELEMENTS["tool-meta"]["name"].value = AUDIO_J.activeInstrumentId
 			} catch (error) {console.log(error)}
 		}
 
@@ -203,7 +215,7 @@
 
 				// name & meta
 					instrument.parameters.name = parameters.name || "synthesizer #" + Math.floor(Math.random() * 10e6)
-					ELEMENTS["tool-meta"]["name"].value = parameters["name"]
+					ELEMENTS["tool-meta"]["name"].value = (AUDIO_J.getInstruments("simple").includes(parameters["name"]) || AUDIO_J.getInstruments("default").includes(parameters["name"])) ? "" : parameters["name"]
 					if (!ELEMENTS["tool-meta"]["select"].querySelector("option[value='" + instrument.parameters.name + "']")) {
 						const option = document.createElement("option")
 							option.value = instrument.parameters.name
@@ -227,12 +239,12 @@
 					const volume = Math.max(0, Math.min(CONSTANTS.percentage, ELEMENTS["tool-meta"]["volume-input"].value / CONSTANTS.percentage))
 					instrument.setParameters({ volume: volume })
 
-				// wave
-					for (let x = 1; x <= AUDIO_J.constants.waveCount; x++) {
+				// harmonics
+					for (let x = 1; x <= AUDIO_J.constants.harmonicsCount; x++) {
 						const value = parameters.imag ? (parameters.imag[x] || 0) : 0
-						const target = ELEMENTS["tool-wave"]["input--" + x]
+						const target = ELEMENTS["tool-harmonics"]["input--" + x]
 							target.value = CONSTANTS.percentage * value
-						adjustWaveToolInput({target: target}, setup)
+						adjustHarmonicsToolInput({target: target}, setup)
 					}
 
 				// polysynth
@@ -246,6 +258,18 @@
 							adjustPolysynthToolToggle({target: target}, setup)
 						}
 					}
+
+				// vibrato
+					if (parameters.vibrato && parameters.vibrato.wave) {
+						adjustVibratoToolToggle({target: ELEMENTS["tool-vibrato"]["waves-toggle--" + parameters.vibrato.wave]}, setup)
+					}
+					else {
+						adjustVibratoToolToggle({target: ELEMENTS["tool-vibrato"]["waves-toggle--none"]}, setup)
+					}
+					ELEMENTS["tool-vibrato"]["pitch-input"].value = parameters["vibrato"] ? parameters["vibrato"].pitch : 0
+					ELEMENTS["tool-vibrato"]["interval-input"].value = parameters["vibrato"] ? parameters["vibrato"].interval : 0
+					adjustVibratoToolInput({target: ELEMENTS["tool-vibrato"]["pitch-input"]}, setup)
+					adjustVibratoToolInput({target: ELEMENTS["tool-vibrato"]["interval-input"]}, setup)
 				
 				// noise
 					for (let color in AUDIO_J.noise) {
@@ -281,7 +305,7 @@
 					const bitcrusherNorm = ELEMENTS["tool-bitcrusher"]["norm-input"]
 						bitcrusherNorm.value = parameters.bitcrusher && parameters.bitcrusher.norm ? (CONSTANTS.percentage - (Math.max(0, Math.min(1, parameters.bitcrusher.norm)) * CONSTANTS.percentage)) : 0
 					adjustBitcrusherToolInput({target: bitcrusherNorm}, setup)
-						
+
 				// filters
 					const filters = Array.from(document.querySelectorAll("#tool-filter-track .blob"))
 					for (let x in filters) {
@@ -298,6 +322,18 @@
 							createFilter(null, obj)
 						}
 					}
+
+				// tremolo
+					if (parameters.tremolo && parameters.tremolo.wave) {
+						adjustTremoloToolToggle({target: ELEMENTS["tool-tremolo"]["waves-toggle--" + parameters.tremolo.wave]}, setup)
+					}
+					else {
+						adjustTremoloToolToggle({target: ELEMENTS["tool-tremolo"]["waves-toggle--none"]}, setup)
+					}
+					ELEMENTS["tool-tremolo"]["depth-input"].value = parameters["tremolo"] ? parameters["tremolo"].depth : 0
+					ELEMENTS["tool-tremolo"]["interval-input"].value = parameters["tremolo"] ? parameters["tremolo"].interval : 0
+					adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["depth-input"]}, setup)
+					adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["interval-input"]}, setup)
 				
 				// echo
 					const delayValue = parameters.echo ? (parameters.echo.delay || 0) : 0
@@ -309,6 +345,18 @@
 					const feedbackTarget = ELEMENTS["tool-echo"]["input--feedback"]
 						feedbackTarget.value = CONSTANTS.percentage * feedbackValue
 					adjustEchoToolInput({target: feedbackTarget}, setup)
+
+				// distortion
+					ELEMENTS["tool-effects"]["distortion--input"].value = parameters["distortion"] ? (parameters["distortion"] / AUDIO_J.constants.maxDistortion * CONSTANTS.distortionModifier) : 0
+					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["distortion--input"]}, setup)
+
+				// reverb
+					ELEMENTS["tool-effects"]["reverb--input"].value = parameters["reverb"] || 0
+					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]}, setup)
+
+				// panning
+					ELEMENTS["tool-effects"]["panning--input"].value = parameters["panning"] || 0
+					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["panning--input"]}, setup)
 
 				// localstorage
 					saveFile()
@@ -338,11 +386,14 @@
 						case "tool-meta":
 							adjustVolumeToolBar(event)
 						break
-						case "tool-wave": 
-							adjustWaveToolBar(event)
+						case "tool-harmonics": 
+							adjustHarmonicsToolBar(event)
 						break
 						case "tool-noise":
 							adjustNoiseToolBar(event)
+						break
+						case "tool-vibrato": 
+							adjustVibratoToolBar(event)
 						break
 						case "tool-envelope":
 							adjustEnvelopeToolBar(event)
@@ -350,8 +401,14 @@
 						case "tool-bitcrusher":
 							adjustBitcrusherToolBar(event)
 						break
+						case "tool-effects":
+							adjustEffectsToolBar(event)
+						break
 						case "tool-filter":
 							adjustFilterToolBar(event)
+						break
+						case "tool-tremolo":
+							adjustTremoloToolBar(event)
 						break
 						case "tool-echo":
 							adjustEchoToolBar(event)
@@ -386,6 +443,24 @@
 						fileSection.id = "tool-meta-file"
 						fileSection.className = "section"
 					ELEMENTS.toolSections["tool-meta"].appendChild(fileSection)
+
+				// upload
+					const uploadLabel = document.createElement("label")
+						uploadLabel.id = "tool-meta-upload"
+						uploadLabel.className = "button"
+						uploadLabel.title = "upload synth JSON"
+					fileSection.appendChild(uploadLabel)
+
+						const uploadInput = document.createElement("input")
+							uploadInput.id = "upload-link"
+							uploadInput.type = "file"
+							uploadInput.addEventListener(TRIGGERS.change, uploadFile)
+						uploadLabel.appendChild(uploadInput)
+						ELEMENTS["tool-meta"]["upload-link"] = uploadInput
+
+						const uploadSpan = document.createElement("span")
+							uploadSpan.className = "fas fa-upload"
+						uploadLabel.appendChild(uploadSpan)
 
 				// select
 					const instrumentSelect = document.createElement("select")
@@ -449,45 +524,12 @@
 								customGroup.appendChild(instrumentOption)
 							}
 
-				// upload
-					const uploadLabel = document.createElement("label")
-						uploadLabel.id = "tool-meta-upload"
-						uploadLabel.className = "button"
-						uploadLabel.title = "upload synth JSON"
-					fileSection.appendChild(uploadLabel)
-
-						const uploadInput = document.createElement("input")
-							uploadInput.id = "upload-link"
-							uploadInput.type = "file"
-							uploadInput.addEventListener(TRIGGERS.change, uploadFile)
-						uploadLabel.appendChild(uploadInput)
-						ELEMENTS["tool-meta"]["upload-link"] = uploadInput
-
-						const uploadSpan = document.createElement("span")
-							uploadSpan.className = "fas fa-upload"
-						uploadLabel.appendChild(uploadSpan)
-
-				// delete
-					const deleteButton = document.createElement("button")
-						deleteButton.id = "tool-meta-delete"
-						deleteButton.className = "button"
-						deleteButton.innerHTML = '<span class="fas fa-trash"></span>'
-						deleteButton.title = "delete synth"
-						deleteButton.addEventListener(TRIGGERS.click, deleteFile)
-					fileSection.appendChild(deleteButton)
-					ELEMENTS["tool-meta"]["delete"] = deleteButton
-
-				// name
-					const nameInput = document.createElement("input")
-						nameInput.id = "tool-meta-name"
-						nameInput.className = "input"
-						nameInput.placeholder = "instrument name"
-						nameInput.value = "synthesizer"
-						nameInput.setAttribute("spellcheck", "false")
-						nameInput.title = "synth name"
-						nameInput.addEventListener(TRIGGERS.change, nameFile)
-					fileSection.appendChild(nameInput)
-					ELEMENTS["tool-meta"]["name"] = nameInput
+				// j-logo
+					const jLogo = document.createElement("a")
+						jLogo.id = "j-logo"
+						jLogo.href = "https://jamesmayr.com"
+						jLogo.target = "_blank"
+					fileSection.appendChild(jLogo)
 
 				// download
 					const downloadButton = document.createElement("button")
@@ -498,6 +540,27 @@
 						downloadButton.addEventListener(TRIGGERS.click, downloadFile)
 					fileSection.appendChild(downloadButton)
 					ELEMENTS["tool-meta"]["download"] = downloadButton
+
+				// name
+					const nameInput = document.createElement("input")
+						nameInput.id = "tool-meta-name"
+						nameInput.className = "input"
+						nameInput.placeholder = "(name your changes)"
+						nameInput.setAttribute("spellcheck", "false")
+						nameInput.title = "synth name"
+						nameInput.addEventListener(TRIGGERS.change, nameFile)
+					fileSection.appendChild(nameInput)
+					ELEMENTS["tool-meta"]["name"] = nameInput
+
+				// delete
+					const deleteButton = document.createElement("button")
+						deleteButton.id = "tool-meta-delete"
+						deleteButton.className = "button"
+						deleteButton.innerHTML = '<span class="fas fa-trash"></span>'
+						deleteButton.title = "delete synth"
+						deleteButton.addEventListener(TRIGGERS.click, deleteFile)
+					fileSection.appendChild(deleteButton)
+					ELEMENTS["tool-meta"]["delete"] = deleteButton
 
 				// power
 					const powerSection = document.createElement("div")
@@ -627,6 +690,9 @@
 							option.value = option.innerText = name
 						ELEMENTS["tool-meta"]["group-custom"].appendChild(option)
 					}
+
+				// update meta tool
+					ELEMENTS.toolSections["tool-meta"].setAttribute("custom", true)
 			} catch (error) {console.log(error)}
 		}
 
@@ -802,78 +868,79 @@
 			} catch (error) {console.log(error)}
 		}
 
-/*** tool-wave ***/	
-	/* buildWaveTool */
-		function buildWaveTool() {
+/*** tool-harmonics ***/	
+	/* buildHarmonicsTool */
+		function buildHarmonicsTool() {
 			try {
-				const waveLeftOffset = CONSTANTS.percentage / AUDIO_J.constants.waveCount
-				for (let i = 1; i <= AUDIO_J.constants.waveCount; i++) {
-					const waveInput = document.createElement("input")
-						waveInput.setAttribute("type", "number")
-						waveInput.setAttribute("min", 0)
-						waveInput.setAttribute("max", CONSTANTS.percentage)
-						waveInput.placeholder = "%"
-						waveInput.className = "input"
-						waveInput.id = "tool-wave-input--" + i
-						waveInput.style.left = ((i - 1) * waveLeftOffset) + "%"
-						waveInput.value = 0
-						waveInput.title = "harmonic " + i
-						waveInput.addEventListener(TRIGGERS.change, adjustWaveToolInput)
-					ELEMENTS.toolSections["tool-wave"].appendChild(waveInput)
-					ELEMENTS["tool-wave"]["input--" + i] = waveInput
+				const harmonicsLeftOffset = CONSTANTS.percentage / AUDIO_J.constants.harmonicsCount
+				for (let i = 1; i <= AUDIO_J.constants.harmonicsCount; i++) {
+					const harmonicsInput = document.createElement("input")
+						harmonicsInput.setAttribute("type", "number")
+						harmonicsInput.setAttribute("min", 0)
+						harmonicsInput.setAttribute("max", CONSTANTS.percentage)
+						harmonicsInput.placeholder = "%"
+						harmonicsInput.className = "input"
+						harmonicsInput.id = "tool-harmonics-input--" + i
+						harmonicsInput.style.left = ((i - 1) * harmonicsLeftOffset) + "%"
+						harmonicsInput.value = 0
+						harmonicsInput.title = "harmonic " + i
+						harmonicsInput.addEventListener(TRIGGERS.change, adjustHarmonicsToolInput)
+					ELEMENTS.toolSections["tool-harmonics"].appendChild(harmonicsInput)
+					ELEMENTS["tool-harmonics"]["input--" + i] = harmonicsInput
 
-					const waveTrack = document.createElement("div")
-						waveTrack.className = "track"
-						waveTrack.id = "tool-wave-track--" + i
-						waveTrack.style.left = ((i - 1) * waveLeftOffset) + "%"
-					ELEMENTS.toolSections["tool-wave"].appendChild(waveTrack)
-					ELEMENTS["tool-wave"]["track--" + i] = waveTrack
+					const harmonicsTrack = document.createElement("div")
+						harmonicsTrack.className = "track"
+						harmonicsTrack.id = "tool-harmonics-track--" + i
+						harmonicsTrack.style.left = ((i - 1) * harmonicsLeftOffset) + "%"
+					ELEMENTS.toolSections["tool-harmonics"].appendChild(harmonicsTrack)
+					ELEMENTS["tool-harmonics"]["track--" + i] = harmonicsTrack
 
-						const waveBar = document.createElement("div")
-							waveBar.className = "bar"
-							waveBar.id = "tool-wave-bar--" + i
-							waveBar.innerText = i
-							waveBar.style.height = "0%"
-							waveBar.title = "harmonic " + i
-							waveBar.addEventListener(TRIGGERS.mousedown, selectBar)
-						waveTrack.appendChild(waveBar)
-						ELEMENTS["tool-wave"]["bar--" + i] = waveBar
+						const harmonicsBar = document.createElement("div")
+							harmonicsBar.className = "bar"
+							harmonicsBar.id = "tool-harmonics-bar--" + i
+							harmonicsBar.innerText = i
+							harmonicsBar.style.height = "0%"
+							harmonicsBar.title = "harmonic " + i
+							harmonicsBar.style.background = (Math.log2(i) % 1) ? "var(--medium-gray)" : "var(--light-gray)"
+							harmonicsBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						harmonicsTrack.appendChild(harmonicsBar)
+						ELEMENTS["tool-harmonics"]["bar--" + i] = harmonicsBar
 				}
 			} catch (error) {console.log(error)}
 		}
 
-	/* adjustWaveToolBar */
-		function adjustWaveToolBar(event) {
+	/* adjustHarmonicsToolBar */
+		function adjustHarmonicsToolBar(event) {
 			try {
 				// display
 					const harmonic  = STATE.parameter.id.split("--")[1]
-					const rectangle = ELEMENTS["tool-wave"]["track--" + harmonic].getBoundingClientRect()
+					const rectangle = ELEMENTS["tool-harmonics"]["track--" + harmonic].getBoundingClientRect()
 					const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 
 					let percentage = (rectangle.bottom - y) * CONSTANTS.percentage / (rectangle.height)
 						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
 					STATE.parameter.style.height = percentage + "%"
-					ELEMENTS["tool-wave"]["input--" + harmonic].value = percentage
+					ELEMENTS["tool-harmonics"]["input--" + harmonic].value = percentage
 
 				// data
-					adjustWaveToolInput({target: ELEMENTS["tool-wave"]["input--" + harmonic]})
+					adjustHarmonicsToolInput({target: ELEMENTS["tool-harmonics"]["input--" + harmonic]})
 			} catch (error) {console.log(error)}
 		}
 
-	/* adjustWaveToolInput */
-		function adjustWaveToolInput(event, setup) {
+	/* adjustHarmonicsToolInput */
+		function adjustHarmonicsToolInput(event, setup) {
 			try {
 				// display
 					const harmonic = event.target.id.split("--")[1]
 					let percentage = Number(event.target.value)
 						percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-					ELEMENTS["tool-wave"]["bar--" + harmonic].style.height = percentage + "%"
+					ELEMENTS["tool-harmonics"]["bar--" + harmonic].style.height = percentage + "%"
 
 				// audio
 					if (!setup) {
-						const wave = {}
-							wave[event.target.id.split("--")[1]] = percentage / CONSTANTS.percentage
-						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({harmonic: wave}) }
+						const harmonics = {}
+							harmonics[event.target.id.split("--")[1]] = percentage / CONSTANTS.percentage
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ harmonics: harmonics }) }
 						saveFile()
 					}
 			} catch (error) {console.log(error)}
@@ -921,6 +988,226 @@
 						saveFile()
 					}
 				}
+			} catch (error) {console.log(error)}
+		}
+
+/*** tool-vibrato ***/
+	/* buildVibratoTool */
+		function buildVibratoTool() {
+			try {
+				// toggles
+					const vibratoNoneToggle = document.createElement("button")
+						vibratoNoneToggle.id = "tool-vibrato-waves-toggle--none"
+						vibratoNoneToggle.value = 0
+						vibratoNoneToggle.className = "tool-vibrato-waves-toggle toggle"
+						vibratoNoneToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						vibratoNoneToggle.setAttribute("selected", true)
+						vibratoNoneToggle.title = "vibrato off"
+						vibratoNoneToggle.addEventListener(TRIGGERS.click, adjustVibratoToolToggle)
+					ELEMENTS.toolSections["tool-vibrato"].appendChild(vibratoNoneToggle)
+					ELEMENTS["tool-vibrato"]["waves-toggle--none"] = vibratoNoneToggle
+				
+					for (let i in AUDIO_J.simpleInstruments) {
+						const waveType = i
+						const waveToggle = document.createElement("button")
+							waveToggle.id = "tool-vibrato-waves-toggle--" + waveType
+							waveToggle.value = waveType
+							waveToggle.className = "tool-vibrato-waves-toggle toggle"
+							waveToggle.innerHTML = waveType
+							waveToggle.title = waveType + "-wave toggle"
+							waveToggle.addEventListener(TRIGGERS.click, adjustVibratoToolToggle)
+						ELEMENTS.toolSections["tool-vibrato"].appendChild(waveToggle)
+						ELEMENTS["tool-vibrato"]["waves-toggle--" + waveType] = waveToggle
+					}
+
+				// pitch
+					const pitchSection = document.createElement("div")
+						pitchSection.className = "section"
+						pitchSection.id = "tool-vibrato-pitch"
+					ELEMENTS.toolSections["tool-vibrato"].appendChild(pitchSection)
+
+					const pitchTrack = document.createElement("div")
+						pitchTrack.id = "tool-vibrato-track--pitch"
+						pitchTrack.className = "track"
+					pitchSection.appendChild(pitchTrack)
+					ELEMENTS["tool-vibrato"]["pitch-track"] = pitchTrack
+
+						const pitchBar = document.createElement("div")
+							pitchBar.id = "tool-vibrato-bar--pitch"
+							pitchBar.className = "bar"
+							pitchBar.style.height = "0%"
+							pitchBar.innerHTML = '<span class="fas fa-music"></span>¢'
+							pitchBar.title = "pitch variation"
+							pitchBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						pitchTrack.appendChild(pitchBar)
+						ELEMENTS["tool-vibrato"]["pitch-bar"] = pitchBar
+
+					const pitchInput = document.createElement("input")
+						pitchInput.setAttribute("type", "number")
+						pitchInput.setAttribute("min", 0)
+						pitchInput.setAttribute("max", AUDIO_J.constants.maxVibratoCents)
+						pitchInput.placeholder = "¢"
+						pitchInput.className = "input"
+						pitchInput.id = "tool-vibrato-input--pitch"
+						pitchInput.value = 0
+						pitchInput.title = "pitch variation"
+						pitchInput.addEventListener(TRIGGERS.change, adjustVibratoToolInput)
+					pitchSection.appendChild(pitchInput)
+					ELEMENTS["tool-vibrato"]["pitch-input"] = pitchInput
+
+					const pitchMirrorTrack = document.createElement("div")
+						pitchMirrorTrack.id = "tool-vibrato-mirror-track--pitch"
+						pitchMirrorTrack.className = "track"
+					pitchSection.appendChild(pitchMirrorTrack)
+					ELEMENTS["tool-vibrato"]["pitch-mirror-track"] = pitchMirrorTrack
+
+						const pitchMirrorBar = document.createElement("div")
+							pitchMirrorBar.id = "tool-vibrato-mirror-bar--pitch"
+							pitchMirrorBar.className = "bar"
+							pitchMirrorBar.style.height = "0%"
+						pitchMirrorTrack.appendChild(pitchMirrorBar)
+						ELEMENTS["tool-vibrato"]["pitch-mirror-bar"] = pitchMirrorBar
+
+
+				// interval
+					const intervalSection = document.createElement("div")
+						intervalSection.className = "section"
+						intervalSection.id = "tool-vibrato-interval"
+					ELEMENTS.toolSections["tool-vibrato"].appendChild(intervalSection)
+
+					const intervalInput = document.createElement("input")
+						intervalInput.setAttribute("type", "number")
+						intervalInput.setAttribute("min", AUDIO_J.constants.minVibratoInterval)
+						intervalInput.setAttribute("max", AUDIO_J.constants.maxVibratoInterval)
+						intervalInput.placeholder = "ms"
+						intervalInput.className = "input"
+						intervalInput.id = "tool-vibrato-input--interval"
+						intervalInput.value = 0
+						intervalInput.title = "time interval"
+						intervalInput.addEventListener(TRIGGERS.change, adjustVibratoToolInput)
+					intervalSection.appendChild(intervalInput)
+					ELEMENTS["tool-vibrato"]["interval-input"] = intervalInput
+
+					const intervalTrack = document.createElement("div")
+						intervalTrack.id = "tool-vibrato-track--interval"
+						intervalTrack.className = "track"
+					intervalSection.appendChild(intervalTrack)
+					ELEMENTS["tool-vibrato"]["interval-track"] = intervalTrack
+
+						const intervalBar = document.createElement("div")
+							intervalBar.id = "tool-vibrato-bar--interval"
+							intervalBar.className = "bar"
+							intervalBar.style.width = "0%"
+							intervalBar.innerHTML = '<span class="fas fa-clock"></span>'
+							intervalBar.title = "time interval"
+							intervalBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						intervalTrack.appendChild(intervalBar)
+						ELEMENTS["tool-vibrato"]["interval-bar"] = intervalBar
+
+				// background
+					const depictionSection = document.createElement("div")
+						depictionSection.id = "tool-vibrato-depiction"
+					ELEMENTS.toolSections["tool-vibrato"].appendChild(depictionSection)
+					ELEMENTS["tool-vibrato"]["depiction"] = depictionSection
+
+					const depictionInner = document.createElement("div")
+						depictionInner.id = "tool-vibrato-depiction-inner"
+					depictionSection.appendChild(depictionInner)
+					ELEMENTS["tool-vibrato"]["depiction-inner"] = depictionInner
+
+						for (let i = 0; i < CONSTANTS.percentage; i++) {
+							const aboveElement = document.createElement("div")
+								aboveElement.className = "tool-vibrato-depiction--above"
+								aboveElement.style.width = CONSTANTS.percentage / CONSTANTS.percentage / 2 + "%"
+							depictionInner.appendChild(aboveElement)
+
+							const belowElement = document.createElement("div")
+								belowElement.className = "tool-vibrato-depiction--below"
+								belowElement.style.width = CONSTANTS.percentage / CONSTANTS.percentage / 2 + "%"
+							depictionInner.appendChild(belowElement)
+						}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustVibratoToolToggle */
+		function adjustVibratoToolToggle(event, setup) {
+			try {
+				// unselect others
+					Array.from(ELEMENTS.toolSections["tool-vibrato"].querySelectorAll(".toggle")).forEach(function (t) {
+						t.removeAttribute("selected")
+					})
+					event.target.setAttribute("selected", true)
+
+				// setup
+					if (!setup) {
+						const vibrato = {
+							wave: event.target.value || null
+						}
+
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ vibrato: vibrato }) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustVibratoToolBar */
+		function adjustVibratoToolBar(event) {
+			try {
+				// type
+					const type = STATE.parameter.id.split("--")[1]
+
+				// pitch
+					if (type == "pitch") {
+						const rectangle  = ELEMENTS["tool-vibrato"]["pitch-track"].getBoundingClientRect()
+						const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+						let percentage = (rectangle.height - y + rectangle.top) * CONSTANTS.percentage / (rectangle.height)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+						STATE.parameter.style.height = percentage + "%"
+
+						ELEMENTS["tool-vibrato"]["pitch-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-vibrato"]["pitch-input"].max)
+						adjustVibratoToolInput({target: ELEMENTS["tool-vibrato"]["pitch-input"]})
+					}
+
+				// interval
+					if (type == "interval") {
+						const rectangle  = ELEMENTS["tool-vibrato"]["interval-track"].getBoundingClientRect()
+						const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+						let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+						STATE.parameter.style.width = percentage + "%"
+
+						ELEMENTS["tool-vibrato"]["interval-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-vibrato"]["interval-input"].max)
+						adjustVibratoToolInput({target: ELEMENTS["tool-vibrato"]["interval-input"]})
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustVibratoToolInput */
+		function adjustVibratoToolInput(event, setup) {
+			try {
+				// display
+					const type = event.target.id.split("--")[1]
+					const max = Number(event.target.max)
+					let value = Number(event.target.value)
+						value = Math.min(max, Math.max(0, value))
+
+					if (type == "interval") {
+						ELEMENTS["tool-vibrato"]["interval-bar"].style.width = (value / max * CONSTANTS.percentage) + "%"
+						ELEMENTS["tool-vibrato"]["depiction-inner"].style.width = (value / max * CONSTANTS.percentage * CONSTANTS.percentage) + "%"
+					}
+					else if (type == "pitch") {
+						ELEMENTS["tool-vibrato"]["pitch-bar"].style.height = (value / max * CONSTANTS.percentage) + "%"
+						ELEMENTS["tool-vibrato"]["pitch-mirror-bar"].style.height = (value / max * CONSTANTS.percentage) + "%"
+						ELEMENTS["tool-vibrato"]["depiction-inner"].style.height = (value / max * CONSTANTS.percentage) + "%"
+					}
+					
+				// audio
+					if (!setup) {
+						const vibrato = {}
+							vibrato[type] = value
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ vibrato: vibrato }) }
+						saveFile()
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -1714,6 +2001,230 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** tool-tremolo ***/
+	/* buildTremoloTool */
+		function buildTremoloTool() {
+			try {
+				// toggles
+					const tremoloNoneToggle = document.createElement("button")
+						tremoloNoneToggle.id = "tool-tremolo-waves-toggle--none"
+						tremoloNoneToggle.value = 0
+						tremoloNoneToggle.className = "tool-tremolo-waves-toggle toggle"
+						tremoloNoneToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						tremoloNoneToggle.setAttribute("selected", true)
+						tremoloNoneToggle.title = "tremolo off"
+						tremoloNoneToggle.addEventListener(TRIGGERS.click, adjustTremoloToolToggle)
+					ELEMENTS.toolSections["tool-tremolo"].appendChild(tremoloNoneToggle)
+					ELEMENTS["tool-tremolo"]["waves-toggle--none"] = tremoloNoneToggle
+				
+					for (let i in AUDIO_J.simpleInstruments) {
+						const waveType = i
+						const waveToggle = document.createElement("button")
+							waveToggle.id = "tool-tremolo-waves-toggle--" + waveType
+							waveToggle.value = waveType
+							waveToggle.className = "tool-tremolo-waves-toggle toggle"
+							waveToggle.innerHTML = waveType
+							waveToggle.title = waveType + "-wave toggle"
+							waveToggle.addEventListener(TRIGGERS.click, adjustTremoloToolToggle)
+						ELEMENTS.toolSections["tool-tremolo"].appendChild(waveToggle)
+						ELEMENTS["tool-tremolo"]["waves-toggle--" + waveType] = waveToggle
+					}
+
+				// depth
+					const depthSection = document.createElement("div")
+						depthSection.className = "section"
+						depthSection.id = "tool-tremolo-depth"
+					ELEMENTS.toolSections["tool-tremolo"].appendChild(depthSection)
+
+					const depthTrack = document.createElement("div")
+						depthTrack.id = "tool-tremolo-track--depth"
+						depthTrack.className = "track"
+					depthSection.appendChild(depthTrack)
+					ELEMENTS["tool-tremolo"]["depth-track"] = depthTrack
+
+						const depthBar = document.createElement("div")
+							depthBar.id = "tool-tremolo-bar--depth"
+							depthBar.className = "bar"
+							depthBar.style.height = "0%"
+							depthBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							depthBar.title = "volume depth %"
+							depthBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						depthTrack.appendChild(depthBar)
+						ELEMENTS["tool-tremolo"]["depth-bar"] = depthBar
+
+					const depthInput = document.createElement("input")
+						depthInput.setAttribute("type", "number")
+						depthInput.setAttribute("min", 0)
+						depthInput.setAttribute("max", CONSTANTS.percentage)
+						depthInput.placeholder = "%"
+						depthInput.className = "input"
+						depthInput.id = "tool-tremolo-input--depth"
+						depthInput.value = 0
+						depthInput.title = "volume depth %"
+						depthInput.addEventListener(TRIGGERS.change, adjustTremoloToolInput)
+					depthSection.appendChild(depthInput)
+					ELEMENTS["tool-tremolo"]["depth-input"] = depthInput
+
+					const depthMirrorTrack = document.createElement("div")
+						depthMirrorTrack.id = "tool-tremolo-mirror-track--depth"
+						depthMirrorTrack.className = "track"
+					depthSection.appendChild(depthMirrorTrack)
+					ELEMENTS["tool-tremolo"]["depth-mirror-track"] = depthMirrorTrack
+
+						const depthMirrorBar = document.createElement("div")
+							depthMirrorBar.id = "tool-tremolo-mirror-bar--depth"
+							depthMirrorBar.className = "bar"
+							depthMirrorBar.style.height = "0%"
+						depthMirrorTrack.appendChild(depthMirrorBar)
+						ELEMENTS["tool-tremolo"]["depth-mirror-bar"] = depthMirrorBar
+
+
+				// interval
+					const intervalSection = document.createElement("div")
+						intervalSection.className = "section"
+						intervalSection.id = "tool-tremolo-interval"
+					ELEMENTS.toolSections["tool-tremolo"].appendChild(intervalSection)
+
+					const intervalInput = document.createElement("input")
+						intervalInput.setAttribute("type", "number")
+						intervalInput.setAttribute("min", AUDIO_J.constants.minTremoloInterval)
+						intervalInput.setAttribute("max", AUDIO_J.constants.maxTremoloInterval)
+						intervalInput.placeholder = "ms"
+						intervalInput.className = "input"
+						intervalInput.id = "tool-tremolo-input--interval"
+						intervalInput.value = 0
+						intervalInput.title = "time interval"
+						intervalInput.addEventListener(TRIGGERS.change, adjustTremoloToolInput)
+					intervalSection.appendChild(intervalInput)
+					ELEMENTS["tool-tremolo"]["interval-input"] = intervalInput
+
+					const intervalTrack = document.createElement("div")
+						intervalTrack.id = "tool-tremolo-track--interval"
+						intervalTrack.className = "track"
+					intervalSection.appendChild(intervalTrack)
+					ELEMENTS["tool-tremolo"]["interval-track"] = intervalTrack
+
+						const intervalBar = document.createElement("div")
+							intervalBar.id = "tool-tremolo-bar--interval"
+							intervalBar.className = "bar"
+							intervalBar.style.width = "0%"
+							intervalBar.innerHTML = '<span class="fas fa-clock"></span>'
+							intervalBar.title = "time interval"
+							intervalBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						intervalTrack.appendChild(intervalBar)
+						ELEMENTS["tool-tremolo"]["interval-bar"] = intervalBar
+
+				// background
+					const depictionSection = document.createElement("div")
+						depictionSection.id = "tool-tremolo-depiction"
+					ELEMENTS.toolSections["tool-tremolo"].appendChild(depictionSection)
+					ELEMENTS["tool-tremolo"]["depiction"] = depictionSection
+
+					const depictionInner = document.createElement("div")
+						depictionInner.id = "tool-tremolo-depiction-inner"
+					depictionSection.appendChild(depictionInner)
+					ELEMENTS["tool-tremolo"]["depiction-inner"] = depictionInner
+
+						for (let i = 0; i < CONSTANTS.percentage; i++) {
+							const aboveElement = document.createElement("div")
+								aboveElement.className = "tool-tremolo-depiction--above"
+								aboveElement.style.width = CONSTANTS.percentage / CONSTANTS.percentage / 2 + "%"
+							depictionInner.appendChild(aboveElement)
+
+							const belowElement = document.createElement("div")
+								belowElement.className = "tool-tremolo-depiction--below"
+								belowElement.style.width = CONSTANTS.percentage / CONSTANTS.percentage / 2 + "%"
+							depictionInner.appendChild(belowElement)
+						}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustTremoloToolToggle */
+		function adjustTremoloToolToggle(event, setup) {
+			try {
+				// unselect others
+					Array.from(ELEMENTS.toolSections["tool-tremolo"].querySelectorAll(".toggle")).forEach(function (t) {
+						t.removeAttribute("selected")
+					})
+					event.target.setAttribute("selected", true)
+
+				// setup
+					if (!setup) {
+						const tremolo = {
+							wave: event.target.value || null
+						}
+
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ tremolo: tremolo }) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustTremoloToolBar */
+		function adjustTremoloToolBar(event) {
+			try {
+				// type
+					const type = STATE.parameter.id.split("--")[1]
+
+				// depth
+					if (type == "depth") {
+						const rectangle  = ELEMENTS["tool-tremolo"]["depth-track"].getBoundingClientRect()
+						const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+						let percentage = (rectangle.height - y + rectangle.top) * CONSTANTS.percentage / (rectangle.height)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+						STATE.parameter.style.height = percentage + "%"
+
+						ELEMENTS["tool-tremolo"]["depth-input"].value = percentage
+						adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["depth-input"]})
+					}
+
+				// interval
+					if (type == "interval") {
+						const rectangle  = ELEMENTS["tool-tremolo"]["interval-track"].getBoundingClientRect()
+						const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+						let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+						STATE.parameter.style.width = percentage + "%"
+
+						ELEMENTS["tool-tremolo"]["interval-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-tremolo"]["interval-input"].max)
+						adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["interval-input"]})
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustTremoloToolInput */
+		function adjustTremoloToolInput(event, setup) {
+			try {
+				// display
+					const type = event.target.id.split("--")[1]
+					let value = 0
+
+					if (type == "interval") {
+						const max = Number(event.target.max)
+						value = Number(event.target.value)
+						value = Math.min(max, Math.max(0, value))
+						ELEMENTS["tool-tremolo"]["interval-bar"].style.width = (value / max * CONSTANTS.percentage) + "%"
+						ELEMENTS["tool-tremolo"]["depiction-inner"].style.width = (value / max * CONSTANTS.percentage * CONSTANTS.percentage) + "%"
+					}
+					else if (type == "depth") {
+						let percentage = Number(event.target.value)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+						value = Math.min(1, Math.max(0, (percentage / CONSTANTS.percentage)))
+						ELEMENTS["tool-tremolo"]["depth-bar"].style.height = percentage + "%"
+						ELEMENTS["tool-tremolo"]["depth-mirror-bar"].style.height = percentage + "%"
+						ELEMENTS["tool-tremolo"]["depiction-inner"].style.height = percentage + "%"
+					}
+					
+				// audio
+					if (!setup) {
+						const tremolo = {}
+							tremolo[type] = value
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ tremolo: tremolo }) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** tool-echo ***/
 	/* buildEchoTool */
 		function buildEchoTool() {
@@ -1854,7 +2365,7 @@
 
 					for (let i = CONSTANTS.echoBeamStart; i <= CONSTANTS.echoBeamCount; i++) {
 						const beam = ELEMENTS["tool-echo"]["bar--" + i]
-							beam.style.left   = delayValue * (CONSTANTS.percentage / AUDIO_J.constants.ms) * i + "%"
+							beam.style.left   = "calc(" + (delayValue * (CONSTANTS.percentage / AUDIO_J.constants.ms) * (i - 1)) + "% + 2 * var(--gap-size))"
 							beam.style.height = Math.pow((feedbackValue / CONSTANTS.percentage), i) * CONSTANTS.percentage + "%"
 					}
 
@@ -1866,6 +2377,225 @@
 						}
 						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ echo: echo }) }
 						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** tool-effects ***/
+	/* buildEffectsTools */
+		function buildEffectsTools() {
+			try {
+				// distortion
+					const distortionSection = document.createElement("div")
+						distortionSection.className = "section"
+						distortionSection.id = "tool-effects-distortion"
+					ELEMENTS.toolSections["tool-effects"].appendChild(distortionSection)
+					ELEMENTS.toolSections["tool-effects"]["distortion"] = distortionSection
+
+					const distortionInput = document.createElement("input")
+						distortionInput.setAttribute("type", "number")
+						distortionInput.setAttribute("min", 0)
+						distortionInput.setAttribute("max", CONSTANTS.distortionModifier)
+						distortionInput.placeholder = "#"
+						distortionInput.className = "input"
+						distortionInput.id = "tool-effects-distortion--input"
+						distortionInput.value = 0
+						distortionInput.title = "distortion amount"
+						distortionInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
+					distortionSection.appendChild(distortionInput)
+					ELEMENTS["tool-effects"]["distortion--input"] = distortionInput
+
+					const distortionTrack = document.createElement("div")
+						distortionTrack.id = "tool-effects-distortion--track"
+						distortionTrack.className = "track"
+					distortionSection.appendChild(distortionTrack)
+					ELEMENTS["tool-effects"]["distortion--track"] = distortionTrack
+
+						const distortionBar = document.createElement("div")
+							distortionBar.id = "tool-effects-distortion--bar"
+							distortionBar.className = "bar"
+							distortionBar.style.width = "0%"
+							distortionBar.innerHTML = '<span class="fas fa-bolt"></span>'
+							distortionBar.title = "distortion amount"
+							distortionBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						distortionTrack.appendChild(distortionBar)
+						ELEMENTS["tool-effects"]["distortion--bar"] = distortionBar
+
+				// reverb
+					const reverbSection = document.createElement("div")
+						reverbSection.className = "section"
+						reverbSection.id = "tool-effects-reverb"
+					ELEMENTS.toolSections["tool-effects"].appendChild(reverbSection)
+					ELEMENTS.toolSections["tool-effects"]["reverb"] = reverbSection
+
+					const reverbInput = document.createElement("input")
+						reverbInput.setAttribute("type", "number")
+						reverbInput.setAttribute("min", 0)
+						reverbInput.setAttribute("max", 1)
+						reverbInput.setAttribute("step", 0.1)
+						reverbInput.placeholder = "#"
+						reverbInput.className = "input"
+						reverbInput.id = "tool-effects-reverb--input"
+						reverbInput.value = 0
+						reverbInput.title = "reverb amount"
+						reverbInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
+					reverbSection.appendChild(reverbInput)
+					ELEMENTS["tool-effects"]["reverb--input"] = reverbInput
+
+					const reverbTrack = document.createElement("div")
+						reverbTrack.id = "tool-effects-reverb--track"
+						reverbTrack.className = "track"
+					reverbSection.appendChild(reverbTrack)
+					ELEMENTS["tool-effects"]["reverb--track"] = reverbTrack
+
+						const reverbBar = document.createElement("div")
+							reverbBar.id = "tool-effects-reverb--bar"
+							reverbBar.className = "bar"
+							reverbBar.style.width = "0%"
+							reverbBar.innerHTML = '<span class="fas fa-place-of-worship"></span>'
+							reverbBar.title = "reverb amount"
+							reverbBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						reverbTrack.appendChild(reverbBar)
+						ELEMENTS["tool-effects"]["reverb--bar"] = reverbBar
+
+				// panning
+					const panningSection = document.createElement("div")
+						panningSection.className = "section"
+						panningSection.id = "tool-effects-panning"
+					ELEMENTS.toolSections["tool-effects"].appendChild(panningSection)
+					ELEMENTS.toolSections["tool-effects"]["panning"] = panningSection
+
+					const panningInput = document.createElement("input")
+						panningInput.setAttribute("type", "number")
+						panningInput.setAttribute("min", -1)
+						panningInput.setAttribute("max", 1)
+						panningInput.setAttribute("step", 0.1)
+						panningInput.placeholder = "#"
+						panningInput.className = "input"
+						panningInput.id = "tool-effects-panning--input"
+						panningInput.value = 0
+						panningInput.title = "panning direction"
+						panningInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
+					panningSection.appendChild(panningInput)
+					ELEMENTS["tool-effects"]["panning--input"] = panningInput
+
+					const panningTrack = document.createElement("div")
+						panningTrack.id = "tool-effects-panning--track"
+						panningTrack.className = "track"
+					panningSection.appendChild(panningTrack)
+					ELEMENTS["tool-effects"]["panning--track"] = panningTrack
+
+						const panningBar = document.createElement("div")
+							panningBar.id = "tool-effects-panning--bar"
+							panningBar.className = "bar"
+							panningBar.innerHTML = '<span class="fas fa-arrows-alt-h"></span>'
+							panningBar.title = "panning direction"
+							panningBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						panningTrack.appendChild(panningBar)
+						ELEMENTS["tool-effects"]["panning--bar"] = panningBar
+
+					const panningLine = document.createElement("div")
+						panningLine.className = "line"
+					panningTrack.appendChild(panningLine)
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustEffectsToolBar */
+		function adjustEffectsToolBar(event, setup) {
+			try {
+				// distortion
+					if (STATE.parameter.id == "tool-effects-distortion--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-effects"]["distortion--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+
+							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["distortion--bar"].style.width = percentage + "%"
+							ELEMENTS["tool-effects"]["distortion--input"].value = percentage / CONSTANTS.percentage * CONSTANTS.distortionModifier
+
+						// data
+							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["distortion--input"]})
+					}
+
+				// reverb
+					if (STATE.parameter.id == "tool-effects-reverb--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-effects"]["reverb--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+
+							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["reverb--bar"].style.width = percentage + "%"
+							ELEMENTS["tool-effects"]["reverb--input"].value = percentage / CONSTANTS.percentage
+
+						// data
+							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]})
+					}
+
+				// panning
+					if (STATE.parameter.id == "tool-effects-panning--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-effects"]["panning--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+
+							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["panning--bar"].style.left = percentage + "%"
+							ELEMENTS["tool-effects"]["panning--input"].value = ((percentage / CONSTANTS.percentage) * 2) - 1
+
+						// data
+							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["panning--input"]})
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustEffectsToolInput */
+		function adjustEffectsToolInput(event, setup) {
+			try {
+				// distortion
+					if (event.target == ELEMENTS["tool-effects"]["distortion--input"]) {
+						// display
+							let percentage = Number(event.target.value) / CONSTANTS.distortionModifier * CONSTANTS.percentage
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["distortion--bar"].style.width = percentage + "%"
+
+						// audio
+							if (!setup) {
+								const distortion = percentage / CONSTANTS.percentage * AUDIO_J.constants.maxDistortion
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ distortion: distortion }) }
+								saveFile()
+							}
+					}
+
+				// reverb
+					if (event.target == ELEMENTS["tool-effects"]["reverb--input"]) {
+						// display
+							let percentage = Number(event.target.value) * CONSTANTS.percentage
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["reverb--bar"].style.width = percentage + "%"
+
+						// audio
+							if (!setup) {
+								const reverb = percentage / CONSTANTS.percentage
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ reverb: reverb }) }
+								saveFile()
+							}
+					}
+
+				// panning
+					if (event.target == ELEMENTS["tool-effects"]["panning--input"]) {
+						// display
+							const panning = Math.max(-1, Math.min(1, Number(event.target.value)))
+							let percentage = (panning + 1) / 2 * CONSTANTS.percentage
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["panning--bar"].style.left = percentage + "%"
+
+						// audio
+							if (!setup) {
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ panning: panning }) }
+								saveFile()
+							}
 					}
 			} catch (error) {console.log(error)}
 		}
