@@ -87,7 +87,8 @@
 				"tool-effects": document.querySelector("#tool-effects"),
 				"tool-filter": document.querySelector("#tool-filter"),
 				"tool-tremolo": document.querySelector("#tool-tremolo"),
-				"tool-echo": document.querySelector("#tool-echo")
+				"tool-echo": document.querySelector("#tool-echo"),
+				"tool-compressor": document.querySelector("#tool-compressor")
 			},
 			switcher: document.querySelector("#switcher"),
 			switcherButtons: {
@@ -101,7 +102,8 @@
 				"tool-effects": document.querySelector("#switcher button[value='tool-effects']"),
 				"tool-filter": document.querySelector("#switcher button[value='tool-filter']"),
 				"tool-tremolo": document.querySelector("#switcher button[value='tool-tremolo']"),
-				"tool-echo": document.querySelector("#switcher button[value='tool-echo']")
+				"tool-echo": document.querySelector("#switcher button[value='tool-echo']"),
+				"tool-compressor": document.querySelector("#switcher button[value='tool-compressor']")
 			},
 			keyboard: document.querySelector("#keyboard"),
 			keys: {},
@@ -115,7 +117,8 @@
 			"tool-effects": {},
 			"tool-filter": {},
 			"tool-tremolo": {},
-			"tool-echo": {}
+			"tool-echo": {},
+			"tool-compressor": {}
 		}
 
 	/* prevent right-click / drag-&-drop */
@@ -161,6 +164,7 @@
 					buildTremoloTool()
 					buildEchoTool()
 					buildEffectsTools()
+					buildCompressorTool()
 					buildKeyboard()
 
 				// select meta
@@ -350,6 +354,10 @@
 					ELEMENTS["tool-effects"]["distortion--input"].value = parameters["distortion"] ? (parameters["distortion"] / AUDIO_J.constants.maxDistortion * CONSTANTS.distortionModifier) : 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["distortion--input"]}, setup)
 
+				// chorus
+					ELEMENTS["tool-effects"]["chorus--input"].value = parameters["chorus"] || 0
+					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--input"]}, setup)
+
 				// reverb
 					ELEMENTS["tool-effects"]["reverb--input"].value = parameters["reverb"] || 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]}, setup)
@@ -357,6 +365,19 @@
 				// panning
 					ELEMENTS["tool-effects"]["panning--input"].value = parameters["panning"] || 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["panning--input"]}, setup)
+
+				// compressor
+					ELEMENTS["tool-compressor"]["threshold--input"].value = (parameters["compressor"] ? parameters["compressor"].threshold : 0)
+					adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["threshold--input"]}, setup)
+					
+					ELEMENTS["tool-compressor"]["ratio--input"].value = (parameters["compressor"] ? parameters["compressor"].ratio : 1)
+					adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["ratio--input"]}, setup)
+
+					ELEMENTS["tool-compressor"]["attack--input"].value = (parameters["compressor"] ? parameters["compressor"].attack * AUDIO_J.constants.ms : 0)
+					adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["attack--input"]}, setup)
+
+					ELEMENTS["tool-compressor"]["release--input"].value = (parameters["compressor"] ? parameters["compressor"].release * AUDIO_J.constants.ms : 0)
+					adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["release--input"]}, setup)
 
 				// localstorage
 					saveFile()
@@ -368,8 +389,9 @@
 		function selectBar(event) {
 			try {
 				if (STATE.tool) {
-					STATE.parameter = event.target
-					event.target.setAttribute("selected", true)
+					const bar = event.target.closest(".bar") || event.target.closest(".shape")
+					STATE.parameter = bar
+					bar.setAttribute("selected", true)
 					STATE.tool.setAttribute("grabbing", true)
 
 					moveBar(event)
@@ -412,6 +434,9 @@
 						break
 						case "tool-echo":
 							adjustEchoToolBar(event)
+						break
+						case "tool-compressor":
+							adjustCompressorToolBar(event)
 						break
 					}
 				}
@@ -1162,7 +1187,6 @@
 						const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 						let percentage = (rectangle.height - y + rectangle.top) * CONSTANTS.percentage / (rectangle.height)
 							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-						STATE.parameter.style.height = percentage + "%"
 
 						ELEMENTS["tool-vibrato"]["pitch-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-vibrato"]["pitch-input"].max)
 						adjustVibratoToolInput({target: ELEMENTS["tool-vibrato"]["pitch-input"]})
@@ -1174,7 +1198,6 @@
 						const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 						let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
 							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-						STATE.parameter.style.width = percentage + "%"
 
 						ELEMENTS["tool-vibrato"]["interval-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-vibrato"]["interval-input"].max)
 						adjustVibratoToolInput({target: ELEMENTS["tool-vibrato"]["interval-input"]})
@@ -2172,7 +2195,6 @@
 						const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
 						let percentage = (rectangle.height - y + rectangle.top) * CONSTANTS.percentage / (rectangle.height)
 							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-						STATE.parameter.style.height = percentage + "%"
 
 						ELEMENTS["tool-tremolo"]["depth-input"].value = percentage
 						adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["depth-input"]})
@@ -2184,7 +2206,6 @@
 						const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
 						let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
 							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-						STATE.parameter.style.width = percentage + "%"
 
 						ELEMENTS["tool-tremolo"]["interval-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-tremolo"]["interval-input"].max)
 						adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["interval-input"]})
@@ -2458,6 +2479,42 @@
 						reverbTrack.appendChild(reverbBar)
 						ELEMENTS["tool-effects"]["reverb--bar"] = reverbBar
 
+				// chorus
+					const chorusSection = document.createElement("div")
+						chorusSection.className = "section"
+						chorusSection.id = "tool-effects-chorus"
+					ELEMENTS.toolSections["tool-effects"].appendChild(chorusSection)
+					ELEMENTS.toolSections["tool-effects"]["chorus"] = chorusSection
+
+					const chorusInput = document.createElement("input")
+						chorusInput.setAttribute("type", "number")
+						chorusInput.setAttribute("min", 0)
+						chorusInput.setAttribute("max", AUDIO_J.constants.maxChorusCents)
+						chorusInput.placeholder = "¢"
+						chorusInput.className = "input"
+						chorusInput.id = "tool-effects-chorus--input"
+						chorusInput.value = 0
+						chorusInput.title = "chorus effect"
+						chorusInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
+					chorusSection.appendChild(chorusInput)
+					ELEMENTS["tool-effects"]["chorus--input"] = chorusInput
+
+					const chorusTrack = document.createElement("div")
+						chorusTrack.id = "tool-effects-chorus--track"
+						chorusTrack.className = "track"
+					chorusSection.appendChild(chorusTrack)
+					ELEMENTS["tool-effects"]["chorus--track"] = chorusTrack
+
+						const chorusBar = document.createElement("div")
+							chorusBar.id = "tool-effects-chorus--bar"
+							chorusBar.className = "bar"
+							chorusBar.style.width = "0%"
+							chorusBar.innerHTML = '<span class="fas fa-comments"></span>'
+							chorusBar.title = "chorus effect"
+							chorusBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						chorusTrack.appendChild(chorusBar)
+						ELEMENTS["tool-effects"]["chorus--bar"] = chorusBar
+
 				// panning
 					const panningSection = document.createElement("div")
 						panningSection.className = "section"
@@ -2470,7 +2527,7 @@
 						panningInput.setAttribute("min", -1)
 						panningInput.setAttribute("max", 1)
 						panningInput.setAttribute("step", 0.1)
-						panningInput.placeholder = "#"
+						panningInput.placeholder = "↔"
 						panningInput.className = "input"
 						panningInput.id = "tool-effects-panning--input"
 						panningInput.value = 0
@@ -2488,7 +2545,7 @@
 						const panningBar = document.createElement("div")
 							panningBar.id = "tool-effects-panning--bar"
 							panningBar.className = "bar"
-							panningBar.innerHTML = '<span class="fas fa-arrows-alt-h"></span>'
+							panningBar.innerHTML = '<span class="fas fa-headphones"></span>'
 							panningBar.title = "panning direction"
 							panningBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						panningTrack.appendChild(panningBar)
@@ -2511,7 +2568,6 @@
 
 							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
 								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							ELEMENTS["tool-effects"]["distortion--bar"].style.width = percentage + "%"
 							ELEMENTS["tool-effects"]["distortion--input"].value = percentage / CONSTANTS.percentage * CONSTANTS.distortionModifier
 
 						// data
@@ -2526,11 +2582,24 @@
 
 							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
 								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							ELEMENTS["tool-effects"]["reverb--bar"].style.width = percentage + "%"
 							ELEMENTS["tool-effects"]["reverb--input"].value = percentage / CONSTANTS.percentage
 
 						// data
 							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]})
+					}
+
+				// chorus
+					if (STATE.parameter.id == "tool-effects-chorus--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-effects"]["chorus--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+
+							let percentage = Math.abs((x - rectangle.left - (rectangle.width / 2)) * CONSTANTS.percentage / (rectangle.width)) * 2
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["chorus--input"].value = percentage / CONSTANTS.percentage * AUDIO_J.constants.maxChorusCents
+
+						// data
+							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--input"]})
 					}
 
 				// panning
@@ -2541,7 +2610,6 @@
 
 							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
 								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							ELEMENTS["tool-effects"]["panning--bar"].style.left = percentage + "%"
 							ELEMENTS["tool-effects"]["panning--input"].value = ((percentage / CONSTANTS.percentage) * 2) - 1
 
 						// data
@@ -2583,6 +2651,21 @@
 							}
 					}
 
+				// chorus
+					if (event.target == ELEMENTS["tool-effects"]["chorus--input"]) {
+						// display
+							let percentage = Number(event.target.value) / AUDIO_J.constants.maxChorusCents * CONSTANTS.percentage
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-effects"]["chorus--bar"].style.width = percentage + "%"
+
+						// audio
+							if (!setup) {
+								const chorus = percentage / CONSTANTS.percentage * AUDIO_J.constants.maxChorusCents
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ chorus: chorus }) }
+								saveFile()
+							}
+					}
+
 				// panning
 					if (event.target == ELEMENTS["tool-effects"]["panning--input"]) {
 						// display
@@ -2594,6 +2677,357 @@
 						// audio
 							if (!setup) {
 								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ panning: panning }) }
+								saveFile()
+							}
+					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** tool-compressor ***/
+	/* buildCompressorTool */
+		function buildCompressorTool() {
+			try {
+				// volume
+					const volumeSection = document.createElement("div")
+						volumeSection.className = "section"
+						volumeSection.id = "tool-compressor-volume"
+					ELEMENTS.toolSections["tool-compressor"].appendChild(volumeSection)
+					ELEMENTS.toolSections["tool-compressor"]["volume"] = volumeSection
+
+					const volumeGraph = document.createElement("div")
+						volumeGraph.id = "tool-compressor-volume-graph"
+					volumeSection.appendChild(volumeGraph)
+
+						const thresholdTrack = document.createElement("div")
+							thresholdTrack.id = "tool-compressor-threshold--track"
+							thresholdTrack.className = "track"
+						volumeGraph.appendChild(thresholdTrack)
+						ELEMENTS["tool-compressor"]["threshold--track"] = thresholdTrack
+
+							const thresholdBar = document.createElement("div")
+								thresholdBar.id = "tool-compressor-threshold--bar"
+								thresholdBar.className = "bar"
+								thresholdBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+								thresholdBar.title = "volume threshold"
+								thresholdBar.style.height = "90%"
+								thresholdBar.style.width = "90%"
+								thresholdBar.addEventListener(TRIGGERS.mousedown, selectBar)
+							thresholdTrack.appendChild(thresholdBar)
+							ELEMENTS["tool-compressor"]["threshold--bar"] = thresholdBar
+
+							const thresholdInput = document.createElement("input")
+								thresholdInput.setAttribute("type", "number")
+								thresholdInput.setAttribute("min", AUDIO_J.constants.minCompressorThreshold)
+								thresholdInput.setAttribute("max", AUDIO_J.constants.maxCompressorThreshold)
+								thresholdInput.placeholder = "dB"
+								thresholdInput.className = "input"
+								thresholdInput.id = "tool-compressor-threshold--input"
+								thresholdInput.value = 0
+								thresholdInput.title = "volume threshold"
+								thresholdInput.addEventListener(TRIGGERS.change, adjustCompressorToolInput)
+							thresholdBar.appendChild(thresholdInput)
+							ELEMENTS["tool-compressor"]["threshold--input"] = thresholdInput
+
+							const thresholdLine = document.createElement("div")
+								thresholdLine.id = "tool-compressor-threshold--line"
+							thresholdBar.appendChild(thresholdLine)
+
+						const ratioTrack = document.createElement("div")
+							ratioTrack.id = "tool-compressor-ratio--track"
+							ratioTrack.className = "track"
+							ratioTrack.style.height = "10%"
+						thresholdTrack.appendChild(ratioTrack)
+						ELEMENTS["tool-compressor"]["ratio--track"] = ratioTrack
+
+							const ratioBar = document.createElement("div")
+								ratioBar.id = "tool-compressor-ratio--bar"
+								ratioBar.className = "bar"
+								ratioBar.innerHTML = '<span class="fas fa-sort-down"></span>'
+								ratioBar.title = "compression ratio"
+								ratioBar.style.height = "100%"
+								ratioBar.addEventListener(TRIGGERS.mousedown, selectBar)
+							ratioTrack.appendChild(ratioBar)
+							ELEMENTS["tool-compressor"]["ratio--bar"] = ratioBar
+
+								const ratioHandle = document.createElement("div")
+									ratioHandle.id = "tool-compressor-ratio--handle"
+								ratioBar.appendChild(ratioHandle)
+
+							const ratioInput = document.createElement("input")
+								ratioInput.setAttribute("type", "number")
+								ratioInput.setAttribute("min", AUDIO_J.constants.minCompressorRatio)
+								ratioInput.setAttribute("max", AUDIO_J.constants.maxCompressorRatio)
+								ratioInput.placeholder = "#"
+								ratioInput.className = "input"
+								ratioInput.id = "tool-compressor-ratio--input"
+								ratioInput.value = 1
+								ratioInput.title = "compression ratio"
+								ratioInput.addEventListener(TRIGGERS.change, adjustCompressorToolInput)
+							ratioBar.appendChild(ratioInput)
+							ELEMENTS["tool-compressor"]["ratio--input"] = ratioInput
+
+							const ratioInputAfter = document.createElement("div")
+								ratioInputAfter.id = "tool-compressor-ratio--after"
+								ratioInputAfter.innerText = ":1"
+							ratioBar.appendChild(ratioInputAfter)
+
+							const ratioLine = document.createElement("div")
+								ratioLine.id = "tool-compressor-ratio--line"
+							ratioBar.appendChild(ratioLine)
+
+						const underBlock = document.createElement("div")
+							underBlock.id = "tool-compressor-under"
+						thresholdTrack.appendChild(underBlock)
+						ELEMENTS["tool-compressor"]["under"] = underBlock
+
+				// timing
+					const timingSection = document.createElement("div")
+						timingSection.className = "section"
+						timingSection.id = "tool-compressor-timing"
+					ELEMENTS.toolSections["tool-compressor"].appendChild(timingSection)
+					ELEMENTS["tool-compressor"]["timing"] = timingSection
+
+						const timingGraph = document.createElement("div")
+							timingGraph.id = "tool-compressor-timing-graph"
+						timingSection.appendChild(timingGraph)
+
+							const timingSignal = document.createElement("div")
+								timingSignal.id = "tool-compressor-timing--signal"
+							timingGraph.appendChild(timingSignal)
+
+							const timingBefore = document.createElement("div")
+								timingBefore.id = "tool-compressor-timing--before"
+								timingBefore.innerHTML = '<span class="fas fa-clock"></span> <span class="fas fa-arrow-right"></span>'
+							timingGraph.appendChild(timingBefore)
+
+							const timingThreshold = document.createElement("div")
+								timingThreshold.id = "tool-compressor-timing--threshold"
+							timingGraph.appendChild(timingThreshold)
+							ELEMENTS["tool-compressor"]["timing--threshold"] = timingThreshold
+
+							const attackTrack = document.createElement("div")
+								attackTrack.id = "tool-compressor-attack--track"
+								attackTrack.className = "track"
+							timingGraph.appendChild(attackTrack)
+							ELEMENTS["tool-compressor"]["attack--track"] = attackTrack
+
+								const attackBar = document.createElement("div")
+									attackBar.id = "tool-compressor-attack--bar"
+									attackBar.className = "bar"
+									attackBar.innerHTML = "a"
+									attackBar.title = "compression attack"
+									attackBar.addEventListener(TRIGGERS.mousedown, selectBar)
+								attackTrack.appendChild(attackBar)
+								ELEMENTS["tool-compressor"]["attack--bar"] = attackBar
+
+								const timingBetween = document.createElement("div")
+									timingBetween.id = "tool-compressor-timing--between"
+								attackTrack.appendChild(timingBetween)
+								ELEMENTS["tool-compressor"]["timing--between"] = timingBetween
+
+								const attackInput = document.createElement("input")
+									attackInput.setAttribute("type", "number")
+									attackInput.setAttribute("min", AUDIO_J.constants.minCompressorAttack * AUDIO_J.constants.ms)
+									attackInput.setAttribute("max", AUDIO_J.constants.maxCompressorAttack * AUDIO_J.constants.ms)
+									attackInput.placeholder = "ms"
+									attackInput.className = "input"
+									attackInput.id = "tool-compressor-attack--input"
+									attackInput.value = 0
+									attackInput.title = "compression attack"
+									attackInput.addEventListener(TRIGGERS.change, adjustCompressorToolInput)
+								attackTrack.appendChild(attackInput)
+								ELEMENTS["tool-compressor"]["attack--input"] = attackInput
+
+							const releaseTrack = document.createElement("div")
+								releaseTrack.id = "tool-compressor-release--track"
+								releaseTrack.className = "track"
+							timingGraph.appendChild(releaseTrack)
+							ELEMENTS["tool-compressor"]["release--track"] = releaseTrack
+
+								const releaseBar = document.createElement("div")
+									releaseBar.id = "tool-compressor-release--bar"
+									releaseBar.className = "bar"
+									releaseBar.innerHTML = "r"
+									releaseBar.title = "compression release"
+									releaseBar.addEventListener(TRIGGERS.mousedown, selectBar)
+								releaseTrack.appendChild(releaseBar)
+								ELEMENTS["tool-compressor"]["release--bar"] = releaseBar
+
+								const timingAfter = document.createElement("div")
+									timingAfter.id = "tool-compressor-timing--after"
+								releaseTrack.appendChild(timingAfter)
+								ELEMENTS["tool-compressor"]["timing--after"] = timingAfter
+
+								const releaseInput = document.createElement("input")
+									releaseInput.setAttribute("type", "number")
+									releaseInput.setAttribute("min", AUDIO_J.constants.minCompressorRelease * AUDIO_J.constants.ms)
+									releaseInput.setAttribute("max", AUDIO_J.constants.maxCompressorRelease * AUDIO_J.constants.ms)
+									releaseInput.placeholder = "ms"
+									releaseInput.className = "input"
+									releaseInput.id = "tool-compressor-release--input"
+									releaseInput.value = 0
+									releaseInput.title = "compression release"
+									releaseInput.addEventListener(TRIGGERS.change, adjustCompressorToolInput)
+								releaseTrack.appendChild(releaseInput)
+								ELEMENTS["tool-compressor"]["release--input"] = releaseInput
+
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustCompressorToolBar */
+		function adjustCompressorToolBar(event, setup) {
+			try {
+				// threshold
+					if (STATE.parameter.id == "tool-compressor-threshold--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-compressor"]["threshold--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+							const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+
+							let percentageX = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentageX = Math.min(CONSTANTS.percentage, Math.max(0, percentageX))
+							let percentageY = CONSTANTS.percentage - ((y - rectangle.top) * CONSTANTS.percentage / (rectangle.height))
+								percentageY = Math.min(CONSTANTS.percentage, Math.max(0, percentageY))
+							
+							const percentage = Math.max(percentageX, percentageY)
+							ELEMENTS["tool-compressor"]["threshold--input"].value = percentage + AUDIO_J.constants.minCompressorThreshold
+
+						// data
+							adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["threshold--input"]})
+					}
+
+				// ratio
+					if (STATE.parameter.id == "tool-compressor-ratio--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-compressor"]["ratio--track"].getBoundingClientRect()
+							const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+
+							let percentage = CONSTANTS.percentage - ((y - rectangle.top) * CONSTANTS.percentage / (rectangle.height))
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-compressor"]["ratio--input"].value = Math.min(AUDIO_J.constants.maxCompressorRatio, Math.max(AUDIO_J.constants.minCompressorRatio, 1 / (percentage / CONSTANTS.percentage)))
+
+						// data
+							adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["ratio--input"]})
+					}
+
+				// attack
+					if (STATE.parameter.id == "tool-compressor-attack--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-compressor"]["attack--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+
+							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-compressor"]["attack--input"].value = percentage / CONSTANTS.percentage * AUDIO_J.constants.ms
+
+						// data
+							adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["attack--input"]})
+					}
+
+				// release
+					if (STATE.parameter.id == "tool-compressor-release--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-compressor"]["release--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+
+							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-compressor"]["release--input"].value = percentage / CONSTANTS.percentage * AUDIO_J.constants.ms
+
+						// data
+							adjustCompressorToolInput({target: ELEMENTS["tool-compressor"]["release--input"]})
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustCompressorToolInput */
+		function adjustCompressorToolInput(event, setup) {
+			try {
+				// threshold
+					if (event.target == ELEMENTS["tool-compressor"]["threshold--input"]) {
+						// display
+							let percentage = Number(event.target.value) - AUDIO_J.constants.minCompressorThreshold
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-compressor"]["threshold--bar"].style.width = percentage + "%"
+							ELEMENTS["tool-compressor"]["threshold--bar"].style.height = percentage + "%"
+
+							ELEMENTS["tool-compressor"]["ratio--track"].style.width = (CONSTANTS.percentage - percentage) + "%"
+							ELEMENTS["tool-compressor"]["ratio--track"].style.height = (CONSTANTS.percentage - percentage) + "%"
+
+							ELEMENTS["tool-compressor"]["under"].style.width = (CONSTANTS.percentage - percentage) + "%"
+							ELEMENTS["tool-compressor"]["under"].style.height = percentage + "%"
+
+						// audio
+							if (!setup) {
+								const compressor = {
+									threshold: percentage + AUDIO_J.constants.minCompressorThreshold
+								}
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ compressor: compressor }) }
+								saveFile()
+							}
+					}
+
+				// ratio
+					if (event.target == ELEMENTS["tool-compressor"]["ratio--input"]) {
+						// display
+							const value = Number(event.target.value)
+							let percentage = 1 / value * CONSTANTS.percentage
+								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+							ELEMENTS["tool-compressor"]["ratio--bar"].style.height = percentage + "%"
+
+						// audio
+							if (!setup) {
+								const compressor = {
+									ratio: value
+								}
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ compressor: compressor }) }
+								saveFile()
+							}
+					}
+
+				// timing threshold
+					const combinedPercentage = Number(ELEMENTS["tool-compressor"]["threshold--bar"].style.height.replace("%", "")) + Number(ELEMENTS["tool-compressor"]["ratio--bar"].style.height.replace("%", "")) * Number(ELEMENTS["tool-compressor"]["ratio--track"].style.height.replace("%", "")) / CONSTANTS.percentage
+						ELEMENTS["tool-compressor"]["timing--threshold"].style.height = combinedPercentage + "%"
+						ELEMENTS["tool-compressor"]["timing--between"].style.height = combinedPercentage + "%"
+						ELEMENTS["tool-compressor"]["attack--bar"].style["clip-path"] = "polygon(0% 10%, 100% " + Math.max(10, Math.min(90, (CONSTANTS.percentage - combinedPercentage))) + "%, 100% 100%, 0% 100%)"
+						ELEMENTS["tool-compressor"]["release--track"].style.height = combinedPercentage + "%"
+
+				// attack
+					if (event.target == ELEMENTS["tool-compressor"]["attack--input"]) {
+						// display
+							let value = Number(event.target.value) / AUDIO_J.constants.ms
+								value = Math.min(AUDIO_J.constants.maxCompressorAttack, Math.max(AUDIO_J.constants.minCompressorAttack, value))
+
+							const percentage = value * CONSTANTS.percentage
+							ELEMENTS["tool-compressor"]["attack--bar"].style.width = percentage + "%"
+							ELEMENTS["tool-compressor"]["timing--between"].style.width = (CONSTANTS.percentage - percentage) + "%"
+
+						// audio
+							if (!setup) {
+								const compressor = {
+									attack: value
+								}
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ compressor: compressor }) }
+								saveFile()
+							}
+					}
+
+				// release
+					if (event.target == ELEMENTS["tool-compressor"]["release--input"]) {
+						// display
+							let value = Number(event.target.value) / AUDIO_J.constants.ms
+								value = Math.min(AUDIO_J.constants.maxCompressorRelease, Math.max(AUDIO_J.constants.minCompressorRelease, value))
+
+							const percentage = value * CONSTANTS.percentage
+							ELEMENTS["tool-compressor"]["release--bar"].style.width = percentage + "%"
+							ELEMENTS["tool-compressor"]["timing--after"].style.width = (CONSTANTS.percentage - percentage) + "%"
+
+						// audio
+							if (!setup) {
+								const compressor = {
+									release: value
+								}
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ compressor: compressor }) }
 								saveFile()
 							}
 					}
