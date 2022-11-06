@@ -171,8 +171,8 @@
 					selectTool({target: ELEMENTS.switcherButtons["tool-meta"]})
 
 				// default instrument from list
-					const defaultInstruments = AUDIO_J.getInstruments("default")
-					AUDIO_J.activeInstrumentId = defaultInstruments[Math.floor(Math.random() * defaultInstruments.length)]
+					const defaultInstrumentNames = AUDIO_J.getInstruments({include: ["default"], grouping: "flat", format: "names"})
+					AUDIO_J.activeInstrumentId = defaultInstrumentNames[Math.floor(Math.random() * defaultInstrumentNames.length)]
 					ELEMENTS["tool-meta"]["select"].value = AUDIO_J.activeInstrumentId
 			} catch (error) {console.log(error)}
 		}
@@ -219,7 +219,7 @@
 
 				// name & meta
 					instrument.parameters.name = parameters.name || "synthesizer #" + Math.floor(Math.random() * 10e6)
-					ELEMENTS["tool-meta"]["name"].value = (AUDIO_J.getInstruments("simple").includes(parameters["name"]) || AUDIO_J.getInstruments("default").includes(parameters["name"])) ? "" : parameters["name"]
+					ELEMENTS["tool-meta"]["name"].value = (AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(parameters.name)) ? "" : parameters.name
 					if (!ELEMENTS["tool-meta"]["select"].querySelector("option[value='" + instrument.parameters.name + "']")) {
 						const option = document.createElement("option")
 							option.value = instrument.parameters.name
@@ -228,7 +228,7 @@
 					}
 					ELEMENTS["tool-meta"]["select"].value = instrument.parameters.name
 
-					if (AUDIO_J.getInstruments("simple").includes(instrument.parameters.name) || AUDIO_J.getInstruments("default").includes(instrument.parameters.name)) {
+					if (AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(instrument.parameters.name)) {
 						ELEMENTS.toolSections["tool-meta"].removeAttribute("custom")
 					}
 					else {
@@ -359,7 +359,7 @@
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--input"]}, setup)
 
 				// reverb
-					ELEMENTS["tool-effects"]["reverb--input"].value = parameters["reverb"] || 0
+					ELEMENTS["tool-effects"]["reverb--input"].value = parameters["reverb"] ? (parameters["reverb"] * CONSTANTS.percentage) : 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]}, setup)
 
 				// panning
@@ -488,66 +488,19 @@
 						uploadLabel.appendChild(uploadSpan)
 
 				// select
-					const instrumentSelect = document.createElement("select")
+					const instrumentListData = AUDIO_J.getInstruments({include: ["blank", "random", "simple", "default", "custom"], grouping: "family", format: "select"})
+					
+					const instrumentSelect = instrumentListData._select
 						instrumentSelect.id = "tool-meta-select"
 						instrumentSelect.className = "input"
 						instrumentSelect.title = "synth sound"
 						instrumentSelect.addEventListener(TRIGGERS.change, loadFile)
-						fileSection.appendChild(instrumentSelect)
+					fileSection.appendChild(instrumentSelect)
 					ELEMENTS["tool-meta"]["select"] = instrumentSelect
 
-						const randomGroup = document.createElement("optgroup")
-							randomGroup.id = "tool-meta-select-group-random"
-							randomGroup.label = "--- RANDOM ---"
-						instrumentSelect.appendChild(randomGroup)
-						ELEMENTS["tool-meta"]["group-random"] = randomGroup
-
-							const randomOption = document.createElement("option")
-								randomOption.innerText = "random"
-								randomOption.value = "random"
-							randomGroup.appendChild(randomOption)
-
-						const simpleGroup = document.createElement("optgroup")
-							simpleGroup.id = "tool-meta-select-group-simple"
-							simpleGroup.label = "--- SIMPLE ---"
-						instrumentSelect.appendChild(simpleGroup)
-						ELEMENTS["tool-meta"]["group-simple"] = simpleGroup
-
-							const simpleInstruments = AUDIO_J.getInstruments("simple")
-							for (let o in simpleInstruments) {
-								const instrumentOption = document.createElement("option")
-									instrumentOption.innerText = simpleInstruments[o]
-									instrumentOption.value = simpleInstruments[o]
-								simpleGroup.appendChild(instrumentOption)
-							}
-
-						const defaultsGroup = document.createElement("optgroup")
-							defaultsGroup.id = "tool-meta-select-group-defaults"
-							defaultsGroup.label = "--- DEFAULTS ---"
-						instrumentSelect.appendChild(defaultsGroup)
-						ELEMENTS["tool-meta"]["group-defaults"] = defaultsGroup
-
-							const defaultInstruments = AUDIO_J.getInstruments("default")
-							for (let o in defaultInstruments) {
-								const instrumentOption = document.createElement("option")
-									instrumentOption.innerText = defaultInstruments[o]
-									instrumentOption.value = defaultInstruments[o]
-								defaultsGroup.appendChild(instrumentOption)
-							}
-
-						const customGroup = document.createElement("optgroup")
-							customGroup.id = "tool-meta-select-group-custom"
-							customGroup.label = "--- CUSTOM ---"
-						instrumentSelect.appendChild(customGroup)
-						ELEMENTS["tool-meta"]["group-custom"] = customGroup
-
-							const customInstruments = AUDIO_J.getInstruments("custom")
-							for (let o in customInstruments) {
-								const instrumentOption = document.createElement("option")
-									instrumentOption.innerText = customInstruments[o]
-									instrumentOption.value = customInstruments[o]
-								customGroup.appendChild(instrumentOption)
-							}
+					const customGroup = instrumentListData.custom._optgroup
+						customGroup.id = "tool-meta-select-group-custom"
+					ELEMENTS["tool-meta"]["group-custom"] = customGroup
 
 				// j-logo
 					const jLogo = document.createElement("a")
@@ -655,7 +608,7 @@
 					AUDIO_J.instruments[AUDIO_J.activeInstrumentId] = AUDIO_J.instruments[oldName]
 
 				// simple / default?
-					if (AUDIO_J.getInstruments("simple").includes(oldName) || AUDIO_J.getInstruments("default").includes(oldName)) {
+					if (AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(oldName)) {
 						AUDIO_J.instruments[oldName] = AUDIO_J.buildInstrument(AUDIO_J.getInstrument(oldName))
 						AUDIO_J.instruments[oldName].setParameters({ power: 0 })
 
@@ -691,7 +644,7 @@
 			try {
 				// default
 					const name = AUDIO_J.activeInstrumentId
-					if (!name || AUDIO_J.getInstruments("simple").includes(name) || AUDIO_J.getInstruments("default").includes(name)) {
+					if (!name || AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(name)) {
 						return
 					}
 
@@ -787,16 +740,15 @@
 		function deleteFile(event, overrideName) {
 			try {
 				// get default instruments
-					const simpleInstruments = AUDIO_J.getInstruments("simple")
-					const defaultInstruments = AUDIO_J.getInstruments("default")
 					const currentInstrument = overrideName || AUDIO_J.activeInstrumentId
-					if (!currentInstrument || simpleInstruments.includes(currentInstrument) || defaultInstruments.includes(currentInstrument)) {
+					if (!currentInstrument || AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(currentInstrument)) {
 						return
 					}
 
 				// choose a new random instrument
 					if (!overrideName) {
-						const instrumentName = defaultInstruments[Math.floor(Math.random() * defaultInstruments.length)]
+						const defaultInstrumentNames = AUDIO_J.getInstruments({include: ["default"], grouping: "flat", format: "names"})
+						const instrumentName = defaultInstrumentNames[Math.floor(Math.random() * defaultInstrumentNames.length)]
 						setInstrument(AUDIO_J.getInstrument(instrumentName) || {}, true)
 					}
 
@@ -2452,8 +2404,8 @@
 					const reverbInput = document.createElement("input")
 						reverbInput.setAttribute("type", "number")
 						reverbInput.setAttribute("min", 0)
-						reverbInput.setAttribute("max", 1)
-						reverbInput.setAttribute("step", 0.1)
+						reverbInput.setAttribute("max", CONSTANTS.percentage)
+						reverbInput.setAttribute("step", 1)
 						reverbInput.placeholder = "#"
 						reverbInput.className = "input"
 						reverbInput.id = "tool-effects-reverb--input"
@@ -2582,7 +2534,7 @@
 
 							let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
 								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							ELEMENTS["tool-effects"]["reverb--input"].value = percentage / CONSTANTS.percentage
+							ELEMENTS["tool-effects"]["reverb--input"].value = percentage
 
 						// data
 							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]})
@@ -2639,7 +2591,7 @@
 				// reverb
 					if (event.target == ELEMENTS["tool-effects"]["reverb--input"]) {
 						// display
-							let percentage = Number(event.target.value) * CONSTANTS.percentage
+							let percentage = Number(event.target.value)
 								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
 							ELEMENTS["tool-effects"]["reverb--bar"].style.width = percentage + "%"
 
