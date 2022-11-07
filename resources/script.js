@@ -1096,9 +1096,9 @@
 			tonemaker: {
 				name: "toneMaker",
 				size: "large",
-				tags: ["code","music","audio","synth","piano"],
-				date: "February 14, 2018",
-				description: "Use the toneMaker synthesizer tool to craft your own sounds, tinkering with parameters in audio visualizations."
+				tags: ["code","music","audio","tool","synth","piano","jazz","orchestral","scifi"],
+				date: "November 6, 2022",
+				description: "A synth creator built in 2018, overhauled in 2022. Build your own web audio sounds with limitless customization."
 			},
 			truecolors: {
 				name: "True Colors",

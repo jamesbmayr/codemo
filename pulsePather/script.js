@@ -39,15 +39,10 @@
 	/* buildMenu */
 		buildMenu()
 		function buildMenu() {
-			var instruments = AUDIO_J.getInstruments()
-			for (var i in instruments) {
-				var option = document.createElement("option")
-					option.value     = instruments[i]
-					option.innerText = instruments[i]
-				document.getElementById("menu-instrument").appendChild(option)
-			}
+			var menuInstrument = document.getElementById("menu-instrument")
+			AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: menuInstrument})
 
-			document.getElementById("menu-instrument").value = "honeyharp"
+			menuInstrument.value = "honeyharp"
 			AUDIO_J.activeInstrumentId = "honeyharp"
 		}
 

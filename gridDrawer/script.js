@@ -689,13 +689,8 @@ window.onload = function() {
 	/*** music ***/
 		/* buildList */
 			function buildList() {
-				var list = AUDIO_J.getInstruments() || []
 				var instruments = document.getElementById("instrument")
-
-				for (var l in list) {
-					instruments.innerHTML += "<option value='" + list[l] + "'>" + list[l] + "</option>"
-				}
-
+				AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: instruments})
 				instruments.value = "honeyharp"
 			}
 

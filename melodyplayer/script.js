@@ -311,90 +311,211 @@
 			midiModeMidiLow: 36,
 			midiModeMidiHigh: 84,
 			instrumentMapping: {
+				"percussion": "boombash", // 0
+				"acoustic grand piano": "keystone", // 1
+				"bright acoustic piano": "keystone", // 2
+				"electric grand piano": "keystone", // 3
+				"honky-tonk piano": "consona", // 4
+				"electric piano 1": "qube", // 5
+				"electric piano 2": "glassical", // 6
 				"piano": "keystone",
-				"harpsichord": "sharpsichord",
-				"clavinet": "zipboard",
-				"celesta": "bitbottle",
-				"glockenspiel": "bellissful",
-				"music box": "glassical",
-				"vibraphone": "meltmallet",
-				"marimba": "mayrimba",
-				"xylophone": "nimbusnotes",
-				"bell": "bellissful",
-				"dulcimer": "sharpsichord",
+				"harpsichord": "sharpsichord", // 7
+				"clavinet": "zipboard", // 8
+				"celesta": "bitbottle", // 9
+				"glockenspiel": "bellissful", // 10
+				"music box": "glassical", // 11
+				"vibraphone": "meltmallet", // 12
+				"marimba": "mayrimba", // 13
+				"xylophone": "nimbusnotes", // 14
+				"tubular bells": "bellissful", // 15
+				"dulcimer": "sharpsichord", // 16
+				"drawbar organ": "soulvation", // 17
+				"percussive organ": "pipepad", // 18
+				"rock organ": "buzzorgan", // 19
+				"church organ": "pipepad", // 20
+				"reed organ": "accordienne", // 21
 				"organ": "pipepad",
-				"accordion": "accordienne",
-				"harmonica": "hermanico",
-				"violin": "vyol",
-				"viola": "vyol",
-				"cello": "swello",
-				"contrabass": "swello",
-				"ukulele": "honeyharp",
-				"acoustic": "randolin",
-				"mandolin": "randolin",
-				"guitar": "lazerz",
+				"accordion": "accordienne", // 22
+				"harmonica": "hermanico", // 23
+				"tango accordion": "accordienne", // 24
+				"acoustic guitar (nylon)": "argit", // 25
+				"acoustic guitar (steel)": "randolin", // 26
+				"acoustic guitar": "argit",
+				"electric guitar (jazz)": "wavecore", // 27
+				"electric guitar (clean)": "argit", // 28
+				"electric guitar (muted)": "spritzicato", // 29
+				"overdriven guitar": "fuzzillade", // 30
+				"distortion guitar": "lazerz", // 31
+				"guitar harmonics": "chordstrum", // 32
+				"electric guitar": "argit",
+				"guitar": "argit",
+				"acoustic bass": "honeyharp", // 33
+				"electric bass (finger)": "jellybanjo", // 34
+				"electric bass (pick)": "bowsaw", // 35
+				"electic bass": "lowdium",
+				"fretless bass": "argit", // 36
+				"slap bass 1": "randolin", // 37
+				"slap bass 2": "consona", // 38
+				"synth bass 1": "lowdium", // 39
+				"synth bass 2": "qube", // 40
+				"violin": "vyol", // 41
+				"viola": "vyol", // 42
+				"cello": "swello", // 43
+				"contrabass": "swello", // 44
+				"tremolo strings": "estrorcha", // 45
+				"pizzicato strings": "spritzicato", // 46
 				"pizzicato": "spritzicato",
-				"string": "vyol",
+				"orchestral harp": "honeyharp", // 47
 				"harp": "honeyharp",
-				"timpani": "boombash",
-				"choir": "voxelle",
-				"voice": "voxelle",
+				"timpani": "thumpano", // 48
+				"string ensemble 1": "nonsemble", // 49
+				"string ensemble 2": "estrorcha", // 50
+				"string ensemble": "nonsemble",
+				"synth strings 1": "nonsemble", // 51
+				"synth strings 2": "estrorcha", // 52
+				"synth strings": "estrorcha", // 52
+				"strings": "nonsemble",
+				"string": "vyol",
+				"choir aahs": "rechoirment", // 53
+				"chorus": "rechoirment",
+				"voice oohs": "voxelle", // 54
+				"synth voice": "cantarus", // 55
 				"vocals": "voxelle",
-				"orchestra": "vyol",
-				"trumpet": "ashbray",
+				"orchestra hit": "grandom", // 56
+				"orchestra": "nonsemble",
+				"muted trumpet": "ashbray", // 60
+				"trumpet": "trimpot", // 57
+				"trombone": "trombus", // 58
+				"tuba": "trombus", // 59
+				"french horn": "trombus", // 61
+				"brass section": "hornithologist", // 62
+				"synth brass 1": "hornithologist", // 63
+				"synth brass 2": "ashbray", // 64
+				"brass": "ashbray",
+				"soprano sax": "snacksifolk", // 65
+				"soprano saxophone": "snacksifolk",
+				"alto sax": "reedles", // 66
+				"alto saxophone": "reedles",
+				"tenor sax": "snacksifolk", // 67
+				"tenor saxophone": "snacksifolk",
+				"baritone sax": "bariphone", // 68
+				"baritone saxophone": "bariphone",
+				"bari sax": "bariphone",
+				"bari saxophone": "bariphone",
+				"sax": "reedles",
+				"saxophone": "reedles",
+				"oboe": "tenoir", // 69
+				"english horn": "tenoir", // 70
+				"bassoon": "reverbassoon", // 71
+				"bass clarinet": "tenoir",
+				"clarinet": "clarinaut", // 72
+				"piccolo": "particcolo", // 73
+				"flute": "particcolo", // 74
+				"recorder": "mockarina", // 75
+				"pan flute": "bitbottle", // 76
+				"blown bottle": "bitbottle", // 77
+				"bottle": "bitbottle",
+				"shakuhachi": "mockarina", // 78
+				"whistle": "whissile", // 79
+				"ocarina": "mockarina", // 80
+				"lead 1 (square)": "square", // 81
+				"square": "square",
+				"lead 2 (sawtooth)": "sawtooth", // 82
+				"sawtooth": "sawtooth",
+				"lead 3 (calliope)": "whissile", // 83
+				"calliope": "whissile",
+				"lead 4 (chiff)": "bowsaw", // 84
+				"chiff": "bowsaw",
+				"lead 5 (charang)": "lazerz", // 85
+				"charang": "lazerz",
+				"lead 6 (voice)": "cantarus", // 86
+				"voice": "voxelle",
+				"lead 7 (fifths)": "chordstrum", // 87
+				"fifths": "chordstrum",
+				"lead 8 (bass + lead)": "lowdium", // 88
+				"bass + lead": "lowdium",
+				"bass": "lowdium",
+				"lead": "triangle",
+				"pad 1 (new age)": "consona", // 89
+				"new age": "consona",
+				"pad 2 (warm)": "estrorcha", // 90
+				"warm": "estrorcha",
+				"pad 3 (polysynth)": "ziplimba", // 91
+				"polysynth": "ziplimba",
+				"pad 4 (choir)": "rechoirment", // 92
+				"choir": "rechoirment",
+				"pad 5 (bowed)": "bitbottle", // 93
+				"bowed": "bitbottle",
+				"pad 6 (metallic)": "wavecore", // 94
+				"metallic": "wavecore",
+				"pad 7 (halo)": "rechoirment", // 95
+				"halo": "rechoirment",
+				"pad 8 (sweep)": "buzzorgan", // 96
+				"sweep": "buzzorgan",
+				"synth pad": "theremonster",
+				"pad": "sine",
+				"fx 1 (rain)": "shimmer", // 97
+				"rain": "shimmer",
+				"fx 2 (soundtrack)": "theremonster", // 98
+				"soundtrack": "theremonster",
+				"fx 3 (crystal)": "jangle", // 99
+				"crystal": "jangle",
+				"fx 4 (atmosphere)": "argit", // 100
+				"atmosphere": "argit",
+				"fx 5 (brightness)": "wavecore", // 101
+				"brightness": "wavecore",
+				"fx 6 (goblins)": "darkflute", // 102
+				"goblins": "darkflute",
+				"fx 7 (echoes)": "underseep", // 103
+				"echoes": "underseep",
+				"fx 8 (sci-fi)": "warpal", // 104
+				"sci-fi": "warpal",
+				"fx": "underseep",
+				"sitar": "jellybanjo", // 105
+				"banjo": "jellybanjo", // 106
+				"shamisen": "shamosan", // 107
+				"koto": "shamosan", // 108
+				"kalimba": "nimbusnotes", // 109
+				"bag pipe": "accordienne", // 110
+				"bagpipe": "accordienne",
+				"bag pipes": "accordienne",
+				"bagpipes": "accordienne",
+				"fiddle": "vyol", // 111
+				"shanai": "snacksifolk", // 112
+				"tinkle bell": "bellissful", // 113
+				"bells": "bellissful",
+				"bell": "bellissful",
+				"agogo": "meltmallet", // 114
+				"steel drums": "meltmallet", // 115
+				"woodblock": "boombash", // 116
+				"taiko drum": "ensnarl", // 117
+				"taiko": "ensnarl",
+				"melodic tom": "thumpano", // 118
+				"tom": "ensnarl",
+				"synth drum": "thumpano", // 119
+				"drum set": "ensnarl",
+				"drumset": "ensnarl",
+				"drums": "boombash",
+				"drum": "boombash",
+				"reverse cymbal": "cymbilant", // 120
+				"guitar fret noise": "buzzorgan", // 121
+				"breath noise": "bitbottle", // 122
+				"seashore": "cymbilant", // 123
+				"bird tweet": "shring", // 124
+				"telephone ring": "telephex", // 125
+				"helicopter": "ensnarl", // 126
+				"applause": "cymbilant", // 127
+				"gunshot": "boombash", // 128
+				"ukulele": "honeyharp",
+				"mandolin": "randolin",
 				"cornet": "ashbray",
-				"trombone": "trombus",
-				"tuba": "trombus",
+				"horns": "hornithologist",
 				"horn": "trombus",
+				"baritone": "trombus",
 				"mellophone": "trombus",
 				"euphonium": "trombus",
-				"brass": "ashbray",
-				"soprano saxophone": "snacksifolk",
-				"alto saxophone": "snacksifolk",
-				"soprano sax": "snacksifolk",
-				"alto sax": "snacksifolk",
-				"baritone saxophone": "reedles",
-				"tenor saxophone": "reedles",
-				"bari sax": "reedles",
-				"tenor sax": "reedles",
-				"saxophone": "reedles",
-				"sax": "reedles",
-				"oboe": "hermanico",
-				"bassoon": "reverbassoon",
-				"clarinet": "clarinaut",
-				"piccolo": "particcolo",
-				"recorder": "mockarina",
-				"pan flute": "bitbottle",
-				"flute": "particcolo",
-				"bottle": "bitbottle",
-				"shakuhachi": "mockarina",
-				"whistle": "particcolo",
-				"ocarina": "mockarina",
-				"synthesizer": "zipboard",
-				"square": "square",
-				"sawtooth": "sawtooth",
-				"calliope": "bitbottle",
-				"chiff": "bowsaw",
-				"charang": "qube",
-				"lead": "square",
-				"pad": "sine",
-				"fx": "underseep",
-				"sitar": "zipboard",
-				"banjo": "jellybanjo",
-				"shamisen": "randolin",
-				"koto": "honeyharp",
-				"kalimba": "ziplimba",
-				"bag pipe": "accordienne",
-				"fiddle": "vyol",
-				"shanai": "snacksifolk",
-				"agogo": "meltmallet",
-				"steel drums": "meltmallet",
-				"woodblock": "boombash",
-				"taiko": "ensnarl",
-				"tom": "ensnarl",
-				"drum": "ensnarl",
-				"percussion": "boombash",
-				"bass": "fuzzillade"
+				"synthesizer": "qube",
+				"synth": "qube"
 			}
 		}
 
@@ -513,7 +634,8 @@
 		function buildMainSynthsList() {
 			try {
 				// build out list
-					buildSynthsList(ELEMENTS.synths)
+					ELEMENTS.synths.innerHTML = ""
+					AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: ELEMENTS.synths})
 
 				// group
 					const helper = document.createElement("option")
@@ -524,57 +646,9 @@
 					ELEMENTS.synths.prepend(helper)
 
 				// random to start
-					const defaultSynths = AUDIO_J.getInstruments("default")
+					const defaultSynths = AUDIO_J.getInstruments({include: ["default"], grouping: "flat", format: "names"})
 					AUDIO_J.activeInstrumentId = defaultSynths[Math.floor(Math.random() * defaultSynths.length)]
 					ELEMENTS.synths.value = AUDIO_J.activeInstrumentId
-			} catch (error) {console.log(error)}
-		}
-
-	/* buildSynthsList */
-		function buildSynthsList(selectElement) {
-			try {
-				// clear out
-					selectElement.innerHTML = ""
-
-				// synths
-					// simple
-						const simpleSynths = AUDIO_J.getInstruments("simple")
-						const simpleGroup = document.createElement("optgroup")
-							simpleGroup.label = "[simple]"
-						selectElement.appendChild(simpleGroup)
-						
-						for (let i in simpleSynths) {
-							const option = document.createElement("option")
-								option.innerText = simpleSynths[i]
-								option.value = simpleSynths[i]
-							simpleGroup.appendChild(option)
-						}
-
-					// default
-						const defaultSynths = AUDIO_J.getInstruments("default")
-						const defaultGroup = document.createElement("optgroup")
-							defaultGroup.label = "[default]"
-						selectElement.appendChild(defaultGroup)
-						
-						for (let i in defaultSynths) {
-							const option = document.createElement("option")
-								option.innerText = defaultSynths[i]
-								option.value = defaultSynths[i]
-							defaultGroup.appendChild(option)
-						}
-
-					// custom
-						const customSynths = AUDIO_J.getInstruments("custom")
-						const customGroup = document.createElement("optgroup")
-							customGroup.label = "[custom]"
-						selectElement.appendChild(customGroup)
-						
-						for (let i in customSynths) {
-							const option = document.createElement("option")
-								option.innerText = customSynths[i]
-								option.value = customSynths[i]
-							customGroup.appendChild(option)
-						}
 			} catch (error) {console.log(error)}
 		}
 
@@ -1045,7 +1119,8 @@
 
 									const select = document.createElement("select")
 										select.className = "part-synth"
-										buildSynthsList(select)
+										select.innerHTML = ""
+										AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: select})
 										select.value = synthName
 										select.addEventListener(TRIGGERS.change, changeSynthForPart)
 									row.appendChild(select)

@@ -48,7 +48,9 @@
 			}
 
 			buildAudio()
-			var allInstruments = createInstrumentList()
+			AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: controlsInstrument})
+
+			var allInstruments = AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "flat", format: "names"})
 			
 			AUDIO_J.activeInstrumentId = allInstruments[Math.floor(Math.random() * allInstruments.length)]
 			var parameters = AUDIO_J.getInstrument(AUDIO_J.activeInstrumentId)
@@ -59,20 +61,6 @@
 		}
 
 /*** controls ***/
-	/* createInstrumentList */
-		function createInstrumentList() {
-			var instrumentsList = AUDIO_J.getInstruments()
-
-			for (var i in instrumentsList) {
-				var option = document.createElement("option")
-					option.value = instrumentsList[i]
-					option.innerText = instrumentsList[i]
-				controlsInstrument.appendChild(option)
-			}
-
-			return instrumentsList
-		}
-
 	/* changeInstrument */
 		controlsInstrument.addEventListener("change", changeInstrument)
 		function changeInstrument(event) {

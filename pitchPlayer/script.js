@@ -10,14 +10,9 @@
 	/* buildList */
 		buildList()
 		function buildList() {
-			var list = AUDIO_J.getInstruments() || []
 			var select = document.getElementById("wave")
-			for (var l in list) {
-				var option = document.createElement("option")
-					option.value = option.innerText = list[l]
-				select.appendChild(option)
-			}
-			document.getElementById("wave").value = "honeyharp"
+			AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: select})
+			select.value = "honeyharp"
 			AUDIO_J.activeInstrumentId = "honeyharp"
 		}
 

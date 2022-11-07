@@ -14,14 +14,19 @@
 
 	/* createList */
 		function createList() {
-			var instruments = AUDIO_J.getInstruments() || []
-				instruments = ["piano"].concat(instruments)
-			for (var i = 0; i < instruments.length; i++) {
-				var option = document.createElement("option")
-					option.value = instruments[i]
-					option.innerText = instruments[i]
-				document.querySelector("#instruments").appendChild(option)
-			}
+			var instrumentList = document.querySelector("#instruments")
+			AUDIO_J.getInstruments({include: ["simple", "default", "custom"], grouping: "family", format: "select", select: instrumentList})
+			
+			var sampled = document.createElement("optgroup")
+				sampled.label = "sampled"
+			instrumentList.prepend(sampled)
+
+			var piano = document.createElement("option")
+				piano.value = "piano"
+				piano.innerText = "piano"
+			sampled.appendChild(piano)
+
+			instrumentList.value = "piano"
 		}
 
 	/* createKeyboard */
