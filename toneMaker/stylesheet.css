@@ -126,12 +126,52 @@
 	#keyboard {
 		position: absolute;
 		bottom: 0;
+		left: calc(2 * var(--gap-size));
 		height: var(--keyboard-height);
-		width: calc(100% - 2 * var(--gap-size));
+		width: calc(100% - 6 * var(--gap-size));
 		border-radius: var(--border-radius);
 		margin: var(--gap-size);
 		background: var(--dark-gray);
 	}
+
+	/* shift */
+		#keyboard-octave-down, #keyboard-octave-up {
+			position: absolute;
+			bottom: var(--gap-size);
+			height: calc(var(--keyboard-height) - 2 * var(--gap-size));
+			width: calc(2 * var(--gap-size));
+			font-family: var(--font-family);
+			font-size: var(--small-font-size);
+			font-weight: bold;
+			background: var(--almost-dark-gray);
+			color: var(--medium-gray);
+			border: none;;
+			outline: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			margin: var(--gap-size);
+			cursor: pointer;
+			transition: var(--transition-time);
+			text-align: center;
+		}
+
+		#keyboard-octave-down:hover, #keyboard-octave-up:hover, #keyboard-octave-down:focus, #keyboard-octave-up:focus {
+			color: var(--light-gray);
+			box-shadow: 0 0 var(--shadow-size) var(--medium-gray);
+		}
+
+		#keyboard-octave-down {
+			left: 0;
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
+		}
+
+		#keyboard-octave-up {
+			right: 0;
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+		}
 
 	/* keys */
 		.key {

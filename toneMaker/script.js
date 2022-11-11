@@ -36,31 +36,33 @@
 			keyboardLetters: ["a","w","s","e","d", "f","t","g","y","h","u","j","k","o","l","p",";","'","]","&#8629;","\\"],
 			keyboardStartPitch: 48,
 			keyboardEndPitch: 72,
+			keyboardMinShift: -2,
+			keyboardMaxShift: 2,
 			whiteKeyCount: 15,
 			blackKeyOffset: 0.4,
 			blackKeys: [1,3,6,8,10],
 			whichToPitch: {
-				"65": "48",
-				"87": "49",
-				"83": "50",
-				"69": "51",
-				"68": "52",
-				"70": "53",
-				"84": "54",
-				"71": "55",
-				"89": "56",
-				"72": "57",
-				"85": "58",
-				"74": "59",
-				"75": "60",
-				"79": "61",
-				"76": "62",
-				"80": "63",
-				"186":"64",
-				"222":"65",
-				"221":"66",
-				"13": "67",
-				"220":"68"
+				"65":  48,
+				"87":  49,
+				"83":  50,
+				"69":  51,
+				"68":  52,
+				"70":  53,
+				"84":  54,
+				"71":  55,
+				"89":  56,
+				"72":  57,
+				"85":  58,
+				"74":  59,
+				"75":  60,
+				"79":  61,
+				"76":  62,
+				"80":  63,
+				"186": 64,
+				"222": 65,
+				"221": 66,
+				"13":  67,
+				"220": 68
 			}
 		}
 
@@ -68,7 +70,8 @@
 		const STATE = {
 			tool: null,
 			parameter: null,
-			key: null
+			key: null,
+			octaveShift: 0
 		}
 
 	/* elements */
@@ -105,6 +108,8 @@
 				"tool-echo": document.querySelector("#switcher button[value='tool-echo']"),
 				"tool-compressor": document.querySelector("#switcher button[value='tool-compressor']")
 			},
+			keyboardDown: document.querySelector("#keyboard-octave-down"),
+			keyboardUp: document.querySelector("#keyboard-octave-up"),
 			keyboard: document.querySelector("#keyboard"),
 			keys: {},
 			"tool-meta": {},
@@ -2990,31 +2995,49 @@
 	/* buildKeyboard */
 		function buildKeyboard() {
 			try {
-				let count = 0
-				for (let i = CONSTANTS.keyboardStartPitch; i <= CONSTANTS.keyboardEndPitch; i++) {
-					// build key
-						const keyElement = document.createElement("button")
-							keyElement.className = "key"
-							keyElement.id = "key--" + i
-							keyElement.value = i
-							keyElement.addEventListener(TRIGGERS.mousedown, pressKey)
-							if (CONSTANTS.keyboardLetters[i - CONSTANTS.keyboardStartPitch]) {
-								keyElement.innerHTML = CONSTANTS.keyboardLetters[i - CONSTANTS.keyboardStartPitch]
-							}
-						ELEMENTS.keyboard.appendChild(keyElement)
-						ELEMENTS.keys[i] = keyElement
+				// get shift
+					ELEMENTS.keyboard.innerHTML = ""
+					const startingPitch = CONSTANTS.keyboardStartPitch + (STATE.octaveShift || 0) * AUDIO_J.constants.semitonesPerOctave
+					const endingPitch = CONSTANTS.keyboardEndPitch + (STATE.octaveShift || 0) * AUDIO_J.constants.semitonesPerOctave
+					let count = 0
 
-					// color
-						if (CONSTANTS.blackKeys.includes(i % AUDIO_J.constants.semitonesPerOctave)) {
-							keyElement.setAttribute("color", "black")
-							keyElement.style.left = (CONSTANTS.percentage / CONSTANTS.whiteKeyCount * (count - CONSTANTS.blackKeyOffset)) + "%"
-						}
-						else {
-							keyElement.setAttribute("color", "white")
-							keyElement.style.left = (CONSTANTS.percentage / CONSTANTS.whiteKeyCount * count) + "%"
-							count++
-						}
-				}
+				// loop through
+					for (let i = startingPitch; i <= endingPitch; i++) {
+						// build key
+							const keyElement = document.createElement("button")
+								keyElement.className = "key"
+								keyElement.id = "key--" + i
+								keyElement.value = i
+								keyElement.addEventListener(TRIGGERS.mousedown, pressKey)
+								if (CONSTANTS.keyboardLetters[i - startingPitch]) {
+									keyElement.innerHTML = CONSTANTS.keyboardLetters[i - startingPitch]
+								}
+							ELEMENTS.keyboard.appendChild(keyElement)
+							ELEMENTS.keys[i] = keyElement
+
+						// color
+							if (CONSTANTS.blackKeys.includes(i % AUDIO_J.constants.semitonesPerOctave)) {
+								keyElement.setAttribute("color", "black")
+								keyElement.style.left = (CONSTANTS.percentage / CONSTANTS.whiteKeyCount * (count - CONSTANTS.blackKeyOffset)) + "%"
+							}
+							else {
+								keyElement.setAttribute("color", "white")
+								keyElement.style.left = (CONSTANTS.percentage / CONSTANTS.whiteKeyCount * count) + "%"
+								count++
+							}
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* shiftKeyboard */
+		ELEMENTS.keyboardDown.addEventListener(TRIGGERS.click, shiftKeyboard)
+		ELEMENTS.keyboardUp.addEventListener(TRIGGERS.click, shiftKeyboard)
+		function shiftKeyboard(event) {
+			try {
+				const shift = Number(event.target.getAttribute("shift"))
+				const currentShift = STATE.octaveShift || 0
+				STATE.octaveShift = Math.max(CONSTANTS.keyboardMinShift, Math.min(CONSTANTS.keyboardMaxShift, currentShift + shift))
+				buildKeyboard()
 			} catch (error) {console.log(error)}
 		}
 
@@ -3030,7 +3053,7 @@
 					}
 					else if (event.type == TRIGGERS.keydown) {
 						if (!document.activeElement || document.activeElement.tagName !== "INPUT") {
-							pressedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which]]
+							pressedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which] + STATE.octaveShift * AUDIO_J.constants.semitonesPerOctave]
 						}
 					}
 				
@@ -3055,7 +3078,7 @@
 					}
 					else if (event.type == TRIGGERS.keyup) {
 						if (!document.activeElement || document.activeElement.tagName !== "INPUT") {
-							liftedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which]]
+							liftedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which] + STATE.octaveShift * AUDIO_J.constants.semitonesPerOctave]
 						}
 					}
 
