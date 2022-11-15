@@ -973,6 +973,13 @@
 				date: "June 15, 2019",
 				description: "Built at a music hackathon, soundBubbler is a colorful visualizer for on-screen and MIDI keyboards."
 			},
+			soundfinder: {
+				name: "soundFinder",
+				size: "small",
+				tags: ["code","music","audio","synth","game","board","card","multiplayer"],
+				date: "November 15, 2022",
+				description: "An audio twist on the classic memory game, where every tile is a tone."
+			},
 			specterinspectors: {
 				name: "Specter Inspectors",
 				size: "large",

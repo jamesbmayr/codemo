@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>soundFinder</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/503998-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="soundFinder is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="soundFinder">
+		<meta property="og:url" content="https://jamesmayr.com/soundfinder/">
+		<meta property="og:description" content="soundFinder is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/soundfinder/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="audio.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<details id="menu" open>
+			<summary id="menu-button">&#x2699;</summary>
+			<div id="menu-inner">
+				<button id="menu-start">&orarr; new game</button>
+				<div id="menu-error"></div>
+				<label>
+					<input id="menu-players" type="number" min="1" max="9" step="1" value="2" placeholder="#">
+					<span>players</span>
+				</label>
+				<label>
+					<input id="menu-x" type="number" min="1" max="10" step="1" value="4" placeholder="x">
+					<span>&harr;</span>
+				</label>
+				<label>
+					<input id="menu-y" type="number" min="1" max="10" step="1" value="4" placeholder="y">
+					<span>&varr;</span>
+				</label>
+				<hr>
+				<div>
+					<span id="menu-notes-header">NOTES</span>
+					<div id="menu-notes">
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C0-C1" value="12,13,14,15,16,17,18,19,20,21,22,23,24">
+							<span>C0-C1</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C1-C2" value="24,25,26,27,28,29,30,31,32,33,34,35,36">
+							<span>C1-C2</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C2-C3" value="36,37,38,39,40,41,42,43,44,45,46,47,48">
+							<span>C2-C3</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C3-C4" value="48,49,50,51,52,53,54,55,56,57,58,59,60">
+							<span>C3-C4</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C4" value="60">
+							<span>C4 (middle C)</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C4-C5" value="60,61,62,63,64,65,66,67,68,69,70,71,72" checked>
+							<span>C4-C5</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C5-C6" value="72,73,74,75,76,77,78,79,80,81,82,83,84">
+							<span>C5-C6</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C6-C7" value="84,85,86,87,88,89,90,91,92,93,94,95,96">
+							<span>C6-C7</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C7-C8" value="96,97,98,99,100,101,102,103,104,105,106,107,108">
+							<span>C7-C8</span>
+						</label>
+						<label>
+							<input class="menu-notes-checkbox" type="checkbox" id="menu-notes-C8-C9" value="108,109,110,111,112,113,114,115,116,117,118,119,120">
+							<span>C8-C9</span>
+						</label>
+					</div>
+				</div>
+				<hr>
+				<div>
+					<div id="menu-synths"></div>
+				</div>
+			</div>
+		</details>
+		<div id="board"></div>
+		<div id="scores"></div>
+		<div id="victory"></div>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>

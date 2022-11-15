@@ -37,7 +37,8 @@
 					"sixteenth-dot": 9,
 					"sixteenth": 6,
 					"16th-dot": 9,
-					"16th": 6
+					"16th": 6,
+					"32nd": 3
 				},
 				noteNameToMidi: {
 					"C-1":  0,
@@ -899,14 +900,20 @@
 				if (ticks >= 6) {
 					return [`<duration>6</duration>`, `<type>16th</type>`, "", ticks - 6]
 				}
+				// dotted 32nd = 4.5
 				if (ticks >= 4) {
 					return [`<duration>4</duration>`, `<type>16th</type>`, `<time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification>`, ticks - 4]
 				}
 				if (ticks >= 3) {
 					return [`<duration>3</duration>`, `<type>32nd</type>`, "", ticks - 3]
 				}
+				// dotted 64th = 2.25
 				if (ticks >= 2) {
 					return [`<duration>2</duration>`, `<type>32nd</type>`, `<time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification>`, ticks - 2]
+				}
+				// 64th = 1.5
+				if (ticks >= 1) {
+					return [`<duration>1</duration>`, `<type>64th</type>`, `<time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification>`, ticks - 1]
 				}
 				return ['', 0]
 			} catch (error) {console.log(error)}
