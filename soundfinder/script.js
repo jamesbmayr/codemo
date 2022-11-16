@@ -14,10 +14,10 @@
 	/* constants */
 		const CONSTANTS = {
 			noteDuration: 500,
-			timeBetweenTurns: 2000,
+			timeBetweenTurns: 1000,
 			maxPlayers: 9,
-			startingX: 4,
-			startingY: 4,
+			startingX: 6,
+			startingY: 6,
 			startingPlayers: 2,
 			startingNotes: [60,61,62,63,64,65,66,67,68,69,70,71,72],
 			startingSynths: AUDIO_J.getInstruments({include:["default"], grouping: "flat", format: "names"}) || ["keystone"]

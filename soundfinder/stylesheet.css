@@ -106,9 +106,9 @@
 			left: 50%;
 			transform: translateX(-50%) translateY(-50%);
 			height: auto;
-			max-height: calc(100vh - 2 * var(--gap-size));
+			max-height: calc(100% - 2 * var(--gap-size));
 			width: var(--menu-width);
-			max-width: calc(100vw - 14 * var(--gap-size));
+			max-width: calc(100% - 14 * var(--gap-size));
 			padding: var(--gap-size);
 			box-sizing: border-box;
 			overflow-x: hidden;
