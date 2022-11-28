@@ -9,6 +9,9 @@
 			"collaboration"
 		]
 
+	/* months */
+		const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
+
 	/* projects */
 		const PROJECTS = {
 			adventure: {
@@ -241,6 +244,8 @@
 				description: "clipPather is a constantly evolving Javascript tool for drawing with CSS clip-paths."
 			},
 			clouds: {
+				skipRandom: true,
+				hidden: true,
 				name: "clouds",
 				size: "small",
 				tags: ["code","canvas","art"],
@@ -305,6 +310,13 @@
 				tags: ["code","tool","canvas"],
 				date: "June 24, 2022",
 				description: "Why choose wisely when you can choose randomly?"
+			},
+			demofont: {
+				name: "demofont",
+				size: "medium",
+				tags: ["code","writing","design","svg"],
+				date: "November 27, 2022",
+				description: "A custom font based on smooth curves."
 			},
 			diamondcheckers: {
 				name: "Diamond Checkers",
@@ -442,6 +454,7 @@
 			},
 			goodscounter: {
 				skipRandom: true,
+				hidden: true,
 				name: "goodsCounter",
 				size: "small",
 				tags: ["code","tool"],
@@ -828,6 +841,7 @@
 				description: "Project 3D down to 2D in this canvas-powered Platonic solids visualizer."
 			},
 			pongpaddler: {
+				skipRandom: true,
 				name: "pongPaddler",
 				size: "small",
 				tags: ["code","game","arcade","multiplayer"],
@@ -847,7 +861,7 @@
 				name: "Project Graveyard",
 				size: "small",
 				tags: ["code","autobiography"],
-				date: "January 1, 2000",
+				date: null,
 				description: "Some projects don't work out. Think of this gallery as a graveyard of old ideas."
 			},
 			prosandconsole: {
@@ -923,6 +937,7 @@
 				description: "Shadow Valley, with a focus on structure and counterpoint, came at the beginning stages of my music theory and history education."
 			},
 			shapeanimator: {
+				skipRandom: true,
 				name: "shapeAnimator",
 				size: "medium",
 				tags: ["design","code","art","tool"],
@@ -1146,6 +1161,7 @@
 			},
 			webdepictor: {
 				skipRandom: true,
+				hidden: true,
 				name: "webDepictor",
 				size: "small",
 				tags: ["code","tool","design"],
@@ -1160,6 +1176,7 @@
 				description: "Turn one wheel and see it turn another - it's hard to crack, even if you know the code."
 			},
 			windowtinter: {
+				skipRandom: true,
 				name: "windowTinter",
 				size: "medium",
 				tags: ["code","tool","design","extension"],
@@ -1490,6 +1507,12 @@
 						image.setAttribute("alt", project.name)
 						image.setAttribute("title", project.name)
 					element.appendChild(image)
+
+				// date
+					let date = document.createElement("p") 
+						date.className = "project-date"
+						date.innerText = project.date ? (MONTHS[new Date(project.date).getMonth()] + " " + new Date(project.date).getFullYear()) : "-"
+					element.appendChild(date)
 
 				// summary
 					let summary = document.createElement("p")

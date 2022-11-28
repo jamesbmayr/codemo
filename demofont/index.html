@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>demofont</title>
+		<link rel="shortcut icon" href="logo.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="demofont is a custom typeface by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="demofont">
+		<meta property="og:url" content="https://jamesmayr.com/demofont/">
+		<meta property="og:description" content="demofont is a custom typeface by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/demofont/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="header">
+			<h1>demofont</h1>
+			<div id="downloads">
+				<a href="demofont.ttf" download="demofont.ttf">&DownArrowBar;TTF</a>
+				<a href="demofont.svg" download="demofont.svg">&DownArrowBar;SVG</a>
+			</div>
+			<a id="j-logo" href="https://jamesmayr.com">J</a>
+		</div>
+		<div id="controls">
+			<label>
+				<span>size</span>
+				<input id="controls-size-input" type="number" min="1" max="256" step="1" placeholder="size" value="50">
+				<input id="controls-size-range" type="range" min="1" max="256" step="1" value="50">
+			</label>
+			<label>
+				<span>color</span>
+				<input id="controls-color" type="color" value="#111111">
+				<span>glow</span>
+				<input id="controls-glow-checkbox" type="checkbox">
+				<input id="controls-glow-color" type="color" value="#111111">
+			</label>
+			<label>
+				<span>style</span>
+				<label><input id="controls-bold" type="checkbox"><span>bold</span></label>
+				<label><input id="controls-italic" type="checkbox"><span>italic</span></label>
+				<label><input id="controls-overline" type="checkbox"><span>overline</span></label>
+				<label><input id="controls-strikethrough" type="checkbox"><span>strikethrough</span></label>
+				<label><input id="controls-underline" type="checkbox"><span>underline</span></label>
+			</label>
+			<label>
+				<span>block</span>
+				<input id="controls-background" type="color" value="#dddddd">
+				<select id="controls-alignment" value="left">
+					<option value="left">left</option>
+					<option value="center">center</option>
+					<option value="right">right</option>
+					<option value="justify">justify</option>
+				</select>
+				<input id="controls-lineheight" min="0.1" max="5.0" step="0.1" value="1" placeholder="↕" type="number">
+			</label>
+			<label>
+				<textarea id="controls-text" placeholder="type something here" autocomplete="off" spellcheck="false"></textarea>
+			</label>
+		</div>
+		<details id="glyphs" open>
+			<summary>&#x2328; keyboard</summary>
+			<div id="keyboard">
+				<div class="keyboard-row">
+					<button class="key">
+						<span class="lowercase">`</span>
+						<span class="uppercase">~</span>
+						<span class="alt lowercase">`</span>
+						<span class="alt uppercase">`</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">1</span>
+						<span class="uppercase">!</span>
+						<span class="alt lowercase">¡</span>
+						<span class="alt uppercase">⁄</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">2</span>
+						<span class="uppercase">@</span>
+						<span class="alt lowercase">™</span>
+						<span class="alt uppercase">€</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">3</span>
+						<span class="uppercase">#</span>
+						<span class="alt lowercase">£</span>
+						<span class="alt uppercase">‹</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">4</span>
+						<span class="uppercase">$</span>
+						<span class="alt lowercase">¢</span>
+						<span class="alt uppercase">›</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">5</span>
+						<span class="uppercase">%</span>
+						<span class="alt lowercase">∞</span>
+						<span class="alt uppercase">ﬁ</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">6</span>
+						<span class="uppercase">^</span>
+						<span class="alt lowercase">§</span>
+						<span class="alt uppercase">ﬂ</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">7</span>
+						<span class="uppercase">&</span>
+						<span class="alt lowercase">¶</span>
+						<span class="alt uppercase">‡</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">8</span>
+						<span class="uppercase">*</span>
+						<span class="alt lowercase">•</span>
+						<span class="alt uppercase">°</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">9</span>
+						<span class="uppercase">(</span>
+						<span class="alt lowercase">ª</span>
+						<span class="alt uppercase">·</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">0</span>
+						<span class="uppercase">)</span>
+						<span class="alt lowercase">º</span>
+						<span class="alt uppercase">‚</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">-</span>
+						<span class="uppercase">_</span>
+						<span class="alt lowercase">—</span>
+						<span class="alt uppercase">—</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">=</span>
+						<span class="uppercase">+</span>
+						<span class="alt lowercase">≠</span>
+						<span class="alt uppercase">±</span>
+					</button>
+					<button class="key key-150" special="del">
+						<span class="lowercase">del</span>
+						<span class="uppercase">DEL</span>
+						<span class="alt lowercase">del</span>
+						<span class="alt uppercase">DEL</span>
+					</button>
+				</div>
+				<div class="keyboard-row">
+					<button class="key key-150" special="tab">
+						<span class="lowercase">tab</span>
+						<span class="uppercase">TAB</span>
+						<span class="alt lowercase">tab</span>
+						<span class="alt uppercase">TAB</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">q</span>
+						<span class="uppercase">Q</span>
+						<span class="alt lowercase">œ</span>
+						<span class="alt uppercase">Œ</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">w</span>
+						<span class="uppercase">W</span>
+						<span class="alt lowercase">∑</span>
+						<span class="alt uppercase">„</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">e</span>
+						<span class="uppercase">E</span>
+						<span class="alt lowercase">´</span>
+						<span class="alt uppercase">´</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">r</span>
+						<span class="uppercase">R</span>
+						<span class="alt lowercase">®</span>
+						<span class="alt uppercase">‰</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">t</span>
+						<span class="uppercase">T</span>
+						<span class="alt lowercase">†</span>
+						<span class="alt uppercase">ˇ</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">y</span>
+						<span class="uppercase">Y</span>
+						<span class="alt lowercase">¥</span>
+						<span class="alt uppercase">Á</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">u</span>
+						<span class="uppercase">U</span>
+						<span class="alt lowercase">¨</span>
+						<span class="alt uppercase">¨</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">i</span>
+						<span class="uppercase">I</span>
+						<span class="alt lowercase">ˆ</span>
+						<span class="alt uppercase">ˆ</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">o</span>
+						<span class="uppercase">O</span>
+						<span class="alt lowercase">ø</span>
+						<span class="alt uppercase">Ø</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">p</span>
+						<span class="uppercase">P</span>
+						<span class="alt lowercase">π</span>
+						<span class="alt uppercase">∏</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">[</span>
+						<span class="uppercase">{</span>
+						<span class="alt lowercase">“</span>
+						<span class="alt uppercase">”</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">]</span>
+						<span class="uppercase">}</span>
+						<span class="alt lowercase">‘</span>
+						<span class="alt uppercase">’</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">\</span>
+						<span class="uppercase">|</span>
+						<span class="alt lowercase">«</span>
+						<span class="alt uppercase">»</span>
+					</button>
+				</div>
+				<div class="keyboard-row">
+					<button class="key key-175" special="caps">
+						<span class="lowercase">caps</span>
+						<span class="uppercase">CAPS</span>
+						<span class="alt lowercase">caps</span>
+						<span class="alt uppercase">CAPS</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">a</span>
+						<span class="uppercase">A</span>
+						<span class="alt lowercase">å</span>
+						<span class="alt uppercase">Å</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">s</span>
+						<span class="uppercase">S</span>
+						<span class="alt lowercase">ß</span>
+						<span class="alt uppercase">Í</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">d</span>
+						<span class="uppercase">D</span>
+						<span class="alt lowercase">∂</span>
+						<span class="alt uppercase">Î</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">f</span>
+						<span class="uppercase">F</span>
+						<span class="alt lowercase">ƒ</span>
+						<span class="alt uppercase">Ï</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">g</span>
+						<span class="uppercase">G</span>
+						<span class="alt lowercase">©</span>
+						<span class="alt uppercase">˝</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">h</span>
+						<span class="uppercase">H</span>
+						<span class="alt lowercase">˙</span>
+						<span class="alt uppercase">Ó</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">j</span>
+						<span class="uppercase">J</span>
+						<span class="alt lowercase">∆</span>
+						<span class="alt uppercase">Ô</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">k</span>
+						<span class="uppercase">K</span>
+						<span class="alt lowercase">˚</span>
+						<span class="alt uppercase"></span>
+					</button>
+					<button class="key">
+						<span class="lowercase">l</span>
+						<span class="uppercase">L</span>
+						<span class="alt lowercase">¬</span>
+						<span class="alt uppercase">Ò</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">;</span>
+						<span class="uppercase">:</span>
+						<span class="alt lowercase">…</span>
+						<span class="alt uppercase">Ú</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">'</span>
+						<span class="uppercase">"</span>
+						<span class="alt lowercase">æ</span>
+						<span class="alt uppercase">Æ</span>
+					</button>
+					<button class="key key-175" special="enter">
+						<span class="lowercase">enter</span>
+						<span class="uppercase">ENTER</span>
+						<span class="alt lowercase">enter</span>
+						<span class="alt uppercase">ENTER</span>
+					</button>
+				</div>
+				<div class="keyboard-row">
+					<button class="key key-225" special="shift">
+						<span class="lowercase">shift</span>
+						<span class="uppercase">SHIFT</span>
+						<span class="alt lowercase">shift</span>
+						<span class="alt uppercase">SHIFT</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">z</span>
+						<span class="uppercase">Z</span>
+						<span class="alt lowercase">Ω</span>
+						<span class="alt uppercase">¸</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">x</span>
+						<span class="uppercase">X</span>
+						<span class="alt lowercase">≈</span>
+						<span class="alt uppercase">˛</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">c</span>
+						<span class="uppercase">C</span>
+						<span class="alt lowercase">ç</span>
+						<span class="alt uppercase">Ç</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">v</span>
+						<span class="uppercase">V</span>
+						<span class="alt lowercase">√</span>
+						<span class="alt uppercase">◊</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">b</span>
+						<span class="uppercase">B</span>
+						<span class="alt lowercase">∫</span>
+						<span class="alt uppercase">ı</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">n</span>
+						<span class="uppercase">N</span>
+						<span class="alt lowercase">˜</span>
+						<span class="alt uppercase">˜</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">m</span>
+						<span class="uppercase">M</span>
+						<span class="alt lowercase">µ</span>
+						<span class="alt uppercase">Â</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">,</span>
+						<span class="uppercase"><</span>
+						<span class="alt lowercase">≤</span>
+						<span class="alt uppercase">¯</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">.</span>
+						<span class="uppercase">></span>
+						<span class="alt lowercase">≥</span>
+						<span class="alt uppercase">˘</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">/</span>
+						<span class="uppercase">?</span>
+						<span class="alt lowercase">÷</span>
+						<span class="alt uppercase">¿</span>
+					</button>
+					<button class="key key-225" special="shift">
+						<span class="lowercase">shift</span>
+						<span class="uppercase">SHIFT</span>
+						<span class="alt lowercase">shift</span>
+						<span class="alt uppercase">SHIFT</span>
+					</button>
+				</div>
+				<div class="keyboard-row">
+					<button class="key key-225" special="alt">
+						<span class="lowercase">alt</span>
+						<span class="uppercase">ALT</span>
+						<span class="alt lowercase">alt</span>
+						<span class="alt uppercase">ALT</span>
+					</button>
+					<button class="key key-1000" special="space">
+						<span class="lowercase">space</span>
+						<span class="uppercase">SPACE</span>
+						<span class="alt lowercase">space</span>
+						<span class="alt uppercase">SPACE</span>
+					</button>
+					<button class="key key-225" special="alt">
+						<span class="lowercase">alt</span>
+						<span class="uppercase">ALT</span>
+						<span class="alt lowercase">alt</span>
+						<span class="alt uppercase">ALT</span>
+					</button>
+				</div>
+			</div>
+			<div id="arrows">
+				<div class="arrows-row">
+					<button class="key">
+						<span class="lowercase">↖</span>
+						<span class="uppercase">↖</span>
+						<span class="alt lowercase">↺</span>
+						<span class="alt uppercase">⤾</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">↑</span>
+						<span class="uppercase">↥</span>
+						<span class="alt lowercase">⤻</span>
+						<span class="alt uppercase">⤒</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">↗</span>
+						<span class="uppercase">↗</span>
+						<span class="alt lowercase">↻</span>
+						<span class="alt uppercase">⤿</span>
+					</button>
+				</div>
+				<div class="arrows-row">
+					<button class="key">
+						<span class="lowercase">←</span>
+						<span class="uppercase">↤</span>
+						<span class="alt lowercase">⤸</span>
+						<span class="alt uppercase">⇤</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">↔</span>
+						<span class="uppercase">↕</span>
+						<span class="alt lowercase">⥁</span>
+						<span class="alt uppercase">⥀</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">→</span>
+						<span class="uppercase">↦</span>
+						<span class="alt lowercase">⤹</span>
+						<span class="alt uppercase">⇥</span>
+					</button>
+				</div>
+				<div class="arrows-row">
+					<button class="key">
+						<span class="lowercase">↙</span>
+						<span class="uppercase">↙</span>
+						<span class="alt lowercase">⟲</span>
+						<span class="alt uppercase">⟲</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">↓</span>
+						<span class="uppercase">↧</span>
+						<span class="alt lowercase">⤺</span>
+						<span class="alt uppercase">⤓</span>
+					</button>
+					<button class="key">
+						<span class="lowercase">↘</span>
+						<span class="uppercase">↘</span>
+						<span class="alt lowercase">⟳</span>
+						<span class="alt uppercase">⟳</span>
+					</button>					
+						
+				</div>
+			</div>
+		</details>
+	</body>
+</html>
