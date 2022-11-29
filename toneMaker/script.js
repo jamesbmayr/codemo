@@ -359,10 +359,6 @@
 					ELEMENTS["tool-effects"]["distortion--input"].value = parameters["distortion"] ? (parameters["distortion"] / AUDIO_J.constants.maxDistortion * CONSTANTS.distortionModifier) : 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["distortion--input"]}, setup)
 
-				// chorus
-					ELEMENTS["tool-effects"]["chorus--input"].value = parameters["chorus"] || 0
-					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--input"]}, setup)
-
 				// reverb
 					ELEMENTS["tool-effects"]["reverb--input"].value = parameters["reverb"] ? (parameters["reverb"] * CONSTANTS.percentage) : 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]}, setup)
@@ -370,6 +366,11 @@
 				// panning
 					ELEMENTS["tool-effects"]["panning--input"].value = parameters["panning"] || 0
 					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["panning--input"]}, setup)
+
+				// chorus
+					ELEMENTS["tool-effects"]["chorus--variance"].value = parameters["chorus"] ? (parameters["chorus"].variance) : 0
+					ELEMENTS["tool-effects"]["chorus--delay"].value = parameters["chorus"] ? (parameters["chorus"].delay * AUDIO_J.constants.ms) : 0
+					adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--variance"]}, setup)
 
 				// compressor
 					ELEMENTS["tool-compressor"]["threshold--input"].value = (parameters["compressor"] ? parameters["compressor"].threshold : 0)
@@ -2436,42 +2437,6 @@
 						reverbTrack.appendChild(reverbBar)
 						ELEMENTS["tool-effects"]["reverb--bar"] = reverbBar
 
-				// chorus
-					const chorusSection = document.createElement("div")
-						chorusSection.className = "section"
-						chorusSection.id = "tool-effects-chorus"
-					ELEMENTS.toolSections["tool-effects"].appendChild(chorusSection)
-					ELEMENTS.toolSections["tool-effects"]["chorus"] = chorusSection
-
-					const chorusInput = document.createElement("input")
-						chorusInput.setAttribute("type", "number")
-						chorusInput.setAttribute("min", 0)
-						chorusInput.setAttribute("max", AUDIO_J.constants.maxChorusCents)
-						chorusInput.placeholder = "¢"
-						chorusInput.className = "input"
-						chorusInput.id = "tool-effects-chorus--input"
-						chorusInput.value = 0
-						chorusInput.title = "chorus effect"
-						chorusInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
-					chorusSection.appendChild(chorusInput)
-					ELEMENTS["tool-effects"]["chorus--input"] = chorusInput
-
-					const chorusTrack = document.createElement("div")
-						chorusTrack.id = "tool-effects-chorus--track"
-						chorusTrack.className = "track"
-					chorusSection.appendChild(chorusTrack)
-					ELEMENTS["tool-effects"]["chorus--track"] = chorusTrack
-
-						const chorusBar = document.createElement("div")
-							chorusBar.id = "tool-effects-chorus--bar"
-							chorusBar.className = "bar"
-							chorusBar.style.width = "0%"
-							chorusBar.innerHTML = '<span class="fas fa-comments"></span>'
-							chorusBar.title = "chorus effect"
-							chorusBar.addEventListener(TRIGGERS.mousedown, selectBar)
-						chorusTrack.appendChild(chorusBar)
-						ELEMENTS["tool-effects"]["chorus--bar"] = chorusBar
-
 				// panning
 					const panningSection = document.createElement("div")
 						panningSection.className = "section"
@@ -2511,6 +2476,55 @@
 					const panningLine = document.createElement("div")
 						panningLine.className = "line"
 					panningTrack.appendChild(panningLine)
+
+				// chorus
+					const chorusSection = document.createElement("div")
+						chorusSection.className = "section"
+						chorusSection.id = "tool-effects-chorus"
+					ELEMENTS.toolSections["tool-effects"].appendChild(chorusSection)
+					ELEMENTS.toolSections["tool-effects"]["chorus"] = chorusSection
+
+					const chorusVarianceInput = document.createElement("input")
+						chorusVarianceInput.setAttribute("type", "number")
+						chorusVarianceInput.setAttribute("min", 0)
+						chorusVarianceInput.setAttribute("max", AUDIO_J.constants.maxChorusCents)
+						chorusVarianceInput.placeholder = "¢"
+						chorusVarianceInput.className = "input"
+						chorusVarianceInput.id = "tool-effects-chorus--variance"
+						chorusVarianceInput.value = 0
+						chorusVarianceInput.title = "chorus pitch variance"
+						chorusVarianceInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
+					chorusSection.appendChild(chorusVarianceInput)
+					ELEMENTS["tool-effects"]["chorus--variance"] = chorusVarianceInput
+
+					const chorusDelayInput = document.createElement("input")
+						chorusDelayInput.setAttribute("type", "number")
+						chorusDelayInput.setAttribute("min", 0)
+						chorusDelayInput.setAttribute("max", AUDIO_J.constants.maxChorusDelay * AUDIO_J.constants.ms)
+						chorusDelayInput.placeholder = "ms"
+						chorusDelayInput.className = "input"
+						chorusDelayInput.id = "tool-effects-chorus--delay"
+						chorusDelayInput.value = 0
+						chorusDelayInput.title = "chorus time delay"
+						chorusDelayInput.addEventListener(TRIGGERS.change, adjustEffectsToolInput)
+					chorusSection.appendChild(chorusDelayInput)
+					ELEMENTS["tool-effects"]["chorus--delay"] = chorusDelayInput
+
+					const chorusTrack = document.createElement("div")
+						chorusTrack.id = "tool-effects-chorus--track"
+						chorusTrack.className = "track"
+					chorusSection.appendChild(chorusTrack)
+					ELEMENTS["tool-effects"]["chorus--track"] = chorusTrack
+
+						const chorusBar = document.createElement("div")
+							chorusBar.id = "tool-effects-chorus--bar"
+							chorusBar.className = "bar"
+							chorusBar.style.width = "0%"
+							chorusBar.innerHTML = '<span class="fas fa-comments"></span>&darr;<span class="fas fa-clock"></span>&rarr;'
+							chorusBar.title = "chorus: pitch variance ↓ | time delay →"
+							chorusBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						chorusTrack.appendChild(chorusBar)
+						ELEMENTS["tool-effects"]["chorus--bar"] = chorusBar
 			} catch (error) {console.log(error)}
 		}
 
@@ -2545,20 +2559,6 @@
 							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["reverb--input"]})
 					}
 
-				// chorus
-					if (STATE.parameter.id == "tool-effects-chorus--bar") {
-						// display
-							const rectangle  = ELEMENTS["tool-effects"]["chorus--track"].getBoundingClientRect()
-							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
-
-							let percentage = Math.abs((x - rectangle.left - (rectangle.width / 2)) * CONSTANTS.percentage / (rectangle.width)) * 2
-								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							ELEMENTS["tool-effects"]["chorus--input"].value = percentage / CONSTANTS.percentage * AUDIO_J.constants.maxChorusCents
-
-						// data
-							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--input"]})
-					}
-
 				// panning
 					if (STATE.parameter.id == "tool-effects-panning--bar") {
 						// display
@@ -2571,6 +2571,25 @@
 
 						// data
 							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["panning--input"]})
+					}
+
+				// chorus
+					if (STATE.parameter.id == "tool-effects-chorus--bar") {
+						// display
+							const rectangle  = ELEMENTS["tool-effects"]["chorus--track"].getBoundingClientRect()
+							const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+							const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+
+							let percentageX = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+								percentageX = Math.min(CONSTANTS.percentage, Math.max(0, percentageX))
+							let percentageY = (y - rectangle.top) * CONSTANTS.percentage / (rectangle.height)
+								percentageY = Math.min(CONSTANTS.percentage, Math.max(0, percentageY))
+							
+							ELEMENTS["tool-effects"]["chorus--delay"].value = percentageX / CONSTANTS.percentage * AUDIO_J.constants.maxChorusDelay * AUDIO_J.constants.ms
+							ELEMENTS["tool-effects"]["chorus--variance"].value = percentageY / CONSTANTS.percentage * AUDIO_J.constants.maxChorusCents
+
+						// data
+							adjustEffectsToolInput({target: ELEMENTS["tool-effects"]["chorus--variance"]})
 					}
 			} catch (error) {console.log(error)}
 		}
@@ -2608,21 +2627,6 @@
 							}
 					}
 
-				// chorus
-					if (event.target == ELEMENTS["tool-effects"]["chorus--input"]) {
-						// display
-							let percentage = Number(event.target.value) / AUDIO_J.constants.maxChorusCents * CONSTANTS.percentage
-								percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
-							ELEMENTS["tool-effects"]["chorus--bar"].style.width = percentage + "%"
-
-						// audio
-							if (!setup) {
-								const chorus = percentage / CONSTANTS.percentage * AUDIO_J.constants.maxChorusCents
-								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ chorus: chorus }) }
-								saveFile()
-							}
-					}
-
 				// panning
 					if (event.target == ELEMENTS["tool-effects"]["panning--input"]) {
 						// display
@@ -2634,6 +2638,27 @@
 						// audio
 							if (!setup) {
 								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ panning: panning }) }
+								saveFile()
+							}
+					}
+
+				// chorus
+					if (event.target == ELEMENTS["tool-effects"]["chorus--variance"] || event.target == ELEMENTS["tool-effects"]["chorus--delay"]) {
+						// display
+							let percentageX = Number(ELEMENTS["tool-effects"]["chorus--delay"].value) / AUDIO_J.constants.ms / AUDIO_J.constants.maxChorusDelay * CONSTANTS.percentage
+								percentageX = Math.min(CONSTANTS.percentage, Math.max(0, percentageX))
+							let percentageY = Number(ELEMENTS["tool-effects"]["chorus--variance"].value) / AUDIO_J.constants.maxChorusCents * CONSTANTS.percentage
+								percentageY = Math.min(CONSTANTS.percentage, Math.max(0, percentageY))
+							ELEMENTS["tool-effects"]["chorus--bar"].style.width = percentageX + "%"
+							ELEMENTS["tool-effects"]["chorus--bar"].style.height = percentageY + "%"
+
+						// audio
+							if (!setup) {
+								const chorus = {
+									delay: percentageX / CONSTANTS.percentage * AUDIO_J.constants.maxChorusDelay,
+									variance: percentageY / CONSTANTS.percentage * AUDIO_J.constants.maxChorusCents
+								}
+								if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ chorus: chorus }) }
 								saveFile()
 							}
 					}

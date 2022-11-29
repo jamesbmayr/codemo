@@ -14,9 +14,10 @@
 				minVibratoInterval: 1, // ms
 				maxVibratoInterval: 500, // ms
 				maxChorusCents: 50, // semitone ¢
+				maxChorusDelay: 0.05, // s
 				chorusGain: 0.25, // ratio
 				minTremoloInterval: 1, // ms
-				maxTremoloInterval: 1000, // s
+				maxTremoloInterval: 1000, // ms
 				envelopeComponents: ["attack", "decay", "sustain", "release"],
 				bitcrusherBits: [64, 32, 16, 8, 4, 2, 1], // bits
 				distortionCount: 256, // array size
@@ -1023,7 +1024,10 @@
 						"delay":0.01,
 						"feedback":0.5
 					},
-					"chorus":15
+					"chorus": {
+						"variance":15,
+						"delay":0
+					}
 				},
 				"fuzzillade": {
 					"name":"fuzzillade",
@@ -1288,7 +1292,10 @@
 							"gain": -10
 						}
 					},
-					"chorus": 25,
+					"chorus": {
+						"variance":15,
+						"delay":0.03
+					}
 				},
 				"jangle": {
 					"name":"jangle",
@@ -1441,7 +1448,10 @@
 						"feedback": 0.5
 					},
 					"distortion": 5.711986642890532,
-					"chorus": 10,
+					"chorus": {
+						"variance":10,
+						"delay":0
+					}
 				},
 				"mayrimba": {
 					"name":"mayrimba",
@@ -1592,7 +1602,10 @@
 						"delay": 0.02,
 						"feedback": 0.5
 					},
-					"chorus": 20,
+					"chorus": {
+						"variance":20,
+						"delay":0.01
+					},
 					"reverb": 1,
 				},
 				"particcolo":{
@@ -1796,7 +1809,10 @@
 						"interval": 250,
 						"wave": "sine",
 					},
-					"chorus": 20
+					"chorus": {
+						"variance":20,
+						"delay":0.02
+					}
 				},
 				"reedles": {
 					"name": "reedles",
@@ -1948,7 +1964,10 @@
 						"delay": 0.01,
 						"feedback": 0.5
 					},
-					"chorus": 2
+					"chorus": {
+						"variance":2,
+						"delay":0
+					}
 				},
 				"sharpsichord": {
 					"name":"sharpsichord",
@@ -2107,7 +2126,10 @@
 						"delay": 0.1,
 						"feedback": 0.5
 					},
-					"chorus": 30
+					"chorus": {
+						"variance":30,
+						"delay":0.01
+					}
 				},
 				"spritzicato": {
 					"name":"spritzicato",
@@ -2309,7 +2331,10 @@
 						"depth":0.1,
 						"interval":100
 					},
-					"chorus":50,
+					"chorus": {
+						"variance":50,
+						"delay":0
+					},
 					"reverb":0.5
 				},
 				"tomgo": {
@@ -2559,7 +2584,10 @@
 						"wave": "sine",
 					},
 					"distortion": 5.711986642890532,
-					"chorus": 20
+					"chorus": {
+						"variance":20,
+						"delay":0
+					}
 				},
 				"wavecore": {
 					"name": "wavecore",
@@ -2587,7 +2615,10 @@
 						"feedback": 0.5
 					},
 					"distortion": 9.139178628624853,
-					"chorus": 20
+					"chorus": {
+						"variance":20,
+						"delay":0
+					}
 				},
 				"whissile": {
 					"name": "whissile",
@@ -2875,7 +2906,10 @@
 							feedback: 0
 						},
 						distortion:   0,
-						chorus:       0,
+						chorus: {
+							variance: 0,
+							delay:    0
+						},
 						reverb:       0,
 						compressor: {
 							threshold:0,
@@ -3347,7 +3381,12 @@
 
 							// chorus
 								if (parameters.chorus !== undefined) {
-									instrument.parameters.chorus = Math.max(0, Math.min(AUDIO_J.constants.maxChorusCents, parameters.chorus))
+									if (parameters.chorus.variance !== undefined) {
+										instrument.parameters.chorus.variance = Math.max(0, Math.min(AUDIO_J.constants.maxChorusCents, parameters.chorus.variance))
+									}
+									if (parameters.chorus.delay !== undefined) {
+										instrument.parameters.chorus.delay = Math.max(0, Math.min(AUDIO_J.constants.maxChorusDelay, parameters.chorus.delay))
+									}
 								}
 
 							// reverb
@@ -3463,8 +3502,7 @@
 								const note = {
 									pitch: pitch,
 									time: now,
-									oscillators: {},
-									chorus: {}
+									oscillators: {}
 								}
 
 							// velocity
@@ -3475,6 +3513,19 @@
 							// noise
 								for (let color in AUDIO_J.noise) {
 									instrument.nodes.noise[color].connect(note.velocity)
+								}
+
+							// chorus
+								if (instrument.parameters.chorus.delay || instrument.parameters.chorus.variance) {
+									note.chorus = {}
+
+									note.chorus.delay = AUDIO_J.audio.createDelay()
+									note.chorus.delay.delayTime.setValueAtTime(instrument.parameters.chorus.delay, now)
+									note.chorus.delay.connect(note.velocity)
+
+									note.chorus.gain = AUDIO_J.audio.createGain()
+									note.chorus.gain.gain.setValueAtTime(AUDIO_J.constants.chorusGain, now)
+									note.chorus.gain.connect(note.chorus.delay)
 								}
 
 							// oscillator + vibrato
@@ -3491,36 +3542,32 @@
 										note.oscillators[p].start(now)
 
 									// chorus
-										if (instrument.parameters.chorus) {
-											note.chorus[p] = AUDIO_J.audio.createGain()
-											note.chorus[p].gain.setValueAtTime(AUDIO_J.constants.chorusGain, now)
-											note.chorus[p].connect(note.velocity)
-
+										if (note.chorus) {
 											note.oscillators[p + "##"] = AUDIO_J.audio.createOscillator()
-											note.oscillators[p + "##"].connect(note.chorus[p])
+											note.oscillators[p + "##"].connect(note.chorus.gain)
 											note.oscillators[p + "##"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "##"].detune.setValueAtTime(instrument.parameters.chorus, now)
+											note.oscillators[p + "##"].detune.setValueAtTime(instrument.parameters.chorus.variance, now)
 											note.oscillators[p + "##"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "##"].start(now)
 
 											note.oscillators[p + "#"] = AUDIO_J.audio.createOscillator()
-											note.oscillators[p + "#"].connect(note.chorus[p])
+											note.oscillators[p + "#"].connect(note.chorus.gain)
 											note.oscillators[p + "#"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "#"].detune.setValueAtTime(instrument.parameters.chorus / 2, now)
+											note.oscillators[p + "#"].detune.setValueAtTime(instrument.parameters.chorus.variance / 2, now)
 											note.oscillators[p + "#"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "#"].start(now)
 
 											note.oscillators[p + "b"] = AUDIO_J.audio.createOscillator()
-											note.oscillators[p + "b"].connect(note.chorus[p])
+											note.oscillators[p + "b"].connect(note.chorus.gain)
 											note.oscillators[p + "b"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "b"].detune.setValueAtTime(instrument.parameters.chorus / -2, now)
+											note.oscillators[p + "b"].detune.setValueAtTime(instrument.parameters.chorus.variance / -2, now)
 											note.oscillators[p + "b"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "b"].start(now)
 
 											note.oscillators[p + "bb"] = AUDIO_J.audio.createOscillator()
-											note.oscillators[p + "bb"].connect(note.chorus[p])
+											note.oscillators[p + "bb"].connect(note.chorus.gain)
 											note.oscillators[p + "bb"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "bb"].detune.setValueAtTime(instrument.parameters.chorus * -1, now)
+											note.oscillators[p + "bb"].detune.setValueAtTime(instrument.parameters.chorus.variance * -1, now)
 											note.oscillators[p + "bb"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "bb"].start(now)
 										}
@@ -3529,7 +3576,7 @@
 										if (instrument.parameters.vibrato.active) {
 											instrument.nodes.vibratoGain.connect(note.oscillators[p].detune)
 
-											if (instrument.parameters.chorus) {
+											if (note.chorus) {
 												instrument.nodes.vibratoGain.connect(note.oscillators[p + "##"].detune)
 												instrument.nodes.vibratoGain.connect(note.oscillators[p + "#"].detune)
 												instrument.nodes.vibratoGain.connect(note.oscillators[p + "b"].detune)
@@ -3688,10 +3735,13 @@
 								}
 
 							// chorus
-								for (let c in note.chorus) {
-									note.chorus[c].gain.cancelScheduledValues(now)
-									note.chorus[c].disconnect()
-									delete note.chorus[c]
+								if (note.chorus) {
+									note.chorus.gain.gain.cancelScheduledValues(now)
+									note.chorus.gain.disconnect()
+									delete note.chorus.gain
+
+									note.chorus.delay.disconnect()
+									delete note.chorus.delay
 								}
 
 							// oscillators
@@ -3810,7 +3860,7 @@
 								delay: 0,
 								feedback: 0
 							}
-							if (Math.floor(Math.random() * 3)) {
+							if (!Math.floor(Math.random() * 3)) {
 								echo.delay =    Math.random() * 0.5
 								echo.feedback = Math.random() * 0.8
 							}
@@ -3819,7 +3869,14 @@
 							const distortion = !Math.floor(Math.random() * 4) ? (Math.random() * AUDIO_J.constants.maxDistortion) : 0
 
 						// chorus
-							const chorus = !Math.floor(Math.random() * 4) ? (Math.random() * AUDIO_J.constants.maxChorusCents) : 0
+							const chorus = {
+								variance: 0,
+								delay: 0
+							}
+							if (!Math.floor(Math.random() * 4)) {
+								chorus.variance = Math.random() * AUDIO_J.constants.maxChorusCents
+								chorus.delay = Math.random() * AUDIO_J.constants.maxChorusDelay
+							}
 
 						// reverb
 							const reverb = !Math.floor(Math.random() * 4) ? Math.random() : 0

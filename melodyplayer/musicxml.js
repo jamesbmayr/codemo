@@ -1352,7 +1352,8 @@
 																	currentPitches[p]--
 
 																// duration complete?
-																	if (currentPitches[p] <= 0) {
+																	if (currentPitches[p] <= 0 || (measureJSON.notes[currentTickOfMeasure] && measureJSON.notes[currentTickOfMeasure][p])) {
+																		currentPitches[p] = 0
 																		sliceNotes = true
 																	}
 															}
