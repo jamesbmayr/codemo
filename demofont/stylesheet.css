@@ -334,6 +334,7 @@
 			box-sizing: border-box;
 			vertical-align: bottom;
 			overflow: hidden;
+			outline: none;
 		}
 
 	/* key states */
@@ -342,7 +343,7 @@
 			pointer-events: none;
 		}
 
-		.key:focus, .key:hover {
+		.key:hover, .key[pressed] {
 			filter: brightness(var(--hover-brightness));
 		}
 

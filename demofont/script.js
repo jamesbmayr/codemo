@@ -259,6 +259,13 @@
 		window.addEventListener(TRIGGERS.keydown, pressKey)
 		function pressKey(event) {
 			try {
+				// press
+					const which = Number(event.which)
+					const button = ELEMENTS.glyphs.keyboard.querySelector(".key[key='" + which + "']") || null
+					if (button) {
+						button.setAttribute("pressed", true)
+					}
+
 				// shift
 					if (event.key.toLowerCase() == "shift") {
 						STATE.shiftHeld = true
@@ -282,6 +289,13 @@
 		window.addEventListener(TRIGGERS.keyup, liftKey)
 		function liftKey(event) {
 			try {
+				// lift
+					const which = Number(event.which)
+					const button = ELEMENTS.glyphs.keyboard.querySelector(".key[key='" + which + "']") || null
+					if (button) {
+						button.removeAttribute("pressed")
+					}
+
 				// shift
 					if (event.key.toLowerCase() == "shift") {
 						STATE.shiftHeld = false
