@@ -233,6 +233,16 @@
 							"off": "ifttt_url||bedroom_fan_off||ifttt_key"
 						}
 					},
+					{
+						name: "bedroom string lights",
+						image: "https://static.thenounproject.com/png/2075573-200.png",
+						top: 17.5,
+						left: 37.5,
+						buttons: {
+							"on": "ifttt_url||bedroom_string_lights_on||ifttt_key",
+							"off": "ifttt_url||bedroom_string_lights_off||ifttt_key"
+						}
+					},
 
 				// sonos
 					{
