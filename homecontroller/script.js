@@ -184,6 +184,16 @@
 						}
 					},
 					{
+						name: "living room string lights",
+						image: "https://static.thenounproject.com/png/2075573-200.png",
+						top: 15,
+						left: 13,
+						buttons: {
+							"on": "ifttt_url||living_room_string_lights_on||ifttt_key",
+							"off": "ifttt_url||living_room_string_lights_off||ifttt_key"
+						}
+					},
+					{
 						name: "humidifier",
 						image: "https://static.thenounproject.com/png/3645130-200.png",
 						top: 17.5,
