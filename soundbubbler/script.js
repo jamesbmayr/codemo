@@ -173,6 +173,7 @@
 					return 63
 				break
 				case 186:
+				case 59:
 					return 64
 				break
 				case 222:
@@ -234,7 +235,11 @@
 				}
 				else if (event.type == "keydown") {
 					if (document.activeElement.tagName !== "INPUT") {
-						var press = document.getElementById("key--" + getKey(event.which))
+						var pitch = getKey(event.which)
+						if (pitch) {
+							var press = document.getElementById("key--" + pitch)
+							event.preventDefault()
+						}
 					}
 				}
 				else if (event.type == "midi") {
@@ -261,7 +266,11 @@
 				}
 				else if (event.type == "keyup") {
 					if (document.activeElement.tagName !== "INPUT") {
-						var lift = document.getElementById("key--" + getKey(event.which))
+						var pitch = getKey(event.which)
+						if (pitch) {
+							var lift = document.getElementById("key--" + pitch)
+							event.preventDefault()
+						}
 					}
 				}
 				else if (event.type == "midi") {

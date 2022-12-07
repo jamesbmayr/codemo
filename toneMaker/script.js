@@ -59,6 +59,7 @@
 				"76":  62,
 				"80":  63,
 				"186": 64,
+				"59":  64,
 				"222": 65,
 				"221": 66,
 				"13":  67,
@@ -3028,15 +3029,17 @@
 
 				// loop through
 					for (let i = startingPitch; i <= endingPitch; i++) {
+						// get info
+							const keyInfo = AUDIO_J.getNote(i)
+
 						// build key
 							const keyElement = document.createElement("button")
 								keyElement.className = "key"
 								keyElement.id = "key--" + i
 								keyElement.value = i
 								keyElement.addEventListener(TRIGGERS.mousedown, pressKey)
-								if (CONSTANTS.keyboardLetters[i - startingPitch]) {
-									keyElement.innerHTML = CONSTANTS.keyboardLetters[i - startingPitch]
-								}
+								keyElement.innerHTML = ((CONSTANTS.keyboardLetters[i - startingPitch]) ? ("<b>" + CONSTANTS.keyboardLetters[i - startingPitch] + "</b>") : "") +
+														"<div>" + (keyInfo[1] + (keyInfo[2] == -1 ? "♭" : keyInfo[2] == 1 ? "♯" : "") + keyInfo[3]) + "</div>"
 							ELEMENTS.keyboard.appendChild(keyElement)
 							ELEMENTS.keys[i] = keyElement
 
@@ -3079,6 +3082,9 @@
 					else if (event.type == TRIGGERS.keydown) {
 						if (!document.activeElement || document.activeElement.tagName !== "INPUT") {
 							pressedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which] + STATE.octaveShift * AUDIO_J.constants.semitonesPerOctave]
+							if (pressedKey) {
+								event.preventDefault()
+							}
 						}
 					}
 				
@@ -3104,6 +3110,9 @@
 					else if (event.type == TRIGGERS.keyup) {
 						if (!document.activeElement || document.activeElement.tagName !== "INPUT") {
 							liftedKey = ELEMENTS.keys[CONSTANTS.whichToPitch[event.which] + STATE.octaveShift * AUDIO_J.constants.semitonesPerOctave]
+							if (liftedKey) {
+								event.preventDefault()
+							}
 						}
 					}
 

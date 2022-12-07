@@ -233,6 +233,7 @@
 					break
 
 					case 186:
+					case 59:
 						var key = 16
 					break
 
@@ -248,11 +249,16 @@
 						var key = 19
 					break
 
+					case 220:
+						var key = 20
+					break
+
 					default:
 						var key = -1
 				}
 
 				if (key > -1 && !document.querySelector("#key_" + key).className.includes("active")) {
+					event.preventDefault()
 					activate(true, key)
 				}
 			}
@@ -330,6 +336,7 @@
 					break
 
 					case 186:
+					case 59:
 						var key = 16
 					break
 
@@ -343,6 +350,10 @@
 
 					case 13:
 						var key = 19
+					break
+
+					case 220:
+						var key = 20
 					break
 
 					default:

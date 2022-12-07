@@ -82,6 +82,7 @@
 				"76": 62,
 				"80": 63,
 				"186": 64,
+				"59":  64,
 				"222": 65,
 				"221": 66,
 				"13": 67,
@@ -554,6 +555,7 @@
 					const midi = CONSTANTS.whichToMidi[String(which)]
 					const note = STATE.notes[String(midi)]
 					if (!note) { return }
+					event.preventDefault()
 
 				// press
 					if (!note.pressed) {
@@ -575,6 +577,7 @@
 					const midi = CONSTANTS.whichToMidi[String(which)]
 					const note = STATE.notes[String(midi)]
 					if (!note) { return }
+					event.preventDefault()
 
 				// unpress
 					if (note.pressed) {

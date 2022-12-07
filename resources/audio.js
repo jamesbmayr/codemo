@@ -2738,7 +2738,7 @@
 		function getNote(midi) {
 			try {
 				// no midi or invalid
-					if (!midi || isNaN(midi) || Number(midi % 1)) {
+					if (midi == undefined || isNaN(midi) || Number(midi % 1)) {
 						return null
 					}
 
