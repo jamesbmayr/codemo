@@ -12,10 +12,29 @@
 		<meta property="og:description" content="tMapper is a Javascript web demo by James Mayr"/>
 		<meta property="og:image" content="https://jamesmayr.com/tmapper/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-		<script src="script.js"></script>
+		<script src="script.js" defer></script>
 	</head>
 	<body>
 		<canvas id="canvas" height="100" width="100"></canvas>
+		<div id="controls">
+			<div>
+				<button id="controls-move-up">&uarr;</button>
+			</div>
+			<div>
+				<button id="controls-move-left">&larr;</button>
+				<button id="controls-move-center">&#x2316;</button>
+				<button id="controls-move-right">&rarr;</button>
+			</div>
+			<div>
+				<button id="controls-move-down">&darr;</button>
+			</div>
+			<div>
+				<button id="controls-zoom-in">+</button>
+				<button id="controls-zoom-reset">&orarr;</button>
+				<button id="controls-zoom-out">-</button>
+			</div>
+		</div>
+		<div id="closest-station"></div>
 		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
 	</body>
 </html>
