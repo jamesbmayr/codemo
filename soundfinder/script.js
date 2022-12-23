@@ -401,11 +401,12 @@
 					let attempts = 10
 
 				// note & synth
-					let synth, note, combo
+					let combo
 					do {
-						synth = chooseRandom(STATE.synths)
-						note = chooseRandom(STATE.notes)
-						combo = synth + ":" + note
+						const synthName = chooseRandom(STATE.synths)
+						const synthParameters = AUDIO_J.getInstrument(synthName)
+						const pitched = (synthParameters && !synthParameters.subinstruments && synthParameters.polysynth && Object.keys(synthParameters.polysynth).length) ? true : false
+						combo = synthName + ":" + (pitched ? chooseRandom(STATE.notes) : CONSTANTS.startingNotes[0])
 						attempts--
 					} while (attempts && combos.includes(combo))
 
@@ -456,19 +457,21 @@
 					const synthName = tile.getAttribute("synth")
 					const note = Number(tile.getAttribute("note"))
 
-				// already selected or claimed?
-					if (tile.hasAttribute("selected") || tile.hasAttribute("player")) {
+				// already claimed?
+					if (tile.hasAttribute("player")) {
 						return
 					}
-					tile.setAttribute("selected", true)
 
 				// play note
 					if (AUDIO_J.instruments[synthName]) {
 						AUDIO_J.instruments[synthName].press(AUDIO_J.getNote(note)[0])
 					}
 
+				// select
+					tile.setAttribute("selected", true)
+
 				// first click
-					if (!STATE.firstClick) {
+					if (!STATE.firstClick || STATE.firstClick == tile) {
 						STATE.firstClick = tile
 						STATE.firstNoteTimeout = setTimeout(function() {
 							AUDIO_J.instruments[synthName].lift(AUDIO_J.getNote(note)[0])

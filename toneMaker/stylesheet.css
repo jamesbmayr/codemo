@@ -622,13 +622,25 @@
 	#tool-polysynth .toggle {
 		height: calc(var(--medium-font-size) * 2 + 2 * var(--gap-size));
 		width: calc(100% / (var(--semitones-per-octave) * 2 - 1) - var(--gap-size));
+		margin-bottom: calc(var(--medium-font-size) + var(--gap-size));
 		border-radius: calc(var(--border-radius) * 4);
 		font-size: var(--small-font-size);
 		text-align: center;
 	}
 
 	#tool-polysynth .toggle[selected] {
-		height: 100%;
+		height: calc(100% - var(--medium-font-size) - var(--gap-size));
+	}
+
+	#tool-polysynth .toggle:not([selected]) + .input {
+		display: none;
+	}
+
+	#tool-polysynth .input {
+		position: absolute;
+		bottom: 0;
+		height: var(--medium-font-size);
+		width: calc(100% / (var(--semitones-per-octave) * 2 - 1) - var(--gap-size));
 	}
 
 /*** tool-vibrato ***/

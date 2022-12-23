@@ -267,6 +267,13 @@
 						else if (target.getAttribute("selected") && !value) {
 							adjustPolysynthToolToggle({target: target}, setup)
 						}
+
+						if (value && value !== true) {
+							ELEMENTS["tool-polysynth"]["cents--" + x].value = value
+						}
+						else {
+							ELEMENTS["tool-polysynth"]["cents--" + x].value = 0	
+						}
 					}
 
 				// vibrato
@@ -945,6 +952,21 @@
 						polysynthToggle.addEventListener(TRIGGERS.click, adjustPolysynthToolToggle)
 					ELEMENTS.toolSections["tool-polysynth"].appendChild(polysynthToggle)
 					ELEMENTS["tool-polysynth"]["toggle--" + i] = polysynthToggle
+
+					const polysynthCents = document.createElement("input")
+						polysynthCents.id = "tool-polysynth-cents--" + i
+						polysynthCents.className = "input"
+						polysynthCents.style.left = CONSTANTS.percentage / (AUDIO_J.constants.semitonesPerOctave * 2 + 1) * (i + AUDIO_J.constants.semitonesPerOctave) + "%"
+						polysynthCents.type = "number"
+						polysynthCents.setAttribute("placeholder", "¢")
+						polysynthCents.setAttribute("min", -100)
+						polysynthCents.value = 0
+						polysynthCents.setAttribute("max", 100)
+						polysynthCents.setAttribute("step", 1)
+						polysynthCents.title = "detune cents"
+						polysynthCents.addEventListener(TRIGGERS.change, adjustPolysynthToolInput)
+					ELEMENTS.toolSections["tool-polysynth"].appendChild(polysynthCents)
+					ELEMENTS["tool-polysynth"]["cents--" + i] = polysynthCents
 				}
 			} catch (error) {console.log(error)}
 		}
@@ -952,26 +974,44 @@
 	/* adjustPolysynthToolToggle */
 		function adjustPolysynthToolToggle(event, setup) {
 			try {
-				if (event.target.getAttribute("selected")) {
-					event.target.removeAttribute("selected")
+				const polysynthToggle = event.target
+				const polysynthInterval = Number(polysynthToggle.value)
+				const polysynthDetuneInput = ELEMENTS["tool-polysynth"]["cents--" + polysynthInterval]
+
+				if (polysynthToggle.getAttribute("selected")) {
+					polysynthToggle.removeAttribute("selected")
 
 					if (!setup) {
 						const polysynth = {}
-							polysynth[Number(event.target.value)] = false
+							polysynth[polysynthInterval] = false
+							polysynthDetuneInput.value = 0
 						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ polysynth: polysynth }) }
 						saveFile()
 					}
 				}
 				else {
-					event.target.setAttribute("selected", true)
+					polysynthToggle.setAttribute("selected", true)
 					
 					if (!setup) {
+						const polysynthDetuneCents = Math.max(AUDIO_J.constants.maxDetuneCents * -1, Math.min(AUDIO_J.constants.maxDetuneCents, Number(polysynthDetuneInput.value)))
 						const polysynth = {}
-							polysynth[Number(event.target.value)] = true
+							polysynth[polysynthInterval] = polysynthDetuneCents || true
 						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ polysynth: polysynth }) }
 						saveFile()
 					}
 				}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustPolysynthToolInput */
+		function adjustPolysynthToolInput(event) {
+			try {
+				const polysynthInterval = Number(event.target.id.split("--")[1])
+				const polysynthDetuneCents = Math.max(AUDIO_J.constants.maxDetuneCents * -1, Math.min(AUDIO_J.constants.maxDetuneCents, Number(event.target.value)))
+				const polysynth = {}
+					polysynth[polysynthInterval] = polysynthDetuneCents || true
+					if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ polysynth: polysynth }) }
+					saveFile()
 			} catch (error) {console.log(error)}
 		}
 

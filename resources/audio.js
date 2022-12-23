@@ -10,6 +10,7 @@
 				oscillatorFactor: 1.05946309436, // Hz ratio per semitone
 				harmonicsCount: 32, // wave overtones
 				bufferCount: 1024, // array size
+				maxDetuneCents: 100, // semitone ¢
 				maxVibratoCents: 200, // semitone ¢
 				minVibratoInterval: 1, // ms
 				maxVibratoInterval: 500, // ms
@@ -2874,6 +2875,7 @@
 					}
 
 					instrument.parameters = {
+						microphone:   false,
 						polysynth:    {},
 						vibrato:      {
 							active:   false,
@@ -2922,6 +2924,7 @@
 					}
 						
 					instrument.nodes = {
+						microphone:    null,
 						noise:         {},
 						vibratoOsc:    AUDIO_J.audio.createOscillator(),
 						vibratoGain:   AUDIO_J.audio.createGain(),
@@ -3135,6 +3138,24 @@
 									instrument.nodes.volume.gain.setValueAtTime(parameters.volume, now)
 								}
 
+							// microphone
+								if (parameters.microphone !== undefined) {
+									if (!parameters.microphone) {
+										instrument.parameters.microphone = false
+										if (instrument.nodes.microphone) {
+											instrument.nodes.microphone.disconnect()
+										}
+										instrument.nodes.microphone = null
+									}
+									else if (navigator.mediaDevices) {
+										navigator.mediaDevices.getUserMedia({audio: true, video: false}).then(function(stream) {
+											instrument.parameters.microphone = true
+											instrument.nodes.microphone = AUDIO_J.audio.createMediaStreamSource(stream)
+											instrument.nodes.microphone.connect(instrument.nodes.effectsIn)
+										})
+									}
+								}
+
 							// oscillator
 								if (parameters.imag !== undefined) {
 									instrument.parameters.imag = new Float32Array(1 + AUDIO_J.constants.harmonicsCount)
@@ -3155,11 +3176,16 @@
 								if (parameters.polysynth !== undefined) {
 									for (let x in parameters.polysynth) {
 										const tone = x
-										if (parameters.polysynth[tone] && !instrument.parameters.polysynth[tone]) {
+										if (parameters.polysynth[tone] === 0 || parameters.polysynth[tone] === true) {
 											instrument.parameters.polysynth[tone] = true
 										}
-										else if (!parameters.polysynth[tone] && instrument.parameters.polysynth[tone]) {
-											delete instrument.parameters.polysynth[tone]
+										else if (parameters.polysynth[tone]) {
+											instrument.parameters.polysynth[tone] = Math.max(AUDIO_J.constants.maxDetuneCents * -1, Math.min(AUDIO_J.constants.maxDetuneCents, parameters.polysynth[tone])) || true
+										}
+										else {
+											if (instrument.parameters.polysynth[tone]) {
+												delete instrument.parameters.polysynth[tone]
+											}
 										}
 									}
 								}
@@ -3533,11 +3559,13 @@
 									// info
 										const distance = p
 										const multiplier = Math.pow(AUDIO_J.constants.oscillatorFactor, distance)
+										const detuneCents = (instrument.parameters.polysynth[p] === true) ? 0 : instrument.parameters.polysynth[p]
 									
 									// main
 										note.oscillators[p] = AUDIO_J.audio.createOscillator()
 										note.oscillators[p].connect(note.velocity)
 										note.oscillators[p].frequency.setValueAtTime(pitch * multiplier, now)
+										note.oscillators[p].detune.setValueAtTime(detuneCents, now)
 										note.oscillators[p].setPeriodicWave(instrument.parameters.wave)
 										note.oscillators[p].start(now)
 
@@ -3546,28 +3574,28 @@
 											note.oscillators[p + "##"] = AUDIO_J.audio.createOscillator()
 											note.oscillators[p + "##"].connect(note.chorus.gain)
 											note.oscillators[p + "##"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "##"].detune.setValueAtTime(instrument.parameters.chorus.variance, now)
+											note.oscillators[p + "##"].detune.setValueAtTime(detuneCents + instrument.parameters.chorus.variance, now)
 											note.oscillators[p + "##"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "##"].start(now)
 
 											note.oscillators[p + "#"] = AUDIO_J.audio.createOscillator()
 											note.oscillators[p + "#"].connect(note.chorus.gain)
 											note.oscillators[p + "#"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "#"].detune.setValueAtTime(instrument.parameters.chorus.variance / 2, now)
+											note.oscillators[p + "#"].detune.setValueAtTime(detuneCents + instrument.parameters.chorus.variance / 2, now)
 											note.oscillators[p + "#"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "#"].start(now)
 
 											note.oscillators[p + "b"] = AUDIO_J.audio.createOscillator()
 											note.oscillators[p + "b"].connect(note.chorus.gain)
 											note.oscillators[p + "b"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "b"].detune.setValueAtTime(instrument.parameters.chorus.variance / -2, now)
+											note.oscillators[p + "b"].detune.setValueAtTime(detuneCents + instrument.parameters.chorus.variance / -2, now)
 											note.oscillators[p + "b"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "b"].start(now)
 
 											note.oscillators[p + "bb"] = AUDIO_J.audio.createOscillator()
 											note.oscillators[p + "bb"].connect(note.chorus.gain)
 											note.oscillators[p + "bb"].frequency.setValueAtTime(pitch * multiplier, now)
-											note.oscillators[p + "bb"].detune.setValueAtTime(instrument.parameters.chorus.variance * -1, now)
+											note.oscillators[p + "bb"].detune.setValueAtTime(detuneCents + instrument.parameters.chorus.variance * -1, now)
 											note.oscillators[p + "bb"].setPeriodicWave(instrument.parameters.wave)
 											note.oscillators[p + "bb"].start(now)
 										}
