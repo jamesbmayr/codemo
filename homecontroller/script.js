@@ -164,6 +164,16 @@
 						}
 					},
 					{
+						name: "craft room string lights",
+						image: "https://static.thenounproject.com/png/2075573-200.png",
+						top: 15,
+						left: 1.5,
+						buttons: {
+							"on": "ifttt_url||craft_room_string_lights_on||ifttt_key",
+							"off": "ifttt_url||craft_room_string_lights_off||ifttt_key"
+						}
+					},
+					{
 						name: "space heater",
 						image: "https://static.thenounproject.com/png/2296512-200.png",
 						top: 17.5,
