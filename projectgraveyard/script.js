@@ -47,6 +47,13 @@
 				idea: "My friend <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a> - who I had collaborated with on <a href='https://jamesmayr.com/rpsrpg' target='_blank'>RPS RPG</a> - and I attempted to learn Unity and build a simple text-based exploration-adventure game.",
 				obituary: "As it turns out, Unity is not so simple, nor is coding in C#. We went through some tutorials and successfully made a <a href='https://jamesmayr.com/tictactoe' target='_blank'>tic-tac-toe clone</a>... and then moved on to other projects."
 			},
+			bluejay: {
+				name: "bluejay",
+				birth: "December 2019",
+				death: "January 2021",
+				idea: "An action-voice engine: whistle to turn words into smarthome commands, API searches, math, alarms, content fetching, and more. The <a href='https://github.com/jamesbmayr/bluejay' target='_blank'>bluejay project</a> served as my voice assistant at home.",
+				obituary: "Everything works... I just didn't like talking to a robot out loud. I built <a href='https://jamesmayr.com/homecontroller' target='_blank'>homeController</a> instead."
+			},
 			jobsearchtracker: {
 				name: "Job Search Tracker",
 				birth: "April 2019",
@@ -68,6 +75,13 @@
 				idea: "Using a free video game API, this tool compared all the games given a search term and graphed them across release year and community rating.",
 				obituary: "They say all good APIs come to an end... this one was bought out by Twitch."
 			},
+			wavestacker: {
+				name: "waveStacker",
+				birth: "October 2017",
+				death: "October 2019",
+				idea: "All sounds can be split into a near-infinite set of simple sine waves, at least in theory. I built this javascript demo a music/code hackathon to test that theory.",
+				obituary: "I suppose it worked, in the technical sense. But I was hosting it via rawgit, which eventually shut down."
+			},
 			bookvsmovie: {
 				name: "Book vs. Movie",
 				birth: "September 2017",
@@ -81,13 +95,6 @@
 				death: "September 2017",
 				idea: "Together with <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a>, Ayelet Kershenbaum, and <a href='https://www.youtube.com/dannymusic' target='_blank'>Danny Romberger</a>, we set out to make a podcast about music - how it works, where it comes from, and why it matters. The name \"Noteworthy\" was taken, so we eventually switched to Pickup Notes.",
 				obituary: "After recording a few sample episodes of us basically chatting about some topic in music, we realized that we had no idea what we were doing... and didn't have the time to do it anyway."
-			},
-			wavestacker: {
-				name: "waveStacker",
-				birth: "October 2017",
-				death: "October 2019",
-				idea: "All sounds can be split into a near-infinite set of simple sine waves, at least in theory. I built this javascript demo a music/code hackathon to test that theory.",
-				obituary: "I suppose it worked, in the technical sense. But I was hosting it via rawgit, which eventually shut down."
 			},
 			harmony: {
 				name: "Harmony",

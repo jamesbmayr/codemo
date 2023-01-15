@@ -102,14 +102,6 @@
 				date: "April 17, 2022",
 				description: "An ongoing blog about making projects with and for people."
 			},
-			bluejay: {
-				skipRandom: true,
-				name: "bluejay",
-				size: "extra-large",
-				tags: ["code","tool","design","api","node","audio"],
-				date: "January 1, 2021",
-				description: "An action-voice engine: whistle to turn words into smarthome commands, API searches, math, alarms, content fetching, and more."
-			},
 			breakout: {
 				name: "breakout",
 				size: "small",
