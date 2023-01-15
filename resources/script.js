@@ -52,6 +52,13 @@
 				date: "June 5, 2020",
 				description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 			},
+			artreflector: {
+				name: "artReflector",
+				size: "small",
+				tags: ["code","tool","design","art","canvas","draw"],
+				date: "January 14, 2023",
+				description: "Paint colored dots, reflected around the center to create kaleidoscopic designs."
+			},
 			balloonpopper: {
 				name: "balloonPopper",
 				size: "small",

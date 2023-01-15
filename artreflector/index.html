@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>artReflector</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/36206-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="artReflector is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="artReflector">
+		<meta property="og:url" content="https://jamesmayr.com/artreflector/">
+		<meta property="og:description" content="artReflector is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/artreflector/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<canvas id="canvas" height="100" width="100"></canvas>
+		<div id="controls-outer">
+			<div id="controls">
+				<label>
+					<input id="controls-background" type="color" value="#dddddd">
+				</label>
+				<label>
+					<span>&#128396;</span>
+					<input id="controls-brush" type="range" min="1" max="50" step="1" value="10">
+				</label>
+				<label>
+					<input id="controls-draw" type="checkbox" checked>
+					<div>
+						<span>&#x1F6AB;</span>
+					</div>
+					<div>
+						<span>&#x1F3A8;</span>
+						<input id="controls-color" type="color" value="#111111">
+						<input id="controls-opacity" type="range" min="0" max="1" step="0.1" value="1">	
+					</div>
+				</label>
+				<label>
+					<span>&#129694;</span>
+					<input id="controls-mirror" type="range" min="1" max="24" step="1" value="5">
+				</label>
+				<button id="controls-undo">&#x238C;</button>
+				<button id="controls-download">&DownArrowBar;</button>
+				<a id="j-logo" href="https://jamesmayr.com"></a>
+			</div>
+		</div>
+	</body>
+</html>
