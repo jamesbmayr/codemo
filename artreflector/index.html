@@ -20,11 +20,14 @@
 		<div id="controls-outer">
 			<div id="controls">
 				<label>
-					<input id="controls-background" type="color" value="#dddddd">
+					<input id="controls-background-color" type="color" value="#dddddd">
+					<input id="controls-background-opacity" type="range" min="0" max="1" step="0.1" value="1">
+					<input id="controls-background-opacity-number" type="number" min="0" max="1" step="0.1" value="1" placeholder="#">
 				</label>
 				<label>
 					<span>&#128396;</span>
-					<input id="controls-brush" type="range" min="1" max="50" step="1" value="10">
+					<input id="controls-brush-radius" type="range" min="1" max="50" step="1" value="10">
+					<input id="controls-brush-radius-number" type="number" min="1" max="50" step="1" value="10" placeholder="#">
 				</label>
 				<label>
 					<input id="controls-draw" type="checkbox" checked>
@@ -33,13 +36,15 @@
 					</div>
 					<div>
 						<span>&#x1F3A8;</span>
-						<input id="controls-color" type="color" value="#111111">
-						<input id="controls-opacity" type="range" min="0" max="1" step="0.1" value="1">	
+						<input id="controls-brush-color" type="color" value="#111111">
+						<input id="controls-brush-opacity" type="range" min="0" max="1" step="0.1" value="1">
+						<input id="controls-brush-opacity-number" type="number" min="0" max="1" step="0.1" value="1" placeholder="#">
 					</div>
 				</label>
 				<label>
 					<span>&#129694;</span>
 					<input id="controls-mirror" type="range" min="1" max="24" step="1" value="5">
+					<input id="controls-mirror-number" type="number" min="1" max="24" step="1" value="5" placeholder="#">
 				</label>
 				<button id="controls-undo">&#x238C;</button>
 				<button id="controls-download">&DownArrowBar;</button>

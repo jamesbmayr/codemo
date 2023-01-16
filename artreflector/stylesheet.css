@@ -15,6 +15,12 @@
 		--disabled-opacity: 0.5;
 	}
 
+	@media screen and (max-width: 900px) {
+		#controls input[type="range"] {
+			display: none;
+		}
+	}
+
 	@media screen and (max-width: 600px) {
 		:root {
 			--controls-height: 110px;
@@ -32,6 +38,12 @@
 		font-size: 0;
 		overflow: hidden;
 		background: var(--light-gray);
+	}
+
+	body {
+		background-image: url(checkerboard.png);
+		background-size: auto;
+		background-position: center;
 	}
 
 /*** canvas ***/
@@ -101,6 +113,24 @@
 	#controls input[type="range"] {
 		height: calc(var(--font-size) + var(--gap-size));
 		width: calc((var(--font-size) + var(--gap-size)) * 2);
+		margin-left: var(--gap-size);
+	}
+
+	#controls input[type="number"] {
+		height: calc(var(--font-size) + var(--gap-size));
+		width: calc(var(--font-size) * 2);
+		font-size: calc(var(--font-size) / 2);
+		font-family: var(--font-family);
+		color: var(--dark-gray);
+		background: var(--light-gray);
+		outline: none;
+		border-radius: var(--border-radius);
+		vertical-align: top;
+		line-height: 1;
+		padding: var(--gap-size);
+		box-sizing: border-box;
+		margin: 0 0 0 var(--gap-size);
+		cursor: pointer;
 	}
 
 	#controls input[type="checkbox"] {
@@ -110,15 +140,16 @@
 		margin: 0;
 		padding: 0;
 		border: 0;
+		display: none;
 	}
 
 	#controls input[type="checkbox"] ~ div:nth-child(2) span {
-		display: block;
-		margin: var(--gap-size) calc(var(--gap-size) * 3) 0 0;
+		padding-right: var(--gap-size);
+		border-right: 2px solid var(--dark-gray);
 	}
 
 	#controls input[type="checkbox"] ~ div:nth-child(3) span {
-		margin: var(--gap-size) var(--gap-size) 0 0;
+		padding: 0 var(--gap-size);
 	}
 
 	#controls input[type="checkbox"]:checked ~ div:nth-child(2) {
@@ -134,11 +165,12 @@
 	}
 
 	#controls span {
-		font-size: var(--font-size);
+		display: inline-block;
 		height: calc(var(--font-size) + var(--gap-size));
 		vertical-align: bottom;
 		cursor: pointer;
 		transition: var(--transition-time);
+		font-size: calc(var(--font-size) + var(--gap-size));
 	}
 
 	#controls button {

@@ -50,7 +50,7 @@
 			bluejay: {
 				name: "bluejay",
 				birth: "December 2019",
-				death: "January 2021",
+				death: "July 2021",
 				idea: "An action-voice engine: whistle to turn words into smarthome commands, API searches, math, alarms, content fetching, and more. The <a href='https://github.com/jamesbmayr/bluejay' target='_blank'>bluejay project</a> served as my voice assistant at home.",
 				obituary: "Everything works... I just didn't like talking to a robot out loud. I built <a href='https://jamesmayr.com/homecontroller' target='_blank'>homeController</a> instead."
 			},

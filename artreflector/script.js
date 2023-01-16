@@ -22,12 +22,17 @@
 			context: document.querySelector("#canvas").getContext("2d"),
 			controls: {
 				element: document.querySelector("#controls"),
-				background: document.querySelector("#controls-background"),
-				brush: document.querySelector("#controls-brush"),
+				backgroundColor: document.querySelector("#controls-background-color"),
+				backgroundOpacity: document.querySelector("#controls-background-opacity"),
+				backgroundOpacityNumber: document.querySelector("#controls-background-opacity-number"),
+				brushRadius: document.querySelector("#controls-brush-radius"),
+				brushRadiusNumber: document.querySelector("#controls-brush-radius-number"),
 				draw: document.querySelector("#controls-draw"),
-				color: document.querySelector("#controls-color"),
-				opacity: document.querySelector("#controls-opacity"),
+				brushColor: document.querySelector("#controls-brush-color"),
+				brushOpacity: document.querySelector("#controls-brush-opacity"),
+				brushOpacityNumber: document.querySelector("#controls-brush-opacity-number"),
 				mirror: document.querySelector("#controls-mirror"),
+				mirrorNumber: document.querySelector("#controls-mirror-number"),
 				undo: document.querySelector("#controls-undo"),
 				download: document.querySelector("#controls-download")
 			}
@@ -40,11 +45,12 @@
 			controlsHeight: 60,
 			circle: 2 * Math.PI,
 			defaults: {
-				background: "#dddddd",
-				brush: 10,
+				backgroundColor: "#dddddd",
+				backgroundOpacity: 1,
+				brushRadius: 10,
 				draw: true,
-				color: "#111111",
-				opacity: 1,
+				brushColor: "#111111",
+				brushOpacity: 1,
 				mirror: 5
 			}
 		}
@@ -53,11 +59,12 @@
 		const STATE = {
 			mouse: false,
 			controls: {
-				background: CONSTANTS.defaults.background,
-				brush: CONSTANTS.defaults.brush,
+				backgroundColor: CONSTANTS.defaults.backgroundColor,
+				backgroundOpacity: CONSTANTS.defaults.backgroundOpacity,
+				brushRadius: CONSTANTS.defaults.brushRadius,
 				draw: CONSTANTS.defaults.draw,
-				color: CONSTANTS.defaults.color,
-				opacity: CONSTANTS.defaults.opacity,
+				brushColor: CONSTANTS.defaults.brushColor,
+				brushOpacity: CONSTANTS.defaults.brushOpacity,
 				mirror: CONSTANTS.defaults.mirror
 			},
 			dots: [],
@@ -66,24 +73,44 @@
 		}
 
 /*** controls ***/
-	/* background */
-		ELEMENTS.controls.background.addEventListener(TRIGGERS.change, changeBackground)
-		function changeBackground() {
+	/* background color */
+		ELEMENTS.controls.backgroundColor.addEventListener(TRIGGERS.change, changeBackgroundColor)
+		function changeBackgroundColor(event) {
 			try {
 				// update state
-					STATE.controls.background = ELEMENTS.controls.background.value
+					STATE.controls.backgroundColor = event.target.value
 
 				// redraw
 					drawCanvas(true)
 			} catch (error) {console.log(error)}
 		}
 
-	/* brush */
-		ELEMENTS.controls.brush.addEventListener(TRIGGERS.change, changeBrush)
-		function changeBrush() {
+	/* background opacity */
+		ELEMENTS.controls.backgroundOpacity.addEventListener(TRIGGERS.change, changeBackgroundOpacity)
+		ELEMENTS.controls.backgroundOpacityNumber.addEventListener(TRIGGERS.change, changeBackgroundOpacity)
+		function changeBackgroundOpacity(event) {
 			try {
 				// update state
-					STATE.controls.brush = Number(ELEMENTS.controls.brush.value) || 1
+					STATE.controls.backgroundOpacity = Number(event.target.value) || 0
+
+				// set partner
+					ELEMENTS.controls.backgroundOpacity.value = ELEMENTS.controls.backgroundOpacityNumber.value = STATE.controls.backgroundOpacity
+
+				// redraw
+					drawCanvas(true)
+			} catch (error) {console.log(error)}
+		}
+
+	/* brush radius */
+		ELEMENTS.controls.brushRadius.addEventListener(TRIGGERS.change, changeBrushRadius)
+		ELEMENTS.controls.brushRadiusNumber.addEventListener(TRIGGERS.change, changeBrushRadius)
+		function changeBrushRadius(event) {
+			try {
+				// update state
+					STATE.controls.brushRadius = Number(event.target.value) || 1
+
+				// set partner
+					ELEMENTS.controls.brushRadius.value = ELEMENTS.controls.brushRadiusNumber.value = STATE.controls.brushRadius
 
 				// redraw
 					drawCanvas(true)
@@ -92,34 +119,38 @@
 
 	/* draw */
 		ELEMENTS.controls.draw.addEventListener(TRIGGERS.change, changeDraw)
-		function changeDraw() {
+		function changeDraw(event) {
 			try {
 				// update state
-					STATE.controls.draw = ELEMENTS.controls.draw.checked || false
+					STATE.controls.draw = event.target.checked || false
 
 				// redraw
 					drawCanvas(true)
 			} catch (error) {console.log(error)}
 		}
 
-	/* color */
-		ELEMENTS.controls.color.addEventListener(TRIGGERS.change, changeColor)
-		function changeColor() {
+	/* brush color */
+		ELEMENTS.controls.brushColor.addEventListener(TRIGGERS.change, changeBrushColor)
+		function changeBrushColor(event) {
 			try {
 				// update state
-					STATE.controls.color = ELEMENTS.controls.color.value
+					STATE.controls.brushColor = event.target.value
 
 				// redraw
 					drawCanvas(true)
 			} catch (error) {console.log(error)}
 		}
 
-	/* opacity */
-		ELEMENTS.controls.opacity.addEventListener(TRIGGERS.change, changeOpacity)
-		function changeOpacity() {
+	/* brush opacity */
+		ELEMENTS.controls.brushOpacity.addEventListener(TRIGGERS.change, changeBrushOpacity)
+		ELEMENTS.controls.brushOpacityNumber.addEventListener(TRIGGERS.change, changeBrushOpacity)
+		function changeBrushOpacity(event) {
 			try {
 				// update state
-					STATE.controls.opacity = Number(ELEMENTS.controls.opacity.value) || 0
+					STATE.controls.brushOpacity = Number(event.target.value) || 0
+
+				// set partner
+					ELEMENTS.controls.brushOpacity.value = ELEMENTS.controls.brushOpacityNumber.value = STATE.controls.brushOpacity
 
 				// redraw
 					drawCanvas(true)
@@ -128,10 +159,14 @@
 
 	/* mirror */
 		ELEMENTS.controls.mirror.addEventListener(TRIGGERS.change, changeMirror)
-		function changeMirror() {
+		ELEMENTS.controls.mirrorNumber.addEventListener(TRIGGERS.change, changeMirror)
+		function changeMirror(event) {
 			try {
 				// update state
-					STATE.controls.mirror = Number(ELEMENTS.controls.mirror.value) || 1
+					STATE.controls.mirror = Number(event.target.value) || 1
+
+				// set partner
+					ELEMENTS.controls.mirror.value = ELEMENTS.controls.mirrorNumber.value = STATE.controls.mirror
 
 				// redraw
 					drawCanvas(true)
@@ -247,9 +282,9 @@
 					STATE.dots.push({
 						x: x - ELEMENTS.canvas.width / 2,
 						y: y - ELEMENTS.canvas.height / 2,
-						radius: STATE.controls.brush,
-						color: STATE.controls.color,
-						opacity: STATE.controls.opacity
+						radius: STATE.controls.brushRadius,
+						color: STATE.controls.brushColor,
+						opacity: STATE.controls.brushOpacity
 					})
 
 				// draw
@@ -279,7 +314,7 @@
 							const eraser = erasers[e]
 							const distance = Math.pow(Math.pow(eraser.x - dot.x, 2) + Math.pow(eraser.y - dot.y, 2), 0.5)
 							
-							if (distance <= dot.radius + STATE.controls.brush) {
+							if (distance <= dot.radius + STATE.controls.brushRadius) {
 								STATE.dots.splice(d, 1)
 								d--
 								break eraserLoop
@@ -295,7 +330,7 @@
 						drawCircle({
 							x: erasers[e].x,
 							y: erasers[e].y,
-							radius: STATE.controls.brush,
+							radius: STATE.controls.brushRadius,
 							color: CONSTANTS.eraserColor,
 							opacity: CONSTANTS.eraserOpacity
 						})
@@ -366,8 +401,8 @@
 								y: ELEMENTS.canvas.height / 2,
 								width: ELEMENTS.canvas.width,
 								height: ELEMENTS.canvas.height,
-								color: STATE.controls.background,
-								opacity: 1
+								color: STATE.controls.backgroundColor,
+								opacity: STATE.controls.backgroundOpacity
 							})
 
 						// reset draw index
