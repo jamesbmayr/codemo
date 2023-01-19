@@ -516,6 +516,13 @@
 				date: "September 14, 2017",
 				description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
 			},
+			imageredactor: {
+				name: "imageRedactor",
+				size: "small",
+				tags: ["code","tool","design","art","canvas","draw","photography"],
+				date: "March 20, 2022",
+				description: "Draw on an image to blur sections and cover up sensitive information."
+			},
 			imagespinner: {
 				name: "imageSpinner",
 				size: "small",
@@ -523,12 +530,12 @@
 				date: "January 15, 2022",
 				description: "Transform a random image - or your own selection - into a simple rotation puzzle."
 			},
-			imageredactor: {
-				name: "imageRedactor",
+			imagetextifier: {
+				name: "imageTextifier",
 				size: "small",
-				tags: ["code","tool","design","art","canvas","draw","photography"],
-				date: "March 20, 2022",
-				description: "Draw on an image to blur sections and cover up sensitive information."
+				tags: ["code","tool","design","art","canvas","photography"],
+				date: "January 19, 2023",
+				description: "A picture's worth 10,000 letters in this image-to-text converter. It's real-time ASCII art for your camera."
 			},
 			infinitesnake: {
 				name: "Infinite Snake",

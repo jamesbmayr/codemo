@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>imageTextifier</title>
+		<link rel="stylesheet" href="stylesheet.css">
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/3179153-200.png">
+		<script src="script.js" defer></script>
+		<style id="image-ratio">:root {--image-ratio: 1}</style>
+		<style id="image-fontsize">:root {--image-fontsize: 5}</style>
+		<meta name="description" content="imageTextifier is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="imageTextifier">
+		<meta property="og:url" content="https://jamesmayr.com/imagetextifier/">
+		<meta property="og:description" content="imageTextifier is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/imagetextifier/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	</head>
+	<body>
+		<div id="instructions">Use your device camera or upload an image.</div>
+		<video id="video"></video>
+		<canvas id="canvas"></canvas>
+		<pre id="output"></pre>
+		<div id="menu">
+			<label  id="camera-outer">
+				<button id="camera">&#128247;</button>
+			</label>
+			<label id="upload-outer">
+				<span>&mapstoup;</span>
+				<input type="file" id="upload">
+			</label>
+			<label id="fontsize-outer">
+				<span>T</span>
+				<input id="fontsize" type="number" placeholder="size" min="1" max="99" value="5" step="1">
+			</label>
+			<label id="inverted-outer">
+				<input id="inverted" type="checkbox">
+			</label>
+			<label id="download-outer">
+				<button id="download">&DownArrowBar;</button>
+			</label>
+			<label id="copy-outer">
+				<button id="copy">
+					<span>©</span>
+					<span>✓</span>
+				</button>
+			</label>
+			<a id="j-logo" href="https://jamesmayr.com"></a>
+		</div>
+	</body>
+</html>
