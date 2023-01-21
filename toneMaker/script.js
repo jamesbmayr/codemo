@@ -90,6 +90,7 @@
 				"tool-bitcrusher": document.querySelector("#tool-bitcrusher"),
 				"tool-effects": document.querySelector("#tool-effects"),
 				"tool-filter": document.querySelector("#tool-filter"),
+				"tool-filterloop": document.querySelector("#tool-filterloop"),
 				"tool-tremolo": document.querySelector("#tool-tremolo"),
 				"tool-echo": document.querySelector("#tool-echo"),
 				"tool-compressor": document.querySelector("#tool-compressor")
@@ -105,6 +106,7 @@
 				"tool-bitcrusher": document.querySelector("#switcher button[value='tool-bitcrusher']"),
 				"tool-effects": document.querySelector("#switcher button[value='tool-effects']"),
 				"tool-filter": document.querySelector("#switcher button[value='tool-filter']"),
+				"tool-filterloop": document.querySelector("#switcher button[value='tool-filterloop']"),
 				"tool-tremolo": document.querySelector("#switcher button[value='tool-tremolo']"),
 				"tool-echo": document.querySelector("#switcher button[value='tool-echo']"),
 				"tool-compressor": document.querySelector("#switcher button[value='tool-compressor']")
@@ -122,6 +124,7 @@
 			"tool-bitcrusher": {},
 			"tool-effects": {},
 			"tool-filter": {},
+			"tool-filterloop": {},
 			"tool-tremolo": {},
 			"tool-echo": {},
 			"tool-compressor": {}
@@ -167,6 +170,7 @@
 					buildEnvelopeTool()
 					buildBitcrusherTool()
 					buildFilterTool()
+					buildFilterloopTool()
 					buildTremoloTool()
 					buildEchoTool()
 					buildEffectsTools()
@@ -340,6 +344,18 @@
 						}
 					}
 
+				// filterloop
+					if (parameters.filterloop && parameters.filterloop.wave) {
+						adjustFilterloopToolToggle({target: ELEMENTS["tool-filterloop"]["waves-toggle--" + parameters.filterloop.wave]}, setup)
+					}
+					else {
+						adjustFilterloopToolToggle({target: ELEMENTS["tool-filterloop"]["waves-toggle--none"]}, setup)
+					}
+					ELEMENTS["tool-filterloop"]["depth-input"].value = parameters["filterloop"] ? parameters["filterloop"].depth * CONSTANTS.percentage : 0
+					ELEMENTS["tool-filterloop"]["interval-input"].value = parameters["filterloop"] ? parameters["filterloop"].interval : 0
+					adjustFilterloopToolInput({target: ELEMENTS["tool-filterloop"]["depth-input"]}, setup)
+					adjustFilterloopToolInput({target: ELEMENTS["tool-filterloop"]["interval-input"]}, setup)
+
 				// tremolo
 					if (parameters.tremolo && parameters.tremolo.wave) {
 						adjustTremoloToolToggle({target: ELEMENTS["tool-tremolo"]["waves-toggle--" + parameters.tremolo.wave]}, setup)
@@ -347,7 +363,7 @@
 					else {
 						adjustTremoloToolToggle({target: ELEMENTS["tool-tremolo"]["waves-toggle--none"]}, setup)
 					}
-					ELEMENTS["tool-tremolo"]["depth-input"].value = parameters["tremolo"] ? parameters["tremolo"].depth : 0
+					ELEMENTS["tool-tremolo"]["depth-input"].value = parameters["tremolo"] ? parameters["tremolo"].depth * CONSTANTS.percentage : 0
 					ELEMENTS["tool-tremolo"]["interval-input"].value = parameters["tremolo"] ? parameters["tremolo"].interval : 0
 					adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["depth-input"]}, setup)
 					adjustTremoloToolInput({target: ELEMENTS["tool-tremolo"]["interval-input"]}, setup)
@@ -442,6 +458,9 @@
 						break
 						case "tool-filter":
 							adjustFilterToolBar(event)
+						break
+						case "tool-filterloop":
+							adjustFilterloopToolBar(event)
 						break
 						case "tool-tremolo":
 							adjustTremoloToolBar(event)
@@ -2020,6 +2039,228 @@
 						   ELEMENTS["tool-filter"]["blob--"        + num].remove()
 					delete ELEMENTS["tool-filter"]["blob--"        + num]
 				}
+			} catch (error) {console.log(error)}
+		}
+
+/*** tool-filterloop ***/
+	/* buildFilterloopTool */
+		function buildFilterloopTool() {
+			try {
+				// toggles
+					const filterloopNoneToggle = document.createElement("button")
+						filterloopNoneToggle.id = "tool-filterloop-waves-toggle--none"
+						filterloopNoneToggle.value = 0
+						filterloopNoneToggle.className = "tool-filterloop-waves-toggle toggle"
+						filterloopNoneToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						filterloopNoneToggle.setAttribute("selected", true)
+						filterloopNoneToggle.title = "filterloop off"
+						filterloopNoneToggle.addEventListener(TRIGGERS.click, adjustFilterloopToolToggle)
+					ELEMENTS.toolSections["tool-filterloop"].appendChild(filterloopNoneToggle)
+					ELEMENTS["tool-filterloop"]["waves-toggle--none"] = filterloopNoneToggle
+				
+					for (let i in AUDIO_J.simpleInstruments) {
+						const waveType = i
+						const waveToggle = document.createElement("button")
+							waveToggle.id = "tool-filterloop-waves-toggle--" + waveType
+							waveToggle.value = waveType
+							waveToggle.className = "tool-filterloop-waves-toggle toggle"
+							waveToggle.innerHTML = waveType
+							waveToggle.title = waveType + "-wave toggle"
+							waveToggle.addEventListener(TRIGGERS.click, adjustFilterloopToolToggle)
+						ELEMENTS.toolSections["tool-filterloop"].appendChild(waveToggle)
+						ELEMENTS["tool-filterloop"]["waves-toggle--" + waveType] = waveToggle
+					}
+
+				// depth
+					const depthSection = document.createElement("div")
+						depthSection.className = "section"
+						depthSection.id = "tool-filterloop-depth"
+					ELEMENTS.toolSections["tool-filterloop"].appendChild(depthSection)
+
+					const depthTrack = document.createElement("div")
+						depthTrack.id = "tool-filterloop-track--depth"
+						depthTrack.className = "track"
+					depthSection.appendChild(depthTrack)
+					ELEMENTS["tool-filterloop"]["depth-track"] = depthTrack
+
+						const depthBar = document.createElement("div")
+							depthBar.id = "tool-filterloop-bar--depth"
+							depthBar.className = "bar"
+							depthBar.style.height = "0%"
+							depthBar.innerHTML = '<span class="fas fa-filter"></span>%'
+							depthBar.title = "volume depth %"
+							depthBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						depthTrack.appendChild(depthBar)
+						ELEMENTS["tool-filterloop"]["depth-bar"] = depthBar
+
+					const depthInput = document.createElement("input")
+						depthInput.setAttribute("type", "number")
+						depthInput.setAttribute("min", 0)
+						depthInput.setAttribute("max", CONSTANTS.percentage)
+						depthInput.placeholder = "%"
+						depthInput.className = "input"
+						depthInput.id = "tool-filterloop-input--depth"
+						depthInput.value = 0
+						depthInput.title = "volume depth %"
+						depthInput.addEventListener(TRIGGERS.change, adjustFilterloopToolInput)
+					depthSection.appendChild(depthInput)
+					ELEMENTS["tool-filterloop"]["depth-input"] = depthInput
+
+					const depthMirrorTrack = document.createElement("div")
+						depthMirrorTrack.id = "tool-filterloop-mirror-track--depth"
+						depthMirrorTrack.className = "track"
+					depthSection.appendChild(depthMirrorTrack)
+					ELEMENTS["tool-filterloop"]["depth-mirror-track"] = depthMirrorTrack
+
+						const depthMirrorBar = document.createElement("div")
+							depthMirrorBar.id = "tool-filterloop-mirror-bar--depth"
+							depthMirrorBar.className = "bar"
+							depthMirrorBar.style.height = "0%"
+						depthMirrorTrack.appendChild(depthMirrorBar)
+						ELEMENTS["tool-filterloop"]["depth-mirror-bar"] = depthMirrorBar
+
+
+				// interval
+					const intervalSection = document.createElement("div")
+						intervalSection.className = "section"
+						intervalSection.id = "tool-filterloop-interval"
+					ELEMENTS.toolSections["tool-filterloop"].appendChild(intervalSection)
+
+					const intervalInput = document.createElement("input")
+						intervalInput.setAttribute("type", "number")
+						intervalInput.setAttribute("min", AUDIO_J.constants.minFilterloopInterval)
+						intervalInput.setAttribute("max", AUDIO_J.constants.maxFilterloopInterval)
+						intervalInput.placeholder = "ms"
+						intervalInput.className = "input"
+						intervalInput.id = "tool-filterloop-input--interval"
+						intervalInput.value = 0
+						intervalInput.title = "time interval"
+						intervalInput.addEventListener(TRIGGERS.change, adjustFilterloopToolInput)
+					intervalSection.appendChild(intervalInput)
+					ELEMENTS["tool-filterloop"]["interval-input"] = intervalInput
+
+					const intervalTrack = document.createElement("div")
+						intervalTrack.id = "tool-filterloop-track--interval"
+						intervalTrack.className = "track"
+					intervalSection.appendChild(intervalTrack)
+					ELEMENTS["tool-filterloop"]["interval-track"] = intervalTrack
+
+						const intervalBar = document.createElement("div")
+							intervalBar.id = "tool-filterloop-bar--interval"
+							intervalBar.className = "bar"
+							intervalBar.style.width = "0%"
+							intervalBar.innerHTML = '<span class="fas fa-clock"></span>'
+							intervalBar.title = "time interval"
+							intervalBar.addEventListener(TRIGGERS.mousedown, selectBar)
+						intervalTrack.appendChild(intervalBar)
+						ELEMENTS["tool-filterloop"]["interval-bar"] = intervalBar
+
+				// background
+					const depictionSection = document.createElement("div")
+						depictionSection.id = "tool-filterloop-depiction"
+					ELEMENTS.toolSections["tool-filterloop"].appendChild(depictionSection)
+					ELEMENTS["tool-filterloop"]["depiction"] = depictionSection
+
+					const depictionInner = document.createElement("div")
+						depictionInner.id = "tool-filterloop-depiction-inner"
+					depictionSection.appendChild(depictionInner)
+					ELEMENTS["tool-filterloop"]["depiction-inner"] = depictionInner
+
+						for (let i = 0; i < CONSTANTS.percentage; i++) {
+							const aboveElement = document.createElement("div")
+								aboveElement.className = "tool-filterloop-depiction--above"
+								aboveElement.style.width = CONSTANTS.percentage / CONSTANTS.percentage / 2 + "%"
+							depictionInner.appendChild(aboveElement)
+
+							const belowElement = document.createElement("div")
+								belowElement.className = "tool-filterloop-depiction--below"
+								belowElement.style.width = CONSTANTS.percentage / CONSTANTS.percentage / 2 + "%"
+							depictionInner.appendChild(belowElement)
+						}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustFilterloopToolToggle */
+		function adjustFilterloopToolToggle(event, setup) {
+			try {
+				// unselect others
+					Array.from(ELEMENTS.toolSections["tool-filterloop"].querySelectorAll(".toggle")).forEach(function (t) {
+						t.removeAttribute("selected")
+					})
+					event.target.setAttribute("selected", true)
+
+				// setup
+					if (!setup) {
+						const filterloop = {
+							wave: event.target.value || null
+						}
+
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ filterloop: filterloop }) }
+						saveFile()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustFilterloopToolBar */
+		function adjustFilterloopToolBar(event) {
+			try {
+				// type
+					const type = STATE.parameter.id.split("--")[1]
+
+				// depth
+					if (type == "depth") {
+						const rectangle  = ELEMENTS["tool-filterloop"]["depth-track"].getBoundingClientRect()
+						const y = event.y !== undefined ? event.y : event.targetTouches[0].clientY
+						let percentage = (rectangle.height - y + rectangle.top) * CONSTANTS.percentage / (rectangle.height)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+
+						ELEMENTS["tool-filterloop"]["depth-input"].value = percentage
+						adjustFilterloopToolInput({target: ELEMENTS["tool-filterloop"]["depth-input"]})
+					}
+
+				// interval
+					if (type == "interval") {
+						const rectangle  = ELEMENTS["tool-filterloop"]["interval-track"].getBoundingClientRect()
+						const x = event.x !== undefined ? event.x : event.targetTouches[0].clientX
+						let percentage = (x - rectangle.left) * CONSTANTS.percentage / (rectangle.width)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+
+						ELEMENTS["tool-filterloop"]["interval-input"].value = percentage / CONSTANTS.percentage * Number(ELEMENTS["tool-filterloop"]["interval-input"].max)
+						adjustFilterloopToolInput({target: ELEMENTS["tool-filterloop"]["interval-input"]})
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* adjustFilterloopToolInput */
+		function adjustFilterloopToolInput(event, setup) {
+			try {
+				// display
+					const type = event.target.id.split("--")[1]
+					let value = 0
+
+					if (type == "interval") {
+						const max = Number(event.target.max)
+						value = Number(event.target.value)
+						value = Math.min(max, Math.max(0, value))
+						ELEMENTS["tool-filterloop"]["interval-bar"].style.width = (value / max * CONSTANTS.percentage) + "%"
+						ELEMENTS["tool-filterloop"]["depiction-inner"].style.width = (value / max * CONSTANTS.percentage * CONSTANTS.percentage) + "%"
+					}
+					else if (type == "depth") {
+						let percentage = Number(event.target.value)
+							percentage = Math.min(CONSTANTS.percentage, Math.max(0, percentage))
+						value = Math.min(1, Math.max(0, (percentage / CONSTANTS.percentage)))
+						ELEMENTS["tool-filterloop"]["depth-bar"].style.height = percentage + "%"
+						ELEMENTS["tool-filterloop"]["depth-mirror-bar"].style.height = percentage + "%"
+						ELEMENTS["tool-filterloop"]["depiction-inner"].style.height = percentage + "%"
+					}
+					
+				// audio
+					if (!setup) {
+						const filterloop = {}
+							filterloop[type] = value
+						if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) { AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ filterloop: filterloop }) }
+						saveFile()
+					}
 			} catch (error) {console.log(error)}
 		}
 
