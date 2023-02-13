@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>tokenTurner</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/2949503-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<meta name="description" content="tokenTurner is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="tokenTurner">
+		<meta property="og:url" content="https://jamesmayr.com/tokenturner/">
+		<meta property="og:description" content="tokenTurner is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/tokenturner/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<script src="script.js" defer></script>
+		<style id="variables">:root {--grid: 5}</style>
+	</head>
+	<body>
+		<div id="gameboard">
+			<div id="gameboard-dropzone"></div>
+			<div id="gameboard-grid"></div>
+			<button id="gameboard-rotate-clockwise" title="rotate clockwise">&orarr;</button>
+			<button id="gameboard-rotate-counterclockwise" title="rotate counterclockwise">&olarr;</button>
+		</div>
+		<div id="overlay">
+			<label id="winner">tokenTurner</label>
+			<label>
+				<input id="grid-input" type="number" min="3" max="12" step="1" value="5" placeholder="#">
+				<span> = grid</span>
+			</label>
+			<label>
+				<input id="win-input" type="number" min="3" max="12" step="1" value="4" placeholder="#">
+				<span> in a row</span>
+			</label>
+			<label>
+				<button id="play">play</button>
+			</label>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>

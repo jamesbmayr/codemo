@@ -241,7 +241,25 @@
 				{name: "Weight", audio: "weight.mp3", lyrics: "weight.txt"},
 				{name: "Doubt", audio: "doubt.mp3", lyrics: "doubt.txt"},
 				{name: "Hello", audio: "hello.mp3", lyrics: "hello.txt"}
-			]}
+			]},
+			// draftsadrift3: {id: "draftsadrift3", image: "draftsadrift3.png", name: "Drafts Adrift 3", year: 2023, tracks: [
+			// 	{name: "Prologue", audio: "prologue.mp3"},
+			// 	{name: "A Game of Death and Deception", audio: "agameofdeathanddeception.mp3"},
+			// 	{name: "Ideation", audio: "ideation.mp3"},
+			// 	{name: "Mischief", audio: "mischief.mp3"},
+			// 	{name: "Four-oh-Four!", audio: "fourohfour.mp3"},
+			// 	{name: "Melodemons", audio: "melodemons.mp3"},
+			// 	{name: "Everything Is Reel; Please Do Not Question This", audio: "everythingisreelpleasedonotquestionthis.mp3"},
+			// 	{name: "Counting Clouds", audio: "countingclouds.mp3"},
+			// 	{name: "Way Out", audio: "wayout.mp3"},
+			// 	{name: "Interweave", audio: "interweave.mp3"},
+			// 	{name: "Miracle / Shadow: The Next Generation", audio: "miracleshadowthenextgeneration.mp3"},
+			// 	{name: "The Tiger's Woods and the Wagon Summoner", audio: "thetigerswoodsandthewagonsummoner.mp3"},
+			// 	{name: "Time After Last Time", audio: "timeafterlasttime.mp3", lyrics: "timeafterlasttime.txt"},
+			// 	{name: "?", audio: "?.mp3"},
+			// 	{name: "Ending", audio: "ending.mp3"},
+			// 	{name: "Reflections", audio: "reflections.mp3"}
+			// ]}
 		}
 
 /*** menu ***/
