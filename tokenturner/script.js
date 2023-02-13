@@ -180,6 +180,7 @@
 				// reset
 					ELEMENTS.grid.innerHTML = ""
 					ELEMENTS.grid.setAttribute("rotation", 0)
+					ELEMENTS.grid.style.transform = "rotate(0deg)"
 					ELEMENTS.dropzone.innerHTML = ""
 					ELEMENTS.winner.innerText = ""
 					ELEMENTS.overlay.setAttribute("invisible", true)
