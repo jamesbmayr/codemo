@@ -36,6 +36,7 @@
 			stopRadius: 3,
 			vehicleRadius: 8,
 			stopTextSize: 3,
+			vehicleTextSize: 12,
 			zoomStep: 0.125,
 			zoomMin: 0.125,
 			geoZoom: 3125,
@@ -52,21 +53,21 @@
 		const API = {
 			url: "https://api-v3.mbta.com/vehicles?filter[route]=Red,Mattapan,Orange,Green-B,Green-C,Green-D,Green-E,Blue,741,742,743,746,751,749",
 			lines: {
-				"Red": {id: "Red", color: "#DA291C", display: "Red Line A", stops: ["Alewife", "Davis", "Porter", "Harvard", "Central", "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/UMass", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"]},
-				"Red-B": {id: "Red-B", color: "#DA291C", display: "Red Line B", stops: ["Alewife", "Davis", "Porter", "Harvard", "Central", "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/UMass", "North Quincy", "Wollaston", "Quincy Center", "Quincy Adams", "Braintree"]},
-				"Mattapan": {id: "Mattapan", color: "#DA291C", display: "Mattapan Trolley", stops: ["Ashmont", "Cedar Grove", "Butler", "Milton", "Central Avenue", "Valley Road", "Capen Street", "Mattapan"]},
-				"Orange": {id: "Orange", color: "#ED8B00", display: "Orange Line", stops: ["Oak Grove", "Malden Center", "Wellington", "Assembly", "Sullivan Square", "Community College", "North Station", "Haymarket", "State", "Downtown Crossing", "Chinatown", "Tufts Medical Center", "Back Bay", "Massachusetts Avenue", "Ruggles", "Roxbury Crossing", "Jackson Square", "Stony Brook", "Green Street", "Forest Hills"]},
-				"Green-B": {id: "Green-B", color: "#00843D", display: "Green Line B", stops: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes Convention Center", "Kenmore", "Blandford Street", "Boston University East", "Boston University Central", "Boston University West", "Saint Paul Street (B)", "Babcock Street", "Packards Corner", "Harvard Avenue", "Griggs Street", "Allston Street", "Warren Street", "Washington Street", "Sutherland Road", "Chiswick Road", "Chestnut Hill Avenue", "South Street", "Boston College"]},
-				"Green-C": {id: "Green-C", color: "#00843D", display: "Green Line C", stops: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes Convention Center", "Kenmore", "Saint Mary's Street", "Hawes Street", "Kent Street", "Saint Paul Street (C)", "Coolidge Corner", "Summit Avenue", "Brandon Hall", "Fairbanks Street", "Washington Square", "Tappan Street", "Dean Road", "Englewood Avenue", "Cleveland Circle"]},
-				"Green-D": {id: "Green-D", color: "#00843D", display: "Green Line D", stops: ["Union", "Lechmere", "Science Park/West End", "Haymarket", "Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes Convention Center", "Kenmore", "Fenway", "Longwood", "Brookline Village", "Brookline Hills", "Beaconsfield", "Reservoir", "Chestnut Hill", "Newton Centre", "Newton Highlands", "Eliot", "Waban", "Woodland", "Riverside"]},
-				"Green-E": {id: "Green-E", color: "#00843D", display: "Green Line E", stops: ["Medford/Tufts", "Ball", "Magoun", "Gilman", "East Somerville", "Lechmere", "Science Park/West End", "Haymarket", "Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Prudential", "Symphony", "Northeastern University", "Museum of Fine Arts", "Longwood Medical Area", "Brigham Circle", "Fenwood Road", "Mission Park", "Riverway", "Back of the Hill", "Heath Street"]},
-				"Blue": {id: "Blue", color: "#003DA5", display: "Blue Line", stops: ["Wonderland", "Revere Beach", "Beachmont", "Suffolk Downs", "Orient Heights", "Wood Island", "Airport", "Maverick", "Aquarium", "State", "Government Center", "Bowdoin"]},
-				"741": {id: "741", color: "#7C878E", display: "Silver Line 1", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way", "Terminal A", "Terminal B", "Terminal C", "Terminal E", "Terminal A"]},
-				"742": {id: "742", color: "#7C878E", display: "Silver Line 2", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way", "Northern Ave @ Harbor St", "Northern Ave @ Tide St", "23 Drydock Ave", "27 Drydock Ave", "Drydock Ave @ Black Falcon Ave", "88 Black Falcon", "Drydock Ave @ Design Center Place", "Northern Ave @ Tide St"]},
-				"743": {id: "743", color: "#7C878E", display: "Silver Line 3", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way", "Terminal A", "Airport", "Eastern Avenue", "Box District", "Bellingham Square", "Chelsea"]},
-				"746": {id: "746", color: "#7C878E", display: "Silver Line 3", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way"]},
-				"751": {id: "751", color: "#7C878E", display: "Silver Line 4", stops: ["Essex St @ Atlantic Ave", "Washington St @ Tufts Med Ctr", "Washington St @ Herald St", "Washington St @ E Berkeley St", "Washington St @ W Dedham St", "Washington St @ W Newton St", "Washington St @ Worcester St", "Washington St @ Massachusetts Ave", "Washington St @ Lenox St", "Washington St @ Melnea Cass Blvd", "Nubian"]},
-				"749": {id: "749", color: "#7C878E", display: "Silver Line 5", stops: ["Temple Pl @ Washington St", "Tremont St @ Boylston Station", "Washington St @ Tufts Med Ctr", "Washington St @ Herald St", "Washington St @ E Berkeley St", "Washington St @ W Dedham St", "Washington St @ W Newton St", "Washington St @ Worcester St", "Washington St @ Massachusetts Ave", "Washington St @ Lenox St", "Washington St @ Melnea Cass Blvd", "Nubian"]},
+				"Red": {id: "Red", color: "#DA291C", display: "Red Line A", indicator: "R", stops: ["Alewife", "Davis", "Porter", "Harvard", "Central", "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/UMass", "Savin Hill", "Fields Corner", "Shawmut", "Ashmont"]},
+				"Red-B": {id: "Red-B", color: "#DA291C", display: "Red Line B", indicator: "R", stops: ["Alewife", "Davis", "Porter", "Harvard", "Central", "Kendall/MIT", "Charles/MGH", "Park Street", "Downtown Crossing", "South Station", "Broadway", "Andrew", "JFK/UMass", "North Quincy", "Wollaston", "Quincy Center", "Quincy Adams", "Braintree"]},
+				"Mattapan": {id: "Mattapan", color: "#DA291C", display: "Mattapan Trolley", indicator: "M", stops: ["Ashmont", "Cedar Grove", "Butler", "Milton", "Central Avenue", "Valley Road", "Capen Street", "Mattapan"]},
+				"Orange": {id: "Orange", color: "#ED8B00", display: "Orange Line", indicator: "O", stops: ["Oak Grove", "Malden Center", "Wellington", "Assembly", "Sullivan Square", "Community College", "North Station", "Haymarket", "State", "Downtown Crossing", "Chinatown", "Tufts Medical Center", "Back Bay", "Massachusetts Avenue", "Ruggles", "Roxbury Crossing", "Jackson Square", "Stony Brook", "Green Street", "Forest Hills"]},
+				"Green-B": {id: "Green-B", color: "#00843D", display: "Green Line B", indicator: "B", stops: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes Convention Center", "Kenmore", "Blandford Street", "Boston University East", "Boston University Central", "Boston University West", "Saint Paul Street (B)", "Babcock Street", "Packards Corner", "Harvard Avenue", "Griggs Street", "Allston Street", "Warren Street", "Washington Street", "Sutherland Road", "Chiswick Road", "Chestnut Hill Avenue", "South Street", "Boston College"]},
+				"Green-C": {id: "Green-C", color: "#00843D", display: "Green Line C", indicator: "C", stops: ["Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes Convention Center", "Kenmore", "Saint Mary's Street", "Hawes Street", "Kent Street", "Saint Paul Street (C)", "Coolidge Corner", "Summit Avenue", "Brandon Hall", "Fairbanks Street", "Washington Square", "Tappan Street", "Dean Road", "Englewood Avenue", "Cleveland Circle"]},
+				"Green-D": {id: "Green-D", color: "#00843D", display: "Green Line D", indicator: "D", stops: ["Union", "Lechmere", "Science Park/West End", "Haymarket", "Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Hynes Convention Center", "Kenmore", "Fenway", "Longwood", "Brookline Village", "Brookline Hills", "Beaconsfield", "Reservoir", "Chestnut Hill", "Newton Centre", "Newton Highlands", "Eliot", "Waban", "Woodland", "Riverside"]},
+				"Green-E": {id: "Green-E", color: "#00843D", display: "Green Line E", indicator: "E", stops: ["Medford/Tufts", "Ball", "Magoun", "Gilman", "East Somerville", "Lechmere", "Science Park/West End", "Haymarket", "Government Center", "Park Street", "Boylston", "Arlington", "Copley", "Prudential", "Symphony", "Northeastern University", "Museum of Fine Arts", "Longwood Medical Area", "Brigham Circle", "Fenwood Road", "Mission Park", "Riverway", "Back of the Hill", "Heath Street"]},
+				"Blue": {id: "Blue", color: "#003DA5", display: "Blue Line", indicator: "B", stops: ["Wonderland", "Revere Beach", "Beachmont", "Suffolk Downs", "Orient Heights", "Wood Island", "Airport", "Maverick", "Aquarium", "State", "Government Center", "Bowdoin"]},
+				"741": {id: "741", color: "#7C878E", display: "Silver Line 1", indicator: "1", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way", "Terminal A", "Terminal B", "Terminal C", "Terminal E", "Terminal A"]},
+				"742": {id: "742", color: "#7C878E", display: "Silver Line 2", indicator: "2", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way", "Northern Ave @ Harbor St", "Northern Ave @ Tide St", "23 Drydock Ave", "27 Drydock Ave", "Drydock Ave @ Black Falcon Ave", "88 Black Falcon", "Drydock Ave @ Design Center Place", "Northern Ave @ Tide St"]},
+				"743": {id: "743", color: "#7C878E", display: "Silver Line 3", indicator: "3", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way", "Terminal A", "Airport", "Eastern Avenue", "Box District", "Bellingham Square", "Chelsea"]},
+				"746": {id: "746", color: "#7C878E", display: "Silver Line 3", indicator: "3", stops: ["South Station", "Courthouse", "World Trade Center", "Silver Line Way"]},
+				"751": {id: "751", color: "#7C878E", display: "Silver Line 4", indicator: "4", stops: ["Essex St @ Atlantic Ave", "Washington St @ Tufts Med Ctr", "Washington St @ Herald St", "Washington St @ E Berkeley St", "Washington St @ W Dedham St", "Washington St @ W Newton St", "Washington St @ Worcester St", "Washington St @ Massachusetts Ave", "Washington St @ Lenox St", "Washington St @ Melnea Cass Blvd", "Nubian"]},
+				"749": {id: "749", color: "#7C878E", display: "Silver Line 5", indicator: "5", stops: ["Temple Pl @ Washington St", "Tremont St @ Boylston Station", "Washington St @ Tufts Med Ctr", "Washington St @ Herald St", "Washington St @ E Berkeley St", "Washington St @ W Dedham St", "Washington St @ W Newton St", "Washington St @ Worcester St", "Washington St @ Massachusetts Ave", "Washington St @ Lenox St", "Washington St @ Melnea Cass Blvd", "Nubian"]},
 			},
 			stops: {
 				"Cedar Grove": {latitude:42.279629,longitude:-71.060394},
@@ -582,13 +583,27 @@
 								color = API.lines[vehicle.relationships.route.data.id] ? API.lines[vehicle.relationships.route.data.id].color : CONSTANTS["dark-gray"]
 							}
 
-						// draw circle for stop
+						// draw circle for vehicle
 							drawCircle(ELEMENTS.canvas, ELEMENTS.context, {
 								x: x,
 								y: y,
 								color: color,
 								radius: CONSTANTS.vehicleRadius
 							})
+
+						// draw indicator
+							if (vehicle.relationships && vehicle.relationships.route && vehicle.relationships.route.data && vehicle.relationships.route.data.id) {
+								const routeName = vehicle.relationships.route.data.id
+								const indicator = API.lines[routeName].indicator || ""
+								drawText(ELEMENTS.canvas, ELEMENTS.context, {
+									x: x,
+									y: y,
+									color: CONSTANTS["light-gray"],
+									size: CONSTANTS.vehicleTextSize,
+									text: indicator
+								})
+							}
+							
 					}
 			} catch (error) {console.log(error)}
 		}
