@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>cubeSolver</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/32882-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+		<meta name="description" content="cubeSolver is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="cubeSolver">
+		<meta property="og:url" content="https://jamesmayr.com/cubesolver/">
+		<meta property="og:description" content="cubeSolver is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/cubesolver/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	</head>
+	<body>
+		<canvas id="canvas" height="1000" width="1000"></canvas>
+		<div id="game-moves">
+			<div id="game-moves-shuffle">
+				<button id="shuffle" title="shuffle cube">&#x1F500;</button>
+				<input id="moves-count" type="number" value="25" placeholder="#" min="0" max="100" step="1">
+			</div>
+			<div id="game-moves-solve">
+				<button id="solve" title="solve cube">&#x1F504;</button>
+				<div id="solve-status"></div>
+			</div>
+		</div>
+		<div id="cube-moves">
+			<button id="x-clockwise" title="x clockwise">X &#x21BB;</button>
+			<button id="x-counterclockwise" title="x counterclockwise">X' &#x21BA;</button>
+			<button id="y-clockwise" title="y clockwise">Y &#x21BB;</button>
+			<button id="y-counterclockwise" title="y counterclockwise">Y' &#x21BA;</button>
+			<button id="z-clockwise" title="z clockwise">Z &#x21BB;</button>
+			<button id="z-counterclockwise" title="z counterclockwise">Z' &#x21BA;</button>
+		</div>
+		<div id="face-moves">
+			<button id="up-clockwise" title="up clockwise">U &#x21BB;</button>
+			<button id="up-counterclockwise" title="up counterclockwise">U' &#x21BA;</button>
+			<button id="left-clockwise" title="left clockwise">L &#x21BB;</button>
+			<button id="left-counterclockwise" title="left counterclockwise">L' &#x21BA;</button>
+			<button id="front-clockwise" title="front clockwise">F &#x21BB;</button>
+			<button id="front-counterclockwise" title="front counterclockwise">F' &#x21BA;</button>
+			<button id="right-clockwise" title="right clockwise">R &#x21BB;</button>
+			<button id="right-counterclockwise" title="right counterclockwise">R' &#x21BA;</button>
+			<button id="down-clockwise" title="down clockwise">D &#x21BB;</button>
+			<button id="down-counterclockwise" title="down counterclockwise">D' &#x21BA;</button>
+			<button id="back-clockwise" title="back clockwise">B &#x21BB;</button>
+			<button id="back-counterclockwise" title="back counterclockwise">B' &#x21BA;</button>
+		</div>
+		<details id="settings">
+			<summary id="settings-button" title="settings">&#9881;&#65039;</summary>
+			<div id="settings-overlay">
+				<div id="settings-overlay-header">
+					<h1>cubeSolver</h1>
+					<button id="settings-close" title="close">x</button>
+				</div>
+				<div id="settings-overlay-camera">
+					<h2>camera</h2>
+					<label>
+						<span>x</span>
+						<input id="camera-x" type="number" min="-90" max="90" step="1" value="-15" placeholder="°">
+						<span>°</span>
+					</label>
+					<label>
+						<span>y</span>
+						<input id="camera-y" type="number" min="-90" max="90" step="1" value="30" placeholder="°">
+						<span>°</span>
+					</label>
+					<label>
+						<span>z</span>
+						<input id="camera-z" type="number" min="-90" max="90" step="1" value="-6" placeholder="°">
+						<span>°</span>
+					</label>
+				</div>
+				<div id="settings-overlay-styling">
+					<h2>animation</h2>
+					<label>
+						<input id="animation-degrees" type="number" min="1" max="90" step="1" value="1" placeholder="°">
+						<span>° per ms</span>
+					</label>
+					<label>
+						<input id="cube-opacity" type="number" min="1" max="100" step="1" value="90" placeholder="%">
+						<span>% opacity</span>
+					</label>
+					<label>
+						<input id="border-width" type="checkbox" checked>
+						<span>borders</span>
+					</label>
+				</div>
+				<div id="settings-overlay-colors">
+					<h2>colors</h2>
+					<label>
+						<input id="color-front-active" type="checkbox" checked>
+						<input id="color-front" type="color" value="#0046ad">
+						<span>front</span>
+					</label>
+					<label>
+						<input id="color-left-active" type="checkbox" checked>
+						<input id="color-left" type="color" value="#ff5900">
+						<span>left</span>
+					</label>
+					<label>
+						<input id="color-up-active" type="checkbox" checked>
+						<input id="color-up" type="color" value="#ffd500">
+						<span>up</span>
+					</label>
+					<label>
+						<input id="color-right-active" type="checkbox" checked>
+						<input id="color-right" type="color" value="#b71234">
+						<span>right</span>
+					</label>
+					<label>
+						<input id="color-down-active" type="checkbox" checked>
+						<input id="color-down" type="color" value="#ffffff">
+						<span>down</span>
+					</label>
+					<label>
+						<input id="color-back-active" type="checkbox" checked>
+						<input id="color-back" type="color" value="#009b48">
+						<span>back</span>
+					</label>
+					<label>
+						<input id="color-interior-active" type="checkbox" checked>
+						<input id="color-interior" type="color" value="#666666">
+						<span>interior</span>
+					</label>
+				</div>
+			</div>
+		</details>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>
