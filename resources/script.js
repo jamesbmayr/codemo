@@ -307,7 +307,7 @@
 				name: "cubeSolver",
 				size: "medium",
 				tags: ["code","math","simulation","game","puzzle","tabletop","canvas"],
-				date: "February 28, 2023",
+				date: "March 4, 2023",
 				description: "Shuffle and solve a color puzzle cube... or watch it solve itself."
 			},
 			decisionmaker: {
