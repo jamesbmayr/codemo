@@ -171,6 +171,13 @@
 				date: "January 16, 2022",
 				description: "A touchscreen swatting game for cats."
 			},
+			catgpt: {
+				name: "CatGPT",
+				size: "small",
+				tags: ["code","ai","simulation","tool","writing","autobiography","prose","scifi","design"],
+				date: "March 5, 2023",
+				description: "A breakthrough generative chat AI, able to provide novel responses to any prompt. Inspired by Apollo."
+			},
 			cellsimulator: {
 				name: "cellSimulator",
 				size: "small",
