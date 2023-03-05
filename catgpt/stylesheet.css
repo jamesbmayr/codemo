@@ -102,6 +102,12 @@
 				box-sizing: border-box;
 			}
 
+			@media screen and (max-width: 800px) {
+				.header-column {
+					width: 100%;
+				}
+			}
+
 			.header-column-icon {
 				font-size: calc(var(--font-size) * 2);
 				font-family: var(--font-family);
@@ -371,6 +377,12 @@
 			font-size: var(--font-size);
 			color: var(--light-gray);
 			line-height: 1;
+		}
+
+		@media screen and (max-width: 800px) {
+			.hide-on-mobile {
+				display: none;
+			}
 		}
 
 	/* form */
