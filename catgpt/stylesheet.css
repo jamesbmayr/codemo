@@ -61,7 +61,7 @@
 				line-height: 1;
 				width: auto;
 				height: auto;
-				color: var(--dark-gray);
+				color: var(--light-gray);
 				margin: calc(var(--gap-size) * 4) auto calc(var(--gap-size) * 2) auto;
 				text-align: center;
 				transition: var(--transition-time);
@@ -113,7 +113,7 @@
 				font-family: var(--font-family);
 				font-weight: bold;
 				text-align: center;
-				color: var(--dark-gray);
+				color: var(--light-gray);
 				line-height: 1;
 				user-select: none;
 				pointer-events: none;
@@ -130,14 +130,14 @@
 				font-weight: bold;
 				text-align: center;
 				margin: 0 0 0 var(--gap-size);
-				color: var(--dark-gray);
+				color: var(--light-gray);
 			}
 
 			.header-column-text {
 				font-size: calc(var(--font-size) * 3 / 4);
 				font-family: var(--font-family);
 				text-align: center;
-				color: var(--dark-gray);
+				color: var(--light-gray);
 				line-height: var(--line-height);
 				margin: calc(5 * var(--gap-size)) 0;
 			}
