@@ -140,6 +140,9 @@
 				color: var(--light-gray);
 				line-height: var(--line-height);
 				margin: calc(5 * var(--gap-size)) 0;
+				padding: var(--gap-size);
+				border-radius: var(--border-radius);
+				background-color: var(--medium-dark-gray);
 			}
 
 			.header-column-text.clickable {
@@ -148,7 +151,7 @@
 			}
 
 			.header-column-text.clickable:hover, .header-column-text.clickable:focus {
-				text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+				text-shadow: 0 0 var(--shadow-size) var(--light-gray);
 			}
 
 	/** history **/
