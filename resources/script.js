@@ -103,6 +103,8 @@
 				description: "An ongoing blog about making projects with and for people."
 			},
 			breakout: {
+				skipRandom: true,
+				hidden: true,
 				name: "breakout",
 				size: "small",
 				tags: ["code","game","arcade","unity"],
@@ -193,6 +195,8 @@
 				description: "Funded on Kickstarter, Chalice is a card game (and web game) of death and deception where players poison their friends for fun."
 			},
 			checkers: {
+				skipRandom: true,
+				hidden: true,
 				name: "checkers",
 				size: "small",
 				tags: ["code","game","board","tabletop","multiplayer","unity"],
@@ -280,6 +284,8 @@
 				description: "In codeBreaker, you must guess the computer's secret combination through guess and check."
 			},
 			coderunner: {
+				skipRandom: true,
+				hidden: true,
 				name: "codeRunner",
 				size: "small",
 				tags: ["code","tool","simulation"],
@@ -748,6 +754,8 @@
 				description: "It's tic-tac-toe, against either another human or an AI opponent."
 			},
 			numbercruncher: {
+				skipRandom: true,
+				hidden: true,
 				name: "numberCruncher",
 				size: "small",
 				tags: ["code","math","tool"],
@@ -958,6 +966,7 @@
 			},
 			shapeanimator: {
 				skipRandom: true,
+				hidden: true,
 				name: "shapeAnimator",
 				size: "medium",
 				tags: ["design","code","art","tool"],
@@ -1013,7 +1022,7 @@
 				size: "small",
 				tags: ["code","music","audio","synth","game","board","card","multiplayer"],
 				date: "November 15, 2022",
-				description: "An audio twist on the classic memory game, where every tile is a tone."
+				description: "An audio take on the classic memory game, where every tile is a tone."
 			},
 			specterinspectors: {
 				name: "Specter Inspectors",
@@ -1023,6 +1032,8 @@
 				description: "Specter Inspectors is a game of ghosts and guesses. 5-25 friends gather in-person for a party game of deception and deduction."
 			},
 			speechrepeater: {
+				skipRandom: true,
+				hidden: true,
 				name: "speechRepeater",
 				size: "small",
 				tags: ["code","tool","simulation","api"],

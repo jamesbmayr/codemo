@@ -96,6 +96,20 @@
 				idea: "Together with <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a>, Ayelet Kershenbaum, and <a href='https://www.youtube.com/dannymusic' target='_blank'>Danny Romberger</a>, we set out to make a podcast about music - how it works, where it comes from, and why it matters. The name \"Noteworthy\" was taken, so we eventually switched to Pickup Notes.",
 				obituary: "After recording a few sample episodes of us basically chatting about some topic in music, we realized that we had no idea what we were doing... and didn't have the time to do it anyway."
 			},
+			coderunner: {
+				name: "codeRunner",
+				birth: "May 2017",
+				death: "May 2017",
+				idea: "Built as part of <a href='https://jamesmayr.com/aiarenas'>AI Arenas</a>, this <a href='https://jamesmayr.com/coderunner'>web app</a> evaluates your custom Javascript in slow motion.",
+				obituary: "Even before I built this, all modern browsers were already running a more modern Javascript, ES6 - which includes many features I hadn't accounted for."
+			},
+			shapeanimator: {
+				name: "shapeAnimator",
+				birth: "February 2017",
+				death: "November 2021",
+				idea: "The <a href='https://jamesmayr.com/shapeanimator'>shapeAnimator</a> tool allows users to create, style, and sequence animations for polygons, leveraging jQuery throughout.",
+				obituary: "I moved away from jQuery in November 2021, stripping the library from all of my projects... except this one, where it was right at the core."
+			},
 			harmony: {
 				name: "Harmony",
 				birth: "January 2017",
