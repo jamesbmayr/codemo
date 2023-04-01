@@ -122,7 +122,7 @@
 					{
 						name: "living room lights",
 						image: "https://static.thenounproject.com/png/88333-200.png",
-						top: 15,
+						top: 14.5,
 						left: 20.5,
 						buttons: {
 							"on": "ifttt_url||living_room_lights_on||ifttt_key",
@@ -132,8 +132,8 @@
 					{
 						name: "bedside lights",
 						image: "https://static.thenounproject.com/png/670981-200.png",
-						top: 15,
-						left: 33.5,
+						top: 14.5,
+						left: 29.5,
 						buttons: {
 							"on": "ifttt_url||bedside_lights_on||ifttt_key",
 							"off": "ifttt_url||bedside_lights_off||ifttt_key"
@@ -166,7 +166,7 @@
 					{
 						name: "craft room string lights",
 						image: "https://static.thenounproject.com/png/2075573-200.png",
-						top: 15,
+						top: 14.5,
 						left: 1.5,
 						buttons: {
 							"on": "ifttt_url||craft_room_string_lights_on||ifttt_key",
@@ -196,7 +196,7 @@
 					{
 						name: "living room string lights",
 						image: "https://static.thenounproject.com/png/2075573-200.png",
-						top: 15,
+						top: 14.5,
 						left: 13,
 						buttons: {
 							"on": "ifttt_url||living_room_string_lights_on||ifttt_key",
@@ -226,8 +226,8 @@
 					{
 						name: "bedroom lamp",
 						image: "https://static.thenounproject.com/png/88338-200.png",
-						top: 20.5,
-						left: 37.5,
+						top: 12,
+						left: 33.5,
 						buttons: {
 							"on": "ifttt_url||bedroom_lamp_on||ifttt_key",
 							"off": "ifttt_url||bedroom_lamp_off||ifttt_key"
@@ -246,7 +246,7 @@
 					{
 						name: "bedroom fan",
 						image: "https://static.thenounproject.com/png/2175977-200.png",
-						top: 15,
+						top: 17.5,
 						left: 37.5,
 						buttons: {
 							"on": "ifttt_url||bedroom_fan_on||ifttt_key",
@@ -256,7 +256,7 @@
 					{
 						name: "bedroom string lights",
 						image: "https://static.thenounproject.com/png/2075573-200.png",
-						top: 17.5,
+						top: 14.5,
 						left: 37.5,
 						buttons: {
 							"on": "ifttt_url||bedroom_string_lights_on||ifttt_key",
@@ -304,7 +304,7 @@
 					{
 						name: "bedroom speaker",
 						image: "https://static.thenounproject.com/png/3422-200.png",
-						top: 15,
+						top: 17.5,
 						left: 29.5,
 						buttons: {
 							"on": "ifttt_url||bedroom_speaker_on||ifttt_key",
