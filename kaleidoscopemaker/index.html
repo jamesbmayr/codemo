@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>kaleidoscopeMaker</title>
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/4663888-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+		<meta name="description" content="kaleidoscopeMaker is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="kaleidoscopeMaker">
+		<meta property="og:url" content="https://jamesmayr.com/kaleidoscopemaker/">
+		<meta property="og:description" content="kaleidoscopeMaker is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/kaleidoscopemaker/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<details id="menu-outer" open>
+			<summary id="menu-button">?</summary>
+			<div id="menu">
+				<label id="menu-upload-outer">
+					<span id="menu-upload-span">&#8613; upload</span>
+					<input type="file" id="menu-upload">
+				</label>
+				<hr>
+				<label id="menu-kaleidoscope-header">
+					<div>kaleidoscope</div>
+				</label>
+				<label id="menu-kaleidoscope-background-outer">
+					<input id="menu-kaleidoscope-background" type="color" value="#000000">
+					<span>bg</span>
+				</label>
+				<label id="menu-kaleidoscope-shape-outer">
+					<select id="menu-kaleidoscope-shape">
+						<option value="triangle" selected>▶▲▼◀</option>
+						<option value="square">◼</option>
+						<option value="rectangle">▬▮</option>
+					</select>
+					<span>&#10070;</span>
+				</label>
+				<label id="menu-kaleidoscope-rotation-outer">
+					<input id="menu-kaleidoscope-rotation" type="number" value="0" step="1" placeholder="#">
+					<span>&measuredangle;°</span>
+				</label>
+				<label id="menu-kaleidoscope-scale-outer">
+					<input id="menu-kaleidoscope-scale" type="number" value="100" min="1" max="1000" step="1" placeholder="%">
+					<span>&#10529;%</span>
+					<span class="menu-span-overlap">&#10530;</span>
+				</label>
+				<hr>
+				<label id="menu-image-header">
+					<div>image</div>
+				</label>
+				<label id="menu-image-rotation-outer">
+					<input id="menu-image-rotation" type="number" value="0" step="1" placeholder="#">
+					<span>&measuredangle;°</span>
+				</label>
+				<label id="menu-image-scale-outer">
+					<input id="menu-image-scale" type="number" value="100" min="1" max="1000" step="1" placeholder="%">
+					<span>&#10529;%</span>
+					<span class="menu-span-overlap">&#10530;</span>
+				</label>
+				<label id="menu-image-translate-x-outer">
+					<input id="menu-image-translate-x" type="number" value="0" min="-100" max="100" step="1" placeholder="%">
+					<span>&harr;%</span>
+				</label>
+				<label id="menu-image-translate-y-outer">
+					<input id="menu-image-translate-y" type="number" value="0" min="-100" max="100" step="1" placeholder="%">
+					<span>&varr;%</span>
+				</label>
+				<label id="menu-image-crop-outer">
+					<input id="menu-image-crop" type="number" value="0" min="0" max="50" step="1" placeholder="%">
+					<span>&#x25A3;%</span>
+				</label>
+				<hr>
+				<label id="menu-download-outer">
+					<button id="menu-download">&#10515; download</button>
+				</label>
+			</div>
+		</details>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>

@@ -595,6 +595,13 @@
 				date: "November 30, 2021",
 				description: "A choose-your-own-adventure autobiography depicting alternate timelines of my professional career."
 			},
+			kaleidoscopemaker: {
+				name: "kaleidoscopeMaker",
+				size: "small",
+				tags: ["code","tool","design","art","canvas","photography"],
+				date: "April 7, 2023",
+				description: "Upload your artwork or photo into this customizable world of mirrors."
+			},
 			keyspinner: {
 				name: "keySpinner",
 				size: "small",

@@ -1,0 +1,250 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #777777;
+		--light-gray: #dddddd;
+		--font-size: 20px;
+		--font-family: monospace;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--transition-time: 0.5s;
+		--line-height: 1;
+		--border-radius: 5px;
+		--menu-width: 200px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: var(--dark-gray);
+		font-size: 0;
+		padding: 0;
+		margin: 0;
+	}
+
+/*** menu ***/
+	#menu-outer {
+		position: absolute;
+		top: calc(2 * var(--gap-size));
+		left: calc(2 * var(--gap-size));
+		height: auto;
+		width: auto;
+	}
+
+	/* menu-button */
+		#menu-outer > summary {
+		  list-style: none;
+		}
+
+		#menu-outer > summary::marker, #menu-outer > summary::-webkit-details-marker {
+		  display: none;
+		}
+
+		#menu-button {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: calc(2 * var(--font-size));
+			width: calc(2 * var(--font-size));
+			padding: var(--gap-size);
+			border-radius: 100%;
+			background: var(--dark-gray);
+			color: var(--medium-gray);
+			font-size: calc(var(--font-size) * 3 / 2);
+			font-family: var(--font-family);
+			font-weight: bold;
+			margin: 0;
+			outline: none;
+			cursor: pointer;
+			transition: var(--transition-time);
+			text-align: center;
+			user-select: none;
+			box-sizing: border-box;
+			line-height: var(--line-height);
+			z-index: 2;
+		}
+
+		#menu-button:hover, #menu-button:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			color: var(--light-gray);
+		}
+
+		#menu-outer[open] #menu-button {
+			border-radius: 50% 50% 0 0;
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+	/* menu controls */
+		#menu {
+			position: absolute;
+			top: calc(2 * var(--font-size));
+			left: 0;
+			height: auto;
+			width: var(--menu-width);
+			background: var(--dark-gray);
+			transition: var(--transition-time);
+			overflow-x: hidden;
+			overflow-y: scroll;
+			border-radius: 0 calc(2 * var(--border-radius)) calc(2 * var(--border-radius)) calc(2 * var(--border-radius));
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			z-index: 3;
+		}
+
+		#menu label {
+			display: block;
+			min-height: calc(var(--font-size) + 2 * var(--gap-size));
+			height: auto;
+			padding: var(--gap-size);
+			width: 100%;
+			box-sizing: border-box;
+		}
+
+		#menu hr {
+			display: block;
+			width: calc(100% - 2 * var(--gap-size) - 2px);
+			border: 1px solid var(--light-gray);
+			margin: var(--gap-size);
+		}
+
+		#menu label div {
+			display: inline-block;
+			font-size: var(--font-size);
+			color: var(--medium-gray);
+			font-family: var(--font-family);
+			user-select: none;
+			cursor: pointer;
+			height: calc(var(--font-size));
+			width: 100%;
+			padding: 0;
+			line-height: var(--line-height);
+			box-sizing: border-box;
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+
+		#menu label span {
+			display: inline-block;
+			font-size: var(--font-size);
+			color: var(--medium-gray);
+			font-family: var(--font-family);
+			user-select: none;
+			cursor: pointer;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(3 * var(--font-size) + var(--gap-size));
+			padding: var(--gap-size) 0 0 var(--gap-size);
+			line-height: var(--line-height);
+			box-sizing: border-box;
+		}
+
+		#menu label span.menu-span-overlap {
+			width: 0;
+			margin-left: calc(-3 * var(--font-size) - var(--gap-size));
+		}
+
+		#menu input, #menu select {
+			display: inline-block;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			line-height: var(--line-height);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			border-radius: var(--border-radius);
+			margin: 0;
+			outline: none;
+			border: none;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(100% - 3 * var(--font-size) - 2 * var(--gap-size));
+			transition: var(--transition-time);
+		}
+
+		#menu input[type="color"] {
+			padding: 0;
+			border: 0;
+			cursor: pointer;
+		}
+
+		#menu select {
+			cursor: pointer;
+			padding: 0 var(--gap-size);
+		}
+
+		#menu input:focus, #menu input:hover, #menu select:focus, #menu select:hover {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
+		#menu-upload {
+			display: none !important;
+			height: 0;
+			width: 0;
+			font-size: 0;
+			opacity: 0;
+			margin: 0;
+			padding: 0;
+			border: 0;
+		}
+
+		#menu label #menu-upload-span, #menu-download {
+			display: inline-block;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			line-height: var(--line-height);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			border-radius: var(--border-radius);
+			margin: 0;
+			outline: none;
+			border: none;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(var(--menu-width) - 2 * var(--gap-size));
+			text-align: center;
+			text-transform: uppercase;
+			font-weight: bold;
+			cursor: pointer;
+			user-select: none;
+			transition: var(--transition-time);
+		}
+
+		#menu label #menu-upload-span:hover, #menu label #menu-upload-span:focus, #menu-download:hover, #menu-download:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+/*** canvas ***/
+	#canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		user-select: none;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 8px;
+		background-color: transparent;
+		background-image: url("../resources/j.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		transition: var(--transition-time);
+		filter: drop-shadow(0 0 var(--shadow-size) var(--medium-gray));
+	}
+	
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+	}
