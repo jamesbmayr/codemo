@@ -2,7 +2,6 @@
 	/* triggers */
 		const TRIGGERS = {
 			input: "input",
-			change: "change",
 			click: "click",
 			resize: "resize"
 		}
@@ -38,16 +37,17 @@
 			triangleCenterOffsetFactor: -1 / 3, // ratio
 			circleDegrees: 360, // °
 			circleRadians: 2 * Math.PI, // radians
-			defaultShape: "square",
-			shapes: ["triangle", "square", "rectangle"]
+			defaultShape: "triangle",
+			shapes: ["triangle", "square", "rectangle"],
+			defaultBackground: "#000000" // hex
 		}
 
 	/* state */
 		const STATE = {
 			imageData: null,
 			kaleidoscope: {
-				background: "#000000", // hex
-				shape: "triangle",
+				background: CONSTANTS.defaultBackground, // hex
+				shape: CONSTANTS.defaultShape,
 				rotation: 0, // °
 				scale: 100 // %
 			},
@@ -150,7 +150,7 @@
 		function updateKaleidoscopeScale(event) {
 			try {
 				// validate
-					let scale = Math.round(ELEMENTS.menu.kaleidoscope.scale.value)
+					const scale = Math.round(ELEMENTS.menu.kaleidoscope.scale.value)
 					if (isNaN(scale) || scale <= 0) {
 						return
 					}
@@ -192,7 +192,7 @@
 		function updateImageScale(event) {
 			try {
 				// validate
-					let scale = Math.round(ELEMENTS.menu.image.scale.value)
+					const scale = Math.round(ELEMENTS.menu.image.scale.value)
 					if (isNaN(scale) || scale <= 0) {
 						return
 					}
@@ -210,7 +210,7 @@
 		function updateImageTranslateX(event) {
 			try {
 				// validate
-					let translateX = Math.round(ELEMENTS.menu.image.translateX.value)
+					const translateX = Math.round(ELEMENTS.menu.image.translateX.value)
 					if (isNaN(translateX) || translateX < -CONSTANTS.percentage || translateX > CONSTANTS.percentage) {
 						return
 					}
@@ -228,7 +228,7 @@
 		function updateImageTranslateY(event) {
 			try {
 				// validate
-					let translateY = Math.round(ELEMENTS.menu.image.translateY.value)
+					const translateY = Math.round(ELEMENTS.menu.image.translateY.value)
 					if (isNaN(translateY) || translateY < -CONSTANTS.percentage || translateY > CONSTANTS.percentage) {
 						return
 					}
@@ -246,7 +246,7 @@
 		function updateImageCrop(event) {
 			try {
 				// validate
-					let crop = Math.round(ELEMENTS.menu.image.crop.value)
+					const crop = Math.round(ELEMENTS.menu.image.crop.value)
 					if (isNaN(crop) || crop < 0 || crop > CONSTANTS.percent / 2) {
 						return
 					}
@@ -574,13 +574,14 @@
 					const imageRatio = STATE.imageData.width / STATE.imageData.height
 
 				// panel size
-					const deltaX    = Math.floor(
-										(CONSTANTS.panelRadius * 2) * (STATE.kaleidoscope.scale / CONSTANTS.percent) * 
-										(STATE.kaleidoscope.shape == "triangle" ? CONSTANTS.triangleBaseHeightRatio : 1)
-									)
-					const deltaY    = Math.floor(
-										(CONSTANTS.panelRadius * 2) * (STATE.kaleidoscope.scale / CONSTANTS.percent)
-									)
+					const deltaX = Math.floor(
+									(CONSTANTS.panelRadius * 2) * (STATE.kaleidoscope.scale / CONSTANTS.percent) * 
+									(STATE.kaleidoscope.shape == "triangle" ? CONSTANTS.triangleBaseHeightRatio :
+									 STATE.kaleidoscope.shape == "rectangle" ? imageRatio : 1)
+								)
+					const deltaY = Math.floor(
+									(CONSTANTS.panelRadius * 2) * (STATE.kaleidoscope.scale / CONSTANTS.percent)
+								)
 
 				// diagonal
 					const diagonal = getVector(ELEMENTS.canvas.height / 2, ELEMENTS.canvas.width / 2)
@@ -631,7 +632,7 @@
 					}
 
 				// get panel coordinates
-					panels = getPanelCoordinates()
+					const panels = getPanelCoordinates()
 
 				// translate to center & rotate
 					translateCanvas(ELEMENTS.canvas.width / 2, ELEMENTS.canvas.height / 2, () => {
@@ -663,8 +664,8 @@
 					options.angle = options.angle || 0 // °
 					options.mirror = options.mirror || {x: false, y: false}
 					options.nudge = {
-						x: 0,
-						y: options.corners.length == 3 ? (options.corners[0].y * CONSTANTS.triangleCenterOffsetFactor) : 0 // triangle
+						x: 0, // px
+						y: options.corners.length == 3 ? (options.corners[0].y * CONSTANTS.triangleCenterOffsetFactor) : 0 // px // triangle
 					}
 
 				// image options
