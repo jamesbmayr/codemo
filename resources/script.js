@@ -57,7 +57,7 @@
 				size: "small",
 				tags: ["code","tool","design","art","canvas","draw"],
 				date: "January 14, 2023",
-				description: "Paint colored dots, reflected around the center to create kaleidoscopic designs."
+				description: "Paint colored dots, reflected around the center to create rotational designs."
 			},
 			balloonpopper: {
 				name: "balloonPopper",
@@ -178,7 +178,7 @@
 				size: "small",
 				tags: ["code","ai","simulation","tool","writing","autobiography","prose","scifi","design"],
 				date: "March 5, 2023",
-				description: "A breakthrough generative chat AI, able to provide novel responses to any prompt. Inspired by Apollo."
+				description: "A breakthrough generative chat AI* able to provide novel responses to any prompt. Inspired by Apollo.\n*(not actually AI)"
 			},
 			cellsimulator: {
 				name: "cellSimulator",
@@ -600,7 +600,7 @@
 				size: "small",
 				tags: ["code","tool","design","art","canvas","photography"],
 				date: "April 7, 2023",
-				description: "Upload your artwork or photo into this customizable world of mirrors."
+				description: "Upload your artwork or photo into this fully customizable canvas of mirrors."
 			},
 			keyspinner: {
 				name: "keySpinner",
