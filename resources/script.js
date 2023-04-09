@@ -847,6 +847,13 @@
 				date: "September 7, 2017",
 				description: "With pitchPlayer and the audio API, composers can sequence notes like a player piano."
 			},
+			pixellistener: {
+				name: "pixelListener",
+				size: "small",
+				tags: ["code","tool","music","audio","synth","design","art","canvas","photography"],
+				date: "April 9, 2023",
+				description: "Hear images by mapping color and position to audio attributes like pitch, volume, and effects."
+			},
 			pixelpainter: {
 				name: "pixelPainter",
 				size: "small",

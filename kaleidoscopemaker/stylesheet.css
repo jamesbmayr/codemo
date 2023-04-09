@@ -217,6 +217,37 @@
 		}
 
 /*** canvas ***/
+	#upload-center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		font-size: var(--font-size);
+		font-family: var(--font-family);
+		color: var(--dark-gray);
+		background: var(--light-gray);
+		line-height: var(--line-height);
+		padding: var(--gap-size);
+		box-sizing: border-box;
+		border-radius: var(--border-radius);
+		margin: 0;
+		outline: none;
+		border: none;
+		height: calc(var(--font-size) + 2 * var(--gap-size));
+		width: auto;
+		text-align: center;
+		text-transform: uppercase;
+		font-weight: bold;
+		cursor: pointer;
+		user-select: none;
+		transition: var(--transition-time);
+	}
+
+	#upload-center:hover, #upload-center:focus {
+		box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+	}
+
 	#canvas {
 		position: absolute;
 		top: 0;

@@ -3583,6 +3583,7 @@
 							// note
 								const note = {
 									pitch: pitch,
+									bend: 0,
 									time: now,
 									oscillators: {}
 								}
@@ -3699,6 +3700,61 @@
 
 							// store
 								instrument.notes.push(note)
+						} catch (error) {console.log(error)}
+					}
+
+				/* bend */
+					instrument.bend = function(pitch, detuneCents, waitToTriggerMS) {
+						try {
+							// scheduled
+								if (waitToTriggerMS) {
+									setTimeout(function() {
+										instrument.bend(pitch, detuneCents)
+									}, waitToTriggerMS)
+									return
+								}
+
+							// info
+								pitch = Math.max(AUDIO_J.constants.minPitch, Math.min(AUDIO_J.constants.maxPitch, pitch))
+								const now = AUDIO_J.audio.currentTime || 0
+
+							// subinstrument
+								if (instrument.subinstruments) {
+									const mappedInfo = instrument.mapping[pitch.toFixed(2)]
+									if (mappedInfo) {
+										const mappedName = mappedInfo[0]
+										const mappedPitch = mappedInfo[1]
+
+										if (instrument.subinstruments[mappedName]) {
+											instrument.subinstruments[mappedName].bend(mappedPitch, detuneCents)
+										}
+									}
+									return
+								}
+
+							// no notes
+								const notes = instrument.notes.filter(function(n) {
+									return n.pitch == pitch
+								}) || []
+								if (!notes.length) {
+									return
+								}
+
+							// loop through
+								for (let n in notes) {
+									// note
+										const note = notes[n]
+
+									// set bend
+										const previousBend = note.bend || 0
+										const bendDelta = (detuneCents - previousBend) || 0
+										note.bend = detuneCents
+
+									// oscillators
+										for (let o in note.oscillators) {
+											note.oscillators[o].detune.linearRampToValueAtTime(note.oscillators[o].detune.value + bendDelta, now)
+										}
+								}
 						} catch (error) {console.log(error)}
 					}
 

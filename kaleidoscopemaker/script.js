@@ -10,8 +10,10 @@
 		const ELEMENTS = {
 			canvas: document.querySelector("#canvas"),
 			context: document.querySelector("#canvas").getContext("2d"),
+			uploadCenter: document.querySelector("#upload-center"),
 			menu: {
 				upload: document.querySelector("#menu-upload"),
+				uploadSpan: document.querySelector("#menu-upload-span"),
 				kaleidoscope: {
 					background: document.querySelector("#menu-kaleidoscope-background"),
 					shape: document.querySelector("#menu-kaleidoscope-shape"),
@@ -61,6 +63,15 @@
 		}
 
 /*** menu ***/
+	/* clickUpload */
+		ELEMENTS.uploadCenter.addEventListener(TRIGGERS.click, clickUpload)
+		function clickUpload(event) {
+			try {
+				// trigger upload image
+					ELEMENTS.menu.uploadSpan.click()
+			} catch (error) {console.log(error)}
+		}
+
 	/* uploadImage */
 		ELEMENTS.menu.upload.addEventListener(TRIGGERS.input, uploadImage)
 		function uploadImage(event) {
@@ -69,6 +80,11 @@
 					const file = ELEMENTS.menu.upload.files[0]
 					if (!file) {
 						return
+					}
+
+				// remove element
+					if (ELEMENTS.uploadCenter) {
+						ELEMENTS.uploadCenter.remove()
 					}
 
 				// read file
