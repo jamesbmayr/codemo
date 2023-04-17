@@ -2256,12 +2256,12 @@
 								for (let tick = 0; tick < progression.ticksPerMeasure; tick += progression.ticksPerSubdivision) {
 									if (tick % CONSTANTS.ticksPerBeat == 0) {
 										measure.notes[String(tick)] = {
-											[root]: CONSTANTS.ticksPerSubdivision
+											[root]: progression.ticksPerSubdivision
 										}	
 									}
 									else {
 										measure.notes[String(tick)] = {
-											[octave]: CONSTANTS.ticksPerSubdivision
+											[octave]: progression.ticksPerSubdivision
 										}
 									}
 								}
