@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>jamRandomizer</title>
+		<meta name="description" content="jamRandomizer is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="jamRandomizer">
+		<meta property="og:url" content="https://jamesmayr.com/jamrandomizer/">
+		<meta property="og:description" content="jamRandomizer is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/jamrandomizer/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/5525424-200.png">
+		<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="../resources/audio.js" defer></script>
+		<script src="../melodyplayer/musicxml.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="viewer-outer">
+			<div id="viewer"></div>
+		</div>
+		<div id="controls">
+			<div id="controls-chords">
+				<div class="controls-block">
+					<span id="controls-chords-volume-symbol">&#128266;</span>
+					<input id="controls-chords-volume" type="range" min="0" max="1" step="0.01" value="0.5" title="volume">
+					<button id="controls-chords-play" title="play">&#9654;&#65039;</button>
+					<button id="controls-chords-pause" title="pause">&#x23F8;</button>
+				</div>
+				<div class="controls-block">
+					<button id="controls-chords-restart" title="restart">&#x23EE;</button>
+					<input id="controls-chords-current" title="current chord" placeholder="current" type="number" min="1" max="4" step="1" value="1">
+					<span id="controls-chords-slash">/</span>
+					<input id="controls-chords-count" title="# total chords" placeholder="total" type="number" min="2" max="16" step="1" value="4">
+					<span id="controls-chords-bars">bars</span>
+				</div>
+				<div class="controls-block">
+					<span id="controls-chords-of">of</span>
+					<select id="controls-chords-timesignature" title="time signature">
+						<optgroup label="X/4">
+							<option value="1/4">1/4</option>
+							<option value="2/4">2/4</option>
+							<option value="3/4">3/4</option>
+							<option value="4/4" selected>4/4</option>
+							<option value="5/4">5/4</option>
+							<option value="6/4">6/4</option>
+							<option value="7/4">7/4</option>
+							<option value="8/4">8/4</option>
+						</optgroup>
+						<optgroup label="X/8">
+							<option value="3/8">3/8</option>
+							<option value="6/8">6/8</option>
+							<option value="9/8">9/8</option>
+							<option value="12/8">12/8</option>
+							<option value="15/8">15/8</option>
+						</optgroup>
+					</select>
+					<span id="controls-chords-at">@</span>
+					<input id="controls-chords-tempo" title="tempo" placeholder="bpm" type="number" min="1" max="250" step="1" value="120">
+					<span id="controls-chords-bpm">bpm</span>
+				</div>
+				<div class="controls-block">
+					<span id="controls-chords-in">in</span>
+					<select id="controls-chords-tonic" title="tonic note">
+						<option value="C" selected>C</option>
+						<option value="C♯">C♯</option>
+						<option value="D♭">D♭</option>
+						<option value="D">D</option>
+						<option value="D♯">D♯</option>
+						<option value="E♭">E♭</option>
+						<option value="E">E</option>
+						<option value="F">F</option>
+						<option value="F♯">F♯</option>
+						<option value="G♭">G♭</option>
+						<option value="G">G</option>
+						<option value="G♯">G♯</option>
+						<option value="A♭">A♭</option>
+						<option value="A">A</option>
+						<option value="A♯">A♯</option>
+						<option value="B♭">B♭</option>
+						<option value="B">B</option>
+					</select>
+					<select id="controls-chords-mode" title="mode">
+						<option value="major">major</option>
+						<option value="minor">minor</option>
+						<option value="mixed" selected>mixed</option>
+						<option value="more">more</option>
+					</select>
+					<select id="controls-chords-type" title="type">
+						<option value="triads" selected>triads</option>
+						<option value="sevenths">7ths</option>
+					</select>
+					<button id="controls-chords-randomize" title="randomize chords">&#x1f500;</button>
+				</div>
+				<div class="controls-block">
+					<button id="controls-chords-copy" title="copy chords">
+						<span>&#128203;</span>
+						<span>&#x2713;</span>
+					</button>
+					<button id="controls-chords-download" title="download musicXML">
+						<span>&DownArrowBar;</span>
+						<span>&orarr;</span>
+					</button>
+				</div>
+			</div>
+			<div id="controls-layers">
+				<div id="controls-layers-list"></div>
+				<button id="controls-layers-add" title="add a layer">+ layer</button>
+			</div>
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>

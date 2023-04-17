@@ -29,6 +29,7 @@
 		const ELEMENTS = {
 			canvas: document.querySelector("#canvas"),
 			context: document.querySelector("#canvas").getContext("2d"),
+			uploadCenterOuter: document.querySelector("#upload-center-outer"),
 			uploadCenter: document.querySelector("#upload-center"),
 			controls: {
 				element: document.querySelector("#controls"),
@@ -82,20 +83,6 @@
 						max: 1
 					}
 				},
-				noise: {
-					white: {
-						min: 0,
-						max: 1
-					},
-					pink: {
-						min: 0,
-						max: 1
-					},
-					brown: {
-						min: 0,
-						max: 1
-					}
-				},
 				effects: {
 					bitcrusher: {
 						min: -1, // inverted value
@@ -103,14 +90,13 @@
 						secondaryFactor: 1,
 						staticFactor: 8 // bits
 					},
-					chorus: {
-						min: 0,
-						max: AUDIO_J.constants.maxChorusCents,
-						secondaryFactor: AUDIO_J.constants.maxChorusDelay / AUDIO_J.constants.maxChorusCents
-					},
 					distortion: {
 						min: 0,
 						max: AUDIO_J.constants.maxDistortion
+					},
+					noise: {
+						min: 0,
+						max: 1
 					},
 					reverb: {
 						min: 0,
@@ -123,7 +109,8 @@
 						staticFactor: "sine" // wave
 					}
 				}
-			}
+			},
+			transitionTime: 500
 		}
 
 	/* state */
@@ -189,7 +176,7 @@
 			try {
 				// empty
 					const emptyOption = document.createElement("option")
-						emptyOption.value = ""
+						emptyOption.value = "-"
 						emptyOption.innerText = "-"
 						emptyOption.setAttribute("selected", true)
 					select.appendChild(emptyOption)
@@ -203,8 +190,13 @@
 						for (const audioParameterName in CONSTANTS.audioParameters[audioParameterGroupName]) {
 							const option = document.createElement("option")
 								option.value = audioParameterGroupName + "-" + audioParameterName
-								option.innerText = audioParameterName
+								option.innerHTML = "&uarr;&nbsp;" + audioParameterName
 							optgroup.appendChild(option)
+
+							const reverseOption = document.createElement("option")
+								reverseOption.value = audioParameterGroupName + "-" + audioParameterName + "-reverse"
+								reverseOption.innerHTML = "&darr;&nbsp;" + audioParameterName
+							optgroup.appendChild(reverseOption)
 						}
 					}
 			} catch (error) {console.log(error)}
@@ -238,14 +230,23 @@
 		ELEMENTS.controls.button.addEventListener(TRIGGERS.click, toggleControls)
 		function toggleControls(event) {
 			try {
+				// don't click through
+					event.preventDefault()
+
 				// open --> close
 					if (ELEMENTS.controls.element.getAttribute("open")) {
 						ELEMENTS.controls.element.removeAttribute("open")
-						return
 					}
 
 				// close --> open
-					ELEMENTS.controls.element.setAttribute("open", true)
+					else {
+						ELEMENTS.controls.element.setAttribute("open", true)
+					}
+
+				// resize canvas
+					setTimeout(() => {
+						resizeCanvas()
+					}, CONSTANTS.transitionTime)
 			} catch (error) {console.log(error)}
 		}
 
@@ -269,9 +270,14 @@
 					}
 
 				// remove element
-					if (ELEMENTS.uploadCenter) {
-						ELEMENTS.uploadCenter.remove()
+					if (ELEMENTS.uploadCenterOuter) {
+						ELEMENTS.uploadCenterOuter.remove()
 						ELEMENTS.controls.element.setAttribute("open", true)
+
+						// resize canvas
+							setTimeout(() => {
+								resizeCanvas()
+							}, CONSTANTS.transitionTime)
 					}
 
 				// read file
@@ -346,10 +352,15 @@
 					const audioParameterName = imageParameterSelect.value.length ? imageParameterSelect.value : null
 
 				// remove audioParameterName from other imageParameters
-					for (const imageParameterName in STATE.mappings) {
-						if (STATE.mappings[imageParameterName] == audioParameterName) {
-							STATE.mappings[imageParameterName] = null
-							ELEMENTS.controls.imageParameters[imageParameterName].value = null
+					if (audioParameterName !== "-") {
+						for (const imageParameter in STATE.mappings) {
+							if (imageParameter == imageParameterName) {
+								continue
+							}
+							if (STATE.mappings[imageParameter] == audioParameterName.replace("-reverse", "")) {
+								STATE.mappings[imageParameter] = null
+								ELEMENTS.controls.imageParameters[imageParameter].value = "-"
+							}
 						}
 					}
 
@@ -589,9 +600,12 @@
 		window.addEventListener(TRIGGERS.resize, resizeCanvas)
 		function resizeCanvas(event) {
 			try {
+				// rect
+					const rect = ELEMENTS.canvas.getBoundingClientRect()
+
 				// canvas
-					ELEMENTS.canvas.width = window.innerWidth
-					ELEMENTS.canvas.height = window.innerHeight
+					ELEMENTS.canvas.width = rect.width
+					ELEMENTS.canvas.height = rect.height
 
 				// redraw
 					drawCanvas()
@@ -669,14 +683,17 @@
 					for (const imageParameterName in STATE.mappings) {
 						// audio
 							const audioParameterName = STATE.mappings[imageParameterName]
-							if (!audioParameterName) {
+							if (!audioParameterName || audioParameterName == "-") {
 								continue
 							}
 							const audioParameterRange = CONSTANTS.audioParameters[audioParameterName.split("-")[0]][audioParameterName.split("-")[1]]
 
 						// image value --> audio value
-							const imageParameterValue = imageParameters[imageParameterName]
-							audioParameters[audioParameterName] = imageParameterValue * (audioParameterRange.max - audioParameterRange.min) + audioParameterRange.min
+							let imageParameterValue = imageParameters[imageParameterName]
+							if (audioParameterName.includes("-reverse")) {
+								imageParameterValue = Math.max(0, Math.min(1, 1 - imageParameterValue))
+							}
+							audioParameters[audioParameterName.replace("-reverse", "")] = imageParameterValue * (audioParameterRange.max - audioParameterRange.min) + audioParameterRange.min
 					}
 
 				// update instrument
@@ -699,21 +716,6 @@
 										panning: audioParameterValue
 									})
 								break
-								case "noise-white":
-									AUDIO_J.instruments._cursor.setParameters({
-										noise: {white: audioParameterValue}
-									})
-								break
-								case "noise-pink":
-									AUDIO_J.instruments._cursor.setParameters({
-										noise: {pink: audioParameterValue}
-									})
-								break
-								case "noise-brown":
-									AUDIO_J.instruments._cursor.setParameters({
-										noise: {brown: audioParameterValue}
-									})
-								break
 								case "effects-bitcrusher":
 									AUDIO_J.instruments._cursor.setParameters({
 										bitcrusher: {
@@ -722,17 +724,14 @@
 										}
 									})
 								break
-								case "effects-chorus":
-									AUDIO_J.instruments._cursor.setParameters({
-										chorus: {
-											variance: audioParameterValue,
-											delay: audioParameterValue * CONSTANTS.audioParameters.effects.chorus.secondaryFactor
-										}
-									})
-								break
 								case "effects-distortion":
 									AUDIO_J.instruments._cursor.setParameters({
 										distortion: audioParameterValue
+									})
+								break
+								case "effects-noise":
+									AUDIO_J.instruments._cursor.setParameters({
+										noise: {pink: audioParameterValue}
 									})
 								break
 								case "effects-reverb":

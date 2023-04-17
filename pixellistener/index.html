@@ -16,8 +16,6 @@
 		<script src="script.js" defer></script>
 	</head>
 	<body>
-		<canvas id="canvas"></canvas>
-		<button id="upload-center">&#8613; upload image to begin</button>
 		<div id="controls">
 			<button id="controls-button">&equiv;</button>
 			<div id="controls-inner">
@@ -35,7 +33,7 @@
 					</label>
 				</div>
 				<div class="controls-section">
-					<h2>Base Synth</h2>
+					<h2>Audio</h2>
 					<label id="controls-synth-select-outer">
 						<span title="synth">synth</span>
 						<span class="controls-arrow"></span>
@@ -44,24 +42,6 @@
 						<span title="volume">&mnplus; volume</span>
 						<span class="controls-arrow"></span>
 						<input type="range" min="0" max="1" step="0.01" value="1" id="controls-synth-volume" title="volume">
-					</label>
-				</div>
-				<div class="controls-section">
-					<h2>RGB Color</h2>
-					<label>
-						<span title="color: red">red</span>
-						<span class="controls-arrow">&rarr;</span>
-						<select title="color: red" class="controls-slot" id="controls-color-red"></select>
-					</label>
-					<label>
-						<span title="color: green">green</span>
-						<span class="controls-arrow">&rarr;</span>
-						<select title="color: green" class="controls-slot" id="controls-color-green"></select>
-					</label>
-					<label>
-						<span title="color: blue">blue</span>
-						<span class="controls-arrow">&rarr;</span>
-						<select title="color: blue" class="controls-slot" id="controls-color-blue"></select>
 					</label>
 				</div>
 				<div class="controls-section">
@@ -83,16 +63,34 @@
 					</label>
 				</div>
 				<div class="controls-section">
-					<h2>Cartesian Coordinates</h2>
+					<h2>RGB Color</h2>
 					<label>
-						<span title="cartesian coordinates: x">x</span>
+						<span title="color: red">red</span>
 						<span class="controls-arrow">&rarr;</span>
-						<select title="cartesian coordinates: x" class="controls-slot" id="controls-coordinates-x"></select>
+						<select title="color: red" class="controls-slot" id="controls-color-red"></select>
 					</label>
 					<label>
-						<span title="cartesian coordinates: y">y</span>
+						<span title="color: green">green</span>
 						<span class="controls-arrow">&rarr;</span>
-						<select title="cartesian coordinates: y" class="controls-slot" id="controls-coordinates-y"></select>
+						<select title="color: green" class="controls-slot" id="controls-color-green"></select>
+					</label>
+					<label>
+						<span title="color: blue">blue</span>
+						<span class="controls-arrow">&rarr;</span>
+						<select title="color: blue" class="controls-slot" id="controls-color-blue"></select>
+					</label>
+				</div>
+				<div class="controls-section">
+					<h2>Grid Coordinates</h2>
+					<label>
+						<span title="grid coordinates: x">x</span>
+						<span class="controls-arrow">&rarr;</span>
+						<select title="grid coordinates: x" class="controls-slot" id="controls-coordinates-x"></select>
+					</label>
+					<label>
+						<span title="grid coordinates: y">y</span>
+						<span class="controls-arrow">&rarr;</span>
+						<select title="grid coordinates: y" class="controls-slot" id="controls-coordinates-y"></select>
 					</label>
 				</div>
 				<div class="controls-section">
@@ -109,6 +107,10 @@
 					</label>
 				</div>
 			</div>
+		</div>
+		<canvas id="canvas"></canvas>
+		<div id="upload-center-outer">
+			<button id="upload-center">&#8613; upload image to begin</button>
 		</div>
 		<a id="j-logo" href="https://jamesmayr.com"></a>
 	</body>

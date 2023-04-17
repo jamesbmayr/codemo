@@ -579,6 +579,13 @@
 				date: "December 2, 2012",
 				description: "It's Who Iamb was a poetry blog that updated every day for a year, serving now as a series of snapshots of the past."
 			},
+			jamrandomizer: {
+				name: "jamRandomizer",
+				size: "medium",
+				tags: ["code","tool","music","audio","jazz","orchestral","piano","pop","synth","multiplayer"],
+				date: "April 17, 2023",
+				description: "Generate a chord progression, arrange your backing synths, and jam out."
+			},
 			jigsawpuzzler: {
 				name: "jigsawPuzzler",
 				size: "small",
@@ -852,7 +859,7 @@
 				size: "small",
 				tags: ["code","tool","music","audio","synth","design","art","canvas","photography"],
 				date: "April 9, 2023",
-				description: "Hear images by mapping color and position to audio attributes like pitch, volume, and effects."
+				description: "Hear images by mapping color and coordinates to audio attributes like pitch, volume, and effects."
 			},
 			pixelpainter: {
 				name: "pixelPainter",

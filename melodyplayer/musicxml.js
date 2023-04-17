@@ -6,6 +6,8 @@
 				defaultMidiProgram: 1,
 				defaultInstrument: "Acoustic Grand Piano",
 				defaultSynth: "keystone",
+				defaultTonic: "C",
+				defaultMode: "major",
 				dynamicToNumber: {
 					"ffff": 1.41,
 					"fff": 1.27,
@@ -627,6 +629,80 @@
 					"synthesizer": "qube",
 					"synth": "qube"
 				},
+				synthToMidi: {
+					"sine": 90,
+					"square": 81,
+					"triangle": 81,
+					"sawtooth": 82,
+					"*percusstom*": 0,
+					"accordienne": 22,
+					"argit": 25,
+					"ashbray": 60,
+					"bariphone": 68,
+					"bellissful": 10,
+					"bitbottle": 76,
+					"blik": 116,
+					"boombash": 117,
+					"bowsaw": 84,
+					"buzzorgan": 19,
+					"cantarus": 55,
+					"chordstrum": 32,
+					"clarinaut": 72,
+					"consona": 4,
+					"cymbilant": 120,
+					"darkflute": 102,
+					"ensnarl": 117,
+					"estrorcha": 45,
+					"fuzzillade": 30,
+					"glassical": 11,
+					"grandom": 56,
+					"hellohat": 120,
+					"hermanico": 23,
+					"honeyharp": 47,
+					"hornithologist": 62,
+					"jangle": 99,
+					"jellybanjo": 106,
+					"keystone": 1,
+					"lazerz": 31,
+					"lowdium": 39,
+					"mayrimba": 13,
+					"meltmallet": 12,
+					"mockarina": 80,
+					"nimbusnotes": 14,
+					"nonsemble": 49,
+					"particcolo": 74,
+					"pipepad": 20,
+					"plately": 123,
+					"qube": 40,
+					"randolin": 26,
+					"rechoirment": 53,
+					"reedles": 66,
+					"reverbassoon": 71,
+					"sandscrape": 123,
+					"shamosan": 107,
+					"sharpsichord": 7,
+					"shimmer": 97,
+					"shring": 124,
+					"snacksifolk": 67,
+					"soulvation": 17,
+					"spritzicato": 46,
+					"swello": 43,
+					"telephex": 125,
+					"tenoir": 69,
+					"theremonster": 98,
+					"thumpano": 48,
+					"tomgo": 118,
+					"trimpot": 57,
+					"trombus": 58,
+					"underseep": 103,
+					"voxelle": 54,
+					"vyol": 41,
+					"warpal": 104,
+					"wavecore": 27,
+					"whissile": 79,
+					"zipboard": 8,
+					"ziplimba": 91
+				},
 				notes: {
 					// midi:  [Hz, name, accidental, octave]
 					// octave -1
@@ -774,7 +850,31 @@
 						"131":[15804.26, "B", 0, 9], 		// B9
 					// octave 10
 						"132":[16744.04, "C", 0, 10] 		// C10
-				}
+				},
+				circleOfFifths: {
+					"F♭": {fifths: -8, scale: ["D♭♭", "D♭", "E♭♭", "E♭", "F♭", "G♭♭", "G♭", "A♭♭", "A♭", "B♭♭", "B♭", "C♭"]},
+					"C♭": {fifths: -7, scale: ["D♭♭", "D♭", "E♭♭", "E♭", "F♭", "F", "G♭", "A♭♭", "A♭", "B♭♭", "B♭", "C♭"]},
+					"G♭": {fifths: -6, scale: ["C", "D♭", "E♭♭", "E♭", "F♭", "F", "G♭", "A♭♭", "A♭", "B♭♭", "B♭", "C♭"]},
+					"D♭": {fifths: -5, scale: ["C", "D♭", "E♭♭", "E♭", "F♭", "F", "G♭", "G", "A♭", "B♭♭", "B♭", "C♭"]},
+					"A♭": {fifths: -4, scale: ["C", "D♭", "D", "E♭", "F♭", "F", "G♭", "G", "A♭", "B♭♭", "B♭", "C♭"]},
+					"E♭": {fifths: -3, scale: ["C", "D♭", "D", "E♭", "F♭", "F", "G♭", "G", "A♭", "A", "B♭", "C♭"]},
+					"B♭": {fifths: -2, scale: ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "C♭"]},
+					"F":  {fifths: -1, scale: ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"]},
+					"C":  {fifths:  0, scale: ["C", "D♭", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B"]},
+					"G":  {fifths:  1, scale: ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "A♭", "A", "B♭", "B"]},
+					"D":  {fifths:  2, scale: ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"]},
+					"A":  {fifths:  3, scale: ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"]},
+					"E":  {fifths:  4, scale: ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"]},
+					"B":  {fifths:  5, scale: ["C", "C♯", "D", "D♯", "E", "E♯♯", "F♯", "G", "G♯", "A", "A♯", "B"]},
+					"F♯": {fifths:  6, scale: ["B♯", "C♯", "D", "D♯", "E", "E♯", "F♯", "G", "G♯", "A", "A♯", "B"]},
+					"C♯": {fifths:  7, scale: ["B♯", "C♯", "D", "D♯", "E", "E♯", "F♯", "F♯♯", "G♯", "A", "A♯", "B"]},
+					"G♯": {fifths:  8, scale: ["B♯", "C♯", "C♯♯", "D♯", "E", "E♯", "F♯", "F♯♯", "G♯", "A", "A♯", "B"]},
+					"D♯": {fifths:  9, scale: ["B♯", "C♯", "C♯♯", "D♯", "E", "E♯", "F♯", "F♯♯", "G♯", "G♯♯", "A♯", "B"]},
+					"A♯": {fifths: 10, scale: ["B♯", "C♯", "C♯♯", "D♯", "D♯♯", "E♯", "F♯", "F♯♯", "G♯", "G♯♯", "A♯", "B"]},
+					"E♯": {fifths: 11, scale: ["B♯", "C♯", "C♯♯", "D♯", "D♯♯", "E♯", "F♯", "F♯♯", "G♯", "G♯♯", "A♯", "A♯♯"]},
+					"B♯": {fifths: 12, scale: ["B♯", "C♯", "C♯♯", "D♯", "D♯♯", "E♯", "E♯♯", "F♯♯", "G♯", "G♯♯", "A♯", "A♯♯"]}
+				},
+				majorToMinor: -3
 			}
 		}
 		window.MUSICXML_J = MUSICXML_J
@@ -840,6 +940,21 @@
 				// other
 					return `<sign>none</sign>`
 
+			} catch (error) {console.log(error)}
+		}
+
+	/* getKeyType */
+		MUSICXML_J.getKeyType = getKeyType
+		function getKeyType(key) {
+			try {
+				// attributes
+					const mode = key ? key.mode || MUSICXML_J.constants.defaultMode : MUSICXML_J.constants.defaultMode
+					const tonic = key ? key.tonic || MUSICXML_J.constants.defaultTonic : MUSICXML_J.constants.defaultTonic
+					const fifths = (MUSICXML_J.constants.circleOfFifths[tonic].fifths || 0) + 
+								(mode == "minor" ? MUSICXML_J.constants.majorToMinor : 0)
+
+				// build
+					return `<fifths>` + fifths + `</fifths><mode>` + mode + `</mode>`
 			} catch (error) {console.log(error)}
 		}
 
@@ -921,11 +1036,57 @@
 
 	/* getPitchType */
 		MUSICXML_J.getPitchType = getPitchType
-		function getPitchType(midi) {
+		function getPitchType(midi, key) {
 			try {
-				const noteInfo = MUSICXML_J.constants.notes[String(midi)]
-				return [`<pitch><step>` + noteInfo[1] + `</step>` + (noteInfo[2] ? (`<alter>` + noteInfo[2] + `</alter>`) : "") + `<octave>` + noteInfo[3] + `</octave></pitch>`,
-						noteInfo[2] > 0 ? `<accidental>sharp</accidental>` : noteInfo[2] < 0 ? `<accidental>flat</accidental>` : ""]
+				// get notes of scale
+					const tonic = key ? key.tonic : MUSICXML_J.constants.defaultTonic
+					const scale = MUSICXML_J.constants.circleOfFifths[tonic].scale
+					const noteInScale = scale[midi % 12]
+
+				// get this note
+					const letter = noteInScale.slice(0, 1)
+				
+				// accidentals
+					const accidentals = noteInScale.slice(1).split()
+					let alteration = 0
+					for (let i in accidentals) {
+						alteration += (accidentals[i] == "♯" ? 1 : accidentals[i] == "♭" ? -1 : 0)
+					}
+					const accidentalXML = accidentals.map(function(symbol) {
+						return (symbol == "♯" ? `<accidental>sharp</accidental>` : symbol == "♭" ? `<accidental>flat</accidental>` : "")
+					}).join("") || ""
+
+				// octave
+					const noteInfo = MUSICXML_J.constants.notes[String(midi)]
+					const octave = noteInfo[3] + (noteInScale == "B♯" ? -1 : noteInScale == "C♭" ?  1 : 0)
+
+				// return musicxml
+					return [`<pitch><step>` + letter + `</step>` + (alteration ? (`<alter>` + alteration + `</alter>`) : "") + `<octave>` + octave + `</octave></pitch>`, accidentalXML]
+			} catch (error) {console.log(error)}
+		}
+
+	/* getRepeatType */
+		MUSICXML_J.getRepeatType = getRepeatType
+		function getRepeatType(repeatType) {
+			try {
+				// forward
+					if (repeatType == "forward") {
+						return  `      <barline location="left">\n` +
+								`        <bar-style>heavy-light</bar-style>\n` +
+								`        <repeat direction="forward"/>\n` +
+								`      </barline>\n`
+					}
+
+				// backward
+					if (repeatType == "backward") {
+						return  `      <barline location="right">\n` +
+								`        <bar-style>light-heavy</bar-style>\n` +
+								`        <repeat direction="backward"/>\n` +
+								`      </barline>\n`
+					}
+				
+				// other
+					return ''
 			} catch (error) {console.log(error)}
 		}
 
@@ -1025,6 +1186,12 @@
 							}
 							if (partJSON.staves[s][m].tempo !== undefined) {
 								partJSON.measures[m].tempo = partJSON.staves[s][m].tempo
+							}
+							if (partJSON.staves[s][m].repeat !== undefined) {
+								partJSON.measures[m].repeat = partJSON.staves[s][m].repeat
+							}
+							if (partJSON.staves[s][m].key !== undefined) {
+								partJSON.measures[m].key = partJSON.staves[s][m].key
 							}
 							for (let t in partJSON.staves[s][m].notes) {
 								if (!partJSON.measures[m].notes[t]) {
@@ -1159,11 +1326,27 @@
 							currentTicks[currentStaffId] += duration
 					}
 
+				// key change
+					const keyDirection = measureXML.querySelector("key") || null
+					let keyChange = null
+					if (keyDirection) {
+						const mode = keyDirection.querySelector("mode") ? (keyDirection.querySelector("mode").innerHTML.toLowerCase() || MUSICXML_J.constants.defaultMode) : MUSICXML_J.constants.defaultMode
+						const fifths = keyDirection.querySelector("fifths") ? (Number(keyDirection.querySelector("fifths").innerHTML) || 0) : 0
+						const tonic = Object.keys(MUSICXML_J.constants.circleOfFifths).find(function (tonic) {
+							return MUSICXML_J.constants.circleOfFifths[tonic].fifths == fifths
+						}) || MUSICXML_J.constants.defaultTonic
+						
+						keyChange = {
+							tonic: tonic,
+							mode:  mode
+						}
+					}
+
 				// dynamic change
 					const dynamicDirections = Array.from(measureXML.querySelectorAll("sound[dynamics]")) || []
 					const dynamicPhrases = Array.from(measureXML.querySelectorAll("dynamics")) || []
-					const dynamicChange = dynamicDirections.length ? (Number(dynamicDirections[dynamicDirections.length - 1].getAttribute("dynamics")) / 100 || 0) : 
-										dynamicPhrases.length ? MUSICXML_J.constants.dynamicToNumber[dynamicPhrases[dynamicPhrases.length - 1].innerHTML.toLowerCase().replace(/^[a-z]/g, "")] : null
+					const dynamicChange = dynamicPhrases.length    ? MUSICXML_J.constants.dynamicToNumber[dynamicPhrases[dynamicPhrases.length - 1].innerHTML.toLowerCase().replace(/[^a-z]/g, "")] : 
+										  dynamicDirections.length ? (Math.round(dynamicDirections[dynamicDirections.length - 1].getAttribute("dynamics")) / 100 || 0) 								: null
 
 				// tempo change
 					const tempoDirection = measureXML.querySelector("sound[tempo]") || null
@@ -1177,17 +1360,31 @@
 						partJSON.currentTicksPerMeasure = MUSICXML_J.constants.beatToTick[MUSICXML_J.constants.numberToBeat[currentBeatType]] * currentBeatsPerMeasure
 					}
 
+				// repeat
+					const repeatDirection = measureXML.querySelector("repeat") || null
+					const repeatChange = repeatDirection ? repeatDirection.getAttribute("direction") || null : null
+
+				// record attributes
 					for (let staff in partJSON.staves) {
 						if (!partJSON.staves[staff][measureNumber]) {
 							partJSON.staves[staff][measureNumber] = {}
 						}
 						partJSON.staves[staff][measureNumber].ticks = partJSON.currentTicksPerMeasure
 
+						if (keyChange) {
+							partJSON.staves[staff][measureNumber].key = {
+								tonic: keyChange.tonic,
+								mode: keyChange.mode
+							}
+						}
 						if (tempoChange) {
 							partJSON.staves[staff][measureNumber].tempo = tempoChange
 						}
 						if (dynamicChange) {
 							partJSON.staves[staff][measureNumber].dynamics = dynamicChange
+						}
+						if (repeatChange) {
+							partJSON.staves[staff][measureNumber].repeat = repeatChange
 						}
 					}
 			} catch (error) {console.log(error)}
@@ -1235,18 +1432,18 @@
 					let infoXML = ""
 
 				// title
-					infoXML += `  <movement-title>` + musicJSON.title + `</movement-title>\n`
+					infoXML += `  <movement-title>` + musicJSON.title.replace(/&/g, "&amp;") + `</movement-title>\n`
 
 				// identification
 					const now = new Date()
 					const year = now.getFullYear()
 					const month = now.getMonth() + 1
 					const day = now.getDate()
-					infoXML += `  <identification>\n    <creator type="composer">` + musicJSON.composer + `</creator>\n    <encoding>\n      <software>CoChords by James Mayr</software>\n      <encoding-date>` + (year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2)) + `</encoding-date>\n    </encoding>\n  </identification>\n`
+					infoXML += `  <identification>\n    <creator type="composer">` + musicJSON.composer.replace(/&/g, "&amp;") + `</creator>\n    <encoding>\n      <software>CoChords by James Mayr</software>\n      <encoding-date>` + (year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2)) + `</encoding-date>\n    </encoding>\n  </identification>\n`
 
 				// display info
-					infoXML += `  <credit page="1">\n    <credit-type>title</credit-type>\n    <credit-words default-x="50" default-y="1250" font-size="24" justify="left" valign="top">` + musicJSON.title + `</credit-words>\n  </credit>\n`
-					infoXML += `  <credit page="1">\n    <credit-type>composer</credit-type>\n    <credit-words default-x="950" default-y="1150" font-size="12" justify="right" valign="top">` + musicJSON.composer + `</credit-words>\n  </credit>\n`
+					infoXML += `  <credit page="1">\n    <credit-type>title</credit-type>\n    <credit-words default-x="50" default-y="1250" font-size="24" justify="left" valign="top">` + musicJSON.title.replace(/&/g, "&amp;") + `</credit-words>\n  </credit>\n`
+					infoXML += `  <credit page="1">\n    <credit-type>composer</credit-type>\n    <credit-words default-x="950" default-y="1150" font-size="12" justify="right" valign="top">` + musicJSON.composer.replace(/&/g, "&amp;") + `</credit-words>\n  </credit>\n`
 
 				// return
 					return infoXML
@@ -1287,6 +1484,7 @@
 						let currentUnchangedTicks = 0
 						let currentPitches = {}
 						let currentHolds = {}
+						let currentKey = {}
 
 					// loop through
 						for (let m in partJSON.measures) {
@@ -1299,8 +1497,18 @@
 							// attributes
 								// first measure things
 									let divisionChange = (m == "1") ? `        <divisions>24</divisions>\n` : "" // never changes
-									let keyChange = (m == "1") ? `        <key><fifths>0</fifths><mode>major</mode></key>\n` : "" // not deduced
 									let clefChange = (m == "1") ? `        <clef>` + getClefType(partJSON.midiProgram) + `</clef>\n` : "" // from midi program
+
+								// key
+									let keyChange = ""
+									if (measureJSON.key) {
+										currentKey = {tonic: measureJSON.key.tonic, mode: measureJSON.key.mode}
+										keyChange = `        <key>` + getKeyType(currentKey) + `</key>\n`
+									}
+									else if (m == "1") {
+										currentKey = {tonic: MUSICXML_J.constants.defaultTonic, mode: MUSICXML_J.constants.defaultMode}
+										keyChange = `        <key>` + getKeyType(currentKey) + `</key>\n`
+									}
 
 								// time signature changes
 									let timeChange = ""
@@ -1328,6 +1536,11 @@
 								// dynamics
 									if (measureJSON.dynamics !== undefined) {
 										measureXML += `      <direction placement="below">\n        <direction-type>\n          <dynamics><` + getDynamicType(measureJSON.dynamics) + `/></dynamics>\n        </direction-type>\n        <sound dynamics="` + (measureJSON.dynamics * 100) + `"/>\n      </direction>\n`
+									}
+
+								// repeats
+									if (measureJSON.repeat) {
+										measureXML += getRepeatType(measureJSON.repeat)
 									}
 
 							// rests & notes
@@ -1367,7 +1580,7 @@
 															if (sliceNotes) {
 																// add notes / rests to measure
 																	if (currentUnchangedTicks) {
-																		const output = buildMusicXMLNotes(currentUnchangedTicks, currentPitches, currentHolds)
+																		const output = buildMusicXMLNotes(currentUnchangedTicks, currentPitches, currentHolds, currentKey)
 																			measureXML += output[0]
 																			currentHolds = output[1]
 																	}
@@ -1402,7 +1615,7 @@
 												}
 
 											// add notes / rests to measure
-												const output = buildMusicXMLNotes(currentUnchangedTicks, currentPitches, currentHolds)
+												const output = buildMusicXMLNotes(currentUnchangedTicks, currentPitches, currentHolds, currentKey)
 													measureXML += output[0]
 													currentHolds = output[1]
 
@@ -1433,7 +1646,7 @@
 
 	/* buildMusicXMLNotes */
 		MUSICXML_J.buildMusicXMLPart = buildMusicXMLPart
-		function buildMusicXMLNotes(ticks, pitches, oldHolds) {
+		function buildMusicXMLNotes(ticks, pitches, oldHolds, key) {
 			try {
 				// no ticks
 					if (!ticks) {
@@ -1483,7 +1696,7 @@
 							// loop through pitches
 								for (let p in pitches) {
 									// get pitch info
-										const output = getPitchType(p)
+										const output = getPitchType(p, key)
 											const pitchXML = output[0]
 											const accidentalXML = output[1]
 

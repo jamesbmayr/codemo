@@ -3130,8 +3130,9 @@
 
 									// off --> kill pitches & feedback
 										if (!instrument.currentPower) {
-											for (let n in instrument.notes) {
-												const note = instrument.notes[n]
+											const notes = instrument.notes.slice()
+											for (let n in notes) {
+												const note = notes[n]
 												instrument.kill(note.pitch, note.time)
 											}
 

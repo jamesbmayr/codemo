@@ -11,7 +11,7 @@
 		--shadow-size: 5px;
 		--border-size: 2px;
 		--transition-time: 0.5s;
-		--controls-width: 350px;
+		--controls-width: 330px;
 		--controls-background: rgba(0, 0, 0, 0.75);
 	}
 
@@ -231,12 +231,31 @@
 	#canvas {
 		position: absolute;
 		top: 0;
-		left: 0;
+		right: 0;
 		width: 100%;
 		height: 100%;
 		background-color: var(--dark-gray);
 		cursor: crosshair;
 		user-select: none;
+		transition: var(--transition-time);
+	}
+
+	#controls[open] ~ #canvas {
+		width: calc(100% - var(--controls-width));
+	}
+
+/*** upload center ***/
+	#upload-center-outer {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		transition: var(--transition-time);
+	}
+
+	#controls[open] ~ #upload-center-outer {
+		width: calc(100% - var(--controls-width));
 	}
 
 	#upload-center {
@@ -244,7 +263,8 @@
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		height: calc(var(--font-size) + 4 * var(--gap-size));
+		min-height: calc(var(--font-size) + 4 * var(--gap-size));
+		height: auto;
 		box-sizing: border-box;
 		background: var(--light-gray);
 		color: var(--dark-gray) !important;
@@ -267,6 +287,11 @@
 	}
 
 /*** j-logo ***/
+	#controls[open] ~ #j-logo {
+		opacity: 0;
+		pointer-events: none;
+	}
+
 	#j-logo {
 		position: fixed;
 		top: 14px;
