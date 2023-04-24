@@ -1,5 +1,6 @@
 /*** page ***/
 	:root {
+		--translucent-black: rgba(0,0,0,0.8);
 		--dark-gray: #111111;
 		--medium-gray: #777777;
 		--light-gray: #dddddd;
@@ -10,7 +11,7 @@
 		--transition-time: 0.5s;
 		--line-height: 1;
 		--border-radius: 5px;
-		--menu-width: 200px;
+		--menu-width: 250px;
 	}
 
 	html, body {
@@ -51,7 +52,7 @@
 			width: calc(2 * var(--font-size));
 			padding: var(--gap-size);
 			border-radius: 100%;
-			background: var(--dark-gray);
+			background: var(--translucent-black);
 			color: var(--medium-gray);
 			font-size: calc(var(--font-size) * 3 / 2);
 			font-family: var(--font-family);
@@ -84,7 +85,7 @@
 			left: 0;
 			height: auto;
 			width: var(--menu-width);
-			background: var(--dark-gray);
+			background: var(--translucent-black);
 			transition: var(--transition-time);
 			overflow-x: hidden;
 			overflow-y: scroll;
@@ -133,7 +134,7 @@
 			user-select: none;
 			cursor: pointer;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
-			width: calc(3 * var(--font-size) + var(--gap-size));
+			width: calc(1.5 * var(--font-size) + var(--gap-size));
 			padding: var(--gap-size) 0 0 var(--gap-size);
 			line-height: var(--line-height);
 			box-sizing: border-box;
@@ -141,7 +142,7 @@
 
 		#menu label span.menu-span-overlap {
 			width: 0;
-			margin-left: calc(-3 * var(--font-size) - var(--gap-size));
+			margin-left: calc(-1.5 * var(--font-size) - var(--gap-size));
 		}
 
 		#menu input, #menu select {
@@ -158,19 +159,32 @@
 			outline: none;
 			border: none;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
-			width: calc(100% - 3 * var(--font-size) - 2 * var(--gap-size));
 			transition: var(--transition-time);
+			vertical-align: bottom;
+		}
+
+		#menu input[type="range"] {
+			width: calc(25 * var(--gap-size));
+			margin-right: var(--gap-size);
+			padding: 0;
+			cursor: pointer;
+		}
+
+		#menu input[type="number"] {
+			width: calc(100% - 1.5 * var(--font-size) - 3 * var(--gap-size) - 25 * var(--gap-size));
 		}
 
 		#menu input[type="color"] {
 			padding: 0;
 			border: 0;
 			cursor: pointer;
+			width: calc(100% - 1.5 * var(--font-size) - 2 * var(--gap-size));
 		}
 
 		#menu select {
 			cursor: pointer;
 			padding: 0 var(--gap-size);
+			width: calc(100% - 1.5 * var(--font-size) - 2 * var(--gap-size));
 		}
 
 		#menu input:focus, #menu input:hover, #menu select:focus, #menu select:hover {

@@ -42,11 +42,13 @@
 					<span title="kaleidoscope shape">&#10070;</span>
 				</label>
 				<label id="menu-kaleidoscope-rotation-outer">
-					<input id="menu-kaleidoscope-rotation" type="number" value="0" step="1" placeholder="#" title="kaleidoscope rotation">
+					<input id="menu-kaleidoscope-rotation-range" type="range" value="0" min="0" max="360" step="1">
+					<input id="menu-kaleidoscope-rotation" type="number" value="0" min="-360" max="360" step="1" placeholder="#" title="kaleidoscope rotation">
 					<span title="kaleidoscope rotation">&measuredangle;°</span>
 				</label>
 				<label id="menu-kaleidoscope-scale-outer">
-					<input id="menu-kaleidoscope-scale" type="number" value="100" min="1" max="1000" step="1" placeholder="%" title="kaleidoscope scale">
+					<input id="menu-kaleidoscope-scale-range" type="range" value="100" min="5" max="1000" step="1">
+					<input id="menu-kaleidoscope-scale" type="number" value="100" min="5" max="1000" step="1" placeholder="%" title="kaleidoscope scale">
 					<span title="kaleidoscope scale">&#10529;%</span>
 					<span title="kaleidoscope scale" class="menu-span-overlap">&#10530;</span>
 				</label>
@@ -55,23 +57,28 @@
 					<div>image</div>
 				</label>
 				<label id="menu-image-rotation-outer">
-					<input id="menu-image-rotation" type="number" value="0" step="1" placeholder="#" title="image rotation">
+					<input id="menu-image-rotation-range" type="range" value="0" min="0" max="360" step="1">
+					<input id="menu-image-rotation" type="number" value="0" min="-360" max="360" step="1" placeholder="#" title="image rotation">
 					<span title="image rotation">&measuredangle;°</span>
 				</label>
 				<label id="menu-image-scale-outer">
+					<input id="menu-image-scale-range" type="range" value="100" min="1" max="1000" step="1">
 					<input id="menu-image-scale" type="number" value="100" min="1" max="1000" step="1" placeholder="%" title="image scale">
 					<span title="image scale">&#10529;%</span>
 					<span title="image scale" class="menu-span-overlap">&#10530;</span>
 				</label>
 				<label id="menu-image-translate-x-outer">
+					<input id="menu-image-translate-x-range" type="range" value="0" min="-100" max="100" step="1">
 					<input id="menu-image-translate-x" type="number" value="0" min="-100" max="100" step="1" placeholder="%" title="image translate x">
 					<span title="image translate x">&harr;%</span>
 				</label>
 				<label id="menu-image-translate-y-outer">
+					<input id="menu-image-translate-y-range" type="range" value="0" min="-100" max="100" step="1">
 					<input id="menu-image-translate-y" type="number" value="0" min="-100" max="100" step="1" placeholder="%" title="image translate y">
 					<span title="image translate y">&varr;%</span>
 				</label>
 				<label id="menu-image-crop-outer">
+					<input id="menu-image-crop-range" type="range" value="0" min="0" max="50" step="1">
 					<input id="menu-image-crop" type="number" value="0" min="0" max="50" step="1" placeholder="%" title="image crop">
 					<span title="image crop">&#x25A3;%</span>
 				</label>

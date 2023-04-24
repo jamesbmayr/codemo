@@ -3,7 +3,8 @@
 		const TRIGGERS = {
 			input: "input",
 			click: "click",
-			resize: "resize"
+			resize: "resize",
+			contextmenu: "contextmenu"
 		}
 
 	/* elements */
@@ -18,14 +19,21 @@
 					background: document.querySelector("#menu-kaleidoscope-background"),
 					shape: document.querySelector("#menu-kaleidoscope-shape"),
 					rotation: document.querySelector("#menu-kaleidoscope-rotation"),
-					scale: document.querySelector("#menu-kaleidoscope-scale")
+					rotationRange: document.querySelector("#menu-kaleidoscope-rotation-range"),
+					scale: document.querySelector("#menu-kaleidoscope-scale"),
+					scaleRange: document.querySelector("#menu-kaleidoscope-scale-range")
 				},
 				image: {
 					rotation: document.querySelector("#menu-image-rotation"),
+					rotationRange: document.querySelector("#menu-image-rotation-range"),
 					scale: document.querySelector("#menu-image-scale"),
+					scaleRange: document.querySelector("#menu-image-scale-range"),
 					translateX: document.querySelector("#menu-image-translate-x"),
+					translateXRange: document.querySelector("#menu-image-translate-x-range"),
 					translateY: document.querySelector("#menu-image-translate-y"),
-					crop: document.querySelector("#menu-image-crop")
+					translateYRange: document.querySelector("#menu-image-translate-y-range"),
+					crop: document.querySelector("#menu-image-crop"),
+					cropRange: document.querySelector("#menu-image-crop-range")
 				},
 				download: document.querySelector("#menu-download")
 			}
@@ -63,6 +71,14 @@
 		}
 
 /*** menu ***/
+	/* right click */
+		window.addEventListener(TRIGGERS.contextmenu, rightClick)
+		function rightClick(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+		
 	/* clickUpload */
 		ELEMENTS.uploadCenter.addEventListener(TRIGGERS.click, clickUpload)
 		function clickUpload(event) {
@@ -139,10 +155,14 @@
 
 	/* updateKaleidoscopeRotation */
 		ELEMENTS.menu.kaleidoscope.rotation.addEventListener(TRIGGERS.input, updateKaleidoscopeRotation)
+		ELEMENTS.menu.kaleidoscope.rotationRange.addEventListener(TRIGGERS.input, updateKaleidoscopeRotation)
 		function updateKaleidoscopeRotation(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					let rotation = Math.round(ELEMENTS.menu.kaleidoscope.rotation.value)
+					let rotation = Math.round(thisInput.value)
 					if (isNaN(rotation)) {
 						return
 					}
@@ -156,6 +176,10 @@
 				// update state
 					STATE.kaleidoscope.rotation = rotation
 
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.kaleidoscope.rotation ? ELEMENTS.menu.kaleidoscope.rotationRange : ELEMENTS.menu.kaleidoscope.rotation)
+					otherInput.value = rotation
+
 				// redraw
 					drawKaleidoscope()
 			} catch (error) {console.log(error)}
@@ -163,16 +187,24 @@
 
 	/* updateKaleidoscopeScale */
 		ELEMENTS.menu.kaleidoscope.scale.addEventListener(TRIGGERS.input, updateKaleidoscopeScale)
+		ELEMENTS.menu.kaleidoscope.scaleRange.addEventListener(TRIGGERS.input, updateKaleidoscopeScale)
 		function updateKaleidoscopeScale(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					const scale = Math.round(ELEMENTS.menu.kaleidoscope.scale.value)
+					const scale = Math.round(thisInput.value)
 					if (isNaN(scale) || scale <= 0) {
 						return
 					}
 
 				// update state
 					STATE.kaleidoscope.scale = scale
+
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.kaleidoscope.scale ? ELEMENTS.menu.kaleidoscope.scaleRange : ELEMENTS.menu.kaleidoscope.scale)
+					otherInput.value = scale
 
 				// redraw
 					drawKaleidoscope()
@@ -181,10 +213,14 @@
 
 	/* updateImageRotation */
 		ELEMENTS.menu.image.rotation.addEventListener(TRIGGERS.input, updateImageRotation)
+		ELEMENTS.menu.image.rotationRange.addEventListener(TRIGGERS.input, updateImageRotation)
 		function updateImageRotation(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					let rotation = Math.round(ELEMENTS.menu.image.rotation.value)
+					let rotation = Math.round(thisInput.value)
 					if (isNaN(rotation)) {
 						return
 					}
@@ -198,6 +234,10 @@
 				// update state
 					STATE.image.rotation = rotation
 
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.image.rotation ? ELEMENTS.menu.image.rotationRange : ELEMENTS.menu.image.rotation)
+					otherInput.value = rotation
+
 				// redraw
 					drawKaleidoscope()
 			} catch (error) {console.log(error)}
@@ -205,16 +245,24 @@
 
 	/* updateImageScale */
 		ELEMENTS.menu.image.scale.addEventListener(TRIGGERS.input, updateImageScale)
+		ELEMENTS.menu.image.scaleRange.addEventListener(TRIGGERS.input, updateImageScale)
 		function updateImageScale(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					const scale = Math.round(ELEMENTS.menu.image.scale.value)
+					const scale = Math.round(thisInput.value)
 					if (isNaN(scale) || scale <= 0) {
 						return
 					}
 
 				// update state
 					STATE.image.scale = scale
+
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.image.scale ? ELEMENTS.menu.image.scaleRange : ELEMENTS.menu.image.scale)
+					otherInput.value = scale
 
 				// redraw
 					drawKaleidoscope()
@@ -223,16 +271,24 @@
 
 	/* updateImageTranslateX */
 		ELEMENTS.menu.image.translateX.addEventListener(TRIGGERS.input, updateImageTranslateX)
+		ELEMENTS.menu.image.translateXRange.addEventListener(TRIGGERS.input, updateImageTranslateX)
 		function updateImageTranslateX(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					const translateX = Math.round(ELEMENTS.menu.image.translateX.value)
+					const translateX = Math.round(thisInput.value)
 					if (isNaN(translateX) || translateX < -CONSTANTS.percentage || translateX > CONSTANTS.percentage) {
 						return
 					}
 
 				// update state
 					STATE.image.translateX = translateX
+
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.image.translateX ? ELEMENTS.menu.image.translateXRange : ELEMENTS.menu.image.translateX)
+					otherInput.value = translateX
 
 				// redraw
 					drawKaleidoscope()
@@ -241,16 +297,24 @@
 
 	/* updateImageTranslateY */
 		ELEMENTS.menu.image.translateY.addEventListener(TRIGGERS.input, updateImageTranslateY)
+		ELEMENTS.menu.image.translateYRange.addEventListener(TRIGGERS.input, updateImageTranslateY)
 		function updateImageTranslateY(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					const translateY = Math.round(ELEMENTS.menu.image.translateY.value)
+					const translateY = Math.round(thisInput.value)
 					if (isNaN(translateY) || translateY < -CONSTANTS.percentage || translateY > CONSTANTS.percentage) {
 						return
 					}
 
 				// update state
 					STATE.image.translateY = translateY
+
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.image.translateY ? ELEMENTS.menu.image.translateYRange : ELEMENTS.menu.image.translateY)
+					otherInput.value = translateY
 
 				// redraw
 					drawKaleidoscope()
@@ -259,16 +323,24 @@
 
 	/* updateImageCrop */
 		ELEMENTS.menu.image.crop.addEventListener(TRIGGERS.input, updateImageCrop)
+		ELEMENTS.menu.image.cropRange.addEventListener(TRIGGERS.input, updateImageCrop)
 		function updateImageCrop(event) {
 			try {
+				// which one
+					const thisInput = event.target.closest("input")
+
 				// validate
-					const crop = Math.round(ELEMENTS.menu.image.crop.value)
+					const crop = Math.round(thisInput.value)
 					if (isNaN(crop) || crop < 0 || crop > CONSTANTS.percent / 2) {
 						return
 					}
 
 				// update state
 					STATE.image.crop = crop
+
+				// other one
+					const otherInput = (thisInput == ELEMENTS.menu.image.crop ? ELEMENTS.menu.image.cropRange : ELEMENTS.menu.image.crop)
+					otherInput.value = crop
 
 				// redraw
 					drawKaleidoscope()
