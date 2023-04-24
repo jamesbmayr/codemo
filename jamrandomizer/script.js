@@ -94,7 +94,7 @@
 			modes: ["major", "minor", "mixed", "more"], // modes
 			types: ["triads", "sevenths"], // types
 			letters: ["A", "B", "C", "D", "E", "F", "G"], // notes
-			allowedKeys: ["C♯", "D♭", "D", "D♯", "E♭", "E", "F", "F♯", "G♭", "G", "G♯", "A♭", "A", "A♯", "B♭", "B"], // notes
+			allowedKeys: ["C", "C♯", "D♭", "D", "D♯", "E♭", "E", "F", "F♯", "G♭", "G", "G♯", "A♭", "A", "A♯", "B♭", "B"], // notes
 			enharmonicEquivalents: [ // notes
 				["B♯", "C", "D♭♭"],
 				["B♯", "C♯", "D♭"],
