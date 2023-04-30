@@ -982,7 +982,7 @@
 				size: "small",
 				tags: ["code","tool","music","audio","jazz","orchestral","piano","synth","design"],
 				date: "April 30, 2023",
-				description: "Discover and hear musical scales from all around the world."
+				description: "Discover musical scales from all around the world - and invent your own."
 			},
 			shadowvalley: {
 				skipRandom: true,
