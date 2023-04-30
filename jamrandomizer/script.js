@@ -97,17 +97,17 @@
 			allowedKeys: ["C", "C♯", "D♭", "D", "D♯", "E♭", "E", "F", "F♯", "G♭", "G", "G♯", "A♭", "A", "A♯", "B♭", "B"], // notes
 			enharmonicEquivalents: [ // notes
 				["B♯", "C", "D♭♭"],
-				["B♯", "C♯", "D♭"],
-				["C♯", "D", "E♭♭"],
+				["B♯♯", "C♯", "D♭"],
+				["C♯♯", "D", "E♭♭"],
 				["D♯", "E♭", "F♭♭"],
-				["D♯", "E", "F♭"],
+				["D♯♯", "E", "F♭"],
 				["E♯", "F", "G♭♭"],
-				["E♯", "F♯", "G♭"],
-				["F♯", "G", "A♭♭"],
+				["E♯♯", "F♯", "G♭"],
+				["F♯♯", "G", "A♭♭"],
 				["G♯","A♭"],
-				["G♯", "A", "B♭♭"],
+				["G♯♯", "A", "B♭♭"],
 				["A♯","B♭","C♭♭"],
-				["A♯","B","C♭"]
+				["A♯♯","B","C♭"]
 			],
 			chordAbbreviations: {
 				"diminished": "dim", // 0-3-6
@@ -1091,12 +1091,12 @@
 										ELEMENTS.controls.chords.download.removeAttribute("loading")
 									})
 									downloadLink.click()
-								}
-								catch (error) {
-									console.log(error)
-									ELEMENTS.controls.chords.download.removeAttribute("loading")
-								}
-							}, 0)
+							}
+							catch (error) {
+								console.log(error)
+								ELEMENTS.controls.chords.download.removeAttribute("loading")
+							}
+						}, 0)
 				} catch (error) {console.log(error)}
 			}
 

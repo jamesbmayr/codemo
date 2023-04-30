@@ -1047,14 +1047,18 @@
 					const letter = noteInScale.slice(0, 1)
 				
 				// accidentals
-					const accidentals = noteInScale.slice(1).split()
+					const accidentals = noteInScale.slice(1).split("")
 					let alteration = 0
 					for (let i in accidentals) {
 						alteration += (accidentals[i] == "♯" ? 1 : accidentals[i] == "♭" ? -1 : 0)
 					}
-					const accidentalXML = accidentals.map(function(symbol) {
-						return (symbol == "♯" ? `<accidental>sharp</accidental>` : symbol == "♭" ? `<accidental>flat</accidental>` : "")
-					}).join("") || ""
+					const accidentalXML = alteration ? (`<accidental>` + (
+						alteration == -2 ? "flat-flat" :
+						alteration == -1 ? "flat" :
+						alteration ==  1 ? "sharp" :
+						alteration ==  2 ? "double-sharp" : 
+						"natural"
+					) + `</accidental>`) : ""
 
 				// octave
 					const noteInfo = MUSICXML_J.constants.notes[String(midi)]

@@ -977,6 +977,13 @@
 				date: "September 14, 2018",
 				description: "Help the robot collect energy orbs in runJumper, a randomly generated platformer."
 			},
+			scalemaker: {
+				name: "scaleMaker",
+				size: "small",
+				tags: ["code","tool","music","audio","jazz","orchestral","piano","synth","design"],
+				date: "April 30, 2023",
+				description: "Discover and hear musical scales from all around the world."
+			},
 			shadowvalley: {
 				skipRandom: true,
 				name: "Shadow Valley",

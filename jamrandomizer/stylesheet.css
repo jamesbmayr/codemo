@@ -550,6 +550,10 @@
 			#controls-layers {
 				padding-bottom: calc(25 * var(--gap-size));
 			}
+
+			#controls-chords .controls-block:last-child {
+				display: none;
+			}
 		}
 
 	/* sections */
