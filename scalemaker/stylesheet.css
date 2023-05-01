@@ -1,0 +1,651 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-dark-gray: #333333;
+		--medium-light-gray: #999999;
+		--light-gray: #dddddd;
+		--light-blue: #04b1ff;
+		--font-size: 20px;
+		--font-family: "Alata", sans-serif;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+		--line-height: 1;
+		--transition-time: 0.5s;
+		--semitone-width: calc(100% / 13);
+		--scale-degree-height: calc(100% / 8);
+		--staff-width: 250px;
+		--keyboard-height: 250px;
+		--black-key-ratio: 5 / 8;
+		--clef-offset: 0.47;
+		--icon-size: 32px;
+		--border-size: 3px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		font-size: 0;
+		overflow: hidden;
+		background: var(--medium-light-gray);
+	}
+
+/*** staff ***/
+	#staff {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: var(--staff-width);
+		height: calc(100% - var(--keyboard-height));
+		z-index: 1;
+	}
+
+	/* lines */
+		#line-area {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: var(--staff-width);
+			height: 100%;
+			z-index: 1;
+		}
+
+		.staff-line {
+			width: 100%;
+			height: var(--scale-degree-height);
+			background: var(--medium-dark-gray);
+			user-select: none;
+			pointer-events: none;
+			transition: var(--transition-time);
+		}
+
+		.staff-space {
+			width: 100%;
+			height: var(--scale-degree-height);
+			background: transparent;
+			user-select: none;
+			pointer-events: none;
+			transition: var(--transition-time);
+		}
+
+		body[playing] .staff-line[active], body[playing] .staff-space[active] {
+			background: var(--light-blue);
+		}
+
+	/* clef */
+		#clef {
+			position: absolute;
+			top: 0;
+			right: 0;
+			text-align: left;
+			user-select: none;
+			pointer-events: none;
+			font-size: calc(1.75 * (100vh - var(--keyboard-height)));
+			height: 100%;
+			width: auto;
+			text-align: right;
+			font-family: var(--font-family);
+			color: var(--medium-dark-gray);
+			line-height: var(--line-height);
+			vertical-align: top;
+			z-index: 2;
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+		#clef[tonic="C"] {
+			top: calc((6 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+		#clef[tonic="D"] {
+			top: calc((5 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+		#clef[tonic="E"] {
+			top: calc((4 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+		#clef[tonic="F"] {
+			top: calc((3 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+		#clef[tonic="G"] {
+			top: calc((2 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+		#clef[tonic="A"] {
+			top: calc((1 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+		#clef[tonic="B"] {
+			top: calc((0 + var(--clef-offset)) * -1 * var(--scale-degree-height));
+		}
+
+/*** grid ***/
+	#grid {
+		position: absolute;
+		top: 0;
+		left: var(--staff-width);
+		width: calc(100% - var(--staff-width));
+		height: calc(100% - var(--keyboard-height));
+		z-index: 3;
+	}
+
+	/* y-axis */
+		#y-axis {
+			position: absolute;
+			top: 0;
+			left: calc(var(--font-size) / -2);
+			width: var(--font-size);
+			height: 100%;
+			background: var(--dark-gray);
+		}
+
+		.scale-degree {
+			display: flex;
+			width: 100%;
+			height: var(--scale-degree-height);
+			box-sizing: border-box;
+			vertical-align: middle;
+			color: var(--light-gray);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			text-align: center;
+			user-select: none;
+			pointer-events: none;
+			flex-direction: column;
+			justify-content: center;
+			line-height: var(--line-height);
+		}
+
+	/* x-axis */
+		#corner {
+			position: absolute;
+			bottom: calc(var(--font-size) / -2);
+			left: calc(var(--font-size) / -2);
+			height: var(--font-size);
+			width: var(--font-size);
+			background: var(--dark-gray);
+			border-radius: 0 0 0 var(--border-radius);
+		}
+
+		#x-axis {
+			position: absolute;
+			bottom: calc(var(--font-size) / -2);
+			left: 0;
+			width: 100%;
+			height: var(--font-size);
+			background: var(--dark-gray);
+		}
+
+		.semitone {
+			display: inline-block;
+			width: var(--semitone-width);
+			height: 100%;
+			box-sizing: border-box;
+			vertical-align: top;
+			color: var(--light-gray);
+			padding-top: calc((var(--gap-size) - var(--border-size)) / 2);
+			font-size: calc(var(--font-size) - var(--gap-size));
+			font-family: var(--font-family);
+			font-weight: bold;
+			text-align: center;
+			user-select: none;
+			pointer-events: none;
+			text-align: center;
+			line-height: var(--line-height);
+		}
+
+	/* graph */
+		#graph {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+		}
+
+		.note-block {
+			position: absolute;
+			width: var(--semitone-width);
+			height: var(--scale-degree-height);
+			border-radius: var(--border-radius);
+			color: var(--light-gray);
+			background: var(--medium-dark-gray);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			font-weight: bold;
+			text-align: center;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			line-height: var(--line-height);
+			transition: var(--transition-time);
+			user-select: none;
+			pointer-events: none;
+		}
+
+		.note-block:first-child {
+			border-radius: 0 var(--border-radius) 0 0;
+		}
+
+		.note-block:last-child {
+			border-radius: 0 0 0 var(--border-radius);
+		}
+
+		body[playing] .note-block[active] {
+			background: var(--light-blue);
+			color: var(--dark-gray);
+		}
+
+	/* toggles */
+		#toggles {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+
+		.toggle {
+			position: absolute;
+			width: var(--semitone-width);
+			height: var(--scale-degree-height);
+			background: transparent;
+			box-sizing: border-box;
+			cursor: pointer;
+			padding: calc(4 * var(--gap-size));
+			overflow: hidden;
+			border: none;
+			outline: none;
+			font-size: 0;
+		}
+
+		.toggle-inner {
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			border: var(--border-size) solid var(--medium-dark-gray);
+			border-radius: var(--border-radius);
+			box-sizing: border-box;
+			background: transparent;
+		}
+
+/*** controls ***/
+	#controls {
+		position: absolute;
+		top: calc(100% - var(--keyboard-height));
+		left: 0;
+		width: var(--staff-width);
+		height: var(--keyboard-height);
+		box-sizing: border-box;
+		padding: var(--gap-size);
+		z-index: 4;
+		overflow: hidden;
+		padding-top: calc(var(--keyboard-height) - var(--icon-size) + var(--gap-size) - 5 * (var(--font-size) + 3 * var(--gap-size)));
+	}
+
+	.controls-row {
+		float: left;
+		width: 100%;
+		min-height: calc(var(--font-size) + 2 * var(--gap-size));
+		box-sizing: border-box;
+		margin-bottom: var(--gap-size);
+	}
+
+	/* playback */
+		#controls span {
+			display: inline-block;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			line-height: var(--line-height);
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			vertical-align: top;
+			user-select: none;
+			color: var(--dark-gray);
+		}
+
+		#volume {
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(100% - 5 * (var(--font-size) + 3 * var(--gap-size)));
+			box-sizing: border-box;
+			cursor: pointer;
+			margin: 0 var(--gap-size) 0 0;
+			padding: 0;
+			user-select: none;
+			vertical-align: top;
+			outline: none;
+			transition: var(--transition-time);
+		}
+
+		#play-pause {
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
+			background: var(--light-gray);
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			user-select: none;
+			vertical-align: top;
+			color: var(--dark-gray);
+			outline: none;
+			transition: var(--transition-time);
+		}
+
+		body[playing] #play {
+			display: none;
+		}
+
+		body:not([playing]) #pause {
+			display: none;
+		}
+
+		#tempo-multiplier {
+			font-size: calc(var(--font-size) * 3 / 4);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			width: calc(var(--font-size) + 5 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			outline: none;
+			vertical-align: top;
+			transition: var(--transition-time);
+		}
+
+		#download {
+			font-size: var(--font-size);
+			font-family: monospace;
+			line-height: 1.1;
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			font-weight: bold;
+			padding: var(--gap-size);
+			vertical-align: top;
+			cursor: pointer;
+			user-select: none;
+			outline: none;
+			border: none;
+			transition: var(--transition-time);
+		}
+
+		#copy {
+			font-size: var(--font-size);
+			font-family: monospace;
+			line-height: var(--line-height);
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			font-weight: bold;
+			padding: 0;
+			vertical-align: top;
+			cursor: pointer;
+			user-select: none;
+			outline: none;
+			border: none;
+			margin-left: var(--gap-size);
+			transition: var(--transition-time);
+		}
+
+		#copy[copied] span:first-child {
+			display: none;
+		}
+
+		#copy:not([copied]) span:last-child {
+			display: none;
+		}
+
+		#volume:hover, #volume:focus, #play-pause:hover, #play-pause:focus, #tempo-multiplier:hover, #tempo-multiplier:focus, #download:hover, #download:focus, #copy:hover, #copy:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+	/* synth */
+		#synth {
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			width: 100%;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: var(--border-radius);
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			outline: none;
+			vertical-align: top;
+			transition: var(--transition-time);
+		}
+
+		#synth:hover, #synth:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+	/* scale */
+		#tonic {
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			width: calc(3 * var(--font-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: var(--border-radius) 0 0 var(--border-radius);
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			outline: none;
+			vertical-align: top;
+			transition: var(--transition-time);
+		}
+
+		#scale {
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			width: calc(100% - 3 * var(--font-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			border: none;
+			padding: 0;
+			cursor: pointer;
+			outline: none;
+			vertical-align: top;
+			transition: var(--transition-time);
+		}
+
+		#tonic:hover, #tonic:focus, #scale:hover, #scale:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+	/* aka */
+		#aka-outer {
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			color: var(--light-gray);
+			width: 100%;
+			height: calc(2 * var(--font-size) + 3 * var(--gap-size));
+			box-sizing: border-box;
+			padding: var(--gap-size) 0 calc(2 * var(--gap-size)) 0;
+			overflow: scroll;
+			margin-bottom: 0;
+		}
+
+	/* name */
+		#name-outer {
+			height: calc(var(--icon-size) + var(--gap-size));
+			padding: var(--gap-size) 0 0 0;
+			margin: 0;
+		}
+
+		#controls h1 {
+			text-align: left;
+			margin: 0;
+			height: var(--icon-size);
+		}
+
+		#controls h1 span {
+			height: var(--icon-size);
+			width: calc(100% - var(--gap-size) - var(--icon-size));
+			font-size: var(--icon-size);
+			font-family: var(--font-family);
+			user-select: none;
+			color: var(--light-gray);
+			line-height: var(--line-height);
+			padding: 0;
+			margin-right: var(--gap-size);
+		}
+
+		#j-logo {
+			display: inline-block;
+			background-color: transparent;
+			background-image: url("../resources/j.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center center;
+			height: var(--icon-size);
+			width: var(--icon-size);
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			transition: var(--transition-time);
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-gray));
+		}
+		
+		#j-logo:hover, #j-logo:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+/*** keyboard ***/
+	#keyboard {
+		position: absolute;
+		top: calc(100% - var(--keyboard-height));
+		left: var(--staff-width);
+		width: calc(100% - var(--staff-width));
+		height: var(--keyboard-height);
+		z-index: 2;
+		overflow: hidden;
+	}
+
+	.keyboard-key {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: calc(100% - var(--border-size));
+		width: var(--semitone-width);
+		border-radius: 0 0 calc(2 * var(--border-radius)) calc(2 * var(--border-radius));
+		box-sizing: border-box;
+		border: var(--border-size) solid var(--medium-light-gray);
+		border-top-width: 0;
+		transition: var(--transition-time);
+	}
+
+	/* colors */
+		.keyboard-key[color="white"] {
+			background: var(--light-gray);
+		}
+
+		.keyboard-key[color="black"] {
+			background: var(--dark-gray);
+			z-index: 2;
+		}
+
+	/* shapes */
+		.keyboard-key[shape="I"] {
+			height: calc(100% * var(--black-key-ratio));
+		}
+
+		.keyboard-key[shape="L"]:not(:last-child) {
+			width: calc(var(--semitone-width) * 1.5);
+		}
+
+		.keyboard-key[shape="J"]:not(:first-child) {
+			width: calc(var(--semitone-width) * 1.5);
+			margin-left: calc(var(--semitone-width) / -2);
+		}
+
+		.keyboard-key[shape="T"] {
+			width: calc(var(--semitone-width) * 2);
+			margin-left: calc(var(--semitone-width) / -2);
+		}
+
+		.keyboard-key[shape="T"]:first-child {
+			width: calc(var(--semitone-width) * 1.5);
+			margin-left: 0;
+		}
+
+		.keyboard-key[shape="T"]:last-child {
+			width: calc(var(--semitone-width) * 1.5);
+			margin-left: calc(var(--semitone-width) / -2);
+		}
+
+	/* active */
+		body[playing] .keyboard-key[active] {
+			background: var(--light-blue);
+		}
+
+/*** mobile ***/
+	@media screen and (max-width: 800px) {
+		:root {
+			--keyboard-height: calc(2 * var(--gap-size) + var(--icon-size) + 4 * (var(--gap-size) * 3 + var(--font-size)));
+		}
+
+		#staff {
+			display: none;
+		}
+
+		#keyboard {
+			display: none;
+		}
+
+		#grid {
+			top: 0;
+			left: calc(var(--font-size));
+			width: calc(100% - var(--font-size));
+			height: calc(100% - var(--keyboard-height) - var(--font-size) - var(--gap-size));
+		}
+
+		#y-axis {
+			left: calc(-1 * var(--font-size));
+		}
+
+		#corner {
+			left: calc(-1 * var(--font-size));
+			bottom: calc(-1 * var(--font-size));
+		}
+
+		#x-axis {
+			bottom: calc(-1 * var(--font-size));
+		}
+
+		.toggle {
+			padding: var(--gap-size);
+		}
+
+		#controls {
+			width: 100%;
+		}
+
+		#aka-outer {
+			height: calc(var(--font-size) + 3 * var(--gap-size));
+		}
+	}

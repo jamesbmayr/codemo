@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>scaleMaker</title>
+		<meta name="description" content="scaleMaker is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="scaleMaker">
+		<meta property="og:url" content="https://jamesmayr.com/scaleMaker/">
+		<meta property="og:description" content="scaleMaker is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/scaleMaker/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/442801-200.png">
+		<link href="https://fonts.googleapis.com/css2?family=Alata&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="../resources/audio.js" defer></script>
+		<script src="../melodyplayer/musicxml.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="staff">
+			<div id="line-area"></div>
+			<div id="clef">&#x1D11E;</div>
+		</div>
+		<div id="grid">
+			<div id="toggles"></div>
+			<div id="graph"></div>
+			<div id="y-axis">
+				<div class="scale-degree">1</div>
+				<div class="scale-degree">7</div>
+				<div class="scale-degree">6</div>
+				<div class="scale-degree">5</div>
+				<div class="scale-degree">4</div>
+				<div class="scale-degree">3</div>
+				<div class="scale-degree">2</div>
+				<div class="scale-degree">1</div>
+			</div>
+			<div id="x-axis">
+				<div class="semitone">0</div>
+				<div class="semitone">1</div>
+				<div class="semitone">2</div>
+				<div class="semitone">3</div>
+				<div class="semitone">4</div>
+				<div class="semitone">5</div>
+				<div class="semitone">6</div>
+				<div class="semitone">7</div>
+				<div class="semitone">8</div>
+				<div class="semitone">9</div>
+				<div class="semitone">10</div>
+				<div class="semitone">11</div>
+				<div class="semitone">0</div>
+			</div>
+			<div id="corner"></div>
+		</div>
+		<div id="controls">
+			<div id="controls-gap"></div>
+			<div id="playback-outer" class="controls-row">
+				<label>
+					<span>&#128266;</span>
+					<input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" title="volume">
+				</label>
+				<button id="play-pause" title="playback">
+					<span id="play">&#9654;&#65039;</span>
+					<span id="pause">&#9209;&#65039;</span>
+				</button>
+				<select id="tempo-multiplier" title="tempo multiplier">
+					<option value="0.25">¼x</option>
+					<option value="0.5">½x</option>
+					<option value="1" selected>1x</option>
+					<option value="2">2x</option>
+					<option value="4">4x</option>
+				</select>
+				<button id="copy" title="copy to clipboard">
+					<span>&#128203;</span>
+					<span>&#x2713;</span>
+				</button>
+				<button id="download" title="download musicXML">&DownArrowBar;</button>
+			</div>
+			<div id="synth-outer" class="controls-row">
+				<select id="synth" title="synth"></select>
+			</div>
+			<div id="scale-outer" class="controls-row">
+				<select id="tonic" title="tonic"></select>
+				<select id="scale" title="scale"></select>
+			</div>
+			<div id="aka-outer" class="controls-row">
+			</div>
+			<div id="name-outer" class="controls-row">
+				<h1>
+					<span>scaleMaker</span>
+					<a id="j-logo" href="https://jamesmayr.com"></a>
+				</h1>
+			</div>
+		</div>
+		<div id="keyboard"></div>
+	</body>
+</html>
