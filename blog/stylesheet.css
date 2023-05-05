@@ -13,6 +13,7 @@
 			--shadow-size: 4px;
 			--font-family: "Alata", sans-serif;
 			--border-size: 2px;
+			--bold-shadow-size: 0.5px;
 			--small-gap-size: 8px;
 			--medium-gap-size: 16px;
 			--large-gap-size: 32px;
@@ -530,7 +531,7 @@
 			line-height: var(--line-height);
 			text-transform: uppercase;
 			margin: var(--medium-gap-size) 0 var(--medium-gap-size) 0;
-			text-shadow: 0 0 calc(var(--border-size) / 2) var(--medium-gray);
+			text-shadow: 0 0 var(--bold-shadow-size) var(--medium-gray);
 		}
 
 	/* other full block */
@@ -620,7 +621,7 @@
 
 		.post-block b {
 			font-weight: bold;
-			text-shadow: 0 0 calc(var(--border-size) / 2) var(--medium-gray);
+			text-shadow: 0 0 var(--bold-shadow-size) var(--medium-gray);
 		}
 
 		.post-block i {

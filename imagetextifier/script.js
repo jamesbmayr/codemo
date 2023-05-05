@@ -351,6 +351,7 @@
 		function processCharacter(hsl) {
 			try {
 				const l = Math.floor(hsl[2] * STATE.ascii.length)
-				return (STATE.inverted ? STATE.ascii[STATE.ascii.length - 1 - l] : STATE.ascii[l]) || " "
+				return (STATE.inverted ? STATE.ascii[STATE.ascii.length - 1 - l] : STATE.ascii[l]) || 
+					   (STATE.inverted ? STATE.ascii[STATE.ascii.length - 1] : STATE.ascii[0])
 			} catch (error) {console.log(error)}
 		}

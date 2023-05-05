@@ -12,7 +12,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<link rel="shortcut icon" href="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_input_48px-512.png"/>
 		<link rel="stylesheet" href="stylesheet.css"/>
-		<script src="script.js"></script>
+		<script src="script.js" defer></script>
 	</head>
 	<body>
 		<div id="container">
@@ -581,6 +581,12 @@
 					<label class="block-label">
 						<input type="text" class="block-input" placeholder="paste">
 					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="barcode-detector">
+					<label class="block-label">barcode detection</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
