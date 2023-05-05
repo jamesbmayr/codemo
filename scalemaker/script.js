@@ -7,7 +7,14 @@
 	/* triggers */
 		const TRIGGERS = {
 			click: "click",
-			input: "input"
+			input: "input",
+			mousedown: "mousedown",
+			mouseup: "mouseup"
+		}
+
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			TRIGGERS.mousedown = "touchstart"
+			TRIGGERS.mouseup = "touchend"
 		}
 
 	/* elements */
@@ -542,6 +549,7 @@
 			synth: CONSTANTS.defaultSynth,
 			tonic: CONSTANTS.defaultTonic,
 			scale: CONSTANTS.defaultScale,
+			pressedKeys: {},
 			tick: 0,
 			measure: 1,
 			music: {},
@@ -909,6 +917,11 @@
 						STATE.notes.splice(existingIndex, 1)
 					}
 					else {
+						const equivalentIndex = STATE.notes.findIndex(note => note.semitone == semitone)
+						if (equivalentIndex !== -1) {
+							STATE.notes.splice(equivalentIndex, 1)
+						}
+						
 						STATE.notes.push({
 							scaleDegree: scaleDegree,
 							semitone: semitone
@@ -1140,6 +1153,7 @@
 				// scale keys
 					const keys = []
 					let semitone = semitoneOffset
+					let midi = semitone + CONSTANTS.midiOffset
 					let index = 0
 					do {
 						// get info
@@ -1151,13 +1165,16 @@
 								keyElement.setAttribute("color", keyInfo.color)
 								keyElement.setAttribute("shape", keyInfo.shape)
 								keyElement.setAttribute("semitone", index)
+								keyElement.setAttribute("midi", midi)
 								keyElement.style.left = "calc(" + index + " * var(--semitone-width))"
 								keyElement.title = keyInfo.name
+								keyElement.addEventListener(TRIGGERS.mousedown, pressKey)
 							ELEMENTS.keyboard.element.appendChild(keyElement)
 							keys.push(keyElement)
 
 						// next semitone
 							semitone = (semitone + 1) % AUDIO_J.constants.semitonesPerOctave
+							midi++
 							index++
 					} while (semitone !== semitoneOffset)
 
@@ -1171,8 +1188,10 @@
 							keyElement.setAttribute("color", keyInfo.color)
 							keyElement.setAttribute("shape", keyInfo.shape)
 							keyElement.setAttribute("semitone", index)
+							keyElement.setAttribute("midi", midi)
 							keyElement.style.left = "calc(" + index + " * var(--semitone-width))"
 							keyElement.title = keyInfo.name
+							keyElement.addEventListener(TRIGGERS.mousedown, pressKey)
 						ELEMENTS.keyboard.element.appendChild(keyElement)
 						keys.push(keyElement)
 
@@ -1414,6 +1433,57 @@
 						const frequency = AUDIO_J.getNote(n)[0]
 						instrument.press(frequency)
 						instrument.lift(frequency, STATE.interval * Math.max(1, (notes[n] - 1)))
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* pressKey */
+		function pressKey(event) {
+			try {
+				// target
+					const keyElement = event.target.closest(".keyboard-key")
+					const midi = Number(keyElement.getAttribute("midi"))
+
+				// state
+					STATE.pressedKeys[midi] = true
+
+				// display
+					keyElement.setAttribute("pressed", true)
+
+				// audio
+					if (AUDIO_J.audio) {
+						const instrument = AUDIO_J.instruments[AUDIO_J.activeInstrumentId]
+						if (instrument) {
+							const frequency = AUDIO_J.getNote(midi)[0]
+							instrument.press(frequency)
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* liftKeys */
+		window.addEventListener(TRIGGERS.mouseup, liftKeys)
+		function liftKeys(event) {
+			try {
+				// loop through
+					for (const midi in STATE.pressedKeys) {
+						// state
+							delete STATE.pressedKeys[midi]
+
+						// display
+							const keyElement = ELEMENTS.keyboard.element.querySelector("[midi='" + midi + "']")
+							if (keyElement) {
+								keyElement.removeAttribute("pressed")
+							}
+
+						// audio
+							if (AUDIO_J.audio) {
+								const instrument = AUDIO_J.instruments[AUDIO_J.activeInstrumentId]
+								if (instrument) {
+									const frequency = AUDIO_J.getNote(midi)[0]
+									instrument.lift(frequency)
+								}
+							}
 					}
 			} catch (error) {console.log(error)}
 		}

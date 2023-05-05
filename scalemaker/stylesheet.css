@@ -557,6 +557,7 @@
 		border: var(--border-size) solid var(--medium-light-gray);
 		border-top-width: 0;
 		transition: var(--transition-time);
+		cursor: pointer;
 	}
 
 	/* colors */
@@ -600,6 +601,10 @@
 
 	/* active */
 		body[playing] .keyboard-key[active] {
+			background: var(--light-blue);
+		}
+
+		.keyboard-key[pressed] {
 			background: var(--light-blue);
 		}
 
