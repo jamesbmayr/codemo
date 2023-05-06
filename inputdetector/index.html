@@ -15,6 +15,10 @@
 		<script src="script.js" defer></script>
 	</head>
 	<body>
+		<div id="search-outer">
+			<input id="search" type="text" placeholder="search..." autocomplete="off" spellcheck="false">
+			<button id="clear-search">&times;</button>
+		</div>
 		<div id="container">
 				<div class="block" id="top">
 					<label class="block-label">inputdetector</label>
@@ -161,6 +165,14 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="fullscreen">
+					<label class="block-label">
+						<button class="block-button">fullscreen</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 				<div class="block" id="battery">
 					<label class="block-label">battery</label>
 					<div class="block-output-outer">
@@ -247,7 +259,9 @@
 					</div>
 				</div>
 				<div class="block" id="focus" tabindex=1>
-					<label class="block-label">focus</label>
+					<label class="block-label">
+						<button class="block-button">focus</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -399,7 +413,7 @@
 				</div>
 				<div class="block" id="color">
 					<label class="block-label">
-						<input type="color" class="block-input" placeholder="color"></input>
+						<input type="color" class="block-button" placeholder="color"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -552,11 +566,11 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="details-toggle">
+				<div class="block" id="summary-details-toggle">
 					<label class="block-label">
 						<details>
 							<summary>summary</summary>
-							details
+							<div>details</div>
 						</details>
 					</label>
 					<div class="block-output-outer">
@@ -587,6 +601,30 @@
 				</div>
 				<div class="block" id="barcode-detector">
 					<label class="block-label">barcode detection</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="light-dark-color-scheme-detector">
+					<label class="block-label">light/dark mode</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="monochrome-color-detector">
+					<label class="block-label">monochrome</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="inverted-color-detector">
+					<label class="block-label">inverted mode</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="contrast-detector">
+					<label class="block-label">contrast</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>

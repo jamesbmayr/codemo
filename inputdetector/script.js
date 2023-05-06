@@ -21,6 +21,58 @@
 		}, 3000)
 	}
 
+/*** search ***/
+	/* updateSearch */
+		var SEARCH_INPUT = document.querySelector("#search")
+		SEARCH_INPUT.addEventListener("input", updateSearch)
+		function updateSearch() {
+			try {
+				// search
+					var search = SEARCH_INPUT.value || ""
+					filterInputs(search)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* clearSearch */
+		var CLEAR_SEARCH = document.querySelector("#clear-search")
+		CLEAR_SEARCH.addEventListener(on.click, clearSearch)
+		function clearSearch() {
+			try {
+				// clear search field
+					SEARCH_INPUT.value = ""
+
+				// unfilter
+					filterInputs()
+
+				// refocus
+					SEARCH_INPUT.focus()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* filterInputs */
+		function filterInputs(search) {
+			try {
+				// show all
+					var hiddenBlocks = Array.from(document.querySelectorAll("[hidden=true]"))
+					for (var i in hiddenBlocks) {
+						hiddenBlocks[i].removeAttribute("hidden")
+					}
+
+				// no search?
+					if (!search) {
+						return
+					}
+
+				// search
+					var allBlocks = Array.from(document.querySelectorAll(".block"))
+					for (var i in allBlocks) {
+						if (!allBlocks[i].id.toLowerCase().includes(search.toLowerCase())) {
+							allBlocks[i].setAttribute("hidden", true)
+						}
+					}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** time ***/
 	/* detectCurrentTime */
 		var CURRENT_TIME_OUTPUT = document.querySelector("#current-time .block-value")
@@ -185,7 +237,7 @@
 		var WEBWORKERS = null
 		var WEBWORKERS_OUTPUT = document.querySelector("#webworkers .block-value")
 		var WEBWORKERS_INPUT = document.querySelector("#webworkers .block-input")
-			WEBWORKERS_INPUT.addEventListener("change", detectWebWorkers)
+			WEBWORKERS_INPUT.addEventListener("input", detectWebWorkers)
 		createWebworkers()
 		function createWebworkers() {
 			try {
@@ -227,7 +279,7 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-		POSTMESSAGE_INPUT.addEventListener("change", detectPostMessage)
+		POSTMESSAGE_INPUT.addEventListener("input", detectPostMessage)
 		function detectPostMessage(event) {
 			try {
 				if (POSTMESSAGE_IFRAME) {
@@ -299,6 +351,35 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectFullScreen */
+		var FULLSCREEN_BUTTON = document.querySelector("#fullscreen .block-button")
+		var FULLSCREEN_OUTPUT = document.querySelector("#fullscreen .block-value")
+		detectFullScreen()
+		FULLSCREEN_BUTTON.addEventListener(on.click, toggleFullScreen)
+		function toggleFullScreen(event) {
+			try {
+				// exit
+					if (document.body.getAttribute("fullscreen")) {
+						document.body.removeAttribute("fullscreen")
+						document.exitFullscreen()
+					}
+
+				// enter
+					else {
+						document.body.requestFullscreen()
+						document.body.setAttribute("fullscreen", true)
+					}
+
+				// detect
+					detectFullScreen()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+		function detectFullScreen(event) {
+			try {
+				FULLSCREEN_OUTPUT.innerHTML = document.body.getAttribute("fullscreen") ? "!" : ""
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectBattery */
 		var BATTERY_OUTPUT = document.querySelector("#battery .block-value")
 		detectBattery()
@@ -347,7 +428,60 @@
 		var COMPASS_OUTPUT = document.querySelector("#compass .block-value")
 		function detectCompass(event) {
 			try {
-				COMPASS_OUTPUT.innerHTML = event.webkitCompassHeading ? event.webkitCompassHeading : event.alpha.toFixed(4)
+				var degrees = (Number(event.webkitCompassHeading ? event.webkitCompassHeading : event.alpha) + 360) % 360
+				var direction = "?"
+				if (degrees < 11.25) {
+					direction = "N"
+				}
+				else if (degrees < 33.75) {
+					direction = "NNE"
+				}
+				else if (degrees < 56.25) {
+					direction = "NE"
+				}
+				else if (degrees < 78.75) {
+					direction = "ENE"
+				}
+				else if (degrees < 101.25) {
+					direction = "E"
+				}
+				else if (degrees < 123.75) {
+					direction = "ESE"
+				}
+				else if (degrees < 146.25) {
+					direction = "SE"
+				}
+				else if (degrees < 168.75) {
+					direction = "SSE"
+				}
+				else if (degrees < 191.25) {
+					direction = "S"
+				}
+				else if (degrees < 213.75) {
+					direction = "SSW"
+				}
+				else if (degrees < 236.25) {
+					direction = "SW"
+				}
+				else if (degrees < 258.75) {
+					direction = "WSW"
+				}
+				else if (degrees < 281.25) {
+					direction = "W"
+				}
+				else if (degrees < 303.75) {
+					direction = "WNW"
+				}
+				else if (degrees < 326.25) {
+					direction = "NW"
+				}
+				else if (degrees < 348.75) {
+					direction = "NNW"
+				}
+				else if (degrees < 360) {
+					direction = "N"
+				}
+				COMPASS_OUTPUT.innerHTML = direction
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -356,7 +490,8 @@
 		window.addEventListener("devicemotion", detectMotion)
 		function detectMotion(event) {
 			try {
-				MOTION_OUTPUT.innerHTML = "x: " + event.beta.toFixed(4) + "<br>y: " + event.gamma.toFixed(4) + "<br>z: " + event.alpha.toFixed(4)
+				MOTION_OUTPUT.innerHTML = JSON.stringify(event)
+				// MOTION_OUTPUT.innerHTML = "x: " + event.beta.toFixed(4) + "<br>y: " + event.gamma.toFixed(4) + "<br>z: " + event.alpha.toFixed(4)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -481,7 +616,9 @@
 	/* detectFocus / detectBlur */
 		var FOCUS_OUTPUT = document.querySelector("#focus .block-value")
 		var FOCUS_INPUT = document.querySelector("#focus")
+		var FOCUS_BUTTON = document.querySelector("#focus .block-button")
 			FOCUS_INPUT.addEventListener("focus", detectFocus)
+			FOCUS_BUTTON.addEventListener("focus", detectFocus)
 		function detectFocus(event) {
 			try {
 				FOCUS_OUTPUT.innerHTML = "!"
@@ -489,6 +626,7 @@
 		}
 
 			FOCUS_INPUT.addEventListener("blur", detectBlur)
+			FOCUS_BUTTON.addEventListener("blur", detectBlur)
 		function detectBlur(event) {
 			try {
 				FOCUS_OUTPUT.innerHTML = ""
@@ -808,7 +946,7 @@
 	/* detectTextInput */
 		var TEXT_OUTPUT = document.querySelector("#text .block-value")
 		var TEXT_INPUT = document.querySelector("#text .block-input")
-			TEXT_INPUT.addEventListener("change", detectTextInput)
+			TEXT_INPUT.addEventListener("input", detectTextInput)
 		function detectTextInput(event) {
 			try {
 				TEXT_OUTPUT.innerHTML = TEXT_INPUT.value
@@ -818,7 +956,7 @@
 	/* detectPasswordInput */
 		var PASSWORD_OUTPUT = document.querySelector("#password .block-value")
 		var PASSWORD_INPUT = document.querySelector("#password .block-input")
-			PASSWORD_INPUT.addEventListener("change", detectPasswordInput)
+			PASSWORD_INPUT.addEventListener("input", detectPasswordInput)
 		function detectPasswordInput(event) {
 			try {
 				PASSWORD_OUTPUT.innerHTML = PASSWORD_INPUT.value
@@ -828,7 +966,7 @@
 	/* detectNumberInput */
 		var NUMBER_OUTPUT = document.querySelector("#number .block-value")
 		var NUMBER_INPUT = document.querySelector("#number .block-input")
-			NUMBER_INPUT.addEventListener("change", detectNumberInput)
+			NUMBER_INPUT.addEventListener("input", detectNumberInput)
 		function detectNumberInput(event) {
 			try {
 				NUMBER_OUTPUT.innerHTML = NUMBER_INPUT.value
@@ -838,7 +976,7 @@
 	/* detectTimeInput */
 		var TIME_OUTPUT = document.querySelector("#time .block-value")
 		var TIME_INPUT = document.querySelector("#time .block-input")
-			TIME_INPUT.addEventListener("change", detectTimeInput)
+			TIME_INPUT.addEventListener("input", detectTimeInput)
 		function detectTimeInput(event) {
 			try {
 				TIME_OUTPUT.innerHTML = TIME_INPUT.value
@@ -848,7 +986,7 @@
 	/* detectDateInput */
 		var DATE_OUTPUT = document.querySelector("#date .block-value")
 		var DATE_INPUT = document.querySelector("#date .block-input")
-			DATE_INPUT.addEventListener("change", detectDateInput)
+			DATE_INPUT.addEventListener("input", detectDateInput)
 		function detectDateInput(event) {
 			try {
 				DATE_OUTPUT.innerHTML = DATE_INPUT.value
@@ -858,7 +996,7 @@
 	/* detectWeekInput */
 		var WEEK_OUTPUT = document.querySelector("#week .block-value")
 		var WEEK_INPUT = document.querySelector("#week .block-input")
-			WEEK_INPUT.addEventListener("change", detectWeekInput)
+			WEEK_INPUT.addEventListener("input", detectWeekInput)
 		function detectWeekInput(event) {
 			try {
 				WEEK_OUTPUT.innerHTML = WEEK_INPUT.value
@@ -868,7 +1006,7 @@
 	/* detectMonthInput */
 		var MONTH_OUTPUT = document.querySelector("#month .block-value")
 		var MONTH_INPUT = document.querySelector("#month .block-input")
-			MONTH_INPUT.addEventListener("change", detectMonthInput)
+			MONTH_INPUT.addEventListener("input", detectMonthInput)
 		function detectMonthInput(event) {
 			try {
 				MONTH_OUTPUT.innerHTML = MONTH_INPUT.value
@@ -878,7 +1016,7 @@
 	/* detectDateTimeInput */
 		var DATETIME_OUTPUT = document.querySelector("#datetime .block-value")
 		var DATETIME_INPUT = document.querySelector("#datetime .block-input")
-			DATETIME_INPUT.addEventListener("change", detectDateTimeInput)
+			DATETIME_INPUT.addEventListener("input", detectDateTimeInput)
 		function detectDateTimeInput(event) {
 			try {
 				DATETIME_OUTPUT.innerHTML = DATETIME_INPUT.value
@@ -887,8 +1025,8 @@
 
 	/* detectColorInput */
 		var COLOR_OUTPUT = document.querySelector("#color .block-value")
-		var COLOR_INPUT = document.querySelector("#color .block-input")
-			COLOR_INPUT.addEventListener("change", detectColorInput)
+		var COLOR_INPUT = document.querySelector("#color .block-button")
+			COLOR_INPUT.addEventListener("input", detectColorInput)
 		function detectColorInput(event) {
 			try {
 				COLOR_OUTPUT.innerHTML = COLOR_INPUT.value
@@ -899,7 +1037,7 @@
 	/* detectTextareaInput */
 		var TEXTAREA_OUTPUT = document.querySelector("#textarea .block-value")
 		var TEXTAREA_INPUT = document.querySelector("#textarea .block-input")
-			TEXTAREA_INPUT.addEventListener("change", detectTextareaInput)
+			TEXTAREA_INPUT.addEventListener("input", detectTextareaInput)
 		function detectTextareaInput(event) {
 			try {
 				TEXTAREA_OUTPUT.innerHTML = TEXTAREA_INPUT.value
@@ -909,7 +1047,7 @@
 	/* detectSelectInput */
 		var SELECT_OUTPUT = document.querySelector("#select .block-value")
 		var SELECT_INPUT = document.querySelector("#select .block-select")
-			SELECT_INPUT.addEventListener("change", detectSelectInput)
+			SELECT_INPUT.addEventListener("input", detectSelectInput)
 		function detectSelectInput(event) {
 			try {
 				SELECT_OUTPUT.innerHTML = SELECT_INPUT.value
@@ -919,7 +1057,7 @@
 	/* detectMultiselectInput */
 		var MULTISELECT_OUTPUT = document.querySelector("#multiselect .block-value")
 		var MULTISELECT_INPUT = document.querySelector("#multiselect .block-select")
-			MULTISELECT_INPUT.addEventListener("change", detectMultiselectInput)
+			MULTISELECT_INPUT.addEventListener("input", detectMultiselectInput)
 		function detectMultiselectInput(event) {
 			try {
 				var selected = document.querySelectorAll("#multiselect .block-select option:checked")
@@ -930,7 +1068,7 @@
 	/* detectRadioInput */
 		var RADIO_OUTPUT = document.querySelector("#radio .block-value")
 		var RADIO_INPUTS = document.querySelectorAll("#radio .block-radio")
-			RADIO_INPUTS.forEach(function(element) { element.addEventListener("change", detectRadioInput) })
+			RADIO_INPUTS.forEach(function(element) { element.addEventListener("input", detectRadioInput) })
 		function detectRadioInput(event) {
 			try {
 				for (var i in RADIO_INPUTS) {
@@ -944,7 +1082,7 @@
 	/* detectCheckboxInput */
 		var CHECKBOX_OUTPUT = document.querySelector("#checkbox .block-value")
 		var CHECKBOX_INPUT = document.querySelector("#checkbox .block-checkbox")
-			CHECKBOX_INPUT.addEventListener("change", detectCheckboxInput)
+			CHECKBOX_INPUT.addEventListener("input", detectCheckboxInput)
 		detectCheckboxInput()
 		function detectCheckboxInput(event) {
 			try {
@@ -955,7 +1093,7 @@
 	/* detectRangeInput */
 		var RANGE_OUTPUT = document.querySelector("#range .block-value")
 		var RANGE_INPUT = document.querySelector("#range .block-input")
-			RANGE_INPUT.addEventListener("change", detectRangeInput)
+			RANGE_INPUT.addEventListener("input", detectRangeInput)
 		function detectRangeInput(event) {
 			try {
 				RANGE_OUTPUT.innerHTML = RANGE_INPUT.value
@@ -966,7 +1104,7 @@
 		var FILE_OUTPUT = document.querySelector("#file .block-value")
 		var FILE_BUTTON_INPUT = document.querySelector("#file .block-button")
 		var FILE_INPUT = document.querySelector("#file .block-input-hidden")
-			FILE_INPUT.addEventListener("change", detectFileInput)
+			FILE_INPUT.addEventListener("input", detectFileInput)
 		function detectFileInput(event) {
 			try {
 				if (FILE_INPUT.value && FILE_INPUT.value.length) {
@@ -984,7 +1122,7 @@
 		var EMAIL_OUTPUT = document.querySelector("#email .block-value")
 		var EMAIL_SUBMIT = document.querySelector("#email .block-input-hidden")
 		var EMAIL_INPUT = document.querySelector("#email .block-input")
-			EMAIL_INPUT.addEventListener("change", detectEmailInput)
+			EMAIL_INPUT.addEventListener("input", detectEmailInput)
 		function detectEmailInput(event) {
 			try {
 				EMAIL_SUBMIT.click()
@@ -1001,7 +1139,7 @@
 		var TELEPHONE_OUTPUT = document.querySelector("#telephone .block-value")
 		var TELEPHONE_SUBMIT = document.querySelector("#telephone .block-input-hidden")
 		var TELEPHONE_INPUT = document.querySelector("#telephone .block-input")
-			TELEPHONE_INPUT.addEventListener("change", detectTelephoneInput)
+			TELEPHONE_INPUT.addEventListener("input", detectTelephoneInput)
 		function detectTelephoneInput(event) {
 			try {
 				TELEPHONE_SUBMIT.click()
@@ -1018,7 +1156,7 @@
 		var URL_OUTPUT = document.querySelector("#url .block-value")
 		var URL_SUBMIT = document.querySelector("#url .block-input-hidden")
 		var URL_INPUT = document.querySelector("#url .block-input")
-			URL_INPUT.addEventListener("change", detectURLInput)
+			URL_INPUT.addEventListener("input", detectURLInput)
 		function detectURLInput(event) {
 			try {
 				URL_SUBMIT.click()
@@ -1082,6 +1220,66 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+/*** media queries ***/
+	/* light/dark mode */
+		var COLOR_SCHEME_OUTPUT = document.querySelector("#light-dark-color-scheme-detector .block-value")
+		detectColorScheme()
+		function detectColorScheme() {
+			try {
+				if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+					COLOR_SCHEME_OUTPUT.innerHTML = "dark mode"
+				}
+				else {
+					COLOR_SCHEME_OUTPUT.innerHTML = "light mode"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* monochrome mode */
+		var MONOCHROME = document.querySelector("#monochrome-color-detector .block-value")
+		detectMonochrome()
+		function detectMonochrome() {
+			try {
+				if (window.matchMedia("(monochrome)").matches) {
+					MONOCHROME.innerHTML = "monochrome mode"
+				}
+				else {
+					MONOCHROME.innerHTML = "color mode"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* inverted mode */
+		var INVERTED = document.querySelector("#inverted-color-detector .block-value")
+		detectInverted()
+		function detectInverted() {
+			try {
+				if (window.matchMedia("(inverted-colors)").matches) {
+					INVERTED.innerHTML = "inverted colors"
+				}
+				else {
+					INVERTED.innerHTML = "normal colors"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* contrast mode */
+		var CONTRAST = document.querySelector("#contrast-detector .block-value")
+		detectContrast()
+		function detectContrast() {
+			try {
+				if (window.matchMedia("(prefers-contrast: high)").matches) {
+					CONTRAST.innerHTML = "high contrast"
+				}
+				else if (window.matchMedia("(prefers-contrast: low)").matches) {
+					CONTRAST.innerHTML = "low contrast"
+				}
+				else {
+					CONTRAST.innerHTML = "normal contrast"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** other ***/
 	/* detectXHR */
 		var XHR_OUTPUT = document.querySelector("#xhr .block-value")
@@ -1113,8 +1311,8 @@
 		}
 
 	/* detectDetailsToggle */
-		var DETAILSTOGGLE_OUTPUT = document.querySelector("#details-toggle .block-value")
-		var DETAILSTOGGLE_INPUT = document.querySelector("#details-toggle .block-label details")
+		var DETAILSTOGGLE_OUTPUT = document.querySelector("#summary-details-toggle .block-value")
+		var DETAILSTOGGLE_INPUT = document.querySelector("#summary-details-toggle .block-label details")
 			DETAILSTOGGLE_INPUT.addEventListener("toggle", detectDetailsToggle)
 			detectDetailsToggle()
 		function detectDetailsToggle(event) {

@@ -17,8 +17,60 @@
 		width: auto;
 		height: auto;
 		margin: auto auto;
+		margin-top: 50px;
 		font-size: 0px;
 		max-width: 100vw;
+	}
+
+/*** search ***/
+	#search-outer {
+		position: fixed;
+		top: 0;
+		left: 0;
+		background-color: #111111;
+		height: 50px;
+		width: 100%;
+		padding: 10px;
+		box-sizing: border-box;
+	}
+
+	#search {
+		border-radius: 5px;
+		background: #dddddd;
+		color: #111111;
+		font-family: monospace;
+		font-size: 20px;
+		outline: none;
+		text-align: left;
+		line-height: 1;
+		height: 30px;
+		width: 100%;
+		border: none;
+		padding: 5px;
+		box-sizing: border-box;
+	}
+
+	#clear-search {
+		background: none;
+		color: #111111;
+		font-size: 30px;
+		font-family: monospace;
+		cursor: pointer;
+		border: none;
+		padding: none;
+		position: absolute;
+		height: 30px;
+		width: 30px;
+		top: 10px;
+		right: 10px;
+		line-height: 1;
+		font-weight: bold;
+		transition: 0.5s;
+		outline: none;
+	}
+
+	#clear-search:hover, #clear-search:focus {
+		text-shadow: 0 0 5px #111111;
 	}
 
 /*** j-logo ***/
@@ -88,6 +140,10 @@
 		text-align: left;
 	}
 
+	.block[hidden] {
+		display: none;
+	}
+
 	/* interactive elements */
 		.block-button {
 			background-color: #dddddd;
@@ -103,6 +159,17 @@
 			cursor: pointer;
 			outline: none;
 			font-weight: bold;
+		}
+
+		input.block-button[type="color"] {
+			padding: 5px;
+		}
+
+		label.block-button {
+			width: 100%;
+			height: 100%;
+			display: block;
+			line-height: 1.5;
 		}
 
 		.block-button:focus, .block-button:hover {
@@ -176,6 +243,18 @@
 
 		.block-label details, .block-label summary {
 			outline: none;
+			cursor: pointer;
+		}
+
+		.block-label details {
+			background: #111111;
+			box-shadow: 0 0 5px #111111;
+		}
+
+		.block-label details div {
+			margin-top: 5px;
+			background: #111111;
+			box-shadow: 0 0 5px #111111;
 		}
 
 	/* special */
