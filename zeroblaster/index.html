@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>zeroBlaster</title>
+		<meta name="description" content="zeroBlaster is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="zeroBlaster">
+		<meta property="og:url" content="https://jamesmayr.com/zeroblaster/">
+		<meta property="og:description" content="zeroBlaster is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/zeroblaster/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/25966-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="controls">
+			<div id="click" class="text-block">
+				<div id="click-header">primary</div>
+				<div id="click-inner">shoot #</div>
+			</div>
+			<div id="rightclick" class="text-block">
+				<div id="rightclick-header">secondary</div>
+				<div id="rightclick-inner">flip +/-</div>
+			</div>
+		</div>
+		<div id="game">
+			<div id="blaster">
+				<div id="blaster-center">
+					<div id="blaster-direction"></div>
+					<div id="blaster-cover"></div>
+				</div>
+			</div>
+			<div id="spiral" invisible></div>
+			<div id="kinetic"></div>
+		</div>
+		<div id="stats">
+			<div id="score" class="text-block">
+				<div id="score-header">zeroes</div>
+				<div id="score-inner">0</div>
+			</div>
+			<div id="next" class="text-block">
+				<div id="next-header">next</div>
+				<div id="next-inner"></div>
+			</div>
+		</div>
+		<button id="restart">&orarr;</button>
+		<a id="j-logo" href="https://jamesmayr.com"></a>
+	</body>
+</html>

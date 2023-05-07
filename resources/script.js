@@ -1313,13 +1313,21 @@
 				date: "June 5, 2015",
 				description: "Wribbon is a form of stylized text designed to look like strips of paper folded into letters and numbers."
 			},
-			xmlParser: {
+			xmlparser: {
 				skipRandom: true,
 				name: "xmlParser",
 				size: "small",
 				tags: ["code","tool"],
 				date: "September 10, 2017",
 				description: "xmlParser is a Javascript web tool for converting XML into JSON."
+			},
+			zeroblaster: {
+				skipRandom: true,
+				name: "zeroBlaster",
+				size: "small",
+				tags: ["code","math","game","arcade"],
+				date: "May 7, 2023",
+				description: "Numbers spiral ever closer - can you blast them back to zero?"
 			}
 		}
 
