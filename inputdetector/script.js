@@ -14,7 +14,8 @@
 	function handleError(name, message) {
 		clearTimeout(ERROR_TIMEOUT)
 		ERROR_NOTIFICATION.className = ""
-		ERROR_OUTPUT.innerHTML = "<b>" + name + "</b><br>" + message
+		ERROR_OUTPUT.innerHTML = "<b>" + name + "</b><br>" + 
+								 message
 
 		ERROR_TIMEOUT = setTimeout(function() {
 			ERROR_NOTIFICATION.className = "disappear"
@@ -172,7 +173,8 @@
 		window.addEventListener("resize", detectResize)
 		function detectResize(event) {
 			try {
-				WINDOW_OUTPUT.innerHTML = "x: " + Math.round(window.innerWidth) + "<br>y: " + Math.round(window.innerHeight)
+				WINDOW_OUTPUT.innerHTML = "x: " + Math.round(window.innerWidth) + "<br>" + 
+										  "y: " + Math.round(window.innerHeight)
 				detectConsole()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -347,36 +349,58 @@
 		detectScreen()
 		function detectScreen(event) {
 			try {
-				SCREEN_OUTPUT.innerHTML = "x: " + Math.round(screen.availWidth) + "<br>y: " + Math.round(screen.availHeight)
+				SCREEN_OUTPUT.innerHTML = "x: " + Math.round(screen.availWidth) + "<br>" +
+										  "y: " + Math.round(screen.availHeight)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectFullScreen */
 		var FULLSCREEN_BUTTON = document.querySelector("#fullscreen .block-button")
 		var FULLSCREEN_OUTPUT = document.querySelector("#fullscreen .block-value")
-		detectFullScreen()
 		FULLSCREEN_BUTTON.addEventListener(on.click, toggleFullScreen)
 		function toggleFullScreen(event) {
 			try {
+				// not allowed
+					if (!document.fullscreenEnabled) {
+						FULLSCREEN_OUTPUT.innerHTML = "not allowed"
+						return
+					}
+
 				// exit
-					if (document.body.getAttribute("fullscreen")) {
-						document.body.removeAttribute("fullscreen")
+					if (window.outerHeight == screen.availHeight && window.outerWidth == screen.availWidth) {
 						document.exitFullscreen()
 					}
 
 				// enter
 					else {
 						document.body.requestFullscreen()
-						document.body.setAttribute("fullscreen", true)
 					}
-
-				// detect
-					detectFullScreen()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
+
+		detectFullScreen()
+		window.addEventListener("fullscreenchange", detectFullScreen)
 		function detectFullScreen(event) {
 			try {
-				FULLSCREEN_OUTPUT.innerHTML = document.body.getAttribute("fullscreen") ? "!" : ""
+				setTimeout(function() {
+					if (window.outerHeight == screen.availHeight && window.outerWidth == screen.availWidth) {
+						FULLSCREEN_OUTPUT.innerHTML = "!"
+					}
+					else {
+						FULLSCREEN_OUTPUT.innerHTML = ""
+					}
+				}, 100)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectScreenOrientation */
+		var SCREEN_ORIENTATION_OUTPUT = document.querySelector("#screen-orientation .block-value")
+		screen.orientation.addEventListener("change", detectScreenOrientation)
+		detectScreenOrientation()
+		function detectScreenOrientation(event) {
+			try {
+				SCREEN_ORIENTATION_OUTPUT.innerHTML = screen.orientation.type
+				detectScreen()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -387,7 +411,9 @@
 			try {
 				try {
 					navigator.getBattery().then(function(event) {
-						BATTERY_OUTPUT.innerHTML = event.level ? (event.level * 100 + "%" + "<br>") + (event.charging ? "charging" : "discharging") : "unavailable"
+						BATTERY_OUTPUT.innerHTML = event.level ? (event.level * 100 + "%" + "<br>") + 
+																 (event.charging ? "charging" : "discharging") : 
+													"unavailable"
 					}).catch(function(error) { handleError("detectBattery", error) })
 				}
 				catch (error) {
@@ -414,84 +440,277 @@
 		}
 
 	/* detectOrientation */
-		var ORIENTATION_OUTPUT = document.querySelector("#orientation .block-value")
+		var ORIENTATION_OUTPUT = document.querySelector("#device-orientation .block-value")
 		window.addEventListener("deviceorientation", detectOrientation)
 		function detectOrientation(event) {
 			try {
-				ORIENTATION_OUTPUT.innerHTML = "x: " + event.beta.toFixed(4) + "<br>y: " + event.gamma.toFixed(4) + "<br>z: " + event.alpha.toFixed(4)
 
-				detectCompass(event)
+				// 3D orientation
+					ORIENTATION_OUTPUT.innerHTML = "alpha: " + (event.alpha || 0).toFixed(4) + "<br>" + 
+												   "beta:  " + (event.beta  || 0).toFixed(4) + "<br>" +
+												   "gamma: " + (event.gamma || 0).toFixed(4)
+												   
+
+				// pass on to compass
+					if (!isNaN(event.webkitCompassHeading) || event.absolute) {
+						detectCompass(event)
+					}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectCompass */
 		var COMPASS_OUTPUT = document.querySelector("#compass .block-value")
+		window.addEventListener("deviceorientationabsolute", detectOrientation)
 		function detectCompass(event) {
 			try {
-				var degrees = (Number(event.webkitCompassHeading ? event.webkitCompassHeading : event.alpha) + 360) % 360
-				var direction = "?"
-				if (degrees < 11.25) {
-					direction = "N"
-				}
-				else if (degrees < 33.75) {
-					direction = "NNE"
-				}
-				else if (degrees < 56.25) {
-					direction = "NE"
-				}
-				else if (degrees < 78.75) {
-					direction = "ENE"
-				}
-				else if (degrees < 101.25) {
-					direction = "E"
-				}
-				else if (degrees < 123.75) {
-					direction = "ESE"
-				}
-				else if (degrees < 146.25) {
-					direction = "SE"
-				}
-				else if (degrees < 168.75) {
-					direction = "SSE"
-				}
-				else if (degrees < 191.25) {
-					direction = "S"
-				}
-				else if (degrees < 213.75) {
-					direction = "SSW"
-				}
-				else if (degrees < 236.25) {
-					direction = "SW"
-				}
-				else if (degrees < 258.75) {
-					direction = "WSW"
-				}
-				else if (degrees < 281.25) {
-					direction = "W"
-				}
-				else if (degrees < 303.75) {
-					direction = "WNW"
-				}
-				else if (degrees < 326.25) {
-					direction = "NW"
-				}
-				else if (degrees < 348.75) {
-					direction = "NNW"
-				}
-				else if (degrees < 360) {
-					direction = "N"
-				}
-				COMPASS_OUTPUT.innerHTML = direction
+				// get degrees
+					var degrees = null
+					if (!isNaN(event.webkitCompassHeading)) {
+						degrees = Number(event.webkitCompassHeading)
+					}
+					if (event.absolute && !isNaN(event.alpha)) {
+						degrees = Number(event.alpha)
+					}
+					if (degrees == null) {
+						return
+					}
+
+				// convert to direction
+					if (degrees < 11.25) {
+						COMPASS_OUTPUT.innerHTML = "N"
+					}
+					else if (degrees < 33.75) {
+						COMPASS_OUTPUT.innerHTML = "NNE"
+					}
+					else if (degrees < 56.25) {
+						COMPASS_OUTPUT.innerHTML = "NE"
+					}
+					else if (degrees < 78.75) {
+						COMPASS_OUTPUT.innerHTML = "ENE"
+					}
+					else if (degrees < 101.25) {
+						COMPASS_OUTPUT.innerHTML = "E"
+					}
+					else if (degrees < 123.75) {
+						COMPASS_OUTPUT.innerHTML = "ESE"
+					}
+					else if (degrees < 146.25) {
+						COMPASS_OUTPUT.innerHTML = "SE"
+					}
+					else if (degrees < 168.75) {
+						COMPASS_OUTPUT.innerHTML = "SSE"
+					}
+					else if (degrees < 191.25) {
+						COMPASS_OUTPUT.innerHTML = "S"
+					}
+					else if (degrees < 213.75) {
+						COMPASS_OUTPUT.innerHTML = "SSW"
+					}
+					else if (degrees < 236.25) {
+						COMPASS_OUTPUT.innerHTML = "SW"
+					}
+					else if (degrees < 258.75) {
+						COMPASS_OUTPUT.innerHTML = "WSW"
+					}
+					else if (degrees < 281.25) {
+						COMPASS_OUTPUT.innerHTML = "W"
+					}
+					else if (degrees < 303.75) {
+						COMPASS_OUTPUT.innerHTML = "WNW"
+					}
+					else if (degrees < 326.25) {
+						COMPASS_OUTPUT.innerHTML = "NW"
+					}
+					else if (degrees < 348.75) {
+						COMPASS_OUTPUT.innerHTML = "NNW"
+					}
+					else if (degrees < 360) {
+						COMPASS_OUTPUT.innerHTML = "N"
+					}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectMotion */
-		var MOTION_OUTPUT = document.querySelector("#motion .block-value")
+		var ACCELERATION_OUTPUT = document.querySelector("#motion-acceleration .block-value")
+		var ROTATION_OUTPUT = document.querySelector("#motion-rotation .block-value")
 		window.addEventListener("devicemotion", detectMotion)
 		function detectMotion(event) {
 			try {
-				MOTION_OUTPUT.innerHTML = JSON.stringify(event)
-				// MOTION_OUTPUT.innerHTML = "x: " + event.beta.toFixed(4) + "<br>y: " + event.gamma.toFixed(4) + "<br>z: " + event.alpha.toFixed(4)
+				// values
+					var acceleration = event.acceleration || null
+					var rotationRate = event.rotationRate || null
+
+				// acceleration
+					ACCELERATION_OUTPUT.innerHTML = !acceleration ? "" : ( 
+													"x: " + (acceleration.x || 0).toFixed(4) + "ms/s^2<br>" +
+													"y: " + (acceleration.y || 0).toFixed(4) + "ms/s^2<br>" +
+													"z: " + (acceleration.z || 0).toFixed(4) + "ms/s^2"
+												)
+
+				// rotation
+					ROTATION_OUTPUT.innerHTML = !rotationRate ? "" : (
+													"alpha: " + (rotationRate.alpha || 0).toFixed(4) + "°/s<br>" +
+													"beta : " + (rotationRate.beta  || 0).toFixed(4) + "°/s<br>" +
+													"gamma: " + (rotationRate.gamma || 0).toFixed(4) + "°/s"
+												)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectAccelerometer */
+		var LINEAR_ACCELEROMETER_OUTPUT = document.querySelector("#linear-accelerometer .block-value")
+		detectAccelerometerSensor()
+		function detectAccelerometerSensor() {
+			try {
+				if (window.Accelerometer) {
+					navigator.permissions.query({ name: "accelerometer" }).then(function(results) {
+						if (results.state == "granted") {
+							LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "permissions granted"
+
+							var accelerometerSensor = new LinearAccelerationSensor({ frequency: 60 })
+								accelerometerSensor.addEventListener("reading", function(event) {
+									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "x: " + accelerometerSensor.x + "<br>" +
+																			"y: " + accelerometerSensor.y + "<br>" +
+																			"z: " + accelerometerSensor.z
+								})
+								accelerometerSensor.addEventListener("error", function(event) {
+									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "error"
+								})
+								accelerometerSensor.start()
+						}
+						else {
+							LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "no sensor"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectAmbientLight */
+		var AMBIENT_LIGHT_OUTPUT = document.querySelector("#ambient-light .block-value")
+		detectAmbientLightSensor()
+		function detectAmbientLightSensor() {
+			try {
+				if (window.AmbientLightSensor) {
+					navigator.permissions.query({ name: "ambient-light-sensor" }).then(function(results) {
+						if (results.state == "granted") {
+							AMBIENT_LIGHT_OUTPUT.innerHTML = "permissions granted"
+							
+							var ambientLightSensor = new AmbientLightSensor()
+								ambientLightSensor.addEventListener("reading", function(event) {
+									AMBIENT_LIGHT_OUTPUT.innerHTML = ambientLightSensor.illuminance
+								})
+								ambientLightSensor.addEventListener("error", function(event) {
+									AMBIENT_LIGHT_OUTPUT.innerHTML = "error"
+								})
+								ambientLightSensor.start()
+						}
+						else {
+							AMBIENT_LIGHT_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					AMBIENT_LIGHT_OUTPUT.innerHTML = "no sensor"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectGravity */
+		var GRAVITY_OUTPUT = document.querySelector("#gravity .block-value")
+		detectGravitySensor()
+		function detectGravitySensor() {
+			try {
+				if (window.GravitySensor) {
+					navigator.permissions.query({ name: "accelerometer" }).then(function(results) {
+						if (results.state == "granted") {
+							GRAVITY_OUTPUT.innerHTML = "permissions granted"
+
+							var gravitySensor = new GravitySensor({ frequency: 60 })
+								gravitySensor.addEventListener("reading", function(event) {
+									GRAVITY_OUTPUT.innerHTML = "x: " + gravitySensor.x + "<br>" +
+															   "y: " + gravitySensor.y + "<br>" +
+															   "z: " + gravitySensor.z
+								})
+								gravitySensor.addEventListener("error", function(event) {
+									GRAVITY_OUTPUT.innerHTML = "error"
+								})
+								gravitySensor.start()
+						}
+						else {
+							GRAVITY_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					GRAVITY_OUTPUT.innerHTML = "no sensor"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectGyroscope */
+		var GYROSCOPE_OUTPUT = document.querySelector("#gyroscope .block-value")
+		detectGyroscopeSensor()
+		function detectGyroscopeSensor() {
+			try {
+				if (window.Gyroscope) {
+					navigator.permissions.query({ name: "gyroscope" }).then(function(results) {
+						if (results.state == "granted") {
+							GYROSCOPE_OUTPUT.innerHTML = "permissions granted"
+
+							var gyroscopeSensor = new Gyroscope({ frequency: 60 })
+								gyroscopeSensor.addEventListener("reading", function(event) {
+									GYROSCOPE_OUTPUT.innerHTML = "x: " + gyroscopeSensor.x + "<br>" +
+																 "y: " + gyroscopeSensor.y + "<br>" +
+																 "z: " + gyroscopeSensor.z
+								})
+								gyroscopeSensor.addEventListener("error", function(event) {
+									GYROSCOPE_OUTPUT.innerHTML = "error"
+								})
+								gyroscopeSensor.start()
+						}
+						else {
+							GYROSCOPE_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					GYROSCOPE_OUTPUT.innerHTML = "no sensor"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectMagnetometer */
+		var MAGNETOMETER_OUTPUT = document.querySelector("#magnetometer .block-value")
+		detectMagnetometerSensor()
+		function detectMagnetometerSensor() {
+			try {
+				if (window.Magnetometer) {
+					navigator.permissions.query({ name: "magnetometer" }).then(function(results) {
+						if (results.state == "granted") {
+							MAGNETOMETER_OUTPUT.innerHTML = "permissions granted"
+
+							var magnetometerSensor = new Magnetometer({ frequency: 60 })
+								magnetometerSensor.addEventListener("reading", function(event) {
+									MAGNETOMETER_OUTPUT.innerHTML = "x: " + magnetometerSensor.x + "<br>" +
+																	  "y: " + magnetometerSensor.y + "<br>" +
+																	  "z: " + magnetometerSensor.z
+								})
+								magnetometerSensor.addEventListener("error", function(event) {
+									MAGNETOMETER_OUTPUT.innerHTML = "error"
+								})
+								magnetometerSensor.start()
+						}
+						else {
+							MAGNETOMETER_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					MAGNETOMETER_OUTPUT.innerHTML = "no sensor"
+				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -501,7 +720,9 @@
 		window.addEventListener("keydown", detectKeydown)
 		function detectKeydown(event) {
 			try {
-				KEYBOARD_OUTPUT.innerHTML = event.key + "<br>" + event.which + "<br>" + event.code
+				KEYBOARD_OUTPUT.innerHTML = event.key + "<br>" + 
+											event.which + "<br>" + 
+											event.code
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 		
@@ -519,7 +740,8 @@
 			try {
 				var x = event.touches ? event.touches[0].clientX : event.clientX
 				var y = event.touches ? event.touches[0].clientY : event.clientY
-				CURSOR_OUTPUT.innerHTML = "x: " + Math.round(x) + "<br>y: " + Math.round(y)
+				CURSOR_OUTPUT.innerHTML = "x: " + Math.round(x) + "<br>" + 
+										  "y: " + Math.round(y)
 
 				detectDragmove(x, y)
 			} catch (error) { handleError(arguments.callee.name, error) }
@@ -578,7 +800,8 @@
 		window.addEventListener("mousewheel", detectWindowScroll)
 		function detectWindowScroll(event) {
 			try {
-				WINDOWSCROLL_OUTPUT.innerHTML = "x: " + Math.round(document.body.scrollLeft || document.documentElement.scrollLeft || 0) + "<br>y: " + Math.round(document.body.scrollTop || document.documentElement.scrollTop || 0)
+				WINDOWSCROLL_OUTPUT.innerHTML = "x: " + Math.round(document.body.scrollLeft || document.documentElement.scrollLeft || 0) + "<br>" +
+												"y: " + Math.round(document.body.scrollTop  || document.documentElement.scrollTop  || 0)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -592,7 +815,8 @@
 		detectScroll()
 		function detectScroll(event) {
 			try {
-				SCROLL_OUTPUT.innerHTML = "x: " + Math.round(SCROLL_INPUT.scrollLeft || 0) + "<br>y: " + Math.round(SCROLL_INPUT.scrollTop || 0)
+				SCROLL_OUTPUT.innerHTML = "x: " + Math.round(SCROLL_INPUT.scrollLeft || 0) + "<br>" + 
+										  "y: " + Math.round(SCROLL_INPUT.scrollTop  || 0)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -671,9 +895,11 @@
 					}
 
 				// display data
-					MIDI_OUTPUT.innerHTML = event.port.name + "<br>" + event.port.manufacturer + "<br>" + event.port.state + "<br><br>" +
-						Object.keys(MIDI.controllers).join(", ") + "<br>"
-					Object.keys(MIDI.consumers).join(", ")
+					MIDI_OUTPUT.innerHTML = event.port.name + "<br>" + 
+											event.port.manufacturer + "<br>" + 
+											event.port.state + "<br><br>" +
+											Object.keys(MIDI.controllers).join(", ") + "<br>"
+											Object.keys(MIDI.consumers).join(", ")
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -694,7 +920,8 @@
 			try {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(function(position) {
-						LOCATION_OUTPUT.innerHTML = "lat_: " + position.coords.latitude.toFixed(7) + "<br>long: " + position.coords.longitude.toFixed(7)
+						LOCATION_OUTPUT.innerHTML = "lat_: " + position.coords.latitude.toFixed(7) + "<br>" + 
+													"long: " + position.coords.longitude.toFixed(7)
 					}).catch(function(error) { handleError("detectLocation", error) })
 				}
 				else {
