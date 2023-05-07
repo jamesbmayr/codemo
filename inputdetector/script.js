@@ -8,19 +8,20 @@
 		}
 
 /*** errors ***/
-	var ERROR_OUTPUT = document.querySelector("#error .block-value")
-	var ERROR_NOTIFICATION = document.querySelector("#error-notification")
-	var ERROR_TIMEOUT = null
-	function handleError(name, message) {
-		clearTimeout(ERROR_TIMEOUT)
-		ERROR_NOTIFICATION.className = ""
-		ERROR_OUTPUT.innerHTML = "<b>" + name + "</b><br>" + 
-								 message
+	/* handleError */
+		var ERROR_OUTPUT = document.querySelector("#error .block-value")
+		var ERROR_NOTIFICATION = document.querySelector("#error-notification")
+		var ERROR_TIMEOUT = null
+		function handleError(name, message) {
+			clearTimeout(ERROR_TIMEOUT)
+			ERROR_NOTIFICATION.className = ""
+			ERROR_OUTPUT.innerHTML = "<b>" + name + "</b><br>" + 
+									 message
 
-		ERROR_TIMEOUT = setTimeout(function() {
-			ERROR_NOTIFICATION.className = "disappear"
-		}, 3000)
-	}
+			ERROR_TIMEOUT = setTimeout(function() {
+				ERROR_NOTIFICATION.className = "disappear"
+			}, 3000)
+		}
 
 /*** search ***/
 	/* updateSearch */
@@ -71,6 +72,16 @@
 							allBlocks[i].setAttribute("hidden", true)
 						}
 					}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+/*** refresh ***/
+	/* refreshPage */
+		var REFRESH_BUTTON = document.querySelector("#refresh")
+		REFRESH_BUTTON.addEventListener(on.click, refreshPage)
+		function refreshPage() {
+			try {
+				window.location.search = "?refresh=" + Math.random()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -439,12 +450,43 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-	/* detectOrientation */
+	/* detectMotion */
+		var ACCELERATION_OUTPUT = document.querySelector("#motion-acceleration .block-value")
+		var ROTATION_OUTPUT = document.querySelector("#motion-rotation .block-value")
+		setTimeout(function() {
+			window.addEventListener("devicemotion", detectMotion)
+		}, 0)
+		function detectMotion(event) {
+			try {
+				// values
+					var acceleration = event.acceleration || null
+					var rotationRate = event.rotationRate || null
+
+				// acceleration
+					ACCELERATION_OUTPUT.innerHTML = !acceleration ? "" : ( 
+													"x: " + (acceleration.x || 0).toFixed(4) + "ms/s^2<br>" +
+													"y: " + (acceleration.y || 0).toFixed(4) + "ms/s^2<br>" +
+													"z: " + (acceleration.z || 0).toFixed(4) + "ms/s^2"
+												)
+
+				// rotation
+					ROTATION_OUTPUT.innerHTML = !rotationRate ? "" : (
+													"alpha: " + (rotationRate.alpha || 0).toFixed(4) + "°/s<br>" +
+													"beta : " + (rotationRate.beta  || 0).toFixed(4) + "°/s<br>" +
+													"gamma: " + (rotationRate.gamma || 0).toFixed(4) + "°/s"
+												)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectOrientation & detectCompass */
 		var ORIENTATION_OUTPUT = document.querySelector("#device-orientation .block-value")
-		window.addEventListener("deviceorientation", detectOrientation)
+		var COMPASS_OUTPUT = document.querySelector("#compass .block-value")
+		setTimeout(function() {
+			window.addEventListener("deviceorientationabsolute", detectOrientation)
+			window.addEventListener("deviceorientation", detectOrientation)
+		}, 0)
 		function detectOrientation(event) {
 			try {
-
 				// 3D orientation
 					ORIENTATION_OUTPUT.innerHTML = "alpha: " + (event.alpha || 0).toFixed(4) + "<br>" + 
 												   "beta:  " + (event.beta  || 0).toFixed(4) + "<br>" +
@@ -458,9 +500,6 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-	/* detectCompass */
-		var COMPASS_OUTPUT = document.querySelector("#compass .block-value")
-		window.addEventListener("deviceorientationabsolute", detectOrientation)
 		function detectCompass(event) {
 			try {
 				// get degrees
@@ -468,10 +507,11 @@
 					if (!isNaN(event.webkitCompassHeading)) {
 						degrees = Number(event.webkitCompassHeading)
 					}
-					if (event.absolute && !isNaN(event.alpha)) {
+					if (event.absolute && event.alpha !== undefined && event.alpha !== null) {
 						degrees = Number(event.alpha)
 					}
 					if (degrees == null) {
+						COMPASS_OUTPUT.innerHTML = "no sensor"
 						return
 					}
 
@@ -530,35 +570,11 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-	/* detectMotion */
-		var ACCELERATION_OUTPUT = document.querySelector("#motion-acceleration .block-value")
-		var ROTATION_OUTPUT = document.querySelector("#motion-rotation .block-value")
-		window.addEventListener("devicemotion", detectMotion)
-		function detectMotion(event) {
-			try {
-				// values
-					var acceleration = event.acceleration || null
-					var rotationRate = event.rotationRate || null
-
-				// acceleration
-					ACCELERATION_OUTPUT.innerHTML = !acceleration ? "" : ( 
-													"x: " + (acceleration.x || 0).toFixed(4) + "ms/s^2<br>" +
-													"y: " + (acceleration.y || 0).toFixed(4) + "ms/s^2<br>" +
-													"z: " + (acceleration.z || 0).toFixed(4) + "ms/s^2"
-												)
-
-				// rotation
-					ROTATION_OUTPUT.innerHTML = !rotationRate ? "" : (
-													"alpha: " + (rotationRate.alpha || 0).toFixed(4) + "°/s<br>" +
-													"beta : " + (rotationRate.beta  || 0).toFixed(4) + "°/s<br>" +
-													"gamma: " + (rotationRate.gamma || 0).toFixed(4) + "°/s"
-												)
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
+/*** sensors API ***/
 	/* detectAccelerometer */
-		var LINEAR_ACCELEROMETER_OUTPUT = document.querySelector("#linear-accelerometer .block-value")
-		detectAccelerometerSensor()
+		var LINEAR_ACCELEROMETER_OUTPUT = document.querySelector("#sensor-linear-accelerometer .block-value")
+		var LINEAR_ACCELEROMETER_BUTTON = document.querySelector("#sensor-linear-accelerometer .block-button")
+		LINEAR_ACCELEROMETER_BUTTON.addEventListener(on.click, detectAccelerometerSensor)
 		function detectAccelerometerSensor() {
 			try {
 				if (window.Accelerometer) {
@@ -566,14 +582,14 @@
 						if (results.state == "granted") {
 							LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "permissions granted"
 
-							var accelerometerSensor = new LinearAccelerationSensor({ frequency: 60 })
+							var accelerometerSensor = new LinearAccelerationSensor({ frequency: 10 })
 								accelerometerSensor.addEventListener("reading", function(event) {
-									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "x: " + accelerometerSensor.x + "<br>" +
-																			"y: " + accelerometerSensor.y + "<br>" +
-																			"z: " + accelerometerSensor.z
+									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "x: " + accelerometerSensor.x.toFixed(4) + "<br>" +
+																			"y: " + accelerometerSensor.y.toFixed(4) + "<br>" +
+																			"z: " + accelerometerSensor.z.toFixed(4)
 								})
 								accelerometerSensor.addEventListener("error", function(event) {
-									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "error"
+									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = event.error
 								})
 								accelerometerSensor.start()
 						}
@@ -589,8 +605,9 @@
 		}
 
 	/* detectAmbientLight */
-		var AMBIENT_LIGHT_OUTPUT = document.querySelector("#ambient-light .block-value")
-		detectAmbientLightSensor()
+		var AMBIENT_LIGHT_OUTPUT = document.querySelector("#sensor-ambient-light .block-value")
+		var AMBIENT_LIGHT_BUTTON = document.querySelector("#sensor-ambient-light .block-button")
+		AMBIENT_LIGHT_BUTTON.addEventListener(on.click, detectAmbientLightSensor)
 		function detectAmbientLightSensor() {
 			try {
 				if (window.AmbientLightSensor) {
@@ -603,7 +620,7 @@
 									AMBIENT_LIGHT_OUTPUT.innerHTML = ambientLightSensor.illuminance
 								})
 								ambientLightSensor.addEventListener("error", function(event) {
-									AMBIENT_LIGHT_OUTPUT.innerHTML = "error"
+									AMBIENT_LIGHT_OUTPUT.innerHTML = event.error
 								})
 								ambientLightSensor.start()
 						}
@@ -619,8 +636,9 @@
 		}
 
 	/* detectGravity */
-		var GRAVITY_OUTPUT = document.querySelector("#gravity .block-value")
-		detectGravitySensor()
+		var GRAVITY_OUTPUT = document.querySelector("#sensor-gravity .block-value")
+		var GRAVITY_BUTTON = document.querySelector("#sensor-gravity .block-button")
+		GRAVITY_BUTTON.addEventListener(on.click, detectGravitySensor)
 		function detectGravitySensor() {
 			try {
 				if (window.GravitySensor) {
@@ -628,14 +646,14 @@
 						if (results.state == "granted") {
 							GRAVITY_OUTPUT.innerHTML = "permissions granted"
 
-							var gravitySensor = new GravitySensor({ frequency: 60 })
+							var gravitySensor = new GravitySensor({ frequency: 10 })
 								gravitySensor.addEventListener("reading", function(event) {
-									GRAVITY_OUTPUT.innerHTML = "x: " + gravitySensor.x + "<br>" +
-															   "y: " + gravitySensor.y + "<br>" +
-															   "z: " + gravitySensor.z
+									GRAVITY_OUTPUT.innerHTML = "x: " + gravitySensor.x.toFixed(4) + "<br>" +
+															   "y: " + gravitySensor.y.toFixed(4) + "<br>" +
+															   "z: " + gravitySensor.z.toFixed(4)
 								})
 								gravitySensor.addEventListener("error", function(event) {
-									GRAVITY_OUTPUT.innerHTML = "error"
+									GRAVITY_OUTPUT.innerHTML = event.error
 								})
 								gravitySensor.start()
 						}
@@ -651,8 +669,9 @@
 		}
 
 	/* detectGyroscope */
-		var GYROSCOPE_OUTPUT = document.querySelector("#gyroscope .block-value")
-		detectGyroscopeSensor()
+		var GYROSCOPE_OUTPUT = document.querySelector("#sensor-gyroscope .block-value")
+		var GYROSCOPE_BUTTON = document.querySelector("#sensor-gyroscope .block-button")
+		GYROSCOPE_BUTTON.addEventListener(on.click, detectGyroscopeSensor)
 		function detectGyroscopeSensor() {
 			try {
 				if (window.Gyroscope) {
@@ -660,14 +679,14 @@
 						if (results.state == "granted") {
 							GYROSCOPE_OUTPUT.innerHTML = "permissions granted"
 
-							var gyroscopeSensor = new Gyroscope({ frequency: 60 })
+							var gyroscopeSensor = new Gyroscope({ frequency: 10 })
 								gyroscopeSensor.addEventListener("reading", function(event) {
-									GYROSCOPE_OUTPUT.innerHTML = "x: " + gyroscopeSensor.x + "<br>" +
-																 "y: " + gyroscopeSensor.y + "<br>" +
-																 "z: " + gyroscopeSensor.z
+									GYROSCOPE_OUTPUT.innerHTML = "x: " + gyroscopeSensor.x.toFixed(4) + "<br>" +
+																 "y: " + gyroscopeSensor.y.toFixed(4) + "<br>" +
+																 "z: " + gyroscopeSensor.z.toFixed(4)
 								})
 								gyroscopeSensor.addEventListener("error", function(event) {
-									GYROSCOPE_OUTPUT.innerHTML = "error"
+									GYROSCOPE_OUTPUT.innerHTML = event.error
 								})
 								gyroscopeSensor.start()
 						}
@@ -683,8 +702,9 @@
 		}
 
 	/* detectMagnetometer */
-		var MAGNETOMETER_OUTPUT = document.querySelector("#magnetometer .block-value")
-		detectMagnetometerSensor()
+		var MAGNETOMETER_OUTPUT = document.querySelector("#sensor-magnetometer .block-value")
+		var MAGNETOMETER_BUTTON = document.querySelector("#sensor-magnetometer .block-button")
+		MAGNETOMETER_BUTTON.addEventListener(on.click, detectMagnetometerSensor)
 		function detectMagnetometerSensor() {
 			try {
 				if (window.Magnetometer) {
@@ -692,14 +712,14 @@
 						if (results.state == "granted") {
 							MAGNETOMETER_OUTPUT.innerHTML = "permissions granted"
 
-							var magnetometerSensor = new Magnetometer({ frequency: 60 })
+							var magnetometerSensor = new Magnetometer({ frequency: 10 })
 								magnetometerSensor.addEventListener("reading", function(event) {
-									MAGNETOMETER_OUTPUT.innerHTML = "x: " + magnetometerSensor.x + "<br>" +
-																	  "y: " + magnetometerSensor.y + "<br>" +
-																	  "z: " + magnetometerSensor.z
+									MAGNETOMETER_OUTPUT.innerHTML = "x: " + magnetometerSensor.x.toFixed(4) + "<br>" +
+																	"y: " + magnetometerSensor.y.toFixed(4) + "<br>" +
+																	"z: " + magnetometerSensor.z.toFixed(4)
 								})
 								magnetometerSensor.addEventListener("error", function(event) {
-									MAGNETOMETER_OUTPUT.innerHTML = "error"
+									MAGNETOMETER_OUTPUT.innerHTML = event.error
 								})
 								magnetometerSensor.start()
 						}
@@ -710,6 +730,81 @@
 				}
 				else {
 					MAGNETOMETER_OUTPUT.innerHTML = "no sensor"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectAbsoluteOrientation */
+		var ABSOLUTE_ORIENTATION_OUTPUT = document.querySelector("#sensor-absolute-orientation .block-value")
+		var ABSOLUTE_ORIENTATION_BUTTON = document.querySelector("#sensor-absolute-orientation .block-button")
+		ABSOLUTE_ORIENTATION_BUTTON.addEventListener(on.click, detectAbsoluteOrientationSensor)
+		function detectAbsoluteOrientationSensor() {
+			try {
+				if (window.Accelerometer && window.Gyroscope && window.Magnetometer) {
+					Promise.all([
+						navigator.permissions.query({ name: "accelerometer" }),
+						navigator.permissions.query({ name: "magnetometer" }),
+						navigator.permissions.query({ name: "gyroscope" })
+					]).then(function(results) {
+						if (results.every(function(result) { return result.state == "granted" })) {
+							ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "permissions granted"
+
+							var absoluteOrientationSensor = new AbsoluteOrientationSensor({ frequency: 10, referenceFrame: "device" })
+								absoluteOrientationSensor.addEventListener("reading", function(event) {
+									ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "x: " + absoluteOrientationSensor.quaternion[0].toFixed(4) + "<br>" +
+																			"y: " + absoluteOrientationSensor.quaternion[1].toFixed(4) + "<br>" +
+																			"z: " + absoluteOrientationSensor.quaternion[2].toFixed(4) + "<br>" +
+																			"w: " + absoluteOrientationSensor.quaternion[3].toFixed(4)
+								})
+								absoluteOrientationSensor.addEventListener("error", function(event) {
+									ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = event.error
+								})
+								absoluteOrientationSensor.start()
+						}
+						else {
+							ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "no sensor"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectRelativeOrientation */
+		var RELATIVE_ORIENTATION_OUTPUT = document.querySelector("#sensor-relative-orientation .block-value")
+		var RELATIVE_ORIENTATION_BUTTON = document.querySelector("#sensor-relative-orientation .block-button")
+		RELATIVE_ORIENTATION_BUTTON.addEventListener(on.click, detectRelativeOrientationSensor)
+		function detectRelativeOrientationSensor() {
+			try {
+				if (window.Accelerometer && window.Gyroscope) {
+					Promise.all([
+						navigator.permissions.query({ name: "accelerometer" }),
+						navigator.permissions.query({ name: "gyroscope" })
+					]).then(function(results) {
+						if (results.every(function(result) { return result.state == "granted" })) {
+							RELATIVE_ORIENTATION_OUTPUT.innerHTML = "permissions granted"
+
+							var relativeOrientationSensor = new RelativeOrientationSensor({ frequency: 10, referenceFrame: "device" })
+								relativeOrientationSensor.addEventListener("reading", function(event) {
+									RELATIVE_ORIENTATION_OUTPUT.innerHTML = "x: " + relativeOrientationSensor.quaternion[0].toFixed(4) + "<br>" +
+																			"y: " + relativeOrientationSensor.quaternion[1].toFixed(4) + "<br>" +
+																			"z: " + relativeOrientationSensor.quaternion[2].toFixed(4) + "<br>" +
+																			"w: " + relativeOrientationSensor.quaternion[3].toFixed(4)
+								})
+								relativeOrientationSensor.addEventListener("error", function(event) {
+									RELATIVE_ORIENTATION_OUTPUT.innerHTML = event.error
+								})
+								relativeOrientationSensor.start()
+						}
+						else {
+							RELATIVE_ORIENTATION_OUTPUT.innerHTML = "permissions denied"
+						}
+					})
+				}
+				else {
+					RELATIVE_ORIENTATION_OUTPUT.innerHTML = "no sensor"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -1463,46 +1558,46 @@
 		}
 
 	/* monochrome mode */
-		var MONOCHROME = document.querySelector("#monochrome-color-detector .block-value")
+		var MONOCHROME_OUTPUT = document.querySelector("#monochrome-color-detector .block-value")
 		detectMonochrome()
 		function detectMonochrome() {
 			try {
 				if (window.matchMedia("(monochrome)").matches) {
-					MONOCHROME.innerHTML = "monochrome mode"
+					MONOCHROME_OUTPUT.innerHTML = "monochrome mode"
 				}
 				else {
-					MONOCHROME.innerHTML = "color mode"
+					MONOCHROME_OUTPUT.innerHTML = "color mode"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* inverted mode */
-		var INVERTED = document.querySelector("#inverted-color-detector .block-value")
+		var INVERTED_OUTPUT = document.querySelector("#inverted-color-detector .block-value")
 		detectInverted()
 		function detectInverted() {
 			try {
 				if (window.matchMedia("(inverted-colors)").matches) {
-					INVERTED.innerHTML = "inverted colors"
+					INVERTED_OUTPUT.innerHTML = "inverted colors"
 				}
 				else {
-					INVERTED.innerHTML = "normal colors"
+					INVERTED_OUTPUT.innerHTML = "normal colors"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* contrast mode */
-		var CONTRAST = document.querySelector("#contrast-detector .block-value")
+		var CONTRAST_OUTPUT = document.querySelector("#contrast-detector .block-value")
 		detectContrast()
 		function detectContrast() {
 			try {
 				if (window.matchMedia("(prefers-contrast: high)").matches) {
-					CONTRAST.innerHTML = "high contrast"
+					CONTRAST_OUTPUT.innerHTML = "high contrast"
 				}
 				else if (window.matchMedia("(prefers-contrast: low)").matches) {
-					CONTRAST.innerHTML = "low contrast"
+					CONTRAST_OUTPUT.innerHTML = "low contrast"
 				}
 				else {
-					CONTRAST.innerHTML = "normal contrast"
+					CONTRAST_OUTPUT.innerHTML = "normal contrast"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}

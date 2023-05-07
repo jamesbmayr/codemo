@@ -11,8 +11,16 @@
 		<meta property="og:image" content="https://jamesmayr.com/inputdetector/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<link rel="shortcut icon" href="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_input_48px-512.png"/>
-		<link rel="stylesheet" href="stylesheet.css"/>
-		<script src="script.js" defer></script>
+		<script>
+			var stylesheet = document.createElement("link")
+				stylesheet.rel = "stylesheet"
+				stylesheet.href = "stylesheet.css?refresh=" + Math.random()
+			document.head.appendChild(stylesheet)
+			var script = document.createElement("script")
+				script.src = "script.js?refresh=" + Math.random()
+				script.defer = true
+			document.head.appendChild(script)
+		</script>
 	</head>
 	<body>
 		<div id="search-outer">
@@ -21,7 +29,7 @@
 		</div>
 		<div id="container">
 				<div class="block" id="top">
-					<label class="block-label">inputdetector</label>
+					<label class="block-label">inputdetector <button id="refresh">&orarr;</button></label>
 					<div class="block-output-outer">
 						<div class="block-value"><a id="j-logo" target="_blank" href="https://jamesmayr.com"></a></div>
 					</div>
@@ -217,32 +225,58 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="linear-accelerometer">
-					<label class="block-label">linear accelerometer</label>
+				<div class="block" id="sensor-linear-accelerometer">
+					<label class="block-label">
+						<button class="block-button">accelerometer</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="ambient-light">
-					<label class="block-label">ambient light</label>
+				<div class="block" id="sensor-ambient-light">
+					<label class="block-label">
+						<button class="block-button">ambient light</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="gravity">
-					<label class="block-label">gravity</label>
+				<div class="block" id="sensor-gravity">
+					<label class="block-label">
+						<button class="block-button">gravity</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="gyroscope">
-					<label class="block-label">gyroscope</label>
+				<div class="block" id="sensor-gyroscope">
+					<label class="block-label">
+						<button class="block-button">gyroscope</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="magnetometer">
-					<label class="block-label">magnetometer</label>
+				<div class="block" id="sensor-magnetometer">
+					<label class="block-label">
+						<button class="block-button">magnetometer</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="sensor-absolute-orientation">
+					<label class="block-label">
+						<button class="block-button">orientation (abs)</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="sensor-relative-orientation">
+					<label class="block-label">
+						<button class="block-button">orientation (rel)</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
