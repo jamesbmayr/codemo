@@ -843,8 +843,8 @@
 			try {
 				var x = event.touches ? event.touches[0].clientX : event.clientX
 				var y = event.touches ? event.touches[0].clientY : event.clientY
-				CURSOR_OUTPUT.innerHTML = "x:" + wrapText(x) + "<br>" + 
-										  "y:" + wrapText(y)
+				CURSOR_OUTPUT.innerHTML = "x:" + wrapText(x.toFixed(2)) + "<br>" + 
+										  "y:" + wrapText(y.toFixed(2))
 
 				detectDragmove(x, y)
 			} catch (error) { handleError(arguments.callee.name, error) }
