@@ -7,6 +7,11 @@
 			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
 		}
 
+	/* wrapText */
+		function wrapText(text) {
+			return ("          " + text).slice(-10).replace(/\s/g, "&nbsp;")
+		}
+
 /*** errors ***/
 	/* handleError */
 		var ERROR_OUTPUT = document.querySelector("#error .block-value")
@@ -22,6 +27,9 @@
 				ERROR_NOTIFICATION.className = "disappear"
 			}, 3000)
 		}
+
+	/* clickNotification */
+		ERROR_NOTIFICATION.addEventListener(on.click, clearSearch)
 
 /*** search ***/
 	/* updateSearch */
@@ -184,8 +192,8 @@
 		window.addEventListener("resize", detectResize)
 		function detectResize(event) {
 			try {
-				WINDOW_OUTPUT.innerHTML = "x: " + Math.round(window.innerWidth) + "<br>" + 
-										  "y: " + Math.round(window.innerHeight)
+				WINDOW_OUTPUT.innerHTML = "x:" + wrapText(Math.round(window.innerWidth)) + "<br>" + 
+										  "y:" + wrapText(Math.round(window.innerHeight))
 				detectConsole()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -360,8 +368,8 @@
 		detectScreen()
 		function detectScreen(event) {
 			try {
-				SCREEN_OUTPUT.innerHTML = "x: " + Math.round(screen.availWidth) + "<br>" +
-										  "y: " + Math.round(screen.availHeight)
+				SCREEN_OUTPUT.innerHTML = "x:" + wrapText(Math.round(screen.availWidth)) + "<br>" +
+										  "y:" + wrapText(Math.round(screen.availHeight))
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -464,16 +472,16 @@
 
 				// acceleration
 					ACCELERATION_OUTPUT.innerHTML = !acceleration ? "" : ( 
-													"x: " + (acceleration.x || 0).toFixed(4) + "ms/s^2<br>" +
-													"y: " + (acceleration.y || 0).toFixed(4) + "ms/s^2<br>" +
-													"z: " + (acceleration.z || 0).toFixed(4) + "ms/s^2"
+													"x:" + wrapText((acceleration.x || 0).toFixed(4)) + " m/s^2<br>" +
+													"y:" + wrapText((acceleration.y || 0).toFixed(4)) + " m/s^2<br>" +
+													"z:" + wrapText((acceleration.z || 0).toFixed(4)) + " m/s^2"
 												)
 
 				// rotation
 					ROTATION_OUTPUT.innerHTML = !rotationRate ? "" : (
-													"alpha: " + (rotationRate.alpha || 0).toFixed(4) + "°/s<br>" +
-													"beta : " + (rotationRate.beta  || 0).toFixed(4) + "°/s<br>" +
-													"gamma: " + (rotationRate.gamma || 0).toFixed(4) + "°/s"
+													"α:" + wrapText((rotationRate.alpha || 0).toFixed(4)) + "°/s<br>" +
+													"β:" + wrapText((rotationRate.beta  || 0).toFixed(4)) + "°/s<br>" +
+													"γ:" + wrapText((rotationRate.gamma || 0).toFixed(4)) + "°/s"
 												)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -488,9 +496,9 @@
 		function detectOrientation(event) {
 			try {
 				// 3D orientation
-					ORIENTATION_OUTPUT.innerHTML = "alpha: " + (event.alpha || 0).toFixed(4) + "<br>" + 
-												   "beta:  " + (event.beta  || 0).toFixed(4) + "<br>" +
-												   "gamma: " + (event.gamma || 0).toFixed(4)
+					ORIENTATION_OUTPUT.innerHTML = "α:" + wrapText((event.alpha || 0).toFixed(4)) + "°<br>" + 
+												   "β:" + wrapText((event.beta  || 0).toFixed(4)) + "°<br>" +
+												   "γ:" + wrapText((event.gamma || 0).toFixed(4)) + "°"
 												   
 
 				// pass on to compass
@@ -584,9 +592,9 @@
 
 							var accelerometerSensor = new LinearAccelerationSensor({ frequency: 10 })
 								accelerometerSensor.addEventListener("reading", function(event) {
-									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "x: " + accelerometerSensor.x.toFixed(4) + "<br>" +
-																			"y: " + accelerometerSensor.y.toFixed(4) + "<br>" +
-																			"z: " + accelerometerSensor.z.toFixed(4)
+									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "x:" + wrapText(accelerometerSensor.x.toFixed(4)) + " m/s^2<br>" +
+																			"y:" + wrapText(accelerometerSensor.y.toFixed(4)) + " m/s^2<br>" +
+																			"z:" + wrapText(accelerometerSensor.z.toFixed(4)) + " m/s^2"
 								})
 								accelerometerSensor.addEventListener("error", function(event) {
 									LINEAR_ACCELEROMETER_OUTPUT.innerHTML = event.error
@@ -617,7 +625,7 @@
 							
 							var ambientLightSensor = new AmbientLightSensor()
 								ambientLightSensor.addEventListener("reading", function(event) {
-									AMBIENT_LIGHT_OUTPUT.innerHTML = ambientLightSensor.illuminance
+									AMBIENT_LIGHT_OUTPUT.innerHTML = wrapText(ambientLightSensor.illuminance.toFixed(4)) + " lux"
 								})
 								ambientLightSensor.addEventListener("error", function(event) {
 									AMBIENT_LIGHT_OUTPUT.innerHTML = event.error
@@ -648,9 +656,9 @@
 
 							var gravitySensor = new GravitySensor({ frequency: 10 })
 								gravitySensor.addEventListener("reading", function(event) {
-									GRAVITY_OUTPUT.innerHTML = "x: " + gravitySensor.x.toFixed(4) + "<br>" +
-															   "y: " + gravitySensor.y.toFixed(4) + "<br>" +
-															   "z: " + gravitySensor.z.toFixed(4)
+									GRAVITY_OUTPUT.innerHTML = "x:" + wrapText(gravitySensor.x.toFixed(4)) + " m/s^2<br>" +
+															   "y:" + wrapText(gravitySensor.y.toFixed(4)) + " m/s^2<br>" +
+															   "z:" + wrapText(gravitySensor.z.toFixed(4)) + " m/s^2"
 								})
 								gravitySensor.addEventListener("error", function(event) {
 									GRAVITY_OUTPUT.innerHTML = event.error
@@ -681,9 +689,9 @@
 
 							var gyroscopeSensor = new Gyroscope({ frequency: 10 })
 								gyroscopeSensor.addEventListener("reading", function(event) {
-									GYROSCOPE_OUTPUT.innerHTML = "x: " + gyroscopeSensor.x.toFixed(4) + "<br>" +
-																 "y: " + gyroscopeSensor.y.toFixed(4) + "<br>" +
-																 "z: " + gyroscopeSensor.z.toFixed(4)
+									GYROSCOPE_OUTPUT.innerHTML = "x:" + wrapText(gyroscopeSensor.x.toFixed(4)) + " rad/s<br>" +
+																 "y:" + wrapText(gyroscopeSensor.y.toFixed(4)) + " rad/s<br>" +
+																 "z:" + wrapText(gyroscopeSensor.z.toFixed(4)) + " rad/s"
 								})
 								gyroscopeSensor.addEventListener("error", function(event) {
 									GYROSCOPE_OUTPUT.innerHTML = event.error
@@ -714,9 +722,9 @@
 
 							var magnetometerSensor = new Magnetometer({ frequency: 10 })
 								magnetometerSensor.addEventListener("reading", function(event) {
-									MAGNETOMETER_OUTPUT.innerHTML = "x: " + magnetometerSensor.x.toFixed(4) + "<br>" +
-																	"y: " + magnetometerSensor.y.toFixed(4) + "<br>" +
-																	"z: " + magnetometerSensor.z.toFixed(4)
+									MAGNETOMETER_OUTPUT.innerHTML = "x:" + wrapText(magnetometerSensor.x.toFixed(4)) + " μT<br>" +
+																	"y:" + wrapText(magnetometerSensor.y.toFixed(4)) + " μT<br>" +
+																	"z:" + wrapText(magnetometerSensor.z.toFixed(4)) + " μT"
 								})
 								magnetometerSensor.addEventListener("error", function(event) {
 									MAGNETOMETER_OUTPUT.innerHTML = event.error
@@ -751,10 +759,10 @@
 
 							var absoluteOrientationSensor = new AbsoluteOrientationSensor({ frequency: 10, referenceFrame: "device" })
 								absoluteOrientationSensor.addEventListener("reading", function(event) {
-									ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "x: " + absoluteOrientationSensor.quaternion[0].toFixed(4) + "<br>" +
-																			"y: " + absoluteOrientationSensor.quaternion[1].toFixed(4) + "<br>" +
-																			"z: " + absoluteOrientationSensor.quaternion[2].toFixed(4) + "<br>" +
-																			"w: " + absoluteOrientationSensor.quaternion[3].toFixed(4)
+									ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "x:" + wrapText(absoluteOrientationSensor.quaternion[0].toFixed(4)) + "<br>" +
+																			"y:" + wrapText(absoluteOrientationSensor.quaternion[1].toFixed(4)) + "<br>" +
+																			"z:" + wrapText(absoluteOrientationSensor.quaternion[2].toFixed(4)) + "<br>" +
+																			"w:" + wrapText(absoluteOrientationSensor.quaternion[3].toFixed(4))
 								})
 								absoluteOrientationSensor.addEventListener("error", function(event) {
 									ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = event.error
@@ -788,10 +796,10 @@
 
 							var relativeOrientationSensor = new RelativeOrientationSensor({ frequency: 10, referenceFrame: "device" })
 								relativeOrientationSensor.addEventListener("reading", function(event) {
-									RELATIVE_ORIENTATION_OUTPUT.innerHTML = "x: " + relativeOrientationSensor.quaternion[0].toFixed(4) + "<br>" +
-																			"y: " + relativeOrientationSensor.quaternion[1].toFixed(4) + "<br>" +
-																			"z: " + relativeOrientationSensor.quaternion[2].toFixed(4) + "<br>" +
-																			"w: " + relativeOrientationSensor.quaternion[3].toFixed(4)
+									RELATIVE_ORIENTATION_OUTPUT.innerHTML = "x:" + wrapText(relativeOrientationSensor.quaternion[0].toFixed(4)) + "<br>" +
+																			"y:" + wrapText(relativeOrientationSensor.quaternion[1].toFixed(4)) + "<br>" +
+																			"z:" + wrapText(relativeOrientationSensor.quaternion[2].toFixed(4)) + "<br>" +
+																			"w:" + wrapText(relativeOrientationSensor.quaternion[3].toFixed(4))
 								})
 								relativeOrientationSensor.addEventListener("error", function(event) {
 									RELATIVE_ORIENTATION_OUTPUT.innerHTML = event.error
@@ -835,8 +843,8 @@
 			try {
 				var x = event.touches ? event.touches[0].clientX : event.clientX
 				var y = event.touches ? event.touches[0].clientY : event.clientY
-				CURSOR_OUTPUT.innerHTML = "x: " + Math.round(x) + "<br>" + 
-										  "y: " + Math.round(y)
+				CURSOR_OUTPUT.innerHTML = "x:" + wrapText(x) + "<br>" + 
+										  "y:" + wrapText(y)
 
 				detectDragmove(x, y)
 			} catch (error) { handleError(arguments.callee.name, error) }
@@ -895,8 +903,8 @@
 		window.addEventListener("mousewheel", detectWindowScroll)
 		function detectWindowScroll(event) {
 			try {
-				WINDOWSCROLL_OUTPUT.innerHTML = "x: " + Math.round(document.body.scrollLeft || document.documentElement.scrollLeft || 0) + "<br>" +
-												"y: " + Math.round(document.body.scrollTop  || document.documentElement.scrollTop  || 0)
+				WINDOWSCROLL_OUTPUT.innerHTML = "x:" + wrapText(Math.round(document.body.scrollLeft || document.documentElement.scrollLeft || 0)) + "<br>" +
+												"y:" + wrapText(Math.round(document.body.scrollTop  || document.documentElement.scrollTop  || 0))
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -910,8 +918,8 @@
 		detectScroll()
 		function detectScroll(event) {
 			try {
-				SCROLL_OUTPUT.innerHTML = "x: " + Math.round(SCROLL_INPUT.scrollLeft || 0) + "<br>" + 
-										  "y: " + Math.round(SCROLL_INPUT.scrollTop  || 0)
+				SCROLL_OUTPUT.innerHTML = "x:" + wrapText(Math.round(SCROLL_INPUT.scrollLeft || 0)) + "<br>" + 
+										  "y:" + wrapText(Math.round(SCROLL_INPUT.scrollTop  || 0))
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -1015,8 +1023,8 @@
 			try {
 				if (navigator.geolocation) {
 					navigator.geolocation.getCurrentPosition(function(position) {
-						LOCATION_OUTPUT.innerHTML = "lat_: " + position.coords.latitude.toFixed(7) + "<br>" + 
-													"long: " + position.coords.longitude.toFixed(7)
+						LOCATION_OUTPUT.innerHTML = "lat: " + wrapText( position.coords.latitude.toFixed(7)) + "°<br>" + 
+													"long:" + wrapText(position.coords.longitude.toFixed(7)) + "°"
 					}).catch(function(error) { handleError("detectLocation", error) })
 				}
 				else {
@@ -1221,7 +1229,7 @@
 
 					// calculate the frequency & note (sample rate is usually 44100 Hz)
 						var frequency = PITCH_DETECTION.sampleRate / average / complexity
-						PITCH_OUTPUT.innerHTML = frequency.toFixed(4) + "<br>Hz"
+						PITCH_OUTPUT.innerHTML = wrapText(frequency.toFixed(4)) + " Hz<br>"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
