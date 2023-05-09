@@ -114,7 +114,7 @@
 		}
 
 	/* detectTimezone */
-		var TIMEZONE_OUTPUT = document.querySelector("#timezone .block-value")
+		var TIMEZONE_OUTPUT = document.querySelector("#current-timezone .block-value")
 		detectTimezone()
 		function detectTimezone(event) {
 			try {
@@ -124,7 +124,7 @@
 
 /*** web location ***/
 	/* detectQueryParams */
-		var QUERY_OUTPUT = document.querySelector("#query .block-value")
+		var QUERY_OUTPUT = document.querySelector("#url-query .block-value")
 		detectQueryParams()
 		function detectQueryParams() {
 			try {
@@ -145,7 +145,7 @@
 		}
 
 	/* detectHash */
-		var HASH_OUTPUT = document.querySelector("#hash .block-value")
+		var HASH_OUTPUT = document.querySelector("#url-hash .block-value")
 		detectHash()
 		window.addEventListener("hashchange", detectHash)
 		function detectHash() {
@@ -155,7 +155,7 @@
 		}
 
 	/* detectReferrer */
-		var REFERRER_OUTPUT = document.querySelector("#referrer .block-value")
+		var REFERRER_OUTPUT = document.querySelector("#url-referrer .block-value")
 		detectReferrer()
 		function detectReferrer() {
 			try {
@@ -165,7 +165,7 @@
 
 /*** browser ***/
 	/* detectJavascript */
-		var JAVASCRIPT_OUTPUT = document.querySelector("#javascript .block-value")
+		var JAVASCRIPT_OUTPUT = document.querySelector("#javascript-version .block-value")
 		detectJavascript()
 		function detectJavascript(event) {
 			try {
@@ -174,7 +174,7 @@
 		}
 
 	/* detectConsole */
-		var CONSOLE_OUTPUT = document.querySelector("#console .block-value")
+		var CONSOLE_OUTPUT = document.querySelector("#javascript-console .block-value")
 		function detectConsole(event) {
 			try {
 				if ((window.outerHeight - window.innerHeight > 100) || (window.outerWidth - window.innerWidth > 100)) {
@@ -186,8 +186,26 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectActiveElement */
+		var ACTIVE_ELEMENT_OUTPUT = document.querySelector("#javascript-active-element .block-value")
+		allElements = Array.from(document.querySelectorAll("*")).forEach(function(element) {
+			element.addEventListener("focus", detectActiveElement)
+			element.addEventListener("blur", detectActiveElement)
+		})
+		function detectActiveElement(event) {
+			try {
+				if (document.activeElement == document.body) {
+					ACTIVE_ELEMENT_OUTPUT.innerHTML = "body"
+				}
+				else {
+					var closestBlock = document.activeElement.closest(".block") || null
+					ACTIVE_ELEMENT_OUTPUT.innerHTML = closestBlock ? closestBlock.id : (String(document.activeElement.id) || String(document.activeElement))
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectResize */
-		var WINDOW_OUTPUT = document.querySelector("#window .block-value")
+		var WINDOW_OUTPUT = document.querySelector("#browser-window .block-value")
 		detectResize()
 		window.addEventListener("resize", detectResize)
 		function detectResize(event) {
@@ -199,7 +217,7 @@
 		}
 
 	/* detectLanguage */
-		var LANGUAGE_OUTPUT = document.querySelector("#language .block-value")
+		var LANGUAGE_OUTPUT = document.querySelector("#browser-language .block-value")
 		detectLanguage()
 		function detectLanguage(event) {
 			try {
@@ -208,12 +226,12 @@
 		}
 
 	/* detectCookies */
-		var COOKIES_OUTPUT = document.querySelector("#cookies .block-value")
-		var COOKIES_INPUT = document.querySelector("#cookies .block-button")
+		var COOKIES_OUTPUT = document.querySelector("#browser-cookies .block-value")
+		var COOKIES_INPUT = document.querySelector("#browser-cookies .block-button")
 		detectCookies()
-		function detectCookies(event) {
+		function detectCookies(justBaked) {
 			try {
-				COOKIES_OUTPUT.innerHTML = document.cookie || ""
+				COOKIES_OUTPUT.innerHTML = document.cookie || (justBaked ? "[not allowed]" : "")
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -221,12 +239,12 @@
 		function createCookie() {
 			try {
 				document.cookie = "example=" + Math.random() + "; max-age=" + (60 * 60 * 24);
-				detectCookies()
+				detectCookies(true)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectLocalstorage */
-		var LOCALSTORAGE_OUTPUT = document.querySelector("#localstorage .block-value")
+		var LOCALSTORAGE_OUTPUT = document.querySelector("#browser-localstorage .block-value")
 		detectLocalstorage()
 		function detectLocalstorage(event) {
 			try {
@@ -237,7 +255,7 @@
 
 	/* detectCallstack */
 		var stackSize = 0
-		var CALLSTACK_OUTPUT = document.querySelector("#callstack .block-value")
+		var CALLSTACK_OUTPUT = document.querySelector("#browser-javascript-callstack .block-value")
 		detectCallstack()
 		function detectCallstack(event) {
 			try {
@@ -256,8 +274,8 @@
 
 	/* detectWebWorkers */
 		var WEBWORKERS = null
-		var WEBWORKERS_OUTPUT = document.querySelector("#webworkers .block-value")
-		var WEBWORKERS_INPUT = document.querySelector("#webworkers .block-input")
+		var WEBWORKERS_OUTPUT = document.querySelector("#browser-webworkers .block-value")
+		var WEBWORKERS_INPUT = document.querySelector("#browser-webworkers .block-input")
 			WEBWORKERS_INPUT.addEventListener("input", detectWebWorkers)
 		createWebworkers()
 		function createWebworkers() {
@@ -282,8 +300,8 @@
 
 	/* detectPostMessage */
 		var POSTMESSAGE_IFRAME = null
-		var POSTMESSAGE_OUTPUT = document.querySelector("#postmessage .block-value")
-		var POSTMESSAGE_INPUT = document.querySelector("#postmessage .block-input")
+		var POSTMESSAGE_OUTPUT = document.querySelector("#browser-postmessage .block-value")
+		var POSTMESSAGE_INPUT = document.querySelector("#browser-postmessage .block-input")
 		createIframe()
 		function createIframe() {
 			try {
@@ -322,9 +340,27 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectXHR */
+		var XHR_OUTPUT = document.querySelector("#javascript-xhr .block-value")
+		var XHR_INPUT = document.querySelector("#javascript-xhr .block-button")
+			XHR_INPUT.addEventListener(on.click, detectXHR)
+		function detectXHR(event) {
+			try {
+				var number = Math.floor(Math.random() * 200) + 1
+				var request = new XMLHttpRequest()
+					request.open("GET", "https://jsonplaceholder.typicode.com/todos/" + number, true)
+					request.onload = function() {
+						if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
+							XHR_OUTPUT.innerHTML = (request.responseText) || "[no response]"
+						}
+					}
+					request.send()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** device ***/
 	/* detectOnline */
-		var ONLINE_OUTPUT = document.querySelector("#online .block-value")
+		var ONLINE_OUTPUT = document.querySelector("#device-online .block-value")
 		window.addEventListener("online", detectOnline)
 		window.addEventListener("offline", detectOnline)
 		detectOnline()
@@ -355,7 +391,7 @@
 		}
 
 	/* detectUserAgent */
-		var USERAGENT_OUTPUT = document.querySelector("#useragent .block-value")
+		var USERAGENT_OUTPUT = document.querySelector("#browser-useragent .block-value")
 		detectUserAgent()
 		function detectUserAgent(event) {
 			try {
@@ -364,7 +400,7 @@
 		}
 
 	/* detectScreen */
-		var SCREEN_OUTPUT = document.querySelector("#screen .block-value")
+		var SCREEN_OUTPUT = document.querySelector("#device-screen .block-value")
 		detectScreen()
 		function detectScreen(event) {
 			try {
@@ -381,12 +417,12 @@
 			try {
 				// not allowed
 					if (!document.fullscreenEnabled) {
-						FULLSCREEN_OUTPUT.innerHTML = "not allowed"
+						FULLSCREEN_OUTPUT.innerHTML = "[not allowed]"
 						return
 					}
 
 				// exit
-					if (window.outerHeight == screen.availHeight && window.outerWidth == screen.availWidth) {
+					if (window.innerHeight == screen.availHeight) {
 						document.exitFullscreen()
 					}
 
@@ -402,7 +438,7 @@
 		function detectFullScreen(event) {
 			try {
 				setTimeout(function() {
-					if (window.outerHeight == screen.availHeight && window.outerWidth == screen.availWidth) {
+					if (window.innerHeight == screen.availHeight) {
 						FULLSCREEN_OUTPUT.innerHTML = "!"
 					}
 					else {
@@ -424,7 +460,7 @@
 		}
 
 	/* detectBattery */
-		var BATTERY_OUTPUT = document.querySelector("#battery .block-value")
+		var BATTERY_OUTPUT = document.querySelector("#device-battery .block-value")
 		detectBattery()
 		function detectBattery(event) {
 			try {
@@ -432,7 +468,7 @@
 					navigator.getBattery().then(function(event) {
 						BATTERY_OUTPUT.innerHTML = event.level ? (event.level * 100 + "%" + "<br>") + 
 																 (event.charging ? "charging" : "discharging") : 
-													"unavailable"
+													"[unavailable]"
 					}).catch(function(error) { handleError("detectBattery", error) })
 				}
 				catch (error) {
@@ -442,15 +478,15 @@
 		}
 
 	/* detectVibration */
-		var VIBRATION_OUTPUT = document.querySelector("#vibration .block-value")
+		var VIBRATION_OUTPUT = document.querySelector("#device-vibration .block-value")
 		detectVibration()
 		function detectVibration(event) {
 			try {
-				VIBRATION_OUTPUT.innerHTML = ("vibrate" in navigator) ? "available" : "unavailable"
+				VIBRATION_OUTPUT.innerHTML = ("vibrate" in navigator) ? "[available]" : "[not supported]"
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-		var VIBRATION_INPUT = document.querySelector("#vibration .block-button")
+		var VIBRATION_INPUT = document.querySelector("#device-vibration .block-button")
 		VIBRATION_INPUT.addEventListener(on.click, vibrate)
 		function vibrate(event) {
 			try {
@@ -459,26 +495,34 @@
 		}
 
 	/* detectMotion */
-		var ACCELERATION_OUTPUT = document.querySelector("#motion-acceleration .block-value")
-		var ROTATION_OUTPUT = document.querySelector("#motion-rotation .block-value")
+		var ACCELERATION_OUTPUT = document.querySelector("#device-motion-acceleration .block-value")
+		var ROTATION_OUTPUT = document.querySelector("#device-motion-rotation .block-value")
 		setTimeout(function() {
 			window.addEventListener("devicemotion", detectMotion)
+			detectMotion()
 		}, 0)
 		function detectMotion(event) {
 			try {
+				// no event
+					if (!event) {
+						ACCELERATION_OUTPUT.innerHTML = "[no sensor]"
+						ROTATION_OUTPUT.innerHTML = "[no sensor]"
+						return
+					}
+
 				// values
 					var acceleration = event.acceleration || null
 					var rotationRate = event.rotationRate || null
 
 				// acceleration
-					ACCELERATION_OUTPUT.innerHTML = !acceleration ? "" : ( 
+					ACCELERATION_OUTPUT.innerHTML = !acceleration ? "?" : ( 
 													"x:" + wrapText((acceleration.x || 0).toFixed(4)) + " m/s^2<br>" +
 													"y:" + wrapText((acceleration.y || 0).toFixed(4)) + " m/s^2<br>" +
 													"z:" + wrapText((acceleration.z || 0).toFixed(4)) + " m/s^2"
 												)
 
 				// rotation
-					ROTATION_OUTPUT.innerHTML = !rotationRate ? "" : (
+					ROTATION_OUTPUT.innerHTML = !rotationRate ? "?" : (
 													"α:" + wrapText((rotationRate.alpha || 0).toFixed(4)) + "°/s<br>" +
 													"β:" + wrapText((rotationRate.beta  || 0).toFixed(4)) + "°/s<br>" +
 													"γ:" + wrapText((rotationRate.gamma || 0).toFixed(4)) + "°/s"
@@ -488,7 +532,7 @@
 
 	/* detectOrientation & detectCompass */
 		var ORIENTATION_OUTPUT = document.querySelector("#device-orientation .block-value")
-		var COMPASS_OUTPUT = document.querySelector("#compass .block-value")
+		var COMPASS_OUTPUT = document.querySelector("#device-sensor-compass .block-value")
 		setTimeout(function() {
 			window.addEventListener("deviceorientationabsolute", detectOrientation)
 			window.addEventListener("deviceorientation", detectOrientation)
@@ -519,7 +563,7 @@
 						degrees = Number(event.alpha)
 					}
 					if (degrees == null) {
-						COMPASS_OUTPUT.innerHTML = "no sensor"
+						COMPASS_OUTPUT.innerHTML = "[no sensor]"
 						return
 					}
 
@@ -607,7 +651,7 @@
 					})
 				}
 				else {
-					LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "no sensor"
+					LINEAR_ACCELEROMETER_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -638,7 +682,7 @@
 					})
 				}
 				else {
-					AMBIENT_LIGHT_OUTPUT.innerHTML = "no sensor"
+					AMBIENT_LIGHT_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -671,7 +715,7 @@
 					})
 				}
 				else {
-					GRAVITY_OUTPUT.innerHTML = "no sensor"
+					GRAVITY_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -704,7 +748,7 @@
 					})
 				}
 				else {
-					GYROSCOPE_OUTPUT.innerHTML = "no sensor"
+					GYROSCOPE_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -737,7 +781,7 @@
 					})
 				}
 				else {
-					MAGNETOMETER_OUTPUT.innerHTML = "no sensor"
+					MAGNETOMETER_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -775,7 +819,7 @@
 					})
 				}
 				else {
-					ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "no sensor"
+					ABSOLUTE_ORIENTATION_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
@@ -812,14 +856,14 @@
 					})
 				}
 				else {
-					RELATIVE_ORIENTATION_OUTPUT.innerHTML = "no sensor"
+					RELATIVE_ORIENTATION_OUTPUT.innerHTML = "[no sensor]"
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 /*** interface ***/
 	/* detectKeydown / detectKeyup */
-		var KEYBOARD_OUTPUT = document.querySelector("#keyboard .block-value")
+		var KEYBOARD_OUTPUT = document.querySelector("#peripheral-keyboard .block-value")
 		window.addEventListener("keydown", detectKeydown)
 		function detectKeydown(event) {
 			try {
@@ -837,7 +881,7 @@
 		}
 
 	/* detectMousemove */
-		var CURSOR_OUTPUT = document.querySelector("#cursor .block-value")
+		var CURSOR_OUTPUT = document.querySelector("#peripheral-cursor .block-value")
 		window.addEventListener(on.mousemove, detectMousemove)
 		function detectMousemove(event) {
 			try {
@@ -851,7 +895,7 @@
 		}
 
 	/* detectMousedown / detectMouseup */
-		var CLICK_OUTPUT = document.querySelector("#click .block-value")
+		var CLICK_OUTPUT = document.querySelector("#peripheral-click .block-value")
 		window.addEventListener(on.mousedown, detectMousedown)
 		function detectMousedown(event) {
 			try {
@@ -869,7 +913,7 @@
 
 	/* detectDoubleClick */
 		var DOUBLECLICK_TIMEOUT = null
-		var DOUBLECLICK_OUTPUT = document.querySelector("#doubleclick .block-value")
+		var DOUBLECLICK_OUTPUT = document.querySelector("#peripheral-doubleclick .block-value")
 		window.addEventListener("dblclick", detectDoubleClick)
 		function detectDoubleClick(event) {
 			try {
@@ -883,7 +927,7 @@
 
 	/* detectContextMenu */
 		var CONTEXTMENU_TIMEOUT = null
-		var CONTEXTMENU_OUTPUT = document.querySelector("#contextmenu .block-value")
+		var CONTEXTMENU_OUTPUT = document.querySelector("#peripheral-contextmenu .block-value")
 		window.addEventListener("contextmenu", detectContextMenu)
 		function detectContextMenu(event) {
 			try {
@@ -896,21 +940,24 @@
 		}
 
 	/* detectWindowScroll */
-		var WINDOWSCROLL_OUTPUT = document.querySelector("#window-scroll .block-value")
+		var WINDOWSCROLL_OUTPUT = document.querySelector("#peripheral-window-scroll .block-value")
+		var CONTAINER = document.querySelector("#container")
 		window.addEventListener("scroll", detectWindowScroll)
 		window.addEventListener("wheel", detectWindowScroll)
 		window.addEventListener("mousescroll", detectWindowScroll)
 		window.addEventListener("mousewheel", detectWindowScroll)
 		function detectWindowScroll(event) {
 			try {
-				WINDOWSCROLL_OUTPUT.innerHTML = "x:" + wrapText(Math.round(document.body.scrollLeft || document.documentElement.scrollLeft || 0)) + "<br>" +
-												"y:" + wrapText(Math.round(document.body.scrollTop  || document.documentElement.scrollTop  || 0))
+				setTimeout(function() {
+					WINDOWSCROLL_OUTPUT.innerHTML = "x:" + wrapText(Math.round(CONTAINER.scrollLeft || document.body.scrollLeft || document.documentElement.scrollLeft || 0)) + "<br>" +
+													"y:" + wrapText(Math.round(CONTAINER.scrollTop  || document.body.scrollTop  || document.documentElement.scrollTop  || 0))
+				}, 100)
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectScroll */
-		var SCROLL_OUTPUT = document.querySelector("#scroll .block-value")
-		var SCROLL_INPUT = document.querySelector("#scroll .block-label")
+		var SCROLL_OUTPUT = document.querySelector("#peripheral-scroll .block-value")
+		var SCROLL_INPUT = document.querySelector("#peripheral-scroll .block-label")
 		SCROLL_INPUT.addEventListener("scroll", detectScroll)
 		SCROLL_INPUT.addEventListener("wheel", detectScroll)
 		SCROLL_INPUT.addEventListener("mousescroll", detectScroll)
@@ -924,8 +971,8 @@
 		}
 
 	/* detectHoverOn / detectHoverOff */
-		var HOVER_OUTPUT = document.querySelector("#hover .block-value")
-		var HOVER_INPUT = document.querySelector("#hover")
+		var HOVER_OUTPUT = document.querySelector("#peripheral-hover .block-value")
+		var HOVER_INPUT = document.querySelector("#peripheral-hover")
 			HOVER_INPUT.addEventListener("mouseenter", detectHoverOn)
 		function detectHoverOn(event) {
 			try {
@@ -941,9 +988,9 @@
 		}
 
 	/* detectFocus / detectBlur */
-		var FOCUS_OUTPUT = document.querySelector("#focus .block-value")
-		var FOCUS_INPUT = document.querySelector("#focus")
-		var FOCUS_BUTTON = document.querySelector("#focus .block-button")
+		var FOCUS_OUTPUT = document.querySelector("#peripheral-focus .block-value")
+		var FOCUS_INPUT = document.querySelector("#peripheral-focus")
+		var FOCUS_BUTTON = document.querySelector("#peripheral-focus .block-button")
 			FOCUS_INPUT.addEventListener("focus", detectFocus)
 			FOCUS_BUTTON.addEventListener("focus", detectFocus)
 		function detectFocus(event) {
@@ -960,72 +1007,55 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-	/* midi */
-		var MIDI = null
-		var MIDI_OUTPUT = document.querySelector("#midi .block-value")
-		createMidi()
-		function createMidi() {
+	/* detectDrag */
+		var DRAGGING = false
+		var DRAG_OUTPUT = document.querySelector("#peripheral-drag .block-value")
+		var DRAG_LABEL = document.querySelector("#peripheral-drag .block-label")
+		var DRAG_INPUT = document.querySelector("#peripheral-drag .block-input")
+			DRAG_INPUT.addEventListener(on.mousedown, detectDrag)
+		function detectDrag(event) {
 			try {
-				try {
-					navigator.requestMIDIAccess().then(function(midi) {
-						MIDI = midi || {}
-						MIDI.controllers = {}
-						MIDI.consumers   = {}
-						MIDI.onstatechange = detectMidi
-					}).catch(function(error) { handleError("createMidi", error) })
-				}
-				catch (error) {
-					MIDI_OUTPUT.innerHTML = "[not supported]"
-				}
+				var x = event.touches ? event.touches[0].clientX : event.clientX
+				var y = event.touches ? event.touches[0].clientY : event.clientY
+				var inputRect = DRAG_LABEL.getBoundingClientRect()
+
+				DRAGGING = true
+				DRAG_INPUT.style.cursor = "grabbing"
+				DRAG_OUTPUT.innerHTML = "!"
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
-
-		function detectMidi(event) {
+		function detectDrop(event) {
 			try {
-				// set inputs
-					MIDI.controllers = {}
-					var inputs = MIDI.inputs.values()
-					for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
-						MIDI.controllers[input.value.name + input.value.id] = input.value
-						MIDI.controllers[input.value.name + input.value.id].onmidimessage = detectMidiData
-					}
-
-				// set outputs
-					MIDI.consumers = {}
-					var outputs = MIDI.outputs.values()
-					for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
-						MIDI.consumers[output.value.name + output.value.id] = output.value
-					}
-
-				// display data
-					MIDI_OUTPUT.innerHTML = event.port.name + "<br>" + 
-											event.port.manufacturer + "<br>" + 
-											event.port.state + "<br><br>" +
-											Object.keys(MIDI.controllers).join(", ") + "<br>"
-											Object.keys(MIDI.consumers).join(", ")
+				DRAGGING = false
+				DRAG_INPUT.style.cursor = "grab"
+				DRAG_OUTPUT.innerHTML = ""
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
-
-	/* midi data */
-		var MIDI_DATA_OUTPUT = document.querySelector("#midi-data .block-value")
-		function detectMidiData(event) {
+		function detectDragmove(x, y) {
 			try {
-				MIDI_DATA_OUTPUT.innerHTML = event.data
+				if (DRAGGING) {
+					var labelRect = DRAG_LABEL.getBoundingClientRect()
+					DRAG_INPUT.style.left = (x - labelRect.left) + "px" 
+					DRAG_INPUT.style.top  = (y - labelRect.top ) + "px"
+				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 /*** permissioned things ***/
 	/* detectLocation */
-		var LOCATION_OUTPUT = document.querySelector("#location .block-value")
-		var LOCATION_INPUT = document.querySelector("#location .block-button")
+		var LOCATION_OUTPUT = document.querySelector("#device-geo-location .block-value")
+		var LOCATION_INPUT = document.querySelector("#device-geo-location .block-button")
 			LOCATION_INPUT.addEventListener(on.click, detectLocation)
 		function detectLocation(event) {
 			try {
 				if (navigator.geolocation) {
+					LOCATION_OUTPUT.innerHTML = "?"
 					navigator.geolocation.getCurrentPosition(function(position) {
 						LOCATION_OUTPUT.innerHTML = "lat: " + wrapText( position.coords.latitude.toFixed(7)) + "°<br>" + 
 													"long:" + wrapText(position.coords.longitude.toFixed(7)) + "°"
-					}).catch(function(error) { handleError("detectLocation", error) })
+					}, function(error) {
+						LOCATION_OUTPUT.innerHTML = error.message
+					})
 				}
 				else {
 					LOCATION_OUTPUT.innerHTML = "[not supported]"
@@ -1037,8 +1067,8 @@
 		var SPEECH_RECOGNITION = null
 		var SPEECH_LISTENING = false
 		var SPEECH_COUNTDOWN = null
-		var SPEECH_OUTPUT = document.querySelector("#speech .block-value")
-		var SPEECH_INPUT = document.querySelector("#speech .block-button")
+		var SPEECH_OUTPUT = document.querySelector("#audio-speech-microphone .block-value")
+		var SPEECH_INPUT = document.querySelector("#audio-speech-microphone .block-button")
 
 		createSpeechRecognition()
 		function createSpeechRecognition() {
@@ -1048,6 +1078,9 @@
 						SPEECH_RECOGNITION.onstart = startSpeech
 						SPEECH_RECOGNITION.onsoundend = stopSpeech
 						SPEECH_RECOGNITION.onresult = detectSpeech
+						SPEECH_RECOGNITION.onerror = function(error) {
+							SPEECH_OUTPUT.innerHTML = error.message || error.error || "[not allowed]"
+						}
 				}
 				catch (error) {
 					SPEECH_OUTPUT.innerHTML = "[not supported]"
@@ -1107,34 +1140,54 @@
 		}
 
 	/* detectAudio */
-		var AUDIO_OUTPUT = document.querySelector("#audio audio")
-		var AUDIO_INPUT = document.querySelector("#audio .block-button")
+		var AUDIO_OUTPUT = document.querySelector("#audio-microphone .block-value")
+		var AUDIO_AUDIO = document.querySelector("#audio-microphone audio")
+		var AUDIO_INPUT = document.querySelector("#audio-microphone .block-button")
 			AUDIO_INPUT.addEventListener(on.click, detectAudio)
 		function detectAudio(event) {
 			try {
 				navigator.mediaDevices.getUserMedia({audio: true}).then(function(stream) {
-					AUDIO_OUTPUT.srcObject = stream
-				}).catch(function(error) { handleError("detectAudio", error) })
+					AUDIO_AUDIO.srcObject = stream
+				}).catch(function(error) { AUDIO_OUTPUT.innerHTML = error.message || "[not allowed]" })
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectVideo */
-		var VIDEO_OUTPUT = document.querySelector("#video video")
-		var VIDEO_INPUT = document.querySelector("#video .block-button")
+		var VIDEO_OUTPUT = document.querySelector("#audio-video-camera-microphone .block-value")
+		var VIDEO_VIDEO = document.querySelector("#audio-video-camera-microphone video")
+		var VIDEO_INPUT = document.querySelector("#audio-video-camera-microphone .block-button")
 			VIDEO_INPUT.addEventListener(on.click, detectVideo)
 		function detectVideo(event) {
 			try {
 				navigator.mediaDevices.getUserMedia({video: true}).then(function(stream) {
-					VIDEO_OUTPUT.srcObject = stream
-				}).catch(function(error) { handleError("detectVideo", error) })
+					VIDEO_VIDEO.srcObject = stream
+				}).catch(function(error) { VIDEO_OUTPUT.innerHTML = error.message || "[not allowed]" })
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectBarcodeDetector */
+		var BARCODE_DETECTOR_OUTPUT = document.querySelector("#video-camera-barcode-detector .block-value")
+		detectBarcodeDetector()
+		function detectBarcodeDetector() {
+			try {
+				if (!window.BarcodeDetector) {
+					BARCODE_DETECTOR_OUTPUT.innerHTML = "[none]"
+				}
+				else {
+					window.BarcodeDetector.getSupportedFormats().then(function(formats) {
+						BARCODE_DETECTOR_OUTPUT.innerHTML = formats.join(", ") || "[none]"
+					}).catch(function(error) {
+						BARCODE_DETECTOR_OUTPUT.innerHTML = "[none]"
+					})
+				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectPitch */
 		var PITCH_DETECTION = null
 		var PITCH_LISTENING = false
-		var PITCH_OUTPUT = document.querySelector("#pitch .block-value")
-		var PITCH_INPUT = document.querySelector("#pitch .block-button")
+		var PITCH_OUTPUT = document.querySelector("#audio-pitch-microphone .block-value")
+		var PITCH_INPUT = document.querySelector("#audio-pitch-microphone .block-button")
 			PITCH_INPUT.addEventListener(on.click, detectPitch)
 		function detectPitch(event) {
 			try {
@@ -1163,7 +1216,7 @@
 					PITCH_DETECTION.microphone = PITCH_DETECTION.createMediaStreamSource(stream)
 					PITCH_DETECTION.microphone.connect(PITCH_DETECTION.analyzer)
 					PITCH_DETECTION.loop = setInterval(detectPitchData, 200)
-				}).catch(function(error) { handleError("buildPitchDetection", error) })
+				}).catch(function(error) { PITCH_OUTPUT.innerHTML = error.message || "[not allowed]" })
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -1234,10 +1287,77 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* midi */
+		var MIDI = null
+		var MIDI_OUTPUT = document.querySelector("#audio-midi .block-value")
+		createMidi()
+		function createMidi() {
+			try {
+				try {
+					navigator.requestMIDIAccess().then(function(midi) {
+						MIDI = midi || {}
+						MIDI.controllers = {}
+						MIDI.consumers   = {}
+						MIDI.onstatechange = detectMidi
+					}).catch(function(error) { handleError("createMidi", error) })
+				}
+				catch (error) {
+					MIDI_OUTPUT.innerHTML = "[not supported]"
+				}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+		function detectMidi(event) {
+			try {
+				// set inputs
+					MIDI.controllers = {}
+					var inputs = MIDI.inputs.values()
+					for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+						MIDI.controllers[input.value.name + input.value.id] = input.value
+						MIDI.controllers[input.value.name + input.value.id].onmidimessage = detectMidiData
+					}
+
+				// set outputs
+					MIDI.consumers = {}
+					var outputs = MIDI.outputs.values()
+					for (var output = outputs.next(); output && !output.done; output = outputs.next()) {
+						MIDI.consumers[output.value.name + output.value.id] = output.value
+					}
+
+				// display data
+					MIDI_OUTPUT.innerHTML = event.port.name + "<br>" + 
+											event.port.manufacturer + "<br>" + 
+											event.port.state + "<br><br>" +
+											Object.keys(MIDI.controllers).join(", ") + "<br>"
+											Object.keys(MIDI.consumers).join(", ")
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* midi data */
+		var MIDI_DATA_OUTPUT = document.querySelector("#audio-midi-data .block-value")
+		function detectMidiData(event) {
+			try {
+				MIDI_DATA_OUTPUT.innerHTML = event.data
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** prompt ***/
+	/* detectAlert */
+		var ALERT_OUTPUT = document.querySelector("#javascript-alert .block-value")
+		var ALERT_INPUT = document.querySelector("#javascript-alert .block-button")
+			ALERT_INPUT.addEventListener(on.click, detectAlert)
+		function detectAlert(event) {
+			try {
+				ALERT_OUTPUT.innerHTML = window.alert("alert!") || "!"
+				setTimeout(function() {
+					ALERT_OUTPUT.innerHTML = ""
+				}, 1000)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectPrompt */
-		var PROMPT_OUTPUT = document.querySelector("#prompt .block-value")
-		var PROMPT_INPUT = document.querySelector("#prompt .block-button")
+		var PROMPT_OUTPUT = document.querySelector("#javascript-prompt .block-value")
+		var PROMPT_INPUT = document.querySelector("#javascript-prompt .block-button")
 			PROMPT_INPUT.addEventListener(on.click, detectPrompt)
 		function detectPrompt(event) {
 			try {
@@ -1246,8 +1366,8 @@
 		}
 
 	/* detectConfirm */
-		var CONFIRM_OUTPUT = document.querySelector("#confirm .block-value")
-		var CONFIRM_INPUT = document.querySelector("#confirm .block-button")
+		var CONFIRM_OUTPUT = document.querySelector("#javascript-confirm .block-value")
+		var CONFIRM_INPUT = document.querySelector("#javascript-confirm .block-button")
 			CONFIRM_INPUT.addEventListener(on.click, detectConfirm)
 		function detectConfirm(event) {
 			try {
@@ -1256,26 +1376,9 @@
 		}
 
 /*** form field inputs ***/
-	/* detectActiveElement */
-		var ACTIVE_ELEMENT_OUTPUT = document.querySelector("#active-element .block-value")
-		allElements = Array.from(document.querySelectorAll("*")).forEach(function(element) {
-			element.addEventListener("focus", detectActiveElement)
-			element.addEventListener("blur", detectActiveElement)
-		})
-		function detectActiveElement(event) {
-			try {
-				if (document.activeElement == document.body) {
-					ACTIVE_ELEMENT_OUTPUT.innerHTML = "body"
-				}
-				else {
-					var closestBlock = document.activeElement.closest(".block") || null
-					ACTIVE_ELEMENT_OUTPUT.innerHTML = closestBlock ? closestBlock.id : String(document.activeElement)
-				}
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
 	/* detectTextInput */
-		var TEXT_OUTPUT = document.querySelector("#text .block-value")
-		var TEXT_INPUT = document.querySelector("#text .block-input")
+		var TEXT_OUTPUT = document.querySelector("#input-text .block-value")
+		var TEXT_INPUT = document.querySelector("#input-text .block-input")
 			TEXT_INPUT.addEventListener("input", detectTextInput)
 		function detectTextInput(event) {
 			try {
@@ -1284,8 +1387,8 @@
 		}
 
 	/* detectPasswordInput */
-		var PASSWORD_OUTPUT = document.querySelector("#password .block-value")
-		var PASSWORD_INPUT = document.querySelector("#password .block-input")
+		var PASSWORD_OUTPUT = document.querySelector("#input-password .block-value")
+		var PASSWORD_INPUT = document.querySelector("#input-password .block-input")
 			PASSWORD_INPUT.addEventListener("input", detectPasswordInput)
 		function detectPasswordInput(event) {
 			try {
@@ -1294,8 +1397,8 @@
 		}
 
 	/* detectNumberInput */
-		var NUMBER_OUTPUT = document.querySelector("#number .block-value")
-		var NUMBER_INPUT = document.querySelector("#number .block-input")
+		var NUMBER_OUTPUT = document.querySelector("#input-number .block-value")
+		var NUMBER_INPUT = document.querySelector("#input-number .block-input")
 			NUMBER_INPUT.addEventListener("input", detectNumberInput)
 		function detectNumberInput(event) {
 			try {
@@ -1304,8 +1407,8 @@
 		}
 
 	/* detectTimeInput */
-		var TIME_OUTPUT = document.querySelector("#time .block-value")
-		var TIME_INPUT = document.querySelector("#time .block-input")
+		var TIME_OUTPUT = document.querySelector("#input-time .block-value")
+		var TIME_INPUT = document.querySelector("#input-time .block-input")
 			TIME_INPUT.addEventListener("input", detectTimeInput)
 		function detectTimeInput(event) {
 			try {
@@ -1314,8 +1417,8 @@
 		}
 
 	/* detectDateInput */
-		var DATE_OUTPUT = document.querySelector("#date .block-value")
-		var DATE_INPUT = document.querySelector("#date .block-input")
+		var DATE_OUTPUT = document.querySelector("#input-date .block-value")
+		var DATE_INPUT = document.querySelector("#input-date .block-input")
 			DATE_INPUT.addEventListener("input", detectDateInput)
 		function detectDateInput(event) {
 			try {
@@ -1324,8 +1427,8 @@
 		}
 
 	/* detectWeekInput */
-		var WEEK_OUTPUT = document.querySelector("#week .block-value")
-		var WEEK_INPUT = document.querySelector("#week .block-input")
+		var WEEK_OUTPUT = document.querySelector("#input-week .block-value")
+		var WEEK_INPUT = document.querySelector("#input-week .block-input")
 			WEEK_INPUT.addEventListener("input", detectWeekInput)
 		function detectWeekInput(event) {
 			try {
@@ -1334,8 +1437,8 @@
 		}
 
 	/* detectMonthInput */
-		var MONTH_OUTPUT = document.querySelector("#month .block-value")
-		var MONTH_INPUT = document.querySelector("#month .block-input")
+		var MONTH_OUTPUT = document.querySelector("#input-month .block-value")
+		var MONTH_INPUT = document.querySelector("#input-month .block-input")
 			MONTH_INPUT.addEventListener("input", detectMonthInput)
 		function detectMonthInput(event) {
 			try {
@@ -1344,8 +1447,8 @@
 		}
 
 	/* detectDateTimeInput */
-		var DATETIME_OUTPUT = document.querySelector("#datetime .block-value")
-		var DATETIME_INPUT = document.querySelector("#datetime .block-input")
+		var DATETIME_OUTPUT = document.querySelector("#input-datetime .block-value")
+		var DATETIME_INPUT = document.querySelector("#input-datetime .block-input")
 			DATETIME_INPUT.addEventListener("input", detectDateTimeInput)
 		function detectDateTimeInput(event) {
 			try {
@@ -1354,8 +1457,8 @@
 		}
 
 	/* detectColorInput */
-		var COLOR_OUTPUT = document.querySelector("#color .block-value")
-		var COLOR_INPUT = document.querySelector("#color .block-button")
+		var COLOR_OUTPUT = document.querySelector("#input-color .block-value")
+		var COLOR_INPUT = document.querySelector("#input-color .block-button")
 			COLOR_INPUT.addEventListener("input", detectColorInput)
 		function detectColorInput(event) {
 			try {
@@ -1365,8 +1468,8 @@
 
 /*** form special inputs ***/
 	/* detectTextareaInput */
-		var TEXTAREA_OUTPUT = document.querySelector("#textarea .block-value")
-		var TEXTAREA_INPUT = document.querySelector("#textarea .block-input")
+		var TEXTAREA_OUTPUT = document.querySelector("#input-textarea .block-value")
+		var TEXTAREA_INPUT = document.querySelector("#input-textarea .block-input")
 			TEXTAREA_INPUT.addEventListener("input", detectTextareaInput)
 		function detectTextareaInput(event) {
 			try {
@@ -1375,8 +1478,8 @@
 		}
 
 	/* detectSelectInput */
-		var SELECT_OUTPUT = document.querySelector("#select .block-value")
-		var SELECT_INPUT = document.querySelector("#select .block-select")
+		var SELECT_OUTPUT = document.querySelector("#input-select .block-value")
+		var SELECT_INPUT = document.querySelector("#input-select .block-select")
 			SELECT_INPUT.addEventListener("input", detectSelectInput)
 		function detectSelectInput(event) {
 			try {
@@ -1385,19 +1488,19 @@
 		}
 
 	/* detectMultiselectInput */
-		var MULTISELECT_OUTPUT = document.querySelector("#multiselect .block-value")
-		var MULTISELECT_INPUT = document.querySelector("#multiselect .block-select")
+		var MULTISELECT_OUTPUT = document.querySelector("#input-multiselect .block-value")
+		var MULTISELECT_INPUT = document.querySelector("#input-multiselect .block-select")
 			MULTISELECT_INPUT.addEventListener("input", detectMultiselectInput)
 		function detectMultiselectInput(event) {
 			try {
-				var selected = document.querySelectorAll("#multiselect .block-select option:checked")
+				var selected = document.querySelectorAll("#input-multiselect .block-select option:checked")
 				MULTISELECT_OUTPUT.innerHTML = Array.from(selected).map(function(element) { return element.value })
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectRadioInput */
-		var RADIO_OUTPUT = document.querySelector("#radio .block-value")
-		var RADIO_INPUTS = document.querySelectorAll("#radio .block-radio")
+		var RADIO_OUTPUT = document.querySelector("#input-radio .block-value")
+		var RADIO_INPUTS = document.querySelectorAll("#input-radio .block-radio")
 			RADIO_INPUTS.forEach(function(element) { element.addEventListener("input", detectRadioInput) })
 		function detectRadioInput(event) {
 			try {
@@ -1410,8 +1513,8 @@
 		}
 
 	/* detectCheckboxInput */
-		var CHECKBOX_OUTPUT = document.querySelector("#checkbox .block-value")
-		var CHECKBOX_INPUT = document.querySelector("#checkbox .block-checkbox")
+		var CHECKBOX_OUTPUT = document.querySelector("#input-checkbox .block-value")
+		var CHECKBOX_INPUT = document.querySelector("#input-checkbox .block-checkbox")
 			CHECKBOX_INPUT.addEventListener("input", detectCheckboxInput)
 		detectCheckboxInput()
 		function detectCheckboxInput(event) {
@@ -1421,8 +1524,8 @@
 		}
 
 	/* detectRangeInput */
-		var RANGE_OUTPUT = document.querySelector("#range .block-value")
-		var RANGE_INPUT = document.querySelector("#range .block-input")
+		var RANGE_OUTPUT = document.querySelector("#input-range .block-value")
+		var RANGE_INPUT = document.querySelector("#input-range .block-input")
 			RANGE_INPUT.addEventListener("input", detectRangeInput)
 		function detectRangeInput(event) {
 			try {
@@ -1431,9 +1534,9 @@
 		}
 
 	/* detectFileInput */
-		var FILE_OUTPUT = document.querySelector("#file .block-value")
-		var FILE_BUTTON_INPUT = document.querySelector("#file .block-button")
-		var FILE_INPUT = document.querySelector("#file .block-input-hidden")
+		var FILE_OUTPUT = document.querySelector("#input-file .block-value")
+		var FILE_BUTTON_INPUT = document.querySelector("#input-file .block-button")
+		var FILE_INPUT = document.querySelector("#input-file .block-input-hidden")
 			FILE_INPUT.addEventListener("input", detectFileInput)
 		function detectFileInput(event) {
 			try {
@@ -1447,11 +1550,33 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectContenteditable */
+		var CONTENTEDITABLE_OUTPUT = document.querySelector("#input-contenteditable .block-value")
+		var CONTENTEDITABLE_INPUT = document.querySelector("#input-contenteditable .block-label")
+			CONTENTEDITABLE_INPUT.addEventListener("keydown", detectContenteditable)
+			CONTENTEDITABLE_INPUT.addEventListener("keyup", detectContenteditable)
+		function detectContenteditable(event) {
+			try {
+				CONTENTEDITABLE_OUTPUT.innerHTML = CONTENTEDITABLE_INPUT.innerHTML
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectDetailsToggle */
+		var DETAILSTOGGLE_OUTPUT = document.querySelector("#input-summary-details-toggle .block-value")
+		var DETAILSTOGGLE_INPUT = document.querySelector("#input-summary-details-toggle .block-label details")
+			DETAILSTOGGLE_INPUT.addEventListener("toggle", detectDetailsToggle)
+			detectDetailsToggle()
+		function detectDetailsToggle(event) {
+			try {
+				DETAILSTOGGLE_OUTPUT.innerHTML = DETAILSTOGGLE_INPUT.open ? "open" : "closed"
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** form inputs with validation ***/
 	/* detectEmailInput */
-		var EMAIL_OUTPUT = document.querySelector("#email .block-value")
-		var EMAIL_SUBMIT = document.querySelector("#email .block-input-hidden")
-		var EMAIL_INPUT = document.querySelector("#email .block-input")
+		var EMAIL_OUTPUT = document.querySelector("#input-email .block-value")
+		var EMAIL_SUBMIT = document.querySelector("#input-email .block-input-hidden")
+		var EMAIL_INPUT = document.querySelector("#input-email .block-input")
 			EMAIL_INPUT.addEventListener("input", detectEmailInput)
 		function detectEmailInput(event) {
 			try {
@@ -1466,9 +1591,9 @@
 		}
 
 	/* detectTelephoneInput */
-		var TELEPHONE_OUTPUT = document.querySelector("#telephone .block-value")
-		var TELEPHONE_SUBMIT = document.querySelector("#telephone .block-input-hidden")
-		var TELEPHONE_INPUT = document.querySelector("#telephone .block-input")
+		var TELEPHONE_OUTPUT = document.querySelector("#input-telephone .block-value")
+		var TELEPHONE_SUBMIT = document.querySelector("#input-telephone .block-input-hidden")
+		var TELEPHONE_INPUT = document.querySelector("#input-telephone .block-input")
 			TELEPHONE_INPUT.addEventListener("input", detectTelephoneInput)
 		function detectTelephoneInput(event) {
 			try {
@@ -1483,9 +1608,9 @@
 		}
 
 	/* detectURLInput */
-		var URL_OUTPUT = document.querySelector("#url .block-value")
-		var URL_SUBMIT = document.querySelector("#url .block-input-hidden")
-		var URL_INPUT = document.querySelector("#url .block-input")
+		var URL_OUTPUT = document.querySelector("#input-url .block-value")
+		var URL_SUBMIT = document.querySelector("#input-url .block-input-hidden")
+		var URL_INPUT = document.querySelector("#input-url .block-input")
 			URL_INPUT.addEventListener("input", detectURLInput)
 		function detectURLInput(event) {
 			try {
@@ -1499,10 +1624,31 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+/*** clipboard ***/
+	/* detectSelection */
+		window.addEventListener(on.mouseup, detectSelection)
+		var SELECTION_OUTPUT = document.querySelector("#clipboard-copy-selection .block-value")
+		function detectSelection(event) {
+			try {
+				SELECTION_OUTPUT.innerHTML = window.getSelection().toString() || ""
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectPaste */
+		var PASTE_OUTPUT = document.querySelector("#clipboard-copy-paste .block-value")
+		var PASTE_INPUT = document.querySelector("#clipboard-copy-paste .block-input")
+		PASTE_INPUT.addEventListener("paste", detectPaste)
+		function detectPaste(event) {
+			try {
+				PASTE_OUTPUT.innerHTML = (event.clipboardData || window.clipboardData).getData("text")
+				event.preventDefault()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** math ***/
 	/* detectRandom */
-		var RANDOM_OUTPUT = document.querySelector("#random .block-value")
-		var RANDOM_INPUT = document.querySelector("#random .block-button")
+		var RANDOM_OUTPUT = document.querySelector("#math-random .block-value")
+		var RANDOM_INPUT = document.querySelector("#math-random .block-button")
 			RANDOM_INPUT.addEventListener(on.click, detectRandom)
 		function detectRandom(event) {
 			try {
@@ -1511,7 +1657,7 @@
 		}
 
 	/* detectPi */
-		var PI_OUTPUT = document.querySelector("#pi .block-value")
+		var PI_OUTPUT = document.querySelector("#math-pi .block-value")
 		detectPi()
 		function detectPi(event) {
 			try {
@@ -1520,7 +1666,7 @@
 		}
 
 	/* detectE */
-		var E_OUTPUT = document.querySelector("#e .block-value")
+		var E_OUTPUT = document.querySelector("#math-e .block-value")
 		detectE()
 		function detectE(event) {
 			try {
@@ -1529,7 +1675,7 @@
 		}
 
 	/* detectInfinity */
-		var INFINITY_OUTPUT = document.querySelector("#infinity .block-value")
+		var INFINITY_OUTPUT = document.querySelector("#math-infinity .block-value")
 		detectInfinity()
 		function detectInfinity(event) {
 			try {
@@ -1550,9 +1696,9 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-/*** media queries ***/
+/*** css ***/
 	/* light/dark mode */
-		var COLOR_SCHEME_OUTPUT = document.querySelector("#light-dark-color-scheme-detector .block-value")
+		var COLOR_SCHEME_OUTPUT = document.querySelector("#css-media-query-light-dark-color-scheme .block-value")
 		detectColorScheme()
 		function detectColorScheme() {
 			try {
@@ -1566,7 +1712,7 @@
 		}
 
 	/* monochrome mode */
-		var MONOCHROME_OUTPUT = document.querySelector("#monochrome-color-detector .block-value")
+		var MONOCHROME_OUTPUT = document.querySelector("#css-media-query-monochrome-color .block-value")
 		detectMonochrome()
 		function detectMonochrome() {
 			try {
@@ -1580,7 +1726,7 @@
 		}
 
 	/* inverted mode */
-		var INVERTED_OUTPUT = document.querySelector("#inverted-color-detector .block-value")
+		var INVERTED_OUTPUT = document.querySelector("#css-media-query-inverted-color .block-value")
 		detectInverted()
 		function detectInverted() {
 			try {
@@ -1594,7 +1740,7 @@
 		}
 
 	/* contrast mode */
-		var CONTRAST_OUTPUT = document.querySelector("#contrast-detector .block-value")
+		var CONTRAST_OUTPUT = document.querySelector("#css-media-query-contrast .block-value")
 		detectContrast()
 		function detectContrast() {
 			try {
@@ -1610,113 +1756,17 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
-/*** other ***/
-	/* detectXHR */
-		var XHR_OUTPUT = document.querySelector("#xhr .block-value")
-		var XHR_INPUT = document.querySelector("#xhr .block-button")
-			XHR_INPUT.addEventListener(on.click, detectXHR)
-		function detectXHR(event) {
+	/* color word */
+		var COLOR_WORD_INPUT = document.querySelector("#css-font-color-word .block-input")
+		var COLOR_WORD_OUTPUT = document.querySelector("#css-font-color-word .block-value")
+		COLOR_WORD_INPUT.addEventListener("input", detectColorWord)
+		function detectColorWord() {
 			try {
-				var number = Math.floor(Math.random() * 200) + 1
-				var request = new XMLHttpRequest()
-					request.open("GET", "https://jsonplaceholder.typicode.com/todos/" + number, true)
-					request.onload = function() {
-						if (request.readyState === XMLHttpRequest.DONE && request.status === 200) {
-							XHR_OUTPUT.innerHTML = (request.responseText) || "[no response]"
-						}
-					}
-					request.send()
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
-	/* detectContenteditable */
-		var CONTENTEDITABLE_OUTPUT = document.querySelector("#contenteditable .block-value")
-		var CONTENTEDITABLE_INPUT = document.querySelector("#contenteditable .block-label")
-			CONTENTEDITABLE_INPUT.addEventListener("keydown", detectContenteditable)
-			CONTENTEDITABLE_INPUT.addEventListener("keyup", detectContenteditable)
-		function detectContenteditable(event) {
-			try {
-				CONTENTEDITABLE_OUTPUT.innerHTML = CONTENTEDITABLE_INPUT.innerHTML
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
-	/* detectDetailsToggle */
-		var DETAILSTOGGLE_OUTPUT = document.querySelector("#summary-details-toggle .block-value")
-		var DETAILSTOGGLE_INPUT = document.querySelector("#summary-details-toggle .block-label details")
-			DETAILSTOGGLE_INPUT.addEventListener("toggle", detectDetailsToggle)
-			detectDetailsToggle()
-		function detectDetailsToggle(event) {
-			try {
-				DETAILSTOGGLE_OUTPUT.innerHTML = DETAILSTOGGLE_INPUT.open ? "open" : "closed"
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
-	/* detectDrag */
-		var DRAGGING = false
-		var DRAG_OUTPUT = document.querySelector("#drag .block-value")
-		var DRAG_LABEL = document.querySelector("#drag .block-label")
-		var DRAG_INPUT = document.querySelector("#drag .block-input")
-			DRAG_INPUT.addEventListener(on.mousedown, detectDrag)
-		function detectDrag(event) {
-			try {
-				var x = event.touches ? event.touches[0].clientX : event.clientX
-				var y = event.touches ? event.touches[0].clientY : event.clientY
-				var inputRect = DRAG_LABEL.getBoundingClientRect()
-
-				DRAGGING = true
-				DRAG_INPUT.style.cursor = "grabbing"
-				DRAG_OUTPUT.innerHTML = "!"
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-		function detectDrop(event) {
-			try {
-				DRAGGING = false
-				DRAG_INPUT.style.cursor = "grab"
-				DRAG_OUTPUT.innerHTML = ""
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-		function detectDragmove(x, y) {
-			try {
-				if (DRAGGING) {
-					var labelRect = DRAG_LABEL.getBoundingClientRect()
-					DRAG_INPUT.style.left = (x - labelRect.left) + "px" 
-					DRAG_INPUT.style.top  = (y - labelRect.top ) + "px"
-				}
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
-	/* detectSelection */
-		window.addEventListener(on.mouseup, detectSelection)
-		var SELECTION_OUTPUT = document.querySelector("#selection .block-value")
-		function detectSelection(event) {
-			try {
-				SELECTION_OUTPUT.innerHTML = window.getSelection().toString() || ""
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
-	/* detectPaste */
-		var PASTE_OUTPUT = document.querySelector("#paste .block-value")
-		var PASTE_INPUT = document.querySelector("#paste .block-input")
-		PASTE_INPUT.addEventListener("paste", detectPaste)
-		function detectPaste(event) {
-			try {
-				PASTE_OUTPUT.innerHTML = (event.clipboardData || window.clipboardData).getData("text")
-				event.preventDefault()
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
-
-	/* detectBarcodeDetector */
-		var BARCODE_DETECTOR_OUTPUT = document.querySelector("#barcode-detector .block-value")
-		detectBarcodeDetector()
-		function detectBarcodeDetector() {
-			try {
-				if (!window.BarcodeDetector) {
-					BARCODE_DETECTOR_OUTPUT.innerHTML = "[none]"
-				}
-				else {
-					window.BarcodeDetector.getSupportedFormats().then(function(formats) {
-						BARCODE_DETECTOR_OUTPUT.innerHTML = formats.join(", ") || "[none]"
-					})
+				COLOR_WORD_OUTPUT.style.color = "#dddddd"
+				var colorWord = COLOR_WORD_INPUT.value.trim().toLowerCase()
+				COLOR_WORD_OUTPUT.innerHTML = colorWord || ""
+				if (colorWord) {
+					COLOR_WORD_OUTPUT.style.color = colorWord
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}

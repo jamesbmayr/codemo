@@ -26,13 +26,16 @@
 		<div id="search-outer">
 			<input id="search" type="text" placeholder="search..." autocomplete="off" spellcheck="false">
 			<button id="clear-search">&times;</button>
+			<a id="j-logo" target="_blank" href="https://jamesmayr.com"></a>
 		</div>
 		<div id="container">
 				<div id="top"></div>
 				<div class="block" id="header">
-					<label class="block-label">inputdetector <button id="refresh">&orarr;</button></label>
+					<label class="block-label">
+						<button id="refresh" class="block-button">refresh &orarr;</button>
+					</label>
 					<div class="block-output-outer">
-						<div class="block-value"><a id="j-logo" target="_blank" href="https://jamesmayr.com"></a></div>
+						<div class="block-value">inputdetector</div>
 					</div>
 				</div>
 			<!-- time -->
@@ -48,33 +51,33 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="timezone">
+				<div class="block" id="current-timezone">
 					<label class="block-label">timezone</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
 			<!-- web location -->
-				<div class="block" id="query">
+				<div class="block" id="url-query">
 					<label class="block-label">query</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="hash">
+				<div class="block" id="url-hash">
 					<label class="block-label">hash</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="referrer">
+				<div class="block" id="url-referrer">
 					<label class="block-label">referrer</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
 			<!-- browser -->
-				<div class="block" id="javascript">
+				<div class="block" id="javascript-version">
 					<label class="block-label">javascript</label>
 					<div class="block-output-outer">
 						<div class="block-value">
@@ -95,25 +98,31 @@
 						</div>
 					</div>
 				</div>
-				<div class="block" id="console">
+				<div class="block" id="javascript-console">
 					<label class="block-label">console</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="window">
+				<div class="block" id="javascript-active-element">
+					<label class="block-label">activeElement</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="browser-window">
 					<label class="block-label">window</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="language">
+				<div class="block" id="browser-language">
 					<label class="block-label">language</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="cookies">
+				<div class="block" id="browser-cookies">
 					<label class="block-label">
 						<button class="block-button">cookies</button>
 					</label>
@@ -121,19 +130,19 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="localstorage">
+				<div class="block" id="browser-localstorage">
 					<label class="block-label">localstorage</label>
 					<div class="block-output-outer">
 						<pre class="block-value"></pre>
 					</div>
 				</div>
-				<div class="block" id="callstack">
+				<div class="block" id="browser-javascript-callstack">
 					<label class="block-label">callstack</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="webworkers">
+				<div class="block" id="browser-webworkers">
 					<label class="block-label">
 						<input type="webworkers" class="block-input" placeholder="webworkers"></input>
 					</label>
@@ -141,7 +150,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="postmessage">
+				<div class="block" id="browser-postmessage">
 					<label class="block-label">
 						<input type="postmessage" class="block-input" placeholder="postmessage"></input>
 					</label>
@@ -149,8 +158,16 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="javascript-xhr">
+					<label class="block-label">
+						<button class="block-button">xhr</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 			<!-- device -->
-				<div class="block" id="online">
+				<div class="block" id="device-online">
 					<label class="block-label">online</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -162,13 +179,13 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="useragent">
+				<div class="block" id="browser-useragent">
 					<label class="block-label">useragent</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="screen">
+				<div class="block" id="device-screen">
 					<label class="block-label">screen</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -188,13 +205,13 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="battery">
+				<div class="block" id="device-battery">
 					<label class="block-label">battery</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="vibration">
+				<div class="block" id="device-vibration">
 					<label class="block-label">
 						<button class="block-button">vibration</button>
 					</label>
@@ -208,19 +225,19 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="compass">
+				<div class="block" id="device-sensor-compass">
 					<label class="block-label">compass</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="motion-acceleration">
+				<div class="block" id="device-motion-acceleration">
 					<label class="block-label">acceleration</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="motion-rotation">
+				<div class="block" id="device-motion-rotation">
 					<label class="block-label">rotation</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -283,7 +300,7 @@
 					</div>
 				</div>
 			<!-- computer interface -->
-				<div class="block" id="keyboard">
+				<div class="block" id="peripheral-keyboard">
 					<label class="block-label">
 						<input type="text" class="block-input" placeholder="keyboard"></input>
 					</label>
@@ -291,37 +308,37 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="cursor">
+				<div class="block" id="peripheral-cursor">
 					<label class="block-label">cursor</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="click">
+				<div class="block" id="peripheral-click">
 					<label class="block-label">click</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="doubleclick">
+				<div class="block" id="peripheral-doubleclick">
 					<label class="block-label">doubleclick</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="contextmenu">
+				<div class="block" id="peripheral-contextmenu">
 					<label class="block-label">contextmenu</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="window-scroll">
+				<div class="block" id="peripheral-window-scroll">
 					<label class="block-label">window scroll</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="scroll">
+				<div class="block" id="peripheral-scroll">
 					<label class="block-label">
 						<div class="block-label-inner">scroll</div>
 					</label>
@@ -329,13 +346,13 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="hover">
+				<div class="block" id="peripheral-hover">
 					<label class="block-label">hover</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="focus" tabindex=1>
+				<div class="block" id="peripheral-focus" tabindex=1>
 					<label class="block-label">
 						<button class="block-button">focus</button>
 					</label>
@@ -343,20 +360,16 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="midi">
-					<label class="block-label">midi</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="midi-data">
-					<label class="block-label">midi data</label>
+				<div class="block" id="peripheral-drag">
+					<label class="block-label">
+						<div CLASS="block-input">drag</div>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
 			<!-- permissioned things -->
-				<div class="block" id="location">
+				<div class="block" id="device-geo-location">
 					<label class="block-label">
 						<button class="block-button">location</button>
 					</label>
@@ -364,7 +377,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="speech">
+				<div class="block" id="audio-speech-microphone">
 					<label class="block-label">
 						<button class="block-button">speech</button>
 					</label>
@@ -372,17 +385,17 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="audio">
+				<div class="block" id="audio-microphone">
 					<label class="block-label">
 						<button class="block-button">audio</button>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value">
-							<audio controls autoplay class="block-value"></audio>
+							<audio controls autoplay></audio>
 						</div>
 					</div>
 				</div>
-				<div class="block" id="video">
+				<div class="block" id="audio-video-camera-microphone">
 					<label class="block-label">
 						<button class="block-button">video</button>
 					</label>
@@ -392,7 +405,13 @@
 						</div>
 					</div>
 				</div>
-				<div class="block" id="pitch">
+				<div class="block" id="video-camera-barcode-detector">
+					<label class="block-label">barcode detection</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="audio-pitch-microphone">
 					<label class="block-label">
 						<button class="block-button">pitch</button>
 					</label>
@@ -400,8 +419,28 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="audio-midi">
+					<label class="block-label">midi</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="audio-midi-data">
+					<label class="block-label">midi data</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 			<!-- prompt -->
-				<div class="block" id="prompt">
+				<div class="block" id="javascript-alert">
+					<label class="block-label">
+						<button class="block-button">alert</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="javascript-prompt">
 					<label class="block-label">
 						<button class="block-button">prompt</button>
 					</label>
@@ -409,7 +448,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="confirm">
+				<div class="block" id="javascript-confirm">
 					<label class="block-label">
 						<button class="block-button">confirm</button>
 					</label>
@@ -418,13 +457,7 @@
 					</div>
 				</div>
 			<!-- form field inputs -->
-				<div class="block" id="active-element">
-					<label class="block-label">activeElement</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="text">
+				<div class="block" id="input-text" spellcheck="false" autocomplete="off">
 					<label class="block-label">
 						<input type="text" class="block-input" placeholder="text"></input>
 					</label>
@@ -432,7 +465,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="password">
+				<div class="block" id="input-password" spellcheck="false" autocomplete="off">
 					<label class="block-label">
 						<input type="password" class="block-input" placeholder="password"></input>
 					</label>
@@ -440,7 +473,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="number">
+				<div class="block" id="input-number" autocomplete="off">
 					<label class="block-label">
 						<input type="number" class="block-input" placeholder="number"></input>
 					</label>
@@ -448,7 +481,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="time">
+				<div class="block" id="input-time">
 					<label class="block-label">
 						<input type="time" class="block-input" placeholder="time"></input>
 					</label>
@@ -456,7 +489,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="date">
+				<div class="block" id="input-date">
 					<label class="block-label">
 						<input type="date" class="block-input" placeholder="date"></input>
 					</label>
@@ -464,7 +497,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="week">
+				<div class="block" id="input-week">
 					<label class="block-label">
 						<input type="week" class="block-input" placeholder="week"></input>
 					</label>
@@ -472,7 +505,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="month">
+				<div class="block" id="input-month">
 					<label class="block-label">
 						<input type="month" class="block-input" placeholder="month"></input>
 					</label>
@@ -480,7 +513,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="datetime">
+				<div class="block" id="input-datetime">
 					<label class="block-label">
 						<input type="datetime-local" class="block-input" placeholder="datetime"></input>
 					</label>
@@ -488,7 +521,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="color">
+				<div class="block" id="input-color">
 					<label class="block-label">
 						<input type="color" class="block-button" placeholder="color"></input>
 					</label>
@@ -497,15 +530,15 @@
 					</div>
 				</div>
 			<!-- form special inputs -->
-				<div class="block" id="textarea">
+				<div class="block" id="input-textarea" spellcheck="false" autocomplete="off">
 					<label class="block-label">
-						<textarea class="block-input" placeholder="textarea"></textarea>
+						<textarea class="block-input" placeholder="textarea" spellcheck="false" autocomplete="off"></textarea>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="select">
+				<div class="block" id="input-select">
 					<label class="block-label">
 						<select class="block-select">
 							<option value="select" selected disabled>select...</option>
@@ -518,7 +551,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="multiselect">
+				<div class="block" id="input-multiselect">
 					<label class="block-label">
 						<select multiple class="block-select">
 							<option value="select" selected disabled>multiselect...</option>
@@ -531,7 +564,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="radio">
+				<div class="block" id="input-radio">
 					<label class="block-label">radio
 						<input type="radio" class="block-radio" name="radio" value="1"></input>
 						<input type="radio" class="block-radio" name="radio" value="2"></input>
@@ -541,7 +574,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="checkbox">
+				<div class="block" id="input-checkbox">
 					<label class="block-label">checkbox
 						<input type="checkbox" class="block-checkbox" value="true"></input>
 					</label>
@@ -549,7 +582,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="range">
+				<div class="block" id="input-range">
 					<label class="block-label">
 						<input type="range" class="block-input" min="-10" max="10" step="1" value="0"></input>
 					</label>
@@ -557,7 +590,7 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="file">
+				<div class="block" id="input-file">
 					<label class="block-label">
 						<label class="block-button">file upload<input type="file" class="block-input-hidden"></label>
 					</label>
@@ -565,85 +598,15 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-			<!-- form inputs with validation -->
-				<div class="block" id="email">
-					<label class="block-label">
-						<form action="javascript:;">
-							<input type="email" class="block-input" placeholder="email"></input>
-							<input type="submit" class="block-input-hidden">
-						</form>
-					</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="telephone">
-					<label class="block-label">
-						<form action="javascript:;">
-							<input type="tel" class="block-input" placeholder="telephone" pattern="\(?[0-9]{3}(-|.|\s)?\)?[0-9]{3}(-|.|\s)?[0-9]{4}"></input>
-							<input type="submit" class="block-input-hidden">
-						</form>
-					</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="url">
-					<label class="block-label">
-						<form action="javascript:;">
-							<input type="url" class="block-input" placeholder="url"></input>
-							<input type="submit" class="block-input-hidden">
-						</form>
-					</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-			<!-- math -->
-				<div class="block" id="random">
-					<label class="block-label">
-						<button class="block-button">random</button>
-					</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="pi">
-					<label class="block-label">pi</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="e">
-					<label class="block-label">e</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="infinity">
-					<label class="block-label">infinity</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-			<!-- miscellaneous -->
-				<div class="block" id="xhr">
-					<label class="block-label">
-						<button class="block-button">xhr</button>
-					</label>
-					<div class="block-output-outer">
-						<div class="block-value"></div>
-					</div>
-				</div>
-				<div class="block" id="contenteditable">
-					<label class="block-label" contenteditable>
+				<div class="block" id="input-contenteditable">
+					<label class="block-label" contenteditable spellcheck="false">
 						contenteditable
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="summary-details-toggle">
+				<div class="block" id="input-summary-details-toggle">
 					<label class="block-label">
 						<details>
 							<summary>summary</summary>
@@ -654,21 +617,56 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="drag">
+			<!-- form inputs with validation -->
+				<div class="block" id="input-email" spellcheck="false" autocomplete="off">
 					<label class="block-label">
-						<div CLASS="block-input">drag</div>
+						<form action="javascript:;">
+							<input type="email" class="block-input" placeholder="email"></input>
+							<input type="submit" class="block-input-hidden">
+						</form>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="selection">
+				<div class="block" id="input-telephone" spellcheck="false" autocomplete="off">
+					<label class="block-label">
+						<form action="javascript:;">
+							<input type="tel" class="block-input" placeholder="telephone" pattern="\(?[0-9]{3}(-|.|\s)?\)?[0-9]{3}(-|.|\s)?[0-9]{4}"></input>
+							<input type="submit" class="block-input-hidden">
+						</form>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="input-url" spellcheck="false" autocomplete="off">
+					<label class="block-label">
+						<form action="javascript:;">
+							<input type="url" class="block-input" placeholder="url"></input>
+							<input type="submit" class="block-input-hidden">
+						</form>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="input-text-spellcheck">
+					<label class="block-label" contenteditable spellcheck="true">
+						chek mispelingz
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- clipboard -->
+				<div class="block" id="clipboard-copy-selection">
 					<label class="block-label">selection</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="paste">
+				<div class="block" id="clipboard-copy-paste">
 					<label class="block-label">
 						<input type="text" class="block-input" placeholder="paste">
 					</label>
@@ -676,36 +674,98 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="barcode-detector">
-					<label class="block-label">barcode detection</label>
+			<!-- math -->
+				<div class="block" id="math-random">
+					<label class="block-label">
+						<button class="block-button">random</button>
+					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="light-dark-color-scheme-detector">
+				<div class="block" id="math-pi">
+					<label class="block-label">pi</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="math-e">
+					<label class="block-label">e</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="math-infinity">
+					<label class="block-label">infinity</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- css media queries -->
+				<div class="block" id="css-media-query-light-dark-color-scheme">
 					<label class="block-label">light/dark mode</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="monochrome-color-detector">
+				<div class="block" id="css-media-query-monochrome-color">
 					<label class="block-label">monochrome</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="inverted-color-detector">
+				<div class="block" id="css-media-query-inverted-color">
 					<label class="block-label">inverted mode</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="contrast-detector">
+				<div class="block" id="css-media-query-contrast">
 					<label class="block-label">contrast</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
+			<!-- fonts -->
+				<div class="block" id="css-font-monospace">
+					<label class="block-label">monospace</label>
+					<div class="block-output-outer">
+						<div class="block-value">monospace</div>
+					</div>
+				</div>
+				<div class="block" id="css-font-sans-serif">
+					<label class="block-label">sans-serif</label>
+					<div class="block-output-outer">
+						<div class="block-value">sans-serif</div>
+					</div>
+				</div>
+				<div class="block" id="css-font-serif">
+					<label class="block-label">serif</label>
+					<div class="block-output-outer">
+						<div class="block-value">serif</div>
+					</div>
+				</div>
+				<div class="block" id="css-font-cursive">
+					<label class="block-label">cursive</label>
+					<div class="block-output-outer">
+						<div class="block-value">cursive</div>
+					</div>
+				</div>
+				<div class="block" id="css-font-fantasy">
+					<label class="block-label">fantasy</label>
+					<div class="block-output-outer">
+						<div class="block-value">fantasy</div>
+					</div>
+				</div>
+				<div class="block" id="css-font-color-word">
+					<label class="block-label">
+						<input type="text" class="block-input" placeholder="color word"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+			<!-- footer -->
 				<div class="block" id="error">
 					<label class="block-label">error</label>
 					<div class="block-output-outer">
