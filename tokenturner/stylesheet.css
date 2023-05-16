@@ -1,5 +1,6 @@
 /*** page ***/
 	:root {
+		--dark-translucent-gray: #11111177;
 		--dark-gray: #111111;
 		--medium-gray: #555555;
 		--light-gray: #dddddd;
@@ -156,15 +157,16 @@
 			width: calc(100% / var(--grid));
 			transition: var(--transition-time);
 			transition-timing-function: linear;
-			box-shadow: 0 0 var(--shadow-size) var(--dark-gray) inset;
 		}
 
 		.token[player="0"] {
 			background-color: var(--light-blue);
+			box-shadow: 0 0 var(--shadow-size) var(--dark-translucent-gray) inset;
 		}
 
 		.token[player="1"] {
 			background-color: var(--medium-red);
+			box-shadow: 0 0 var(--shadow-size) var(--dark-translucent-gray) inset;
 		}
 
 /*** overlay ***/

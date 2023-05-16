@@ -239,7 +239,6 @@
 			text-transform: uppercase;
 			font-size: var(--font-size);
 			font-family: var(--font-family);
-			color: var(--light-gray);
 			font-weight: bold;
 			user-select: none;
 			pointer-events: none;
@@ -250,8 +249,21 @@
 			padding: var(--gap-size) calc(var(--gap-size) * 2);
 		}
 
+		.text-block div:nth-child(1) {
+			color: var(--medium-gray);
+		}
+
 		.text-block div:nth-child(2) {
+			color: var(--light-gray);
 			height: calc(3 * var(--font-size));
+		}
+
+		.text-block span[polarity="1"] {
+			color: var(--light-blue);
+		}
+
+		.text-block span[polarity="-1"] {
+			color: var(--medium-red);
 		}
 
 		#next-inner .number {

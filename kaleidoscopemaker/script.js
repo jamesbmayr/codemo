@@ -49,7 +49,9 @@
 			circleRadians: 2 * Math.PI, // radians
 			defaultShape: "triangle",
 			shapes: ["triangle", "square", "rectangle"],
-			defaultBackground: "#000000" // hex
+			defaultBackground: "#000000", // hex
+			defaultKaleidoscopeScale: 150, // %
+			defaultImageScale: 50 // %
 		}
 
 	/* state */
@@ -59,11 +61,11 @@
 				background: CONSTANTS.defaultBackground, // hex
 				shape: CONSTANTS.defaultShape,
 				rotation: 0, // °
-				scale: 100 // %
+				scale: CONSTANTS.defaultKaleidoscopeScale // %
 			},
 			image: {
 				rotation: 0, // °
-				scale: 100, // %
+				scale: CONSTANTS.defaultImageScale, // %
 				translateX: 0, // %
 				translateY: 0, // %
 				crop: 0 // %

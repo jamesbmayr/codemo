@@ -1,5 +1,6 @@
 /*** page ***/
 	:root {
+		--dark-translucent-gray: #11111177;
 		--dark-gray: #111111;
 		--medium-gray: #555555;
 		--light-gray: #dddddd;
@@ -293,7 +294,7 @@
 
 	.controls-block {
 		display: inline-block;
-		margin-top: var(--gap-size);
+		margin-top: calc(var(--gap-size) * 2);
 	}
 
 	.controls-block:last-child {
@@ -307,7 +308,7 @@
 			vertical-align: top;
 			width: 100%;
 			height: auto;
-			padding: 0 var(--gap-size) var(--gap-size) var(--gap-size);
+			padding: 0 var(--gap-size) calc(var(--gap-size) * 2) var(--gap-size);
 			box-sizing: border-box;
 			background: var(--dark-gray);
 			box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
@@ -531,7 +532,7 @@
 	#controls-layers {
 		float: left;
 		width: 100%;
-		height: calc(100% - (4 * var(--gap-size) + var(--font-size)));
+		height: calc(100% - (6 * var(--gap-size) + var(--font-size)));
 		padding: var(--gap-size);
 		box-sizing: border-box;
 		overflow-x: hidden;
@@ -547,12 +548,25 @@
 		}
 
 		@media screen and (max-width: 700px) {
+			:root {
+				--controls-height: 350px !important;
+			}
+
 			#controls-layers {
 				padding-bottom: calc(25 * var(--gap-size));
 			}
 
 			#controls-chords .controls-block:last-child {
 				display: none;
+			}
+
+			.layer-block select.layer-synth-select {
+				margin-right: var(--gap-size) !important;
+				border-radius: var(--border-radius) !important;
+			}
+
+			.layer-block select.layer-pattern-select {
+				border-radius: var(--border-radius) !important;
 			}
 		}
 
@@ -574,7 +588,7 @@
 			font-size: var(--font-size);
 			font-weight: bold;
 			line-height: var(--line-height);
-			border-radius: var(--border-radius);
+			border-radius: calc(var(--font-size));
 			background: var(--light-gray);
 			color: var(--dark-gray);
 			outline: none;
@@ -599,7 +613,7 @@
 			width: 100%;
 			display: block;
 			box-sizing: border-box;
-			padding: var(--gap-size);
+			padding: calc(2 * var(--gap-size)) calc(2 * var(--gap-size)) 0 calc(2 * var(--gap-size));
 		}
 
 		.layer-block {
@@ -608,8 +622,8 @@
 			padding: 0 var(--gap-size) var(--gap-size) var(--gap-size);
 			display: block;
 			box-sizing: border-box;
-			background: var(--dark-gray);
-			border-radius: var(--border-radius);	
+			background: var(--dark-translucent-gray);
+			border-radius: calc(var(--font-size));
 		}
 
 		.layer-block span {

@@ -11,7 +11,7 @@
 		--transition-time: 0.5s;
 		--line-height: 1;
 		--border-radius: 5px;
-		--menu-width: 250px;
+		--menu-width: 300px;
 	}
 
 	html, body {
@@ -24,6 +24,7 @@
 		font-size: 0;
 		padding: 0;
 		margin: 0;
+		overflow: hidden;
 	}
 
 /*** menu ***/
@@ -84,6 +85,7 @@
 			top: calc(2 * var(--font-size));
 			left: 0;
 			height: auto;
+			max-height: calc(100vh - 2 * var(--font-size) - 4 * var(--gap-size));
 			width: var(--menu-width);
 			background: var(--translucent-black);
 			transition: var(--transition-time);
@@ -134,7 +136,7 @@
 			user-select: none;
 			cursor: pointer;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
-			width: calc(1.5 * var(--font-size) + var(--gap-size));
+			width: calc(5 * var(--font-size));
 			padding: var(--gap-size) 0 0 var(--gap-size);
 			line-height: var(--line-height);
 			box-sizing: border-box;
@@ -142,7 +144,7 @@
 
 		#menu label span.menu-span-overlap {
 			width: 0;
-			margin-left: calc(-1.5 * var(--font-size) - var(--gap-size));
+			margin-left: calc(-5 * var(--font-size));
 		}
 
 		#menu input, #menu select {
@@ -164,27 +166,27 @@
 		}
 
 		#menu input[type="range"] {
-			width: calc(25 * var(--gap-size));
+			width: calc(100% - 5 * var(--font-size) - 1 * var(--gap-size) - 3 * var(--font-size));
 			margin-right: var(--gap-size);
 			padding: 0;
 			cursor: pointer;
 		}
 
 		#menu input[type="number"] {
-			width: calc(100% - 1.5 * var(--font-size) - 3 * var(--gap-size) - 25 * var(--gap-size));
+			width: calc(3 * var(--font-size));
 		}
 
 		#menu input[type="color"] {
 			padding: 0;
 			border: 0;
 			cursor: pointer;
-			width: calc(100% - 1.5 * var(--font-size) - 2 * var(--gap-size));
+			width: calc(100% - 5 * var(--font-size));
 		}
 
 		#menu select {
 			cursor: pointer;
 			padding: 0 var(--gap-size);
-			width: calc(100% - 1.5 * var(--font-size) - 2 * var(--gap-size));
+			width: calc(100% - 5 * var(--font-size));
 		}
 
 		#menu input:focus, #menu input:hover, #menu select:focus, #menu select:hover {
@@ -192,14 +194,13 @@
 		}
 
 		#menu-upload {
-			display: none !important;
-			height: 0;
-			width: 0;
-			font-size: 0;
-			opacity: 0;
-			margin: 0;
-			padding: 0;
-			border: 0;
+			height: 0 !important;
+			width: 0 !important;
+			font-size: 0 !important;
+			opacity: 0 !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			border: 0 !important;
 		}
 
 		#menu label #menu-upload-span, #menu-download {
@@ -225,7 +226,7 @@
 			transition: var(--transition-time);
 		}
 
-		#menu label #menu-upload-span:hover, #menu label #menu-upload-span:focus, #menu-download:hover, #menu-download:focus {
+		#menu label #menu-upload-span:hover, #menu label #menu-upload-span:focus, #menu-upload-outer:focus-within span, #menu-download:hover, #menu-download:focus {
 			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
 			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 		}
