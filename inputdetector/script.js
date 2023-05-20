@@ -163,7 +163,35 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectHistory */
+		var HISTORY_OUTPUT = document.querySelector("#url-history .block-value")
+		detectHistory()
+		function detectHistory() {
+			try {
+				var historyLength = ((window.history.length - 1) || 0)
+				HISTORY_OUTPUT.innerHTML = historyLength + " page" + (historyLength > 1 ? "s" : "")
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* backHistory */
+		var HISTORY_INPUT = document.querySelector("#url-history .block-button")
+		HISTORY_INPUT.addEventListener(on.click, backHistory)
+		function backHistory() {
+			try {
+				history.back()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** browser ***/
+	/* detectJava */
+		var JAVA_OUTPUT = document.querySelector("#java-enabled .block-value")
+		detectJava()
+		function detectJava(event) {
+			try {
+				JAVA_OUTPUT.innerHTML = window.navigator.javaEnabled() ? "enabled" : "disabled"
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectJavascript */
 		var JAVASCRIPT_OUTPUT = document.querySelector("#javascript-version .block-value")
 		detectJavascript()
@@ -205,16 +233,27 @@
 		}
 
 	/* detectResize */
-		var WINDOW_OUTPUT = document.querySelector("#browser-window .block-value")
+		var WINDOW_SIZE_OUTPUT = document.querySelector("#browser-window-size .block-value")
 		detectResize()
 		window.addEventListener("resize", detectResize)
 		function detectResize(event) {
 			try {
-				WINDOW_OUTPUT.innerHTML = "x:" + wrapText(Math.round(window.innerWidth)) + "<br>" + 
+				WINDOW_SIZE_OUTPUT.innerHTML = "x:" + wrapText(Math.round(window.innerWidth)) + "<br>" + 
 										  "y:" + wrapText(Math.round(window.innerHeight))
 				detectConsole()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
+
+	/* detectPosition */
+		var WINDOW_POSITION_OUTPUT = document.querySelector("#browser-window-position .block-value")
+		detectPosition()
+		function detectPosition(event) {
+			try {
+				WINDOW_POSITION_OUTPUT.innerHTML = "left:" + wrapText(Math.round(window.screenX !== undefined ? window.screenX : window.screenLeft)) + "<br>" + 
+											  "&nbsp;top:" + wrapText(Math.round(window.screenY !== undefined ? window.screenY : window.screenHeight))
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+		setInterval(detectPosition, 2000)
 
 	/* detectLanguage */
 		var LANGUAGE_OUTPUT = document.querySelector("#browser-language .block-value")
@@ -222,6 +261,15 @@
 		function detectLanguage(event) {
 			try {
 				LANGUAGE_OUTPUT.innerHTML = navigator.language
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectCharacterSet */
+		var CHARACTER_SET_OUTPUT = document.querySelector("#browser-character-set .block-value")
+		detectCharacterSet()
+		function detectCharacterSet(event) {
+			try {
+				CHARACTER_SET_OUTPUT.innerHTML = document.characterSet
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -270,6 +318,58 @@
 		function incrementStacksize() {
 			stackSize++
 			incrementStacksize()
+		}
+
+	/* setInterval */
+		var interval = null
+		var INTERVAL_BUTTON = document.querySelector("#browser-javascript-set-interval .block-button")
+		var INTERVAL_OUTPUT = document.querySelector("#browser-javascript-set-interval .block-value")
+		INTERVAL_BUTTON.addEventListener(on.click, toggleInterval)
+		function toggleInterval(event) {
+			try {
+				// play --> pause
+					if (interval) {
+						clearInterval(interval)
+						interval = null
+						INTERVAL_BUTTON.innerHTML = "interval (paused)"
+						return
+					}
+
+				// pause --> play
+					interval = setInterval(incrementInterval, 1000)
+					INTERVAL_BUTTON.innerHTML = "interval (counting)"
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+		function incrementInterval() {
+			try {
+				INTERVAL_OUTPUT.innerHTML = Number(INTERVAL_OUTPUT.innerHTML) + 1
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* setTimeout */
+		var timeout = null
+		var TIMEOUT_INPUT = document.querySelector("#browser-javascript-set-timeout .block-input")
+		var TIMEOUT_OUTPUT = document.querySelector("#browser-javascript-set-timeout .block-value")
+		TIMEOUT_INPUT.addEventListener("input", resetTimeout)
+		function resetTimeout(event) {
+			try {
+				// reset
+					clearTimeout(timeout)
+					TIMEOUT_OUTPUT.innerHTML = ""
+
+				// wait
+					var time = Math.round(Number(TIMEOUT_INPUT.value)) || 0
+					if (!time) {
+						return
+					}
+					timeout = setTimeout(endTimeout, time * 1000)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+		function endTimeout() {
+			try {
+				TIMEOUT_INPUT.value = ""
+				TIMEOUT_OUTPUT.innerHTML = "!"
+			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
 	/* detectWebWorkers */
@@ -400,12 +500,21 @@
 		}
 
 	/* detectScreen */
-		var SCREEN_OUTPUT = document.querySelector("#device-screen .block-value")
-		detectScreen()
-		function detectScreen(event) {
+		var SCREEN_SIZE_OUTPUT = document.querySelector("#device-screen-size .block-value")
+		detectScreenSize()
+		function detectScreenSize(event) {
 			try {
-				SCREEN_OUTPUT.innerHTML = "x:" + wrapText(Math.round(screen.availWidth)) + "<br>" +
-										  "y:" + wrapText(Math.round(screen.availHeight))
+				SCREEN_SIZE_OUTPUT.innerHTML = "x:" + wrapText(Math.round(screen.availWidth)) + "<br>" +
+											   "y:" + wrapText(Math.round(screen.availHeight))
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+		var SCREEN_DEPTH_OUTPUT = document.querySelector("#device-screen-depth .block-value")
+		detectScreenDepth()
+		function detectScreenDepth(event) {
+			try {
+				SCREEN_DEPTH_OUTPUT.innerHTML = "pixelDepth: " + screen.pixelDepth + "<br>" +
+										  "colorDepth: " + screen.colorDepth
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -455,7 +564,7 @@
 		function detectScreenOrientation(event) {
 			try {
 				SCREEN_ORIENTATION_OUTPUT.innerHTML = screen.orientation.type
-				detectScreen()
+				detectScreenSize()
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
@@ -1645,6 +1754,15 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectPrint */
+		var PRINT_BUTTON = document.querySelector("#print-screen .block-button")
+		PRINT_BUTTON.addEventListener(on.click, displayPrint)
+		function displayPrint(event) {
+			try {
+				window.print()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 /*** math ***/
 	/* detectRandom */
 		var RANDOM_OUTPUT = document.querySelector("#math-random .block-value")
@@ -1674,25 +1792,41 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectMaxSafeInteger */
+		var MAX_SAFE_INTEGER_OUTPUT = document.querySelector("#math-max-safe-integer .block-value")
+		detectMaxSafeInteger()
+		function detectMaxSafeInteger(event) {
+			try {
+				MAX_SAFE_INTEGER_OUTPUT.innerHTML = Number.MAX_SAFE_INTEGER
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectInfinity */
 		var INFINITY_OUTPUT = document.querySelector("#math-infinity .block-value")
 		detectInfinity()
 		function detectInfinity(event) {
 			try {
-				var x = 1
-				var y = 1
-				while (x < Infinity) {
-					y = x
-					x *= 2
-				}
-				x = y
-				var half = x
-				while (x < Infinity) {
-					y = x
-					half = half / 2
-					x += half
-				}
-				INFINITY_OUTPUT.innerHTML = y
+				// max value
+					if (Number.MAX_VALUE) {
+						INFINITY_OUTPUT.innerHTML = Number.MAX_VALUE
+						return
+					}
+
+				// increment
+					var x = 1
+					var y = 1
+					while (x < Infinity) {
+						y = x
+						x *= 2
+					}
+					x = y
+					var half = x
+					while (x < Infinity) {
+						y = x
+						half = half / 2
+						x += half
+					}
+					INFINITY_OUTPUT.innerHTML = y
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 

@@ -76,7 +76,21 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="url-history">
+					<label class="block-label">
+						<button class="block-button">history</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 			<!-- browser -->
+				<div class="block" id="java-enabled">
+					<label class="block-label">java</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 				<div class="block" id="javascript-version">
 					<label class="block-label">javascript</label>
 					<div class="block-output-outer">
@@ -110,14 +124,26 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="browser-window">
-					<label class="block-label">window</label>
+				<div class="block" id="browser-window-size">
+					<label class="block-label">window size</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="browser-window-position">
+					<label class="block-label">window position</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
 				<div class="block" id="browser-language">
 					<label class="block-label">language</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="browser-character-set">
+					<label class="block-label">character set</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -142,9 +168,25 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="browser-javascript-set-interval">
+					<label class="block-label">
+						<button class="block-button">interval (paused)</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value">0</div>
+					</div>
+				</div>
+				<div class="block" id="browser-javascript-set-timeout">
+					<label class="block-label">
+						<input class="block-input" type="number" placeholder="timeout seconds" step="1" min="0"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 				<div class="block" id="browser-webworkers">
 					<label class="block-label">
-						<input type="webworkers" class="block-input" placeholder="webworkers"></input>
+						<input type="text" class="block-input" placeholder="webworkers"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -152,7 +194,7 @@
 				</div>
 				<div class="block" id="browser-postmessage">
 					<label class="block-label">
-						<input type="postmessage" class="block-input" placeholder="postmessage"></input>
+						<input type="text" class="block-input" placeholder="postmessage"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -185,8 +227,14 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="device-screen">
-					<label class="block-label">screen</label>
+				<div class="block" id="device-screen-size">
+					<label class="block-label">screen size</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="device-screen-depth">
+					<label class="block-label">screen info</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -674,6 +722,14 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="print-screen">
+					<label class="block-label">
+						<button class="block-button">print screen</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value">should show<br>"print view"</div>
+					</div>
+				</div>
 			<!-- math -->
 				<div class="block" id="math-random">
 					<label class="block-label">
@@ -691,6 +747,18 @@
 				</div>
 				<div class="block" id="math-e">
 					<label class="block-label">e</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="math-max-safe-integer">
+					<label class="block-label">max safe integer</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="math-infinity">
+					<label class="block-label">infinity</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
@@ -782,5 +850,6 @@
 				</div>
 		</div>
 		<a id="error-notification" href="#error" class="disappear">&darr; error &darr;</a>
+		<div id="print-view">print view</div>
 	</body>
 </html>

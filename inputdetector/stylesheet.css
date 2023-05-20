@@ -397,3 +397,31 @@
 			pointer-events: none;
 			opacity: 0;
 		}
+
+/*** print view ***/
+	#print-view {
+		display: none;
+	}
+
+	@media print {
+		#search-outer, #container {
+			display: none;
+		}
+
+		#print-view {
+			display: block !important;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			text-align: center;
+			font-weight: bold;
+			text-align: center;
+			font-family: monospace;
+			font-size: 25px;
+			color: black;
+			padding: 10px;
+			border: 5px solid black;
+			border-radius: 5px;
+		}
+	}
