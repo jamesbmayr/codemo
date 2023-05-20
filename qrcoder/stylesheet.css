@@ -202,7 +202,6 @@
 			background: var(--light-gray);
 			border-radius: var(--border-radius);
 			padding: var(--gap-size);
-			box-sizing: border-box;
 			font-size: var(--font-size);
 			font-family: var(--font-family);
 			line-height: var(--line-height);
@@ -220,7 +219,7 @@
 		#make-image-outer {
 			position: absolute;
 			left: 0;
-			bottom: 0;
+			top: calc(2 * var(--gap-size) + var(--font-size) + 6 * var(--gap-size));
 			height: calc(100vh - (var(--icon-size) + 6 * var(--gap-size)) - (8 * var(--gap-size) + var(--font-size)));
 			width: 100%;
 			box-sizing: border-box;
@@ -312,9 +311,9 @@
 
 	/* output */
 		#scan-output {
-			position: absolute;
+			position: relative;
 			left: 0;
-			bottom: 0;
+			top: 0;
 			width: 100%;
 			height: calc(4 * var(--font-size) + 4 * var(--gap-size));
 			color: var(--light-gray);

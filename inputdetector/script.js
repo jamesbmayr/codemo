@@ -169,7 +169,7 @@
 		function detectHistory() {
 			try {
 				var historyLength = ((window.history.length - 1) || 0)
-				HISTORY_OUTPUT.innerHTML = historyLength + " page" + (historyLength > 1 ? "s" : "")
+				HISTORY_OUTPUT.innerHTML = historyLength + " page" + (historyLength == 1 ? "" : "s")
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 

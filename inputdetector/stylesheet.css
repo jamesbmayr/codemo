@@ -287,7 +287,8 @@
 			position: relative;
 			top: 25px;
 			left: 150px;
-			padding: 0px;
+			padding: 3px;
+			box-sizing: border-box;
 			user-select: none;
 			-webkit-user-select: none;
 			-moz-user-select: none;
