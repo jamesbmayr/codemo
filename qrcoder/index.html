@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>qrCoder</title>
+		<meta name="description" content="qrCoder is a Javascript web demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="qrCoder"/>
+		<meta property="og:url" content="https://jamesmayr.com/qrcoder/"/>
+		<meta property="og:description" content="qrCoder is a Javascript web demo by James Mayr"/>
+		<meta property="og:image" content="https://jamesmayr.com/qrcoder/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link rel="shortcut icon" href="banner.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<!-- https://github.com/mebjas/html5-qrcode/blob/master/minified/html5-qrcode.min.js -->
+			<script src="qrcode-reader.js" type="text/javascript" defer></script>
+		<!-- https://github.com/davidshimjs/qrcodejs/blob/master/qrcode.min.js -->
+			<script src="qrcode-generator.js" type="text/javascript" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body mode="make">
+		<div id="mode">
+			<details id="about">
+				<summary id="about-summary">?</summary>
+				<div id="about-inner">
+					<div>
+						<span>QR Code Creator library: </span><a href="https://github.com/davidshimjs/qrcodejs/" target="_blank">davidshimjs/qrcodejs</a>
+					</div>
+					<div>
+						<span>QR Code Scanner library: </span><a href="https://github.com/mebjas/html5-qrcode/" target="_blank">mebjas/html5-qrcode</a>
+					</div>
+				</div>
+			</details>
+			<button id="mode-make">make</button>
+			<button id="mode-scan">scan</button>
+			<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		</div>
+		<div id="make-section">
+			<input id="make-input" type="text" placeholder="text">
+			<div id="make-image-outer">
+				<div id="make-image"></div>
+			</div>
+		</div>
+		<div id="scan-section">
+			<div id="scan-reader"></div>
+			<div id="scan-output"></div>
+		</div>
+	</body>
+</html>

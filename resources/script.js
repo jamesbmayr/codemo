@@ -935,6 +935,14 @@
 				date: "February 22, 2020",
 				description: "Random gaps in the grid must be covered by your various patch pieces."
 			},
+			qrcoder: {
+				skipRandom: true,
+				name: "qrCoder",
+				size: "small",
+				tags: ["code","api","tool","canvas"],
+				date: "May 20, 2023",
+				description: "Scan and generate QR Codes in this tiny tech demo powered by two QR Code libraries."
+			},
 			quotetyper: {
 				name: "quoteTyper",
 				size: "small",
