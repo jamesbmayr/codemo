@@ -4,7 +4,8 @@
 			input: "input",
 			click: "click",
 			resize: "resize",
-			back: "popstate"
+			back: "popstate",
+			scroll: "scroll"
 		}
 
 	/* constants */
@@ -36,6 +37,7 @@
 			cachedFilters: [],
 			filters: {},
 			index: 0,
+			request: null,
 			searchWait: null,
 			homeWait: null
 		}
@@ -205,6 +207,15 @@
 					const card = event.target.closest(".card")
 					const id = card.getAttribute("href").slice(1)
 
+				// meta key
+					if (event.metaKey) {
+						const newURL = new URL(window.location.href)
+							newURL.search = ""
+							newURL.hash = id
+						window.open(newURL, "_blank")
+						return
+					}
+
 				// update filter
 					updateFilters({id: id})
 
@@ -317,6 +328,11 @@
 	/* requestPosts */
 		function requestPosts(callback, ignoreSpinner) {
 			try {
+				// already requesting
+					if (STATE.request) {
+						return
+					}
+
 				// build url
 					let url = CONSTANTS.databaseURL + "?index=" + STATE.index
 					if (Object.keys(STATE.filters).length) {
@@ -331,18 +347,24 @@
 					ELEMENTS.loading.setAttribute("spin", true)
 
 				// request
+					STATE.request = url
 					fetch(url, {method: "GET"})
 					.then(function(response){ return response.json() })
 					.then(function(data) {
-						receivePosts(data)
+						receivePosts(url, data)
 						callback()
 					})
 			} catch (error) {console.log(error)}
 		}
 
 	/* receivePosts */
-		function receivePosts(data) {
+		function receivePosts(url, data) {
 			try {
+				// clear pending request
+					if (STATE.request == url) {
+						STATE.request = null
+					}
+
 				// get posts
 					const posts = data.posts || []
 					const filters = data.filters || {}
@@ -386,12 +408,8 @@
 					}
 
 				// more?
-					if (nextIndex) {
-						STATE.index = nextIndex
-						setTimeout(function() {
-							requestPosts(updateDisplay)
-						}, 0)
-					}
+					STATE.index = nextIndex || null
+					loadMoreIfScrolled()
 			} catch (error) {console.log(error)}
 		}
 
@@ -515,6 +533,27 @@
 
 				// return
 					return html || ""
+			} catch (error) {console.log(error)}
+		}
+
+	/* loadMoreIfScrolled */
+		window.addEventListener(TRIGGERS.scroll, loadMoreIfScrolled)
+		function loadMoreIfScrolled() {
+			try {
+				setTimeout(function() {
+					// no more
+						if (!STATE.index) {
+							return
+						}
+
+					// scrollToTop not in view
+						if (ELEMENTS.scrollToTop.getBoundingClientRect().y > window.innerHeight) {
+							return
+						}
+
+					// request more
+						requestPosts(updateDisplay)
+				}, 0)
 			} catch (error) {console.log(error)}
 		}
 
