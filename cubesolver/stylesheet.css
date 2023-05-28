@@ -78,7 +78,6 @@
 
 	button:hover, button:focus {
 		background: var(--dark-gray);
-		box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 	}
 
 	/* game moves shuffle */
@@ -100,6 +99,7 @@
 			width: var(--button-normal);
 			border-radius: var(--border-radius) 0 0 var(--border-radius);
 			padding: 0;
+			font-weight: bold;
 		}
 
 		#moves-count {
@@ -127,7 +127,6 @@
 		#moves-count:hover, #moves-count:focus {
 			color: var(--dark-gray);
 			border: var(--shadow-size) solid var(--dark-gray);
-			box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 		}
 
 	/* game moves solve */
@@ -148,6 +147,7 @@
 			height: var(--button-normal);
 			width: var(--button-normal);
 			padding: 0;
+			font-weight: bold;
 		}
 
 		#solve-status {
@@ -310,7 +310,6 @@
 
 		#settings-button:hover, #settings-button:focus {
 			background: var(--dark-gray);
-			box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 		}
 
 	/* overlay */
@@ -433,8 +432,7 @@
 
 		#settings-overlay input:hover, #settings-overlay input:focus {
 			color: var(--dark-gray);
-			border: var(--shadow-size) solid var(--dark-gray);
-			box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+			border: var(--shadow-size) solid var(--dark-gray);			
 		}
 
 		#settings-overlay label span {
