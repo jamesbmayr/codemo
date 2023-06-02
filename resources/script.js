@@ -1356,6 +1356,9 @@
 			backToTop: document.querySelector("#back-to-top-outer"),
 			footer: document.querySelector("#footer")
 		}
+
+	/* observer */
+		const OBSERVER = new IntersectionObserver(observeProjects)
 		
 /*** action ***/
 	/* searchOnLoad */
@@ -1568,6 +1571,7 @@
 						element.target = "_blank"
 						element.className = "project"
 						element.id = id
+						element.setAttribute("image-url", id + "/banner.png")
 					if (project.hidden) {
 						element.setAttribute("rel", "nofollow noopener noreferrer")
 					}
@@ -1585,7 +1589,6 @@
 				// image
 					let image   = document.createElement("div")
 						image.className = "project-image"
-						image.style["background-image"] = "url('" + id + "/banner.png')"
 						image.setAttribute("alt", project.name)
 						image.setAttribute("title", project.name)
 					element.appendChild(image)
@@ -1602,8 +1605,31 @@
 						summary.innerText = project.description
 					element.appendChild(summary)
 
+				// observer
+					OBSERVER.observe(element)
+
 				// return
 					return element
+			} catch (error) {}
+		}
+
+	/* observeProjects */
+		function observeProjects(projects) {
+			try {
+				// loop through projects in this intersection event
+					for (let i in projects) {
+						if (projects[i].isIntersecting) {
+							// get image url
+								let projectElement = projects[i].target
+								let imageURL = projectElement.getAttribute("image-url")
+
+							// set image
+								if (imageURL) {
+									projectElement.removeAttribute("image-url")
+									projectElement.querySelector(".project-image").style.backgroundImage = "url(" + imageURL + ")"
+								}
+						}
+					}
 			} catch (error) {}
 		}
 
