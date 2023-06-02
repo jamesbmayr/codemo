@@ -1357,8 +1357,12 @@
 			footer: document.querySelector("#footer")
 		}
 
-	/* observer */
+	/* constants */
 		const OBSERVER = new IntersectionObserver(observeProjects)
+		const SEARCHWAIT = {
+			waitTime: 300, // ms
+			timeout: null
+		}
 		
 /*** action ***/
 	/* searchOnLoad */
@@ -1409,33 +1413,37 @@
 		ELEMENTS.search.addEventListener("input", inputSearch)
 		function inputSearch(event) {
 			try {
-				// get query
-					let query = (ELEMENTS.search.value || "").trim()
-					let currentURL = new URL(window.location.href)
+				// wait
+					clearInterval(SEARCHWAIT.timeout)
+					SEARCHWAIT.timeout = setTimeout(function() {
+						// get query
+							let query = (ELEMENTS.search.value || "").trim()
+							let currentURL = new URL(window.location.href)
 
-				// no search query
-					if (!query || !query.length) {
-						currentURL.search = ""
-						window.history.pushState({}, "", currentURL)
-						displayProjects(sortProjects(filterProjects(PROJECTS)))
-						return
-					}
+						// no search query
+							if (!query || !query.length) {
+								currentURL.search = ""
+								window.history.pushState({}, "", currentURL)
+								displayProjects(sortProjects(filterProjects(PROJECTS)))
+								return
+							}
 
-				// invalid search query
-					query = query.toLowerCase().replace(/[^a-z0-9]/g,"")
-					if (!query || !query.length) {
-						currentURL.search = ""
-						window.history.pushState({}, "", currentURL)
-						displayProjects([])
-						return
-					}
+						// invalid search query
+							query = query.toLowerCase().replace(/[^a-z0-9]/g,"")
+							if (!query || !query.length) {
+								currentURL.search = ""
+								window.history.pushState({}, "", currentURL)
+								displayProjects([])
+								return
+							}
 
-				// update url
-					currentURL.search = "?q=" + query
-					window.history.pushState({}, "", currentURL)
+						// update url
+							currentURL.search = "?q=" + query
+							window.history.pushState({}, "", currentURL)
 
-				// filter --> sort --> display
-					displayProjects(sortProjects(filterProjects(PROJECTS, {query: query, name: true, tags: true})))
+						// filter --> sort --> display
+							displayProjects(sortProjects(filterProjects(PROJECTS, {query: query, name: true, tags: true})))
+					}, SEARCHWAIT.waitTime)
 			} catch (error) {}
 		}
 
