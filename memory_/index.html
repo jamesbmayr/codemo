@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>memory</title>
+		<meta name="description" content="Memory is a fully customizable card game for two or more brains"/>
+		<meta name="author" content="Elizabeth Ford & James Mayr"/>
+		<meta property="og:title" content="memory"/>
+		<meta property="og:url" content="https://jamesmayr.com/memory/"/>
+		<meta property="og:description" content="Memory is a fully customizable card game for two or more brains"/>
+		<meta property="og:image" content="https://jamesmayr.com/memory/banner.png"/>
+		<link rel='shortcut icon' href='https://d30y9cdsu7xlg0.cloudfront.net/png/817-200.png'>
+		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:regular,bold;italic;bolditalic">
+		<style id="cardCount">
+			:root {
+				--widthCount: 16;
+			}
+		</style>
+		<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+		<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="script.js"></script>
+	</head>
+	<body>
+		<div id="container">			
+			<div id="menu">
+				<div id="menu_title">memory</div>
+				<a id="attribution" href="https://www.github.com/eef22/memory" target="_blank">a game by Liz &amp; James</a>
+				<button id="startGame" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-play"></span> play</button>
+				<button id="setupGame" class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-cog"></span> setup</button>
+			</div>
+
+			<div id="players" class="hidden">
+				<div id="player_title">players</div>
+				<div id="player_list"></div>
+			</div>
+			
+			<div id="gameboard" class="hidden"></div>
+
+			<div id='setup_div' class="hidden">
+				<header>
+					set up
+					<button id='submitSetup' class='btn btn-md btn-primary'><span class="glyphicon glyphicon-ok"></span></button>
+				</header>
+				<div id='playerSection'>
+					<header>players</header>
+					<div class='playerList'>
+						<input type='text' id='player1' class='setupPlayer form-control' placeholder='player 1' value="player 1"></input>
+						<button class='btn btn-md btn-danger playerRemove' onclick='playerRemove(this)'><span class="glyphicon glyphicon-remove"></span></button>
+					</div>
+					<div class='playerList'>
+						<input type="text" name="" id='player2' class='setupPlayer form-control' placeholder='player 2' value="player 2"></input>
+						<button class='btn btn-md btn-danger playerRemove' onclick='playerRemove(this)'><span class="glyphicon glyphicon-remove"></span></button>
+					</div>
+						<button id='playerAdd' class='btn btn-md btn-success' onclick='playerAdd()'><span class="glyphicon glyphicon-plus"></span></button>
+				</div>
+				
+				<br>
+
+				<div id='cardSection'>
+					<header>cards</header>
+					<button id='cardAdd' class='btn btn-md btn-success' onclick='cardAdd()'><span class="glyphicon glyphicon-plus"></span></button>
+				</div>
+			</div>
+
+		</div>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+	</body>
+</html>
