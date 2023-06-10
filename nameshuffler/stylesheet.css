@@ -46,7 +46,7 @@
 
 		h1 {
 			font-size: calc(2.5 * var(--font-size));
-			margin: calc(2 * var(--gap-size)) 0;
+			margin: calc(4 * var(--gap-size)) 0 0 0;
 			text-align: center;
 			font-family: var(--font-family);
 			user-select: none;
@@ -55,6 +55,31 @@
 			text-align: center;
 			width: 100%;
 			box-sizing: border-box;
+			line-height: var(--line-height);
+		}
+
+		h3 {
+			font-size: calc(var(--font-size) * 3 / 4);
+			text-align: center;
+			width: 100%;
+			color: var(--light-gray);
+			user-select: none;
+			line-height: var(--line-height);
+			font-family: var(--font-family);
+			margin: var(--gap-size) 0 calc(4 * var(--gap-size)) 0;
+		}
+
+		h3 a, h3 a:visited {
+			text-decoration: none;
+			color: var(--light-blue);
+			outline: none;
+			transition: var(--transition-time);
+			cursor: pointer;
+		}
+
+		h3 a:hover, h3 a:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
+			color: var(--medium-blue);
 		}
 
 /*** form ***/
@@ -78,7 +103,8 @@
 		}
 
 		#names:hover, #names:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			border-color: var(--medium-blue);
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
 		}
 
 		#shuffle, #copy {
@@ -100,7 +126,7 @@
 		}
 
 		#shuffle:hover, #shuffle:focus, #copy:hover, #copy:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
 			background: var(--medium-blue);
 		}
 
@@ -154,7 +180,7 @@
 		}
 
 		.generator-shuffle:hover, .generator-shuffle:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
 			background: var(--medium-blue);
 		}
 
@@ -212,7 +238,7 @@
 		}
 
 		.generator-lock:hover, .generator-lock:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
 			background: var(--medium-blue);
 		}
 
@@ -274,7 +300,7 @@
 		}
 
 		.generator-up:hover, .generator-up:focus, .generator-down:hover, .generator-down:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
 			background: var(--medium-blue);
 		}
 
@@ -313,12 +339,12 @@
 		}
 
 		.generator-remove:hover, .generator-remove:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-red));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-red));
 			background: var(--medium-red);
 		}
 
 		.generator-add:hover, .generator-add:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--medium-blue));
 			background: var(--medium-blue);
 		}
 
@@ -337,6 +363,7 @@
 		cursor: pointer;
 		outline: none;
 		transition: var(--transition-time);
+		z-index: 1000;
 	}
 
 	#j-logo:hover, #j-logo:focus {
