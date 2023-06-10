@@ -39,10 +39,10 @@
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
-		border-radius: 10px;
+		border-radius: 20px;
 		background-color: #111111;
 		padding: 20px;
-		height: 400px;
+		height: auto;
 		width: 600px;
 	}
 
@@ -59,15 +59,28 @@
 	/* cost */
 		#cost-label {
 			float: left;
-			width: 60%;
-			height: 80px;
+			width: 55%;
+			height: 70px;
 			font-size: 50px;
 			user-select: none;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
+		}
+
+		#cost-label span {
+			float: left;
+			width: 50px;
+			height: 70px;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
+			padding: 10px;
 		}
 
 		#cost {
 			width: calc(100% - 50px);
-			height: 60px;
+			height: 70px;
 			padding: 10px;
 			border: 0px;
 			border-radius: 5px;
@@ -78,30 +91,50 @@
 			font-family: monospace;
 			text-align: right;
 			cursor: pointer;
-		}	
-
-	/* percent */
-		#plus {
-			float: left;
-			text-align: center;
-			width: 10%;
-			height: 70px;
-			font-size: 50px;
-			padding-top: 10px;
-			user-select: none;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
 		}
 
+	/* plus */
+		#plus-label {
+			float: left;
+			text-align: center;
+			height: 70px;
+			width: 50px;
+			font-size: 50px;
+			user-select: none;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
+		}
+
+		#plus-label span {
+			float: left;
+			width: 50px;
+			height: 70px;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
+			padding: 10px;
+		}
+
+	/* percent */
 		#percent-label {
 			float: left;
-			width: 30%;
+			width: calc(45% - 50px);
 			height: 80px;
 			font-size: 50px;
 			user-select: none;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
 		}
 
 		#percent {
+			float: left;
 			width: calc(100% - 50px);
-			height: 60px;
+			height: 70px;
 			padding: 10px;
 			border: 0px;
 			border-radius: 5px;
@@ -112,20 +145,34 @@
 			font-family: monospace;
 			text-align: right;
 			cursor: pointer;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
 		}
 
-	/* coins */
-		#coins {
+		#percent-label span {
+			float: left;
+			width: 50px;
+			height: 70px;
+			vertical-align: top;
+			line-height: 1;
+			box-sizing: border-box;
+			padding: 10px;
+		}
+
+	/* denominations */
+		#denominations {
 			text-align: center;
 			float: left;
-			width: calc(100% - 20px);
-			height: 90px;
+			width: 100%;
+			height: auto;
 			font-size: 20px;
-			padding: 20px 10px 10px 10px;
+			padding: 20px 10px 20px 10px;
 			user-select: none;
+			box-sizing: border-box;
 		}
 
-		#coins label {
+		#denominations label {
 			float: left;
 			height: 35px;
 			width: calc(100% / 3);
@@ -133,16 +180,16 @@
 			padding: 5px 0px 0px 0px;
 		}
 
-		#coins label:hover {
+		#denominations label:hover {
 			font-weight: bold;
 		}
 
-		#coins label[selected] {
+		#denominations input:checked ~ span {
 			font-weight: bold;
 			text-transform: uppercase;
 		}
 
-		#coins input {
+		#denominations input {
 			display: none;
 		}
 
@@ -174,8 +221,9 @@
 /*** mobile ***/
 	@media screen and (max-width: 800px) {
 		#container {
-			height: 200px;
-			width: 300px;
+			height: auto;
+			width: calc(100vw - 40px);
+			padding: 10px;
 		}
 
 		#title {
@@ -183,22 +231,43 @@
 		}
 
 		#cost, #percent, #output-tip, #output-total {
-			height: 30px;
+			height: 50px;
 			font-size: 30px;
 		}
 
-		#cost-label, #percent-label, #plus {
-			padding-top: 0px;
-			height: 60px;
+		#cost-label span, #plus-label span, #percent-label span {
+			font-size: 30px;
+			height: 50px;
+			width: 35px;
 		}
 
-		#coins {
+		#cost {
+			width: calc(100% - 35px);
+		}
+
+		#plus-label {
+			width: 35px;
+		}
+
+		#percent-label {
+			width: calc(45% - 35px);
+		}
+
+		#percent {
+			width: calc(100% - 35px);
+		}
+
+		#cost-label, #percent-label, #plus-label {
+			padding-top: 0px;
+			height: 50px;
+		}
+
+		#denominations {
 			padding: 5px 10px 5px 10px;
 			font-size: 15px;
-			height: 60px;
 		}
 
-		#coins label {
+		#denominations label {
 			height: 25px;
 		}
 	}
