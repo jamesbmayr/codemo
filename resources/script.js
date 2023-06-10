@@ -753,6 +753,13 @@
 				date: "October 2, 2022",
 				description: "A collection of compositions from a few musical friends; each event challenged us to make music in a new way."
 			},
+			nameshuffler: {
+				name: "nameShuffler",
+				size: "small",
+				tags: ["code","tool","writing","autobiography","collaboration"],
+				date: "June 10, 2023",
+				description: "Shuffle up a list of names in this simple tool commissioned by my friend Zephyr."
+			},
 			nimbusnotes: {
 				name: "nimbusNotes",
 				size: "small",

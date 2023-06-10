@@ -67,7 +67,7 @@
 					ELEMENTS.copy.setAttribute("copied", true)
 
 				// copy to clipboard
-					const fullName = ELEMENTS.components.map(component => component.text.value.trim()).join(" ")
+					const fullName = Array.from(ELEMENTS.generator.querySelectorAll(".generator-text")).map(input => input.value.trim()).join(" ")
 					navigator.clipboard.writeText(fullName)
 
 				// uncheck
