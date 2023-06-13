@@ -39,6 +39,7 @@
 				description: "Custom APIs derived from other projects, like chordAnalyzer, messageEncrypter, baseConverter, and more."
 			},
 			arenamapper: {
+				skipRandom: true,
 				name: "arenaMapper",
 				size: "small",
 				tags: ["code","fantasy","scifi","canvas","tabletop","tool"],
@@ -74,6 +75,7 @@
 				description: "Convert numbers from one base (from 2 to 36) to any other in an instant."
 			},
 			beambouncer: {
+				skipRandom: true,
 				name: "beambouncer",
 				size: "small",
 				tags: ["game","code","arcade","multiplayer","node","websockets","canvas"],
@@ -126,6 +128,7 @@
 				description: "Pull the cords from start to socket in this puzzle of non-overlapping lines."
 			},
 			campaignfinancer: {
+				skipRandom: true,
 				name: "campaignFinancer",
 				size: "medium",
 				tags: ["code","tool","api","money"],
@@ -188,6 +191,7 @@
 				description: "Customize Conway's Game of Life in this simple simulation of cellular automata."
 			},
 			chalice: {
+				skipRandom: true,
 				name: "Chalice",
 				size: "extra-large",
 				tags: ["game","collaboration","code","card","tabletop","multiplayer","node","websockets","mongo","fantasy"],
@@ -240,6 +244,7 @@
 				description: "Clevernacular is a blog about how amazing everyday design can be - a celebration of the brilliance all around us."
 			},
 			clickclique: {
+				skipRandom: true,
 				name: "ClickClique",
 				size: "small",
 				tags: ["code","websockets","multiplayer"],
@@ -263,6 +268,7 @@
 				description: "A simple animation of cartoon clouds floating by, built for a tech demo at work."
 			},
 			cochords: {
+				skipRandom: true,
 				name: "CoChords",
 				size: "large",
 				tags: ["code","api","mongo","node","tool","websockets","music","audio","jazz","orchestral","piano","pop","synth","multiplayer","design"],
@@ -331,6 +337,7 @@
 				description: "Why choose wisely when you can choose randomly?"
 			},
 			demofont: {
+				skipRandom: true,
 				name: "demofont",
 				size: "medium",
 				tags: ["code","writing","design","svg"],
@@ -338,6 +345,7 @@
 				description: "A custom font based on smooth curves."
 			},
 			diamondcheckers: {
+				skipRandom: true,
 				name: "Diamond Checkers",
 				size: "large",
 				tags: ["game","code","node","mongo","tabletop","board","multiplayer"],
@@ -352,6 +360,7 @@
 				description: "One of my first coding projects: a random number generator in the form of dice."
 			},
 			dotconnector: {
+				skipRandom: true,
 				name: "dotConnector",
 				size: "small",
 				tags: ["code","game","svg","puzzle"],
@@ -383,6 +392,7 @@
 				description: "DreamHatcher offers dozens of free print-and-play tabletop games - and tons of templates to help aspiring designers craft their own."
 			},
 			dynasty: {
+				skipRandom: true,
 				name: "Dynasty",
 				size: "large",
 				tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
@@ -415,6 +425,7 @@
 				description: "Find the factors and interesting facts of any number you input."
 			},
 			flaggravation: {
+				skipRandom: true,
 				name: "Flaggravation",
 				size: "medium",
 				tags: ["code","game","card","tabletop","multiplayer"],
@@ -436,6 +447,7 @@
 				description: "Type quickly to keep the words flapping between the ever-encroaching clouds and mountains."
 			},
 			flashcardmemory: {
+				skipRandom: true,
 				name: "Flash Card Memory",
 				size: "medium",
 				tags: ["game","code","node","mongo","card","tool"],
@@ -465,6 +477,7 @@
 				description: "Yule sea, strait aweigh. Four shore."
 			},
 			fundfuser: {
+				skipRandom: true,
 				name: "FundFuser",
 				size: "medium",
 				tags: ["code","tool","math","multiplayer","money","api"],
@@ -481,6 +494,7 @@
 				description: "This is a companion app for Goods, a multi-player strategy card game."
 			},
 			graphmaker: {
+				skipRandom: true,
 				name: "graphMaker",
 				size: "medium",
 				tags: ["code","canvas","math","tool","simulation"],
@@ -516,6 +530,7 @@
 				description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
 			},
 			homecontroller: {
+				skipRandom: true,
 				name: "homeController",
 				size: "medium",
 				tags: ["code","tool","api","design"],
@@ -523,6 +538,7 @@
 				description: "A map of my place with smart lights, speakers, and outlets, all connected to IFTTT applets that trigger device APIs."
 			},
 			htmlconverter: {
+				skipRandom: true,
 				name: "htmlConverter",
 				size: "small",
 				tags: ["code","tool","simulation"],
@@ -565,6 +581,7 @@
 				description: "This is a Unity clone of the classic arcade game, modified from a tutorial to a wrap-around plane."
 			},
 			inputdetector: {
+				skipRandom: true,
 				name: "inputDetector",
 				size: "small",
 				tags: ["code","tool"],
@@ -662,6 +679,7 @@
 				description: "magnetMaker is a pseudo-realistic physics simulator with magnetic spheres and tons of forces."
 			},
 			mayrhockey: {
+				skipRandom: true,
 				name: "MayrHockey",
 				size: "medium",
 				tags: ["game","arcade","multiplayer","code","canvas","websockets","node"],
@@ -669,6 +687,7 @@
 				description: "A 2-6 player air hockey arena where the goals change every time someone scores."
 			},
 			mazemaker: {
+				skipRandom: true,
 				name: "mazeMaker",
 				size: "medium",
 				tags: ["code","puzzle","tool","math"],
@@ -676,6 +695,7 @@
 				description: "This generates mazes from the outside in, guaranteed to have exactly 1 solution."
 			},
 			mazertag: {
+				skipRandom: true,
 				name: "MazerTag",
 				size: "large",
 				tags: ["game","arcade","multiplayer","scifi","code","canvas","simulation","websockets","node","collaboration"],
@@ -683,6 +703,7 @@
 				description: "A top-down multiplayer arcade game with 5 laser tag modes in randomly generated arenas. Music & SFX by Alex Berg. Visuals by Liz Ford."
 			},
 			melodemons: {
+				skipRandom: true,
 				name: "melodemons",
 				size: "large",
 				tags: ["game","code","music","node","websockets","canvas","audio","fantasy","synth","piano","arcade","multiplayer","art"],
@@ -718,6 +739,7 @@
 				description: "Liz Ford & I built a local 2-player minigame where lunar rovers race to collect falling space rocks."
 			},
 			metromapper: {
+				skipRandom: true,
 				name: "metroMapper",
 				size: "medium",
 				tags: ["code","svg","art","simulation"],
@@ -761,6 +783,7 @@
 				description: "Shuffle up a list of names in this simple tool commissioned by my friend Zephyr."
 			},
 			nimbusnotes: {
+				skipRandom: true,
 				name: "nimbusNotes",
 				size: "small",
 				tags: ["collaboration","code","music","node","websockets","canvas","audio","multiplayer","art"],
@@ -826,6 +849,14 @@
 				date: "January 1, 2022",
 				description: "Apply a color pass filter to the device's live camera feed and export the resulting photographs."
 			},
+			photoshots: {
+				skipRandom: true,
+				name: "PhotoShots",
+				size: "large",
+				tags: ["code","mongo","node","websockets","game","multiplayer","canvas","photography"],
+				date: "June 12, 2023",
+				description: "Photography hide and seek - phone tag reimagined."
+			},
 			pieceflipper: {
 				name: "pieceFlipper",
 				size: "small",
@@ -834,6 +865,7 @@
 				description: "An Othello/Reversi clone, pieceFlipper features both PVP and human-vs.-AI games."
 			},
 			piecetalks: {
+				skipRandom: true,
 				name: "Piece Talks",
 				size: "large",
 				tags: ["code","game","tool","design","multiplayer","puzzle","mongo","node","websockets","collaboration"],
@@ -848,6 +880,7 @@
 				description: "This is a puzzle / simulator where you rotate pipes to connect their colors."
 			},
 			pitchmatcher: {
+				skipRandom: true,
 				name: "pitchMatcher",
 				size: "small",
 				tags: ["code","music","canvas","audio","puzzle","tool"],
@@ -855,6 +888,7 @@
 				description: "Match pure tones by whistling or singing into the mic in this canvas / webaudio demo."
 			},
 			pitchplayer: {
+				skipRandom: true,
 				name: "pitchPlayer",
 				size: "medium",
 				tags: ["code","music","audio","piano","synth","tool"],
@@ -929,6 +963,7 @@
 				description: "Pros and Console is a blog that follows the ups and downs of project-oriented programming."
 			},
 			pulsepather: {
+				skipRandom: true,
 				name: "pulsePather",
 				size: "small",
 				tags: ["code","music","audio","synth","art","piano"],
@@ -972,6 +1007,7 @@
 				description: "In robotDirector, players must guide simple bots to a color-coded collection point."
 			},
 			rpsrpg: {
+				skipRandom: true,
 				name: "RPS RPG",
 				size: "large",
 				tags: ["collaboration","code","game","node","websockets","canvas","audio","fantasy","orchestral","synth","multiplayer","ai","arcade","art"],
@@ -1068,6 +1104,7 @@
 				description: "An audio take on the classic memory game, where every tile is a tone."
 			},
 			specterinspectors: {
+				skipRandom: true,
 				name: "Specter Inspectors",
 				size: "large",
 				tags: ["game","code","node","websockets","mongo","fantasy","tabletop","card","multiplayer"],
@@ -1105,6 +1142,7 @@
 				description: "Use the AlphaVantage API to measure a stock's success over 12 months with stockTracker."
 			},
 			switchonyms: {
+				skipRandom: true,
 				name: "Switchonyms",
 				size: "large",
 				tags: ["game","code","node","websockets","multiplayer","tabletop","card"],
@@ -1126,6 +1164,7 @@
 				description: "A simple audio-visual metronome with customizable beat count and tempo."
 			},
 			thecouncil: {
+				skipRandom: true,
 				name: "The Council",
 				size: "medium",
 				tags: ["game","code","node","websockets","canvas","fantasy","tabletop","multiplayer"],
@@ -1204,6 +1243,7 @@
 				description: "A synth creator built in 2018, overhauled in 2022. Build your own web audio sounds with limitless customization."
 			},
 			truecolors: {
+				skipRandom: true,
 				name: "True Colors",
 				size: "large",
 				tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
@@ -1220,6 +1260,7 @@
 				description: "I composed and played piano and clarinet in Underblue, performing across New York City venues in this 5-person rock and indie pop band."
 			},
 			unitconverter: {
+				skipRandom: true,
 				name: "unitConverter",
 				size: "medium",
 				tags: ["code","math","tool"],
@@ -1234,6 +1275,7 @@
 				description: "Use the Google Chrome Speech Recognition API to output a continuous stream of speech-to-text."
 			},
 			weatherexplorer: {
+				skipRandom: true,
 				name: "weatherExplorer",
 				size: "medium",
 				tags: ["code","api","tool","photography"],
@@ -1279,6 +1321,7 @@
 				description: "Find as many words as you can that contain the given letters in order."
 			},
 			wordcounter: {
+				skipRandom: true,
 				name: "wordCounter",
 				size: "small",
 				tags: ["code","tool","writing"],
@@ -1293,6 +1336,7 @@
 				description: "wordFinder is a web game in the style of Boggle, using an online dictionary."
 			},
 			wordsblockchain: {
+				skipRandom: true,
 				name: "wordsblockchain",
 				size: "large",
 				tags: ["game","code","node","websockets","tabletop","multiplayer"],
@@ -1314,6 +1358,7 @@
 				description: "Generate random words with customizable controls over allowed letter and syllable combinations."
 			},
 			wordshuffler: {
+				skipRandom: true,
 				name: "wordShuffler",
 				size: "medium",
 				tags: ["code","tool"],
@@ -1337,7 +1382,6 @@
 				description: "xmlParser is a Javascript web tool for converting XML into JSON."
 			},
 			zeroblaster: {
-				skipRandom: true,
 				name: "zeroBlaster",
 				size: "small",
 				tags: ["code","math","game","arcade"],
