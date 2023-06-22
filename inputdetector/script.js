@@ -1806,6 +1806,7 @@
 					try {
 						window.getSelection().selectAllChildren(wrapper)
 						document.execCommand("copy")
+						COPY_IMAGE_OUTPUT.innerHTML = "j-logo copied to clipboard"
 						wrapper.remove()
 					} catch (error) {
 						wrapper.remove()
