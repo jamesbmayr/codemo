@@ -559,14 +559,17 @@
 
 	/* detectScreenOrientation */
 		var SCREEN_ORIENTATION_OUTPUT = document.querySelector("#screen-orientation .block-value")
-		screen.orientation.addEventListener("change", detectScreenOrientation)
-		detectScreenOrientation()
-		function detectScreenOrientation(event) {
-			try {
-				SCREEN_ORIENTATION_OUTPUT.innerHTML = screen.orientation.type
-				detectScreenSize()
-			} catch (error) { handleError(arguments.callee.name, error) }
-		}
+		try {
+			screen.orientation.addEventListener("change", detectScreenOrientation)
+			detectScreenOrientation()
+			function detectScreenOrientation(event) {
+				try {
+					SCREEN_ORIENTATION_OUTPUT.innerHTML = screen.orientation.type
+					detectScreenSize()
+				} catch (error) { handleError(arguments.callee.name, error) }
+			}
+		} catch (error) {}
+		
 
 	/* detectBattery */
 		var BATTERY_OUTPUT = document.querySelector("#device-battery .block-value")
@@ -1485,6 +1488,21 @@
 		}
 
 /*** form field inputs ***/
+	/* detectButton */
+		var BUTTON_TIMEOUT = null
+		var BUTTON_OUTPUT = document.querySelector("#input-button .block-value")
+		var BUTTON_INPUT = document.querySelector("#input-button .block-button")
+			BUTTON_INPUT.addEventListener("click", detectButtonInput)
+		function detectButtonInput(event) {
+			try {
+				clearInterval(BUTTON_TIMEOUT)
+				BUTTON_OUTPUT.innerHTML = "!"
+				BUTTON_TIMEOUT = setTimeout(function() {
+					BUTTON_OUTPUT.innerHTML = ""
+				}, 1000)
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectTextInput */
 		var TEXT_OUTPUT = document.querySelector("#input-text .block-value")
 		var TEXT_INPUT = document.querySelector("#input-text .block-input")
@@ -1740,6 +1758,60 @@
 		function detectSelection(event) {
 			try {
 				SELECTION_OUTPUT.innerHTML = window.getSelection().toString() || ""
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectCopyText */
+		var COPY_TEXT_OUTPUT = document.querySelector("#clipboard-copy-text .block-value")
+		var COPY_TEXT_BUTTON = document.querySelector("#clipboard-copy-text .block-button")
+		COPY_TEXT_BUTTON.addEventListener("click", detectCopyText)
+		function detectCopyText(event) {
+			try {
+				var random = String(Math.random())
+				navigator.clipboard.writeText(random).then(function() {
+					COPY_TEXT_OUTPUT.innerHTML = random + "\ncopied to clipboard"
+				}).catch(function(error) {
+					handleError("detectCopyText", error)
+				})
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
+	/* detectCopyImage */
+		var COPY_IMAGE_OUTPUT = document.querySelector("#clipboard-copy-image .block-value")
+		var COPY_IMAGE_BUTTON = document.querySelector("#clipboard-copy-image .block-button")
+		COPY_IMAGE_BUTTON.addEventListener("click", detectCopyImage)
+		async function detectCopyImage(event) {
+			try {
+				var imageURL = "https://jamesmayr.com/resources/j.png"
+				var imageData = await fetch(imageURL)
+				var blob = await imageData.blob()
+
+				try {
+					navigator.clipboard.write(
+						[new ClipboardItem({[blob.type]: blob})]
+					).then(function() {
+						COPY_IMAGE_OUTPUT.innerHTML = "j-logo copied to clipboard"
+					}).catch(function(error) {
+						handleError("detectCopyImage", error)
+					})
+				} catch (error) {
+					var wrapper = document.createElement("div")
+						wrapper.contentEditable = "true"
+					document.body.appendChild(wrapper)
+
+					var image = document.createElement("img")
+						image.src = imageURL
+					wrapper.appendChild(image)
+					
+					try {
+						window.getSelection().selectAllChildren(wrapper)
+						document.execCommand("copy")
+						wrapper.remove()
+					} catch (error) {
+						wrapper.remove()
+						handleError(arguments.callee.name, error)
+					}
+				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 

@@ -117,6 +117,10 @@
 		overflow: hidden;
 	}
 
+	.block > form {
+		height: 100%;
+	}
+
 	.block-label {
 		float: left;
 		width: calc(100% - 20px);

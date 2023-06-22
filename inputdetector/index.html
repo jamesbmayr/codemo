@@ -12,14 +12,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<link rel="shortcut icon" href="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_input_48px-512.png"/>
 		<script>
-			var stylesheet = document.createElement("link")
-				stylesheet.rel = "stylesheet"
-				stylesheet.href = "stylesheet.css?refresh=" + Math.random()
-			document.head.appendChild(stylesheet)
-			var script = document.createElement("script")
-				script.src = "script.js?refresh=" + Math.random()
-				script.defer = true
-			document.head.appendChild(script)
+			window.addEventListener("DOMContentLoaded", function() {
+				var stylesheet = document.createElement("link")
+					stylesheet.rel = "stylesheet"
+					stylesheet.href = "stylesheet.css?refresh=" + Math.random()
+				document.head.appendChild(stylesheet)
+				var script = document.createElement("script")
+					script.src = "script.js?refresh=" + Math.random()
+					script.defer = true
+				document.head.appendChild(script)
+			})
 		</script>
 	</head>
 	<body>
@@ -178,7 +180,7 @@
 				</div>
 				<div class="block" id="browser-javascript-set-timeout">
 					<label class="block-label">
-						<input class="block-input" type="number" placeholder="timeout seconds" step="1" min="0"></input>
+						<input name="timeout seconds" class="block-input" type="number" placeholder="timeout seconds" step="1" min="0"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -186,7 +188,7 @@
 				</div>
 				<div class="block" id="browser-webworkers">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="webworkers"></input>
+						<input name="webworkers" type="text" class="block-input" placeholder="webworkers"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -194,7 +196,7 @@
 				</div>
 				<div class="block" id="browser-postmessage">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="postmessage"></input>
+						<input name="postmessage" type="text" class="block-input" placeholder="postmessage"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -350,7 +352,7 @@
 			<!-- computer interface -->
 				<div class="block" id="peripheral-keyboard">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="keyboard"></input>
+						<input name="keyboard" type="text" class="block-input" placeholder="keyboard"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -505,17 +507,39 @@
 					</div>
 				</div>
 			<!-- form field inputs -->
-				<div class="block" id="input-text" spellcheck="false" autocomplete="off">
+				<div class="block" id="input-button">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="text"></input>
+						<button name="button" class="block-button">button</button>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="input-password" spellcheck="false" autocomplete="off">
+				<div class="block" id="input-text">
 					<label class="block-label">
-						<input type="password" class="block-input" placeholder="password"></input>
+						<input name="text" type="text" class="block-input" placeholder="text" spellcheck="false" autocomplete="off"></input>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="input-reset">
+					<form action="javascript:;">
+						<label class="block-label">
+							<input name="clear" type="reset" value="reset" class="block-button"></input>
+						</label>
+						<div class="block-output-outer">
+							<div class="block-value">
+								<label class="block-label">
+									<input name="text" type="text" class="block-input" placeholder="enter text" spellcheck="false" autocomplete="off" value=""></input>
+								</label>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="block" id="input-password">
+					<label class="block-label">
+						<input name="password" type="password" class="block-input" placeholder="password" spellcheck="false" autocomplete="off"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -523,7 +547,7 @@
 				</div>
 				<div class="block" id="input-number" autocomplete="off">
 					<label class="block-label">
-						<input type="number" class="block-input" placeholder="number"></input>
+						<input name="number" type="number" class="block-input" placeholder="number"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -531,7 +555,7 @@
 				</div>
 				<div class="block" id="input-time">
 					<label class="block-label">
-						<input type="time" class="block-input" placeholder="time"></input>
+						<input name="time" type="time" class="block-input" placeholder="time"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -539,7 +563,7 @@
 				</div>
 				<div class="block" id="input-date">
 					<label class="block-label">
-						<input type="date" class="block-input" placeholder="date"></input>
+						<input name="date" type="date" class="block-input" placeholder="date"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -547,7 +571,7 @@
 				</div>
 				<div class="block" id="input-week">
 					<label class="block-label">
-						<input type="week" class="block-input" placeholder="week"></input>
+						<input name="week" type="week" class="block-input" placeholder="week"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -555,7 +579,7 @@
 				</div>
 				<div class="block" id="input-month">
 					<label class="block-label">
-						<input type="month" class="block-input" placeholder="month"></input>
+						<input name="month" type="month" class="block-input" placeholder="month"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -563,7 +587,7 @@
 				</div>
 				<div class="block" id="input-datetime">
 					<label class="block-label">
-						<input type="datetime-local" class="block-input" placeholder="datetime"></input>
+						<input name="datetime" type="datetime-local" class="block-input" placeholder="datetime"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -571,16 +595,16 @@
 				</div>
 				<div class="block" id="input-color">
 					<label class="block-label">
-						<input type="color" class="block-button" placeholder="color"></input>
+						<input name="color" type="color" class="block-button" placeholder="color"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
 			<!-- form special inputs -->
-				<div class="block" id="input-textarea" spellcheck="false" autocomplete="off">
+				<div class="block" id="input-textarea">
 					<label class="block-label">
-						<textarea class="block-input" placeholder="textarea" spellcheck="false" autocomplete="off"></textarea>
+						<textarea name="textarea" class="block-input" placeholder="textarea" spellcheck="false" autocomplete="off"></textarea>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -588,7 +612,7 @@
 				</div>
 				<div class="block" id="input-select">
 					<label class="block-label">
-						<select class="block-select">
+						<select name="select" class="block-select">
 							<option value="select" selected disabled>select...</option>
 							<option value="1">a</option>
 							<option value="2">b</option>
@@ -601,7 +625,7 @@
 				</div>
 				<div class="block" id="input-multiselect">
 					<label class="block-label">
-						<select multiple class="block-select">
+						<select name="multiselect" multiple class="block-select">
 							<option value="select" selected disabled>multiselect...</option>
 							<option value="1">a</option>
 							<option value="2">b</option>
@@ -614,9 +638,9 @@
 				</div>
 				<div class="block" id="input-radio">
 					<label class="block-label">radio
-						<input type="radio" class="block-radio" name="radio" value="1"></input>
-						<input type="radio" class="block-radio" name="radio" value="2"></input>
-						<input type="radio" class="block-radio" name="radio" value="3"></input>
+						<input name="radio" type="radio" class="block-radio" value="1"></input>
+						<input name="radio" type="radio" class="block-radio" value="2"></input>
+						<input name="radio" type="radio" class="block-radio" value="3"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -624,7 +648,7 @@
 				</div>
 				<div class="block" id="input-checkbox">
 					<label class="block-label">checkbox
-						<input type="checkbox" class="block-checkbox" value="true"></input>
+						<input name="checkbox" type="checkbox" class="block-checkbox" value="true"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -632,7 +656,7 @@
 				</div>
 				<div class="block" id="input-range">
 					<label class="block-label">
-						<input type="range" class="block-input" min="-10" max="10" step="1" value="0"></input>
+						<input name="range" type="range" class="block-input" min="-10" max="10" step="1" value="0"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -640,7 +664,7 @@
 				</div>
 				<div class="block" id="input-file">
 					<label class="block-label">
-						<label class="block-button">file upload<input type="file" class="block-input-hidden"></label>
+						<label class="block-button">file upload<input name="file" type="file" class="block-input-hidden"></label>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -666,33 +690,33 @@
 					</div>
 				</div>
 			<!-- form inputs with validation -->
-				<div class="block" id="input-email" spellcheck="false" autocomplete="off">
+				<div class="block" id="input-email">
 					<label class="block-label">
 						<form action="javascript:;">
-							<input type="email" class="block-input" placeholder="email"></input>
-							<input type="submit" class="block-input-hidden">
+							<input name="email" type="email" class="block-input" placeholder="email" spellcheck="false" autocomplete="off"></input>
+							<input name="email-submit" type="submit" class="block-input-hidden">
 						</form>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="input-telephone" spellcheck="false" autocomplete="off">
+				<div class="block" id="input-telephone">
 					<label class="block-label">
 						<form action="javascript:;">
-							<input type="tel" class="block-input" placeholder="telephone" pattern="\(?[0-9]{3}(-|.|\s)?\)?[0-9]{3}(-|.|\s)?[0-9]{4}"></input>
-							<input type="submit" class="block-input-hidden">
+							<input name="telephone" type="tel" class="block-input" placeholder="telephone" pattern="\(?[0-9]{3}(-|.|\s)?\)?[0-9]{3}(-|.|\s)?[0-9]{4}" spellcheck="false" autocomplete="off"></input>
+							<input name="telephone-submit" type="submit" class="block-input-hidden">
 						</form>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
 					</div>
 				</div>
-				<div class="block" id="input-url" spellcheck="false" autocomplete="off">
+				<div class="block" id="input-url">
 					<label class="block-label">
 						<form action="javascript:;">
-							<input type="url" class="block-input" placeholder="url"></input>
-							<input type="submit" class="block-input-hidden">
+							<input name="url" type="url" class="block-input" placeholder="url" spellcheck="false" autocomplete="off"></input>
+							<input name="url-submit" type="submit" class="block-input-hidden">
 						</form>
 					</label>
 					<div class="block-output-outer">
@@ -714,9 +738,25 @@
 						<div class="block-value"></div>
 					</div>
 				</div>
+				<div class="block" id="clipboard-copy-text">
+					<label class="block-label">
+						<button class="block-button">copy text</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
+				<div class="block" id="clipboard-copy-image">
+					<label class="block-label">
+						<button class="block-button">copy image</button>
+					</label>
+					<div class="block-output-outer">
+						<div class="block-value"></div>
+					</div>
+				</div>
 				<div class="block" id="clipboard-copy-paste">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="paste">
+						<input name="paste" type="text" class="block-input" placeholder="paste">
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
@@ -827,7 +867,7 @@
 				</div>
 				<div class="block" id="css-font-color-word">
 					<label class="block-label">
-						<input type="text" class="block-input" placeholder="color word"></input>
+						<input name="color-word" type="text" class="block-input" placeholder="color word"></input>
 					</label>
 					<div class="block-output-outer">
 						<div class="block-value"></div>
