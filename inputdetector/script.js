@@ -1783,35 +1783,44 @@
 		async function detectCopyImage(event) {
 			try {
 				var imageURL = "https://jamesmayr.com/resources/j.png"
-				var imageData = await fetch(imageURL)
-				var blob = await imageData.blob()
+
+				async function getImagePromise() {
+					var imageData = await fetch(imageURL)
+					return await imageData.blob()
+				}
 
 				try {
-					navigator.clipboard.write(
-						[new ClipboardItem({[blob.type]: blob})]
-					).then(function() {
-						COPY_IMAGE_OUTPUT.innerHTML = "j-logo copied to clipboard"
-					}).catch(function(error) {
-						handleError("detectCopyImage", error)
-					})
+					// chrome, edge, safari
+						navigator.clipboard.write(
+							[new ClipboardItem({"image/png": getImagePromise()})]
+						).then(function() {
+							COPY_IMAGE_OUTPUT.innerHTML = "j-logo copied to clipboard"
+						}).catch(function(error) {
+							handleError("detectCopyImage", error)
+						})
 				} catch (error) {
-					var wrapper = document.createElement("div")
-						wrapper.contentEditable = "true"
-					document.body.appendChild(wrapper)
+					// firefox
+						var reader = new FileReader()
+						reader.onload = function() {
+							var wrapper = document.createElement("div")
+								wrapper.contentEditable = "true"
+							document.body.appendChild(wrapper)
 
-					var image = document.createElement("img")
-						image.src = imageURL
-					wrapper.appendChild(image)
-					
-					try {
-						window.getSelection().selectAllChildren(wrapper)
-						document.execCommand("copy")
-						COPY_IMAGE_OUTPUT.innerHTML = "j-logo copied to clipboard"
-						wrapper.remove()
-					} catch (error) {
-						wrapper.remove()
-						handleError(arguments.callee.name, error)
-					}
+							var image = document.createElement("img")
+								image.src = reader.result
+							wrapper.appendChild(image)
+
+							try {
+								window.getSelection().selectAllChildren(wrapper)
+								document.execCommand("copy")
+								COPY_IMAGE_OUTPUT.innerHTML = "j-logo copied to clipboard"
+								wrapper.remove()
+							} catch (error) {
+								wrapper.remove()
+								handleError("detectCopyImage", error)
+							}
+						}
+						reader.readAsDataURL(await getImagePromise())
 				}
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
