@@ -47,6 +47,13 @@
 				idea: "My friend <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a> - who I had collaborated with on <a href='https://jamesmayr.com/rpsrpg' target='_blank'>RPS RPG</a> - and I attempted to learn Unity and build a simple text-based exploration-adventure game.",
 				obituary: "As it turns out, Unity is not so simple, nor is coding in C#. We went through some tutorials and successfully made a <a href='https://jamesmayr.com/tictactoe' target='_blank'>tic-tac-toe clone</a>... and then moved on to other projects."
 			},
+			flashcardmemory: {
+				name: "Flashcard Memory",
+				birth: "March 2020",
+				death: "July 2023",
+				idea: "At the onset of the pandemic, my mom requested a flashcard-maker so her high school Spanish students could study vocabulary from home by playing the classic matching game.",
+				obituary: "She's retired from teaching, so it's time for this one-time tool to become a memory."
+			},
 			bluejay: {
 				name: "bluejay",
 				birth: "December 2019",

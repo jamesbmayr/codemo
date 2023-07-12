@@ -361,6 +361,7 @@
 			},
 			dotconnector: {
 				skipRandom: true,
+				hidden: true,
 				name: "dotConnector",
 				size: "small",
 				tags: ["code","game","svg","puzzle"],
@@ -445,14 +446,6 @@
 				tags: ["code","game","arcade"],
 				date: "April 5, 2022",
 				description: "Type quickly to keep the words flapping between the ever-encroaching clouds and mountains."
-			},
-			flashcardmemory: {
-				skipRandom: true,
-				name: "Flash Card Memory",
-				size: "medium",
-				tags: ["game","code","node","mongo","card","tool"],
-				date: "March 20, 2020",
-				description: "Build your own deck of flash cards or find a friend's to play the classic matching game."
 			},
 			firestormsea: {
 				skipRandom: true,
