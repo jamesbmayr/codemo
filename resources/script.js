@@ -198,6 +198,14 @@
 				date: "March 21, 2015",
 				description: "Funded on Kickstarter, Chalice is a card game (and web game) of death and deception where players poison their friends for fun."
 			},
+			changechecker: {
+				skipRandom: true,
+				name: "changeChecker",
+				size: "small",
+				tags: ["code","tool"],
+				date: "July 29, 2023",
+				description: "Identify the differences between two documents, with options to ignore spaces, casing, and placement within a line."
+			},
 			checkers: {
 				skipRandom: true,
 				hidden: true,

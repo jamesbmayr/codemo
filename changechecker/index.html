@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>changeChecker</title>
+		<meta name="description" content="changeChecker is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="changeChecker">
+		<meta property="og:url" content="https://jamesmayr.com/changechecker/">
+		<meta property="og:description" content="changeChecker is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/changechecker/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/30441-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<h1>changeChecker</h1>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<div id="input-section">
+			<div id="input-options">
+				<label id="input-options-spacing">
+					<input id="input-options-checkbox-spacing" type="checkbox" checked>
+					<div>check spaces</div>
+					<span>consider leading/trailing spaces</span>
+				</label>
+				<label id="input-options-casing">
+					<input id="input-options-checkbox-casing" type="checkbox" checked>
+					<div>check cases</div>
+					<span>consider uppercase vs. lowercase</span>
+				</label>
+				<label id="input-options-placing">
+					<input id="input-options-checkbox-placing" type="checkbox" checked>
+					<div>check places</div>
+					<span>consider word order within line</span>
+				</label>
+			</div>
+			<textarea id="input-1" placeholder="input text 1"></textarea>
+			<textarea id="input-2" placeholder="input text 2"></textarea>
+		</div>
+		<hr>
+		<div id="output-section">
+			<div id="output-summary">
+				<div id="output-summary-deletions">
+					<span>deletions:</span>
+					<span id="output-summary-deletions-count">0</span>
+				</div>
+				<div id="output-summary-matches">
+					<span>matches:</span>
+					<span id="output-summary-matches-count">0</span>
+				</div>
+				<div id="output-summary-insertions">
+					<span>insertions:</span>
+					<span id="output-summary-insertions-count">0</span>
+				</div>
+			</div>
+			<table id="output" width="100"></table>
+		</div>
+	</body>
+</html>
