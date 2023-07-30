@@ -248,7 +248,7 @@
 
 						const column1Text = document.createElement("div")
 							column1Text.className = "row-text"
-							column1Text.innerHTML = column1Data.text
+							column1Text.innerText = column1Data.text
 						column1.appendChild(column1Text)
 
 				// middle
@@ -269,7 +269,7 @@
 
 						const column2Text = document.createElement("div")
 							column2Text.className = "row-text"
-							column2Text.innerHTML = column2Data.text
+							column2Text.innerText = column2Data.text
 						column2.appendChild(column2Text)
 			} catch (error) {console.log(error)}
 		}

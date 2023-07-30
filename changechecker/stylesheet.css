@@ -325,6 +325,10 @@
 						background: transparent;
 					}
 
+					.row-text:empty {
+						user-select: none;
+					}
+
 					.row-cell[row-type="insertion"] .row-text, .row-cell[row-type="deletion"] .row-text {
 						scrollbar-color: var(--light-gray) transparent !important;
 					}
