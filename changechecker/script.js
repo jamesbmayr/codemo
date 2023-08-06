@@ -4,6 +4,8 @@
 	}
 
 	const ELEMENTS = {
+		upload1: document.querySelector("#input-upload-1"),
+		upload2: document.querySelector("#input-upload-2"),
 		input1: document.querySelector("#input-1"),
 		input2: document.querySelector("#input-2"),
 		inputOptionsSpacing: document.querySelector("#input-options-checkbox-spacing"),
@@ -12,6 +14,7 @@
 		outputSummaryMatchesCount: document.querySelector("#output-summary-matches-count"),
 		outputSummaryDeletionsCount: document.querySelector("#output-summary-deletions-count"),
 		outputSummaryInsertionsCount: document.querySelector("#output-summary-insertions-count"),
+		outputOptionsFormatting: document.querySelector("#output-options-checkbox-formatting"),
 		output: document.querySelector("#output")
 	}
 
@@ -19,11 +22,38 @@
 		casing: true,
 		spacing: true,
 		placing: true,
+		formatting: false,
 		waitTime: 1000, // ms
 		waitLoop: null
 	}
 
 /*** user actions ***/
+	/* uploadFile */
+		ELEMENTS.upload1.addEventListener(TRIGGERS.input, uploadFile)
+		ELEMENTS.upload2.addEventListener(TRIGGERS.input, uploadFile)
+		function uploadFile(event) {
+			try {
+				// textarea
+					const fileInput = event.target
+					const textarea = fileInput == ELEMENTS.upload1 ? ELEMENTS.input1 : ELEMENTS.input2
+
+				// reader
+					const reader = new FileReader()
+						reader.onload = event => {
+							try {
+								const fileString = String(event.target.result)
+								textarea.value = fileString
+								
+								fileInput.value = null
+								fileInput.blur()
+
+								compareInputs()
+							} catch (error) {console.log(error)}
+						}
+						reader.readAsText(fileInput.files[0])
+			} catch (error) {console.log(error)}
+		}
+
 	/* updateInputs */
 		ELEMENTS.input1.addEventListener(TRIGGERS.input, updateInputs)
 		ELEMENTS.input2.addEventListener(TRIGGERS.input, updateInputs)
@@ -39,6 +69,7 @@
 		ELEMENTS.inputOptionsSpacing.addEventListener(TRIGGERS.input, updateCheckbox)
 		ELEMENTS.inputOptionsCasing.addEventListener( TRIGGERS.input, updateCheckbox)
 		ELEMENTS.inputOptionsPlacing.addEventListener(TRIGGERS.input, updateCheckbox)
+		ELEMENTS.outputOptionsFormatting.addEventListener(TRIGGERS.input, updateCheckbox)
 		function updateCheckbox(event) {
 			try {
 				// get checkbox
@@ -248,7 +279,7 @@
 
 						const column1Text = document.createElement("div")
 							column1Text.className = "row-text"
-							column1Text.innerText = column1Data.text
+							column1Text.innerText = STATE.formatting ? column1Data.text.replace(/ /g, "·").replace(/\t/g, "───►") : column1Data.text
 						column1.appendChild(column1Text)
 
 				// middle
@@ -269,7 +300,7 @@
 
 						const column2Text = document.createElement("div")
 							column2Text.className = "row-text"
-							column2Text.innerText = column2Data.text
+							column2Text.innerText = STATE.formatting ? column2Data.text.replace(/ /g, "·").replace(/\t/g, "───►") : column2Data.text
 						column2.appendChild(column2Text)
 			} catch (error) {console.log(error)}
 		}

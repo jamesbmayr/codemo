@@ -7,7 +7,7 @@
 		--light-blue: #04b1ff;
 		--medium-red: #d94c4c;
 		--light-red: #db7373;
-		--font-family: monospace;
+		--font-family: "Roboto Mono", monospace;
 		--font-size: 20px;
 		--gap-size: 5px;
 		--border-radius: 5px;
@@ -99,14 +99,6 @@
 				color: var(--dark-gray);
 			}
 
-			#input-options label:first-child {
-				margin-left: 0;
-			}
-
-			#input-options label:last-child {
-				margin-right: 0;
-			}
-
 			#input-options input {
 				height: var(--font-size);
 				width: var(--font-size);
@@ -143,6 +135,44 @@
 				font-size: calc(var(--font-size) * 3 / 4);
 			}
 
+		#input-uploads {
+			width: 100%;
+			text-align: center;
+		}
+
+			#input-uploads label {
+				margin: 0 calc(var(--gap-size) * 2) 0 calc(var(--gap-size) * 2);
+				background: var(--light-gray);
+				text-align: center;
+				padding: var(--gap-size);
+				height: calc(var(--font-size) + 2 * var(--gap-size));
+				box-sizing: border-box;
+				display: inline-block;
+				border-radius: calc(var(--border-radius) * 2) calc(var(--border-radius) * 2) 0 0;
+				transition: var(--transition-time);
+				font-size: var(--font-size);
+				font-family: var(--font-family);
+				color: var(--dark-gray);
+				font-weight: bold;
+				text-transform: uppercase;
+				cursor: pointer;
+			}
+
+			#input-uploads label:hover, #input-uploads label:focus {
+				filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			}
+
+			#input-uploads input[type="file"] {
+				height: 0;
+				width: 0;
+				padding: 0;
+				margin: 0;
+				font-size: 0;
+				opacity: 0;
+				outline: none;
+				display: none;
+			}
+
 		#input-1, #input-2 {
 			min-height: calc(var(--font-size) * 10 + 2 * var(--gap-size));
 			max-height: calc(50vh);
@@ -162,7 +192,18 @@
 			vertical-align: top;
 			transition: filter var(--transition-time);
 			line-height: var(--line-height);
+			-moz-tab-size: 4;
+			-o-tab-size: 4;
+			tab-size: 4;
 		}
+
+			#input-1 {
+				border-top-right-radius: 0;
+			}
+
+			#input-2 {
+				border-top-left-radius: 0;
+			}
 
 			#input-1::placeholder, #input-2::placeholder {
 				padding-top: calc(var(--font-size) * 4.5);
@@ -221,6 +262,60 @@
 
 			#output-summary-insertions {
 				background: var(--light-blue);
+			}
+
+		#output-options {
+			width: 100%;
+			text-align: center;
+			height: auto;
+		}
+
+			#output-options label {
+				display: inline-block;
+				padding: calc(2 * var(--gap-size));
+				margin: 0 calc(2 * var(--gap-size)) calc(4 * var(--gap-size)) calc(2 * var(--gap-size));
+				border-radius: calc(var(--border-radius) * 2);
+				background: var(--medium-gray);
+				line-height: var(--line-height);
+				font-family: var(--font-family);
+				cursor: pointer;
+				color: var(--dark-gray);
+			}
+
+			#output-options input {
+				height: var(--font-size);
+				width: var(--font-size);
+				outline: none;
+				cursor: pointer;
+				margin: 0 calc(2 * var(--gap-size)) 0 0;
+				transition: var(--transition-time);
+				display: inline-block;
+				vertical-align: top;
+				border: none;
+				border-radius: var(--border-radius);
+			}
+
+			#output-options input:hover, #output-options input:focus {
+				filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+			}
+
+			#output-options input:checked ~ div {
+				font-weight: bold;
+			}
+
+			#output-options div {
+				font-size: var(--font-size);
+				user-select: none;
+				vertical-align: top;
+				display: inline-block;
+			}
+
+			#output-options span {
+				user-select: none;
+				display: block;
+				margin-top: var(--gap-size);
+				line-height: var(--line-height);
+				font-size: calc(var(--font-size) * 3 / 4);
 			}
 
 	#output {
@@ -309,6 +404,9 @@
 					padding-bottom: calc(var(--gap-size) / 2);
 					scrollbar-width: thin;
 					scrollbar-color: var(--medium-gray) transparent;
+					-moz-tab-size: 4;
+					-o-tab-size: 4;
+					tab-size: 4;
 				}
 
 					.row-text::-webkit-scrollbar-thumb {

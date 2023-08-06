@@ -12,6 +12,7 @@
 		<meta property="og:image" content="https://jamesmayr.com/changechecker/banner.png">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 		<link rel="shortcut icon" href="https://static.thenounproject.com/png/30441-200.png">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="stylesheet.css">
 		<script src="script.js" defer></script>
 	</head>
@@ -36,6 +37,10 @@
 					<span>consider word order within line</span>
 				</label>
 			</div>
+			<div id="input-uploads">
+				<label><span>&UpArrowBar; upload</span><input type="file" id="input-upload-1"></label>
+				<label><span>&UpArrowBar; upload</span><input type="file" id="input-upload-2"></label>
+			</div>
 			<textarea id="input-1" placeholder="input text 1"></textarea>
 			<textarea id="input-2" placeholder="input text 2"></textarea>
 		</div>
@@ -54,6 +59,13 @@
 					<span>insertions:</span>
 					<span id="output-summary-insertions-count">0</span>
 				</div>
+			</div>
+			<div id="output-options">
+				<label id="output-options-formatting">
+					<input id="output-options-checkbox-formatting" type="checkbox">
+					<div>show formatting</div>
+					<span>replace space with · and tab with ───►</span>
+				</label>
 			</div>
 			<table id="output" width="100"></table>
 		</div>
