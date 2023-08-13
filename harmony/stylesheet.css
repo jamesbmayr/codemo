@@ -1,0 +1,96 @@
+/* page */
+	body {
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		cursor: default;
+		font-family: sans-serif;
+		transition: 0.1s;
+	}
+
+	#chordOuter {
+		height: calc(25vh - 40px);
+		width: 100vw;
+		text-align: center;
+		font-size: 50px;
+	}
+
+	#chordInner {
+		width: 100%;
+		position: relative;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+/* keys */
+	.key {
+		display: none;
+		color: black;
+		border-radius: 5px;
+		margin: 5px;
+		width: calc(100vw / 4);
+		height: calc(75vh / 4);
+		text-align: center;
+		border: 0px;
+		cursor: pointer;
+		color: white;
+		font-size: 25px;
+	}
+
+	.active {
+		display: inline-block;
+		float: left;
+	}
+
+/* colors */
+	.pitch_0 {
+		background-color: rgba(0,0,64,1);
+	}
+
+	.pitch_1 {
+		background-color: rgba(22,0,64,1);
+	}
+
+	.pitch_2 {
+		background-color: rgba(44,0,64,1);
+	}
+
+	.pitch_3 {
+		background-color: rgba(66,0,64,1);
+	}
+
+	.pitch_4 {
+		background-color: rgba(88,0,64,1);
+	}
+
+	.pitch_5 {
+		background-color: rgba(110,0,64,1);
+	}
+
+	.pitch_6 {
+		background-color: rgba(132,0,64,1);
+	}
+
+	.pitch_7 {
+		background-color: rgba(155,0,64,1);
+	}
+
+	.pitch_8 {
+		background-color: rgba(178,0,64,1);
+	}
+
+	.pitch_9 {
+		background-color: rgba(200,0,64,1);
+	}
+
+	.pitch_10 {
+		background-color: rgba(222,0,64,1);
+	}
+
+	.pitch_11 {
+		background-color: rgba(240,0,64,1);
+	}
+

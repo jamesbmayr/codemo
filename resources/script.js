@@ -509,6 +509,15 @@
 				date: "August 7, 2018",
 				description: "gridDrawer is a tool for art and music - draw strings on a pegboard, then play them!"
 			},
+			harmony: {
+				skipRandom: true,
+				hidden: true,
+				name: "harmony",
+				size: "small",
+				tags: ["code","music","audio","piano","synth","multiplayer","collaboration"],
+				date: "January 21, 2017",
+				description: "A collaborative music-making experience built with some cool dudes at the Monthly Music Hackathon."
+			},
 			hexagonplacer: {
 				name: "hexagonPlacer",
 				size: "medium",
@@ -1290,6 +1299,15 @@
 				tags: ["code","tool","simulation","api"],
 				date: "February 5, 2022",
 				description: "Use the Google Chrome Speech Recognition API to output a continuous stream of speech-to-text."
+			},
+			wavestacker: {
+				skipRandom: true,
+				hidden: true,
+				name: "waveStacker",
+				size: "small",
+				tags: ["code","music","audio","piano","synth"],
+				date: "October 14, 2017",
+				description: "An experiment in stacking simple waves to build custom synthesizer sounds."
 			},
 			weatherexplorer: {
 				skipRandom: true,

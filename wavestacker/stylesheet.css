@@ -1,0 +1,222 @@
+/* page */
+	html, body {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		margin: 0px;
+		padding: 0px;
+		border: 0px;
+		background-color: #333333;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	#container {
+		width: calc(100% - 20px);
+		height: calc(100% - 20px);
+		padding: 10px;
+	}
+
+	#launch {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		border-radius: 10px;
+		background: #ffffff;
+		font-family: sans-serif;
+		font-size: 100px;
+		color: #333333;
+		box-shadow: 0px 0px 10px #333333;
+		border: none;
+		cursor: pointer;
+		padding: 20px;
+		font-weight: bold;
+	}
+
+	#launch:hover {
+		box-shadow: 0px 0px 10px #ffffff;
+	}
+
+/* master controls */
+	#controls {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		text-align: center;
+		width: 530px;
+		padding: 20px;
+		height: 80px;
+	}
+
+	#play-all, #stop-all, #refresh {
+		float: left;
+		border: 0px;
+		border-radius: 100%;
+		width: 60px;
+		height: 60px;
+		box-shadow: 0px 0px 100px #ffffff inset;
+		cursor: pointer;
+		outline: none;
+		font-weight: bold;
+		color: #ffffff;
+		font-size: 40px;
+		font-family: sans-serif;
+		text-shadow: 0px 0px 10px #ffffff;
+		filter: blur(0.5px);
+	}
+
+	#refresh {
+		background-color: blue;
+		display: inline-block;
+		text-decoration: none;
+	}
+
+	#play-all {
+		background-color: green;
+	}
+
+	#stop-all {
+		background-color: red;
+	}
+
+	#play-all:hover, #stop-all:hover, #refresh:hover {
+		box-shadow: 0px 0px 150px #ffffff inset;
+	}
+
+	#title {
+		width: 370px;
+		margin-left: 20px;
+		margin-right: 20px;
+		vertical-align: top;
+		float: left;
+		font-size: 60px;
+		font-weight: bold;
+		font-family: sans-serif;
+		color: #ffffff;
+		text-shadow: 0px 0px 10px #ffffff;
+		user-select: none;
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		-o-user-select: none;
+	}
+
+/* wave */
+	#waves-outer {
+		position: absolute;
+		top: 200px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: auto;
+		text-align: center;
+	}
+
+	#waves {
+		float: left;
+		height: 500px;
+		width: 640px;
+		margin: 0px;
+	}
+
+	.wave {
+		width: 20px;
+		padding: 10px;
+		border-radius: 10px;
+		text-align: center;
+		height: auto;
+		float: left;
+		margin: 20px;
+		background-color: #dddddd;
+	}
+
+
+	.frequency {
+		margin-left: 3px;
+		height: 400px;
+		width: 10px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding: 2px;
+	}
+
+	.frequency-inner {
+		height: 8000px;
+		width: 10px;
+	}
+
+/* wave controls */
+	.toggle {
+		width: 16px;
+		height: 16px;
+		border: 0px;
+		border-radius: 100%;
+		box-shadow: 0px 0px 16px #ffffff inset;
+		outline: none;
+		cursor: pointer;
+		margin: 5px 0px 5px 0px;
+	}
+
+	.toggle:hover, .shape:hover {
+		box-shadow: 0px 0px 24px #ffffff inset;
+	}
+
+	.on {
+		background-color: green;
+	}
+
+	.off {
+		background-color: red;
+	}
+
+	.shape {
+		font-size: 20px;
+		width: 18px;
+		height: 20px;
+		text-align: center;
+		border-radius: 10px;
+		outline: none;
+		background-color: blue;
+		cursor: pointer;
+		box-shadow: 0px 0px 16px #ffffff inset;
+		color: #ffffff;
+		border: 0px;
+	}
+
+/* keyboard */
+	#keyboard {
+		position: absolute;
+		top: 100px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 540px;
+		padding: 10px;
+	}
+
+	.key {
+		border: 0px;
+		height: 100px;
+		width: 30px;
+		border-radius: 5px;
+		box-shadow: 0px 0px 20px #ffffff inset;
+		cursor: pointer;
+		outline: none;
+	}
+
+	.white {
+		background-color: #aaaaaa;
+	}
+
+	.black {
+		background-color: #000000;
+	}
+
+	.key:hover {
+		box-shadow: 0px 0px 50px #ffffff inset;
+	}
+

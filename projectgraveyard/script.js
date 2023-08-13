@@ -87,7 +87,7 @@
 				birth: "October 2017",
 				death: "October 2019",
 				idea: "All sounds can be split into a near-infinite set of simple sine waves, at least in theory. I built this javascript demo a music/code hackathon to test that theory.",
-				obituary: "I suppose it worked, in the technical sense. But I was hosting it via rawgit, which eventually shut down."
+				obituary: "I suppose it worked, in the technical sense. After rawgit shut down and Chrome broke web audio, I let it decay away, but now it's <a href='https://jamesmayr.com/wavestacker' target='_blank'>resurrected here</a>."
 			},
 			bookvsmovie: {
 				name: "Book vs. Movie",
@@ -122,7 +122,7 @@
 				birth: "January 2017",
 				death: "October 2019",
 				idea: "At the NYC Monthly Music Hackathon, I pair-programmed with some complete strangers and came out with a working web music app that let anyone in the audience play along on their phones, all synchronized to the beat via system clocks.",
-				obituary: "This project was a huge success! It just never went anywhere, and I sadly never met up with those coders again. Also, it was hosted on rawgit, which eventually shut down."
+				obituary: "This project was a huge success! It just never went anywhere, and I sadly never met up with those coders again. It was hosted on rawgit, which eventually shut down, but I <a href='https://jamesmayr.com/harmony' target='_blank'>resurrected it here</a>."
 			},
 			ensembler: {
 				name: "Ensembler",
