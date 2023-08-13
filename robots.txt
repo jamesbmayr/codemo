@@ -1,4 +1,7 @@
 # Group 1
 User-agent: * Disallow: /functions
 
+User-agent: GPTBot
+Disallow: /
+
 Sitemap: https://jamesmayr.com/sitemap.xml

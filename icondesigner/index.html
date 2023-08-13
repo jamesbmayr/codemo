@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>iconDesigner</title>
+		<link rel="shortcut icon" href="logo.png">
+		<link href="https://fonts.googleapis.com/css2?family=Alata&amp;display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="container-outer">
+			<div id="container">
+				<svg id="container-grid" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+					<defs>
+						<pattern id="container-grid-1" width="1" height="1" patternUnits="userSpaceOnUse">
+							<rect width="100%" height="100%" fill="transparent" stroke-width="0.01" stroke="#777777"></rect>
+						</pattern>
+						<pattern id="container-grid-10" width="10" height="10" patternUnits="userSpaceOnUse">
+							<rect width="10" height="10" fill="url(#container-grid-1)" stroke-width="0.05" stroke="#777777"></rect>
+						</pattern>
+						<pattern id="container-grid-100" width="100" height="100" patternUnits="userSpaceOnUse">
+							<rect width="100" height="100" fill="url(#container-grid-10)" stroke-width="0.5" stroke="#777777"></rect>
+						</pattern>
+					</defs>
+					<rect id="container-grid-rect" x="0" y="0" width="100" height="100" fill="url(#container-grid-100)"></rect>
+				</svg>
+				<svg id="container-svg" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"></svg>
+				<svg id="container-points" version="1.1" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 100 100"></svg>
+			</div>
+		</div>
+		<div id="controls">
+			<div id="controls-main">
+				<h1>
+					<div>iconDesigner</div>
+					<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+				</h1>
+				<div id="controls-viewbox">
+					<label class="controls-label">
+						<span>offset x</span>
+						<input id="controls-svg-offset-x" type="number" step="1" placeholder="x" value="0">
+					</label>
+					<label class="controls-label">
+						<span>offset y</span>
+						<input id="controls-svg-offset-y" type="number" step="1" placeholder="y" value="0">
+					</label>
+					<label class="controls-label">
+						<span>size</span>
+						<input id="controls-svg-size" type="number" min="1" step="1" placeholder="size" value="100">
+					</label>
+					<br>
+					<label class="controls-label">
+						<span>scale items</span>
+						<input id="controls-svg-scale" type="checkbox">
+					</label>
+					<label class="controls-label">
+						<span>snap to grid</span>
+						<input id="controls-svg-snap" type="checkbox" checked>
+					</label>
+					<details id="controls-description" class="controls-label">
+						<summary>
+							<span>controls</span>
+						</summary>
+						<div>
+							<span>scroll</span><span>zoom</span>
+							<span>drag</span><span>move</span>
+							<span>shift-drag</span><span>resize</span>
+							<span>shift-alt-drag</span><span>resize @ ratio</span>
+							<span>alt-drag</span><span>rotate</span>
+						</div>
+					</details>
+				</div>
+				<div id="controls-export">
+					<button id="controls-export-svg" title="export to SVG file">
+						<span><b>&darr;</b> SVG</span>
+						<span>&check; exported</span>
+					</button>
+					<button id="controls-export-png" title="export to PNG file">
+						<span><b>&darr;</b> PNG</span>
+						<span>&check; exported</span>
+					</button>
+					<button id="controls-export-clippath" title="copy clippath to clipboard">
+						<span><b>&darr;</b> clippath</span>
+						<span>&check; copied</span>
+					</button>
+					<button id="controls-export-canvas" title="copy canvas javascript to clipboard">
+						<span><b>&darr;</b> canvas JS</span>
+						<span>&check; copied</span>
+					</button>
+				</div>
+				<div id="controls-edit">
+					<button id="controls-undo" title="undo action">&#9100; undo</button>
+					<button id="controls-redo" title="redo action">&rarrhk; redo</button>
+					<label id="controls-import-outer" class="pseudobutton" title="import SVG file">
+						<span><b>&uarr;</b> import SVG</span>
+						<input id="controls-import" type="file">
+					</label>
+					<button id="controls-add" title="add shape to SVG">+ add shape</button>
+				</div>
+			</div>
+			<div id="controls-list"></div>
+		</div>
+	</body>
+</html>

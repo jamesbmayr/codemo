@@ -553,6 +553,13 @@
 				date: "September 14, 2017",
 				description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
 			},
+			icondesigner: {
+				name: "iconDesigner",
+				size: "large",
+				tags: ["code","math","tool","design","art","svg"],
+				date: "August 13, 2023",
+				description: "A full SVG editor for creating custom icons and logos built on bezier curves."
+			},
 			imageredactor: {
 				name: "imageRedactor",
 				size: "small",
@@ -999,6 +1006,15 @@
 				tags: ["code","game","puzzle"],
 				date: "August 24, 2020",
 				description: "Fit all of the randomly generated rectangles within the available area."
+			},
+			rephraiser: {
+				hidden: true,
+				skipRandom: true,
+				name: "rephrAIser",
+				size: "small",
+				tags: ["code","ai","api","extension","tool","writing"],
+				date: "August 7, 2023",
+				description: "A Chrome extension to rephrase text on any webpage in any style, via OpenAI's API."
 			},
 			robotdirector: {
 				name: "robotDirector",
