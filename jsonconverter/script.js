@@ -524,7 +524,7 @@
 				// package up
 					const link = document.createElement("a")
 						link.id = "output-file-link"
-						link.setAttribute("href", "data:text/csv;charset=utf-8," + fileString)
+						link.setAttribute("href", "data:text/csv;charset=utf-8," + encodeURIComponent(fileString))
 						link.setAttribute("download", `${name}_${new Date().getTime()}.csv`)
 						link.onclick = () => {
 							link.remove()
