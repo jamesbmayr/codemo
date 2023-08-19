@@ -567,7 +567,7 @@
 				size: "large",
 				tags: ["code","math","tool","design","art","svg"],
 				date: "August 13, 2023",
-				description: "A full SVG editor for creating custom icons and logos built on bezier curves."
+				description: "A full SVG editor for creating custom icons and logos built on Bézier curves."
 			},
 			imageredactor: {
 				name: "imageRedactor",
@@ -635,6 +635,14 @@
 				tags: [],
 				date: "November 30, 2021",
 				description: "A choose-your-own-adventure autobiography depicting alternate timelines of my professional career."
+			},
+			jsonconverter: {
+				skipRandom: true,
+				name: "jsonConverter",
+				size: "small",
+				tags: ["code","tool"],
+				date: "August 19, 2023",
+				description: "Convert an array of objects into a table or CSV file by mapping JSON paths to columns."
 			},
 			kaleidoscopemaker: {
 				name: "kaleidoscopeMaker",

@@ -139,6 +139,7 @@
 
 	/* state */
 		const STATE = {
+			clicked: false,
 			dimensions: {
 				offsetX: 0,
 				offsetY: 0,
@@ -157,6 +158,18 @@
 		}
 
 /*** user interaction ***/
+	/** load **/
+		window.addEventListener(TRIGGERS.click, goFullscreen)
+		function goFullscreen() {
+			try {
+				if (STATE.clicked) {
+					return
+				}
+				STATE.clicked = true
+				document.body.requestFullscreen()
+			} catch (error) {console.log(error)}
+		}
+
 	/** zoom & grid **/
 		/* resizeSVG */
 			ELEMENTS.controls.svgOffsetX.addEventListener(TRIGGERS.input, resizeSVG)

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>jsonConverter</title>
+		<meta name="description" content="jsonConverter is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="jsonConverter">
+		<meta property="og:url" content="https://jamesmayr.com/jsonconverter/">
+		<meta property="og:description" content="jsonConverter is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/jsonconverter/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="shortcut icon" href="https://static.thenounproject.com/png/4145744-200.png">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<h1>JSON &rarr; CSV</h1>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<section id="mapping">
+			<div id="mapping-name-outer">
+				<input id="mapping-name" type="text" placeholder="[mapping name]">
+				<div id="mapping-suggestions"></div>
+			</div>
+			<div id="mapping-list"></div>
+			<button id="mapping-add" title="add mapping">+ column</button>
+			<button id="mapping-save" title="save mapping to localstorage">
+				<span>&#x2729; save</span>
+				<span>&#x2714; saved</span>
+			</button>
+		</section>
+		<section id="input">
+			<div id="input-message"></div>
+			<label id="input-upload-button">&UpArrowBar; upload<input id="input-upload" type="file"></label>
+			<textarea id="input-text" placeholder="[input JSON goes here]" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+			<button id="input-convert" title="convert JSON to CSV">&rarr; convert</button>
+		</section>
+		<section id="output">
+			<input id="output-table-radio" type="radio" name="tab" value="table" checked>
+			<label id="output-table-label" for="output-table-radio">table</label>
+			<input id="output-text-radio" type="radio" name="tab" value="text">
+			<label id="output-text-label" for="output-text-radio">text</label>
+			<div id="output-table"></div>
+			<textarea id="output-text" placeholder="[text output appears here]" autocomplete="off" autocapitalize="off" spellcheck="false"></textarea>
+			<button id="output-download" title="export CSV file">&DownArrowBar; export</button>
+			<button id="output-table-copy" title="copy table to clipboard">
+				<span>&#x229E; copy</span>
+				<span>&#x2714; copied</span>
+			</button>
+			<button id="output-text-copy" title="copy text to clipboard">
+				<span>&equiv; copy</span>
+				<span>&#x2714; copied</span>
+			</button>
+		</section>
+	</body>
+</html>
