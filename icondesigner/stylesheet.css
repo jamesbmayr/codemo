@@ -41,6 +41,7 @@
 		background: var(--dark-gray);
 		overflow-x: hidden;
 		overflow-y: scroll;
+		scroll-behavior: smooth;
 		box-sizing: border-box;
 		box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 		padding: var(--gap-size);
@@ -98,19 +99,33 @@
 			margin-bottom: var(--gap-size);
 		}
 
-		#controls .controls-label:not(.pseudobutton) span {
-			display: inline-block;
-			font-size: var(--font-size);
-			font-family: var(--font-family);
-			color: var(--medium-gray);
-			user-select: none;
-			width: 50%;
-			vertical-align: top;
-			padding: var(--gap-size);
-			box-sizing: border-box;
-			line-height: var(--line-height);
-			height: calc(var(--font-size) + 2 * var(--gap-size));
+			#controls .controls-label:not(.pseudobutton) span {
+				display: inline-block;
+				font-size: var(--font-size);
+				font-family: var(--font-family);
+				color: var(--medium-gray);
+				user-select: none;
+				width: 50%;
+				vertical-align: top;
+				padding: var(--gap-size);
+				box-sizing: border-box;
+				line-height: var(--line-height);
+				height: calc(var(--font-size) + 2 * var(--gap-size));
+			}
+
+		#controls-items-options {
+			display: block;
+			width: 100%;
 		}
+
+			#controls #controls-items-options .controls-label:not(.pseudobutton) {
+				display: inline-block;
+				width: 50%;
+			}
+
+			#controls #controls-items-options .controls-label:not(.pseudobutton) span {
+				width: 75%;
+			}
 
 		#controls input[type="number"] {
 			background: var(--light-gray);
@@ -129,6 +144,18 @@
 			vertical-align: top;
 		}
 
+			#controls-main input[type="number"] {
+				width: 25% !important;
+			}
+
+			#controls-svg-offset-x {
+				border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+			}
+
+			#controls-svg-offset-y {
+				border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			}
+
 		#controls input[type="checkbox"] {
 			height: var(--font-size);
 			background: var(--light-gray);
@@ -137,7 +164,7 @@
 			transition: var(--transition-time);
 			outline: none;
 			border: none;
-			width: 50%;
+			width: 25%;
 			box-sizing: border-box;
 			cursor: pointer;
 			margin: var(--gap-size) 0;
@@ -277,7 +304,7 @@
 		}
 
 		#controls-list {
-			padding: var(--gap-size) var(--gap-size) calc(var(--font-size) * 10) var(--gap-size) ;
+			padding: var(--gap-size) var(--gap-size) calc(var(--gap-size) * 10) var(--gap-size) ;
 		}
 
 	/* description */
@@ -400,17 +427,38 @@
 			margin-bottom: var(--gap-size);
 		}
 
-		.controls-listing-actions button {
-			width: 25% !important;
+		.controls-listing-actions > * {
+			display: inline-block;
+			height: 100%;
+			width: calc(100% / 6) !important;
 			border-radius: 0 !important;
 		}
 
-		.controls-listing-actions button:first-child {
+		.controls-listing-actions > *:first-child {
 			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
 		}
 
-		.controls-listing-actions button:last-child {
+		.controls-listing-actions > *:last-child {
 			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+		}
+
+		.controls-listing-actions label {
+			cursor: pointer;
+			background: var(--dark-gray);
+			text-align: center;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			vertical-align: top;
+			transition: var(--transition-time);
+		}
+
+			.controls-listing-actions label:focus-within, .controls-listing-actions label:hover {
+				background: var(--light-blue);
+			}
+
+		.controls-listing-actions input[type="checkbox"] {
+			width: 50% !important;
+			vertical-align: top;
 		}
 
 		.controls-listing:first-child .controls-listing-up {
@@ -730,6 +778,10 @@
 			height: 100%;
 		}
 
+		#container-grid:not([visible]) {
+			display: none;
+		}
+
 	/* grab state */
 		#container {
 			cursor: pointer;
@@ -738,6 +790,11 @@
 		#container-svg * {
 			cursor: grab;
 			transition: filter var(--transition-time);
+		}
+
+		#container-svg *:not([visible]) {
+			display: none;
+			pointer-events: none;
 		}
 
 		#container-svg *[highlight] {
@@ -757,12 +814,12 @@
 			pointer-events: none;
 		}
 
-		#container-points g:not([active]) {
+		#container-points g:not([visible]), #container-points g:not([active]) {
 			display: none;
 			pointer-events: none;
 		}
 
-		#container-points g[active] circle {
+		#container-points g[active][visible] circle {
 			pointer-events: all;
 			cursor: grab;
 		}

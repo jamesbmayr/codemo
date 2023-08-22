@@ -24,6 +24,7 @@
 			controls: {
 				svgOffsetX: document.querySelector("#controls-svg-offset-x"),
 				svgOffsetY: document.querySelector("#controls-svg-offset-y"),
+				svgGrid: document.querySelector("#controls-svg-grid"),
 				svgSize: document.querySelector("#controls-svg-size"),
 				svgScale: document.querySelector("#controls-svg-scale"),
 				svgSnap: document.querySelector("#controls-svg-snap"),
@@ -61,10 +62,12 @@
 			largeNumber: 1000000000000000, // #
 			pathIncrement: 0.1, // user units
 			tempStrokeWidth: 0.1, // user units
-			mergeThreshold: 0.5, // user units
+			mergeThreshold: 1, // user units
+			loopAttempts: 20, // #
 			points: {
 				r: "0.5%", // %
-				"stroke-width": "0.25%", // %
+				pointWidth: "0.5%", // %
+				lineWidth: "0.25%", // %
 				fill: "#dddddd", // hex
 				pointLineStroke: "#333333", // hex
 				controlLineStroke: "#bbbbbb", // hex
@@ -143,7 +146,8 @@
 			dimensions: {
 				offsetX: 0,
 				offsetY: 0,
-				size:    100
+				size:    100,
+				grid:    true
 			},
 			scaleItems: false,
 			snapToGrid: true,
@@ -162,6 +166,7 @@
 		window.addEventListener(TRIGGERS.click, goFullscreen)
 		function goFullscreen() {
 			try {
+				return // ???
 				if (STATE.clicked) {
 					return
 				}
@@ -242,6 +247,23 @@
 					// record history
 						if (event?.type) {
 							recordHistory()
+						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* setGrid */
+			ELEMENTS.controls.svgGrid.addEventListener(TRIGGERS.input, setGrid)
+			function setGrid(event) {
+				try {
+					// set state
+						STATE.dimensions.grid = ELEMENTS.controls.svgGrid.checked || false
+
+					// set styling
+						if (STATE.dimensions.grid) {
+							ELEMENTS.container.grid.setAttribute("visible", true)
+						}
+						else {
+							ELEMENTS.container.grid.removeAttribute("visible")	
 						}
 				} catch (error) {console.log(error)}
 			}
@@ -674,6 +696,8 @@
 						const item = {
 							id,
 							attributes: {
+								visible: true,
+								locked: false,
 								styling: {
 									shape: event?.itemData?.attributes.styling.shape ?? CONSTANTS.defaults.shape,
 									stroke: event?.itemData?.attributes.styling.stroke ?? CONSTANTS.defaults.stroke,
@@ -822,6 +846,48 @@
 
 					// svg --> unhighlight
 						item.svg.removeAttribute("highlight")
+				} catch (error) {console.log(error)}
+			}
+
+		/* toggleItemVisibility */
+			function toggleItemVisibility(event) {
+				try {
+					// get item
+						const parent = event.target.closest(".controls-listing")
+						const id = `_${parent.id.split("_")[1]}`
+						const item = STATE.items[id]
+
+					// flip state
+						item.attributes.visible = !item.attributes.visible
+
+					// update checkbox
+						item.listing.summary.visibleCheckbox.checked = item.attributes.visible
+
+					// update styling
+						if (item.attributes.visible) {
+							item.svg.setAttribute("visible", true)
+							item.points?.group?.setAttribute("visible", true)
+						}
+						else {
+							item.svg.removeAttribute("visible")
+							item.points?.group?.removeAttribute("visible")
+						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* toggleItemLock */
+			function toggleItemLock(event) {
+				try {
+					// get item
+						const parent = event.target.closest(".controls-listing")
+						const id = `_${parent.id.split("_")[1]}`
+						const item = STATE.items[id]
+
+					// flip state
+						item.attributes.locked = !item.attributes.locked
+
+					// update checkbox
+						item.listing.summary.lockedCheckbox.checked = item.attributes.locked
 				} catch (error) {console.log(error)}
 			}
 
@@ -993,9 +1059,15 @@
 							}
 						}
 
+					// path
+						else if (attribute == "d") {
+							item.attributes[sectionName][attribute] = value || ""
+							item.svg.setAttribute(attribute, item.attributes[sectionName][attribute])
+						}
+
 					// others
 						else {
-							item.attributes[sectionName][attribute] = value
+							item.attributes[sectionName][attribute] = value || 0
 							item.svg.setAttribute(attribute, item.attributes[sectionName][attribute])
 						}
 
@@ -1164,13 +1236,8 @@
 					// async
 						setTimeout(() => {
 							// convert to curves
-								if (!itemA.attributes.curves) {
-									convertItemToPath({target: itemA.listing.coordinates.curvesButton})
-								}
-
-								if (!itemB.attributes.curves) {
-									convertItemToPath({target: itemB.listing.coordinates.curvesButton})
-								}
+								convertItemToPath({target: itemA.listing.coordinates.curvesButton})
+								convertItemToPath({target: itemB.listing.coordinates.curvesButton})
 
 							// merge
 								const newItem = getMergedCurves(itemA, itemB, operation)
@@ -1560,9 +1627,6 @@
 		/* selectItem */
 			function selectItem(event) {
 				try {
-					// don't select container
-						event.stopPropagation()
-
 					// get absolute cursor coordinates
 						const windowX = (event.touches ? event.touches[0].clientX : event.clientX)
 						const windowY = (event.touches ? event.touches[0].clientY : event.clientY)
@@ -1577,6 +1641,14 @@
 						const boundingBox = event.target.getBBox()
 						const id = `_${svg.id.split("_")[1]}`
 
+					// locked?
+						if (STATE.items[id].attributes.locked) {
+							return
+						}
+
+					// don't select container
+						event.stopPropagation()
+
 					// select item
 						STATE.selected = {
 							id: id,
@@ -1589,17 +1661,15 @@
 						}
 
 					// set grab
-						STATE.items[STATE.selected.id].listing.container.setAttribute("highlight", true)
 						ELEMENTS.container.element.setAttribute("grabbing", true)
+						STATE.items[STATE.selected.id].listing.container.setAttribute("highlight", true)
+						STATE.items[STATE.selected.id].listing.container.scrollIntoView(true)
 				} catch (error) {console.log(error)}
 			}
 
 		/* selectPoint */
 			function selectPoint(event) {
 				try {
-					// don't select container
-						event.stopPropagation()
-
 					// get absolute cursor coordinates
 						const windowX = (event.touches ? event.touches[0].clientX : event.clientX)
 						const windowY = (event.touches ? event.touches[0].clientY : event.clientY)
@@ -1616,6 +1686,14 @@
 						const curveIndex = Number(idComponents[idComponents.length - 2])
 						const pointIndex = idComponents[idComponents.length - 1]
 
+					// locked?
+						if (STATE.items[id].attributes.locked) {
+							return
+						}
+
+					// don't select container
+						event.stopPropagation()
+
 					// select item
 						STATE.selected = {
 							id: id,
@@ -1630,6 +1708,7 @@
 					// set grab
 						ELEMENTS.container.element.setAttribute("grabbing", true)
 						STATE.items[STATE.selected.id].listing.coordinates[`curve-${curveIndex}-row`]?.setAttribute("highlight", pointIndex)
+						STATE.items[STATE.selected.id].listing.coordinates[`curve-${curveIndex}-row`]?.scrollIntoView(true)
 				} catch (error) {console.log(error)}
 			}
 
@@ -1795,9 +1874,16 @@
 						const previousCursorY = roundNumber((windowY - svgContainerRect.y) / svgContainerRect.height * STATE.dimensions.size)
 
 					// new dimensions
-						const size  = (direction > 0) ? 
+						let size  = (direction > 0) ? 
 							roundNumber(STATE.dimensions.size * CONSTANTS.zoomPerScroll) :
 							roundNumber(STATE.dimensions.size / CONSTANTS.zoomPerScroll)
+
+					// rounding to powers of 10
+						for (let i = 1; i < CONSTANTS.ratioRounding; i *= 10) {
+							if (Math.abs(size - i) < (i / CONSTANTS.percent)) {
+								size = i
+							}
+						}
 
 					// translate to maintain cursor position
 						const newCursorX = roundNumber((windowX - svgContainerRect.x) / svgContainerRect.width  * size)
@@ -2166,12 +2252,14 @@
 						}
 					
 					// intersection points
-						const aIntersectsB = getIntersectionPointsFromPerspective(itemA, itemB)
-						const bIntersectsA = getIntersectionPointsFromPerspective(itemB, itemA)
+						let aIntersectsB = getIntersectionPointsFromPerspective(itemA, itemB)
+						let bIntersectsA = getIntersectionPointsFromPerspective(itemB, itemA)
 
-					// return
+					// fix up
 						itemA.svg.setAttribute("stroke-width", itemA.attributes.styling["stroke-width"])
 						itemB.svg.setAttribute("stroke-width", itemB.attributes.styling["stroke-width"])
+
+					// return
 						return {aIntersectsB, bIntersectsA}
 				} catch (error) {console.log(error)}
 			}
@@ -2202,53 +2290,50 @@
 							return true
 						}
 
+					// filter down
+						const importantPoints = [thisItemPoints[0]]
+						for (let p = 1; p < thisItemPoints.length; p++) {
+							if (thisItemPoints[p].place !== thisItemPoints[p - 1].place) {
+								if (!importantPoints.includes(thisItemPoints[p - 1])) {
+									importantPoints.push(thisItemPoints[p - 1])
+								}
+								if (!importantPoints.includes(thisItemPoints[p])) {
+									importantPoints.push(thisItemPoints[p])
+								}
+							}
+						}
+
 					// get intersections
 						const thisIntersectsThat = []
-						for (let p = 0; p < thisItemPoints.length; p++) {
-							if (thisItemPoints[p].place !== "edge") {
+						for (let p = 0; p < importantPoints.length; p++) {
+							if (importantPoints[p].place !== "edge") {
 								continue
 							}
 
-							const placeBefore = thisItemPoints.slice(0, p).findLast(point => point.place !== "edge")?.place || null
-							const placeAfter  = thisItemPoints.slice(p   ).find(    point => point.place !== "edge")?.place || null
+							const placeBefore = importantPoints.slice(0, p).findLast(point => point.place !== "edge")?.place || null
+							const placeAfter  = importantPoints.slice(p   ).find(    point => point.place !== "edge")?.place || null
 							const intersectionType = placeBefore == placeAfter ? "tangent" :
 												     placeBefore == "inside"  || placeAfter == "outside" ? "leave" :
 												     placeBefore == "outside" || placeAfter == "inside"  ? "enter" :
 												     "tangent"
+
 							thisIntersectsThat.push({
-								d: roundNumber(thisItemPoints[p].d),
-								x: roundNumber(thisItemPoints[p].x),
-								y: roundNumber(thisItemPoints[p].y),
+								d: roundNumber(importantPoints[p].d),
+								x: roundNumber(importantPoints[p].x),
+								y: roundNumber(importantPoints[p].y),
 								type: intersectionType
 							})
 						}
 
-					// deduplicate
-						for (let i = 1; i < thisIntersectsThat.length; i++) {
-							const intersection = thisIntersectsThat[i]
-							const previousIntersectionType = thisIntersectsThat[i - 1]?.type
-							const previousIntersection = previousIntersectionType && (
-								(intersection.type == "tangent" && previousIntersectionType == "tangent") || (intersection.type !== "tangent" && previousIntersectionType !== "tangent")
-								) ? thisIntersectsThat[i - 1] : null
-							
-							if (!previousIntersection) {
-								continue
+					// last duplicates first
+						if (thisIntersectsThat?.length && getScalar(thisIntersectsThat[0], thisIntersectsThat[thisIntersectsThat.length - 1]) < CONSTANTS.pathIncrement) {
+							if (thisIntersectsThat[0].type == thisIntersectsThat[thisIntersectsThat.length - 1].type) {
+								thisIntersectsThat.pop()
 							}
-							if ((intersection.type == "leave" && previousIntersection.type == "enter") || 
-								(intersection.type == "enter" && previousIntersection.type == "leave")) {
-								continue
+							else {
+								thisIntersectsThat[0].type = "tangent"
+								thisIntersectsThat.pop()
 							}
-							if (Math.abs(intersection.d - previousIntersection.d) > CONSTANTS.pathIncrement * 2) {
-								continue
-							}
-
-							thisIntersectsThat.splice(i - 1, 2, {
-								d: roundNumber(getAverage(intersection.d, previousIntersection.d)),
-								x: roundNumber(getAverage(intersection.x, previousIntersection.x)),
-								y: roundNumber(getAverage(intersection.y, previousIntersection.y)),
-								type: intersection.type
-							})
-							i--
 						}
 
 					// return intersections
@@ -2421,6 +2506,15 @@
 											thisPath.remove()
 											continue curveLoop
 								}
+						}
+
+					// deduplicate Cs
+						for (let n = 1; n < newCurves.length; n++) {
+							if (newCurves[n - 1]?.x == newCurves[n].x && newCurves[n - 1]?.y == newCurves[n].y
+							 && newCurves[n].c1x !== undefined && newCurves[n].c1y !== undefined) {
+								newCurves.splice(n, 1)
+								n--
+							}
 						}
 
 					// curves
@@ -3494,12 +3588,17 @@
 		/* getMergeCurves */
 			function getMergedCurves(itemA, itemB, operation, preventSubdivision, preventNonintersection) {
 				try {
+					// missing
+						if (!itemA || !itemB) {
+							return null
+						}
+
 					// get points of overlap
 						let {aIntersectsB, bIntersectsA} = getIntersectionPoints(itemA, itemB)
 
 					// only overlap
 						if (preventNonintersection && (
-							(aIntersectsB !== true && !aIntersectsB.filter(intersection => intersection.type !== "tangent").length) || 
+							(aIntersectsB !== true && !aIntersectsB.filter(intersection => intersection.type !== "tangent").length) && 
 							(bIntersectsA !== true && !bIntersectsA.filter(intersection => intersection.type !== "tangent").length)
 						)) {
 							return null
@@ -3791,7 +3890,6 @@
 							for (const j in aSetOfBs) {
 								const pair = aSetOfBs[j]
 								pair.intersect = getMergedCurves(pair.a, pair.b, "intersect", true, true) || null
-
 								if (!pair.intersect) {
 									deleteItem({target: pair.a.listing.container})
 									deleteItem({target: pair.b.listing.container})
@@ -3802,6 +3900,7 @@
 					// naive union all of those (they can't possibly overlap) into one item
 						let allInterimItemsPositive = positiveItemSets.map(aSetofBs => aSetofBs.map(pair => pair.intersect)).flat().filter(intersect => intersect !== null) || []
 						allInterimItemsPositive = allInterimItemsPositive.filter(item => item !== null)
+
 						while (allInterimItemsPositive.length > 1) {
 							allInterimItemsPositive[0] = getMergedCurves(allInterimItemsPositive[0], allInterimItemsPositive[1], "union", true)
 							allInterimItemsPositive.splice(1, 1)
@@ -3855,11 +3954,18 @@
 						const bSubtractAItem = getSubtractMultishapeCurves(bItemsDuplicates, aItemsDuplicates)
 					
 					// naive union
-						const interimItemCurves = [...aSubtractBItem.attributes.curves, ...bSubtractAItem.attributes.curves]
+						const interimItemCurves = aSubtractBItem && bSubtractAItem ? [...aSubtractBItem.attributes.curves, ...bSubtractAItem.attributes.curves] :
+												  aSubtractBItem ? aSubtractBItem.attributes.curves :
+												  bSubtractAItem ? bSubtractAItem.attributes.curves :
+												  []
 
 					// delete interims
-						deleteItem({target: aSubtractBItem.listing.container})
-						deleteItem({target: bSubtractAItem.listing.container})
+						if (aSubtractBItem) {
+							deleteItem({target: aSubtractBItem.listing.container})
+						}
+						if (bSubtractAItem) {
+							deleteItem({target: bSubtractAItem.listing.container})
+						}
 
 					// return
 						return interimItemCurves
@@ -3907,15 +4013,20 @@
 										attributes: duplicateObject(aItemsPositive[a].attributes)
 									}
 								})
-								for (const b in bItemsNegative) {
+								bLoop: for (const b in bItemsNegative) {
 									const bItemCopy = addItem({
 										itemData: {
 											attributes: duplicateObject(bItemsNegative[b].attributes)
 										}
 									})
 									aItemCopy = getMergedCurves(aItemCopy, bItemCopy, "intersect", true)
+									if (!aItemCopy) {
+										break bLoop
+									}
 								}
-								interimItems.push(aItemCopy)
+								if (aItemCopy) {
+									interimItems.push(aItemCopy)
+								}
 							}
 						}
 
@@ -3926,15 +4037,20 @@
 									attributes: duplicateObject(aItemsPositive[a].attributes)
 								}
 							})
-							for (const b in bItemsPositive) {
+							bLoop: for (const b in bItemsPositive) {
 								const bItemCopy = addItem({
 									itemData: {
 										attributes: duplicateObject(bItemsPositive[b].attributes)
 									}
 								})
 								aItemCopy = getMergedCurves(aItemCopy, bItemCopy, "subtract", true)
+								if (!aItemCopy) {
+									break bLoop
+								}
 							}
-							interimItems.push(aItemCopy)
+							if (aItemCopy) {
+								interimItems.push(aItemCopy)
+							}
 						}
 
 					// delete originals
@@ -4002,6 +4118,28 @@
 							]
 						}
 
+					// A: keep first enters, keep last leaves
+						for (let a = 0; a < aIntersectsB.length; a++) {
+							if (aIntersectsB[a].type == "enter" && aIntersectsB[a + 1]?.type == "enter") {
+								aIntersectsB.splice(a + 1, 1)
+							}
+							else if (aIntersectsB[a].type == "leave" && aIntersectsB[a + 1]?.type == "leave") {
+								aIntersectsB.splice(a, 1)
+								a--
+							}
+						}
+
+					// B: keep first leaves, keep last enters
+						for (let b = 0; b < bIntersectsA.length; b++) {
+							if (bIntersectsA[b].type == "leave" && bIntersectsA[b + 1]?.type == "leave") {
+								bIntersectsA.splice(b + 1, 1)
+							}
+							else if (bIntersectsA[b].type == "enter" && bIntersectsA[b + 1]?.type == "enter") {
+								bIntersectsA.splice(b, 1)
+								b--
+							}
+						}
+
 					// find first point where a leaves b
 						let aIntersectsBIndex = aIntersectsB.findIndex(intersection => intersection.type == "leave")
 						if (aIntersectsBIndex == -1) {
@@ -4025,7 +4163,10 @@
 						})
 
 					// loop around
+						let attempts = CONSTANTS.loopAttempts
 						do {
+							attempts--
+
 							// find a curve that ends at coordinates
 								let aCurveIndex = aCurves.findIndex(curve => getScalar(curve, coordinates) < CONSTANTS.mergeThreshold)
 								if (aCurveIndex == -1) {
@@ -4147,7 +4288,7 @@
 						}
 
 					// back where we started?
-						while (aIntersectsB.find(intersection => !intersection.reached) || bIntersectsA.find(intersection => !intersection.reached))
+						while (attempts && (aIntersectsB.find(intersection => !intersection.reached) || bIntersectsA.find(intersection => !intersection.reached)))
 
 					// Z
 						newCurves.push({
@@ -4189,6 +4330,28 @@
 							return []
 						}
 
+					// A: keep first enters, keep last leaves
+						for (let a = 0; a < aIntersectsB.length; a++) {
+							if (aIntersectsB[a].type == "enter" && aIntersectsB[a + 1]?.type == "enter") {
+								aIntersectsB.splice(a + 1, 1)
+							}
+							else if (aIntersectsB[a].type == "leave" && aIntersectsB[a + 1]?.type == "leave") {
+								aIntersectsB.splice(a, 1)
+								a--
+							}
+						}
+
+					// B: keep first leaves, keep last enters
+						for (let b = 0; b < bIntersectsA.length; b++) {
+							if (bIntersectsA[b].type == "leave" && bIntersectsA[b + 1]?.type == "leave") {
+								bIntersectsA.splice(b + 1, 1)
+							}
+							else if (bIntersectsA[b].type == "enter" && bIntersectsA[b + 1]?.type == "enter") {
+								bIntersectsA.splice(b, 1)
+								b--
+							}
+						}
+
 					// find first point where a enters b
 						let aIntersectsBIndex = aIntersectsB.findIndex(intersection => intersection.type == "enter")
 						if (aIntersectsBIndex == -1) {
@@ -4212,7 +4375,10 @@
 						})
 
 					// loop around
+						let attempts = CONSTANTS.loopAttempts
 						do {
+							attempts--
+
 							// find a curve that ends at coordinates
 								let aCurveIndex = aCurves.findIndex(curve => getScalar(curve, coordinates) < CONSTANTS.mergeThreshold)
 								if (aCurveIndex == -1) {
@@ -4334,7 +4500,7 @@
 						}
 
 					// back where we started?
-						while (aIntersectsB.find(intersection => !intersection.reached) || bIntersectsA.find(intersection => !intersection.reached))
+						while (attempts && (aIntersectsB.find(intersection => !intersection.reached) || bIntersectsA.find(intersection => !intersection.reached)))
 
 					// Z
 						newCurves.push({
@@ -4360,13 +4526,13 @@
 							duplicateObject(bCurves),
 							duplicateObject(aIntersectsB),
 							duplicateObject(bIntersectsA)
-						)
+						) || []
 						const bSubtractACurves = getSubtractCurves(
 							duplicateObject(bCurves),
 							duplicateObject(aCurves),
 							duplicateObject(bIntersectsA),
 							duplicateObject(aIntersectsB)
-						)
+						) || []
 
 					// concatenate
 						return [...aSubtractBCurves, ...bSubtractACurves]
@@ -4404,6 +4570,28 @@
 							return aCurves
 						}
 
+					// A: keep first enters, keep last leaves
+						for (let a = 0; a < aIntersectsB.length; a++) {
+							if (aIntersectsB[a].type == "enter" && aIntersectsB[a + 1]?.type == "enter") {
+								aIntersectsB.splice(a + 1, 1)
+							}
+							else if (aIntersectsB[a].type == "leave" && aIntersectsB[a + 1]?.type == "leave") {
+								aIntersectsB.splice(a, 1)
+								a--
+							}
+						}
+
+					// B: keep first leaves, keep last enters
+						for (let b = 0; b < bIntersectsA.length; b++) {
+							if (bIntersectsA[b].type == "leave" && bIntersectsA[b + 1]?.type == "leave") {
+								bIntersectsA.splice(b + 1, 1)
+							}
+							else if (bIntersectsA[b].type == "enter" && bIntersectsA[b + 1]?.type == "enter") {
+								bIntersectsA.splice(b, 1)
+								b--
+							}
+						}
+
 					// reverse intersections
 						aIntersectsB.reverse()
 						for (const a in aIntersectsB) {
@@ -4438,7 +4626,10 @@
 						})
 
 					// loop around
+						let attempts = CONSTANTS.loopAttempts
 						do {
+							attempts--
+
 							// find a curve that ends at coordinates
 								let aCurveIndex = aCurves.findIndex(curve => getScalar(curve, coordinates) < CONSTANTS.mergeThreshold)
 								if (aCurveIndex == -1) {
@@ -4554,7 +4745,7 @@
 						}
 
 					// back where we started?
-						while (aIntersectsB.find(intersection => !intersection.reached) || bIntersectsA.find(intersection => !intersection.reached))
+						while (attempts && (aIntersectsB.find(intersection => !intersection.reached) || bIntersectsA.find(intersection => !intersection.reached)))
 
 					// Z
 						newCurves.push({
@@ -4759,10 +4950,19 @@
 
 							// M
 								if (components[0] == "M") {
+									if (c && !curves[curves.length - 1].z) {
+										curves.push({
+											z: true,
+											zx: start.x,
+											zy: start.y
+										})
+									}
+
 									curves.push({
 										x: Number(components[1]),
 										y: Number(components[2])
 									})
+
 									coordinates.x = Number(components[1])
 									coordinates.y = Number(components[2])
 									start.x       = coordinates.x
@@ -4785,13 +4985,15 @@
 
 							// Z
 								else if (components[0] == "Z") {
-									curves.push({
-										z: true,
-										zx: start.x,
-										zy: start.y
-									})
-									coordinates.x = start.x
-									coordinates.y = start.y
+									if (!curves[curves.length - 1].z) {
+										curves.push({
+											z: true,
+											zx: start.x,
+											zy: start.y
+										})
+										coordinates.x = start.x
+										coordinates.y = start.y
+									}
 								}
 
 							// others
@@ -4800,17 +5002,13 @@
 								}
 						}
 
-					// duplicate Zs
-						for (let c = 0; c < curves.length; c++) {
-							if (curves[c].z && curves[c - 1].z) {
-								curves.splice(c, 1)
-								c--
-							}
-						}
-
 					// always end in Z
 						if (!curves[curves.length - 1].z) {
-							curves.push({z: true, zx: start.x, zy: start.y})
+							curves.push({
+								z: true,
+								zx: start.x,
+								zy: start.y
+							})
 						}
 
 					// return
@@ -5114,6 +5312,9 @@
 						const svgElement = document.createElementNS("http://www.w3.org/2000/svg", item.attributes.styling.shape)
 							svgElement.id = `svg${item.id}`
 							svgElement.addEventListener(TRIGGERS.mousedown, selectItem)
+							if (item.attributes.visible) {
+								svgElement.setAttribute("visible", true)
+							}
 							svgElement.setAttribute("stroke", item.attributes.styling.stroke)
 							svgElement.setAttribute("stroke-width", item.attributes.styling["stroke-width"])
 
@@ -5147,7 +5348,8 @@
 						if (item.attributes.curves) {
 							item.points = buildItemPoints(item)
 						}
-						else {
+						else if (item.points) {
+							item.points.group.remove()
 							delete item.points
 						}
 
@@ -5172,6 +5374,9 @@
 						const groupElement = document.createElementNS("http://www.w3.org/2000/svg", "g")
 							groupElement.id = `${item.id}-points-group`
 							groupElement.className = "points-group"
+							if (item.attributes.visible) {
+								groupElement.setAttribute("visible", true)
+							}
 							if (item.listing?.coordinates?.points?.checked) {
 								groupElement.setAttribute("active", true)
 							}
@@ -5202,7 +5407,7 @@
 									previousToC1Line.setAttribute("x2", curve.c1x)
 									previousToC1Line.setAttribute("y2", curve.c1y)
 									previousToC1Line.setAttribute("stroke", CONSTANTS.points.pointLineStroke)
-									previousToC1Line.setAttribute("stroke-width", CONSTANTS.points["stroke-width"])
+									previousToC1Line.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
 								groupElement.appendChild(previousToC1Line)
 								pointsGroup[`curve-${curveIndex}-PreviousToC1`] = previousToC1Line
 
@@ -5214,7 +5419,7 @@
 									c1ToC2Line.setAttribute("x2", curve.c2x)
 									c1ToC2Line.setAttribute("y2", curve.c2y)
 									c1ToC2Line.setAttribute("stroke", CONSTANTS.points.controlLineStroke)
-									c1ToC2Line.setAttribute("stroke-width", CONSTANTS.points["stroke-width"])
+									c1ToC2Line.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
 								groupElement.appendChild(c1ToC2Line)
 								pointsGroup[`curve-${curveIndex}-C1ToC2`] = c1ToC2Line
 
@@ -5226,7 +5431,7 @@
 									c2ToFinalLine.setAttribute("x2", curve.x)
 									c2ToFinalLine.setAttribute("y2", curve.y)
 									c2ToFinalLine.setAttribute("stroke", CONSTANTS.points.pointLineStroke)
-									c2ToFinalLine.setAttribute("stroke-width", CONSTANTS.points["stroke-width"])
+									c2ToFinalLine.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
 								groupElement.appendChild(c2ToFinalLine)
 								pointsGroup[`curve-${curveIndex}-C2ToFinal`] = c2ToFinalLine
 						}
@@ -5247,7 +5452,7 @@
 											c1.setAttribute("r",  CONSTANTS.points.r)
 											c1.setAttribute("fill", CONSTANTS.points.fill)
 											c1.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
-											c1.setAttribute("stroke-width", CONSTANTS.points["stroke-width"])
+											c1.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 											c1.addEventListener(TRIGGERS.mousedown, selectPoint)
 										groupElement.appendChild(c1)
 										pointsGroup[`curve-${curveIndex}-c1`] = c1
@@ -5260,7 +5465,7 @@
 											c2.setAttribute("r",  CONSTANTS.points.r)
 											c2.setAttribute("fill", CONSTANTS.points.fill)
 											c2.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
-											c2.setAttribute("stroke-width", CONSTANTS.points["stroke-width"])
+											c2.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 											c2.addEventListener(TRIGGERS.mousedown, selectPoint)
 										groupElement.appendChild(c2)
 										pointsGroup[`curve-${curveIndex}-c2`] = c2
@@ -5276,7 +5481,7 @@
 										p.setAttribute("r",  CONSTANTS.points.r)
 										p.setAttribute("fill", CONSTANTS.points.fill)
 										p.setAttribute("stroke", CONSTANTS.points.pointStroke)
-										p.setAttribute("stroke-width", CONSTANTS.points["stroke-width"])
+										p.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 										p.addEventListener(TRIGGERS.mousedown, selectPoint)
 									groupElement.appendChild(p)
 									pointsGroup[`curve-${curveIndex}-p`] = p
@@ -5353,10 +5558,36 @@
 						section.appendChild(mainActionsSection)
 
 						// existence
+							const visibleLabel = document.createElement("label")
+								visibleLabel.className = "controls-listing-visible-label"
+								visibleLabel.innerHTML = "&#x1F441;"
+								visibleLabel.title = "toggle visibility"
+							mainActionsSection.appendChild(visibleLabel)
+
+								const visibleCheckbox = document.createElement("input")
+									visibleCheckbox.className = "controls-listing-visible-checkbox"
+									visibleCheckbox.type = "checkbox"
+									visibleCheckbox.checked = item.attributes.visible
+									visibleCheckbox.addEventListener(TRIGGERS.input, toggleItemVisibility)
+								visibleLabel.appendChild(visibleCheckbox)
+
+							const lockLabel = document.createElement("label")
+								lockLabel.className = "controls-listing-locked-label"
+								lockLabel.innerHTML = "&#x1F512;"
+								lockLabel.title = "toggle lock"
+							mainActionsSection.appendChild(lockLabel)
+
+								const lockedCheckbox = document.createElement("input")
+									lockedCheckbox.className = "controls-listing-locked-checkbox"
+									lockedCheckbox.type = "checkbox"
+									lockedCheckbox.checked = item.attributes.locked
+									lockedCheckbox.addEventListener(TRIGGERS.input, toggleItemLock)
+								lockLabel.appendChild(lockedCheckbox)
+								
 							const copyButton = document.createElement("button")
 								copyButton.className = "controls-listing-copy"
-								copyButton.innerHTML = "&#128203;"
-								copyButton.title = "copy item"
+								copyButton.innerHTML = "&#x278B;"
+								copyButton.title = "duplicate item"
 								copyButton.addEventListener(TRIGGERS.click, copyItem)
 							mainActionsSection.appendChild(copyButton)
 
@@ -5431,10 +5662,17 @@
 						return {
 							section,
 							nameElement,
-							deleteButton,
+							visibleCheckbox,
+							lockedCheckbox,
 							copyButton,
 							upButton,
-							downButton
+							downButton,
+							deleteButton,
+							identifyButton,
+							unionButton,
+							intersectButton,
+							combineButton,
+							subtractButton
 						}
 				} catch (error) {console.log(error)}
 			}
@@ -5660,28 +5898,30 @@
 							}
 
 						// convert to path
-							if (item.attributes.styling.shape !== "path" || item.attributes.curves) {
-								const pathButton = document.createElement("button")
-									pathButton.className = "controls-convert"
-									pathButton.innerHTML = "&#x21d2; path"
-									pathButton.value = "path"
-									pathButton.title = "convert to path"
-									pathButton.addEventListener(TRIGGERS.click, convertItemToPath)
-								convertsSection.appendChild(pathButton)
-								inputs.pathButton = pathButton
-							}
+							const pathButton = document.createElement("button")
+								pathButton.className = "controls-convert"
+								pathButton.innerHTML = "&#x21d2; path"
+								pathButton.value = "path"
+								pathButton.title = "convert to path"
+								pathButton.addEventListener(TRIGGERS.click, convertItemToPath)
+								if (item.attributes.styling.shape == "path" && !item.attributes.curves) {
+									pathButton.style.display = "none"
+								}
+							convertsSection.appendChild(pathButton)
+							inputs.pathButton = pathButton
 
 						// convert to curves
-							if (!item.attributes.curves) {
-								const curvesButton = document.createElement("button")
-									curvesButton.className = "controls-convert"
-									curvesButton.innerHTML = "&#x21d2; curves"
-									curvesButton.value = "curves"
-									curvesButton.title = "convert to curves"
-									curvesButton.addEventListener(TRIGGERS.click, convertItemToPath)
-								convertsSection.appendChild(curvesButton)
-								inputs.curvesButton = curvesButton
-							}
+							const curvesButton = document.createElement("button")
+								curvesButton.className = "controls-convert"
+								curvesButton.innerHTML = "&#x21d2; curves"
+								curvesButton.value = "curves"
+								curvesButton.title = "convert to curves"
+								curvesButton.addEventListener(TRIGGERS.click, convertItemToPath)
+								if (item.attributes.curves) {
+									curvesButton.style.display = "none"
+								}
+							convertsSection.appendChild(curvesButton)
+							inputs.curvesButton = curvesButton
 
 					// transformations
 						const transformsSection = document.createElement("div")
