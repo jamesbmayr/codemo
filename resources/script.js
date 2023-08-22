@@ -1025,7 +1025,6 @@
 				description: "Fit all of the randomly generated rectangles within the available area."
 			},
 			rephraiser: {
-				hidden: true,
 				skipRandom: true,
 				name: "rephrAIser",
 				size: "small",

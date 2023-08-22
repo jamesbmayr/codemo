@@ -166,7 +166,6 @@
 		window.addEventListener(TRIGGERS.click, goFullscreen)
 		function goFullscreen() {
 			try {
-				return // ???
 				if (STATE.clicked) {
 					return
 				}

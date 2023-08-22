@@ -85,6 +85,7 @@
 			width: 100%;
 			text-align: center;
 			height: auto;
+			user-select: none;
 		}
 
 			#input-options label {
@@ -97,6 +98,7 @@
 				font-family: var(--font-family);
 				cursor: pointer;
 				color: var(--dark-gray);
+				user-select: none;
 			}
 
 			#input-options input {
@@ -138,6 +140,7 @@
 		#input-uploads {
 			width: 100%;
 			text-align: center;
+			user-select: none;
 		}
 
 			#input-uploads label {
@@ -156,6 +159,7 @@
 				font-weight: bold;
 				text-transform: uppercase;
 				cursor: pointer;
+				user-select: none;
 			}
 
 			#input-uploads label:hover, #input-uploads label:focus {
@@ -208,6 +212,7 @@
 			#input-1::placeholder, #input-2::placeholder {
 				padding-top: calc(var(--font-size) * 4.5);
 				text-align: center;
+				user-select: none;
 			}
 
 			#input-1 {
@@ -231,6 +236,7 @@
 			height: auto;
 			width: 100%;
 			text-align: center;
+			user-select: none;
 		}
 
 			#output-summary-matches, #output-summary-deletions, #output-summary-insertions {
@@ -269,6 +275,7 @@
 			width: 100%;
 			text-align: center;
 			height: auto;
+			user-select: none;
 		}
 
 			#output-options label {
