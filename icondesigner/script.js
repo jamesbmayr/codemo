@@ -76,7 +76,7 @@
 			},
 			defaults: {
 				shape: "circle",
-				stroke: "#111111", // hex
+				stroke: "#000000", // hex
 				"stroke-width": "1", // user units
 				"stroke-linecap": "round",
 				"stroke-linejoin": "round",
@@ -166,7 +166,7 @@
 		window.addEventListener(TRIGGERS.click, goFullscreen)
 		function goFullscreen() {
 			try {
-				if (STATE.clicked) {
+				if (STATE.clicked || TRIGGERS.mousemove == "mousemove") {
 					return
 				}
 				STATE.clicked = true
@@ -297,7 +297,11 @@
 						ELEMENTS.controls.exportSVG.setAttribute("disabled", true)
 
 					// from SVG element
-						const xml = ELEMENTS.container.svg.outerHTML.replace(/\sid="[^"]+"/g, "").replace(/\n/g, " ").replace(/\shighlight=\"true\"/g, "")
+						const xml = ELEMENTS.container.svg.outerHTML
+							.replace(/\sid="[^"]+"/g, "")
+							.replace(/\n/g, " ")
+							.replace(/\shighlight=\"true\"/g, "")
+							.replace(/\svisible=\"true\"/g, "")
 
 					// download link
 						const downloadLink = document.createElement("a")
@@ -586,7 +590,12 @@
 								}
 								else if (itemData.attributes.styling.shape == "path") {
 									const rawPath = element.getAttribute("d")
-									itemData.attributes.coordinates.d = getPathFromCommands(getCommandsFromPath(rawPath))
+									const commands = getCommandsFromPath(rawPath)
+									itemData.attributes.coordinates.d = getPathFromCommands(commands)
+
+									if (!commands.find(command => ["m","l","L","h","H","v","V","c","s","S","q","Q","t","T","a","A","z"].includes(command[0]))) {
+										itemData.attributes.styling.shape = "curves"
+									}
 								}
 
 							// build item
@@ -1144,7 +1153,7 @@
 
 					// rect / ellipse / circle --> convert to curves
 						if (["circle", "ellipse", "rect"].includes(item.attributes.styling.shape)) {
-							convertItemToPath({target: item.listing.coordinates.curvesButton})
+							convertItemToPath({target: item.listing.summary.curvesButton})
 						}
 
 					// resize
@@ -1187,7 +1196,7 @@
 
 					// rect / ellipse / circle --> convert to curves
 						if (["circle", "ellipse", "rect"].includes(item.attributes.styling.shape)) {
-							convertItemToPath({target: item.listing.coordinates.curvesButton})
+							convertItemToPath({target: item.listing.summary.curvesButton})
 						}
 
 					// rotate
@@ -1235,8 +1244,8 @@
 					// async
 						setTimeout(() => {
 							// convert to curves
-								convertItemToPath({target: itemA.listing.coordinates.curvesButton})
-								convertItemToPath({target: itemB.listing.coordinates.curvesButton})
+								convertItemToPath({target: itemA.listing.summary.curvesButton})
+								convertItemToPath({target: itemB.listing.summary.curvesButton})
 
 							// merge
 								const newItem = getMergedCurves(itemA, itemB, operation)
@@ -1320,7 +1329,7 @@
 
 					// curves
 						if (!item.attributes.curves) {
-							convertItemToPath({target: item.listing.coordinates.curvesButton})
+							convertItemToPath({target: item.listing.summary.curvesButton})
 						}
 
 					// get groups
@@ -1626,6 +1635,9 @@
 		/* selectItem */
 			function selectItem(event) {
 				try {
+					// don't select container
+						event.stopPropagation()
+
 					// get absolute cursor coordinates
 						const windowX = (event.touches ? event.touches[0].clientX : event.clientX)
 						const windowY = (event.touches ? event.touches[0].clientY : event.clientY)
@@ -1644,9 +1656,6 @@
 						if (STATE.items[id].attributes.locked) {
 							return
 						}
-
-					// don't select container
-						event.stopPropagation()
 
 					// select item
 						STATE.selected = {
@@ -1669,6 +1678,9 @@
 		/* selectPoint */
 			function selectPoint(event) {
 				try {
+					// don't select container
+						event.stopPropagation()
+
 					// get absolute cursor coordinates
 						const windowX = (event.touches ? event.touches[0].clientX : event.clientX)
 						const windowY = (event.touches ? event.touches[0].clientY : event.clientY)
@@ -1689,9 +1701,6 @@
 						if (STATE.items[id].attributes.locked) {
 							return
 						}
-
-					// don't select container
-						event.stopPropagation()
 
 					// select item
 						STATE.selected = {
@@ -1796,7 +1805,7 @@
 						if (event.altKey) {
 							// rect / ellipse / circle --> convert to curves
 								if (["circle", "ellipse", "rect"].includes(item.attributes.styling.shape)) {
-									convertItemToPath({target: item.listing.coordinates.curvesButton})
+									convertItemToPath({target: item.listing.summary.curvesButton})
 									STATE.selected.coordinates = duplicateObject(item.attributes.coordinates)
 								}
 
@@ -2309,8 +2318,10 @@
 								continue
 							}
 
-							const placeBefore = importantPoints.slice(0, p).findLast(point => point.place !== "edge")?.place || null
-							const placeAfter  = importantPoints.slice(p   ).find(    point => point.place !== "edge")?.place || null
+							const placeBefore = importantPoints.slice(0, p).findLast(point => point.place !== "edge")?.place || 
+												importantPoints.slice(p   ).findLast(point => point.place !== "edge")?.place || null
+							const placeAfter  = importantPoints.slice(p   ).find(    point => point.place !== "edge")?.place || 
+												importantPoints.slice(0, p).find(    point => point.place !== "edge")?.place || null
 							const intersectionType = placeBefore == placeAfter ? "tangent" :
 												     placeBefore == "inside"  || placeAfter == "outside" ? "leave" :
 												     placeBefore == "outside" || placeAfter == "inside"  ? "enter" :
@@ -2324,8 +2335,16 @@
 							})
 						}
 
+					// duplicates
+						for (let i = 1; i < thisIntersectsThat.length; i++) {
+							if (getScalar(thisIntersectsThat[i], thisIntersectsThat[i - 1]) < CONSTANTS.mergeThreshold) {
+								thisIntersectsThat.splice(i, 1)
+								i--
+							}
+						}
+
 					// last duplicates first
-						if (thisIntersectsThat?.length && getScalar(thisIntersectsThat[0], thisIntersectsThat[thisIntersectsThat.length - 1]) < CONSTANTS.pathIncrement) {
+						if (thisIntersectsThat?.length > 1 && getScalar(thisIntersectsThat[0], thisIntersectsThat[thisIntersectsThat.length - 1]) < CONSTANTS.pathIncrement) {
 							if (thisIntersectsThat[0].type == thisIntersectsThat[thisIntersectsThat.length - 1].type) {
 								thisIntersectsThat.pop()
 							}
@@ -3595,10 +3614,18 @@
 					// get points of overlap
 						let {aIntersectsB, bIntersectsA} = getIntersectionPoints(itemA, itemB)
 
+					// filter out tangents
+						if (aIntersectsB !== true) {
+							aIntersectsB = aIntersectsB.filter(intersection => intersection.type !== "tangent")
+						}
+						if (bIntersectsA !== true) {
+							bIntersectsA = bIntersectsA.filter(intersection => intersection.type !== "tangent")
+						}
+
 					// only overlap
 						if (preventNonintersection && (
-							(aIntersectsB !== true && !aIntersectsB.filter(intersection => intersection.type !== "tangent").length) && 
-							(bIntersectsA !== true && !bIntersectsA.filter(intersection => intersection.type !== "tangent").length)
+							(aIntersectsB !== true && !aIntersectsB.length) && 
+							(bIntersectsA !== true && !bIntersectsA.length)
 						)) {
 							return null
 						}
@@ -3643,9 +3670,9 @@
 
 					// subdivide (on M)
 						const aItems = !preventSubdivision && aCurves.filter(curve => curve.c1x == undefined && curve.c2x == undefined).length > 1 ?
-							subdivideItem({target: itemA.listing.coordinates.subdivideButton}) : [itemA]
+							subdivideItem({target: itemA.listing.summary.subdivideButton}) : [itemA]
 						const bItems = !preventSubdivision && bCurves.filter(curve => curve.c1x == undefined && curve.c2x == undefined).length > 1 ?
-							subdivideItem({target: itemB.listing.coordinates.subdivideButton}) : [itemB]
+							subdivideItem({target: itemB.listing.summary.subdivideButton}) : [itemB]
 
 					// get new curves
 						let result = (operation == "union")     ? getUnionMultishapeCurves(    aItems, bItems, aCurves, bCurves, aIntersectsB, bIntersectsA) :
@@ -4105,10 +4132,6 @@
 							return aCurves
 						}
 
-					// filter out tangents
-						aIntersectsB = aIntersectsB.filter(intersection => intersection.type !== "tangent")
-						bIntersectsA = bIntersectsA.filter(intersection => intersection.type !== "tangent")
-
 					// no overlap or intersections --> naive union
 						if (!aIntersectsB.length || !bIntersectsA.length) {
 							return [
@@ -4319,10 +4342,6 @@
 						if (bIntersectsA === true) {
 							return bCurves
 						}
-
-					// filter out tangents
-						aIntersectsB = aIntersectsB.filter(intersection => intersection.type !== "tangent")
-						bIntersectsA = bIntersectsA.filter(intersection => intersection.type !== "tangent")
 
 					// no overlap or intersections --> empty
 						if (!aIntersectsB.length || !bIntersectsA.length) {
@@ -4559,10 +4578,6 @@
 								...bCurves
 							]
 						}
-
-					// filter out tangents
-						aIntersectsB = aIntersectsB.filter(intersection => intersection.type !== "tangent")
-						bIntersectsA = bIntersectsA.filter(intersection => intersection.type !== "tangent")
 
 					// no overlap or intersections --> a
 						if (!aIntersectsB.length || !bIntersectsA.length) {
@@ -5657,6 +5672,37 @@
 								subtractButton.addEventListener(TRIGGERS.click, mergeItems)
 							mergeActionsSection.appendChild(subtractButton)
 
+					// conversions
+						const convertsSection = document.createElement("div")
+							convertsSection.className = "controls-listing-conversion"
+						section.appendChild(convertsSection)
+
+						// subdivide
+							const subdivideButton = document.createElement("button")
+								subdivideButton.className = "controls-listing-subdivide"
+								subdivideButton.innerHTML = "&#x26cb; subdivide"
+								subdivideButton.title = "subdivide item into components"
+								subdivideButton.addEventListener(TRIGGERS.click, subdivideItem)
+							convertsSection.appendChild(subdivideButton)
+
+						// convert to path
+							const pathButton = document.createElement("button")
+								pathButton.className = "controls-listing-convert"
+								pathButton.innerHTML = "&#x21d2; path"
+								pathButton.value = "path"
+								pathButton.title = "convert to path"
+								pathButton.addEventListener(TRIGGERS.click, convertItemToPath)
+							convertsSection.appendChild(pathButton)
+
+						// convert to curves
+							const curvesButton = document.createElement("button")
+								curvesButton.className = "controls-listing-convert"
+								curvesButton.innerHTML = "&#x21d2; curves"
+								curvesButton.value = "curves"
+								curvesButton.title = "convert to curves"
+								curvesButton.addEventListener(TRIGGERS.click, convertItemToPath)
+							convertsSection.appendChild(curvesButton)
+
 					// object
 						return {
 							section,
@@ -5671,7 +5717,10 @@
 							unionButton,
 							intersectButton,
 							combineButton,
-							subtractButton
+							subtractButton,
+							subdivideButton,
+							pathButton,
+							curvesButton
 						}
 				} catch (error) {console.log(error)}
 			}
@@ -5710,6 +5759,33 @@
 								shapeSelect.value = item.attributes.styling.shape
 								shapeSelect.addEventListener(TRIGGERS.input, changeItemAttribute)
 							shapeLabel.appendChild(shapeSelect)
+
+					// fill
+						const fillLabel = document.createElement("label")
+							fillLabel.className = "controls-label controls-label-fill"
+						section.appendChild(fillLabel)
+
+							const fillSpan = document.createElement("span")
+								fillSpan.className = "controls-span"
+								fillSpan.innerText = "fill"
+							fillLabel.appendChild(fillSpan)
+
+							const fillCheckbox = document.createElement("input")
+								fillCheckbox.id = `${item.id}-controls-listing-styling-fill-on`
+								fillCheckbox.type = "checkbox"
+								fillCheckbox.className = "controls-listing-styling-fill-on"
+								fillCheckbox.checked = item.attributes.styling["fill-on"]
+								fillCheckbox.addEventListener(TRIGGERS.input, changeItemAttribute)
+							fillLabel.appendChild(fillCheckbox)
+
+							const fillInput = document.createElement("input")
+								fillInput.id = `${item.id}-controls-listing-styling-fill`
+								fillInput.type = "color"
+								fillInput.className = "controls-listing-styling-fill"
+								fillInput.placeholder = "fill"
+								fillInput.value = item.attributes.styling.fill
+								fillInput.addEventListener(TRIGGERS.input, changeItemAttribute)
+							fillLabel.appendChild(fillInput)
 
 					// stroke
 						const strokeLabel = document.createElement("label")
@@ -5766,43 +5842,16 @@
 								strokeLinejoinSelect.addEventListener(TRIGGERS.input, changeItemAttribute)
 							strokeLabel.appendChild(strokeLinejoinSelect)
 
-					// fill
-						const fillLabel = document.createElement("label")
-							fillLabel.className = "controls-label controls-label-fill"
-						section.appendChild(fillLabel)
-
-							const fillSpan = document.createElement("span")
-								fillSpan.className = "controls-span"
-								fillSpan.innerText = "fill"
-							fillLabel.appendChild(fillSpan)
-
-							const fillCheckbox = document.createElement("input")
-								fillCheckbox.id = `${item.id}-controls-listing-styling-fill-on`
-								fillCheckbox.type = "checkbox"
-								fillCheckbox.className = "controls-listing-styling-fill-on"
-								fillCheckbox.checked = item.attributes.styling["fill-on"]
-								fillCheckbox.addEventListener(TRIGGERS.input, changeItemAttribute)
-							fillLabel.appendChild(fillCheckbox)
-
-							const fillInput = document.createElement("input")
-								fillInput.id = `${item.id}-controls-listing-styling-fill`
-								fillInput.type = "color"
-								fillInput.className = "controls-listing-styling-fill"
-								fillInput.placeholder = "fill"
-								fillInput.value = item.attributes.styling.fill
-								fillInput.addEventListener(TRIGGERS.input, changeItemAttribute)
-							fillLabel.appendChild(fillInput)
-
 					// object
 						return {
 							section,
 							shape: shapeSelect,
+							"fill-on": fillCheckbox,
+							fill: fillInput,
 							stroke: strokeInput,
 							"stroke-width": strokeWidthInput,
 							"stroke-linecap": strokeLinecapSelect,
-							"stroke-linejoin": strokeLinejoinSelect,
-							"fill-on": fillCheckbox,
-							fill: fillInput
+							"stroke-linejoin": strokeLinejoinSelect
 						}
 				} catch (error) {console.log(error)}
 			}
@@ -5816,8 +5865,9 @@
 						}
 
 					// set shape
-						item.listing.container.setAttribute("shape", item.attributes.styling.shape)
-						item.listing.summary.nameElement.innerText = item.attributes.curves ? "curves" : item.attributes.styling.shape
+						const shape = item.attributes.curves ? "curves" : item.attributes.styling.shape
+						item.listing.container.setAttribute("shape", shape)
+						item.listing.summary.nameElement.innerText = shape
 
 					// section
 						const section = document.createElement("div")
@@ -5879,48 +5929,6 @@
 				try {
 					// inputs
 						const inputs = {}
-
-					// conversions
-						const convertsSection = document.createElement("div")
-							convertsSection.className = "controls-conversions-section"
-						section.appendChild(convertsSection)
-
-						// subdivide
-							if (item.attributes.styling.shape == "path") {
-								const subdivideButton = document.createElement("button")
-									subdivideButton.className = "controls-subdivide"
-									subdivideButton.innerHTML = "&#x26cb; subdivide"
-									subdivideButton.title = "subdivide item into components"
-									subdivideButton.addEventListener(TRIGGERS.click, subdivideItem)
-								convertsSection.appendChild(subdivideButton)
-								inputs.subdivideButton = subdivideButton
-							}
-
-						// convert to path
-							const pathButton = document.createElement("button")
-								pathButton.className = "controls-convert"
-								pathButton.innerHTML = "&#x21d2; path"
-								pathButton.value = "path"
-								pathButton.title = "convert to path"
-								pathButton.addEventListener(TRIGGERS.click, convertItemToPath)
-								if (item.attributes.styling.shape == "path" && !item.attributes.curves) {
-									pathButton.style.display = "none"
-								}
-							convertsSection.appendChild(pathButton)
-							inputs.pathButton = pathButton
-
-						// convert to curves
-							const curvesButton = document.createElement("button")
-								curvesButton.className = "controls-convert"
-								curvesButton.innerHTML = "&#x21d2; curves"
-								curvesButton.value = "curves"
-								curvesButton.title = "convert to curves"
-								curvesButton.addEventListener(TRIGGERS.click, convertItemToPath)
-								if (item.attributes.curves) {
-									curvesButton.style.display = "none"
-								}
-							convertsSection.appendChild(curvesButton)
-							inputs.curvesButton = curvesButton
 
 					// transformations
 						const transformsSection = document.createElement("div")

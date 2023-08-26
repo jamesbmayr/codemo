@@ -501,6 +501,39 @@
 			border-radius: 0 0 var(--border-radius) 0 !important;
 		}
 
+		.controls-listing-conversion {
+			margin-top: var(--gap-size);
+		}
+
+		.controls-listing-subdivide {
+			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+		}
+
+		.controls-listing-convert[value="curves"] {
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+		}
+
+			.controls-listing:not([shape="path"]):not([shape="curves"]) .controls-listing-subdivide {
+				display: none !important;
+			}
+
+			.controls-listing[shape="path"] .controls-listing-convert[value="path"] {
+				display: none !important;
+			}
+
+			.controls-listing[shape="curves"] .controls-listing-convert[value="curves"] {
+				display: none !important;
+			}
+
+			.controls-listing:not([shape="path"]):not([shape="curves"]) .controls-listing-convert[value="path"] {
+				border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+			}
+
+			.controls-listing[shape="curves"] .controls-listing-convert[value="path"] {
+				border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			}
+
+
 	/* listing styling */
 		.controls-listing-styling {
 			margin-top: var(--gap-size);
@@ -540,30 +573,11 @@
 			display: none;
 		}
 
-	/* conversions & transformations */
+	/* transformations */
 		.controls-listing-coordinates {
 			margin-top: var(--gap-size);
 			border-top: var(--border-size) solid var(--light-gray);
 			padding-top: var(--gap-size);
-		}
-
-		.controls-conversions-section button {
-			margin-bottom: var(--gap-size) !important;
-			border-radius: 0 !important;
-		}
-
-		.controls-conversions-section button:first-child {
-			border-top-left-radius: var(--border-radius) !important;
-			border-bottom-left-radius: var(--border-radius) !important;
-		}
-
-		.controls-conversions-section button:last-child {
-			border-top-right-radius: var(--border-radius) !important;
-			border-bottom-right-radius: var(--border-radius) !important;
-		}
-
-		.controls-conversions-section button:only-child {
-			width: 100% !important;
 		}
 
 		.controls-listing-scale-x, .controls-listing-skew-x {
