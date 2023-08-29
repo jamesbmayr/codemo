@@ -11,7 +11,7 @@
 	/* constants */
 		const CONSTANTS = {
 			allowedFilters: ["id", "tags", "since", "before", "search"],
-			databaseURL: "https://script.google.com/macros/s/AKfycbyHy7DBOWPbT6oFxCXasuhGcRbwnflGknq6KZGdOVtCWYIiesXJsjnF-xDVVsGZFeDDqQ/exec",
+			databaseURL: "https://script.google.com/macros/s/AKfycbzL1cWSLPF5JXNFZONPDiO9Cb21Klhd79eZKxbK4og4M-ScnrHBnrIk8ucYl2fiyP2mRA/exec",
 			waitTime: 1000,
 			scrollWait: 10,
 			breakpoints: [0, 750, 1050, 1400],
@@ -416,6 +416,20 @@
 	/* processMarkdown */
 		function processMarkdown(html) {
 			try {
+				// html
+					// iframe
+						if (html.indexOf("<iframe") == 0) {
+							return html
+						}
+
+					// player
+						if (html.indexOf("<audio") == 0) {
+							return html
+						}
+						if (html.indexOf("<video") == 0) {
+							return html
+						}
+
 				// wrappers
 					// list item
 						if (html.indexOf("* ") == 0) {
