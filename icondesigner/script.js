@@ -137,6 +137,30 @@
 				"q": 4,
 				"t": 2,
 				"a": 7
+			},
+			symbols: {
+				"eye": `<svg viewBox="10 10 80 80"><path d="M 35 50 C 35 59 41 65 50 65 C 59 65 65 59 65 50 C 65 41 59 35 50 35 C 41 35 35 41 35 50 Z M 43 50 C 43 46 46 43 50 43 C 54 43 57 46 57 50 C 57 54 54 57 50 57 C 46 57 43 54 43 50 Z M 20 50 C 20 45 32 30 50 30 C 68 30 80 45 80 50 C 80 55 68 70 50 70 C 32 70 20 55 20 50 Z"></path></svg>`,
+				"lock": `<svg viewBox="10 10 80 80"><path d="M 59 44 C 59 43 59 42 59 41 C 59 35 55 31 50 31 C 45 31 41 35 41 41 C 41 42 41 43 41 44 C 41 45 41 45 42 45 C 47 45 53 45 58 45 C 59 45 59 45 59 44 Z M 35 44 C 35 43 35 42 35 41 C 35 31 41 25 50 25 C 59 25 65 31 65 41 C 65 42 65 43 65 44 C 65 45 65 45 66 45 C 68 45 70 47 70 49 C 70 61 70 69 70 76 C 70 78 68 80 66 80 C 55 80 45 80 34 80 C 32 80 30 78 30 76 C 30 69 30 61 30 49 C 30 47 32 45 34 45 C 35 45 35 45 35 44 Z"></path></svg>`,
+				"copy": `<svg viewBox="10 10 80 80"><path d="M 45 40 C 48 40 51 40 54 40 C 57 40 60 43 60 46 C 60 49 60 52 60 55 C 65 55 70 55 73 55 C 74 55 75 54 75 53 C 75 45 75 35 75 27 C 75 26 74 25 73 25 C 65 25 55 25 47 25 C 46 25 45 26 45 27 C 45 30 45 35 45 40 C 45 40 45 40 45 40 Z M 27 45 C 26 45 25 46 25 47 C 25 55 25 65 25 73 C 25 74 26 75 27 75 C 35 75 45 75 53 75 C 54 75 55 74 55 73 C 55 65 55 55 55 47 C 55 46 54 45 53 45 C 45 45 35 45 27 45 Z M 60 60 C 60 65 60 70 60 74 C 60 77 57 80 54 80 C 45 80 35 80 26 80 C 23 80 20 77 20 74 C 20 65 20 55 20 46 C 20 43 23 40 26 40 C 30 40 35 40 40 40 C 40 35 40 30 40 26 C 40 23 43 20 46 20 C 55 20 65 20 74 20 C 77 20 80 23 80 26 C 80 35 80 45 80 54 C 80 57 77 60 74 60 C 70 60 65 60 60 60 C 60 60 60 60 60 60 Z"></path></svg>`,
+				"up": `<svg viewBox="10 10 80 80"><path d="M 50 90 C 47 90 45 88 45 85 C 45 70 45 40 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 40 55 70 55 85 C 55 88 53 90 50 90 Z"></path></svg>`,
+				"right": `<svg viewBox="10 10 80 80"><path d="M 10 50 C 10 47 12 45 15 45 C 30 45 60 45 73 45 C 70 42 68 40 66 38 C 64 36 64 33 66 31 C 68 29 71 29 73 31 C 77 35 82 40 87 45 C 89 47 90 48 90 50 C 90 52 89 53 87 55 C 82 60 77 65 73 69 C 71 71 68 71 66 69 C 64 67 64 64 66 62 C 68 60 70 58 73 55 C 60 55 30 55 15 55 C 12 55 10 53 10 50 Z"></path></svg>`,
+				"down": `<svg viewBox="10 10 80 80"><path d="M 50 10 C 53 10 55 12 55 15 C 55 30 55 60 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 60 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
+				"left": `<svg viewBox="10 10 80 80"><path d="M 50 10 C 53 10 55 12 55 15 C 55 30 55 60 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 60 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
+				"x": `<svg viewBox="10 10 80 80"><path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path></svg>`,
+				"union": `<svg viewBox="10 10 80 80"><path d="M 75 55 C 75 69 64 80 50 80 C 36 80 25 69 25 55 C 25 50 25 28 25 25 C 25 22 27 20 30 20 C 33 20 35 22 35 25 C 35 28 35 50 35 55 C 35 62 43 70 50 70 C 57 70 65 62 65 55 C 65 50 65 28 65 25 C 65 22 67 20 70 20 C 73 20 75 22 75 25 C 75 28 75 50 75 55 Z"></path></svg>`,
+				"intersect": `<svg viewBox="10 10 80 80"><path d="M 25 45 C 25 31 36 20 50 20 C 64 20 75 31 75 45 C 75 50 75 72 75 75 C 75 78 73 80 70 80 C 67 80 65 78 65 75 C 65 72 65 50 65 45 C 65 38 57 30 50 30 C 43 30 35 38 35 45 C 35 50 35 72 35 75 C 35 78 33 80 30 80 C 27 80 25 78 25 75 C 25 72 25 50 25 45 Z"></path></svg>`,
+				"combine": `<svg viewBox="0 0 100 100"><path d="M 10 50 C 10 72 28 90 50 90 C 72 90 90 72 90 50 C 90 28 72 10 50 10 C 28 10 10 28 10 50 Z M 0 50 C 0 22.5 22.5 0 50 0 C 77.5 0 100 22.5 100 50 C 100 77.5 77.5 100 50 100 C 22.5 100 0 77.5 0 50 Z  M 55 45 C 62 45 69 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 69 55 62 55 55 55 C 55 62 55 69 55 75 C 55 78 53 80 50 80 C 47 80 45 78 45 75 C 45 69 45 62 45 55 C 38 55 31 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 31 45 38 45 45 45 C 45 38 45 31 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 31 55 38 55 45 Z"></path></svg>`,
+				"subtract": `<svg viewBox="0 0 100 100"><path d="M 10 50 C 10 72 28 90 50 90 C 72 90 90 72 90 50 C 90 28 72 10 50 10 C 28 10 10 28 10 50 Z M 0 50 C 0 22.5 22.5 0 50 0 C 77.5 0 100 22.5 100 50 C 100 77.5 77.5 100 50 100 C 22.5 100 0 77.5 0 50 Z  M 20 50 C 20 47 22 45 25 45 C 40 45 60 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 60 55 40 55 25 55 C 22 55 20 53 20 50 Z"></path></svg>`,
+				"subdivide": `<svg viewBox="10 10 80 80"><path d="M 20 50 C 30 40 40 30 50 20 C 60 30 70 40 80 50 C 70 60 60 70 50 80 C 40 70 30 60 20 50 Z M 45 20 C 40 25 25 40 20 45 C 20 35 20 25 20 20 C 25 20 35 20 45 20 Z M 45 80 C 35 80 25 80 20 80 C 20 75 20 65 20 55 C 25 60 40 75 45 80 Z M 80 55 C 80 65 80 75 80 80 C 75 80 65 80 55 80 C 60 75 75 60 80 55 Z M 55 20 C 65 20 75 20 80 20 C 80 25 80 35 80 45 C 75 40 60 25 55 20 Z"></path></svg>`,
+				"scale": `<svg viewBox="10 10 80 80"><path d="M 50 57 C 46 61 41 66 37 70 C 41 70 42 70 43 70 C 46 70 48 72 48 75 C 48 78 46 80 43 80 C 41 80 34 80 27 80 C 25 80 23 80 21.5 78.5 C 20 77 20 75 20 73 C 20 66 20 59 20 57 C 20 54 22 52 25 52 C 28 52 30 54 30 57 C 30 58 30 59 30 63 C 34 59 39 54 43 50 C 35 42 31 38 30 37 C 30 41 30 42 30 43 C 30 46 28 48 25 48 C 22 48 20 46 20 43 C 20 41 20 34 20 27 C 20 24 20 23 21.5 21.5 C 23 20 24 20 27 20 C 34 20 41 20 43 20 C 46 20 48 22 48 25 C 48 28 46 30 43 30 C 42 30 41 30 37 30 C 38 31 42 35 50 43 C 58 35 62 31 63 30 C 59 30 58 30 57 30 C 54 30 52 28 52 25 C 52 22 54 20 57 20 C 59 20 66 20 73 20 C 76 20 77 20 78.5 21.5 C 80 23 80 24 80 27 C 80 34 80 41 80 43 C 80 46 78 48 75 48 C 72 48 70 46 70 43 C 70 42 70 41 70 37 C 69 38 65 42 57 50 C 61 54 66 59 70 63 C 70 59 70 58 70 57 C 70 54 72 52 75 52 C 78 52 80 54 80 57 C 80 59 80 66 80 73 C 80 75 80 77 78.5 78.5 C 77 80 75 80 73 80 C 66 80 59 80 57 80 C 54 80 52 78 52 75 C 52 72 54 70 57 70 C 58 70 59 70 63 70 C 59 66 54 61 50 57 Z"></path></svg>`,
+				"horizontal": `<svg viewBox="10 10 80 80"><path d="M 73 45 C 70 42 68 40 66 38 C 64 36 64 33 66 31 C 68 29 71 29 73 31 C 77 35 81 39 87 45 C 89 47 90 48 90 50 C 90 52 89 53 87 55 C 82 60 77 65 73 69 C 71 71 68 71 66 69 C 64 67 64 64 66 62 C 68 60 70 58 73 55 C 70 55 30 55 27 55 C 30 58 32 60 34 62 C 36 64 36 67 34 69 C 32 71 29 71 27 69 C 23 65 18 60 13 55 C 11 53 10 52 10 50 C 10 48 11 47 13 45 C 18 40 23 35 27 31 C 29 29 32 29 34 31 C 36 33 36 36 34 38 C 32 40 30 42 27 45 C 30 45 70 45 73 45 Z"></path></svg>`,
+				"vertical": `<svg viewBox="10 10 80 80"><path d="M 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 39 19 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 30 55 70 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 70 45 30 45 27 Z"></path></svg>`,
+				"skew": `<svg viewBox="20 20 60 60"><path d="M 46 55 C 49 55 53 55 56 55 C 56 55 56 55 56 55 C 56 55 56 55 56 55 C 55 50 55 50 54 45 C 54 45 54 45 54 45 C 51 45 47 45 44 45 C 45 50 45 50 46 55 Z M 66 55 C 67 60 67 60 67 60 C 68 65 68 65 66 65 C 60 65 40 65 38 65 C 35 65 31 65 28 65 C 25 65 23 65 22 60 C 21 55 23 55 26 55 C 29 55 33 55 36 55 C 35 50 35 50 34 45 C 33 40 33 40 33 40 C 32 35 32 35 34 35 C 40 35 60 35 62 35 C 65 35 69 35 72 35 C 75 35 77 35 78 40 C 79 45 77 45 74 45 C 71 45 67 45 64 45 C 65 50 65 50 66 55 Z"></path></svg>`,
+				"rotate": `<svg viewBox="10 10 80 80"><path d="M 45 75 C 45 72 47 70 50 70 C 61 70 70 61 70 50 C 70 39 61 30 50 30 C 41 30 33 36 30 47 C 33 44 36 44 38 46 C 40 48 40 51 38 53 C 36 55 33 58 31 60 C 29 62 27 64 25 64 C 23 64 21 62 19 60 C 17 58 14 55 12 53 C 10 51 10 48 12 46 C 14 44 17 44 19 46 C 19 46 19 46 20 47 C 23 29 36 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 47 80 45 78 45 75 Z"></path></svg>`,
+				"divide": `<svg viewBox="10 10 80 80"><path d="M 43 70 C 43 66 46 63 50 63 C 54 63 57 66 57 70 C 57 74 54 77 50 77 C 46 77 43 74 43 70 Z M 43 30 C 43 26 46 23 50 23 C 54 23 57 26 57 30 C 57 34 54 37 50 37 C 46 37 43 34 43 30 Z M 20 50 C 20 47 22 45 25 45 C 40 45 60 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 60 55 40 55 25 55 C 22 55 20 53 20 50 Z"></path></svg>`,
+				"plus": `<svg viewBox="10 10 80 80"><path d="M 55 45 C 62 45 69 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 69 55 62 55 55 55 C 55 62 55 69 55 75 C 55 78 53 80 50 80 C 47 80 45 78 45 75 C 45 69 45 62 45 55 C 38 55 31 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 31 45 38 45 45 45 C 45 38 45 31 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 31 55 38 55 45 Z"></path></svg>`,
+				"path": `<svg viewBox="10 10 80 80"><path d="M 22 58 C 18 54 22 51 28 45 C 30 43 34 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 82 46 78 49 72 55 C 70 57 66 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 Z"></path></svg>`,
+				"curves": `<svg viewBox="10 10 80 80"><path d="M 71 56 C 70 57 64 63 57 70 C 54 73 56 71 56 75 C 56 78 54 80 51 80 C 48 80 46 78 46 75 C 46 72 48 70 51 70 C 55 70 53 72 56 69 C 63 62 65 60 66 59 C 66 59 65 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 C 19 55 20 53 24 49 C 25 48 26 47 29 44 C 30 43 36 37 43 30 C 46 27 44 29 44 25 C 44 22 46 20 49 20 C 52 20 54 22 54 25 C 54 28 52 30 49 30 C 45 30 47 28 44 31 C 37 38 35 40 34 41 C 34 41 35 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 81 45 80 47 76 51 C 75 52 74 53 71 56 Z"></path></svg>`,
 			}
 		}
 
@@ -171,6 +195,50 @@
 				}
 				STATE.clicked = true
 				document.body.requestFullscreen()
+			} catch (error) {console.log(error)}
+		}
+
+	/* loadFromParameters */
+		loadFromParameters()
+		function loadFromParameters() {
+			try {
+				// empty object
+					const queryParameters = {}
+
+				// search
+					const search = window.location.search?.slice(1).trim()
+					if (!search || !search.length) {
+						return
+					}
+
+				// parameters
+					const pairs = search.split("&") || []
+					for (const p in pairs) {
+						const pair = decodeURIComponent(pairs[p]).split("=")
+						queryParameters[pair[0].trim().toLowerCase()] = decodeURIComponent(pair[1]).trim()
+					}
+
+				// path
+					if (queryParameters.path) {
+						const path = queryParameters.path
+						
+						addItem({
+							itemData: {
+								attributes: {
+									styling: {
+										shape: "curves",
+										fill: queryParameters.fill ? `#${queryParameters.fill}` : null,
+										"fill-on": queryParameters.fill ? true : false,
+										stroke: queryParameters.stroke ? `#${queryParameters.stroke}` : null,
+										"stroke-width": queryParameters.stroke ? CONSTANTS.defaults["stroke-width"] : 0
+									},
+									coordinates: {
+										d: path
+									}
+								}
+							}
+						})
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -298,6 +366,7 @@
 
 					// from SVG element
 						const xml = ELEMENTS.container.svg.outerHTML
+							.replace('<svg', '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"')
 							.replace(/\sid="[^"]+"/g, "")
 							.replace(/\n/g, " ")
 							.replace(/\shighlight=\"true\"/g, "")
@@ -1696,11 +1765,6 @@
 						const id = idComponents[0]
 						const curveIndex = Number(idComponents[idComponents.length - 2])
 						const pointIndex = idComponents[idComponents.length - 1]
-
-					// locked?
-						if (STATE.items[id].attributes.locked) {
-							return
-						}
 
 					// select item
 						STATE.selected = {
@@ -5574,7 +5638,7 @@
 						// existence
 							const visibleLabel = document.createElement("label")
 								visibleLabel.className = "controls-listing-visible-label"
-								visibleLabel.innerHTML = "&#x1F441;"
+								visibleLabel.innerHTML = CONSTANTS.symbols.eye
 								visibleLabel.title = "toggle visibility"
 							mainActionsSection.appendChild(visibleLabel)
 
@@ -5587,7 +5651,7 @@
 
 							const lockLabel = document.createElement("label")
 								lockLabel.className = "controls-listing-locked-label"
-								lockLabel.innerHTML = "&#x1F512;"
+								lockLabel.innerHTML = CONSTANTS.symbols.lock
 								lockLabel.title = "toggle lock"
 							mainActionsSection.appendChild(lockLabel)
 
@@ -5600,28 +5664,28 @@
 								
 							const copyButton = document.createElement("button")
 								copyButton.className = "controls-listing-copy"
-								copyButton.innerHTML = "&#x278B;"
+								copyButton.innerHTML = CONSTANTS.symbols.copy
 								copyButton.title = "duplicate item"
 								copyButton.addEventListener(TRIGGERS.click, copyItem)
 							mainActionsSection.appendChild(copyButton)
 
 							const upButton = document.createElement("button")
 								upButton.className = "controls-listing-up"
-								upButton.innerHTML = "&uarr;"
+								upButton.innerHTML = CONSTANTS.symbols.up
 								upButton.title = "move up layer"
 								upButton.addEventListener(TRIGGERS.click, moveItemUpLayer)
 							mainActionsSection.appendChild(upButton)
 
 							const downButton = document.createElement("button")
 								downButton.className = "controls-listing-down"
-								downButton.innerHTML = "&darr;"
+								downButton.innerHTML = CONSTANTS.symbols.down
 								downButton.title = "move down layer"
 								downButton.addEventListener(TRIGGERS.click, moveItemDownLayer)
 							mainActionsSection.appendChild(downButton)
 
 							const deleteButton = document.createElement("button")
 								deleteButton.className = "controls-listing-delete"
-								deleteButton.innerHTML = "&times;"
+								deleteButton.innerHTML = CONSTANTS.symbols.x
 								deleteButton.title = "delete item"
 								deleteButton.addEventListener(TRIGGERS.click, deleteItem)
 							mainActionsSection.appendChild(deleteButton)
@@ -5642,7 +5706,7 @@
 
 							const unionButton = document.createElement("button")
 								unionButton.className = "controls-listing-union"
-								unionButton.innerHTML = "&#8746; union"
+								unionButton.innerHTML = CONSTANTS.symbols.union + " union"
 								unionButton.title = "union next layer"
 								unionButton.value = "union"
 								unionButton.addEventListener(TRIGGERS.click, mergeItems)
@@ -5650,7 +5714,7 @@
 
 							const intersectButton = document.createElement("button")
 								intersectButton.className = "controls-listing-intersect"
-								intersectButton.innerHTML = "&#8745; intersect"
+								intersectButton.innerHTML = CONSTANTS.symbols.intersect + " intersect"
 								intersectButton.title = "intersect next layer"
 								intersectButton.value = "intersect"
 								intersectButton.addEventListener(TRIGGERS.click, mergeItems)
@@ -5658,7 +5722,7 @@
 
 							const combineButton = document.createElement("button")
 								combineButton.className = "controls-listing-combine"
-								combineButton.innerHTML = "&CirclePlus; combine"
+								combineButton.innerHTML = CONSTANTS.symbols.combine + " combine"
 								combineButton.title = "combine next layer"
 								combineButton.value = "combine"
 								combineButton.addEventListener(TRIGGERS.click, mergeItems)
@@ -5666,7 +5730,7 @@
 
 							const subtractButton = document.createElement("button")
 								subtractButton.className = "controls-listing-subtract"
-								subtractButton.innerHTML = "&CircleMinus; subtract"
+								subtractButton.innerHTML = CONSTANTS.symbols.subtract + " subtract"
 								subtractButton.title = "subtract next layer"
 								subtractButton.value = "subtract"
 								subtractButton.addEventListener(TRIGGERS.click, mergeItems)
@@ -5680,7 +5744,7 @@
 						// subdivide
 							const subdivideButton = document.createElement("button")
 								subdivideButton.className = "controls-listing-subdivide"
-								subdivideButton.innerHTML = "&#x26cb; subdivide"
+								subdivideButton.innerHTML = CONSTANTS.symbols.subdivide + " subdivide"
 								subdivideButton.title = "subdivide item into components"
 								subdivideButton.addEventListener(TRIGGERS.click, subdivideItem)
 							convertsSection.appendChild(subdivideButton)
@@ -5688,7 +5752,7 @@
 						// convert to path
 							const pathButton = document.createElement("button")
 								pathButton.className = "controls-listing-convert"
-								pathButton.innerHTML = "&#x21d2; path"
+								pathButton.innerHTML = CONSTANTS.symbols.path + " path"
 								pathButton.value = "path"
 								pathButton.title = "convert to path"
 								pathButton.addEventListener(TRIGGERS.click, convertItemToPath)
@@ -5697,7 +5761,7 @@
 						// convert to curves
 							const curvesButton = document.createElement("button")
 								curvesButton.className = "controls-listing-convert"
-								curvesButton.innerHTML = "&#x21d2; curves"
+								curvesButton.innerHTML = CONSTANTS.symbols.curves + " curves"
 								curvesButton.value = "curves"
 								curvesButton.title = "convert to curves"
 								curvesButton.addEventListener(TRIGGERS.click, convertItemToPath)
@@ -5965,7 +6029,7 @@
 
 								const scaleButton = document.createElement("button")
 									scaleButton.className = "controls-listing-scale-button"
-									scaleButton.innerHTML = "&nesear;"
+									scaleButton.innerHTML = CONSTANTS.symbols.scale
 									scaleButton.title = "re-scale item"
 									scaleButton.addEventListener(TRIGGERS.click, changeItemScale)
 								scaleLabel.appendChild(scaleButton)
@@ -5983,7 +6047,7 @@
 
 								const flipXButton = document.createElement("button")
 									flipXButton.className = "controls-listing-flip-x-button"
-									flipXButton.innerHTML = "&harr;"
+									flipXButton.innerHTML = CONSTANTS.symbols.horizontal
 									flipXButton.title = "flip horizontally"
 									flipXButton.addEventListener(TRIGGERS.click, changeItemScale)
 								flipLabel.appendChild(flipXButton)
@@ -5991,7 +6055,7 @@
 
 								const flipYButton = document.createElement("button")
 									flipYButton.className = "controls-listing-flip-y-button"
-									flipYButton.innerHTML = "&varr;"
+									flipYButton.innerHTML = CONSTANTS.symbols.vertical
 									flipYButton.title = "flip vertically"
 									flipYButton.addEventListener(TRIGGERS.click, changeItemScale)
 								flipLabel.appendChild(flipYButton)
@@ -6027,7 +6091,7 @@
 
 								const skewButton = document.createElement("button")
 									skewButton.className = "controls-listing-skew-button"
-									skewButton.innerHTML = "&rlarr;"
+									skewButton.innerHTML = CONSTANTS.symbols.skew
 									skewButton.title = "skew item"
 									skewButton.addEventListener(TRIGGERS.click, changeItemSkew)
 								skewLabel.appendChild(skewButton)
@@ -6055,7 +6119,7 @@
 
 								const rotateButton = document.createElement("button")
 									rotateButton.className = "controls-listing-rotate-button"
-									rotateButton.innerHTML = "&#x293A;"
+									rotateButton.innerHTML = CONSTANTS.symbols.rotate
 									rotateButton.title = "rotate item counterclockwise"
 									rotateButton.addEventListener(TRIGGERS.click, changeItemRotation)
 								rotationLabel.appendChild(rotateButton)
@@ -6117,7 +6181,7 @@
 							// remove
 								const removeCurveButton = document.createElement("button")
 									removeCurveButton.className = "controls-remove-curve"
-									removeCurveButton.innerHTML = "&times;"
+									removeCurveButton.innerHTML = CONSTANTS.symbols.x
 									removeCurveButton.title = "remove this curve"
 									removeCurveButton.addEventListener(TRIGGERS.click, removeCurve)
 								row.appendChild(removeCurveButton)
@@ -6236,7 +6300,7 @@
 									const splitButton = document.createElement("button")
 										splitButton.className = "controls-insert-curve"
 										splitButton.value = "split"
-										splitButton.innerHTML = "&#x000f7; 2"
+										splitButton.innerHTML = CONSTANTS.symbols.divide
 										splitButton.title = "split in half"
 										splitButton.addEventListener(TRIGGERS.click, insertCurve)
 									insertsSection.appendChild(splitButton)
@@ -6245,7 +6309,7 @@
 									const insertMButton = document.createElement("button")
 										insertMButton.className = "controls-insert-curve"
 										insertMButton.value = "M"
-										insertMButton.innerHTML = "+ M"
+										insertMButton.innerHTML = CONSTANTS.symbols.plus + " M"
 										insertMButton.title = "insert Move command"
 										insertMButton.addEventListener(TRIGGERS.click, insertCurve)
 									insertsSection.appendChild(insertMButton)
@@ -6254,7 +6318,7 @@
 									const insertCButton = document.createElement("button")
 										insertCButton.className = "controls-insert-curve"
 										insertCButton.value = "C"
-										insertCButton.innerHTML = "+ C"
+										insertCButton.innerHTML = CONSTANTS.symbols.plus + " C"
 										insertCButton.title = "insert Curve command"
 										insertCButton.addEventListener(TRIGGERS.click, insertCurve)
 									insertsSection.appendChild(insertCButton)
@@ -6263,7 +6327,7 @@
 									const insertZButton = document.createElement("button")
 										insertZButton.className = "controls-insert-curve"
 										insertZButton.value = "Z"
-										insertZButton.innerHTML = "+ Z"
+										insertZButton.innerHTML = CONSTANTS.symbols.plus + " Z"
 										insertZButton.title = "insert Z return command"
 										insertZButton.addEventListener(TRIGGERS.click, insertCurve)
 									insertsSection.appendChild(insertZButton)

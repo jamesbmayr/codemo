@@ -565,9 +565,16 @@
 			icondesigner: {
 				name: "iconDesigner",
 				size: "large",
-				tags: ["code","math","tool","design","art","svg"],
+				tags: ["code","math","tool","design","art","canvas","svg"],
 				date: "August 13, 2023",
 				description: "A full SVG editor for creating custom icons and logos built on Bézier curves."
+			},
+			iconlibrary: {
+				name: "icon library",
+				size: "large",
+				tags: ["code","math","tool","design","art","canvas","svg"],
+				date: "September 25, 2023",
+				description: "A searchable set of SVG icons, with shaped borders, PNG export, and one-click editor access."
 			},
 			imageredactor: {
 				name: "imageRedactor",
@@ -837,6 +844,15 @@
 				tags: ["code","extension","math","simulation","tool","scifi","design","canvas"],
 				date: "March 27, 2022",
 				description: "Customize or randomly generate a solar system with real orbital mechanics - planets, moons, and more."
+			},
+			paintings: {
+				skipRandom: true,
+				hidden: true,
+				name: "paintings",
+				size: "medium",
+				tags: ["code","design","art","draw","photography","collaboration"],
+				date: "September 13, 2023",
+				description: "A gallery of original artwork, often inspired by tutorials and guided by friends."
 			},
 			pawnpusher: {
 				name: "pawnPusher",
