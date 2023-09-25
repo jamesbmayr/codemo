@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>James Mayr | icons</title>
+		<meta name="description" content="icon library is a Javascript web demo by James Mayr">
+		<meta name="author" content="James Mayr">
+		<meta property="og:title" content="icon library">
+		<meta property="og:url" content="https://jamesmayr.com/iconlibrary/">
+		<meta property="og:description" content="icon library is a Javascript web demo by James Mayr">
+		<meta property="og:image" content="https://jamesmayr.com/iconlibrary/banner.png">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+		<link id="favicon" rel="shortcut icon" href="logos/project-logo-j-two-tone.svg">
+		<link href="https://fonts.googleapis.com/css2?family=Alata&amp;display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="svg.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<section id="controls">
+			<h1>icon library</h1>
+			<a id="j-logo" href="https://jamesmayr.com" target="_blank"><svg viewBox="10 10 80 80"><path></path></svg></a>
+			<label>
+				<input id="controls-color" title="select color" value="#444444" type="color">
+				<select id="controls-mode" title="select mode">
+					<option value="normal" selected>normal</option>
+					<option value="inverted">inverted</option>
+				</select>
+				<select id="controls-border" title="select border">
+					<option value="zoomed">zoomed in</option>
+					<option value="padding" selected>padding</option>
+					<option value="thin">thin border</option>
+					<option value="thick">thick border</option>
+				</select>
+				<select id="controls-shape" title="select shape">
+					<option value="circle">circle</option>
+					<option value="triangle-up">triangle up</option>
+					<option value="triangle-right">triangle right</option>
+					<option value="triangle-down">triangle down</option>
+					<option value="triangle-left">triangle left</option>
+					<option value="square" selected>square</option>
+					<option value="square-rounded">square (rounded)</option>
+					<option value="diamond">diamond</option>
+					<option value="diamond-rounded">diamond (rounded)</option>
+					<option value="rectangle-horizontal">horizontal rectangle</option>
+					<option value="rectangle-horizontal-rounded">horizontal rectangle (rounded)</option>
+					<option value="rectangle-vertical">vertical rectangle</option>
+					<option value="rectangle-vertical-rounded">vertical rectangle (rounded)</option>
+					<option value="hexagon-horizontal">horizontal hexagon</option>
+					<option value="hexagon-vertical">vertical hexagon</option>
+					<option value="octagon">octagon</option>
+					<option value="octagon-diagonal">diagonal octagon</option>
+				</select>
+			</label>
+			<label>
+				<input id="controls-search" placeholder="search..." type="text" spellcheck="false" autocomplete="off" autocapitalize="off" title="search icons">
+				<button id="controls-search-clear" title="clear search"><svg viewBox="10 10 80 80"><path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path></svg></button>
+				<button id="controls-search-icon" title="enter search"><svg viewBox="20 20 60 60"><path d="M 25 40 C 25 48 32 55 40 55 C 48 55 55 48 55 40 C 55 32 48 25 40 25 C 32 25 25 32 25 40 Z M 61 54 C 62 55 76 69 78 71 C 80 73 80 76 78 78 C 76 80 73 80 71 78 C 69 76 55 62 54 61 C 51 58 53 56 49 58 C 47 59 44 60 40 60 C 29 60 20 51 20 40 C 20 29 29 20 40 20 C 51 20 60 29 60 40 C 60 44 59 47 58 49 C 56 53 58 51 61 54 Z"></path></svg></button>
+			</label>
+		</section>
+		<section id="list">
+			<div id="list-inner"></div>
+			<div id="list-empty">
+				<svg viewBox="0 0 100 100"><path d="M 55 22 C 55 27 55 34 55 40 C 55 40 55 40 55 40 C 58 36 60 33 60 30 C 60 27 58 23 55 22 C 55 22 55 22 55 22 C 55 22 55 22 55 22 Z M 45 51 C 45 40 45 30 45 22 C 45 22 45 22 45 22 C 42 23 40 27 40 30 C 40 33 38 35 35 35 C 32 35 30 33 30 30 C 30 19 39 10 50 10 C 61 10 70 19 70 30 C 70 39 63 45 57 51 C 55 53 55 55 55 56 C 55 58 55 62 55 65 C 55 68 53 70 50 70 C 47 70 45 68 45 65 C 45 62 45 58 45 51 Z M 45 85 C 45 82 47 80 50 80 C 53 80 55 82 55 85 C 55 88 53 90 50 90 C 47 90 45 88 45 85 Z"></path></svg>
+				<div>[no results]</div>
+				<button id="list-empty-request">
+					<span><svg viewBox="10 10 80 80"><path d="M 63 45 C 63 48 65 50 68 50 C 71 50 73 48 73 45 C 73 42 71 40 68 40 C 65 40 63 42 63 45 Z M 45 45 C 45 48 47 50 50 50 C 53 50 55 48 55 45 C 55 42 53 40 50 40 C 47 40 45 42 45 45 Z M 27 45 C 27 48 29 50 32 50 C 35 50 37 48 37 45 C 37 42 35 40 32 40 C 29 40 27 42 27 45 Z M 37 71 C 35 72 28 76 24 78 C 20 80 20 80 22 76 C 23 74 24 72 25 70 C 26 68 27 66 25 65 C 15 59 10 55 10 45 C 10 30 28 20 50 20 C 72 20 90 30 90 45 C 90 60 72 70 50 70 C 45 70 41 69 37 71 Z"></path></svg> request it</span>
+					<span><svg viewBox="10 10 80 80"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg> requested</span>
+				</button>
+			</div>
+		</section>
+		<section id="selected" style="display: none;">
+			<div id="selected-overlay"></div>
+			<div id="selected-drawer">
+				<h2 id="selected-drawer-name"></h2>
+				<button id="selected-drawer-close" title="cancel selection"><svg viewBox="10 10 80 80"><path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path></svg></button>
+				<div id="selected-drawer-actions">
+					<button id="selected-drawer-copy" title="copy to clipboard">
+						<span><svg viewBox="10 10 80 80"><path d="M 45 40 C 48 40 51 40 54 40 C 57 40 60 43 60 46 C 60 49 60 52 60 55 C 65 55 70 55 73 55 C 74 55 75 54 75 53 C 75 45 75 35 75 27 C 75 26 74 25 73 25 C 65 25 55 25 47 25 C 46 25 45 26 45 27 C 45 30 45 35 45 40 C 45 40 45 40 45 40 Z M 27 45 C 26 45 25 46 25 47 C 25 55 25 65 25 73 C 25 74 26 75 27 75 C 35 75 45 75 53 75 C 54 75 55 74 55 73 C 55 65 55 55 55 47 C 55 46 54 45 53 45 C 45 45 35 45 27 45 Z M 60 60 C 60 65 60 70 60 74 C 60 77 57 80 54 80 C 45 80 35 80 26 80 C 23 80 20 77 20 74 C 20 65 20 55 20 46 C 20 43 23 40 26 40 C 30 40 35 40 40 40 C 40 35 40 30 40 26 C 40 23 43 20 46 20 C 55 20 65 20 74 20 C 77 20 80 23 80 26 C 80 35 80 45 80 54 C 80 57 77 60 74 60 C 70 60 65 60 60 60 C 60 60 60 60 60 60 Z"></path></svg> copy</span>
+						<span><svg viewBox="10 10 80 80"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg></span>
+					</button>
+					<button id="selected-drawer-download" title="download SVG">
+						<span><svg viewBox="10 10 80 80"><path d="M 26 50 C 26 52 27 53 29 55 C 32 58 34 60 36 62 C 38 64 38 67 36 69 C 34 71 31 71 29 69 C 25 65 20 60 15 55 C 13 53 12 52 12 50 C 12 48 13 47 15 45 C 20 40 25 35 29 31 C 31 29 34 29 36 31 C 38 33 38 36 36 38 C 34 40 32 42 29 45 C 27 47 26 48 26 50 Z M 43 84 C 40 84 38 82 39 78 C 42 66 49 33 52 21 C 53 17 55 16 57 16 C 60 16 62 18 61 22 C 58 35 51 67 48 79 C 47 83 45 84 43 84 Z M 74 50 C 74 48 73 47 71 45 C 68 42 66 40 64 38 C 62 36 62 33 64 31 C 66 29 69 29 71 31 C 75 35 80 40 85 45 C 87 47 88 48 88 50 C 88 52 87 53 85 55 C 80 60 75 65 71 69 C 69 71 66 71 64 69 C 62 67 62 64 64 62 C 66 60 68 58 71 55 C 73 53 74 52 74 50 Z"></path></svg> SVG</span>
+						<span><svg viewBox="10 10 80 80"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg></span>
+					</button>
+					<button id="selected-drawer-export" title="export PNG">
+						<span><svg viewBox="10 10 80 80"><path d="M 43 54 C 43 54 43 54 46 49 C 49 44 49 44 52 49 C 52 49 55 54 55 54 C 58 59 58 59 59.5 56.5 C 61 54 61 54 64 59 C 64 59 67 64 67 64 C 70 69 70 70 73 70 C 74 70 75 69 75 68 C 75 55 75 45 75 32 C 75 31 74 30 73 30 C 58 30 42 30 27 30 C 26 30 25 31 25 32 C 25 44 25 53 25 64 C 28 59 28 59 31 54 C 34 49 34 49 37 54 C 40 59 40 59 43 54 Z M 59 40 C 59 37 62 34 65 34 C 68 34 71 37 71 40 C 71 43 68 46 65 46 C 62 46 59 43 59 40 Z M 20 69 C 20 55 20 45 20 31 C 20 28 23 25 26 25 C 42 25 58 25 74 25 C 77 25 80 28 80 31 C 80 45 80 55 80 69 C 80 72 77 75 74 75 C 58 75 42 75 26 75 C 23 75 20 72 20 69 Z"></path></svg> PNG</span>
+						<span><svg viewBox="10 10 80 80"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg></span>
+					</button>
+					<a id="selected-drawer-edit" title="open in iconDesigner" href="#" target="_blank">
+						<svg viewBox="10 10 80 80"><path d="M 71 56 C 70 57 64 63 57 70 C 54 73 56 71 56 75 C 56 78 54 80 51 80 C 48 80 46 78 46 75 C 46 72 48 70 51 70 C 55 70 53 72 56 69 C 63 62 65 60 66 59 C 66 59 65 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 C 19 55 20 53 24 49 C 25 48 26 47 29 44 C 30 43 36 37 43 30 C 46 27 44 29 44 25 C 44 22 46 20 49 20 C 52 20 54 22 54 25 C 54 28 52 30 49 30 C 45 30 47 28 44 31 C 37 38 35 40 34 41 C 34 41 35 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 81 45 80 47 76 51 C 75 52 74 53 71 56 Z"></path></svg> edit
+					</a>
+				</div>
+				<div id="selected-drawer-svg"></div>
+				<p id="selected-drawer-path"></p>
+			</div>
+		</section>
+	</body>
+</html>
