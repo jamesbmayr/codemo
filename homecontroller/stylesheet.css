@@ -26,7 +26,7 @@
 		--dark-purple: #551155;
 		--font: sans-serif;
 		--font-size: 2.5vh;
-		--fade-opacity: 0.2;
+		--fade-opacity: 0.35;
 		--gap-size: 8px;
 		--transition: 0.25s;
 	}
@@ -53,85 +53,12 @@
 	.icon {
 		height: calc(var(--font-size) * 2);
 		width: calc(var(--font-size) * 2);
-		background-color: transparent;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: contain;
 		transition: var(--transition);
 	}
 
 	.icon:hover, .icon:focus {
 		filter: drop-shadow(0 0 calc(var(--gap-size) / 2) var(--dark-gray));
 	}
-
-	/* images */
-		.icon-on {
-			background-image: url("images/on.png");
-		}
-
-		.icon-off {
-			background-image: url("images/off.png");
-		}
-
-		.icon-play {
-			background-image: url("images/right.png");
-		}
-
-		.icon-pause {
-			background-image: url("images/pause.png");
-		}
-
-		.icon-right {
-			background-image: url("images/right.png");
-		}
-
-		.icon-left {
-			background-image: url("images/left.png");
-		}
-
-		.icon-up {
-			background-image: url("images/up.png");
-		}
-
-		.icon-down {
-			background-image: url("images/down.png");
-		}
-
-		.icon-target {
-			background-image: url("images/target.png");
-		}
-
-		.icon-circle {
-			background-image: url("images/circle.png");
-		}
-
-		.icon-question {
-			background-image: url("images/question.png");
-		}
-
-		.icon-out {
-			background-image: url("images/out.png");
-		}
-
-		.icon-in {
-			background-image: url("images/in.png");
-		}
-
-		.icon-65 {
-			background-image: url("images/65.png");
-		}
-
-		.icon-68 {
-			background-image: url("images/68.png");
-		}
-
-		.icon-70 {
-			background-image: url("images/70.png");
-		}
-
-		.icon-72 {
-			background-image: url("images/72.png");
-		}
 
 /*** home ***/
 	#home {
@@ -189,15 +116,9 @@
 		}
 
 		.device-image {
-			position: absolute;
-			top: 0;
-			left: 0;
-			height: 100%;
 			width: 100%;
-			background-color: transparent;
-			background-position: center;
-			background-size: contain;
-			background-repeat: no-repeat;
+			height: 100%;
+			fill: var(--dark-gray);
 			opacity: var(--fade-opacity);
 		}
 
@@ -282,8 +203,8 @@
 /*** about ***/
 	#about {
 		position: absolute;
-		top: var(--gap-size);
-		left: var(--gap-size);
+		top: 14px;
+		left: 14px;
 		background-color: transparent;
 		-webkit-appearance: none;
 	}
@@ -297,10 +218,11 @@
 			padding: 0;
 			user-select: none;
 			outline: none;
+			transition: var(--transition);
 		}
 
-		#about summary .icon {
-			filter: invert(30%);
+		#about summary svg {
+			fill: var(--light-gray);
 		}
 
 		#about summary::marker {
@@ -311,8 +233,8 @@
 			display: none;
 		}
 
-		#about summary:hover .icon, #about summary:focus .icon {
-			filter: invert(94%) drop-shadow(0 0 var(--gap-size) var(--light-gray));
+		#about summary:hover, #about summary:focus {
+			filter: drop-shadow(0 0 var(--gap-size) var(--light-gray));
 		}
 
 	/* contents */
@@ -369,8 +291,8 @@
 			height: calc(2 * var(--font-size));
 			width: calc(2 * var(--font-size));
 			background-color: transparent;
-			filter: invert(30%);
 			cursor: pointer;
+			transition: var(--transition);
 		}
 
 		#about-close .icon {
@@ -380,7 +302,7 @@
 		}
 
 		#about-close:hover, #about-close:focus {
-			filter: drop-shadow(0 0 calc(var(--gap-size) / 2) var(--medium-gray));
+			filter: drop-shadow(0 0 var(--gap-size) var(--dark-gray));
 		}
 
 	/* state */
@@ -395,23 +317,23 @@
 		bottom: calc(var(--gap-size));
 		right: calc(var(--gap-size) * 2 + var(--font-size) * 2);
 		border: none;
-		padding: 0;
 		margin: 0;
 		height: calc(2 * var(--font-size));
 		width: calc(2 * var(--font-size));
-		background-color: transparent;
-		filter: invert(30%);
+		background: transparent;
 		cursor: pointer;
+		transition: var(--transition);
 	}
 
-	#flip .icon {
+	#flip svg {
 		position: absolute;
 		top: 0;
 		left: 0;
+		fill: var(--light-gray);
 	}
 
 	#flip:hover, #flip:focus {
-		filter: invert(94%) drop-shadow(0 0 calc(var(--gap-size) / 2) var(--dark-gray));
+		filter: drop-shadow(0 0 var(--gap-size) var(--light-gray));
 	}
 
 /*** full-screen ***/
@@ -428,17 +350,18 @@
 		outline: none;
 		cursor: pointer;
 		user-select: none;
+		transition: var(--transition);
 	}
 
-	#full-screen-on .icon, #full-screen-off .icon {
+	#full-screen-on svg, #full-screen-off svg {
 		position: absolute;
 		top: 0;
 		left: 0;
-		filter: invert(30%);
+		fill: var(--light-gray);
 	}
 
-	#full-screen-on:hover .icon, #full-screen-on:focus .icon, #full-screen-off:hover .icon, #full-screen-off:focus .icon {
-		filter: invert(94%) drop-shadow(0 0 var(--gap-size) var(--light-gray));
+	#full-screen-on:hover, #full-screen-on:focus, #full-screen-off:hover, #full-screen-off:focus {
+		filter: drop-shadow(0 0 var(--gap-size) var(--light-gray));
 	}
 
 	#full-screen-overlay {
@@ -465,11 +388,7 @@
 		position: absolute;
 		top: 14px;
 		right: 8px;
-		background-color: transparent;
-		background-image: url("../resources/j.png");
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: center center;
+		color: var(--light-gray);
 		height: 32px;
 		width: 32px;
 		cursor: pointer;
@@ -478,6 +397,16 @@
 		transition: var(--transition);
 	}
 
+	#j-logo svg {
+		fill: currentColor;
+		height: 100% !important;
+		width: auto !important;
+	}
+
+	#j-logo path {
+		d: path("M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z");
+	}
+
 	#j-logo:hover, #j-logo:focus {
-		filter: drop-shadow(0px 0px 4px #dddddd);
+		filter: drop-shadow(0 0 var(--gap-size) var(--light-gray));
 	}

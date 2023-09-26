@@ -12,7 +12,7 @@
 		<meta property="og:image" content="https://jamesmayr.com/homecontroller/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link rel="stylesheet" href="stylesheet.css">
-		<link rel="shortcut icon" href="images/home.png">
+		<link rel="shortcut icon" href="data:image/svg+xml,<svg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'><path fill='%23dddddd' d='M 5 50 C 5 75 26 95 50 95 C 75 95 95 75 95 50 C 95 26 75 5 50 5 C 26 5 5 26 5 50 Z M 0 50 C 0 22.5 22.5 0 50 0 C 77.5 0 100 22.5 100 50 C 100 77.5 77.5 100 50 100 C 22.5 100 0 77.5 0 50 Z M 72 75 C 74 75 75 74 75 72 C 75 70 75 60 75 49 C 75 44 58 31 54 28 C 50 25 50 25 46 28 C 42 31 25 44 25 49 C 25 60 25 70 25 72 C 25 74 26 75 28 75 C 35 75 45 75 53 75 C 55 75 55 75 55 73 C 55 66 55 60 55 52 C 55 51 56 50 57 50 C 61 50 64 50 68 50 C 69 50 70 51 70 52 C 70 60 70 66 70 73 C 70 75 70 75 72 75 Z M 43 50 C 44 50 45 51 45 52 C 45 56 45 59 45 63 C 45 64 44 65 43 65 C 39 65 36 65 32 65 C 31 65 30 64 30 63 C 30 59 30 56 30 52 C 30 51 31 50 32 50 C 36 50 39 50 43 50 Z M 80 74 C 80 77 77 80 74 80 C 60 80 40 80 26 80 C 23 80 20 77 20 74 C 20 70 20 60 20 48 C 20 41 36 29 40 26 C 44 23 48 20 50 20 C 52 20 56 23 60 26 C 64 29 80 41 80 48 C 80 60 80 70 80 74 Z'></path></svg>">
 		<script src="script.js" defer></script>
 	</head>
 	<body>
@@ -21,10 +21,16 @@
 			<div id="devices"></div>
 		</div>
 		<details id="about">
-			<summary><div class="icon icon-question"></div></summary>
+			<summary>
+				<svg viewbox="0 0 100 100">
+					<path d="M 5 50 C 5 75 26 95 50 95 C 75 95 95 75 95 50 C 95 26 75 5 50 5 C 26 5 5 26 5 50 Z M 0 50 C 0 22.5 22.5 0 50 0 C 77.5 0 100 22.5 100 50 C 100 77.5 77.5 100 50 100 C 22.5 100 0 77.5 0 50 Z M 40 30 C 40 33 38 35 35 35 C 32 35 30 33 30 30 C 30 19 39 10 50 10 C 61 10 70 19 70 30 C 70 39 63 45 57 51 C 55 53 55 56 55 57 C 55 58 55 62 55 65 C 55 68 53 70 50 70 C 47 70 45 68 45 65 C 45 62 45 58 45 55 C 45 50 47 48 50 45 C 55 40 60 35 60 30 C 60 25 55 20 50 20 C 45 20 40 25 40 30 Z M 45 85 C 45 82 47 80 50 80 C 53 80 55 82 55 85 C 55 88 53 90 50 90 C 47 90 45 88 45 85 Z"></path>
+				</svg>
+			</summary>
 			<div id="about-contents">
 				<button id="about-close">
-					<div class="icon icon-off"></div>
+					<svg viewbox="0 0 100 100">
+						<path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path>
+					</svg>
 				</button>
 				<p><b>homeController</b> is a tool for managing my smart devices.</p>
 				<p>The buttons on this screen activate a web request to <a href="https://ifttt.com" target="_blank" nofollow>IFTTT</a>, a service that connects triggers (like this webhook) to other APIs. Here, I'm connecting to <a href="https://www.philips-hue.com/en-us" target="_blank" nofollow>Philips Hue</a>, <a href="https://www.sonos.com/en-us/home" target="_blank" nofollow>Sonos</a>, <a href="https://www.irobot.com/roomba" target="_blank" nofollow>Roomba</a>, <a href="https://www.tuya.com/" target="_blank" nofollow>Tuya SmartLife</a>, and <a href="https://www.honeywellhome.com/us/en" target="_blank" nofollow>Honeywell</a>.</p>
@@ -33,14 +39,21 @@
 			</div>
 		</details>
 		<button id="flip">
-			<div class="icon icon-left"></div>
-			<div class="icon icon-right"></div>
-			<div class="icon icon-up"></div>
-			<div class="icon icon-down"></div>
+			<svg viewbox="10 10 80 80">
+				<path d="M 25 33 C 27 30 31 31 33 33 C 35 35 33 39 33 39 C 32 41 30 45 30 50 C 30 59 36 67 47 70 C 44 67 44 64 46 62 C 48 60 51 60 53 62 C 55 64 58 67 60 69 C 62 71 64 73 64 75 C 64 77 62 79 60 81 C 58 83 55 86 53 88 C 51 90 48 90 46 88 C 44 86 44 83 46 81 C 46 81 46 81 47 80 C 29 77 20 64 20 50 C 20 42 23 36 25 33 Z M 75 67 C 73 70 69 69 67 67 C 65 65 67 61 67 61 C 68 59 70 55 70 50 C 70 41 64 33 53 30 C 56 33 56 36 54 38 C 52 40 49 40 47 38 C 45 36 42 33 40 31 C 38 29 36 27 36 25 C 36 23 38 21 40 19 C 42 17 45 14 47 12 C 49 10 52 10 54 12 C 56 14 56 17 54 19 C 54 19 54 19 53 20 C 71 23 80 36 80 50 C 80 58 77 64 75 67 Z"></path>
+			</svg>
 		</button>
-		<button id="full-screen-on"><div class="icon icon-out"></div></button>
-		<button id="full-screen-off" invisible="true"><div class="icon icon-in"></div></button>
-		<a id="j-logo" href="https://jamesmayr.com" target="_blank"></a>
+		<button id="full-screen-on">
+			<svg viewbox="10 10 80 80">
+				<path d="M 50 57 C 46 61 41 66 37 70 C 41 70 42 70 43 70 C 46 70 48 72 48 75 C 48 78 46 80 43 80 C 41 80 34 80 27 80 C 25 80 23 80 21.5 78.5 C 20 77 20 75 20 73 C 20 66 20 59 20 57 C 20 54 22 52 25 52 C 28 52 30 54 30 57 C 30 58 30 59 30 63 C 34 59 39 54 43 50 C 35 42 31 38 30 37 C 30 41 30 42 30 43 C 30 46 28 48 25 48 C 22 48 20 46 20 43 C 20 41 20 34 20 27 C 20 24 20 23 21.5 21.5 C 23 20 24 20 27 20 C 34 20 41 20 43 20 C 46 20 48 22 48 25 C 48 28 46 30 43 30 C 42 30 41 30 37 30 C 38 31 42 35 50 43 C 58 35 62 31 63 30 C 59 30 58 30 57 30 C 54 30 52 28 52 25 C 52 22 54 20 57 20 C 59 20 66 20 73 20 C 76 20 77 20 78.5 21.5 C 80 23 80 24 80 27 C 80 34 80 41 80 43 C 80 46 78 48 75 48 C 72 48 70 46 70 43 C 70 42 70 41 70 37 C 69 38 65 42 57 50 C 61 54 66 59 70 63 C 70 59 70 58 70 57 C 70 54 72 52 75 52 C 78 52 80 54 80 57 C 80 59 80 66 80 73 C 80 75 80 77 78.5 78.5 C 77 80 75 80 73 80 C 66 80 59 80 57 80 C 54 80 52 78 52 75 C 52 72 54 70 57 70 C 58 70 59 70 63 70 C 59 66 54 61 50 57 Z"></path>
+			</svg>
+		</button>
+		<button id="full-screen-off" invisible="true">
+			<svg viewbox="10 10 80 80">
+				<path d="M 15 15 C 17 13 20 13 22 15 C 27 20 34 27 37 30 C 37 25 37 23 37 20 C 37 17 39 15 42 15 C 45 15 47 17 47 20 C 47 25 47 33 47 40 C 47 42 47 44 45.5 45.5 C 44 47 42 47 40 47 C 33 47 25 47 20 47 C 17 47 15 45 15 42 C 15 39 17 37 20 37 C 23 37 25 37 30 37 C 27 34 20 27 15 22 C 13 20 13 17 15 15 Z M 15 85 C 13 83 13 80 15 78 C 20 73 27 66 30 63 C 25 63 23 63 20 63 C 17 63 15 61 15 58 C 15 55 17 53 20 53 C 25 53 33 53 40 53 C 42 53 44 53 45.5 54.5 C 47 56 47 58 47 60 C 47 67 47 75 47 80 C 47 83 45 85 42 85 C 39 85 37 83 37 80 C 37 77 37 75 37 70 C 34 73 27 80 22 85 C 20 87 17 87 15 85 Z M 85 15 C 87 17 87 20 85 22 C 80 27 73 34 70 37 C 75 37 77 37 80 37 C 83 37 85 39 85 42 C 85 45 83 47 80 47 C 75 47 67 47 60 47 C 58 47 56 47 54.5 45.5 C 53 44 53 42 53 40 C 53 33 53 25 53 20 C 53 17 55 15 58 15 C 61 15 63 17 63 20 C 63 23 63 25 63 30 C 66 27 73 20 78 15 C 80 13 83 13 85 15 Z M 85 85 C 83 87 80 87 78 85 C 73 80 66 73 63 70 C 63 75 63 77 63 80 C 63 83 61 85 58 85 C 55 85 53 83 53 80 C 53 75 53 67 53 60 C 53 58 53 56 54.5 54.5 C 56 53 58 53 60 53 C 67 53 75 53 80 53 C 83 53 85 55 85 58 C 85 61 83 63 80 63 C 77 63 75 63 70 63 C 73 66 80 73 85 78 C 87 80 87 83 85 85 Z"></path>
+			</svg>
+		</button>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"><svg viewBox="10 10 80 80"><path></path></svg></a>
 		<div id="full-screen-overlay" invisible></div>
 	</body>
 </html>
