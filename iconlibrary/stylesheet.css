@@ -220,9 +220,8 @@
 		}
 
 			#list-empty svg {
-				display: block;
-				height: calc(3 * var(--font-size)) !important;
-				margin: auto auto;
+				display: inline-block;
+				height: calc(var(--font-size) * 4 / 5);
 			}
 
 			#list-empty-request {
