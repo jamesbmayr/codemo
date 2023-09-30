@@ -71,7 +71,7 @@ window.onload = function() {
 			window.addEventListener("resize", resizeScreen)
 			function resizeScreen() {
 				if (settings.canvas) {
-					settings.canvas.height = (window.innerHeight - 50)
+					settings.canvas.height = (window.innerHeight - 60)
 					settings.canvas.width  =  window.innerWidth
 					canvas.setAttribute("height", settings.canvas.height)
 					canvas.setAttribute("width",  settings.canvas.width )
@@ -170,7 +170,7 @@ window.onload = function() {
 					settings.cursor.since = new Date().getTime()
 
 					settings.cursor.x = event.touches ?  event.touches[0].clientX       :  event.clientX
-					settings.cursor.y = event.touches ? (event.touches[0].clientY - 50) : (event.clientY - 50)
+					settings.cursor.y = event.touches ? (event.touches[0].clientY - 60) : (event.clientY - 60)
 
 					if (event.touches) {
 						setTimeout(function() {
@@ -226,7 +226,7 @@ window.onload = function() {
 			function moveMouse(event) {
 				if (settings.cursor) {
 					settings.cursor.x = event.touches ?  event.touches[0].clientX       :  event.clientX
-					settings.cursor.y = event.touches ? (event.touches[0].clientY - 50) : (event.clientY - 50)
+					settings.cursor.y = event.touches ? (event.touches[0].clientY - 60) : (event.clientY - 60)
 					settings.cursor.closest.distance = getDistance(settings.cursor.x, settings.cursor.y, settings.cursor.closest.x, settings.cursor.closest.y)
 
 					if (event.touches) {
@@ -654,7 +654,7 @@ window.onload = function() {
 			function zoomIn(event) {
 				if (settings.canvas.zoom < 8) {
 					settings.canvas.x = settings.canvas.x - ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
-					settings.canvas.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+					settings.canvas.y = settings.canvas.y - ((event.clientY || event.touches[0].clientY) - 60) * settings.canvas.zoom
 					settings.canvas.zoom *= 2
 				}
 			}
@@ -664,7 +664,7 @@ window.onload = function() {
 				if (settings.canvas.zoom > 0.25) {
 					settings.canvas.zoom /= 2
 					settings.canvas.x = settings.canvas.x + ((event.clientX || event.touches[0].clientX)     ) * settings.canvas.zoom
-					settings.canvas.y = settings.canvas.y + ((event.clientY || event.touches[0].clientY) - 50) * settings.canvas.zoom
+					settings.canvas.y = settings.canvas.y + ((event.clientY || event.touches[0].clientY) - 60) * settings.canvas.zoom
 				}
 			}
 
@@ -672,13 +672,13 @@ window.onload = function() {
 		/* startDrag */
 			function startDrag(event) {
 				settings.live.x = settings.canvas.x -  (event.touches ? event.touches[0].clientX : event.clientX)
-				settings.live.y = settings.canvas.y - ((event.touches ? event.touches[0].clientY : event.clientY) - 50)
+				settings.live.y = settings.canvas.y - ((event.touches ? event.touches[0].clientY : event.clientY) - 60)
 			}
 
 		/* moveDrag */
 			function moveDrag(event) {
 				settings.canvas.x = settings.live.x +  (event.touches ? event.touches[0].clientX : event.clientX)
-				settings.canvas.y = settings.live.y + ((event.touches ? event.touches[0].clientY : event.clientY) - 50)
+				settings.canvas.y = settings.live.y + ((event.touches ? event.touches[0].clientY : event.clientY) - 60)
 			}
 
 		/* endDrag */

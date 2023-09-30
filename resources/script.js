@@ -1831,6 +1831,13 @@
 						j.addEventListener("mouseenter", captureJ)
 						j.addEventListener("click", captureJ)
 					document.body.appendChild(j)
+
+					let jSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+						jSVG.setAttribute("viewBox", "10 10 80 80")
+					j.appendChild(jSVG)
+
+					let jPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					jSVG.appendChild(jPath)
 			} catch (error) {}
 		}
 

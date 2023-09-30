@@ -39,7 +39,7 @@
 		#j-logo {
 			position: absolute;
 			top: 14px;
-			right: 8px;
+			right: 7px;
 			height: 32px;
 			width: 32px;
 			color: var(--light-blue);
@@ -60,7 +60,7 @@
 		}
 
 		#j-logo:hover, #j-logo:focus {
-			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+			filter: drop-shadow(0 0 calc(2 * var(--shadow-size)) var(--dark-gray));
 		}
 
 /*** controls ***/

@@ -387,7 +387,7 @@
 	#j-logo {
 		position: absolute;
 		top: 14px;
-		right: 8px;
+		right: 7px;
 		color: var(--light-gray);
 		height: 32px;
 		width: 32px;
@@ -399,8 +399,8 @@
 
 	#j-logo svg {
 		fill: currentColor;
-		height: 100% !important;
-		width: auto !important;
+		height: 100%;
+		width: auto;
 	}
 
 	#j-logo path {

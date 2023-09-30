@@ -32,7 +32,7 @@
 		padding: 5px;
 		border-radius: 5px;
 		border: none;
-		height: 40px;
+		height: 50px;
 		width: 50px;
 		background-color: #444444;
 		color: #dddddd;
@@ -46,9 +46,9 @@
 
 	#canvas {
 		position: fixed;
-		top: 50px;
+		top: 60px;
 		left: 0px;
-		height: calc(100% - 50px);
+		height: calc(100% - 60px);
 		width: 100%;
 		overflow: hidden;
 	}
@@ -95,7 +95,7 @@
 		position: fixed;
 		top: 0px;
 		left: 0px;
-		height: 50px;
+		height: 60px;
 		width: 100%;
 		background-color: #222222;
 	}
@@ -109,7 +109,7 @@
 		position: fixed;
 		top: 0px;
 		left: 0px;
-		height: 50px;
+		height: 60px;
 		width: calc(100% - 40px);
 		overflow-y: hidden;
 		overflow-x: auto;
@@ -123,13 +123,13 @@
 	.spacer {
 		display: inline-block;
 		width: 20px;
-		height: 50px;
+		height: 60px;
 	}
 
 	/* creation */
 		#creation {
 			display: inline-block;
-			height: 50px;
+			height: 60px;
 		}
 
 		#shape {
@@ -137,7 +137,6 @@
 		}
 
 		#spacing {
-			height: 40px;
 			width: 50px;
 		}
 
@@ -146,7 +145,8 @@
 			vertical-align: top;
 			display: inline-block;
 			color: #dddddd;
-			font-size: 25px;
+			font-size: 32px;
+			height: 60px;
 			box-sizing: border-box;
 			padding: 10px;
 		}
@@ -158,7 +158,7 @@
 	/* tools */
 		#tools {
 			display: inline-block;
-			height: 50px;
+			height: 60px;
 			width: auto;
 		}
 
@@ -171,26 +171,31 @@
 		}
 
 		#instrument {
-			height: 40px;
+			height: 50px;
 			width: 150px;
 		}
 
 	/* j-logo */
 		#j-logo {
 			position: absolute;
-			top: 10px;
-			right: 4px;
-			background-color: transparent;
-			background-image: url("../resources/j.png");
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-position: center center;
+			top: 14px;
+			right: 7px;
+			color: #04b1ff;
 			height: 32px;
 			width: 32px;
 			cursor: pointer;
 			z-index: 1000;
 			outline: none;
-			filter: drop-shadow(0px 0px 2px #999999);
+		}
+
+		#j-logo svg {
+			fill: currentColor;
+			height: 100%;
+			width: auto;
+		}
+
+		#j-logo path {
+			d: path("M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z");
 		}
 
 		#j-logo:hover, #j-logo:focus {

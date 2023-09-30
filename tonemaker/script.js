@@ -542,6 +542,13 @@
 						jLogo.target = "_blank"
 					fileSection.appendChild(jLogo)
 
+					const jLogoSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+						jLogoSVG.setAttribute("viewBox", "10 10 80 80")
+					jLogo.appendChild(jLogoSVG)
+
+					const jLogoPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
+					jLogoSVG.appendChild(jLogoPath)
+
 				// download
 					const downloadButton = document.createElement("button")
 						downloadButton.id = "tool-meta-download"

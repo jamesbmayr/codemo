@@ -249,7 +249,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		padding: calc(2 * var(--gap-size) + 4 * var(--border-size)) calc(var(--gap-size) + 3 * var(--border-size));
+		padding: calc(1 * var(--gap-size) + 4 * var(--border-size)) calc(var(--gap-size) + 3 * var(--border-size));
 		width: 100%;
 		box-sizing: border-box;
 		height: calc(2 * var(--monospace-font-size) + 6 * var(--gap-size));
@@ -274,9 +274,9 @@
 			outline: none;
 			transition: var(--transition-time);
 			line-height: 1;
-			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
 			width: calc(var(--monospace-font-size) * 14);
-			max-width: calc(100vw - 5 * (2 * var(--monospace-font-size) + 2 * var(--border-size)) - 2 * (var(--gap-size) + 3 * var(--border-size)) - 2 * var(--gap-size));
+			max-width: calc(100vw - 5 * (2 * var(--monospace-font-size) + 2 * var(--border-size) + var(--gap-size)) - 2 * (var(--gap-size) + 3 * var(--border-size)) - var(--gap-size));
 			text-align: left;
 			background-color: var(--medium-dark-gray);
 			box-sizing: border-box;
@@ -295,8 +295,8 @@
 			font-family: var(--font-family);
 			background-color: var(--medium-dark-gray);
 			border-radius: var(--border-radius);
-			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
-			width: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
+			width: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + var(--gap-size));
 			line-height: 1;
 			text-align: center;
 			cursor: pointer;
@@ -371,18 +371,28 @@
 	/* j-logo */
 		#j-logo {
 			position: fixed;
-			top: 14px;
-			right: 8px;
+			top: 9px;
+			right: 7px;
 			background-color: var(--medium-dark-gray);
-			background-image: url("../resources/j.png");
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-position: center center;
-			height: 32px; width: 32px;
+			color: var(--light-blue);
+			height: 32px;
+			width: 32px;
+			padding: var(--gap-size) 0 var(--gap-size) var(--border-size);
 			cursor: pointer; z-index: 1000;
 			outline: none;			
 			border-radius: 0 var(--border-radius) var(--border-radius) 0;
 			transition: var(--transition-time);
+
+		}
+
+		#j-logo svg {
+			fill: currentColor;
+			height: 100%;
+			width: auto;
+		}
+
+		#j-logo path {
+			d: path("M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z");
 		}
 			
 		#j-logo:hover, #j-logo:focus {
@@ -392,14 +402,14 @@
 	/* toast */
 		#controls-toast {
 			position: absolute;
-			top: calc(2 * var(--gap-size) + 4 * var(--border-size));
+			top: calc(var(--gap-size) + 4 * var(--border-size));
 			left: 50%;
 			z-index: 1001;
 			transform: translateX(-50%);
 			text-align: center;
 			width: 100%;
-			max-width: calc(100vw - 2 * var(--gap-size) - 8 * var(--border-size));
-			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size));
+			max-width: calc(100vw - 2 * var(--gap-size) - 6 * var(--border-size));
+			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
 			line-height: 1;
 			font-size: var(--monospace-font-size);
 			font-family: var(--monospace-font);
