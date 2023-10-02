@@ -312,7 +312,7 @@
 			background: transparent !important;
 			color: var(--light-gray) !important;
 			margin-top: calc(-1 * var(--gap-size));
-			width: calc(100% - 2 * var(--font-size) - 4 * var(--gap-size)) !important;
+			width: calc(100% - 2 * var(--font-size) - 6 * var(--gap-size)) !important;
 			text-align: center;
 		}
 

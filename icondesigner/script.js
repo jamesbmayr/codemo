@@ -860,6 +860,11 @@
 							recordHistory()
 						}
 
+					// actual event
+						if (event && !event.itemData) {
+							ELEMENTS.controls.addShape.value = "circle"
+						}
+
 					// return
 						return STATE.items[id]
 				} catch (error) {console.log(error)}

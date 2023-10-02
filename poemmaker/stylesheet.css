@@ -420,7 +420,7 @@
 			pointer-events: none;
 			opacity: 0;
 			transition: var(--transition-time);
-			padding: calc(1.5 * var(--gap-size)) calc(2 * var(--gap-size));
+			padding: calc(2.5 * var(--gap-size)) calc(2 * var(--gap-size));
 			box-sizing: border-box;
 			user-select: none;
 			-webkit-user-select: none;
