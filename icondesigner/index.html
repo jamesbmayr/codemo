@@ -63,7 +63,7 @@
 							<input id="controls-svg-scale" type="checkbox">
 						</label>
 					</div>
-					<details id="controls-description" class="controls-label" open>
+					<details id="controls-description" class="controls-label">
 						<summary>
 							<span>controls</span>
 						</summary>
@@ -71,8 +71,11 @@
 							<span>scroll</span><span>zoom</span>
 							<span>drag</span><span>move</span>
 							<span>shift-drag</span><span>resize</span>
-							<span>shift-alt-drag</span><span>resize @ ratio</span>
-							<span>alt-drag</span><span>rotate</span>
+							<span>shift-opt-drag</span><span>resize @ ratio</span>
+							<span>opt-drag</span><span>rotate</span>
+							<span>doubleclick</span><span>lock / unlock</span>
+							<span>shift-doubleclick</span><span>duplicate</span>
+							<span>opt-doubleclick</span><span>hide</span>
 						</div>
 					</details>
 				</div>
@@ -97,11 +100,35 @@
 				<div id="controls-edit">
 					<button id="controls-undo" title="undo action"><svg viewBox="10 10 80 80"><path d="M 65 30 C 79 30 90 41 90 55 C 90 69 79 80 65 80 C 62 80 58 80 55 80 C 52 80 50 78 50 75 C 50 72 52 70 55 70 C 58 70 62 70 65 70 C 72 70 80 62 80 55 C 80 48 72 40 65 40 C 60 40 30 40 27 40 C 30 43 32 45 34 47 C 36 49 36 52 34 54 C 32 56 29 56 27 54 C 23 50 18 45 13 40 C 11 38 10 37 10 35 C 10 33 11 32 13 30 C 18 25 23 20 27 16 C 29 14 32 14 34 16 C 36 18 36 21 34 23 C 32 25 30 27 27 30 C 30 30 60 30 65 30 Z"></path></svg> undo</button>
 					<button id="controls-redo" title="redo action"><svg viewBox="10 10 80 80"><path d="M 35 70 C 21 70 10 59 10 45 C 10 31 21 20 35 20 C 38 20 42 20 45 20 C 48 20 50 22 50 25 C 50 28 48 30 45 30 C 42 30 38 30 35 30 C 28 30 20 38 20 45 C 20 52 28 60 35 60 C 40 60 70 60 73 60 C 70 57 68 55 66 53 C 64 51 64 48 66 46 C 68 44 71 44 73 46 C 77 50 82 55 87 60 C 89 62 90 63 90 65 C 90 67 89 68 87 70 C 82 75 77 80 73 84 C 71 86 68 86 66 84 C 64 82 64 79 66 77 C 68 75 70 73 73 70 C 70 70 40 70 35 70 Z"></path></svg> redo</button>
-					<label id="controls-import-outer" class="pseudobutton" title="import SVG file">
+					<label id="controls-import-outer" class="pseudobutton" title="import SVG file" tabindex="0">
 						<span><svg viewBox="10 10 80 80"><path d="M 55 80 C 62 80 69 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 C 20 82 22 80 25 80 C 31 80 38 80 45 80 C 45 65 45 39 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 39 55 65 55 80 Z"></path></svg> import SVG</span>
 						<input id="controls-import" type="file">
 					</label>
-					<button id="controls-add" title="add shape to SVG"><svg viewBox="10 10 80 80"><path d="M 55 45 C 62 45 69 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 69 55 62 55 55 55 C 55 62 55 69 55 75 C 55 78 53 80 50 80 C 47 80 45 78 45 75 C 45 69 45 62 45 55 C 38 55 31 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 31 45 38 45 45 45 C 45 38 45 31 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 31 55 38 55 45 Z"></path></svg> add shape</button>
+					<button id="controls-add" title="add shape to SVG"><svg viewBox="10 10 80 80"><path d="M 55 45 C 62 45 69 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 69 55 62 55 55 55 C 55 62 55 69 55 75 C 55 78 53 80 50 80 C 47 80 45 78 45 75 C 45 69 45 62 45 55 C 38 55 31 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 31 45 38 45 45 45 C 45 38 45 31 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 31 55 38 55 45 Z"></path></svg> <select id="controls-add-shape">
+						<optgroup label="primitives">
+							<option value="circle">circle</option>
+							<option value="ellipse">ellipse</option>
+							<option value="line">line</option>
+							<option value="polyline">polyline</option>
+							<option value="rect">rect</option>
+							<option value="polygon">polygon</option>
+						</optgroup>
+						<optgroup label="custom">
+							<option value="path">path</option>
+							<option value="curves">curves</option>
+						</optgroup>
+						<optgroup label="polygons">
+							<option value="triangle">triangle</option>
+							<option value="quadrilateral">quadrilateral</option>
+							<option value="pentagon">pentagon</option>
+							<option value="hexagon">hexagon</option>
+							<option value="septagon">septagon</option>
+							<option value="octagon">octagon</option>
+							<option value="nonagon">nonagon</option>
+							<option value="decagon">decagon</option>
+							<option value="dodecagon">dodecagon</option>
+						</optgroup>
+					</select></button>
 				</div>
 			</div>
 			<div id="controls-list"></div>

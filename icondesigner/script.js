@@ -4,6 +4,7 @@
 			input: "input",
 			change: "change",
 			click: "click",
+			doubleclick: "dblclick",
 			mousedown: "mousedown",
 			mousemove: "mousemove",
 			mouseup: "mouseup",
@@ -36,6 +37,7 @@
 				undo: document.querySelector("#controls-undo"),
 				redo: document.querySelector("#controls-redo"),
 				add: document.querySelector("#controls-add"),
+				addShape: document.querySelector("#controls-add-shape"),
 				list: document.querySelector("#controls-list"),
 			},
 			container: {
@@ -66,7 +68,7 @@
 			loopAttempts: 20, // #
 			points: {
 				r: "0.5%", // %
-				pointWidth: "0.5%", // %
+				pointWidth: "0.75%", // %
 				lineWidth: "0.25%", // %
 				fill: "#dddddd", // hex
 				pointLineStroke: "#333333", // hex
@@ -94,17 +96,6 @@
 						rx: 30,
 						ry: 20
 					},
-					rect: {
-						x:      30,
-						y:      30,
-						width:  40,
-						height: 40,
-						rx:      5,
-						ry:      5
-					},
-					polygon: {
-						points: "20,80\n50,20\n80,80"
-					},
 					line: {
 						x1: 20,
 						y1: 80,
@@ -114,16 +105,54 @@
 					polyline: {
 						points: "20,20\n60,40\n40,60\n80,80"
 					},
+					rect: {
+						x:      30,
+						y:      30,
+						width:  40,
+						height: 40,
+						rx:      5,
+						ry:      5
+					},
+					polygon: {
+						points: "20,20\n80,20\n80,80\n20,80"
+					},
 					path: {
 						d: "M 10 30\nA 20 20 0 0 1 30 10\nA 20 20 0 0 1 50 30\nA 20 20 0 0 1 70 10\nA 20 20 0 0 1 90 30\nQ 90 60 50 90\nQ 10 60 10 30\nZ"
 					},
 					curves: {
 						d: "M 10 30\nA 20 20 0 0 1 30 10\nA 20 20 0 0 1 50 30\nA 20 20 0 0 1 70 10\nA 20 20 0 0 1 90 30\nQ 90 60 50 90\nQ 10 60 10 30\nZ"
+					},
+					triangle: {
+						points: "20,80\n50,20\n80,80"
+					},
+					quadrilateral: {
+						points: "40,20\n85,20\n60,80\n15,80"
+					},
+					pentagon: {
+						points: "50,25\n75,44\n66,75\n34,75\n25,44"
+					},
+					hexagon: {
+						points: "50,25\n72,38\n72,62\n50,75\n28,62\n28,38"
+					},
+					septagon: {
+						points: "50,25\n70,35\n75,55\n63,75\n38,75\n25,55\n30,35"
+					},
+					octagon: {
+						points: "40,25\n60,25\n75,40\n75,60\n60,75\n40,75\n25,60\n25,40"
+					},
+					nonagon: {
+						points: "50,25\n67,31\n75,47\n72,64\n59,75\n41,75\n28,64\n25,47\n34,31"
+					},
+					decagon: {
+						points: "50,25\n64,30\n74,43\n74,60\n64,70\n50,75\n36,70\n26,60\n26,43\n36,30"
+					},
+					dodecagon: {
+						points: "44,28\n56,28\n66,34\n72,44\n72,56\n66,66\n56,72\n44,72\n34,66\n28,56\n28,44\n34,34"
 					}
 				}
 			},
 			options: {
-				shape: ["circle", "ellipse", "rect", "polygon", "line", "polyline", "path", "curves"],
+				shape: ["circle", "ellipse", "polygon", "rect", "line", "polyline", "path"],
 				"stroke-linecap": ["round", "square", "butt"],
 				"stroke-linejoin": ["miter", "round", "bevel"]
 			},
@@ -159,8 +188,9 @@
 				"rotate": `<svg viewBox="10 10 80 80"><path d="M 45 75 C 45 72 47 70 50 70 C 61 70 70 61 70 50 C 70 39 61 30 50 30 C 41 30 33 36 30 47 C 33 44 36 44 38 46 C 40 48 40 51 38 53 C 36 55 33 58 31 60 C 29 62 27 64 25 64 C 23 64 21 62 19 60 C 17 58 14 55 12 53 C 10 51 10 48 12 46 C 14 44 17 44 19 46 C 19 46 19 46 20 47 C 23 29 36 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 47 80 45 78 45 75 Z"></path></svg>`,
 				"divide": `<svg viewBox="10 10 80 80"><path d="M 43 70 C 43 66 46 63 50 63 C 54 63 57 66 57 70 C 57 74 54 77 50 77 C 46 77 43 74 43 70 Z M 43 30 C 43 26 46 23 50 23 C 54 23 57 26 57 30 C 57 34 54 37 50 37 C 46 37 43 34 43 30 Z M 20 50 C 20 47 22 45 25 45 C 40 45 60 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 60 55 40 55 25 55 C 22 55 20 53 20 50 Z"></path></svg>`,
 				"plus": `<svg viewBox="10 10 80 80"><path d="M 55 45 C 62 45 69 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 69 55 62 55 55 55 C 55 62 55 69 55 75 C 55 78 53 80 50 80 C 47 80 45 78 45 75 C 45 69 45 62 45 55 C 38 55 31 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 31 45 38 45 45 45 C 45 38 45 31 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 31 55 38 55 45 Z"></path></svg>`,
-				"path": `<svg viewBox="10 10 80 80"><path d="M 22 58 C 18 54 22 51 28 45 C 30 43 34 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 82 46 78 49 72 55 C 70 57 66 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 Z"></path></svg>`,
-				"curves": `<svg viewBox="10 10 80 80"><path d="M 71 56 C 70 57 64 63 57 70 C 54 73 56 71 56 75 C 56 78 54 80 51 80 C 48 80 46 78 46 75 C 46 72 48 70 51 70 C 55 70 53 72 56 69 C 63 62 65 60 66 59 C 66 59 65 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 C 19 55 20 53 24 49 C 25 48 26 47 29 44 C 30 43 36 37 43 30 C 46 27 44 29 44 25 C 44 22 46 20 49 20 C 52 20 54 22 54 25 C 54 28 52 30 49 30 C 45 30 47 28 44 31 C 37 38 35 40 34 41 C 34 41 35 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 81 45 80 47 76 51 C 75 52 74 53 71 56 Z"></path></svg>`,
+				"polygon": `<svg viewBox="20 20 60 60"><path d="M 65 56 C 65 56 67 61 71 71 C 61 67 56 65 56 65 C 56 65 52 75 50 80 C 48 75 44 65 44 65 C 44 65 39 67 29 71 C 33 61 35 56 35 56 C 35 56 25 52 20 50 C 25 48 35 44 35 44 C 35 44 33 39 29 29 C 39 33 44 35 44 35 C 44 35 48 25 50 20 C 52 25 56 35 56 35 C 56 35 61 33 71 29 C 67 39 65 44 65 44 C 65 44 75 48 80 50 C 75 52 65 56 65 56 Z"></path></svg>`,
+				"path": `<svg viewBox="20 20 60 60"><path d="M 22 58 C 18 54 22 51 28 45 C 30 43 34 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 82 46 78 49 72 55 C 70 57 66 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 Z"></path></svg>`,
+				"curves": `<svg viewBox="20 20 60 60"><path d="M 71 56 C 70 57 64 63 57 70 C 54 73 56 71 56 75 C 56 78 54 80 51 80 C 48 80 46 78 46 75 C 46 72 48 70 51 70 C 55 70 53 72 56 69 C 63 62 65 60 66 59 C 66 59 65 60 60 60 C 54 60 50 57 48 55 C 46 53 43 50 40 50 C 37 50 34 53 32 55 C 29 58 26 62 22 58 C 19 55 20 53 24 49 C 25 48 26 47 29 44 C 30 43 36 37 43 30 C 46 27 44 29 44 25 C 44 22 46 20 49 20 C 52 20 54 22 54 25 C 54 28 52 30 49 30 C 45 30 47 28 44 31 C 37 38 35 40 34 41 C 34 41 35 40 40 40 C 46 40 50 43 52 45 C 54 47 57 50 60 50 C 63 50 66 47 68 45 C 71 42 74 38 78 42 C 81 45 80 47 76 51 C 75 52 74 53 71 56 Z"></path></svg>`,
 			}
 		}
 
@@ -599,7 +629,7 @@
 						resizeSVG(null, {offsetX, offsetY, size})
 
 					// elements
-						const svgElements = Array.from(svgXML.querySelectorAll(CONSTANTS.options.shape.filter(shape => shape !== "curves").join(", ")))
+						const svgElements = Array.from(svgXML.querySelectorAll(CONSTANTS.options.shape.join(", ")))
 						for (const i in svgElements) {
 							// base data
 								const element = svgElements[i]
@@ -764,19 +794,28 @@
 		/* addItem */
 			ELEMENTS.controls.add.focus()
 			ELEMENTS.controls.add.addEventListener(TRIGGERS.click, addItem)
+			ELEMENTS.controls.addShape.addEventListener(TRIGGERS.input, addItem)
 			function addItem(event) {
 				try {
+					// select dropdown
+						if (event?.target == ELEMENTS.controls.addShape && event.type == TRIGGERS.click) {
+							return
+						}
+
 					// id
 						const id = event?.itemData?.id ?? `_${generateRandom()}`
 
 					// item
+						const shape = event?.itemData?.attributes.styling.shape ?? ELEMENTS.controls.addShape.value
+						const svgType = CONSTANTS.options.shape.includes(shape) ? shape :
+										 shape == "curves" ? "path" : "polygon"
 						const item = {
 							id,
 							attributes: {
 								visible: true,
 								locked: false,
 								styling: {
-									shape: event?.itemData?.attributes.styling.shape ?? CONSTANTS.defaults.shape,
+									shape: svgType,
 									stroke: event?.itemData?.attributes.styling.stroke ?? CONSTANTS.defaults.stroke,
 									"stroke-width": event?.itemData?.attributes.styling["stroke-width"] ?? CONSTANTS.defaults["stroke-width"],
 									"stroke-linecap": event?.itemData?.attributes.styling["stroke-linecap"] ?? CONSTANTS.defaults["stroke-linecap"],
@@ -786,7 +825,7 @@
 								},
 								coordinates: event?.itemData?.attributes.coordinates ?? getTranslatedCoordinates(
 									getScaledCoordinates(duplicateObject(
-										CONSTANTS.defaults.coordinates[event?.itemData?.attributes.styling.shape ?? CONSTANTS.defaults.shape]
+										CONSTANTS.defaults.coordinates[shape]
 									), STATE.dimensions.size / CONSTANTS.percent, STATE.dimensions.size / CONSTANTS.percent),
 								STATE.dimensions.offsetX, STATE.dimensions.offsetY)
 
@@ -799,13 +838,12 @@
 						if (event?.itemData?.attributes?.curves) {
 							item.attributes.curves = event.itemData.attributes.curves
 						}
-						if (item.attributes.styling.shape == "curves") {
+						if (shape == "curves") {
 							const commands = getCommandsFromPath(item.attributes.coordinates.d)
 							const absoluteCommands = getAbsoluteCommands(commands)
 							const simplifiedCommands = getSimplifiedCommands(absoluteCommands)
 							item.attributes.coordinates.d = getPathFromCommands(simplifiedCommands)
 							item.attributes.curves = getCurvesFromCommands(simplifiedCommands)
-							item.attributes.styling.shape = "path"
 						}
 
 					// build item listing
@@ -1142,6 +1180,12 @@
 							item.svg.setAttribute(attribute, item.attributes[sectionName][attribute])
 						}
 
+					// points
+						else if (["points","x1","x2","y1","y2"].includes(attribute)) {
+							item.attributes[sectionName][attribute] = value
+								setItemCoordinates(item)
+							}
+
 					// others
 						else {
 							item.attributes[sectionName][attribute] = value || 0
@@ -1375,7 +1419,6 @@
 
 					// finish
 						item.attributes.styling.shape = "path"
-						item.listing.styling.shape.value = item.attributes.styling.shape
 						item.attributes.coordinates = {d: path}
 						item.listing.coordinates = buildItemCoordinates(item)
 						item.svg = buildItemSVG(item)
@@ -1387,6 +1430,45 @@
 				} catch (error) {console.log(error)}
 			}
 
+		/* convertItemToPolygon */
+			function convertItemToPolygon(event) {
+				try {
+					// get item
+						const type = event.target.value
+						const parent = event.target.closest(".controls-listing")
+						const id = `_${parent.id.split("_")[1]}`
+						const item = STATE.items[id]
+
+					// convert to curves
+						if (!item.attributes.curves) {
+							convertItemToPath({target: item.listing.summary.curvesButton})
+						}
+
+					// subdivide
+						const newItems = subdivideItem({target: item.listing.summary.subdivideButton}) || [item]
+
+					// loop through newItems
+						for (const i in newItems) {
+							// empty points
+								const thisItem = newItems[i]
+
+							// convert to polygon
+								thisItem.attributes.styling.shape = "polygon"
+								thisItem.attributes.coordinates = {
+									points: getPolygonPointsFromCurves(thisItem.attributes.curves)
+								}
+								delete thisItem.attributes.curves
+
+							// html
+								thisItem.listing.coordinates = buildItemCoordinates(thisItem)
+								thisItem.svg = buildItemSVG(thisItem)
+						}
+
+					// record history
+						recordHistory()
+				} catch (error) {console.log(error)}
+			}
+
 		/* subdivideItem */
 			function subdivideItem(event) {
 				try {
@@ -1395,6 +1477,11 @@
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
 						const item = STATE.items[id]
+
+					// not a path
+						if (item.attributes.styling.shape !== "path") {
+							return
+						}
 
 					// curves
 						if (!item.attributes.curves) {
@@ -1501,6 +1588,31 @@
 						if (event?.type) {
 							recordHistory()
 						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* changePolygonPoint */
+			function changePolygonPoint(item, pointIndex, coordinates, snap) {
+				try {
+					// snap?
+						let x = snap ? Math.round(coordinates.x) : roundNumber(coordinates.x)
+						let y = snap ? Math.round(coordinates.y) : roundNumber(coordinates.y)
+
+					// polygon / polyline
+						if (item.attributes.coordinates.points) {
+							const points = item.attributes.coordinates.points.split(/\n/g)
+								points[pointIndex] = `${x},${y}`
+							item.attributes.coordinates.points = points.join("\n")
+						}
+
+					// line
+						else {
+							item.attributes.coordinates[`x${pointIndex}`] = x
+							item.attributes.coordinates[`y${pointIndex}`] = y
+						}
+
+					// svg
+						setItemCoordinates(item)
 				} catch (error) {console.log(error)}
 			}
 
@@ -1763,7 +1875,7 @@
 						const point = event.target
 						const idComponents = point.id.split("-")
 						const id = idComponents[0]
-						const curveIndex = Number(idComponents[idComponents.length - 2])
+						const curveIndex = point.id.includes("curve") ? Number(idComponents[idComponents.length - 2]) : undefined
 						const pointIndex = idComponents[idComponents.length - 1]
 
 					// select item
@@ -1779,8 +1891,14 @@
 
 					// set grab
 						ELEMENTS.container.element.setAttribute("grabbing", true)
-						STATE.items[STATE.selected.id].listing.coordinates[`curve-${curveIndex}-row`]?.setAttribute("highlight", pointIndex)
-						STATE.items[STATE.selected.id].listing.coordinates[`curve-${curveIndex}-row`]?.scrollIntoView(true)
+						if (STATE.selected.curveIndex !== undefined) {
+							STATE.items[STATE.selected.id].listing.coordinates[`curve-${curveIndex}-row`]?.setAttribute("highlight", pointIndex)
+							STATE.items[STATE.selected.id].listing.coordinates[`curve-${curveIndex}-row`]?.scrollIntoView(true)
+						}
+						else {
+							STATE.items[STATE.selected.id].listing.container.setAttribute("highlight", true)
+							STATE.items[STATE.selected.id].listing.container.scrollIntoView(true)
+						}
 				} catch (error) {console.log(error)}
 			}
 
@@ -1818,12 +1936,18 @@
 							return
 						}
 
-					// soemthing selected --> get item
+					// something selected --> get item
 						const item = STATE.items[STATE.selected.id]
 
-					// point/curves
-						if (STATE.selected.pointIndex) {
+					// points on curves
+						if (STATE.selected.curveIndex !== undefined) {
 							changeCurvePoint(item, STATE.selected.curveIndex, STATE.selected.pointIndex, STATE.cursor, STATE.snapToGrid)
+							return
+						}
+
+					// points on polygon / polyline
+						if (STATE.selected.pointIndex !== undefined) {
+							changePolygonPoint(item, STATE.selected.pointIndex, STATE.cursor, STATE.snapToGrid)
 							return
 						}
 						
@@ -1965,6 +2089,33 @@
 
 					// svg
 						resizeSVG(null, {offsetX, offsetY, size})
+				} catch (error) {console.log(error)}
+			}
+
+		/* doubleclickItem */
+			function doubleclickItem(event) {
+				try {
+					// don't select container
+						event.stopPropagation()
+
+					// get svg
+						const svg = event.target
+						const id = `_${svg.id.split("_")[1]}`
+
+					// shift --> copy
+						if (event.shiftKey) {
+							copyItem({target: STATE.items[id].listing.summary.copyButton})
+							return
+						}
+
+					// alt --> toggle visibility
+						if (event.altKey) {
+							toggleItemVisibility({target: STATE.items[id].listing.summary.visibleCheckbox})
+							return
+						}
+					
+					// toggle lock
+						toggleItemLock({target: STATE.items[id].listing.summary.lockedCheckbox})
 				} catch (error) {console.log(error)}
 			}
 
@@ -2660,12 +2811,44 @@
 							item.listing.coordinates.y2.value = item.attributes.coordinates.y2
 							item.svg.setAttribute("x2", item.attributes.coordinates.x2)
 							item.svg.setAttribute("y2", item.attributes.coordinates.y2)
+
+							const p1 = item.points[`point-1`]
+								p1.setAttribute("cx", item.attributes.coordinates.x1)
+								p1.setAttribute("cy", item.attributes.coordinates.y1)
+
+							const p2 = item.points[`point-2`]
+								p2.setAttribute("cx", item.attributes.coordinates.x2)
+								p2.setAttribute("cy", item.attributes.coordinates.y2)
 							return
 						}
 
 					// polygon & polyline
 						if (item.attributes.styling.shape == "polygon" || item.attributes.styling.shape == "polyline") {
 							item.listing.coordinates.points.value = item.attributes.coordinates.points
+
+							const points = item.attributes.coordinates.points.split(/\n/g)
+							for (let coordinateIndex = 0; coordinateIndex < points.length; coordinateIndex++) {
+								const pair = points[coordinateIndex].split(",")
+								if (!String(pair[0]).length || !String(pair[1]).length || isNaN(pair[0]) || isNaN(pair[1])) {
+									return
+								}
+
+								const p = item.points[`point-${coordinateIndex}`]
+									p.setAttribute("cx", pair[0])
+									p.setAttribute("cy", pair[1])
+							}
+
+							for (let p in item.points) {
+								if (p == "group") {
+									continue
+								}
+								if (p.split("-")[1] < points.length) {
+									continue
+								}
+								item.points[p].remove()
+								delete item.points[p]
+							}
+
 							item.svg.setAttribute("points", item.attributes.coordinates.points)
 							return
 						}
@@ -3124,7 +3307,7 @@
 			function skewItem(item, previousCoordinates, skewXdegrees, skewYdegrees, offsetX, offsetY, snap) {
 				try {
 					// rect / ellipse / circle --> not allowed
-						if (["circle", "ellipse", "rect"].includes(item.attributes.styling.shape)) {
+						if (["circle", "ellipse", "rect", "line"].includes(item.attributes.styling.shape)) {
 							return
 						}
 
@@ -5001,7 +5184,7 @@
 							commands.push(thisCommand)
 						}
 					
-					// convert relative to absolute
+					// return commands
 						return commands
 				} catch (error) {console.log(error)}
 			}
@@ -5100,7 +5283,7 @@
 					// empty commands
 						const commands = []
 
-					// loop through commands
+					// loop through curves
 						for (let c = 0; c < curves.length; c++) {
 							const curve = curves[c]
 
@@ -5379,6 +5562,28 @@
 				} catch (error) {console.log(error)}
 			}
 
+		/* getPolygonPointsFromCurves */
+			function getPolygonPointsFromCurves(curves) {
+				try {
+					// empty points
+						const points = []
+
+					// loop through curves
+						for (let c = 0; c < curves.length; c++) {
+							const curve = curves[c]
+							if (curve.z) {
+								continue
+							}
+							else {
+								points.push(`${curve.x},${curve.y}`)
+							}
+						}
+
+					// return
+						return points.join("\n")
+				} catch (error) {console.log(error)}
+			}
+
 	/** builds **/
 		/* buildItemSVG */
 			function buildItemSVG(item) {
@@ -5390,6 +5595,7 @@
 						const svgElement = document.createElementNS("http://www.w3.org/2000/svg", item.attributes.styling.shape)
 							svgElement.id = `svg${item.id}`
 							svgElement.addEventListener(TRIGGERS.mousedown, selectItem)
+							svgElement.addEventListener(TRIGGERS.doubleclick, doubleclickItem)
 							if (item.attributes.visible) {
 								svgElement.setAttribute("visible", true)
 							}
@@ -5423,7 +5629,7 @@
 						}
 
 					// points
-						if (item.attributes.curves) {
+						if (item.attributes.curves || ["polygon", "polyline", "line"].includes(item.attributes.styling.shape)) {
 							item.points = buildItemPoints(item)
 						}
 						else if (item.points) {
@@ -5455,115 +5661,170 @@
 							if (item.attributes.visible) {
 								groupElement.setAttribute("visible", true)
 							}
-							if (item.listing?.coordinates?.points?.checked) {
+							if (item.listing?.coordinates?.showPoints?.checked) {
 								groupElement.setAttribute("active", true)
 							}
 						ELEMENTS.container.points.appendChild(groupElement)
 						pointsGroup.group = groupElement
 
-					// build lines
-						for (let curveIndex = 0; curveIndex < item.attributes.curves.length; curveIndex++) {
-							// curve
-								const curve = item.attributes.curves[curveIndex]
+					// curve
+						if (item.attributes.curves) {
+							// build lines
+								for (let curveIndex = 0; curveIndex < item.attributes.curves.length; curveIndex++) {
+									// curve
+										const curve = item.attributes.curves[curveIndex]
 
-							// M & Z
-								if (curve.c1x == undefined) {
-									continue
+									// M & Z
+										if (curve.c1x == undefined) {
+											continue
+										}
+
+									// previous
+										const previousCurve = item.attributes.curves.slice(0, curveIndex).findLast(thatCurve => thatCurve.x !== undefined && thatCurve.y !== undefined)
+										const previousX = previousCurve.x
+										const previousY = previousCurve.y
+
+									// lines	
+										const previousToC1Line = document.createElementNS("http://www.w3.org/2000/svg", "line")
+											previousToC1Line.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-PreviousToC1`
+											previousToC1Line.className = "curve-line"
+											previousToC1Line.setAttribute("x1", previousX)
+											previousToC1Line.setAttribute("y1", previousY)
+											previousToC1Line.setAttribute("x2", curve.c1x)
+											previousToC1Line.setAttribute("y2", curve.c1y)
+											previousToC1Line.setAttribute("stroke", CONSTANTS.points.pointLineStroke)
+											previousToC1Line.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
+										groupElement.appendChild(previousToC1Line)
+										pointsGroup[`curve-${curveIndex}-PreviousToC1`] = previousToC1Line
+
+										const c1ToC2Line = document.createElementNS("http://www.w3.org/2000/svg", "line")
+											c1ToC2Line.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-C1ToC2`
+											c1ToC2Line.className = "curve-line"
+											c1ToC2Line.setAttribute("x1", curve.c1x)
+											c1ToC2Line.setAttribute("y1", curve.c1y)
+											c1ToC2Line.setAttribute("x2", curve.c2x)
+											c1ToC2Line.setAttribute("y2", curve.c2y)
+											c1ToC2Line.setAttribute("stroke", CONSTANTS.points.controlLineStroke)
+											c1ToC2Line.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
+										groupElement.appendChild(c1ToC2Line)
+										pointsGroup[`curve-${curveIndex}-C1ToC2`] = c1ToC2Line
+
+										const c2ToFinalLine = document.createElementNS("http://www.w3.org/2000/svg", "line")
+											c2ToFinalLine.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-C2ToFinal`
+											c2ToFinalLine.className = "curve-line"
+											c2ToFinalLine.setAttribute("x1", curve.c2x)
+											c2ToFinalLine.setAttribute("y1", curve.c2y)
+											c2ToFinalLine.setAttribute("x2", curve.x)
+											c2ToFinalLine.setAttribute("y2", curve.y)
+											c2ToFinalLine.setAttribute("stroke", CONSTANTS.points.pointLineStroke)
+											c2ToFinalLine.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
+										groupElement.appendChild(c2ToFinalLine)
+										pointsGroup[`curve-${curveIndex}-C2ToFinal`] = c2ToFinalLine
 								}
 
-							// previous
-								const previousCurve = item.attributes.curves.slice(0, curveIndex).findLast(thatCurve => thatCurve.x !== undefined && thatCurve.y !== undefined)
-								const previousX = previousCurve.x
-								const previousY = previousCurve.y
+							// build points
+								for (let curveIndex = 0; curveIndex < item.attributes.curves.length; curveIndex++) {
+									// curve
+										const curve = item.attributes.curves[curveIndex]
 
-							// lines	
-								const previousToC1Line = document.createElementNS("http://www.w3.org/2000/svg", "line")
-									previousToC1Line.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-PreviousToC1`
-									previousToC1Line.className = "curve-line"
-									previousToC1Line.setAttribute("x1", previousX)
-									previousToC1Line.setAttribute("y1", previousY)
-									previousToC1Line.setAttribute("x2", curve.c1x)
-									previousToC1Line.setAttribute("y2", curve.c1y)
-									previousToC1Line.setAttribute("stroke", CONSTANTS.points.pointLineStroke)
-									previousToC1Line.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
-								groupElement.appendChild(previousToC1Line)
-								pointsGroup[`curve-${curveIndex}-PreviousToC1`] = previousToC1Line
+									// C
+										if (curve.c1x !== undefined) {
+											// points
+												const c1 = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+													c1.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-c1`
+													c1.className = "curve-point"
+													c1.setAttribute("cx", curve.c1x)
+													c1.setAttribute("cy", curve.c1y)
+													c1.setAttribute("r",  CONSTANTS.points.r)
+													c1.setAttribute("fill", CONSTANTS.points.fill)
+													c1.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
+													c1.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+													c1.addEventListener(TRIGGERS.mousedown, selectPoint)
+												groupElement.appendChild(c1)
+												pointsGroup[`curve-${curveIndex}-c1`] = c1
 
-								const c1ToC2Line = document.createElementNS("http://www.w3.org/2000/svg", "line")
-									c1ToC2Line.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-C1ToC2`
-									c1ToC2Line.className = "curve-line"
-									c1ToC2Line.setAttribute("x1", curve.c1x)
-									c1ToC2Line.setAttribute("y1", curve.c1y)
-									c1ToC2Line.setAttribute("x2", curve.c2x)
-									c1ToC2Line.setAttribute("y2", curve.c2y)
-									c1ToC2Line.setAttribute("stroke", CONSTANTS.points.controlLineStroke)
-									c1ToC2Line.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
-								groupElement.appendChild(c1ToC2Line)
-								pointsGroup[`curve-${curveIndex}-C1ToC2`] = c1ToC2Line
+												const c2 = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+													c2.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-c2`
+													c2.className = "curve-control-point"
+													c2.setAttribute("cx", curve.c2x)
+													c2.setAttribute("cy", curve.c2y)
+													c2.setAttribute("r",  CONSTANTS.points.r)
+													c2.setAttribute("fill", CONSTANTS.points.fill)
+													c2.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
+													c2.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+													c2.addEventListener(TRIGGERS.mousedown, selectPoint)
+												groupElement.appendChild(c2)
+												pointsGroup[`curve-${curveIndex}-c2`] = c2
+										}
 
-								const c2ToFinalLine = document.createElementNS("http://www.w3.org/2000/svg", "line")
-									c2ToFinalLine.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-C2ToFinal`
-									c2ToFinalLine.className = "curve-line"
-									c2ToFinalLine.setAttribute("x1", curve.c2x)
-									c2ToFinalLine.setAttribute("y1", curve.c2y)
-									c2ToFinalLine.setAttribute("x2", curve.x)
-									c2ToFinalLine.setAttribute("y2", curve.y)
-									c2ToFinalLine.setAttribute("stroke", CONSTANTS.points.pointLineStroke)
-									c2ToFinalLine.setAttribute("stroke-width", CONSTANTS.points.lineWidth)
-								groupElement.appendChild(c2ToFinalLine)
-								pointsGroup[`curve-${curveIndex}-C2ToFinal`] = c2ToFinalLine
+									// C & M
+										if (curve.x !== undefined) {
+											const p = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+												p.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-p`
+												p.className = "curve-point"
+												p.setAttribute("cx", curve.x)
+												p.setAttribute("cy", curve.y)
+												p.setAttribute("r",  CONSTANTS.points.r)
+												p.setAttribute("fill", CONSTANTS.points.fill)
+												p.setAttribute("stroke", CONSTANTS.points.pointStroke)
+												p.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+												p.addEventListener(TRIGGERS.mousedown, selectPoint)
+											groupElement.appendChild(p)
+											pointsGroup[`curve-${curveIndex}-p`] = p
+										}
+								}
 						}
 
-					// build points
-						for (let curveIndex = 0; curveIndex < item.attributes.curves.length; curveIndex++) {
-							// curve
-								const curve = item.attributes.curves[curveIndex]
+					// polygon / polyline
+						else if (item.attributes.coordinates.points) {
+							const points = item.attributes.coordinates.points.split(/\n/g)
 
-							// C
-								if (curve.c1x !== undefined) {
-									// points
-										const c1 = document.createElementNS("http://www.w3.org/2000/svg", "circle")
-											c1.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-c1`
-											c1.className = "curve-point"
-											c1.setAttribute("cx", curve.c1x)
-											c1.setAttribute("cy", curve.c1y)
-											c1.setAttribute("r",  CONSTANTS.points.r)
-											c1.setAttribute("fill", CONSTANTS.points.fill)
-											c1.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
-											c1.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
-											c1.addEventListener(TRIGGERS.mousedown, selectPoint)
-										groupElement.appendChild(c1)
-										pointsGroup[`curve-${curveIndex}-c1`] = c1
+							for (let coordinateIndex = 0; coordinateIndex < points.length; coordinateIndex++) {
+								const x = points[coordinateIndex].split(",")[0]
+								const y = points[coordinateIndex].split(",")[1]
 
-										const c2 = document.createElementNS("http://www.w3.org/2000/svg", "circle")
-											c2.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-c2`
-											c2.className = "curve-control-point"
-											c2.setAttribute("cx", curve.c2x)
-											c2.setAttribute("cy", curve.c2y)
-											c2.setAttribute("r",  CONSTANTS.points.r)
-											c2.setAttribute("fill", CONSTANTS.points.fill)
-											c2.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
-											c2.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
-											c2.addEventListener(TRIGGERS.mousedown, selectPoint)
-										groupElement.appendChild(c2)
-										pointsGroup[`curve-${curveIndex}-c2`] = c2
-								}
+								const p = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+									p.id = `${item.id}-controls-listing-coordinates-point-${coordinateIndex}`
+									p.className = "polygon-point"
+									p.setAttribute("cx", x)
+									p.setAttribute("cy", y)
+									p.setAttribute("r",  CONSTANTS.points.r)
+									p.setAttribute("fill", CONSTANTS.points.fill)
+									p.setAttribute("stroke", CONSTANTS.points.pointStroke)
+									p.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+									p.addEventListener(TRIGGERS.mousedown, selectPoint)
+								groupElement.appendChild(p)
+								pointsGroup[`point-${coordinateIndex}`] = p
+							}
+						}
 
-							// C & M
-								if (curve.x !== undefined) {
-									const p = document.createElementNS("http://www.w3.org/2000/svg", "circle")
-										p.id = `${item.id}-controls-listing-coordinates-curve-${curveIndex}-p`
-										p.className = "curve-point"
-										p.setAttribute("cx", curve.x)
-										p.setAttribute("cy", curve.y)
-										p.setAttribute("r",  CONSTANTS.points.r)
-										p.setAttribute("fill", CONSTANTS.points.fill)
-										p.setAttribute("stroke", CONSTANTS.points.pointStroke)
-										p.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
-										p.addEventListener(TRIGGERS.mousedown, selectPoint)
-									groupElement.appendChild(p)
-									pointsGroup[`curve-${curveIndex}-p`] = p
-								}
+					// line
+						else {
+							const p1 = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+								p1.id = `${item.id}-controls-listing-coordinates-point-1`
+								p1.className = "polygon-point"
+								p1.setAttribute("cx", item.attributes.coordinates.x1)
+								p1.setAttribute("cy", item.attributes.coordinates.y1)
+								p1.setAttribute("r",  CONSTANTS.points.r)
+								p1.setAttribute("fill", CONSTANTS.points.fill)
+								p1.setAttribute("stroke", CONSTANTS.points.pointStroke)
+								p1.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+								p1.addEventListener(TRIGGERS.mousedown, selectPoint)
+							groupElement.appendChild(p1)
+							pointsGroup[`point-1`] = p1
+
+							const p2 = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+								p2.id = `${item.id}-controls-listing-coordinates-point-2`
+								p2.className = "polygon-point"
+								p2.setAttribute("cx", item.attributes.coordinates.x2)
+								p2.setAttribute("cy", item.attributes.coordinates.y2)
+								p2.setAttribute("r",  CONSTANTS.points.r)
+								p2.setAttribute("fill", CONSTANTS.points.fill)
+								p2.setAttribute("stroke", CONSTANTS.points.pointStroke)
+								p2.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+								p2.addEventListener(TRIGGERS.mousedown, selectPoint)
+							groupElement.appendChild(p2)
+							pointsGroup[`point-2`] = p2
 						}
 
 					// return
@@ -5749,6 +6010,15 @@
 								subdivideButton.addEventListener(TRIGGERS.click, subdivideItem)
 							convertsSection.appendChild(subdivideButton)
 
+						// convert to polygon
+							const polygonButton = document.createElement("button")
+								polygonButton.className = "controls-listing-convert"
+								polygonButton.innerHTML = CONSTANTS.symbols.polygon + " polygon"
+								polygonButton.value = "polygon"
+								polygonButton.title = "convert to polygon"
+								polygonButton.addEventListener(TRIGGERS.click, convertItemToPolygon)
+							convertsSection.appendChild(polygonButton)
+
 						// convert to path
 							const pathButton = document.createElement("button")
 								pathButton.className = "controls-listing-convert"
@@ -5783,6 +6053,7 @@
 							combineButton,
 							subtractButton,
 							subdivideButton,
+							polygonButton,
 							pathButton,
 							curvesButton
 						}
@@ -5801,28 +6072,6 @@
 						const section = document.createElement("div")
 							section.className = "controls-listing-styling"
 						item.listing.container.appendChild(section)
-
-					// shape
-						const shapeLabel = document.createElement("label")
-							shapeLabel.className = "controls-label controls-label-shape"
-						section.appendChild(shapeLabel)
-
-							const shapeSpan = document.createElement("span")
-								shapeSpan.className = "controls-span"
-								shapeSpan.innerText = "shape"
-							shapeLabel.appendChild(shapeSpan)
-
-							const shapeSelect = document.createElement("select")
-								shapeSelect.id = `${item.id}-controls-listing-styling-shape`
-								shapeSelect.className = "controls-listing-styling-shape"
-								for (const type of CONSTANTS.options.shape) {
-									const option = document.createElement("option")
-										option.value = option.innerText = type
-									shapeSelect.appendChild(option)
-								}
-								shapeSelect.value = item.attributes.styling.shape
-								shapeSelect.addEventListener(TRIGGERS.input, changeItemAttribute)
-							shapeLabel.appendChild(shapeSelect)
 
 					// fill
 						const fillLabel = document.createElement("label")
@@ -5909,7 +6158,6 @@
 					// object
 						return {
 							section,
-							shape: shapeSelect,
 							"fill-on": fillCheckbox,
 							fill: fillInput,
 							stroke: strokeInput,
@@ -5949,35 +6197,82 @@
 							}
 						}
 
-					// build inputs for other shapes
+					// all others
 						else {
 							const coordinatesSection = document.createElement("div")
 								coordinatesSection.className = "controls-listing-coordinates-inner"
 							section.appendChild(coordinatesSection)
 
-							for (const attribute in item.attributes.coordinates) {
-								const label = document.createElement("label")
-									label.className = "controls-label"
-								coordinatesSection.appendChild(label)
+							// path
+								if (item.attributes.styling.shape == "path") {
+									// d
+										const dInput = document.createElement("textarea")
+											dInput.id = `${item.id}-controls-listing-coordinates-d`
+											dInput.className = `controls-listing-coordinates-d`
+											dInput.placeholder = "path commands"
+											dInput.value = item.attributes.coordinates.d
+											dInput.addEventListener(TRIGGERS.input, changeItemAttribute)
+										coordinatesSection.appendChild(dInput)
+										inputs.d = dInput
+								}
 
-								const span = document.createElement("span")
-									span.className = "controls-span"
-									span.innerText = attribute
-								label.appendChild(span)
+							// polygon / polyline
+								if (["polygon", "polyline", "line"].includes(item.attributes.styling.shape)) {
+									// show points
+										const showPointsLabel = document.createElement("label")
+											showPointsLabel.className = "controls-label"
+										coordinatesSection.appendChild(showPointsLabel)
 
-								const attributeInput = document.createElement(["points", "d"].includes(attribute) ? "textarea" : "input")
-									attributeInput.id = `${item.id}-controls-listing-coordinates-${attribute}`
-									if (!["points", "d"].includes(attribute)) {
-										attributeInput.type = "number"
+										const showPointsSpan = document.createElement("span")
+											showPointsSpan.className = "controls-span"
+											showPointsSpan.innerText = "show points"
+										showPointsLabel.appendChild(showPointsSpan)
+
+										const showPointsInput = document.createElement("input")
+											showPointsInput.id = `${item.id}-controls-listing-coordinates-show-points`
+											showPointsInput.type = "checkbox"
+											showPointsInput.checked = item.points?.group?.getAttribute("active") ?? true
+											showPointsInput.className = `controls-listing-coordinates-show-points`
+											showPointsInput.addEventListener(TRIGGERS.input, toggleItemPoints)
+										showPointsLabel.appendChild(showPointsInput)
+										inputs.showPoints = showPointsInput
+
+									if (item.attributes.coordinates.points !== undefined) {
+										const pointsInput = document.createElement("textarea")
+											pointsInput.id = `${item.id}-controls-listing-coordinates-points`
+											pointsInput.className = `controls-listing-coordinates-points`
+											pointsInput.placeholder = "x,y pairs"
+											pointsInput.value = item.attributes.coordinates.points
+											pointsInput.addEventListener(TRIGGERS.input, changeItemAttribute)
+										coordinatesSection.appendChild(pointsInput)
+										inputs.points = pointsInput
 									}
-									attributeInput.className = `controls-listing-coordinates-${attribute}`
-									attributeInput.placeholder = attribute
-									attributeInput.value = item.attributes.coordinates[attribute]
-									attributeInput.addEventListener(TRIGGERS.input, changeItemAttribute)
-								label.appendChild(attributeInput)
-								
-								inputs[attribute] = attributeInput
-							}
+								}
+
+							// build inputs for other shapes
+								if (!["path", "polygon", "polyline"].includes(item.attributes.styling.shape)) {
+									for (const attribute in item.attributes.coordinates) {
+										const label = document.createElement("label")
+											label.className = "controls-label"
+										coordinatesSection.appendChild(label)
+
+										const span = document.createElement("span")
+											span.className = "controls-span"
+											span.innerText = attribute
+										label.appendChild(span)
+
+										const attributeInput = document.createElement("input")
+											attributeInput.id = `${item.id}-controls-listing-coordinates-${attribute}`
+											attributeInput.type = "number"
+											attributeInput.className = `controls-listing-coordinates-${attribute}`
+											attributeInput.placeholder = attribute
+											attributeInput.value = item.attributes.coordinates[attribute]
+											attributeInput.addEventListener(TRIGGERS.input, changeItemAttribute)
+										label.appendChild(attributeInput)
+										
+										inputs[attribute] = attributeInput
+									}
+								}
 						}
 
 					// return
@@ -6137,23 +6432,23 @@
 						const inputs = {}
 
 					// points
-						const pointsLabel = document.createElement("label")
-							pointsLabel.className = "controls-label"
-						section.appendChild(pointsLabel)
+						const showPointsLabel = document.createElement("label")
+							showPointsLabel.className = "controls-label"
+						section.appendChild(showPointsLabel)
 
-						const pointsSpan = document.createElement("span")
-							pointsSpan.className = "controls-span"
-							pointsSpan.innerText = "show points"
-						pointsLabel.appendChild(pointsSpan)
+						const showPointsSpan = document.createElement("span")
+							showPointsSpan.className = "controls-span"
+							showPointsSpan.innerText = "show points"
+						showPointsLabel.appendChild(showPointsSpan)
 
-						const pointsInput = document.createElement("input")
-							pointsInput.id = `${item.id}-controls-listing-coordinates-points`
-							pointsInput.type = "checkbox"
-							pointsInput.checked = item.points?.group?.getAttribute("active") ?? true
-							pointsInput.className = `controls-listing-coordinates-points`
-							pointsInput.addEventListener(TRIGGERS.input, toggleItemPoints)
-						pointsLabel.appendChild(pointsInput)
-						inputs.points = pointsInput
+						const showPointsInput = document.createElement("input")
+							showPointsInput.id = `${item.id}-controls-listing-coordinates-show-points`
+							showPointsInput.type = "checkbox"
+							showPointsInput.checked = item.points?.group?.getAttribute("active") ?? true
+							showPointsInput.className = `controls-listing-coordinates-show-points`
+							showPointsInput.addEventListener(TRIGGERS.input, toggleItemPoints)
+						showPointsLabel.appendChild(showPointsInput)
+						inputs.showPoints = showPointsInput
 
 					// area
 						const curvesArea = document.createElement("div")

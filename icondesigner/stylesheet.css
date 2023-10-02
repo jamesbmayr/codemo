@@ -302,6 +302,24 @@
 			display: none;
 		}
 
+		#controls-add:hover #controls-add-shape, #controls-add:focus #controls-add-shape {
+			color: var(--dark-gray) !important;
+		}
+
+		#controls-add-shape {
+			vertical-align: top;
+			padding: 0 !important;
+			background: transparent !important;
+			color: var(--light-gray) !important;
+			margin-top: calc(-1 * var(--gap-size));
+			width: calc(100% - 2 * var(--font-size) - 4 * var(--gap-size)) !important;
+			text-align: center;
+		}
+
+			#controls-add-shape:hover, #controls-add-shape:focus {
+				filter: none !important;
+			}
+
 	/* sections */
 		#controls-viewbox, #controls-export, #controls-edit {
 			box-sizing: border-box;
@@ -515,34 +533,51 @@
 
 		.controls-listing-conversion {
 			margin-top: var(--gap-size);
+			vertical-align: top;
 		}
 
 		.controls-listing-subdivide {
-			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+			border-radius: var(--border-radius) 0 0 0 !important;
+		}
+
+		.controls-listing-convert[value="polygon"] {
+			border-radius: 0 var(--border-radius) 0 0 !important;
+		}
+
+		.controls-listing-convert[value="path"] {
+			border-radius: 0 0 0 var(--border-radius) !important;
 		}
 
 		.controls-listing-convert[value="curves"] {
-			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			border-radius: 0 0 var(--border-radius) 0 !important;
 		}
 
-			.controls-listing:not([shape="path"]):not([shape="curves"]) .controls-listing-subdivide {
-				display: none !important;
+			.controls-listing[shape="polygon"] .controls-listing-convert[value="polygon"] {
+				pointer-events: none;
+				opacity: var(--disabled-opacity);
+				background: var(--dark-gray) !important;
+				color: var(--light-gray) !important;
 			}
 
 			.controls-listing[shape="path"] .controls-listing-convert[value="path"] {
-				display: none !important;
+				pointer-events: none;
+				opacity: var(--disabled-opacity);
+				background: var(--dark-gray) !important;
+				color: var(--light-gray) !important;
 			}
 
 			.controls-listing[shape="curves"] .controls-listing-convert[value="curves"] {
-				display: none !important;
+				pointer-events: none;
+				opacity: var(--disabled-opacity);
+				background: var(--dark-gray) !important;
+				color: var(--light-gray) !important;
 			}
 
-			.controls-listing:not([shape="path"]):not([shape="curves"]) .controls-listing-convert[value="path"] {
-				border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
-			}
-
-			.controls-listing[shape="curves"] .controls-listing-convert[value="path"] {
-				border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			.controls-listing:not([shape="curves"]):not([shape="path"]) .controls-listing-subdivide {
+				pointer-events: none;
+				opacity: var(--disabled-opacity);
+				background: var(--dark-gray) !important;
+				color: var(--light-gray) !important;
 			}
 
 	/* listing styling */
@@ -582,6 +617,24 @@
 
 		.controls-listing[shape="line"] .controls-label-fill {
 			display: none;
+		}
+
+		.controls-listing[shape="line"] .controls-listing-skew-button,
+		.controls-listing[shape="line"] .controls-listing-skew-x,
+		.controls-listing[shape="line"] .controls-listing-skew-y {
+			pointer-events: none !important;
+			opacity: var(--disabled-opacity);
+			filter: none !important;
+		}
+
+		.controls-listing[shape="line"] .controls-listing-skew-button {
+			background: var(--dark-gray) !important;
+			color: var(--light-gray) !important;
+		}
+
+		.controls-listing[shape="line"] .controls-listing-skew-x,
+		.controls-listing[shape="line"] .controls-listing-skew-y {
+			background: var(--light-gray) !important;
 		}
 
 	/* transformations */
