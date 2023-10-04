@@ -106,9 +106,17 @@
 		border: 0px;
 		border-radius: 0px 5px 0px 0px;
 		font-size: 25px;
-		padding: 5px;
+		padding: 0;
 		overflow: hidden;
 		cursor: pointer;
+	}
+
+	#refresh svg {
+		height: 100%;
+		width: auto;
+		max-width: 100%;
+		max-height: auto;
+		fill: currentColor;
 	}
 
 	#refresh:hover {

@@ -49,6 +49,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
+	}
+
 	#container {
 		position: absolute;
 		top: 50%;
@@ -301,9 +307,11 @@
 	}
 
 	.play {
-		font-size: 100px;
+		height: 200px;
+		width: 200px;
 		color: #cccccc;
 		text-align: center;
+		position: relative;
 		top: 50%;
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
@@ -311,6 +319,6 @@
 	}
 
 	.play:hover {
-		text-shadow: 0px 0px 10px #cccccc;
+		filter: drop-shadow(0px 0px 10px #cccccc);
 	}
 

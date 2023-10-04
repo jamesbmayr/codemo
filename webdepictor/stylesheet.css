@@ -46,6 +46,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
+	}
+
 	::-webkit-scrollbar {
 		height: 0px !important;
 		width: 0px !important;
@@ -98,6 +104,11 @@
 
 	#playpause:hover {
 		background-color: #aaaaaa;
+	}
+
+	#toggle div, #playpause div {
+		height: 100%;
+		width: 100%;
 	}
 
 /* overlay */

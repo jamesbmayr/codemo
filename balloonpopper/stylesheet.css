@@ -76,6 +76,13 @@
 		background-color: lightgray;
 		color: darkgray;
 		outline: none;
+		padding: 0;
+	}
+
+	#restart svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
 	}
 
 	#restart:hover {

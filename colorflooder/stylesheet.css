@@ -353,14 +353,13 @@
 		cursor: pointer;
 	}
 
-	#refreshInner {
-		position: relative;
-		top: 50%;
-		transform: translateY(-50%);
-		cursor: pointer;
-	}
-
 	#refreshOuter:hover {
 		background-color: gray;
 		color: lightgray;
+	}
+
+	#refreshOuter svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
 	}

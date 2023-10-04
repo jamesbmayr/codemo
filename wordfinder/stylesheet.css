@@ -273,7 +273,7 @@
 		}
 
 		.oldWord {
-			width: 95%;
+			width: calc(100% - 30px);
 			height: 100%;
 			background-color: rgba(200,180,150,1);
 			border: 0px;
@@ -286,11 +286,19 @@
 		.deleteWord {
 			text-align: center;
 			float: left;
-			width: 5%;
+			width: 25px;
 			height: 100%;
 			color: rgba(150,140,125,1);
 			transform: translateY(25%);
 			cursor: pointer;
+			margin-left: 5px;
+			margin-top: -3px;
+		}
+
+		.deleteWord svg {
+			height: 100%;
+			width: auto;
+			fill: currentColor;
 		}
 
 /* mobile */
