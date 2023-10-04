@@ -272,6 +272,33 @@
 		box-shadow: 0 0 calc(var(--shadow-size) * 4) var(--light-blue);
 	}
 
+	#navigation-search:placeholder-shown ~ #navigation-reset {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	#navigation-reset {
+		opacity: 1;
+		float: right;
+		height: calc(var(--medium-font-size) + 2 * var(--small-gap-size));
+		background: transparent;
+		color: var(--dark-gray);
+		border: none;
+		padding: 0 var(--small-gap-size) var(--shadow-size) var(--small-gap-size);
+		font-family: var(--font-family);
+		font-size: var(--medium-font-size);
+		margin-left: -100%;
+		vertical-align: bottom;
+		outline: none;
+		line-height: 1;
+		cursor: pointer;
+		transition: var(--transition-time);
+	}
+
+	#navigation-reset:hover, #navigation-reset:focus {
+		color: var(--dark-blue);
+	}
+
 /*** projects ***/
 	#projects {
 		overflow: hidden;

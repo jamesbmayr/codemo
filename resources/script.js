@@ -1454,6 +1454,7 @@
 			jlogo: document.querySelector("#j-logo"),
 			navigation: document.querySelector("#navigation"),
 			search: document.querySelector("#navigation-search"),
+			reset: document.querySelector("#navigation-reset"),
 			tags: {
 				code: document.querySelector("#info-tag-code"),
 				music: document.querySelector("#info-tag-music"),
@@ -1520,6 +1521,7 @@
 
 	/* inputSearch */
 		ELEMENTS.search.addEventListener("input", inputSearch)
+		ELEMENTS.reset.addEventListener("click", inputSearch)
 		function inputSearch(event) {
 			try {
 				// wait
