@@ -1,420 +1,417 @@
-window.onload = function() {
+/*** globals ***/
+	/* triggers */
+		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		}
+		else {
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
 
-	/*** globals ***/
-		/* triggers */
-			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+	/* game */
+		var turn    = null
+		var players = {
+			X: null,
+			O: null
+		}
+		window.players = players
+
+/*** menu ***/
+	/* togglePlayer */
+		var toggles = Array.from(document.querySelectorAll(".toggle"))
+		for (var t in toggles) { toggles[t].addEventListener(on.click, togglePlayer) }
+		function togglePlayer(event) {
+			if (event.target.className == "toggle") {
+				var player = event.target.id.split("-")[0]
+				var type   = event.target.id.split("-")[1]
+
+				document.getElementById(player + "-" + type).setAttribute("selected", true)
+				document.getElementById(player + "-" + (type == "ai" ? "human" : "ai")).removeAttribute("selected")
 			}
-			else {
-				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		}
+
+	/* startGame */
+		document.getElementById("start").addEventListener(on.click, startGame)
+		function startGame() {
+			// initialize game
+				clearBoard()
+				document.getElementById("board").className = ""
+				document.getElementById("menu").className = "hidden"
+				document.getElementById("message").innerText = ""
+
+				turn = "X"
+
+			// get ai
+				players.X = (document.getElementById("X-ai").getAttribute("selected") ? "ai" : "human")
+				players.O = (document.getElementById("O-ai").getAttribute("selected") ? "ai" : "human")
+
+				if (players[turn] == "ai") {
+					chooseOption()
+				}
+		}
+
+	/* clearBoard */
+		function clearBoard() {
+			var cells = Array.from(document.querySelectorAll(".cell"))
+			for (var c in cells) {
+				cells[c].setAttribute("player", "")
 			}
+		}
 
-		/* game */
-			var turn    = null
-			var players = {
-				X: null,
-				O: null
-			}
-			window.players = players
+	/* endGame */
+		function endGame(winner) {
+			document.getElementById("board").className = "gameover"
+			document.getElementById("menu").className = ""
+			document.getElementById("message").innerText = ((winner == "X" || winner == "O") ? (winner + " wins") : "tie")
 
-	/*** menu ***/
-		/* togglePlayer */
-			var toggles = Array.from(document.querySelectorAll(".toggle"))
-			for (var t in toggles) { toggles[t].addEventListener(on.click, togglePlayer) }
-			function togglePlayer(event) {
-				if (event.target.className == "toggle") {
-					var player = event.target.id.split("-")[0]
-					var type   = event.target.id.split("-")[1]
+			turn = null;
+		}
 
-					document.getElementById(player + "-" + type).setAttribute("selected", true)
-					document.getElementById(player + "-" + (type == "ai" ? "human" : "ai")).removeAttribute("selected")
+/*** player ***/
+	/* selectCell */
+		var cells = Array.from(document.querySelectorAll(".cell"))
+		for (var c in cells) { cells[c].addEventListener(on.click, selectCell) }
+		function selectCell(event) {
+			if ((event.target.className == "cell") && (turn !== null)) {
+				var cell = event.target.id.split("-")[1]
+				var game = getGame()
+				var options = Object.keys(game).filter(function (g) { return !game[g] })
+
+				if (options.includes(cell)) {
+					event.target.setAttribute("player", turn)
+					switchTurn()						
 				}
 			}
+		}
 
-		/* startGame */
-			document.getElementById("start").addEventListener(on.click, startGame)
-			function startGame() {
-				// initialize game
-					clearBoard()
-					document.getElementById("board").className = ""
-					document.getElementById("menu").className = "hidden"
-					document.getElementById("message").innerText = ""
+	/* getGame */
+		function getGame() {
+			// get data
+				var cells = Array.from(document.querySelectorAll(".cell"))
+				var game = {}
 
-					turn = "X"
+				for (var c in cells) {
+					var id = Number(cells[c].id.split("-")[1])
+					var player = cells[c].getAttribute("player") || ""
+					game[id] = (player.length ? player : null)
+				}
 
-				// get ai
-					players.X = (document.getElementById("X-ai").getAttribute("selected") ? "ai" : "human")
-					players.O = (document.getElementById("O-ai").getAttribute("selected") ? "ai" : "human")
+			return game
+		}
+
+	/* checkVictory */
+		function checkVictory() {
+			// get data
+				var game = getGame()
+
+			// rows
+				if (["X", "O"].includes(game[1]) && (game[1] == game[2]) && (game[1] == game[3])) {
+					return game[1]
+				}
+				else if (["X", "O"].includes(game[4]) && (game[4] == game[5]) && (game[4] == game[6])) {
+					return game[4]
+				}
+				else if (["X", "O"].includes(game[7]) && (game[7] == game[8]) && (game[7] == game[9])) {
+					return game[7]
+				}
+
+			// columns
+				else if (["X", "O"].includes(game[1]) && (game[1] == game[4]) && (game[1] == game[7])) {
+					return game[1]
+				}
+				else if (["X", "O"].includes(game[2]) && (game[2] == game[5]) && (game[2] == game[8])) {
+					return game[2]
+				}
+				else if (["X", "O"].includes(game[3]) && (game[3] == game[6]) && (game[3] == game[9])) {
+					return game[3]
+				}
+
+			// diagonals
+				else if (["X", "O"].includes(game[1]) && (game[1] == game[5]) && (game[1] == game[9])) {
+					return game[1]
+				}
+				else if (["X", "O"].includes(game[3]) && (game[3] == game[5]) && (game[3] == game[7])) {
+					return game[3]
+				}
+
+			// tie
+				else if (Object.keys(game).filter(function (g) { return game[g] }).length == 9) {
+					return "tie"
+				}
+				else {
+					return false
+				}
+		}
+
+	/* switchTurn */
+		function switchTurn() {
+			// end game ?
+				var victory = checkVictory()
+				if (victory) {
+					endGame(victory)
+				}
+
+			// continue
+				else {
+					turn = (turn == "X" ? "O" : "X")
 
 					if (players[turn] == "ai") {
 						chooseOption()
 					}
-			}
-
-		/* clearBoard */
-			function clearBoard() {
-				var cells = Array.from(document.querySelectorAll(".cell"))
-				for (var c in cells) {
-					cells[c].setAttribute("player", "")
 				}
-			}
+		}
 
-		/* endGame */
-			function endGame(winner) {
-				document.getElementById("board").className = "gameover"
-				document.getElementById("menu").className = ""
-				document.getElementById("message").innerText = ((winner == "X" || winner == "O") ? (winner + " wins") : "tie")
+/*** ai ***/
+	/* chooseOption */
+		function chooseOption() {
+			// get options
+				var game    = getGame()
+				var options = {
+					win:   [],
+					block: [],
+					move:  []
+				}
 
-				turn = null;
-			}
-
-	/*** player ***/
-		/* selectCell */
-			var cells = Array.from(document.querySelectorAll(".cell"))
-			for (var c in cells) { cells[c].addEventListener(on.click, selectCell) }
-			function selectCell(event) {
-				if ((event.target.className == "cell") && (turn !== null)) {
-					var cell = event.target.id.split("-")[1]
-					var game = getGame()
-					var options = Object.keys(game).filter(function (g) { return !game[g] })
-
-					if (options.includes(cell)) {
-						event.target.setAttribute("player", turn)
-						switchTurn()						
+				for (var g in game) {
+					if (!game[g]) {
+						var type = identifyOption(game, Number(g))
+						options[type].push(g)
 					}
 				}
-			}
 
-		/* getGame */
-			function getGame() {
-				// get data
-					var cells = Array.from(document.querySelectorAll(".cell"))
-					var game = {}
+			// choose an option
+				if (options.win.length) {
+					var option = options.win[Math.floor(Math.random() * options.win.length)]
+				}
+				else if (options.block.length) {
+					var option = options.block[Math.floor(Math.random() * options.block.length)]
+				}
+				else {
+					var option = options.move[Math.floor(Math.random() * options.move.length)]
+				}
 
-					for (var c in cells) {
-						var id = Number(cells[c].id.split("-")[1])
-						var player = cells[c].getAttribute("player") || ""
-						game[id] = (player.length ? player : null)
-					}
+			// implement option
+				if (option) {
+					playOption(option)
+				}
+				else {
+					endGame("tie")
+				}
+		}
 
-				return game
-			}
+	/* identifyOption */
+		function identifyOption(game, cell) {
+			// get data
+				var opponent = (turn == "X" ? "O" : "X")
 
-		/* checkVictory */
-			function checkVictory() {
-				// get data
-					var game = getGame()
-
-				// rows
-					if (["X", "O"].includes(game[1]) && (game[1] == game[2]) && (game[1] == game[3])) {
-						return game[1]
-					}
-					else if (["X", "O"].includes(game[4]) && (game[4] == game[5]) && (game[4] == game[6])) {
-						return game[4]
-					}
-					else if (["X", "O"].includes(game[7]) && (game[7] == game[8]) && (game[7] == game[9])) {
-						return game[7]
-					}
-
-				// columns
-					else if (["X", "O"].includes(game[1]) && (game[1] == game[4]) && (game[1] == game[7])) {
-						return game[1]
-					}
-					else if (["X", "O"].includes(game[2]) && (game[2] == game[5]) && (game[2] == game[8])) {
-						return game[2]
-					}
-					else if (["X", "O"].includes(game[3]) && (game[3] == game[6]) && (game[3] == game[9])) {
-						return game[3]
-					}
-
-				// diagonals
-					else if (["X", "O"].includes(game[1]) && (game[1] == game[5]) && (game[1] == game[9])) {
-						return game[1]
-					}
-					else if (["X", "O"].includes(game[3]) && (game[3] == game[5]) && (game[3] == game[7])) {
-						return game[3]
-					}
-
-				// tie
-					else if (Object.keys(game).filter(function (g) { return game[g] }).length == 9) {
-						return "tie"
-					}
-					else {
-						return false
-					}
-			}
-
-		/* switchTurn */
-			function switchTurn() {
-				// end game ?
-					var victory = checkVictory()
-					if (victory) {
-						endGame(victory)
-					}
-
-				// continue
-					else {
-						turn = (turn == "X" ? "O" : "X")
-
-						if (players[turn] == "ai") {
-							chooseOption()
+			// find options
+				var options = []
+				switch (cell) {
+					case 1:
+						if (game[2] == opponent && game[3] == opponent) {
+							options.push("block")
 						}
-					}
-			}
-
-	/*** ai ***/
-		/* chooseOption */
-			function chooseOption() {
-				// get options
-					var game    = getGame()
-					var options = {
-						win:   [],
-						block: [],
-						move:  []
-					}
-
-					for (var g in game) {
-						if (!game[g]) {
-							var type = identifyOption(game, Number(g))
-							options[type].push(g)
+						if (game[4] == opponent && game[7] == opponent) {
+							options.push("block")
 						}
-					}
+						if (game[5] == opponent && game[9] == opponent) {
+							options.push("block")
+						}
 
-				// choose an option
-					if (options.win.length) {
-						var option = options.win[Math.floor(Math.random() * options.win.length)]
-					}
-					else if (options.block.length) {
-						var option = options.block[Math.floor(Math.random() * options.block.length)]
-					}
-					else {
-						var option = options.move[Math.floor(Math.random() * options.move.length)]
-					}
+						if (game[2] == turn && game[3] == turn) {
+							options.push("win")
+						}
+						if (game[4] == turn && game[7] == turn) {
+							options.push("win")
+						}
+						if (game[5] == turn && game[9] == turn) {
+							options.push("win")
+						}
+					break
 
-				// implement option
-					if (option) {
-						playOption(option)
-					}
-					else {
-						endGame("tie")
-					}
-			}
+					case 2:
+						if (game[1] == opponent && game[3] == opponent) {
+							options.push("block")
+						}
+						if (game[5] == opponent && game[8] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[1] == turn && game[3] == turn) {
+							options.push("win")
+						}
+						if (game[5] == turn && game[8] == turn) {
+							options.push("win")
+						}
+					break
 
-		/* identifyOption */
-			function identifyOption(game, cell) {
-				// get data
-					var opponent = (turn == "X" ? "O" : "X")
+					case 3:
+						if (game[1] == opponent && game[2] == opponent) {
+							options.push("block")
+						}
+						if (game[6] == opponent && game[9] == opponent) {
+							options.push("block")
+						}
+						if (game[5] == opponent && game[7] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[1] == turn && game[2] == turn) {
+							options.push("win")
+						}
+						if (game[6] == turn && game[9] == turn) {
+							options.push("win")
+						}
+						if (game[5] == turn && game[7] == turn) {
+							options.push("win")
+						}
+					break
 
-				// find options
-					var options = []
-					switch (cell) {
-						case 1:
-							if (game[2] == opponent && game[3] == opponent) {
-								options.push("block")
-							}
-							if (game[4] == opponent && game[7] == opponent) {
-								options.push("block")
-							}
-							if (game[5] == opponent && game[9] == opponent) {
-								options.push("block")
-							}
+					case 4:
+						if (game[5] == opponent && game[6] == opponent) {
+							options.push("block")
+						}
+						if (game[1] == opponent && game[7] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[5] == turn && game[6] == turn) {
+							options.push("win")
+						}
+						if (game[1] == turn && game[7] == turn) {
+							options.push("win")
+						}
+					break
 
-							if (game[2] == turn && game[3] == turn) {
-								options.push("win")
-							}
-							if (game[4] == turn && game[7] == turn) {
-								options.push("win")
-							}
-							if (game[5] == turn && game[9] == turn) {
-								options.push("win")
-							}
-						break
+					case 5:
+						if (game[4] == opponent && game[6] == opponent) {
+							options.push("block")
+						}
+						if (game[2] == opponent && game[8] == opponent) {
+							options.push("block")
+						}
+						if (game[1] == opponent && game[9] == opponent) {
+							options.push("block")
+						}
+						if (game[3] == opponent && game[7] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[4] == turn && game[6] == turn) {
+							options.push("win")
+						}
+						if (game[2] == turn && game[8] == turn) {
+							options.push("win")
+						}
+						if (game[1] == turn && game[9] == turn) {
+							options.push("win")
+						}
+						if (game[3] == turn && game[7] == turn) {
+							options.push("win")
+						}
+					break
 
-						case 2:
-							if (game[1] == opponent && game[3] == opponent) {
-								options.push("block")
-							}
-							if (game[5] == opponent && game[8] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[1] == turn && game[3] == turn) {
-								options.push("win")
-							}
-							if (game[5] == turn && game[8] == turn) {
-								options.push("win")
-							}
-						break
+					case 6:
+						if (game[4] == opponent && game[5] == opponent) {
+							options.push("block")
+						}
+						if (game[3] == opponent && game[9] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[4] == turn && game[5] == turn) {
+							options.push("win")
+						}
+						if (game[3] == turn && game[9] == turn) {
+							options.push("win")
+						}
+					break
 
-						case 3:
-							if (game[1] == opponent && game[2] == opponent) {
-								options.push("block")
-							}
-							if (game[6] == opponent && game[9] == opponent) {
-								options.push("block")
-							}
-							if (game[5] == opponent && game[7] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[1] == turn && game[2] == turn) {
-								options.push("win")
-							}
-							if (game[6] == turn && game[9] == turn) {
-								options.push("win")
-							}
-							if (game[5] == turn && game[7] == turn) {
-								options.push("win")
-							}
-						break
+					case 7:
+						if (game[8] == opponent && game[9] == opponent) {
+							options.push("block")
+						}
+						if (game[1] == opponent && game[4] == opponent) {
+							options.push("block")
+						}
+						if (game[3] == opponent && game[5] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[8] == turn && game[9] == turn) {
+							options.push("win")
+						}
+						if (game[1] == turn && game[4] == turn) {
+							options.push("win")
+						}
+						if (game[3] == turn && game[5] == turn) {
+							options.push("win")
+						}
+					break
 
-						case 4:
-							if (game[5] == opponent && game[6] == opponent) {
-								options.push("block")
-							}
-							if (game[1] == opponent && game[7] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[5] == turn && game[6] == turn) {
-								options.push("win")
-							}
-							if (game[1] == turn && game[7] == turn) {
-								options.push("win")
-							}
-						break
+					case 8:
+						if (game[7] == opponent && game[9] == opponent) {
+							options.push("block")
+						}
+						if (game[2] == opponent && game[5] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[7] == turn && game[9] == turn) {
+							options.push("win")
+						}
+						if (game[2] == turn && game[5] == turn) {
+							options.push("win")
+						}
+					break
 
-						case 5:
-							if (game[4] == opponent && game[6] == opponent) {
-								options.push("block")
-							}
-							if (game[2] == opponent && game[8] == opponent) {
-								options.push("block")
-							}
-							if (game[1] == opponent && game[9] == opponent) {
-								options.push("block")
-							}
-							if (game[3] == opponent && game[7] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[4] == turn && game[6] == turn) {
-								options.push("win")
-							}
-							if (game[2] == turn && game[8] == turn) {
-								options.push("win")
-							}
-							if (game[1] == turn && game[9] == turn) {
-								options.push("win")
-							}
-							if (game[3] == turn && game[7] == turn) {
-								options.push("win")
-							}
-						break
+					case 9:
+						if (game[7] == opponent && game[8] == opponent) {
+							options.push("block")
+						}
+						if (game[3] == opponent && game[6] == opponent) {
+							options.push("block")
+						}
+						if (game[1] == opponent && game[5] == opponent) {
+							options.push("block")
+						}
+						
+						if (game[7] == turn && game[8] == turn) {
+							options.push("win")
+						}
+						if (game[3] == turn && game[6] == turn) {
+							options.push("win")
+						}
+						if (game[1] == turn && game[5] == turn) {
+							options.push("win")
+						}
+					break
+				}
 
-						case 6:
-							if (game[4] == opponent && game[5] == opponent) {
-								options.push("block")
-							}
-							if (game[3] == opponent && game[9] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[4] == turn && game[5] == turn) {
-								options.push("win")
-							}
-							if (game[3] == turn && game[9] == turn) {
-								options.push("win")
-							}
-						break
+			// consolidate
+				if (options.includes("win")) {
+					return "win"
+				}
+				else if (options.includes("block")) {
+					return "block"
+				}
+				else {
+					return "move"
+				}
+		}
 
-						case 7:
-							if (game[8] == opponent && game[9] == opponent) {
-								options.push("block")
-							}
-							if (game[1] == opponent && game[4] == opponent) {
-								options.push("block")
-							}
-							if (game[3] == opponent && game[5] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[8] == turn && game[9] == turn) {
-								options.push("win")
-							}
-							if (game[1] == turn && game[4] == turn) {
-								options.push("win")
-							}
-							if (game[3] == turn && game[5] == turn) {
-								options.push("win")
-							}
-						break
+	/* playOption */
+		function playOption(option) {
+			setTimeout(function() {
+				if (on.click == "click") {
+					document.getElementById("cell-" + option).click()
+				}
+				else {
+					document.getElementById("cell-" + option).dispatchEvent(new TouchEvent("touchstart"))
+				}
 
-						case 8:
-							if (game[7] == opponent && game[9] == opponent) {
-								options.push("block")
-							}
-							if (game[2] == opponent && game[5] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[7] == turn && game[9] == turn) {
-								options.push("win")
-							}
-							if (game[2] == turn && game[5] == turn) {
-								options.push("win")
-							}
-						break
-
-						case 9:
-							if (game[7] == opponent && game[8] == opponent) {
-								options.push("block")
-							}
-							if (game[3] == opponent && game[6] == opponent) {
-								options.push("block")
-							}
-							if (game[1] == opponent && game[5] == opponent) {
-								options.push("block")
-							}
-							
-							if (game[7] == turn && game[8] == turn) {
-								options.push("win")
-							}
-							if (game[3] == turn && game[6] == turn) {
-								options.push("win")
-							}
-							if (game[1] == turn && game[5] == turn) {
-								options.push("win")
-							}
-						break
-					}
-
-				// consolidate
-					if (options.includes("win")) {
-						return "win"
-					}
-					else if (options.includes("block")) {
-						return "block"
-					}
-					else {
-						return "move"
-					}
-			}
-
-		/* playOption */
-			function playOption(option) {
-				setTimeout(function() {
-					if (on.click == "click") {
-						document.getElementById("cell-" + option).click()
-					}
-					else {
-						document.getElementById("cell-" + option).dispatchEvent(new TouchEvent("touchstart"))
-					}
-
-					var victory = checkVictory()
-					if (victory) {
-						endGame(victory)
-					}
-				}, 1000)
-			}
-}
+				var victory = checkVictory()
+				if (victory) {
+					endGame(victory)
+				}
+			}, 1000)
+		}
