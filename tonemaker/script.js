@@ -64,6 +64,23 @@
 				"221": 66,
 				"13":  67,
 				"220": 68
+			},
+			svg: {
+				upload: `<svg viewBox="0 0 100 100"><path d="M 55 80 C 62 80 69 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 C 20 82 22 80 25 80 C 31 80 38 80 45 80 C 45 65 45 39 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 39 55 65 55 80 Z"></path></svg>`,
+				download: `<svg viewBox="0 0 100 100"><path d="M 20 85 C 20 82 22 80 25 80 C 40 80 60 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 Z M 50 10 C 53 10 55 12 55 15 C 55 30 55 50 55 63 C 58 60 60 58 62 56 C 64 54 67 54 69 56 C 71 58 71 61 69 63 C 65 67 60 72 55 77 C 53 79 52 80 50 80 C 48 80 47 79 45 77 C 40 72 35 67 31 63 C 29 61 29 58 31 56 C 33 54 36 54 38 56 C 40 58 42 60 45 63 C 45 50 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
+				trash: `<svg viewBox="0 0 100 100"><path d="M 67 30 C 70 30 73 30 76 30 C 78 30 80 32 80 34 C 80 35 80 35 80 36 C 80 38 78 40 76 40 C 72 40 70 40 70 41 C 70 51 70 63 70 74 C 70 77 67 80 64 80 C 55 80 45 80 36 80 C 33 80 30 77 30 74 C 30 63 30 51 30 41 C 30 40 28 40 24 40 C 22 40 20 38 20 36 C 20 35 20 35 20 34 C 20 32 22 30 24 30 C 27 30 30 30 33 30 C 36 30 37 29 37 26 C 37 23 40 20 43 20 C 47 20 53 20 57 20 C 60 20 63 23 63 26 C 63 29 64 30 67 30 Z"></path></svg>`,
+				power: `<svg viewBox="0 0 100 100"><path d="M 50 45 C 47 45 45 43 45 40 C 45 35 45 20 45 15 C 45 12 47 10 50 10 C 53 10 55 12 55 15 C 55 20 55 35 55 40 C 55 43 53 45 50 45 Z M 32 26 C 37 23 42 31 38 34 C 34 37 30 43 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 43 66 37 62 34 C 58 31 63 23 68 26 C 73 29 80 37 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 37 27 29 32 26 Z"></path></svg>`,
+				volume: `<svg viewBox="10 10 80 80"><path d="M 58 27 C 67 27 78 35 78 50 C 78 65 67 73 58 73 C 54 73 54 68 58 68 C 65 68 73 62 73 50 C 73 38 65 32 58 32 C 54 32 54 27 58 27 Z M 57 34 C 63 34 71 40 71 50 C 71 60 63 66 57 66 C 54 66 54 62 57 62 C 61 62 67 58 67 50 C 67 42 61 38 57 38 C 54 38 54 34 57 34 Z M 56 40 C 60 40 65 44 65 50 C 65 56 60 60 56 60 C 54 60 54 57 56 57 C 59 57 62 54 62 50 C 62 46 59 43 56 43 C 54 43 54 40 56 40 Z M 55 45 C 58 45 60 47 60 50 C 60 53 58 55 55 55 C 54 55 54 53 55 53 C 56 53 58 52 58 50 C 58 48 56 47 55 47 C 54 47 54 45 55 45 Z M 35 59 C 25 57 25 60 25 50 C 25 40 25 43 35 41 C 45 39 45 34 48 34 C 49 34 50 35 50 36 C 50 40 50 60 50 64 C 50 65 49 66 48 66 C 45 66 45 61 35 59 Z"></path></svg>`,
+				record: `<svg viewBox="10 10 80 80"><path d="M 25 50 C 25 64 36 75 50 75 C 64 75 75 64 75 50 C 75 36 64 25 50 25 C 36 25 25 36 25 50 Z M 30 50 C 30 39 39 30 50 30 C 61 30 70 39 70 50 C 70 61 61 70 50 70 C 39 70 30 61 30 50 Z M 20 50 C 20 33 33 20 50 20 C 67 20 80 34 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z"></path></svg>`,
+				ban: `<svg viewBox="10 10 80 80"><path d="M 68 64 C 69 65 69.5 65.5 71 64 C 73 61 75 56 75 50 C 75 37 63 25 50 25 C 44 25 39 27 36 29 C 34.5 30.5 35 31 36 32 C 47 43 57 53 68 64 Z M 32 36 C 31 35 30.5 34.5 29 36 C 27 39 25 44 25 50 C 25 63 37 75 50 75 C 55 75 61 73 64 71 C 65.5 69.5 65 69 64 68 C 53 57 43 47 32 36 Z M 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z"></path></svg>`,
+				eighthNotes: `<svg viewBox="0 0 100 100"><path d="M 30 14 C 30 12 32 10 34 10 C 50 10 70 10 86 10 C 88 10 90 12 90 14 C 90 30 90 60 90 75 C 90 83 83 90 75 90 C 67 90 60 83 60 75 C 60 67 67 60 75 60 C 77 60 77 60 79 60.5 C 80 61 80 60 80 58 C 80 50 80 30 80 22 C 80 21 79 20 78 20 C 70 20 50 20 42 20 C 41 20 40 21 40 22 C 40 30 40 60 40 75 C 40 83 33 90 25 90 C 17 90 10 83 10 75 C 10 67 17 60 25 60 C 27 60 27 60 29 60.5 C 30 61 30 60 30 58 C 30 50 30 40 30 14 Z"></path></svg>`,
+				clock: `<svg viewBox="10 10 80 80"><path d="M 25 50 C 25 64 36 75 50 75 C 64 75 75 64 75 50 C 75 36 64 25 50 25 C 36 25 25 36 25 50 Z M 48 50 C 48 48 48 32 48 30 C 48 29 49 28 50 28 C 51 28 52 29 52 30 C 52 32 52 45 52 48 C 55 48 60 48 62 48 C 63 48 64 49 64 50 C 64 51 63 52 62 52 C 60 52 52 52 50 52 C 49 52 48 51 48 50 Z M 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z"></path></svg>`,
+				robot: `<svg viewBox="10 10 80 80"><path d="M 72 25 C 55 25 45 25 28 25 C 26 25 25 26 25 28 C 25 45 25 55 25 72 C 25 74 26 75 28 75 C 45 75 55 75 72 75 C 74 75 75 74 75 72 C 75 55 75 45 75 28 C 75 26 74 25 72 25 Z M 63 45 C 64 45 65 46 65 47 C 65 49 65 51 65 53 C 65 54 64 55 63 55 C 61 55 59 55 57 55 C 56 55 55 54 55 53 C 55 51 55 49 55 47 C 55 46 56 45 57 45 C 59 45 61 45 63 45 Z M 43 45 C 44 45 45 46 45 47 C 45 49 45 51 45 53 C 45 54 44 55 43 55 C 41 55 39 55 37 55 C 36 55 35 54 35 53 C 35 51 35 49 35 47 C 35 46 36 45 37 45 C 39 45 41 45 43 45 Z M 80 56 C 80 62 80 67 80 74 C 80 77 77 80 74 80 C 58 80 42 80 26 80 C 23 80 20 77 20 74 C 20 67 20 62 20 56 C 20 55 20 55 19 55 C 18 55 18 55 17 55 C 16 55 15 54 15 53 C 15 51 15 49 15 47 C 15 46 16 45 17 45 C 18 45 18 45 19 45 C 20 45 20 45 20 44 C 20 38 20 33 20 26 C 20 23 23 20 26 20 C 32 20 39 20 44 20 C 45 20 45 20 45 19 C 45 18 45 18 45 17 C 45 16 46 15 47 15 C 49 15 51 15 53 15 C 54 15 55 16 55 17 C 55 18 55 18 55 19 C 55 20 55 20 56 20 C 61 20 68 20 74 20 C 77 20 80 23 80 26 C 80 33 80 38 80 44 C 80 45 80 45 81 45 C 82 45 82 45 83 45 C 84 45 85 46 85 47 C 85 49 85 51 85 53 C 85 54 84 55 83 55 C 82 55 82 55 81 55 C 80 55 80 55 80 56 Z"></path></svg>`,
+				filter: `<svg viewBox="10 10 80 80"><path d="M 55 54 C 55 59 55 69 55 78 C 55 85 45 70 45 65 C 45 60 45 56 45 54 C 45 49 45 49 37 40 C 27 30 18 20 30 20 C 40 20 60 20 70 20 C 82 20 73 30 63 40 C 55 49 55 49 55 54 Z"></path></svg>`,
+				lightning: `<svg viewBox="10 10 80 80"><path d="M 53 28 C 65 19 69 17 60 29 C 57 33 57 33 54 37 C 51 41 51 43 55 46 C 59 49 59 49 63 52 C 67 55 67 57 63 60 C 59 63 51 69 47 72 C 35 81 31 83 40 71 C 43 67 43 67 46 63 C 49 59 49 57 45 54 C 41 51 41 51 37 48 C 33 45 33 43 37 40 C 41 37 49 31 53 28 Z"></path></svg>`,
+				hall: `<svg viewBox="0 0 100 100"><path d="M 20 47 C 20 46 20 45 20 41 C 20 39 30 40 40 30 C 43 27 50 30 47 27 C 46 26 45 26 48 23 C 51 20 49 20 52 23 C 55 26 54 26 53 27 C 50 30 57 27 60 30 C 70 40 80 39 80 41 C 80 45 80 46 80 47 C 80 50 90 58 90 60 C 90 65 90 72 90 78 C 90 79 89 80 88 80 C 63 80 37 80 12 80 C 11 80 10 79 10 78 C 10 72 10 65 10 60 C 10 58 20 50 20 47 Z"></path></svg>`,
+				headphones: `<svg viewBox="0 0 100 100"><path d="M 25 75 C 25 78 23 80 20 80 C 17 80 15 78 15 75 C 15 72 15 50 15 45 C 15 35 30 20 50 20 C 70 20 85 35 85 45 C 85 50 85 72 85 75 C 85 78 83 80 80 80 C 77 80 75 78 75 75 C 73 79 70 80 67 80 C 65 80 65 79 65 77 C 65 70 65 60 65 53 C 65 51 65 50 67 50 C 70 50 73 51 75 55 C 75 50 75 47 75 45 C 75 40 65 30 50 30 C 35 30 25 40 25 45 C 25 47 25 50 25 55 C 27 51 30 50 33 50 C 35 50 35 51 35 53 C 35 60 35 70 35 77 C 35 79 35 80 33 80 C 30 80 27 79 25 75 Z"></path></svg>`,
+				speechBubbles: `<svg viewBox="10 10 80 80"><path d="M 35 53 C 34 53 32 54 30 55 C 28 56 28 56 24 58 C 20 60 20 60 22 57 C 22 57 24 54 24 54 C 26 51 24 50 21 48 C 18 46 15 43 15 37 C 15 27 26 20 40 20 C 55 20 66 27 66 36 C 66 38 65 40 65 40 C 78 42 85 48 85 57 C 85 63 82 66 79 68 C 76 70 74 71 76 74 C 76 74 78 77 78 77 C 80 80 80 80 78 79 C 74 77 70 75 68 74 C 66 73 63 73 60 73 C 46 73 34 67 34 57 C 34 56 34 55 35 53 Z"></path></svg>`,
 			}
 		}
 
@@ -507,6 +524,7 @@
 						uploadLabel.id = "tool-meta-upload"
 						uploadLabel.className = "button"
 						uploadLabel.title = "upload synth JSON"
+						uploadLabel.innerHTML = CONSTANTS.svg.upload
 					fileSection.appendChild(uploadLabel)
 
 						const uploadInput = document.createElement("input")
@@ -515,10 +533,6 @@
 							uploadInput.addEventListener(TRIGGERS.change, uploadFile)
 						uploadLabel.appendChild(uploadInput)
 						ELEMENTS["tool-meta"]["upload-link"] = uploadInput
-
-						const uploadSpan = document.createElement("span")
-							uploadSpan.className = "fas fa-upload"
-						uploadLabel.appendChild(uploadSpan)
 
 				// select
 					const instrumentListData = AUDIO_J.getInstruments({include: ["blank", "random", "simple", "default", "custom"], grouping: "family", format: "select"})
@@ -546,15 +560,15 @@
 						jLogoSVG.setAttribute("viewBox", "10 10 80 80")
 					jLogo.appendChild(jLogoSVG)
 
-					const jLogoPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
-					jLogoSVG.appendChild(jLogoPath)
+						const jLogoPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
+						jLogoSVG.appendChild(jLogoPath)
 
 				// download
 					const downloadButton = document.createElement("button")
 						downloadButton.id = "tool-meta-download"
 						downloadButton.className = "button"
-						downloadButton.innerHTML = '<span class="fas fa-download"></span>'
 						downloadButton.title = "download synth JSON"
+						downloadButton.innerHTML = CONSTANTS.svg.download
 						downloadButton.addEventListener(TRIGGERS.click, downloadFile)
 					fileSection.appendChild(downloadButton)
 					ELEMENTS["tool-meta"]["download"] = downloadButton
@@ -574,7 +588,7 @@
 					const deleteButton = document.createElement("button")
 						deleteButton.id = "tool-meta-delete"
 						deleteButton.className = "button"
-						deleteButton.innerHTML = '<span class="fas fa-trash"></span>'
+						deleteButton.innerHTML = CONSTANTS.svg.trash
 						deleteButton.title = "delete synth"
 						deleteButton.addEventListener(TRIGGERS.click, deleteFile)
 					fileSection.appendChild(deleteButton)
@@ -590,7 +604,7 @@
 						powerToggle.id = "tool-meta-power"
 						powerToggle.className = "toggle"
 						powerToggle.setAttribute("selected", true)
-						powerToggle.innerHTML = '<span class="fas fa-power-off"></span>'
+						powerToggle.innerHTML = CONSTANTS.svg.power
 						powerToggle.title = "power toggle"
 						powerToggle.addEventListener(TRIGGERS.click, adjustPowerToolToggle)
 					powerSection.appendChild(powerToggle)
@@ -620,7 +634,7 @@
 							volumeBar.id = "tool-meta-volume-bar"
 							volumeBar.className = "bar"
 							volumeBar.style.width = "50%"
-							volumeBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							volumeBar.innerHTML = CONSTANTS.svg.volume
 							volumeBar.title = "volume bar"
 							volumeBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						volumeTrack.appendChild(volumeBar)
@@ -630,7 +644,7 @@
 					const recordingToggle = document.createElement("button")
 						recordingToggle.id = "tool-meta-recording-toggle"
 						recordingToggle.className = "toggle"
-						recordingToggle.innerHTML = '<span class="fas fa-circle"></span>'
+						recordingToggle.innerHTML = CONSTANTS.svg.record
 						recordingToggle.title = "audio recording toggle"
 						recordingToggle.addEventListener(TRIGGERS.click, adjustRecordingToolToggle)
 					powerSection.appendChild(recordingToggle)
@@ -1050,7 +1064,7 @@
 						vibratoNoneToggle.id = "tool-vibrato-waves-toggle--none"
 						vibratoNoneToggle.value = 0
 						vibratoNoneToggle.className = "tool-vibrato-waves-toggle toggle"
-						vibratoNoneToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						vibratoNoneToggle.innerHTML = CONSTANTS.svg.ban
 						vibratoNoneToggle.setAttribute("selected", true)
 						vibratoNoneToggle.title = "vibrato off"
 						vibratoNoneToggle.addEventListener(TRIGGERS.click, adjustVibratoToolToggle)
@@ -1086,7 +1100,7 @@
 							pitchBar.id = "tool-vibrato-bar--pitch"
 							pitchBar.className = "bar"
 							pitchBar.style.height = "0%"
-							pitchBar.innerHTML = '<span class="fas fa-music"></span>¢'
+							pitchBar.innerHTML = CONSTANTS.svg.eighthNotes
 							pitchBar.title = "pitch variation"
 							pitchBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						pitchTrack.appendChild(pitchBar)
@@ -1148,7 +1162,7 @@
 							intervalBar.id = "tool-vibrato-bar--interval"
 							intervalBar.className = "bar"
 							intervalBar.style.width = "0%"
-							intervalBar.innerHTML = '<span class="fas fa-clock"></span>'
+							intervalBar.innerHTML = CONSTANTS.svg.clock
 							intervalBar.title = "time interval"
 							intervalBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						intervalTrack.appendChild(intervalBar)
@@ -1574,7 +1588,7 @@
 						bitcrusherToggle.id = "tool-bitcrusher-bits-toggle--0"
 						bitcrusherToggle.value = 0
 						bitcrusherToggle.className = "toggle"
-						bitcrusherToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						bitcrusherToggle.innerHTML = CONSTANTS.svg.ban
 						bitcrusherToggle.setAttribute("selected", true)
 						bitcrusherToggle.title = "bitcrusher toggle"
 						bitcrusherToggle.addEventListener(TRIGGERS.click, adjustBitcrusherToolToggle)
@@ -1624,7 +1638,7 @@
 							normBar.id = "tool-bitcrusher-norm-bar"
 							normBar.className = "bar"
 							normBar.style.width = "0%"
-							normBar.innerHTML = '<span class="fas fa-robot"></span>'
+							normBar.innerHTML = CONSTANTS.svg.robot
 							normBar.title = "crush amount"
 							normBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						normTrack.appendChild(normBar)
@@ -2058,7 +2072,7 @@
 						filterloopNoneToggle.id = "tool-filterloop-waves-toggle--none"
 						filterloopNoneToggle.value = 0
 						filterloopNoneToggle.className = "tool-filterloop-waves-toggle toggle"
-						filterloopNoneToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						filterloopNoneToggle.innerHTML = CONSTANTS.svg.ban
 						filterloopNoneToggle.setAttribute("selected", true)
 						filterloopNoneToggle.title = "filterloop off"
 						filterloopNoneToggle.addEventListener(TRIGGERS.click, adjustFilterloopToolToggle)
@@ -2094,7 +2108,7 @@
 							depthBar.id = "tool-filterloop-bar--depth"
 							depthBar.className = "bar"
 							depthBar.style.height = "0%"
-							depthBar.innerHTML = '<span class="fas fa-filter"></span>%'
+							depthBar.innerHTML = CONSTANTS.svg.filter
 							depthBar.title = "volume depth %"
 							depthBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						depthTrack.appendChild(depthBar)
@@ -2156,7 +2170,7 @@
 							intervalBar.id = "tool-filterloop-bar--interval"
 							intervalBar.className = "bar"
 							intervalBar.style.width = "0%"
-							intervalBar.innerHTML = '<span class="fas fa-clock"></span>'
+							intervalBar.innerHTML = CONSTANTS.svg.clock
 							intervalBar.title = "time interval"
 							intervalBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						intervalTrack.appendChild(intervalBar)
@@ -2280,7 +2294,7 @@
 						tremoloNoneToggle.id = "tool-tremolo-waves-toggle--none"
 						tremoloNoneToggle.value = 0
 						tremoloNoneToggle.className = "tool-tremolo-waves-toggle toggle"
-						tremoloNoneToggle.innerHTML = '<span class="fas fa-ban"></span>'
+						tremoloNoneToggle.innerHTML = CONSTANTS.svg.ban
 						tremoloNoneToggle.setAttribute("selected", true)
 						tremoloNoneToggle.title = "tremolo off"
 						tremoloNoneToggle.addEventListener(TRIGGERS.click, adjustTremoloToolToggle)
@@ -2316,7 +2330,7 @@
 							depthBar.id = "tool-tremolo-bar--depth"
 							depthBar.className = "bar"
 							depthBar.style.height = "0%"
-							depthBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							depthBar.innerHTML = CONSTANTS.svg.volume
 							depthBar.title = "volume depth %"
 							depthBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						depthTrack.appendChild(depthBar)
@@ -2378,7 +2392,7 @@
 							intervalBar.id = "tool-tremolo-bar--interval"
 							intervalBar.className = "bar"
 							intervalBar.style.width = "0%"
-							intervalBar.innerHTML = '<span class="fas fa-clock"></span>'
+							intervalBar.innerHTML = CONSTANTS.svg.clock
 							intervalBar.title = "time interval"
 							intervalBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						intervalTrack.appendChild(intervalBar)
@@ -2507,7 +2521,7 @@
 						const feedbackBar = document.createElement("div")
 							feedbackBar.id = "tool-echo-bar--feedback"
 							feedbackBar.className = "bar"
-							feedbackBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+							feedbackBar.innerHTML = CONSTANTS.svg.volume
 							feedbackBar.style.height = "0%"
 							feedbackBar.title = "feedback amount"
 							feedbackBar.addEventListener(TRIGGERS.mousedown, selectBar)
@@ -2537,7 +2551,7 @@
 						const delayBar = document.createElement("div")
 							delayBar.id = "tool-echo-bar--delay"
 							delayBar.className = "bar"
-							delayBar.innerHTML = '<span class="fas fa-clock"></span>'
+							delayBar.innerHTML = CONSTANTS.svg.clock
 							delayBar.style.left = "0%"
 							delayBar.style.height = "0%"
 							delayBar.title = "delay time"
@@ -2683,7 +2697,7 @@
 							distortionBar.id = "tool-effects-distortion--bar"
 							distortionBar.className = "bar"
 							distortionBar.style.width = "0%"
-							distortionBar.innerHTML = '<span class="fas fa-bolt"></span>'
+							distortionBar.innerHTML = CONSTANTS.svg.lightning
 							distortionBar.title = "distortion amount"
 							distortionBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						distortionTrack.appendChild(distortionBar)
@@ -2720,7 +2734,7 @@
 							reverbBar.id = "tool-effects-reverb--bar"
 							reverbBar.className = "bar"
 							reverbBar.style.width = "0%"
-							reverbBar.innerHTML = '<span class="fas fa-place-of-worship"></span>'
+							reverbBar.innerHTML = CONSTANTS.svg.hall
 							reverbBar.title = "reverb amount"
 							reverbBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						reverbTrack.appendChild(reverbBar)
@@ -2756,7 +2770,7 @@
 						const panningBar = document.createElement("div")
 							panningBar.id = "tool-effects-panning--bar"
 							panningBar.className = "bar"
-							panningBar.innerHTML = '<span class="fas fa-headphones"></span>'
+							panningBar.innerHTML = CONSTANTS.svg.headphones
 							panningBar.title = "panning direction"
 							panningBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						panningTrack.appendChild(panningBar)
@@ -2809,7 +2823,7 @@
 							chorusBar.id = "tool-effects-chorus--bar"
 							chorusBar.className = "bar"
 							chorusBar.style.width = "0%"
-							chorusBar.innerHTML = '<span class="fas fa-comments"></span>&darr;<span class="fas fa-clock"></span>&rarr;'
+							chorusBar.innerHTML = `${CONSTANTS.svg.speechBubbles}&darr;${CONSTANTS.svg.clock}&rarr;`
 							chorusBar.title = "chorus: pitch variance ↓ | time delay →"
 							chorusBar.addEventListener(TRIGGERS.mousedown, selectBar)
 						chorusTrack.appendChild(chorusBar)
@@ -2978,7 +2992,7 @@
 							const thresholdBar = document.createElement("div")
 								thresholdBar.id = "tool-compressor-threshold--bar"
 								thresholdBar.className = "bar"
-								thresholdBar.innerHTML = '<span class="fas fa-volume-up"></span>'
+								thresholdBar.innerHTML = CONSTANTS.svg.volume
 								thresholdBar.title = "volume threshold"
 								thresholdBar.style.height = "90%"
 								thresholdBar.style.width = "90%"
@@ -3013,7 +3027,7 @@
 							const ratioBar = document.createElement("div")
 								ratioBar.id = "tool-compressor-ratio--bar"
 								ratioBar.className = "bar"
-								ratioBar.innerHTML = '<span class="fas fa-sort-down"></span>'
+								ratioBar.innerHTML = CONSTANTS.svg.filter
 								ratioBar.title = "compression ratio"
 								ratioBar.style.height = "100%"
 								ratioBar.addEventListener(TRIGGERS.mousedown, selectBar)
@@ -3068,7 +3082,7 @@
 
 							const timingBefore = document.createElement("div")
 								timingBefore.id = "tool-compressor-timing--before"
-								timingBefore.innerHTML = '<span class="fas fa-clock"></span> <span class="fas fa-arrow-right"></span>'
+								timingBefore.innerHTML = `${CONSTANTS.svg.clock}&rarr;`
 							timingGraph.appendChild(timingBefore)
 
 							const timingThreshold = document.createElement("div")

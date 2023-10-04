@@ -3,7 +3,6 @@
 	<head>
 		<title>weatherExplorer</title>
 		<link rel="shortcut icon" href="data:image/svg+xml,<svg viewBox='10 10 80 80' xmlns='http://www.w3.org/2000/svg'><path fill='%2304b1ff' d='M 51 64 C 55 60 58 59 54 65 C 54 65 52 68 52 68 C 50 71 50 71 52 73 C 53 74 54 75 55 76 C 57 78 57 78 55 80 C 53 82 51 84 49 86 C 45 90 42 91 46 85 C 46 85 48 82 48 82 C 50 79 50 79 48 77 C 47 76 46 75 45 74 C 43 72 43 72 45 70 C 47 68 49 66 51 64 Z M 80 60 C 60 60 40 60 20 60 C 14 60 10 56 10 50 C 10 44 14 40 20 40 C 20 29 29 20 40 20 C 48 20 55.5 24.5 58.5 32.5 C 61 31 63 30 66 30 C 73 30 79 35 80 40 C 86 40 90 44 90 50 C 90 56 86 60 80 60 Z'></path></svg>">
-		<link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu:regular,bold;italic;bolditalic"/>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"/>
 		<meta charset="UTF-8"/>
@@ -15,21 +14,59 @@
 		<meta property="og:image" content="https://jamesmayr.com/weatherexplorer/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9keFEFRStht-Khf4m9RCdWTVDQTQMOAo&libraries=places"></script>
-		<script type="text/javascript" src="script.js"></script>
+		<script type="text/javascript" src="script.js" defer></script>
 	</head>
 	<body>
-		<button id="refresh"><span class="fa fa-refresh"></span></button>
+		<button id="refresh">
+			<svg viewBox="0 0 100 100"><path d="M 33 25 C 36 23 42 20 50 20 C 64 20 77 29 80 47 C 81 46 81 46 81 46 C 83 44 86 44 88 46 C 90 48 90 51 88 53 C 86 55 83 58 81 60 C 79 62 77 64 75 64 C 73 64 71 62 69 60 C 67 58 64 55 62 53 C 60 51 60 48 62 46 C 64 44 67 44 70 47 C 67 36 59 30 50 30 C 45 30 41 32 39 33 C 39 33 35 35 33 33 C 31 31 30 27 33 25 Z M 67 75 C 64 77 58 80 50 80 C 36 80 23 71 20 53 C 19 54 19 54 19 54 C 17 56 14 56 12 54 C 10 52 10 49 12 47 C 14 45 17 42 19 40 C 21 38 23 36 25 36 C 27 36 29 38 31 40 C 33 42 36 45 38 47 C 40 49 40 52 38 54 C 36 56 33 56 30 53 C 33 64 41 70 50 70 C 55 70 59 68 61 67 C 61 67 65 65 67 67 C 69 69 70 73 67 75 Z"></path></svg>
+		</button>
 		<div id="info">
 			<div id="place_data" class="data"></div>
 			<div id="coordinates_data"></div>
 			<br>
 			<div id="status">
-				<div id="temperature"><span class="fa fa-thermometer"></span>temperature:<br><span id="temperature_data" class="data"></span> °F</div>
-				<div id="precipitation"><span id="precipitation_type" class="fa fa-umbrella"></span>precipitation:<br><span id="precipitation_data" class="data"></span> in</div>
-				<div id="wind"><span class="fa fa-flag"></span>wind: <span id="wind_direction" class="data"></span><br><span id="wind_data" class="data"></span> mph</div>
-				<div id="humidity"><span class="fa fa-dashboard"></span>humidity:<br><span id="humidity_data" class="data"></span>%</div>
-				<div id="pressure"><span class="fa fa-sort-amount-desc"></span>pressure:<br><span id="pressure_data" class="data"></span> in</div>
-				<div id="clouds"><span class="fa fa-cloud"></span>cloudiness:<br><span id="clouds_data" class="data"></span>%</div>
+				<div id="temperature">
+					<svg viewBox="10 10 80 80"><path d="M 50 41 C 52 41 52 42 52 40 C 52 35 52 30 52 25 C 52 24 51 23 50 23 C 49 23 48 24 48 25 C 48 30 48 35 48 40 C 48 42 48 41 50 41 Z M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z"></path></svg>
+					<br>
+					temperature:
+					<br>
+					<span id="temperature_data" class="data"></span> °F
+				</div>
+				<div id="precipitation">
+					<svg viewBox="10 10 80 80"><path d="M 52 40 C 52 50 52 70 52 74 C 52 77 49 80 46 80 C 43 80 40 77 40 74 C 40 73 40 73 40 72 C 40 71 41 70 42 70 C 43 70 44 71 44 72 C 44 73 44 73 44 74 C 44 75 45 76 46 76 C 47 76 48 75 48 74 C 48 70 48 50 48 40 C 40 40 30 40 22 40 C 15 40 30 23 47 21 C 49 20 51 20 53 21 C 70 23 85 40 78 40 C 70 40 60 40 52 40 Z"></path></svg>
+					<br>
+					precipitation:
+					<br>
+					<span id="precipitation_data" class="data"></span> in
+				</div>
+				<div id="wind">
+					<svg viewBox="10 10 80 80"><path d="M 25 53 C 25 54 26 55 27 55 C 40 55 75 45 75 40 C 75 35 40 25 27 25 C 26 25 25 26 25 27 C 25 30 25 50 25 53 Z M 25 61 C 25 70 25 80 25 88 C 25 91 20 91 20 88 C 20 80 20 30 20 26 C 20 23 23 20 26 20 C 40 20 80 30 80 40 C 80 50 40 60 27 60 C 26 60 25 59 25 61 Z"></path></svg>
+					<br>
+					wind: <span id="wind_direction" class="data"></span>
+					<br>
+					<span id="wind_data" class="data"></span> mph
+				</div>
+				<div id="humidity">
+					<svg viewBox="10 10 80 80"><path d="M 67 61 C 67 63 69 65 71 65 C 73 65 75 63 75 61 C 75 59 73 57 71 57 C 69 57 67 59 67 61 Z M 46 39 C 46 41 48 43 50 43 C 52 43 54 41 54 39 C 54 37 52 35 50 35 C 48 35 46 37 46 39 Z M 25 61 C 25 63 27 65 29 65 C 31 65 33 63 33 61 C 33 59 31 57 29 57 C 27 57 25 59 25 61 Z M 31 47 C 31 49 33 51 35 51 C 37 51 39 49 39 47 C 39 45 37 43 35 43 C 33 43 31 45 31 47 Z M 61 47 C 61 49 63 51 65 51 C 67 51 69 49 69 47 C 69 45 67 43 65 43 C 63 43 61 45 61 47 Z M 41 53 C 46 64 48 65 50 65 C 52 65 54 63 54 61 C 54 59 53 57 42 52 C 40 51 40 51 41 53 Z M 79 68 C 78 70 75 70 70 70 C 60 70 40 70 30 70 C 25 70 22 70 21 68 C 20 66 20 62 20 60 C 20 43 33 30 50 30 C 67 30 80 43 80 60 C 80 62 80 66 79 68 Z"></path></svg>
+					<br>
+					humidity:
+					<br>
+					<span id="humidity_data" class="data"></span>%
+				</div>
+				<div id="pressure">
+					<svg viewBox="0 0 100 100"><path d="M 20 85 C 20 82 22 80 25 80 C 40 80 60 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 Z M 50 10 C 53 10 55 12 55 15 C 55 30 55 50 55 63 C 58 60 60 58 62 56 C 64 54 67 54 69 56 C 71 58 71 61 69 63 C 65 67 60 72 55 77 C 53 79 52 80 50 80 C 48 80 47 79 45 77 C 40 72 35 67 31 63 C 29 61 29 58 31 56 C 33 54 36 54 38 56 C 40 58 42 60 45 63 C 45 50 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>
+					<br>
+					pressure:
+					<br>
+					<span id="pressure_data" class="data"></span> in
+				</div>
+				<div id="clouds">
+					<svg viewBox="10 10 80 80"><path d="M 80 70 C 60 70 40 70 20 70 C 14 70 10 66 10 60 C 10 54 14 50 20 50 C 20 39 29 30 40 30 C 48 30 55.5 34.5 58.5 42.5 C 61 41 63 40 66 40 C 73 40 79 45 80 50 C 86 50 90 54 90 60 C 90 66 86 70 80 70 Z"></path></svg>
+					<br>
+					cloudiness:
+					<br>
+					<span id="clouds_data" class="data"></span>%
+				</div>
 			</div>
 			<div id="map"></div>
 		</div>

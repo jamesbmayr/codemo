@@ -102,13 +102,21 @@
 		font-size: 15px;
 		border-radius: 100%;
 		border: 0px;
-		color: #333333;
+		color: #111111;
 		margin-right: 5px;
 		outline: none;
 		box-shadow: 0px 0px 10px #111111;
 		cursor: pointer;
 		padding: 0px;
 		vertical-align: middle;
+	}
+
+	#controls button svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
+		vertical-align: top;
+		margin: auto auto;
 	}
 
 	#controls button:hover, #controls button.selected {
@@ -189,23 +197,6 @@
 		background-color: black;
 	}
 
-/* sizes */
-	#controls button#_1 {
-		font-size: 4px;
-	}
-
-	#controls button#_2 {
-		font-size: 9px;
-	}
-
-	#controls button#_5 {
-		font-size: 14px;
-	}
-
-	#controls button#_10 {
-		font-size: 19px;
-	}
-
-	#controls button#_20 {
-		font-size: 24px;
+	#controls button#black:not(.selected) {
+		color: #666666;
 	}

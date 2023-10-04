@@ -4,7 +4,6 @@
 		<title>laserSimulator</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="shortcut icon" href="data:image/svg+xml,<svg viewBox='20 20 60 60' xmlns='http://www.w3.org/2000/svg'><path fill='%2304b1ff' d='M 48 45.5 C 48 40 48 25 48 22 C 48 21 49 20 50 20 C 51 20 52 21 52 22 C 52 25 52 40 52 45.5 C 54 46 55 48 55 50 C 55 53 53 55 50 55 C 47 55 45 53 45 50 C 45 48 46 46 48 45.5 Z M 57 43 C 56 42 56 41 57 40 C 59 38 66 31 68 29 C 69 28 70 28 71 29 C 72 30 72 31 71 32 C 69 34 62 41 60 43 C 59 44 58 44 57 43 Z M 60 50 C 60 49 61 48 62 48 C 65 48 75 48 78 48 C 79 48 80 49 80 50 C 80 51 79 52 78 52 C 75 52 65 52 62 52 C 61 52 60 51 60 50 Z M 57 57 C 58 56 59 56 60 57 C 62 59 69 66 71 68 C 72 69 72 70 71 71 C 70 72 69 72 68 71 C 66 69 59 62 57 60 C 56 59 56 58 57 57 Z M 50 60 C 51 60 52 61 52 62 C 52 65 52 75 52 78 C 52 79 51 80 50 80 C 49 80 48 79 48 78 C 48 75 48 65 48 62 C 48 61 49 60 50 60 Z M 29 71 C 28 70 28 69 29 68 C 31 66 38 59 40 57 C 41 56 42 56 43 57 C 44 58 44 59 43 60 C 41 62 34 69 32 71 C 31 72 30 72 29 71 Z M 20 50 C 20 49 21 48 22 48 C 25 48 35 48 38 48 C 39 48 40 49 40 50 C 40 51 39 52 38 52 C 35 52 25 52 22 52 C 21 52 20 51 20 50 Z M 29 29 C 30 28 31 28 32 29 C 34 31 41 38 43 40 C 44 41 44 42 43 43 C 42 44 41 44 40 43 C 38 41 31 34 29 32 C 28 31 28 30 29 29 Z'></path></svg>">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"/>
 		<link rel="stylesheet" href="stylesheet.css"/>
 		<meta charset="UTF-8"/>
 		<meta name="description" content="laserSimulator is a Javascript web demo by James Mayr"/>
@@ -14,7 +13,7 @@
 		<meta property="og:description" content="laserSimulator is a Javascript web demo by James Mayr"/>
 		<meta property="og:image" content="https://jamesmayr.com/lasersimulator/banner.png"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
-		<script src="script.js"></script>
+		<script src="script.js" defer></script>
 	</head>
 	<body>
 		<div id="controls" color="#ffffff">
@@ -27,14 +26,30 @@
 				</select>
 				color
 			</label>
-			<label><button id="cursor"    title="cursor"          ><span class="fas fa-mouse-pointer"       ></span></button>cursor</label>
-			<label><button id="eraser"    title="eraser"          ><span class="fas fa-eraser"              ></span></button>eraser</label>
-			<label><button id="emitter"   title="emitter" selected><span class="fas fa-magic"               ></span></button>emitter</label>
-			<label><button id="prism"     title="prism"           ><span class="fas fa-exclamation-triangle"></span></button>prism</label>
-			<label><button id="refractor" title="refractor"       ><span class="fas fa-tint"                ></span></button>refractor</label>
-			<label><button id="filter"    title="filter"          ><span class="fas fa-filter"              ></span></button>filter</label>
-			<label><button id="mirror"    title="mirror"          ><span class="fas fa-project-diagram"     ></span></button>mirror</label>
-			<label><button id="block"     title="wall"            ><span class="fas fa-stop"                ></span></button>wall</label>
+			<label><button id="cursor"    title="cursor">
+				<svg viewBox="15 15 70 70"><path d="M 55 53 C 55 53 67 74 67 74 C 67 74 57 80 57 80 C 57 80 45 58 45 58 C 41 62 37 66 33 70 C 33 53 33 37 33 20 C 45 30 60 42 73 53 C 67 53 61 53 55 53 Z"></path></svg>
+			</button>cursor</label>
+			<label><button id="eraser"    title="eraser">
+				<svg viewBox="15 15 70 70"><path d="M 36 45 C 33 48 28 53 25 56 C 23 58 23 59 25 61 C 29 65 36 72 40 76 C 41 76 44 76 45 76 C 46 75 52 69 57 64 C 58 63 58 62 57 61 C 50 54 46 50 41 45 C 39 43 38 43 36 45 Z M 36 76 C 34 74 27 67 23 63 C 20 60 20 57 23 54 C 34 43 44 33 53 24 C 55 22 57 22 59 24 C 63 28 69 34 76 41 C 79 44 79 46 76 49 C 67 58 57 68 49 76 C 58 76 69 76 78 76 C 81 76 81 80 78 80 C 60 80 40 80 22 80 C 19 80 19 76 22 76 C 26 76 31 76 36 76 Z"></path></svg>
+			</button>eraser</label>
+			<label><button id="emitter"   title="emitter" selected>
+				<svg viewBox="15 15 70 70"><path d="M 45.5 52 C 40 52 25 52 22 52 C 21 52 20 51 20 50 C 20 49 21 48 22 48 C 25 48 40 48 45.5 48 C 46 46 48 45 50 45 C 53 45 55 47 55 50 C 55 53 53 55 50 55 C 48 55 46 54 45.5 52 Z M 43 43 C 42 44 41 44 40 43 C 38 41 31 34 29 32 C 28 31 28 30 29 29 C 30 28 31 28 32 29 C 34 31 41 38 43 40 C 44 41 44 42 43 43 Z M 50 40 C 49 40 48 39 48 38 C 48 35 48 25 48 22 C 48 21 49 20 50 20 C 51 20 52 21 52 22 C 52 25 52 35 52 38 C 52 39 51 40 50 40 Z M 57 43 C 56 42 56 41 57 40 C 59 38 66 31 68 29 C 69 28 70 28 71 29 C 72 30 72 31 71 32 C 69 34 62 41 60 43 C 59 44 58 44 57 43 Z M 60 50 C 60 49 61 48 62 48 C 65 48 75 48 78 48 C 79 48 80 49 80 50 C 80 51 79 52 78 52 C 75 52 65 52 62 52 C 61 52 60 51 60 50 Z M 71 71 C 70 72 69 72 68 71 C 66 69 59 62 57 60 C 56 59 56 58 57 57 C 58 56 59 56 60 57 C 62 59 69 66 71 68 C 72 69 72 70 71 71 Z M 50 80 C 49 80 48 79 48 78 C 48 75 48 65 48 62 C 48 61 49 60 50 60 C 51 60 52 61 52 62 C 52 65 52 75 52 78 C 52 79 51 80 50 80 Z M 29 71 C 28 70 28 69 29 68 C 31 66 38 59 40 57 C 41 56 42 56 43 57 C 44 58 44 59 43 60 C 41 62 34 69 32 71 C 31 72 30 72 29 71 Z"></path></svg>
+			</button>emitter</label>
+			<label><button id="prism"     title="prism">
+				<svg viewBox="15 15 70 70"><path d="M 71 43 C 73 52 76 63 79 75 C 71 56 65 41 57 22 C 62 30 67 37 71 43 Z M 80 80 C 56 76 44 74 20 70 C 33 52 44 36 55 20 C 62 37 73 63 80 80 Z"></path></svg>
+			</button>prism</label>
+			<label><button id="refractor" title="refractor">
+				<svg viewBox="15 15 70 70"><path d="M 35 46 C 41 36 45 29 46 27 C 50 20 50 20 54 27 C 55 29 59 36 65 46 C 68 51 70 55 70 60 C 70 71 61 80 50 80 C 39 80 30 71 30 60 C 30 55 32 51 35 46 Z"></path></svg>
+			</button>refractor</label>
+			<label><button id="filter"    title="filter">
+				<svg viewBox="15 15 70 70"><path d="M 55 54 C 55 59 55 69 55 78 C 55 85 45 70 45 65 C 45 60 45 56 45 54 C 45 49 45 49 37 40 C 27 30 18 20 30 20 C 40 20 60 20 70 20 C 82 20 73 30 63 40 C 55 49 55 49 55 54 Z"></path></svg>
+			</button>filter</label>
+			<label><button id="mirror"    title="mirror">
+				<svg viewBox="20 20 60 60"><path d="M 50 75 C 58 75 65 63 65 50 C 65 37 58 25 50 25 C 42 25 35 37 35 50 C 35 63 42 75 50 75 Z M 43 48 C 46 45 50 41 53 38 C 55 36 57 38 55 40 C 52 43 48 47 45 50 C 43 52 41 50 43 48 Z M 41 41 C 44 38 48 34 51 31 C 53 29 55 31 53 33 C 50 36 46 40 43 43 C 41 45 39 43 41 41 Z M 50 80 C 39 80 30 66 30 50 C 30 34 39 20 50 20 C 61 20 70 34 70 50 C 70 66 61 80 50 80 Z"></path></svg>
+			</button>mirror</label>
+			<label><button id="block"     title="wall">
+				<svg viewBox="0 0 100 100"><path d="M 62 77 C 62 79 62 81 62 83 C 62 85 62 85 64 85 C 69 85 75 85 80 85 C 82 85 82 85 82 83 C 82 81 82 79 82 77 C 82 75 82 75 80 75 C 75 75 69 75 64 75 C 62 75 62 75 62 77 Z M 17 57 C 17 59 17 61 17 63 C 17 65 17 65 19 65 C 24 65 30 65 35 65 C 37 65 37 65 37 63 C 37 61 37 59 37 57 C 37 55 37 55 35 55 C 30 55 24 55 19 55 C 17 55 17 55 17 57 Z M 32 37 C 32 39 32 41 32 43 C 32 45 32 45 34 45 C 39 45 45 45 50 45 C 52 45 52 45 52 43 C 52 41 52 39 52 37 C 52 35 52 35 50 35 C 45 35 39 35 34 35 C 32 35 32 35 32 37 Z M 17 17 C 17 19 17 21 17 23 C 17 25 17 25 19 25 C 24 25 30 25 35 25 C 37 25 37 25 37 23 C 37 21 37 19 37 17 C 37 15 37 15 35 15 C 30 15 24 15 19 15 C 17 15 17 15 17 17 Z M 47 17 C 47 19 47 21 47 23 C 47 25 47 25 49 25 C 54 25 60 25 65 25 C 67 25 67 25 67 23 C 67 21 67 19 67 17 C 67 15 67 15 65 15 C 60 15 54 15 49 15 C 47 15 47 15 47 17 Z M 62 37 C 62 39 62 41 62 43 C 62 45 62 45 64 45 C 69 45 75 45 80 45 C 82 45 82 45 82 43 C 82 41 82 39 82 37 C 82 35 82 35 80 35 C 75 35 69 35 64 35 C 62 35 62 35 62 37 Z M 47 57 C 47 59 47 61 47 63 C 47 65 47 65 49 65 C 54 65 60 65 65 65 C 67 65 67 65 67 63 C 67 61 67 59 67 57 C 67 55 67 55 65 55 C 60 55 54 55 49 55 C 47 55 47 55 47 57 Z M 12 13 C 12 11 13 10 15 10 C 23 10 31 10 39 10 C 41 10 42 11 42 13 C 42 18 42 23 42 27 C 42 29 41 30 39 30 C 31 30 23 30 15 30 C 13 30 12 29 12 27 C 12 23 12 18 12 13 Z M 42 13 C 42 11 43 10 45 10 C 53 10 61 10 69 10 C 71 10 72 11 72 13 C 72 18 72 23 72 27 C 72 29 71 30 69 30 C 61 30 53 30 45 30 C 43 30 42 29 42 27 C 42 23 42 18 42 13 Z M 27 33 C 27 31 28 30 30 30 C 38 30 46 30 54 30 C 56 30 57 31 57 33 C 57 38 57 43 57 47 C 57 49 56 50 54 50 C 46 50 38 50 30 50 C 28 50 27 49 27 47 C 27 43 27 38 27 33 Z M 57 33 C 57 31 58 30 60 30 C 68 30 76 30 84 30 C 86 30 87 31 87 33 C 87 38 87 43 87 47 C 87 49 86 50 84 50 C 76 50 68 50 60 50 C 58 50 57 49 57 47 C 57 43 57 38 57 33 Z M 12 53 C 12 51 13 50 15 50 C 23 50 31 50 39 50 C 41 50 42 51 42 53 C 42 58 42 63 42 67 C 42 69 41 70 39 70 C 31 70 23 70 15 70 C 13 70 12 69 12 67 C 12 63 12 58 12 53 Z M 42 53 C 42 51 43 50 45 50 C 53 50 61 50 69 50 C 71 50 72 51 72 53 C 72 58 72 63 72 67 C 72 69 71 70 69 70 C 61 70 53 70 45 70 C 43 70 42 69 42 67 C 42 63 42 58 42 53 Z M 57 73 C 57 71 58 70 60 70 C 68 70 76 70 84 70 C 86 70 87 71 87 73 C 87 78 87 83 87 87 C 87 89 86 90 84 90 C 76 90 68 90 60 90 C 58 90 57 89 57 87 C 57 83 57 78 57 73 Z M 32 77 C 32 79 32 81 32 83 C 32 85 32 85 34 85 C 39 85 45 85 50 85 C 52 85 52 85 52 83 C 52 81 52 79 52 77 C 52 75 52 75 50 75 C 45 75 39 75 34 75 C 32 75 32 75 32 77 Z M 27 73 C 27 71 28 70 30 70 C 38 70 46 70 54 70 C 56 70 57 71 57 73 C 57 78 57 83 57 87 C 57 89 56 90 54 90 C 46 90 38 90 30 90 C 28 90 27 89 27 87 C 27 83 27 78 27 73 Z"></path></svg>
+			</button>wall</label>
 		</div>
 		<canvas id="canvas"></canvas>
 		<div id="message"></div>

@@ -43,6 +43,18 @@
 			overflow: hidden;
 		}
 
+		svg {
+			pointer-events: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+			height: 100%;
+			width: auto;
+			fill: currentColor;
+		}
+
 		#container {
 			position: fixed;
 			top: 0%;
@@ -100,6 +112,10 @@
 		transition: calc(var(--transition-time) * 2);
 	}
 
+	#switcher button svg {
+		height: var(--small-font-size);
+	}
+
 	#switcher button:first-child {
 		margin-left: 0;
 	}
@@ -116,10 +132,6 @@
 		background-color: var(--light-gray);
 		color: var(--dark-gray);
 		box-shadow: 0 0 var(--shadow-size) var(--light-gray);
-	}
-
-	#switcher button[value="tool-echo"] span {
-		transform: scaleX(-1);
 	}
 
 /*** keyboard ***/
@@ -168,6 +180,12 @@
 			transition: var(--transition-time);
 			text-align: center;
 			z-index: 3;
+			padding: 0;
+		}
+
+		#keyboard-octave-down svg, #keyboard-octave-up svg {
+			width: 100%;
+			height: auto;
 		}
 
 		#keyboard-octave-down:hover, #keyboard-octave-up:hover, #keyboard-octave-down:focus, #keyboard-octave-up:focus {
@@ -269,16 +287,6 @@
 		}
 
 /*** classes ***/
-	/* font awesome */
-		.fas {
-			pointer-events: none;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			-o-user-select: none;
-			user-select: none;
-		}
-
 	/* tools */
 		.tool {
 			position: absolute;
@@ -448,6 +456,12 @@
 		box-sizing: border-box;
 	}
 
+	#tool-meta-file button svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
+	}
+
 	/* first row */
 		#tool-meta-select {
 			position: relative;
@@ -459,12 +473,17 @@
 			cursor: pointer;
 			margin-bottom: var(--gap-size);
 			margin-left: var(--gap-size);
-/*			margin-right: calc(var(--large-font-size) + 3 * var(--gap-size));*/
 			color: var(--light-gray);
 		}
 
 		#tool-meta-upload {
-			padding: var(--gap-size) 0;
+			padding: 0;
+		}
+
+		#tool-meta-upload svg {
+			height: 100%;
+			width: auto;
+			fill: currentColor;
 		}
 
 		#upload-link {
@@ -1784,6 +1803,10 @@
 			color: var(--light-gray);
 		}
 
+		#tool-compressor-threshold--bar svg {
+			height: var(--large-font-size) !important;
+		}
+
 		#tool-compressor-threshold--line {
 			position: absolute;
 			top: 0;
@@ -1827,6 +1850,10 @@
 			border-right: var(--gap-size) solid transparent;
 			box-sizing: content-box;
 			color: var(--light-gray);
+		}
+
+		#tool-compressor-ratio--bar svg {
+			height: var(--large-font-size) !important;
 		}
 
 		#tool-compressor-ratio--bar:focus, #tool-compressor-ratio--bar:hover, #tool-compressor-ratio--bar[selected] {
