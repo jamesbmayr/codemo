@@ -44,6 +44,11 @@
 		height: 100%;
 		position: fixed;
 		overflow: hidden;
+		font-family: sans-serif;
+	}
+
+	* {
+		box-sizing: border-box;
 	}
 
 	svg {

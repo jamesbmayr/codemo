@@ -39,6 +39,7 @@
 		padding: 0px;
 		margin: 0px;
 		border: 0px;
+		font-family: sans-serif;
 	}
 
 /* top */
@@ -48,6 +49,7 @@
 		padding: 10px;
 		height: auto;
 		background-color: lightgray;
+		box-sizing: border-box;
 	}
 
 	#input {
@@ -55,6 +57,12 @@
 		max-height: calc(25vh + 20px);
 		min-width: 100%;
 		max-width: 100%;
+		font-family: monospace;
+		border: none;
+		border-radius: 4px;
+		outline: none;
+		padding: 5px;
+		box-sizing: border-box;
 	}
 
 /* bottom */
@@ -64,6 +72,7 @@
 		height: auto;
 		max-height: calc(75vh + 20px);
 		padding: 10px;
+		box-sizing: border-box;
 	}
 
 	.helper {
@@ -75,9 +84,10 @@
 		border-radius: 4px;
 		width: 100%;
 		max-height: 65vh;
-		padding: 5px 10px 5px 10px;
+		padding: 5px;
 		text-align: left;
 		overflow: auto;
+		box-sizing: border-box;
 	}
 
 	#output:active {

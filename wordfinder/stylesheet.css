@@ -12,6 +12,12 @@
 		padding: 0px;
 		margin: 0px;
 		background-color: rgba(150,140,125,1);
+		font-family: sans-serif;
+		line-height: 1.42;
+	}
+
+	* {
+		box-sizing: border-box;
 	}
 
 	::-webkit-scrollbar {
@@ -65,6 +71,7 @@
 			text-transform: uppercase;
 			border: 0px;
 			border-radius: 5px;
+			cursor: pointer;
 		}
 
 		.button:hover {
@@ -288,7 +295,7 @@
 			float: left;
 			width: 25px;
 			height: 100%;
-			color: rgba(150,140,125,1);
+			color: rgba(200,180,150,1);
 			transform: translateY(25%);
 			cursor: pointer;
 			margin-left: 5px;
@@ -301,11 +308,19 @@
 			fill: currentColor;
 		}
 
+		.deleteWord:hover {
+			color: rgba(150,140,125,1);
+		}
+
 /* mobile */
 	@media screen and (min-width: 501px) and (max-width: 800px) {
 		#controls {
 			height: 10vh;
 			font-size: 5px;
+		}
+
+		.button {
+			font-size: 10px;
 		}
 
 		.button_frame {
@@ -333,6 +348,10 @@
 	@media screen and (max-width: 500px) {
 		#controls {
 			height: 10vh;
+			font-size: 10px;
+		}
+
+		.button {
 			font-size: 10px;
 		}
 

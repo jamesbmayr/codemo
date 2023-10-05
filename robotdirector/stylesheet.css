@@ -46,6 +46,11 @@
 		padding: 0px;
 		margin: 0px;
 		overflow: hidden;
+		font-family: sans-serif;
+	}
+
+	* {
+		box-sizing: border-box;
 	}
 
 	#container {
@@ -108,7 +113,7 @@
 		font-size: 30px;
 		width: 50px;
 		font-weight: bold;
-		text-align: center;
+		text-align: right;
 		color: #333333;
 	}
 

@@ -41,6 +41,7 @@
 		color: #071a38;
 		font-weight: bold;
 		line-height: 1;
+		font-family: "Ubuntu";
 	}
 
 	#title {
@@ -49,7 +50,7 @@
 		left: 50%;
 		transform: translateX(-50%) translateY(-50%);
 		font-size: 20px;
-		font-family: sans-serif;
+		font-family: "Ubuntu";
 		color: white;
 	}
 

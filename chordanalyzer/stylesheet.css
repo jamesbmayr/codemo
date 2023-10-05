@@ -41,6 +41,7 @@
 		padding: 0px;
 		margin-bottom: 20px;
 		overflow: hidden;
+		font-family: sans-serif;
 	}
 
 	::-webkit-scrollbar { 
@@ -145,13 +146,14 @@
 		user-select: none;
 		-moz-user-select: none;
 		-webkit-user-select: none;
+		text-align: left;
 	}
 
 	.name {
 		position: absolute;
 		bottom: 0px;
 		text-align: center;
-		padding: 1.5%;
+		padding: 1.5% 0;
 		width: inherit;
 		pointer-events: none;
 	}
