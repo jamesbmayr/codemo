@@ -485,6 +485,13 @@
 				date: "September 3, 2021",
 				description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 			},
+			ghostescaper: {
+				name: "ghostEscaper",
+				size: "medium",
+				tags: ["code","fantasy","game","arcade","svg"],
+				date: "October 19, 2023",
+				description: "Climb the endless tower while keeping ghosts at bay with light."
+			},
 			goodscounter: {
 				skipRandom: true,
 				hidden: true,

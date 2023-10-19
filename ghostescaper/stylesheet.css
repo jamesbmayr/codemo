@@ -1,0 +1,476 @@
+/*** page ***/
+	:root {
+		--light-gray: #dddddd;
+		--medium-gray: #555555;
+		--dark-medium-gray: #333333;
+		--dark-gray: #111111;
+		--dark-green: #113322;
+		--light-blue: #04b1ff;
+		--medium-red: #d94c4c;
+		--dark-red: #290b0b;
+		--medium-yellow: #dbc41f;
+		--font-family: "Amatic SC", fantasy;
+		--font-size: 25px;
+		--gap-size: 5px;
+		--border-radius: 5px;
+		--shadow-size: 5px;
+		--line-height: 1;
+		--player-width: 5%;
+		--player-height: 10%;
+		--player-offset: 25%;
+		--transition-time: 2s;
+		--cloud-size: 10%;
+		--ghost-size: 10%;
+		--bonus-size: 25%;
+		--brick-size: 10%;
+		--light-size: 500%;
+		--flashlight-size: 100%;
+		--light-opacity: 0.5;
+		--blur-amount: 3px;
+		--button-size: 50px;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		background: var(--dark-gray);
+		font-size: 0;
+		font-family: var(--font-family);
+		transition: var(--transition-time);
+	}
+
+	body[state="gameover"] {
+		background: var(--dark-red);
+	}
+
+	body[state="flash"] {
+		background: var(--light-gray);
+	}
+
+	svg {
+		height: auto;
+		width: auto;
+		fill: currentColor;
+	}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 7px;
+		color: var(--light-gray);
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		outline: none;
+		transition: calc(var(--transition-time) / 4);
+		z-index: 1000;
+	}
+
+		#j-logo svg {
+			fill: currentColor;
+			height: 100%;
+			width: auto;
+		}
+
+		#j-logo path {
+			d: path("M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z");
+		}
+
+		#j-logo:hover, #j-logo:focus {
+			color: var(--light-blue);
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+		}
+
+/*** menu ***/
+	#menu {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: auto;
+		height: auto;
+		background: transparent;
+		box-sizing: border-box;
+		padding: calc(2 * var(--gap-size));
+		transition: var(--transition-time);
+		opacity: 1;
+		z-index: 20;
+	}
+
+		#menu-header {
+			font-size: calc(2 * var(--font-size));
+			font-weight: bold;
+			color: var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--medium-gray);
+			user-select: none;
+			margin: 0 0 var(--gap-size) 0;
+			text-align: center;
+		}
+
+		#menu-play {
+			background: transparent;
+			border: none;
+			height: auto;
+			width: 100%;
+			text-align: center;
+			padding: 0;
+			cursor: pointer;
+			color: var(--light-gray);
+			transition: calc(var(--transition-time) / 2);
+			outline: none;
+			user-select: none;
+		}
+
+			#menu-play svg {
+				height: calc(10 * var(--font-size));
+				width: calc(10 * var(--font-size));
+				filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+			}
+
+			#menu-play:hover, #menu-play:focus {
+				color: var(--light-blue);
+			}
+
+		#menu[invisible] {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+/*** mobile controls ***/
+	@media screen and (min-width: 1000px) {
+		#mobile-controls {
+			display: none;
+		}
+	}
+
+	@media screen and (max-width: 999px) and (orientation: portrait) {
+		#game {
+			outline: 100vh solid var(--dark-gray);
+		}
+	}
+
+	#mobile-controls {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: calc(var(--button-size) + 2 * var(--gap-size));
+		background: transparent;
+		z-index: 10;
+		text-align: center;
+		transition: var(--transition-time);
+	}
+
+		body:not([state="gameplay"]) #mobile-controls {
+			filter: blur(var(--blur-amount));
+		}
+
+		#mobile-controls button {
+			display: inline-block;
+			width: var(--button-size);
+			height: var(--button-size);
+			padding: 0;
+			margin: 0 calc(var(--gap-size) * 2);
+			border: 0;
+			background: transparent;
+			cursor: pointer;
+			color: var(--light-gray);
+			outline: none;
+			user-select: none;
+			transition: calc(var(--transition-time) / 2);
+		}
+
+			#mobile-controls button:hover, #mobile-controls {
+				color: var(--light-blue);
+			}
+
+			#mobile-controls button svg {
+				pointer-events: none;
+				height: 100% !important;
+				width: auto !important;
+			}
+
+/*** game ***/
+	#game {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: 100vw;
+		height: 100vw;
+		max-width: 100vh;
+		max-height: 100vh;
+		overflow: hidden;
+		transition: var(--transition-time);
+		z-index: 2;
+	}
+
+	body:not([state="gameplay"]) #game {
+		filter: blur(var(--blur-amount));
+	}
+
+		#game-tower {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			bottom: calc(var(--player-offset) - var(--player-height) / 2);
+		}
+
+			#game-tower-background {
+				position: absolute;
+				margin: 0 12.5%;
+				width: 75%;
+				height: 100%;
+				bottom: 0;
+				background: var(--medium-gray);
+				box-shadow: 0 0 calc(var(--shadow-size) * 50) black inset;
+				filter: drop-shadow(0 0 calc(var(--shadow-size) * 5) var(--dark-medium-gray));
+			}
+
+			#game-tower-ground {
+				position: absolute;
+				bottom: calc(-2 * var(--player-offset));
+				width: 100%;
+				height: calc(2 * var(--player-offset));
+				background: var(--dark-green);
+				border-radius: calc(2 * var(--border-radius)) calc(2 * var(--border-radius)) 0 0;
+				box-shadow: 0 0 calc(var(--shadow-size) * 10) var(--dark-gray) inset;
+			}
+
+			#game-tower-platforms {
+				width: 100%;
+				height: 100%;
+				overflow-x: hidden;
+			}
+
+				.platform {
+					position: absolute;
+					bottom: 0%;
+					left: 50%;
+					transform: translateX(-50%) translateY(100%);
+					height: var(--gap-size);
+					background: var(--dark-gray);
+					border-radius: 0 0 var(--border-radius) var(--border-radius);
+					text-align: center;
+					font-family: var(--font-family);
+					font-size: var(--font-size);
+					color: var(--dark-gray);
+					line-height: calc(2 * var(--line-height));
+					box-shadow: 0 var(--shadow-size) calc(var(--shadow-size) * 2) var(--dark-gray);
+					transition: calc(var(--transition-time) / 2);
+					user-select: none;
+				}
+
+				.platform[bonus] {
+					color: var(--light-blue);
+					background: var(--light-blue);
+				}
+
+					.platform-bonus {
+						position: absolute;
+						top: -500%;
+						left: 50%;
+						transform: translateX(-50%) translateY(-50%);
+						color: var(--light-blue);
+						width: var(--bonus-size);
+						height: auto;
+						filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+					}
+
+					.platform-bonus svg {
+						fill: currentColor;
+					}
+
+						.platform-bonus[fade] {
+							filter: blur(var(--blur-amount));
+							opacity: 0;
+							transition: calc(var(--transition-time) / 2);
+							width: 0;
+						}
+
+			#game-tower-bricks {
+				width: 100%;
+				height: 100%;
+				overflow-x: hidden;
+			}
+
+				.brick {
+					transform: translateX(-50%) translateY(50%);
+					position: absolute;
+					height: var(--brick-size);
+					width: var(--brick-size);
+					color: var(--dark-medium-gray);
+					filter: blur(var(--blur-amount));
+					opacity: var(--light-opacity);
+				}
+
+				.brick svg {
+					fill: currentColor;
+				}
+
+			#game-tower-ghosts {
+				width: 100%;
+				height: 100%;
+				overflow-x: hidden;
+			}
+
+				.ghost {
+					position: absolute;
+					height: var(--ghost-size);
+					width: var(--ghost-size);
+					color: var(--light-gray);
+					transform: translateX(-50%) translateY(50%);
+					opacity: 1;
+					z-index: 10;
+				}
+
+				.ghost[fade] {
+					filter: blur(var(--blur-amount));
+					opacity: 0;
+					transition: calc(var(--transition-time) / 2);
+					height: 0;
+					width: 0;
+				}
+
+/*** player ***/
+	#player-container {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: 100vw;
+		height: 100vw;
+		max-width: 100vh;
+		max-height: 100vh;
+		transition: var(--transition-time);
+		z-index: 3;
+		transition: var(--transition-time);
+	}
+
+		body:not([state="gameplay"]) #player-container {
+			filter: blur(var(--blur-amount));
+		}
+
+		#player {
+			position: absolute;
+			bottom: var(--player-offset);
+			left: 50%;
+			transform: translateX(-50%) translateY(50%);
+			width: var(--player-width);
+			height: var(--player-height);
+			border-radius: var(--border-radius);
+		}
+
+			#player-blue, #player-red {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: var(--player-width);
+				height: var(--player-height);
+				width: 100%;
+				height: 100%;
+				opacity: 1;
+				border-radius: var(--border-radius);
+			}
+
+			#player-blue {
+				color: var(--light-blue);
+				z-index: 3;
+			}
+
+			#player-red {
+				color: var(--medium-red);
+				z-index: 2;
+			}
+
+				#player-blue svg, #player-red svg {
+					height: 100%;
+					width: 100%;
+				}
+
+			#player-light {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(0%) translateY(-100%) rotate(45deg);
+				transform-origin: bottom left;
+				height: calc(var(--light-size) / 2);
+				width: calc(var(--light-size));
+				border-radius: var(--border-radius) 100% var(--border-radius) var(--border-radius);
+				background: var(--medium-yellow);
+				filter: drop-shadow(0 0 calc(2 * var(--shadow-size)) var(--light-gray)) blur(calc(var(--blur-amount) / 2));
+				opacity: var(--light-opacity);
+				z-index: 4;
+			}
+
+			#player-flashlight {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%) rotate(0deg);
+				height: calc(var(--flashlight-size) / 2);
+				width: calc(var(--flashlight-size));
+				color: var(--dark-gray);
+				z-index: 5;
+			}
+
+			#player-light-orb {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+				height: 0;
+				width: 0;
+				border-radius: 100%;
+				background: var(--medium-yellow);
+				filter: drop-shadow(0 0 calc(2 * var(--shadow-size)) var(--light-gray)) blur(calc(var(--blur-amount) / 2));
+				opacity: var(--light-opacity);
+				z-index: 6;
+			}
+
+/*** background ***/
+	#clouds {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		user-select: none;
+		overflow: hidden;
+		background: transparent;
+		transition: var(--transition-time);
+		z-index: 1;
+	}
+
+	body:not([state="gameplay"]) #clouds {
+		filter: blur(var(--blur-amount));
+	}	
+
+		#clouds[flash] {
+			background: var(--light-gray);
+		}
+
+		#clouds-moon {
+			position: absolute;
+			top: 5%;
+			left: 5%;
+			color: var(--light-gray);
+			height: var(--cloud-size);
+			width: var(--cloud-size);
+			filter: drop-shadow(0 0 calc(2 * var(--shadow-size)) var(--dark-medium-gray)) blur(calc(var(--blur-amount) / 2));
+		}
+
+		.cloud {
+			position: absolute;
+			height: var(--cloud-size);
+			width: var(--cloud-size);
+			color: var(--medium-gray);
+			transform: translateX(-50%) translateY(-50%);
+			filter: drop-shadow(0 0 calc(2 * var(--shadow-size)) var(--dark-medium-gray)) blur(calc(var(--blur-amount) / 2));
+		}
