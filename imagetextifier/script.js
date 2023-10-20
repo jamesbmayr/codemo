@@ -102,6 +102,9 @@
 
 				// update css
 					ELEMENTS.output.setAttribute("inverted", STATE.inverted)
+
+				// resize video
+					resizeVideo()
 			} catch (error) {console.log(error)}
 		}
 

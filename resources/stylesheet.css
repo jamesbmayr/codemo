@@ -181,6 +181,7 @@
 		}
 
 		#info-links a, #info-links a:visited {
+			fill: currentColor;
 			text-align: center;
 			text-decoration: none;
 			float: left;
@@ -200,12 +201,16 @@
 			color: var(--medium-blue);
 		}
 
-		#info-links-resume {
-			padding: 0 !important;
+		#info-links-github {
+			padding-left: 0 !important;
 		}
 
-		#info-links li:first-child a {
-			padding-left: 0;
+		#info-links-blog {
+			padding-left: var(--small-gap-size) !important;
+		}
+
+		#info-links-resume {
+			padding: 0 !important;
 		}
 
 		#j-logo {
@@ -272,6 +277,41 @@
 		box-shadow: 0 0 calc(var(--shadow-size) * 4) var(--light-blue);
 	}
 
+	#navigation-search:not(:placeholder-shown) ~ #navigation-search-icon {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	#navigation-search-icon {
+		opacity: 1;
+		float: right;
+		height: calc(var(--medium-font-size) + 2 * var(--small-gap-size));
+		background: transparent;
+		color: var(--dark-gray);
+		border: none;
+		padding: 0;
+		font-family: var(--font-family);
+		font-size: var(--medium-font-size);
+		margin-left: -100%;
+		vertical-align: bottom;
+		outline: none;
+		line-height: 1;
+		cursor: pointer;
+		transition: var(--transition-time);
+		fill: currentColor;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+
+	#navigation-search:focus ~ #navigation-search-icon, #navigation-search-icon:hover, #navigation-search-icon:focus {
+		color: var(--medium-blue);
+	}
+
+	#navigation-search-icon svg {
+		width: auto;
+		height: 100%;
+	}
+
 	#navigation-search:placeholder-shown ~ #navigation-reset {
 		opacity: 0;
 		pointer-events: none;
@@ -281,10 +321,11 @@
 		opacity: 1;
 		float: right;
 		height: calc(var(--medium-font-size) + 2 * var(--small-gap-size));
+		width: calc(var(--medium-font-size) + 2 * var(--small-gap-size));
 		background: transparent;
 		color: var(--dark-gray);
 		border: none;
-		padding: 0 var(--small-gap-size) var(--shadow-size) var(--small-gap-size);
+		padding: 0 0 var(--shadow-size) 0;
 		font-family: var(--font-family);
 		font-size: var(--medium-font-size);
 		margin-left: -100%;
@@ -455,6 +496,7 @@
 	}
 
 	#back-to-top svg {
+		fill: currentColor;
 		width: var(--large-font-size);
 		height: var(--large-font-size);
 	}
@@ -657,6 +699,7 @@
 		fill: currentColor;
 		height: 100%;
 		width: auto;
+		pointer-events: none;
 	}
 
 	.j path {

@@ -1,19 +1,10 @@
 /*** globals ***/
-	/* tags */
-		const TAGS = [
-			"code","ai","api","extension","math","money","mongo","node","simulation","tool","websockets",
-			"music","audio","jazz","orchestral","piano","pop","synth",
-			"writing","autobiography","fantasy","lyric","poetry","prose","scifi",
-			"game","arcade","board","card","multiplayer","puzzle","tabletop","unity",
-			"design","art","canvas","draw","photography","svg",
-			"collaboration"
-		]
-
 	/* months */
 		const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"]
 
 	/* projects */
-		const PROJECTS = {
+		if (!PROJECTS) {
+		PROJECTS = {
 			adventure: {
 				skipRandom: true,
 				name: "Adventure",
@@ -1454,6 +1445,7 @@
 				description: "Numbers spiral ever closer - can you blast them back to zero?"
 			}
 		}
+		}
 
 	/* elements */
 		const ELEMENTS = {
@@ -1461,6 +1453,7 @@
 			jlogo: document.querySelector("#j-logo"),
 			navigation: document.querySelector("#navigation"),
 			search: document.querySelector("#navigation-search"),
+			searchIcon: document.querySelector("#navigation-search-icon"),
 			reset: document.querySelector("#navigation-reset"),
 			tags: {
 				code: document.querySelector("#info-tag-code"),
@@ -1563,6 +1556,14 @@
 							displayProjects(sortProjects(filterProjects(PROJECTS, {query: query, name: true, tags: true})))
 					}, SEARCHWAIT.waitTime)
 			} catch (error) {}
+		}
+
+	/* focusSearch */
+		ELEMENTS.searchIcon.addEventListener("click", focusSearch)
+		function focusSearch(event) {
+			try {
+				ELEMENTS.search.focus()
+			} catch (error) {console.log(error)}
 		}
 
 	/* clickTag */
@@ -1838,7 +1839,7 @@
 						j.style.top = "-" + CONSTANTS.jSize + "px"
 						j.setAttribute("speed", Math.min(CONSTANTS.maxVelocity, Math.max(CONSTANTS.minVelocity, Math.floor(Math.random() * GAME.score * CONSTANTS.scoreVelocityFactor))))
 						j.addEventListener("mouseenter", captureJ)
-						j.addEventListener("click", captureJ)
+						j.addEventListener("touchstart", captureJ)
 					document.body.appendChild(j)
 
 					let jSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
@@ -1881,6 +1882,9 @@
 	/* captureJ */
 		function captureJ(event) {
 			try {
+				// don't double-count
+					event.preventDefault()
+
 				// already captured?
 					if (event.target.getAttribute("fade")) {
 						return
