@@ -540,7 +540,9 @@
 							for (let i in galleryMatches) {
 								const match = galleryMatches[i]
 								const beforeImages = "<div class='gallery' data-position='0'>"
-								const afterImages = "<button class='gallery-left' onclick='clickGalleryButton(this)'>&uarr;</button><button class='gallery-right' onclick='clickGalleryButton(this)'>&uarr;</button></div>"
+								const afterImages = "<button class='gallery-left'  onclick='clickGalleryButton(this)'><svg viewBox='25 25 50 50'><path></path></svg></button>" + 
+													"<button class='gallery-right' onclick='clickGalleryButton(this)'><svg viewBox='25 25 50 50'><path></path></svg></button>" +
+													"</div>"
 								html = html.replace(match, beforeImages + match.replace("<gallery>", "").replace("</gallery>", "").replace("<img", "<img selected='true'") + afterImages)
 							}
 						}

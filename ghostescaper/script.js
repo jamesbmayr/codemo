@@ -62,7 +62,7 @@
 			decelerationX: 8, // units per step per step
 			accelerationY: 150, // units per step per step
 			maxVx: 75, // units per step
-			maxVy: 1000, // units per step
+			maxVy: 1500, // units per step
 			playerWidth: 300, // units
 			playerHeight: 1000, // units
 			playerOffset: 2500, // units

@@ -858,7 +858,7 @@
 				name: "paintings",
 				size: "medium",
 				tags: ["code","design","art","draw","photography","collaboration"],
-				date: "September 13, 2023",
+				date: "October 29, 2023",
 				description: "A gallery of original artwork, often inspired by tutorials and guided by friends."
 			},
 			pawnpusher: {
