@@ -123,31 +123,37 @@
 						d: "M 10 30\nA 20 20 0 0 1 30 10\nA 20 20 0 0 1 50 30\nA 20 20 0 0 1 70 10\nA 20 20 0 0 1 90 30\nQ 90 60 50 90\nQ 10 60 10 30\nZ"
 					},
 					triangle: {
-						points: "20,80\n50,20\n80,80"
+						points: "28,62\n50,25\n72,62"
 					},
-					quadrilateral: {
-						points: "40,20\n85,20\n60,80\n15,80"
+					square: {
+						points: "32,32\n68,32\n68,68\n32,68"
+					},
+					trapezoid: {
+						points: "35,35\n65,35\n80,65\n20,65"
+					},
+					parallelogram: {
+						points: "40,30\n80,30\n60,70\n20,70"
 					},
 					pentagon: {
-						points: "50,25\n75,44\n66,75\n34,75\n25,44"
+						points: "50,25\n74,43\n64,71\n36,71\n26,43"
 					},
 					hexagon: {
 						points: "50,25\n72,38\n72,62\n50,75\n28,62\n28,38"
 					},
 					septagon: {
-						points: "50,25\n70,35\n75,55\n63,75\n38,75\n25,55\n30,35"
+						points: "50,25\n70,35\n74,56\n61,73\n39,73\n26,56\n30,35"
 					},
 					octagon: {
-						points: "40,25\n60,25\n75,40\n75,60\n60,75\n40,75\n25,60\n25,40"
+						points: "40,27\n60,27\n73,40\n73,60\n60,73\n40,73\n27,60\n27,40"
 					},
 					nonagon: {
-						points: "50,25\n67,31\n75,47\n72,64\n59,75\n41,75\n28,64\n25,47\n34,31"
+						points: "50,25\n66,31\n74,45\n72,62\n59,73\n41,73\n28,62\n26,45\n34,31"
 					},
 					decagon: {
-						points: "50,25\n64,30\n74,43\n74,60\n64,70\n50,75\n36,70\n26,60\n26,43\n36,30"
+						points: "50,25\n65,30\n74,42\n74,58\n65,70\n50,75\n35,70\n26,58\n26,42\n35,30"
 					},
 					dodecagon: {
-						points: "44,28\n56,28\n66,34\n72,44\n72,56\n66,66\n56,72\n44,72\n34,66\n28,56\n28,44\n34,34"
+						points: "43,26\n57,26\n68,32\n74,43\n74,57\n68,68\n57,74\n43,74\n32,68\n26,57\n26,43\n32,32"
 					}
 				}
 			},
@@ -2121,6 +2127,107 @@
 					
 					// toggle lock
 						toggleItemLock({target: STATE.items[id].listing.summary.lockedCheckbox})
+				} catch (error) {console.log(error)}
+			}
+
+		/* doubleclickPoint */
+			function doubleclickPoint(event) {
+				try {
+					// don't select container
+						event.stopPropagation()
+
+					// get svg
+						const point = event.target
+						const idComponents = point.id.split("-")
+						const id = idComponents[0]
+						const curveIndex = point.id.includes("curve") ? Number(idComponents[idComponents.length - 2]) : undefined
+						const pointIndex = idComponents[idComponents.length - 1]
+
+					// item
+						const item = STATE.items[id]
+						if (!item) {
+							return
+						}
+
+					// shape
+						const shape = item.attributes.styling.shape
+						if (!["polygon", "polyline", "path"].includes(shape)) {
+							return
+						}
+
+					// control point
+						if (shape == "path" && pointIndex !== "p") {
+							return
+						}
+
+					// shift --> duplicate point
+						if (event.shiftKey) {
+							// curve / path
+								if (item.attributes.styling.shape == "path") {
+									// add
+										const x = item.attributes.curves[curveIndex].x
+										const y = item.attributes.curves[curveIndex].y
+										item.attributes.curves.splice(curveIndex + 1, 0, {
+											c1x: x,
+											c1y: y,
+											c2x: x,
+											c2y: y,
+											x: x,
+											y: y
+										})
+
+									// regenerate path
+										const commands = getCommandsFromCurves(item.attributes.curves)
+										item.attributes.coordinates.d = getPathFromCommands(commands)
+								}
+
+							// polygon / polyline
+								else {
+									const points = item.attributes.coordinates.points.split(/\n/g)
+									points.splice(pointIndex, 0, points[pointIndex])
+									item.attributes.coordinates.points = points.join("\n")
+								}
+						}
+
+					// alt --> remove point
+						else if (event.altKey) {
+							// curve / path
+								if (item.attributes.styling.shape == "path") {
+									// initial M
+										if (!curveIndex) {
+											return
+										}
+
+									// remove
+										item.attributes.curves.splice(curveIndex, 1)
+
+									// regenerate path
+										const commands = getCommandsFromCurves(item.attributes.curves)
+										item.attributes.coordinates.d = getPathFromCommands(commands)
+								}
+
+							// polygon / polyline
+								else {
+									const points = item.attributes.coordinates.points.split(/\n/g)
+									points.splice(pointIndex, 1)
+									item.attributes.coordinates.points = points.join("\n")
+								}
+						}
+
+					// svg
+						item.listing.coordinates = buildItemCoordinates(item)
+						if (shape == "path") {
+							item.svg.setAttribute("d", item.attributes.coordinates.d)
+						}
+						else {
+							item.svg.setAttribute("points", item.attributes.coordinates.points)
+						}
+						item.points = buildItemPoints(item)
+
+					// record history
+						if (event?.type) {
+							recordHistory()
+						}
 				} catch (error) {console.log(error)}
 			}
 
@@ -5745,6 +5852,7 @@
 													c1.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
 													c1.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 													c1.addEventListener(TRIGGERS.mousedown, selectPoint)
+													c1.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
 												groupElement.appendChild(c1)
 												pointsGroup[`curve-${curveIndex}-c1`] = c1
 
@@ -5758,6 +5866,7 @@
 													c2.setAttribute("stroke", CONSTANTS.points.controlPointStroke)
 													c2.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 													c2.addEventListener(TRIGGERS.mousedown, selectPoint)
+													c2.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
 												groupElement.appendChild(c2)
 												pointsGroup[`curve-${curveIndex}-c2`] = c2
 										}
@@ -5774,6 +5883,7 @@
 												p.setAttribute("stroke", CONSTANTS.points.pointStroke)
 												p.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 												p.addEventListener(TRIGGERS.mousedown, selectPoint)
+												p.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
 											groupElement.appendChild(p)
 											pointsGroup[`curve-${curveIndex}-p`] = p
 										}
@@ -5798,6 +5908,7 @@
 									p.setAttribute("stroke", CONSTANTS.points.pointStroke)
 									p.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 									p.addEventListener(TRIGGERS.mousedown, selectPoint)
+									p.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
 								groupElement.appendChild(p)
 								pointsGroup[`point-${coordinateIndex}`] = p
 							}
@@ -5815,6 +5926,7 @@
 								p1.setAttribute("stroke", CONSTANTS.points.pointStroke)
 								p1.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 								p1.addEventListener(TRIGGERS.mousedown, selectPoint)
+								p1.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
 							groupElement.appendChild(p1)
 							pointsGroup[`point-1`] = p1
 
@@ -5828,6 +5940,7 @@
 								p2.setAttribute("stroke", CONSTANTS.points.pointStroke)
 								p2.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
 								p2.addEventListener(TRIGGERS.mousedown, selectPoint)
+								p2.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
 							groupElement.appendChild(p2)
 							pointsGroup[`point-2`] = p2
 						}

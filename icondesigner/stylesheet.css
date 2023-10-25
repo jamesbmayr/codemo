@@ -381,6 +381,25 @@
 			text-align: right;
 		}
 
+		#controls-description .controls-section-header {
+			color: var(--light-gray);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			text-align: center;
+			width: calc(100% - 2 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size) + 2 * var(--border-size));
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			line-height: var(--line-height);
+			user-select: none;
+			margin: var(--gap-size) var(--gap-size) 0 var(--gap-size);
+			border: var(--border-size) solid var(--light-gray);
+			border-left-width: 0;
+			border-right-width: 0;
+			border-bottom-width: 0;
+			text-transform: uppercase;
+		}
+
 	/* listing */
 		.controls-listing {
 			display: block;
