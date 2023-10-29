@@ -12,7 +12,8 @@
 			controls: {
 				left: document.querySelector("#gallery-left-form"),
 				right: document.querySelector("#gallery-right-form"),
-				overlay: document.querySelector("#gallery-overlay-form")
+				overlay: document.querySelector("#gallery-overlay-form"),
+				play: document.querySelector("#gallery-play-form")
 			},
 			overlay: {
 				element: document.querySelector("#overlay"),
@@ -26,6 +27,18 @@
 
 	/* projects */
 		const PROJECTS = {
+			"sound-horizon": {
+				name: "sound horizon",
+				image: "sound-horizon.jpg",
+				date: "10/28/2023",
+				description: ""
+			},
+			"lake-in-autumn": {
+				name: "lake in autumn",
+				image: "lake-in-autumn.jpg",
+				date: "10/28/2023",
+				description: ""
+			},
 			"lake-in-summer": {
 				name: "lake in summer",
 				image: "lake-in-summer.jpg",
@@ -251,6 +264,24 @@
 
 				// set hash
 					window.location.hash = `#${id}`
+			} catch (error) {console.log(error)}
+		}
+
+	/* toggleSlideshow */
+		ELEMENTS.controls.play.addEventListener(TRIGGERS.submit, toggleSlideshow)
+		function toggleSlideshow() {
+			try {
+				// slideshow happening
+					if (ELEMENTS.slideshow) {
+						clearInterval(ELEMENTS.slideshow)
+						delete ELEMENTS.slideshow
+						ELEMENTS.controls.play.removeAttribute("slideshow")
+						return
+					}
+
+				// start slideshow
+					ELEMENTS.controls.play.setAttribute("slideshow", true)
+					ELEMENTS.slideshow = setInterval(slideRight, 5000) // ms
 			} catch (error) {console.log(error)}
 		}
 

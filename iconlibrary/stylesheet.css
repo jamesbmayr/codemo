@@ -461,7 +461,6 @@
 	#selected-drawer-svg {
 		width: 100%;
 		height: calc(var(--drawer-width) - var(--border-size) - 6 * var(--gap-size));
-		max-height: calc(100vw - 10 * var(--gap-size) - var(--border-size) - 6 * var(--gap-size));
 		border: solid var(--border-size) var(--dark-gray);
 		border-radius: var(--border-radius);
 		padding: calc(var(--gap-size) + var(--border-size));

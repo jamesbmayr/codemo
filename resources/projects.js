@@ -848,7 +848,6 @@ const PROJECTS = {
 	},
 	paintings: {
 		skipRandom: true,
-		hidden: true,
 		name: "paintings",
 		size: "medium",
 		tags: ["code","design","art","draw","photography","collaboration"],
