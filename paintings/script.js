@@ -29,7 +29,7 @@
 		const PROJECTS = {
 			"sound-horizon": {
 				name: "sound horizon",
-				image: "sound-horizon.jpg",
+				image: "sound-horizon.png",
 				date: "10/28/2023",
 				description: ""
 			},
