@@ -47,6 +47,14 @@ const PROJECTS = {
 		date: "June 5, 2020",
 		description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 	},
+	artparts: {
+		skipRandom: true,
+		name: "ArtParts",
+		size: "medium",
+		tags: ["code","api","game","board","card","multiplayer","puzzle","tabletop","art","photography"],
+		date: "October 30, 2023",
+		description: "Work together to arrange your phones into in image... without revealing your part of the picture!"
+	},
 	artreflector: {
 		name: "artReflector",
 		size: "small",
