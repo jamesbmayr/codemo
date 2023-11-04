@@ -565,14 +565,14 @@
 
 			#game-quit-outer[open] {
 				border-radius: calc(3 * var(--border-radius));
-				width: calc(2 * (var(--font-size) + 3 * var(--gap-size)) + var(--gap-size) + 4 * var(--font-size));
+				width: calc(2 * (var(--font-size) + 3 * var(--gap-size)) - var(--gap-size) + 4 * var(--font-size));
 			}
 
 			#game-quit-outer[open] summary {
 				display: none;
 			}
 
-			#game-quit-message {
+			#game-quit {
 				font-size: var(--font-size);
 				color: var(--medium-red);
 				user-select: none;
@@ -580,14 +580,13 @@
 				font-family: var(--font-family);
 				padding: var(--gap-size);
 				box-sizing: border-box;
-				width: calc(var(--font-size) * 4);
+				width: calc(var(--font-size) * 4 + (var(--font-size) + 2 * var(--gap-size)));
 				display: inline-block;
 				text-transform: uppercase;
 				font-weight: bold;
 			}
 
-			#game-quit, #game-continue {
-				display: inline-block;
+			#game-continue {
 				margin-left: var(--gap-size);
 			}
 

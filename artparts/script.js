@@ -171,7 +171,7 @@
 				// switch mode
 					ELEMENTS.menu.element.setAttribute("state", "show-codes")
 					ELEMENTS.game.player.innerText = "1"
-					ELEMENTS.body.requestFullscreen()
+					tryFullscreen()
 
 				// get an image
 					fetchRandomImage()
@@ -184,7 +184,7 @@
 			try {
 				// switch mode
 					ELEMENTS.menu.element.setAttribute("state", "scan")
-					ELEMENTS.body.requestFullscreen()
+					tryFullscreen()
 
 				// start QR code detector
 					startQRcodeDetector()
@@ -274,7 +274,7 @@
 
 				// invisible --> show
 					ELEMENTS.game.imageOuter.setAttribute("visible", true)
-					ELEMENTS.body.requestFullscreen()
+					tryFullscreen()
 			} catch (error) {console.log(error)}
 		}
 
@@ -396,6 +396,14 @@
 					const data = window.localStorage.artparts
 					detectQRcode(data)
 			} catch (error) {console.log(error)}
+		}
+
+	/* tryFullscreen */
+		function tryFullscreen() {
+			try {
+				// only supported on Android, not on iOS
+					ELEMENTS.body.requestFullscreen()
+			} catch (error) {}
 		}
 
 /*** image API ***/
