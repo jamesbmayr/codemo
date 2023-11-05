@@ -46,6 +46,7 @@
 
 	/* constants */
 		const CONSTANTS = {
+			url: "https://jamesmayr.com/artparts/",
 			percent: 100, // %
 			quarterTurn: 90, // °
 			backgroundColorPalette: 256, // rgb
@@ -289,7 +290,7 @@
 					}
 
 				// reload
-					location.reload()
+					location = location.href.split("?")[0]
 			} catch (error) {console.log(error)}
 		}
 
@@ -386,15 +387,31 @@
 		loadState()
 		function loadState() {
 			try {
+				// game in url
+					if (window.location.search) {
+						detectQRcode(window.location.href)
+						return
+					}
+
 				// no previous game
 					if (!window.localStorage.artparts) {
 						window.localStorage.artparts = ""
 						return
 					}
 
-				// get data
-					const data = window.localStorage.artparts
-					detectQRcode(data)
+				// set state from localstorage
+					const data = JSON.parse(window.localStorage.artparts)
+					STATE.players = Number(data.p)
+					STATE.order = data.o.split(",").map(n => Number(n))
+					STATE.setup = Number(data.s)
+					STATE.thisPlayer = Number(data.t)
+
+				// switch mode
+					ELEMENTS.menu.element.setAttribute("state", "none")
+					ELEMENTS.game.player.innerText = String(STATE.thisPlayer + 1)
+
+				// fetch image
+					fetchSpecificImage(data.i)
 			} catch (error) {console.log(error)}
 		}
 
@@ -560,13 +577,12 @@
 					}
 
 				// qr code
-					const qrCodeString = JSON.stringify({
-						p: STATE.players,
-						o: STATE.order.join(","),
-						s: STATE.setup,
-						i: STATE.image.id,
-						t: thisPlayer
-					})
+					const qrCodeString = CONSTANTS.url + 
+						`?p=${STATE.players}` +
+						`&o=${STATE.order.join(",")}` +
+						`&s=${STATE.setup}` +
+						`&i=${STATE.image.id}` +
+						`&t=${thisPlayer}`
 
 				// display
 					ELEMENTS.menu.codes.element.setAttribute("player", thisPlayer)
@@ -654,9 +670,15 @@
 		function detectQRcode(text, result) {
 			try {
 				// parse text
-					const data = JSON.parse(text)
-					if (!data || !data.i) {
+					const url = new URL(text)
+					if (!url || !url.search) {
 						return
+					}
+					const parameters = url.search.slice(1).split("&")
+					const data = {}
+					for (const p in parameters) {
+						const pair = parameters[p].split("=")
+						data[pair[0]] = pair[1]
 					}
 
 				// set state
