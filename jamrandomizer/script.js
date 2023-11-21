@@ -1306,6 +1306,177 @@
 				} catch (error) {console.log(error)}
 			}
 
+		/* rerollChord */
+			function rerollChord(event) {
+				try {
+					// get # of chord
+						const chordElement = event.target.closest(".chord-block-outer")
+						const chordIndex = Number(chordElement.id.split("-")[1])
+						const thisChord = STATE.progression.chords[chordIndex].numeral
+						
+					// get previous
+						const previousIndex = chordIndex ? chordIndex - 1 : STATE.progression.chords.length - 1
+						const previousChord = STATE.progression.numerals[previousIndex]
+						
+					// get allowed chords
+						const mode = STATE.progression.mode
+						const type = STATE.progression.type
+						const allowedChords = Object.keys(CONSTANTS.chords).filter(numeral => isNumeralInMode(numeral, mode, type))
+						
+					// get next options
+						const previousTriad = CONSTANTS.chords[previousChord].seventh ? CONSTANTS.chords[previousChord].seventh : previousChord
+						let nextOptions = [...CONSTANTS.chords[previousChord].next]
+
+					// look back more
+						const twoChordsBack = previousIndex ? STATE.progression.chords[previousIndex - 1] : STATE.progression.chords[STATE.progression.length - 1]
+
+					// deceptive cadence
+						if (CONSTANTS.deceptiveCadences.major.from.includes(twoChordsBack) && CONSTANTS.deceptiveCadences.major.to.includes(previousChord)) {
+							nextOptions = [...CONSTANTS.chords["I"].next]
+						}
+						if (CONSTANTS.deceptiveCadences.minor.from.includes(twoChordsBack) && CONSTANTS.deceptiveCadences.minor.to.includes(previousChord)) {
+							nextOptions = [...CONSTANTS.chords["i"].next]
+						}
+
+					// avoid threepeats
+						if (previousChord == twoChordsBack) {
+							nextOptions = nextOptions.filter(option => option != previousChord) || []
+						}
+
+					// filter down to mode
+						nextOptions = nextOptions.filter(numeral => isNumeralInMode(numeral, mode)) || []
+
+					// sevenths
+						if (type == "sevenths") {
+							const seventhEquivalents = []
+							for (let nextOption of nextOptions) {
+								seventhEquivalents.push(Object.keys(CONSTANTS.chords).filter(numeral => CONSTANTS.chords[numeral].seventh == nextOption))
+							}
+							nextOptions = nextOptions.concat(seventhEquivalents.flat())
+						}
+
+					// add random chord to progression
+						const nextChord = nextOptions.length ? chooseRandom(nextOptions) : thisChord
+
+					// update state
+						STATE.progression.numerals[chordIndex] = nextChord
+						STATE.progression.chords[chordIndex] = getChordFromNumeral(nextChord, STATE.progression.tonic)
+						STATE.progression.chords[chordIndex].element = chordElement
+
+					// display updated card
+						const updatedChord = STATE.progression.chords[chordIndex]
+						updatedChord.element.querySelector(".chord-block-numeral").value = nextChord
+						updatedChord.element.querySelector(".chord-block").setAttribute("harmonic-function", updatedChord.function)
+						updatedChord.element.querySelector(".chord-block-name").innerText = updatedChord.name
+						updatedChord.element.querySelector(".chord-block-notes").innerText = updatedChord.notes.join("-")
+
+					// update controls
+						displayModeAndType(CONSTANTS.chords[updatedChord.numeral].mode, CONSTANTS.chords[updatedChord.numeral].seventh ? "sevenths" : "triads")
+
+					// reset playback position
+						STATE.playback.measure = 0
+						STATE.playback.tick = 0
+						ELEMENTS.controls.chords.current.value = STATE.playback.measure + CONSTANTS.measureOffset
+
+					// recalculate measure
+						for (const layerId in STATE.layers) {
+							STATE.music.parts[layerId].measures[String(chordIndex + CONSTANTS.measureOffset)] = composeMeasure(STATE.progression, chordIndex, STATE.layers[layerId].pattern)
+						}
+
+					// update url
+						updateURL()
+				} catch (error) {console.log(error)}
+			}
+
+		/* tonicifyChord */
+			function tonicifyChord(event) {
+				try {
+					// get # of chord
+						const chordElement = event.target.closest(".chord-block-outer")
+						const chordIndex = Number(chordElement.id.split("-")[1])
+						const thisChord = STATE.progression.chords[chordIndex]
+
+					// steps to tonic
+						const semitonesAboveTonic = thisChord.semitones[0]
+						if (!semitonesAboveTonic) {
+							return
+						}
+
+					// loop through all chords
+						const newNumerals = []
+						for (const i in STATE.progression.chords) {
+							const oldQuality = STATE.progression.chords[i].quality
+							const oldRootSemitone = STATE.progression.chords[i].semitones[0]
+							const newRootSemitone = (oldRootSemitone - semitonesAboveTonic + AUDIO_J.constants.semitonesPerOctave) % AUDIO_J.constants.semitonesPerOctave
+							
+							const newNumeralOptions = Object.keys(CONSTANTS.chords).filter(numeral => 
+								CONSTANTS.chords[numeral].semitones[0] == newRootSemitone
+							)
+							const newNumeral = newNumeralOptions.find(numeral => CONSTANTS.chords[numeral].quality == oldQuality) || newNumeralOptions[0]
+							newNumerals.push(newNumeral)
+						}
+
+					// update chords
+						for (const i in STATE.progression.chords) {
+							const select = STATE.progression.chords[i].element.querySelector(".chord-block-numeral")
+								select.value = newNumerals[i]
+							changeNumeral({target: select})
+						}
+
+					// change key
+						ELEMENTS.controls.chords.tonic.value = thisChord.notes[0]
+						changeTonic()
+				} catch (error) {console.log(error)}
+			}
+
+		/* swapChordLeft */
+			function swapChordLeft(event) {
+				try {
+					// get # of chord
+						const chordElement = event.target.closest(".chord-block-outer")
+						const chordIndex = Number(chordElement.id.split("-")[1])
+						const thisNumeral = STATE.progression.chords[chordIndex].numeral
+
+					// get previous numeral
+						const previousIndex = chordIndex ? chordIndex - 1 : STATE.progression.chords.length - 1
+						const previousNumeral = STATE.progression.chords[previousIndex].numeral
+
+					// change selects
+						const thisSelect = STATE.progression.chords[chordIndex].element.querySelector(".chord-block-numeral")
+							thisSelect.value = previousNumeral
+						const previousSelect = STATE.progression.chords[previousIndex].element.querySelector(".chord-block-numeral")
+							previousSelect.value = thisNumeral
+
+					// simulate change event
+						changeNumeral({target: thisSelect})
+						changeNumeral({target: previousSelect})
+				} catch (error) {console.log(error)}
+			}
+
+		/* swapChordRight */
+			function swapChordRight(event) {
+				try {
+					// get # of chord
+						const chordElement = event.target.closest(".chord-block-outer")
+						const chordIndex = Number(chordElement.id.split("-")[1])
+						const thisNumeral = STATE.progression.chords[chordIndex].numeral
+
+					// get next numeral
+						const nextIndex = chordIndex + 1 < STATE.progression.chords.length ? chordIndex + 1 : 0
+						const nextNumeral = STATE.progression.chords[nextIndex].numeral
+
+					// change selects
+						const thisSelect = STATE.progression.chords[chordIndex].element.querySelector(".chord-block-numeral")
+							thisSelect.value = nextNumeral
+						const nextSelect = STATE.progression.chords[nextIndex].element.querySelector(".chord-block-numeral")
+							nextSelect.value = thisNumeral
+
+					// simulate change event
+						changeNumeral({target: thisSelect})
+						changeNumeral({target: nextSelect})
+				} catch (error) {console.log(error)}
+			}
+
 	/** layers **/
 		/* addLayer */
 			ELEMENTS.controls.layers.add.addEventListener(TRIGGERS.click, addLayer)
@@ -1919,6 +2090,34 @@
 						const beatElement = document.createElement("div")
 							beatElement.className = "chord-block-beat"
 						chordElement.appendChild(beatElement)
+
+						const swapLeftButton = document.createElement("button")
+							swapLeftButton.className = "chord-block-swap-left"
+							swapLeftButton.innerHTML = "&larr;"
+							swapLeftButton.title = "move chord left"
+							swapLeftButton.addEventListener(TRIGGERS.click, swapChordLeft)
+						chordElement.appendChild(swapLeftButton)
+
+						const rerollButton = document.createElement("button")
+							rerollButton.className = "chord-block-reroll"
+							rerollButton.innerHTML = "&orarr;"
+							rerollButton.title = "randomize chord"
+							rerollButton.addEventListener(TRIGGERS.click, rerollChord)
+						chordElement.appendChild(rerollButton)
+
+						const tonicifyButton = document.createElement("button")
+							tonicifyButton.className = "chord-block-tonicify"
+							tonicifyButton.innerHTML = "I"
+							tonicifyButton.title = "make tonic"
+							tonicifyButton.addEventListener(TRIGGERS.click, tonicifyChord)
+						chordElement.appendChild(tonicifyButton)
+
+						const swapRightButton = document.createElement("button")
+							swapRightButton.className = "chord-block-swap-right"
+							swapRightButton.innerHTML = "&rarr;"
+							swapRightButton.title = "move chord right"
+							swapRightButton.addEventListener(TRIGGERS.click, swapChordRight)
+						chordElement.appendChild(swapRightButton)
 
 					// return
 						return chordOuter

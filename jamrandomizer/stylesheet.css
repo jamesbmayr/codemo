@@ -284,6 +284,38 @@
 			content: "8";
 		}
 
+	/* actions */
+		.chord-block-reroll, .chord-block-tonicify, .chord-block-swap-left, .chord-block-swap-right {
+			display: inline-block;
+			vertical-align: top;
+			height: calc(2 * var(--gap-size) + var(--font-size));
+			width: calc(2 * var(--gap-size) + var(--font-size));
+			border-radius: var(--border-radius);
+			border: none;
+			outline: none;
+			cursor: pointer;
+			background: var(--medium-gray);
+			opacity: 0.5;
+			transition: var(--transition-time);
+			user-select: none;
+			margin: 0 var(--gap-size);
+			padding: 0;
+			font-weight: bold;
+			font-family: var(--font-family);
+			font-size: var(--font-size);
+			color: var(--light-gray);
+		}
+
+		.chord-block-reroll:hover, .chord-block-tonicify:hover, .chord-block-swap-left:hover, .chord-block-swap-right:hover, .chord-block-reroll:focus, .chord-block-tonicify:focus, .chord-block-swap-left:focus, .chord-block-swap-right:focus {
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+			text-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+		#viewer-outer[playing="true"] .chord-block-reroll, #viewer-outer[playing="true"] .chord-block-tonicify, #viewer-outer[playing="true"] .chord-block-swap-left, #viewer-outer[playing="true"] .chord-block-swap-right {
+			display: none;
+			pointer-events: none;
+		}
+
 /*** controls - playback ***/
 	#controls {
 		float: left;
@@ -379,7 +411,6 @@
 			user-select: none;
 			margin: 0 var(--gap-size);
 			padding: 0;
-			text-align: 0;
 		}
 
 		#controls-chords button:hover, #controls-chords button:focus {
