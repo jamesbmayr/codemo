@@ -31,16 +31,28 @@
 			},
 			game: {
 				element: document.querySelector("#game"),
-				imageOuter: document.querySelector("#game-image-outer"),
-				imageInner: document.querySelector("#game-image-inner"),
-				player: document.querySelector("#game-player"),
-				photoLink: document.querySelector("#game-photo-link"),
-				attribution: document.querySelector("#game-attribution"),
+				image: {
+					outer: document.querySelector("#game-image-outer"),
+					inner: document.querySelector("#game-image-inner")
+				},
+				overlay: {
+					player: document.querySelector("#game-player"),
+					photoLink: document.querySelector("#game-photo-link"),
+					attribution: document.querySelector("#game-attribution")
+				},
 				visibility: document.querySelector("#game-visibility"),
-				quitOuter: document.querySelector("#game-quit-outer"),
-				quit: document.querySelector("#game-quit"),
-				continue: document.querySelector("#game-continue"),
-				showCodes: document.querySelector("#game-show-codes")
+				quit: {
+					outer: document.querySelector("#game-quit-outer"),
+					button: document.querySelector("#game-quit"),
+					continue: document.querySelector("#game-continue")
+				},
+				showCodes: document.querySelector("#game-show-codes"),
+				final: {
+					outer: document.querySelector("#game-final-outer"),
+					image: document.querySelector("#game-final-image"),
+					close: document.querySelector("#game-final-close"),
+					border: document.querySelector("#game-final-border")
+				}
 			}
 		}
 
@@ -171,7 +183,7 @@
 
 				// switch mode
 					ELEMENTS.menu.element.setAttribute("state", "show-codes")
-					ELEMENTS.game.player.innerText = "1"
+					ELEMENTS.game.overlay.player.innerText = "1"
 					tryFullscreen()
 
 				// get an image
@@ -268,19 +280,19 @@
 		function toggleVisibility(event) {
 			try {
 				// visible --> hide
-					if (ELEMENTS.game.imageOuter.getAttribute("visible")) {
-						ELEMENTS.game.imageOuter.removeAttribute("visible")
+					if (ELEMENTS.game.image.outer.getAttribute("visible")) {
+						ELEMENTS.game.image.outer.removeAttribute("visible")
 						return
 					}
 
 				// invisible --> show
-					ELEMENTS.game.imageOuter.setAttribute("visible", true)
+					ELEMENTS.game.image.outer.setAttribute("visible", true)
 					tryFullscreen()
 			} catch (error) {console.log(error)}
 		}
 
 	/* quitGame */
-		ELEMENTS.game.quit.addEventListener(TRIGGERS.click, quitGame)
+		ELEMENTS.game.quit.button.addEventListener(TRIGGERS.click, quitGame)
 		function quitGame() {
 			try {
 				// clear localstorage
@@ -295,12 +307,33 @@
 		}
 
 	/* continueGame */
-		ELEMENTS.game.continue.addEventListener(TRIGGERS.click, continueGame)
+		ELEMENTS.game.quit.continue.addEventListener(TRIGGERS.click, continueGame)
 		function continueGame(event) {
 			try {
 				// close up quit confirmation
-					ELEMENTS.game.quitOuter.removeAttribute("open")
-					ELEMENTS.game.continue.blur()
+					ELEMENTS.game.quit.outer.removeAttribute("open")
+					ELEMENTS.game.quit.continue.blur()
+			} catch (error) {console.log(error)}
+		}
+
+	/* showFinal */
+		ELEMENTS.game.overlay.photoLink.addEventListener(TRIGGERS.click, showFinal)
+		function showFinal(event) {
+			try {
+				// don't open link
+					event.preventDefault()
+				
+				// show final image
+					ELEMENTS.game.final.outer.setAttribute("visible", true)
+			} catch (error) {console.log(error)}
+		}
+
+	/* hideFinal */
+		ELEMENTS.game.final.close.addEventListener(TRIGGERS.click, hideFinal)
+		function hideFinal(event) {
+			try {
+				// hide final image
+					ELEMENTS.game.final.outer.removeAttribute("visible", true)
 			} catch (error) {console.log(error)}
 		}
 
@@ -408,7 +441,7 @@
 
 				// switch mode
 					ELEMENTS.menu.element.setAttribute("state", "none")
-					ELEMENTS.game.player.innerText = String(STATE.thisPlayer + 1)
+					ELEMENTS.game.overlay.player.innerText = String(STATE.thisPlayer + 1)
 
 				// fetch image
 					fetchSpecificImage(data.i)
@@ -495,9 +528,9 @@
 					}
 
 				// attribution
-					ELEMENTS.game.photoLink.href = STATE.image.url
-					ELEMENTS.game.attribution.href = CONSTANTS.api.attributionUrl.replace("<username>", STATE.image.username)
-					ELEMENTS.game.attribution.innerText = STATE.image.name
+					ELEMENTS.game.overlay.photoLink.href = STATE.image.url
+					ELEMENTS.game.overlay.attribution.href = CONSTANTS.api.attributionUrl.replace("<username>", STATE.image.username)
+					ELEMENTS.game.overlay.attribution.innerText = STATE.image.name
 
 				// device
 					const deviceWidth  = window.innerWidth
@@ -521,29 +554,29 @@
 					const yFactor = 100 / ySize
 
 				// set game image
-					ELEMENTS.game.imageInner.src = STATE.image.url
-					ELEMENTS.game.imageInner.onload = function() {
+					ELEMENTS.game.image.inner.src = STATE.image.url
+					ELEMENTS.game.image.inner.onload = function() {
 						// image dimensions
-							const imageWidth = ELEMENTS.game.imageInner.naturalWidth
-							const imageHeight = ELEMENTS.game.imageInner.naturalHeight
+							const imageWidth = ELEMENTS.game.image.inner.naturalWidth
+							const imageHeight = ELEMENTS.game.image.inner.naturalHeight
 
 						// clip
-							ELEMENTS.game.imageInner.style.clipPath = `polygon(${xStart}% ${yStart}%, ${xEnd}% ${yStart}%, ${xEnd}% ${yEnd}%, ${xStart}% ${yEnd}%)`
+							ELEMENTS.game.image.inner.style.clipPath = `polygon(${xStart}% ${yStart}%, ${xEnd}% ${yStart}%, ${xEnd}% ${yEnd}%, ${xStart}% ${yEnd}%)`
 
 						// vertical device
 							if (deviceHeight > deviceWidth) {
 								// vertical slice
 									if ((coordinates[3] + 1 - coordinates[1]) > (coordinates[2] + 1 - coordinates[0])) {
-										ELEMENTS.game.imageInner.style.width  = `calc(100vw * ${xFactor})`
-										ELEMENTS.game.imageInner.style.height = `calc(100vh * ${yFactor})`
-										ELEMENTS.game.imageInner.style.transform = `translateX(${-xStart}%) translateY(${-yStart}%)`
+										ELEMENTS.game.image.inner.style.width  = `calc(100vw * ${xFactor})`
+										ELEMENTS.game.image.inner.style.height = `calc(100vh * ${yFactor})`
+										ELEMENTS.game.image.inner.style.transform = `translateX(${-xStart}%) translateY(${-yStart}%)`
 									}
 
 								// horizontal slice
 									else {
-										ELEMENTS.game.imageInner.style.width  = `calc(100vh * ${xFactor})`
-										ELEMENTS.game.imageInner.style.height = `calc(100vw * ${yFactor})`
-										ELEMENTS.game.imageInner.style.transform = `rotate(${CONSTANTS.quarterTurn}deg) translateX(${-xStart}%) translateY(${(CONSTANTS.percent / -yFactor) - yStart}%)`
+										ELEMENTS.game.image.inner.style.width  = `calc(100vh * ${xFactor})`
+										ELEMENTS.game.image.inner.style.height = `calc(100vw * ${yFactor})`
+										ELEMENTS.game.image.inner.style.transform = `rotate(${CONSTANTS.quarterTurn}deg) translateX(${-xStart}%) translateY(${(CONSTANTS.percent / -yFactor) - yStart}%)`
 									}
 							}
 
@@ -551,18 +584,31 @@
 							else {
 								// vertical slice
 									if ((coordinates[3] + 1 - coordinates[1]) > (coordinates[2] + 1 - coordinates[0])) {
-										ELEMENTS.game.imageInner.style.width  = `calc(100vh * ${xFactor})`
-										ELEMENTS.game.imageInner.style.height = `calc(100vw * ${yFactor})`
-										ELEMENTS.game.imageInner.style.transform = `rotate(${CONSTANTS.quarterTurn}deg) translateX(${-xStart}%) translateY(${(CONSTANTS.percent / -yFactor) - yStart}%)`
+										ELEMENTS.game.image.inner.style.width  = `calc(100vh * ${xFactor})`
+										ELEMENTS.game.image.inner.style.height = `calc(100vw * ${yFactor})`
+										ELEMENTS.game.image.inner.style.transform = `rotate(${CONSTANTS.quarterTurn}deg) translateX(${-xStart}%) translateY(${(CONSTANTS.percent / -yFactor) - yStart}%)`
 									}
 
 								// horizontal slice
 									else {
-										ELEMENTS.game.imageInner.style.width  = `calc(100vw * ${xFactor})`
-										ELEMENTS.game.imageInner.style.height = `calc(100vh * ${yFactor})`
-										ELEMENTS.game.imageInner.style.transform = `translateX(${-xStart}%) translateY(${-yStart}%)`
+										ELEMENTS.game.image.inner.style.width  = `calc(100vw * ${xFactor})`
+										ELEMENTS.game.image.inner.style.height = `calc(100vh * ${yFactor})`
+										ELEMENTS.game.image.inner.style.transform = `translateX(${-xStart}%) translateY(${-yStart}%)`
 									}
 							}
+
+						// set final image
+							const ratio = imageHeight / imageWidth
+								ELEMENTS.game.final.image.style.height = `calc(100vw * ${ratio})`
+								ELEMENTS.game.final.image.style.width = `calc(100vw)`
+								ELEMENTS.game.final.image.style.maxHeight = `calc(100vh)`
+								ELEMENTS.game.final.image.style.maxWidth = `calc(100vh / ${ratio})`
+							ELEMENTS.game.final.image.style.backgroundImage = `url(${STATE.image.url})`
+							
+							ELEMENTS.game.final.border.style.left  = xStart + "%"
+							ELEMENTS.game.final.border.style.top   = yStart + "%"
+							ELEMENTS.game.final.border.style.width  = (xEnd - xStart) + "%"
+							ELEMENTS.game.final.border.style.height = (yEnd - yStart) + "%"
 					}
 			} catch (error) {console.log(error)}
 		}
@@ -694,7 +740,7 @@
 
 				// switch mode
 					ELEMENTS.menu.element.setAttribute("state", "none")
-					ELEMENTS.game.player.innerText = String(STATE.thisPlayer + 1)
+					ELEMENTS.game.overlay.player.innerText = String(STATE.thisPlayer + 1)
 
 				// fetch image
 					fetchSpecificImage(data.i)
