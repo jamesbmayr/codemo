@@ -1325,7 +1325,7 @@
 						
 					// get next options
 						const previousTriad = CONSTANTS.chords[previousChord].seventh ? CONSTANTS.chords[previousChord].seventh : previousChord
-						let nextOptions = [...CONSTANTS.chords[previousChord].next]
+						let nextOptions = [...CONSTANTS.chords[previousTriad].next]
 
 					// look back more
 						const twoChordsBack = previousIndex ? STATE.progression.chords[previousIndex - 1] : STATE.progression.chords[STATE.progression.length - 1]
