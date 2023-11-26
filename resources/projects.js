@@ -503,6 +503,13 @@ const PROJECTS = {
 		date: "January 24, 2018",
 		description: "This is a companion app for Goods, a multi-player strategy card game."
 	},
+	gradientmaker: {
+		name: "gradientMaker",
+		size: "small",
+		tags: ["code","math","tool","design","art","canvas","draw"],
+		date: "November 26, 2023",
+		description: "Create linear, radial, and conic gradients to export as CSS or PNG."
+	},
 	graphmaker: {
 		skipRandom: true,
 		name: "graphMaker",
