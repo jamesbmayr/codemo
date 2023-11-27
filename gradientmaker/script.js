@@ -309,6 +309,7 @@
 
 /*** movement ***/
 	/* moveNode */
+		window.addEventListener(TRIGGERS.mousedown, moveNode)
 		window.addEventListener(TRIGGERS.mousemove, moveNode)
 		function moveNode(event) {
 			try {
