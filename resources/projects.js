@@ -504,7 +504,6 @@ const PROJECTS = {
 		description: "This is a companion app for Goods, a multi-player strategy card game."
 	},
 	gradientmaker: {
-		hidden: true,
 		name: "gradientMaker",
 		size: "small",
 		tags: ["code","math","tool","design","art","canvas","draw"],
