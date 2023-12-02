@@ -394,6 +394,14 @@ const PROJECTS = {
 		date: "December 1, 2011",
 		description: "Drafts Adrift 2 is a combination of various projects - including video game soundtracks, avant garde experiments, and some lyrical tracks."
 	},
+	draftsadrift3: {
+		skipRandom: true,
+		name: "Drafts Adrift 3",
+		size: "large",
+		tags: ["music","jazz","orchestral","piano","pop","synth","fantasy"],
+		date: "December 1, 2023",
+		description: "Compiled over many years, Drafts Adrift 3 features music challenges,  game soundtracks, and genre-bending explorations."
+	},
 	dreamhatcher: {
 		skipRandom: true,
 		name: "Dreamhatcher",
