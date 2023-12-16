@@ -862,6 +862,14 @@ const PROJECTS = {
 		date: "June 30, 2017",
 		description: "This is a strange abacus-like calculator."
 	},
+	numpadtyper: {
+		skipRandom: true,
+		name: "numpadTyper",
+		size: "small",
+		tags: ["code","tool","writing"],
+		date: "December 16, 2023",
+		description: "A simple typing script for my first TypeScript app."
+	},
 	orbitmaker: {
 		name: "orbitMaker",
 		size: "medium",
