@@ -877,6 +877,14 @@ const PROJECTS = {
 		date: "March 27, 2022",
 		description: "Customize or randomly generate a solar system with real orbital mechanics - planets, moons, and more."
 	},
+	pagetiler: {
+		skipRandom: true,
+		name: "pageTiler",
+		size: "small",
+		tags: ["code","tool"],
+		date: "December 19, 2023",
+		description: "Build your own board from your favorite embeddable webpages."
+	},
 	paintings: {
 		skipRandom: true,
 		name: "paintings",
