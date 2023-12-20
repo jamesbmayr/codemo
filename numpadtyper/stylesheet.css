@@ -72,6 +72,12 @@
 				fill: currentColor;
 			}
 
+			@media screen and (max-width: 800px) {
+				html svg {
+					display: none;
+				}
+			}
+
 		textarea {
 			min-width: 100%;
 			width: 100%;

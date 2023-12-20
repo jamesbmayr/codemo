@@ -266,7 +266,8 @@
 						width: 50%;
 						height: calc(var(--font-size) + 2 * var(--gap-size));
 						box-sizing: border-box;
-						padding: var(--gap-size);
+						padding: 0;
+						overflow: hidden;
 					}
 
 					.tile-width {
