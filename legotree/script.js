@@ -65,9 +65,9 @@
 			},
 			"winter": {
 				name: "winter",
-				image: "winter.png",
+				image: "winter.jpg",
 				date: "",
-				description: "Help this tree transition to winter!"
+				description: ""
 			},
 		}
 
