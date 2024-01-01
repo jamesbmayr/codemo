@@ -82,7 +82,7 @@
 				document.querySelector("#hand_date").style.transform = ("translateX(-50%) rotate(" + ((360 / dateCount) * date) + "deg)")
 				document.querySelector("#hand_date .inner").innerHTML = (date + "<br>date")
 
-				if (date === 0) {
+				if (date === 1) {
 					updateHand(time, "month")
 				}
 			break
