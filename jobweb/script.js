@@ -47,12 +47,12 @@
 					actual: true,
 					title: "childhood",
 					time: "1990 - 2004",
-					description: "I'm born in 1990 to Rebecca and Gregory (and a cat named Dorie). A few years later, I acquire a brother, Tom (and some more cats, Mac and Poly). We grow up in a suburban beach town on Long Island and I spend my childhood writing poems and stories, playing board games and video games, and learning clarinet and piano.",
+					description: "I'm born in 1990 to Rebecca and Gregory. A few years later, I acquire a brother, Tom. We grow up in a suburban beach town on Long Island and I spend my childhood writing poems and stories, playing board games and video games, and learning clarinet and piano.",
 					image: "images/childhood.jpg",
 					options: [
 						{
 							id: "highschool",
-							text: "Then I attend high school."
+							text: "Before long: high school."
 						}
 					]
 				},
@@ -64,21 +64,8 @@
 					image: "images/highschool.jpg",
 					options: [
 						{
-							id: "travel",
-							text: "I also get to travel the world."
-						}
-					]
-				},
-				travel: {
-					actual: true,
-					title: "travel",
-					time: "2004 - 2008",
-					description: "I'm incredibly fortunate to participate in the \"People to People Student Ambassador\" program, through which I visit Australia and New Zealand, and later England and Ireland. Before high school, one grandmother takes me to the Grand Canyon. After high school, my other grandmother takes me to Greece.",
-					image: "images/travel.jpg",
-					options: [
-						{
 							id: "binghamton",
-							text: "Back to New York - and forward to Binghamton University."
+							text: "Upwards and onwards to Binghamton University."
 						}
 					]
 				},
@@ -391,7 +378,7 @@
 					options: [
 						{
 							id: "tfa_nyc",
-							text: "I reapply for Teach for America and move to New York City to teach."
+							text: "I apply for Teach for America and move to New York City to teach."
 						},
 						{
 							id: "binghamton_recruiter",
@@ -399,7 +386,7 @@
 						},
 						{
 							id: "mcgrawhill",
-							text: "Alumni connections lead to an chance interview for editorial assistant."
+							text: "Alumni connections lead to a chance interview for editorial assistant."
 						}
 					]
 				},
@@ -455,7 +442,7 @@
 						},
 						{
 							id: "skillshare",
-							text: "My passion for education takes me to a ed-tech company."
+							text: "My passion for education takes me to an ed-tech company."
 						},
 						{
 							id: "nyu_mfa",
@@ -511,7 +498,7 @@
 					options: [
 						{
 							id: "tfa_az2",
-							text: "Teach for America offers a spot in Arizona - and I'm ready to leave home."
+							text: "Teach for America offers a spot in Arizona - and I'm ready to leave NY."
 						},
 						{
 							id: "mcgrawhill",
@@ -797,7 +784,7 @@
 					options: [
 						{
 							id: "boston_admissions",
-							text: "I care passionately about college admissions yet truly loathe Arizona."
+							text: "I care passionately about college admissions, yet truly loathe the desert."
 						},
 						{
 							id: "apple",
@@ -932,7 +919,7 @@
 					options: [
 						{
 							id: "admithub",
-							text: "I take my admissions experience to AdmitHub as a Partner Support Manager."
+							text: "I take my admissions experience to AdmitHub as a Partner Success Manager."
 						}
 					]
 				},

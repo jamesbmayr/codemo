@@ -292,8 +292,15 @@
 					try {
 						json = JSON.parse(text)
 					} catch (error) {
-						ELEMENTS.inputMessage.innerHTML = "Invalid JSON."
-						return
+						try {
+							json = eval(text)
+							if (typeof json !== "object") {
+								throw "not an object"
+							}
+						} catch (error) {
+							ELEMENTS.inputMessage.innerHTML = "Invalid JSON."
+							return
+						}
 					}
 
 				// get mapping

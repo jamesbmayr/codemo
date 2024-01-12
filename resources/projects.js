@@ -1295,6 +1295,13 @@ const PROJECTS = {
 		date: "January 23, 2017",
 		description: "tileSlider is an online version of the 15-puzzle sliding game."
 	},
+	timelinemaker: {
+		name: "timelineMaker",
+		size: "medium",
+		tags: ["code","tool","writing","design","draw","collaboration"],
+		date: "January 7, 2024",
+		description: "Create branching paths through time and space for stories and histories alike."
+	},
 	timestopper: {
 		name: "timeStopper",
 		size: "small",
