@@ -408,7 +408,7 @@
 				// get position
 					const x = ELEMENTS.timelines[timelineId].x + ELEMENTS.timelines[timelineId].happenings[happeningId].x
 					const y = ELEMENTS.timelines[timelineId].y + minY + CONSTANTS.branchGapHeight
-					const w = window.innerWidth - CONSTANTS.arrowWidth - x
+					const w = Math.max(window.innerWidth - CONSTANTS.arrowWidth - x, CONSTANTS.arrowWidth + 2 * CONSTANTS.plusWidth)
 					const color = ELEMENTS.timelines[timelineId].happenings[happeningId].color
 
 				// build timeline
