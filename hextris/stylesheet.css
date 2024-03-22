@@ -1,0 +1,399 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #777777;
+		--light-gray: #dddddd;
+		--light-blue: #04b1ff;
+		--medium-red: #d94c4c;
+		--font-size: 20px;
+		--font-family: monospace;
+		--line-height: 1;
+		--border-size: 5px;
+		--border-radius: 5px;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--transition-time: 0.5s;
+		--controls-key-size: 50px;
+		--game-radius: 9;
+		--hexagon-ratio: 0.886025;
+
+		--color-rhombus: #029632;         /* green */
+		--color-cw-flag: #fc6404;         /* orange */
+		--color-ccw-flag: #2f64c1;        /* blue */
+		--color-line: #379494;            /* teal */
+		--color-cw-hockeystick: #8cc43c;  /* lime-green */
+		--color-ccw-hockeystick: #7a0018; /* dark-red */
+		--color-z-block: #725dc1;         /* purple */
+		--color-s-block: #ded00b;         /* yellow */
+		--color-fan: #ff89c2;             /* pink */
+		--color-cup: #aa824f;             /* tan */
+	}
+
+	html, body {
+		background: var(--dark-gray);
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		overflow: hidden;
+		font-size: 0;
+	}
+
+		svg {
+			fill: currentColor;
+			width: auto;
+			height: 100%;
+			vertical-align: top;
+			pointer-events: none;
+		}
+
+/*** overlay ***/
+	#overlay {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		padding: calc(2 * var(--gap-size));
+		background: var(--dark-gray);
+		border-radius: var(--border-radius);
+		z-index: 2;
+		transition: var(--transition-time);
+		opacity: 1;
+		text-align: center;
+	}
+
+		#game[play]:not([pause]):not([gameover]) ~ #overlay {
+			pointer-events: none;
+			display: none;
+		}
+
+		#game[gameover] ~ #overlay {
+			background: var(--medium-red);
+		}
+
+		#overlay-header {
+			margin: 0 0 var(--gap-size) 0;
+			font-size: calc(var(--font-size) * 2);
+			font-weight: bold;
+			font-family: var(--font-family);
+			color: var(--light-gray);
+			text-transform: uppercase;
+			cursor: default;
+			user-select: none;
+		}
+
+		#overlay-start, #overlay-unpause {
+			display: inline-block;
+			border: none;
+			background: var(--dark-gray);
+			border-radius: var(--border-radius);
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			color: var(--light-gray);
+			font-weight: bold;
+			width: calc(var(--font-size) * 6);
+			text-transform: uppercase;
+			cursor: pointer;
+			padding: var(--gap-size);
+			box-sizing: border-box;
+			outline: none;
+			line-height: var(--line-height);
+			margin: var(--gap-size);
+			transition: var(--transition-time);
+		}
+
+			#game:not([play][pause]) ~ #overlay #overlay-unpause {
+				pointer-events: none;
+				display: none;
+			}
+
+			#overlay-start:hover, #overlay-start:focus, #overlay-unpause:hover, #overlay-unpause:focus {
+				color: var(--light-blue);
+				border-color: var(--light-blue);
+			}
+
+			#overlay-start div, #overlay-unpause div {
+				margin: var(--gap-size) 0 0 0;
+			}
+
+/*** pause ***/
+	#pause {
+		position: absolute;
+		top: calc(var(--gap-size) * 1);
+		left: calc(var(--gap-size) * 1);
+		background: transparent;
+		color: var(--light-gray);
+		font-family: var(--font-family);
+		font-size: var(--font-size);
+		text-transform: uppercase;
+		font-weight: bold;
+		border: none;
+		border-radius: var(--border-radius);
+		cursor: pointer;
+		transition: var(--transition-time);
+		padding: var(--gap-size);
+		box-sizing: border-box;
+		outline: none;
+		height: calc(var(--font-size) + 4 * var(--gap-size));
+	}
+
+		#pause:hover, #pause:focus {
+			color: var(--light-blue);
+		}
+
+		#game[pause] ~ #pause svg:first-child {
+			display: none;
+		}
+
+		#game:not([pause]) ~ #pause svg:last-child {
+			display: none;
+		}
+
+	#game:not([play]) ~ #pause {
+		pointer-events: none;
+		opacity: 0;
+	}
+
+/*** game ***/
+	#game {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: 100vw;
+		height: 100vh;
+	}
+
+		#game-background {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			height: calc(100vw - 4 * var(--gap-size));
+			width: calc(100vw - 4 * var(--gap-size));
+			max-height: calc(100vh - 4 * var(--gap-size));
+			max-width: calc(100vh - 4 * var(--gap-size));
+			pointer-events: none;
+		}
+
+			#game:not([play]) #game-background {
+				opacity: 0;
+			}
+
+			#game-background-area {
+				color: transparent;
+				height: 100%;
+				width: 100%;
+				opacity: 1;
+				transition: var(--transition-time);
+			}
+
+				#game-background-spikes {
+					position: absolute;
+					top: calc(100% * (1 - var(--hexagon-ratio)) / 2);
+					left: 0;
+					opacity: 1;
+					width: 100%;
+					height: calc(100% * var(--hexagon-ratio));
+					transform: translateX(0) translateY(-2%); /* adjust for background hexagon */
+				}
+
+					.game-spike {
+						color: var(--light-gray);
+						position: absolute;
+						transform: translateX(-50%) translateY(calc(100% * var(--hexagon-ratio)));
+						width: calc(100% / ((var(--game-radius) - 1) * 2 + 1));
+						height: calc(100% / var(--hexagon-ratio) / ((var(--game-radius) - 1) * 2 + 1));
+						transition: var(--transition-time) color;
+					}
+
+						#game[gameover] .game-spike {
+							color: var(--medium-red);
+						}
+
+						.game-spike span { /* ??? */
+							font-family: var(--font-family);
+							font-size: calc(var(--font-size) / 2);
+							color: var(--dark-gray);
+							font-weight: bold;
+							text-align: center;
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translateX(-50%) translateY(-50%);
+						}
+
+		#game-container {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-52%); /* adjust for background hexagon */
+			opacity: 1;
+			height: calc((100vw - 4 * var(--gap-size)) * var(--hexagon-ratio));
+			width: calc(100vw - 4 * var(--gap-size));
+			max-height: calc((100vh - 4 * var(--gap-size)) * var(--hexagon-ratio));
+			max-width: calc(100vh - 4 * var(--gap-size));
+		}
+
+			.game-hex {
+				position: absolute;
+				transform: translateX(-50%) translateY(calc(100% * var(--hexagon-ratio)));
+				width: calc(100% / ((var(--game-radius) - 1) * 2 + 1));
+				height: calc(100% / var(--hexagon-ratio) / ((var(--game-radius) - 1) * 2 + 1));
+			}
+
+				.hex-rhombus {
+					color: var(--color-rhombus);
+				}
+				.hex-cw-flag {
+					color: var(--color-cw-flag);
+				}
+				.hex-ccw-flag {
+					color: var(--color-ccw-flag);
+				}
+				.hex-line {
+					color: var(--color-line);
+				}
+				.hex-cw-hockeystick {
+					color: var(--color-cw-hockeystick);
+				}
+				.hex-ccw-hockeystick {
+					color: var(--color-ccw-hockeystick);
+				}
+				.hex-z-block {
+					color: var(--color-z-block);
+				}
+				.hex-s-block {
+					color: var(--color-s-block);
+				}
+				.hex-fan {
+					color: var(--color-fan);
+				}
+				.hex-cup {
+					color: var(--color-cup);
+				}
+
+			.game-hex span { /* ??? */
+				font-family: var(--font-family);
+				font-size: calc(var(--font-size) / 2);
+				color: var(--light-gray);
+				font-weight: bold;
+				text-align: center;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translateX(-50%) translateY(-50%);
+			}
+
+		#game-score {
+			position: absolute;
+			bottom: calc(var(--gap-size) * 3);
+			left: calc(var(--gap-size) * 3);
+			padding: var(--gap-size);
+			border-radius: var(--border-radius);
+			border: var(--border-size) solid var(--light-gray);
+			width: calc(var(--controls-key-size) * 2.5);
+			height: calc(var(--controls-key-size) * 1);
+		}
+
+			#game-score-header, #game-score-value {
+				text-transform: uppercase;
+				font-family: var(--font-family);
+				font-weight: bold;
+				color: var(--light-gray);
+				user-select: none;
+			}
+
+			#game-score-header {
+				text-align: left;
+			}
+
+				#game-score-header span, #game-score-header svg {
+					display: inline-block;
+					height: calc(var(--font-size) + var(--gap-size));
+					margin: 0;
+					font-size: var(--font-size);
+				}
+
+			#game-score-value {
+				font-size: var(--font-size);
+				text-align: right;
+			}
+
+		#game-controls {
+			position: absolute;
+			bottom: calc(var(--gap-size) * 3);
+			right: calc(var(--gap-size) * 3);
+			height: calc(var(--controls-key-size) * 2);
+			width: calc(var(--controls-key-size) * 3);
+			text-align: center;
+		}
+
+			#game-controls button {
+				outline: none;
+				text-transform: uppercase;
+				border-radius: var(--border-radius);
+				border: var(--border-size) solid var(--light-gray);
+				padding: var(--gap-size);
+				box-sizing: border-box;
+				height: var(--controls-key-size);
+				width: var(--controls-key-size);
+				font-size: var(--font-size);
+				font-family: var(--font-family);
+				font-weight: bold;
+				color: var(--light-gray);
+				background: var(--dark-gray);
+				cursor: pointer;
+				transition: var(--transition-time);
+				box-sizing: border-box;
+				user-select: none;
+				overflow: hidden;
+			}
+
+				#game-controls button:focus {
+					border-color: var(--light-blue);
+				}
+
+				#game-controls button:hover, #game-controls button[active] {
+					background: var(--light-blue);
+					border-color: var(--light-blue);
+				}
+
+			#game-controls-rotate-cw {
+				margin: 0 0 0 calc(var(--controls-key-size) / 2);
+			}
+
+			#game-controls-rotate-ccw {
+				margin: 0 calc(var(--controls-key-size) / 2) 0 0;
+			}
+
+/*** j-logo ***/
+	#j-logo {
+		position: fixed;
+		top: 14px;
+		right: 7px;
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		z-index: 1000;
+		outline: none;
+		transition: var(--transition-time);
+		color: var(--light-gray);
+	}
+
+		#j-logo svg {
+			fill: currentColor;
+			height: 100%;
+			width: auto;
+		}
+
+		#j-logo path {
+			d: path("M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z");
+		}
+		
+		#j-logo:hover, #j-logo:focus {
+			color: var(--light-blue);
+		}

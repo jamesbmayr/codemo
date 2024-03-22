@@ -41,7 +41,7 @@
 		function convertNumber(numberString, oldBase, newBase) {
 			try {
 				// clean up numberString
-					numberString = String(numberString).trim().replace(/,/gi, "")
+					numberString = String(numberString).trim().toLowerCase().replace(/,/gi, "")
 
 				// negative?
 					if (numberString.indexOf("-") == 0) {

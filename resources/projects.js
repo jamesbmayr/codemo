@@ -563,6 +563,13 @@ const PROJECTS = {
 		date: "November 20, 2017",
 		description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
 	},
+	hextris: {
+		name: "hextris",
+		size: "medium",
+		tags: ["code","game","arcade","puzzle","svg"],
+		date: "March 21, 2024",
+		description: "Tetris... but hexagons."
+	},
 	homecontroller: {
 		skipRandom: true,
 		name: "homeController",
