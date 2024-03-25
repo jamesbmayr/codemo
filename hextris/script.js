@@ -21,6 +21,7 @@
 				background: document.querySelector("#game-background"),
 				backgroundSpikes: document.querySelector("#game-background-spikes"),
 				container: document.querySelector("#game-container"),
+				next: document.querySelector("#game-next"),
 				score: document.querySelector("#game-score-value"),
 				controls: {
 					"rotate-cw": document.querySelector("#game-controls-rotate-cw"),
@@ -143,6 +144,10 @@
 			},
 			score: 0,
 			downDirection: "downright",
+			nextPiece: {
+				type: null,
+				hexes: []
+			},
 			currentPiece: {
 				type: null,
 				stopped: false,
@@ -181,6 +186,7 @@
 					STATE.currentPiece.x = 0
 					STATE.currentPiece.y = 0
 					STATE.line = null
+					generatePiece(true)
 
 				// clear container
 					ELEMENTS.game.container.innerHTML = ""
@@ -375,7 +381,8 @@
 
 				// generate piece?
 					else if (!STATE.currentPiece.type) {
-						generatePiece()
+						// next
+							generatePiece()
 
 						// collisions?
 							if (getCollisions(getActualHexes(STATE.currentPiece.hexes, STATE.currentPiece.x, STATE.currentPiece.y)).length) {
@@ -410,9 +417,19 @@
 						descendPiece()
 					}
 
+				// currentPiece
+					const currentPieceHexes = getActualHexes(STATE.currentPiece.hexes, STATE.currentPiece.x, STATE.currentPiece.y)
+
+				// flash
+					if (STATE.currentPiece.stopped) {
+						for (const h in currentPieceHexes) {
+							currentPieceHexes[h].flash = true
+						}
+					}
+
 				// hexes to render
 					const hexesToRender = copyObject(STATE.hexes)
-						hexesToRender.push(...getActualHexes(STATE.currentPiece.hexes, STATE.currentPiece.x, STATE.currentPiece.y))
+						hexesToRender.push(...currentPieceHexes)
 
 				// render everything
 					displayHexagons(hexesToRender)
@@ -421,20 +438,29 @@
 		}
 
 	/* generatePiece */
-		function generatePiece() {
+		function generatePiece(startup) {
 			try {
-				// random piece type
+				// next --> current
+					if (!startup) {
+						STATE.currentPiece.type = STATE.nextPiece.type
+						STATE.currentPiece.hexes = copyObject(STATE.nextPiece.hexes)
+						STATE.currentPiece.stopped = false
+						STATE.currentPiece.x = CONSTANTS.startingX
+						STATE.currentPiece.y = CONSTANTS.startingY
+					}
+
+				// next --> random piece type
 					const pieceType = chooseRandom(Object.keys(CONSTANTS.pieces))
 
 				// set state
-					STATE.currentPiece.type = pieceType
-					STATE.currentPiece.hexes = copyObject(CONSTANTS.pieces[pieceType])
-					STATE.currentPiece.hexes.forEach(hex => {
+					STATE.nextPiece.type = pieceType
+					STATE.nextPiece.hexes = copyObject(CONSTANTS.pieces[pieceType])
+					STATE.nextPiece.hexes.forEach(hex => {
 						hex.type = pieceType
 					})
-					STATE.currentPiece.stopped = false
-					STATE.currentPiece.x = CONSTANTS.startingX
-					STATE.currentPiece.y = CONSTANTS.startingY
+
+				// display next
+					displayNextPiece()
 			} catch (error) {console.log(error)}
 		}
 
@@ -603,6 +629,9 @@
 
 				// not possible to go down at all
 					STATE.currentPiece.stopped = true
+					for (const h in STATE.currentPiece.hexes) {
+						STATE.currentPiece.hexes[h].flash = true
+					}
 					return
 			} catch (error) {console.log(error)}
 		}
@@ -616,7 +645,6 @@
 				// loop through
 					for (const h in relativeHexes) {
 						const relativeHex = relativeHexes[h]
-
 						actualHexes.push({
 							x:    relativeHex.x + x,
 							y:    relativeHex.y + y,
@@ -875,7 +903,40 @@
 								hexElement.innerHTML = CONSTANTS.svg.hexagon
 								hexElement.style.left = `calc(${50 + (x / gameDiameter * 100)}%)`
 								hexElement.style.top = `calc(${y / gameDiameter * 100}%)`
+								if (hex.flash) {
+									hexElement.setAttribute("flash", true)
+								}
 							ELEMENTS.game.container.appendChild(hexElement)
+
+							if (CONSTANTS.showCoordinates) {
+								hexElement.innerHTML += `<span>${hex.x},${hex.y}</span>`
+							}
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* displayNextPiece */
+		function displayNextPiece() {
+			try {
+				// clear
+					ELEMENTS.game.next.innerHTML = ""
+
+				// hexagons
+					// loop through hexes
+					for (const h in STATE.nextPiece.hexes) {
+						// coordinates
+							const hex = STATE.nextPiece.hexes[h]
+							const x = hex.x + (hex.y / 2)
+							const y = hex.y
+							const nextDiameter = 8
+
+						// element
+							const hexElement = document.createElement("div")
+								hexElement.className = `game-next-hex hex-${hex.type}`
+								hexElement.innerHTML = CONSTANTS.svg.hexagon
+								hexElement.style.left = `calc(${50 + (x / nextDiameter * 100)}%)`
+								hexElement.style.top = `calc(${y / nextDiameter * 100}%)`
+							ELEMENTS.game.next.appendChild(hexElement)
 
 							if (CONSTANTS.showCoordinates) {
 								hexElement.innerHTML += `<span>${hex.x},${hex.y}</span>`

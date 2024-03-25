@@ -15,6 +15,7 @@
 		--transition-time: 0.5s;
 		--controls-key-size: 50px;
 		--game-radius: 9;
+		--next-radius: 4;
 		--hexagon-ratio: 0.886025;
 
 		--color-rhombus: #029632;         /* green */
@@ -276,6 +277,10 @@
 					color: var(--color-cup);
 				}
 
+				.game-hex[flash] {
+					color: var(--light-blue) !important;
+				}
+
 			.game-hex span { /* ??? */
 				font-family: var(--font-family);
 				font-size: calc(var(--font-size) / 2);
@@ -288,18 +293,43 @@
 				transform: translateX(-50%) translateY(-50%);
 			}
 
+		#game-next {
+			position: absolute;
+			bottom: var(--gap-size);
+			right: calc(var(--gap-size) * 3);
+			background: transparent;
+			width: calc(var(--controls-key-size) * 2.5);
+			height: calc(var(--controls-key-size) * 2.5 * var(--hexagon-ratio));
+			transition: var(--transition-time);
+			pointer-events: none;
+		}
+
+			#game:not([play]) #game-next {
+				opacity: 0;
+			}
+
+			.game-next-hex {
+				position: absolute;
+				transform: translateX(-50%) translateY(calc(100% * var(--hexagon-ratio)));
+				width: calc(100% / ((var(--next-radius) - 1) * 2 + 1));
+				height: calc(100% / var(--hexagon-ratio) / ((var(--next-radius) - 1) * 2 + 1));
+			}
+
 		#game-score {
 			position: absolute;
 			bottom: calc(var(--gap-size) * 3);
-			left: calc(var(--gap-size) * 3);
-			padding: var(--gap-size);
+			right: calc(var(--gap-size) * 3);
+			padding: calc(var(--gap-size) * 1.5) var(--gap-size) calc(var(--gap-size) * 1.5) calc(var(--gap-size) * 0.5);
 			border-radius: var(--border-radius);
 			border: var(--border-size) solid var(--light-gray);
 			width: calc(var(--controls-key-size) * 2.5);
 			height: calc(var(--controls-key-size) * 1);
+			box-sizing: border-box;
 		}
 
 			#game-score-header, #game-score-value {
+				vertical-align: top;
+				display: inline-block;
 				text-transform: uppercase;
 				font-family: var(--font-family);
 				font-weight: bold;
@@ -308,7 +338,7 @@
 			}
 
 			#game-score-header {
-				text-align: left;
+				float: left;
 			}
 
 				#game-score-header span, #game-score-header svg {
@@ -320,13 +350,13 @@
 
 			#game-score-value {
 				font-size: var(--font-size);
-				text-align: right;
+				float: right;
 			}
 
 		#game-controls {
 			position: absolute;
 			bottom: calc(var(--gap-size) * 3);
-			right: calc(var(--gap-size) * 3);
+			left: calc(var(--gap-size) * 3);
 			height: calc(var(--controls-key-size) * 2);
 			width: calc(var(--controls-key-size) * 3);
 			text-align: center;
