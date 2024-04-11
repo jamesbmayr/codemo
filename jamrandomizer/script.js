@@ -91,7 +91,7 @@
 				"major": {"from": ["V","V7","VM7","V+6","V7+6"], "to": ["vi", "vi7"]},
 				"minor": {"from": ["v","v7","V","V7","VM7","V+6","V7+6"], "to": ["♭VI", "♭VI7", "♭VIM7"]}
 			},
-			modes: ["major", "minor", "mixed", "more"], // modes
+			modes: ["major", "minor", "mixed", "more", "most"], // modes
 			types: ["triads", "sevenths"], // types
 			letters: ["A", "B", "C", "D", "E", "F", "G"], // notes
 			allowedKeys: ["C", "C♯", "D♭", "D", "D♯", "E♭", "E", "F", "F♯", "G♭", "G", "G♯", "A♭", "A", "A♯", "B♭", "B"], // notes
@@ -982,21 +982,22 @@
 			function changeChordCount(event) {
 				try {
 					// validate
+						const previousMeasureCount = STATE.progression.measureCount
 						STATE.progression.measureCount = Math.max(CONSTANTS.minMeasures, Math.min(CONSTANTS.maxMeasures, Number(ELEMENTS.controls.chords.count.value)))
 						ELEMENTS.controls.chords.current.max = STATE.progression.measureCount
 						STATE.music.measureTicks = buildMeasureTicks(STATE.progression.measureCount, STATE.progression.ticksPerMeasure)
 
 					// random chord progression
-						randomizeChords()
+						randomizeChords(null, Math.min(STATE.progression.measureCount, previousMeasureCount))
 				} catch (error) {console.log(error)}
 			}
 
 		/* randomizeChords */
 			ELEMENTS.controls.chords.randomize.addEventListener(TRIGGERS.click, randomizeChords)
-			function randomizeChords(event) {
+			function randomizeChords(event, keepCount) {
 				try {
 					// generate progression
-						STATE.progression.numerals = generateProgression(STATE.progression.measureCount, STATE.progression.mode, STATE.progression.type)
+						STATE.progression.numerals = generateProgression(STATE.progression.measureCount, STATE.progression.mode, STATE.progression.type, keepCount)
 						STATE.progression.chords = getChordsFromNumerals(STATE.progression.numerals, STATE.progression.tonic)
 
 					// display
@@ -1690,8 +1691,8 @@
 							return true
 						}
 
-					// more --> allow everything
-						if (mode == "more") {
+					// more / most --> allow everything
+						if (mode == "more" || mode == "most") {
 							return true
 						}
 
@@ -1772,7 +1773,7 @@
 					// previous function
 						let previousFunction = CONSTANTS.chords[numeral].function
 
-					// more --> get equivalent function in [major, minor, mixed]
+					// more / most --> get equivalent function in [major, minor, mixed]
 						if (previousFunction == "neapolitan") {
 							previousFunction = "supertonic"
 						}
@@ -1802,12 +1803,12 @@
 
 					// major | minor | mixed | more --> more | [same]
 						const previousMode = CONSTANTS.chords[numeral].mode
-						if (mode == "more" || mode == previousMode) {
+						if (mode == "more" || mode == "most" || mode == previousMode) {
 							return numeral
 						}
 
 					// more --> mixed
-						if (previousMode == "more" && mode == "mixed") {
+						if ((previousMode == "more" || previousMode == "most") && mode == "mixed") {
 							return chooseRandom(Object.keys(CONSTANTS.chords).filter(possibleMatch => 
 								CONSTANTS.chords[possibleMatch].function == previousFunction &&
 								["major", "minor", null].includes(CONSTANTS.chords[possibleMatch].mode) && 
@@ -1821,7 +1822,7 @@
 							return numeral
 						}
 
-					// major | minor | mixed | more --> major | minor
+					// major | minor | mixed | more | most --> major | minor
 						return Object.keys(CONSTANTS.chords).find(possibleMatch => 
 							CONSTANTS.chords[possibleMatch].function == previousFunction &&
 							(CONSTANTS.chords[possibleMatch].mode == mode || !CONSTANTS.chords[possibleMatch].mode) && 
@@ -1832,14 +1833,31 @@
 			}
 		
 		/* generateProgression */
-			function generateProgression(chordCount, mode, type) {
+			function generateProgression(chordCount, mode, type, keepCount) {
 				try {
 					// empty progression
 						const progression = []
 
+					// keep any?
+						if (keepCount) {
+							for (let i = 0; i < keepCount; i++) {
+								progression.push(STATE.progression.numerals[i])
+							}
+						}
+
 					// random first chord
 						const allowedChords = Object.keys(CONSTANTS.chords).filter(numeral => isNumeralInMode(numeral, mode, type))
-						progression.push(chooseRandom(allowedChords))
+						if (!progression.length) {
+							progression.push(chooseRandom(allowedChords))
+						}
+
+					// most mode?
+						if (mode == "most") {
+							while (progression.length < chordCount) {
+								progression.push(chooseRandom(allowedChords))
+							}
+							return progression
+						}
 
 					// build progression
 						let attempts = CONSTANTS.attempts
@@ -2017,12 +2035,12 @@
 						}
 
 					// upgrade mode
-						if (currentMode == "more") {
+						if (currentMode == "more" || currentMode == "most") {
 							return
 						}
-						if (mode == "more") {
-							STATE.progression.mode = "more"
-							ELEMENTS.controls.chords.mode.value = "more"
+						if (mode == "more" || mode == "most") {
+							STATE.progression.mode = mode
+							ELEMENTS.controls.chords.mode.value = mode
 							return
 						}
 
