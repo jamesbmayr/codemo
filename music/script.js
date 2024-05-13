@@ -60,7 +60,8 @@
 				{name: "SoW Russian March", audio: "sowrussianmarch.mp3"},
 				{name: "Spider Jazz", audio: "spiderjazz.mp3"},
 				{name: "Stride (piano)", audio: "stridepiano.mp3"},
-				{name: "Wake (Captain Chrono)", audio: "wakecaptainchrono.mp3"}
+				{name: "Wake (Captain Chrono)", audio: "wakecaptainchrono.mp3"},
+				{name: "Miracle / Shadow: The Next Generation (Dan Weinstein mix)", audio: "miracleshadowthenextgenerationdanweinsteinmix.mp3"}
 			]},
 			eternalhorizon: {id: "eternalhorizon", image: "eternalhorizon.png", name: "Eternal Horizon", year: 2007, tracks: [
 				{name: "Eternal Horizon", audio: "eternalhorizon.mp3"},
