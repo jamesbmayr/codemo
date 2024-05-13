@@ -29,6 +29,12 @@
 		font-size: 0;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** canvas ***/
 	#canvas {
 		position: absolute;
@@ -172,6 +178,12 @@
 			border-radius: 100%;
 		}
 
+		#cube-moves button svg {
+			vertical-align: middle;
+			height: var(--font-size);
+			width: auto;
+		}
+
 		#x-clockwise {
 			left: 50%;
 			top: calc((var(--gap-size) + var(--button-normal) / 2 + var(--gap-size) + var(--button-long)));
@@ -198,6 +210,12 @@
 		}
 
 	/* face moves */
+		#face-moves button svg {
+			vertical-align: middle;
+			height: var(--font-size);
+			width: auto;
+		}
+
 		#up-clockwise {
 			height: var(--button-short);
 			width: var(--button-long);
@@ -291,7 +309,7 @@
 			outline: none;
 			user-select: none;
 			border: none;
-			padding: calc((var(--button-normal) - var(--font-size)) / 2) 0;
+			padding: 0;
 			text-align: center;
 			cursor: pointer;
 			transition: var(--transition-time);

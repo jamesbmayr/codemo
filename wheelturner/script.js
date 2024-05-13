@@ -15,7 +15,12 @@ window.addEventListener("load", function() {
 				maxNotchEffect: 2,
 				symbolSet: [1,2,3,4,5,6],
 				solution: null,
-				circle: 360
+				circle: 360,
+				svg: {
+					down: `<svg viewBox="10 10 80 80"><path d="M 50 10 C 53 10 55 12 55 15 C 55 30 55 60 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 60 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
+					clockwise:`<svg viewBox="0 0 100 100"><path d="M 75 45 C 78 45 80 47 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 36 29 23 47 20 C 46 19 46 19 46 19 C 44 17 44 14 46 12 C 48 10 51 10 53 12 C 55 14 58 17 60 19 C 62 21 64 23 64 25 C 64 27 62 29 60 31 C 58 33 55 36 53 38 C 51 40 48 40 46 38 C 44 36 44 33 47 30 C 36 33 30 41 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 47 72 45 75 45 Z"></path></svg>`,
+					counterclockwise: `<svg viewBox="0 0 100 100"><path d="M 25 45 C 28 45 30 47 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 41 64 33 53 30 C 56 33 56 36 54 38 C 52 40 49 40 47 38 C 45 36 42 33 40 31 C 38 29 36 27 36 25 C 36 23 38 21 40 19 C 42 17 45 14 47 12 C 49 10 52 10 54 12 C 56 14 56 17 54 19 C 54 19 54 19 53 20 C 71 23 80 36 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 47 22 45 25 45 Z"></path></svg>`
+				}
 			}
 
 		/* elements */
@@ -157,23 +162,23 @@ window.addEventListener("load", function() {
 					ELEMENTS.container.appendChild(wheel.element)
 
 				// indicator
-					var indicator = document.createElement("indicator")
+					var indicator = document.createElement("div")
 						indicator.className = "wheel-indicator"
-						indicator.innerHTML = "&darr;"
+						indicator.innerHTML = CONSTANTS.svg.down
 					wheel.element.appendChild(indicator)
 
 				// rotate buttons
 					var cwButton = document.createElement("button")
 						cwButton.className = "wheel-rotate"
 						cwButton.setAttribute("direction", "clockwise")
-						cwButton.innerHTML = "&#10227;"
+						cwButton.innerHTML = CONSTANTS.svg.clockwise
 						cwButton.addEventListener(TRIGGERS.click, rotateWheel)
 					wheel.element.appendChild(cwButton)
 
 					var ccwButton = document.createElement("button")
 						ccwButton.className = "wheel-rotate"
 						ccwButton.setAttribute("direction", "counterclockwise")
-						ccwButton.innerHTML = "&#10226;"
+						ccwButton.innerHTML = CONSTANTS.svg.counterclockwise
 						ccwButton.addEventListener(TRIGGERS.click, rotateWheel)
 					wheel.element.appendChild(ccwButton)
 

@@ -48,6 +48,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		height: 100%;
+		width: auto;
+		fill: currentColor;
+	}
+
 	#header {
 		position: fixed;
 		top: 0px;
@@ -126,7 +132,6 @@
 	#search-inner {
 		font-size: 23px;
 		font-weight: bold;
-		transform: rotate(45deg);
 	}
 
 	#search:hover, #search:focus {
