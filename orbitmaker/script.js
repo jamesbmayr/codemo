@@ -484,13 +484,23 @@
 				}
 			},
 			random: {
+				svg: `<svg viewBox="10 20 80 60"><path d="M 50 54 C 47 57 45 59 44 60 C 40 64 36 68 30 68 C 28 68 24 68 18 68 C 16 68 15 67 15 65 C 15 63 16 62 18 62 C 24 62 28 62 30 62 C 34 62 36 60 40 56 C 41 55 43 53 46 50 C 43 47 41 45 40 44 C 36 40 34 38 30 38 C 28 38 24 38 18 38 C 16 38 15 37 15 35 C 15 33 16 32 18 32 C 24 32 28 32 30 32 C 36 32 40 36 44 40 C 45 41 47 43 50 46 C 53 43 55 41 56 40 C 60 36 64 32 70 32 C 72 32 74 32 75 32 C 74 31 73 30 72 29 C 71 28 71 26 72 25 C 73 24 75 24 76 25 C 78 27 80 29 83 32 C 84 33 85 34 85 35 C 85 36 84 37 83 38 C 80 41 78 43 76 45 C 75 46 73 46 72 45 C 71 44 71 42 72 41 C 73 40 74 39 75 38 C 73 38 72 38 70 38 C 66 38 64 40 60 44 C 59 45 57 47 54 50 C 57 53 59 55 60 56 C 64 60 66 62 70 62 C 72 62 73 62 75 62 C 74 61 73 60 72 59 C 71 58 71 56 72 55 C 73 54 75 54 76 55 C 78 57 80 59 83 62 C 84 63 85 64 85 65 C 85 66 84 67 83 68 C 80 71 78 73 76 75 C 75 76 73 76 72 75 C 71 74 71 72 72 71 C 73 70 74 69 75 68 C 74 68 72 68 70 68 C 64 68 60 64 56 60 C 55 59 53 57 50 54 Z"></path></svg>`,
 				attempts: 10, // count
 				names: ["Oub","Peague","Frau","Oomp","Cleyost","Hougeatree","Sluild","Stothseag","Therct","Lernmo","Yoasce","Kir","Sefood","Bloilo","Neeploa","Rerndleyne","Twiwur","Sershthiep","Yetoudphoe","Glolp","Oolb","Iskthy","Drorbimock","Yoasmo","Sca","Olf","Shaimstie","Lysmycroag","Ishbriequa","Marm","Taponoin","Eaphgorhit","Outch","Mighriet","Degroryi","Epyash","Aut","Yoilchaix","Irntlob","Quoscy","Matbloamop","Smea","Lutbendelb","Pefub","Tentspidou","Elp","Griskubea","Otmuedoith","Uinbroop","Lui","Narck","Ighx","Luimpstom","Fackhurma","Vied","Ailkig","Ceydrish","Ooshoon","Asturntpay","Yueph","Dighntilk","Poloskolt","Aldaiftree","Eeckgran","Erct","Goysqualk","Blirp","Eelmclig","Soo","Glie","Yurth","Skerdog","Amslon","Auteesk","Idaumurt","Ientspoulk","Cleblo","Eskpethath","Shoun","Ag","Durm","Bact","Terdsmoi","Oomgo","Stoi","Tweat","Oostskaw","Jerflalt","Dwoulp","Timoiyieth","Goolmna","Urntgir","Thror","Prieshdwo","Sinurtch","Arshpo","Porlp","Twosptynea","Easpseenlo","Ackpersh","Pypra","Ra","Bletvoisk","Poatieshzy","Irntpick","Weyboom","Cinroy","Aspyosh","Quaclarn","Slou","Urddart","Oonoump","Ne","Dalp","Meaphli","Beebu","Eylk","Snippu","Rea","Aib","Prui","Muistar","Geckuepcex","Zitoig","Sawirtdau","Oackfry","Sker","Lawpomstui","Ealchgudar","Iskhay","Ealdvi","Naumpbawd","Dee","Soumout","Oock","Chooph","Furoyrulp","Oaskzea","Yoopeab","Palchfe","Flirsh","Eagve","Maw","Aistdorpaw","Nernisp","Twaxdwoo","Orm","Smerlkjay","Toet","Quoosni","Erph","Iect","Irb","Oabbub","Twooloth","Puempsposk","Forpoyth","Ortchoin","Nabmoa","Yonnoo","Shoutarg","Aphped","Soquoo"," quorboust","Oon","Neaberb","Oadoctyick","Bapow","Omintked","Raytch","Stertstoe","Uisp","Crundalb","Oogbubalp","Oackolf","Snau","Teest","Oin","Groon","Cla","Toulf","Chuenoylf","Phiedsee","Shoomphoe","Rylailt","Teelerct","Osp","Oit","Cleptouxob","Glash","Tooslo","Aigseesh","Puifai","Salk","Sistockoem","Clodirt","Cargurfla","Ornted","Ish","Rartdrauty","Erstdroock","Uem","Bawrayth","Groatch","Twalchkor","Irsk","Jinyhi","Aitchspim","Toosea","Sep","Leethealb","Barspmar","Tox","Unroend","Oatob","Eshayd","Thuimmie","Spuileyd","Smiskwent","Foithgror","Oskerth","Ragpho","Poam","Sincim","Impirtwou","Owld","Tesuipre","Du","Skitee","Grirmnick","Froosh","Ulb","Yoashump","Lerfliefri","Backcrood","Gounkoyhoi","Uigoyft","Soduip","Eabscue","Ilf","Honchmoun","Otog","Ix","Siseeph","Yaiton","Larmarshfa","Ood","Puiroat","Ien","Bea","Oask","Athglea","Claitood","Stowld","Eed","Tebsterlt","Laderpu","Inchtorn","Pofunch","Fesend","Meem","Ploo","Scoobith","Cougor","Piegatherb","Supuinchmu","Gar","Pranarndre","Outchdwa","Inirntint","Belbeagoit","Indaft","Irpsmi","Ootkilt","Oct","Fru","Proolt","Seboa","Umyuickpar","Uepteyph","Od","Orgquay","Tir","Crurpra","Arlf","Moa","Un","Ietch","Oack","Astkacrod","Cetstoi","Oupbisci","Scoagcoilm","Tanormthi","Pavoypheb","Gargree","Felm","Yylb","Sleeck","Oeft","Skurtoob","Iep","Keaulkdulk","Gerck","Gaulchold","Nunchfeg","Edoondsoi","Eathtotoe","Erlp","Smuwhoo","Aid","Dea","Arp","Seyvooboon","Omnorca","Kaphchoa","Bralkausp","Awshgrost","Uictfuhee","Eld","Obnulpeeg","Kethwyvy","Scuemeft","Coanchcro","Yolftaylar","Tweelp","Drey","Ielkstush","Buigsurft","Fyprob","Erctconir","Olch","Itlictirlt","Flesnorct","Snerkith","Irlch","Cheascib","Uiltun","Figroytalk","Seapdopip","Mompdir","Leabowt","Erlchphi","Urncloi","Ubthaid","Irpiguim","Om","Brorsorui","Ulkaymclee","Mortoolt","Tardaux","Erlkack","Lai","Yarlt","Fysmighvi","Righ","Katoospflo","Slee","Uinch","Sar","Ouct","Meabarb","Rer","Excro","Unuesp","Darnuict","Chawg","Raultadkar","Dockroa","Droump","Blod","Fumpkui","Tor","Arckarshva","Rin","Ersk","Skead","Omtwogshi","Oapalkdin","Alk","Lienese","Feelp","Roeproy","Skiesk","Uth","Frowgoi","Thect","Paspaup","Uldirnd","Girn","Panbooroi","Broalieck","Otdrash","Erskyay","Caltje","Kalf","Tuclorn","Skea","Fuilo","Zea","Ki","Colch","Eackam","Zowm","Pra","Arnerph","Guibkoydaw","Idhejorth","Roibneelch","Bo","Snaupso","Vou","Ud","Threy","Athpuit","Stoant","Orsteth","Um","Sceed","Inmigh","Orltblui","Eadrowmgla","Oop","Eaphuilkri","Hooth","Nuemp","Burpowckip","Alm","Irntlorn","Greytchuim","Drenmu","Ny","Een","Bleretwu","Skeauty","Ooshquee","Owpnui","Estyon","Aupree","Uck","Dy","Ertgerd","Pyvovoa","Twurnufe","Thy","Aimp","Plu","Oeck","Stowhou","Uipuithap","Crerstpe","Thaulb","Suifeagrea","Oomyuinch","Prolt","Deapgluem","Bray","Suth","Erck","Ab","Ailfpep","Oebbyree","Ipfly","Shigh","Unverth","Uigthywui","Eelk","Alfni","Etchsni","Flitch","Bree","Arlkobeep","Orddeblont","Spaict","Arneed","Urlp","Fley","Zuipeasp","Chukalk","Scurlp","Yie","Whuesp","Gytir","Eapeld","Greau","Toold","Gowhen","Eanch","Ertorck","Throa","Leelp","Sheeli","Proa","Oumpnalp","Murnspip","Jaycrairy","Rix","Roameap","Smui","Oyg","Uemcar","Narposcod","Grageanch","Smerbshint","Twarpind","Scovighn","Isk","Builb","Uint","Artruep","Slectact","Imrirnd","Sard","Rotdu","Ashbeemp","Gruinch","Droict","Sheautch","Auck","Chirtoo","Mu","Chayn","Si","Thuro","Nucoo","Roeth","Depee","Ha","Tieckdrum","Quarnt","Askgem","Skawmstart","Oash","Ebsketskor","Oanhayft","Blarnishab","Gloag","Jien","Jaushow","Ixilch","Chowb","Ophnargock","Ornwau","Seyn","Kadipoyth","Bidreasnir","Mutch","Leshflupe","Ug","Udectep","Erntlu","Dwaquoiceb","Narmchoeg","Bied","Oep","Arneest","Skain","Uedlea","Wum","Oepsmi","Pricibfrar","Ard","Goosawsai","Loa","Thighft","Dibandbleg","Uim","It","Doyartch","Itchouthme","Muidriryai","Sloapath","Puefooth","Eetjospuck","Sliesup","Amglui","Yee","Ib","Leausty","Ailt","Reckgayp","Glesichat","Har","Inthab","Idirst","Bernirbsu","Lurd","Pliemir","Broi","Teyshsoib","Pailpfoa","Choo","Irdbee","Clon","Oontflern","Thruep","Ithborp","Aisktu","Snir","Dra","Ceant","Sheygilflo","Prer","Ceegan","Uigmer","Oygirbdu","Vailm","Lu","Drailpmi","Oylkargque","Plersnird","Boip","Muiskchar","Deeboab","Ormarsh","Uetnoa","Snaisipaib","Steeslid","Aptebslar","Tikacotch","Ain","Co","Glamig","Nedien","Rostin","Twyyoot","Ceautdraip","Uipskeact","Leadrerlk","Eageepsoe","Easp","Bou","Foi","Rofar","Spui","Oshclecie","Frelk","Varfieb","Ormemzeelk","Fruboocir","Oimp","Ighlk","Gruproanai","Gir","Rayquer","Cli","Enob","Rau","Rirst","Nayde","Oad","Floo","Ooctielk","Noo","Wheskock","Irdroustum","Shoonch","Halpbo","Yithowdseg","Sau","Uinchpra","Ayn","Onshee","Drea","Oulk","Groche","Idooph","Oskoabyoo","Scortch","Ickpoiyaw","Scoond","Jeasnag","Eelm","Uibidflond","Andoymptu","Seecre","Girckscy","Lolp","Icksmoo","Sparsurst","Depo","Oyst","Spealf","Wowt","Margke","Ainthrerg","Ailtirpoib","Twep","Skershcoo","Ont","Scorph","Ordfo","Creameau","Arlmoam","Foodawgrin","Koisheeloe","Aip","Ockowm","Wolt","Smoushelf","Eex","Joist","Meyd","Owx","Tufoot","Meack","Oud","Arsh","Agult","Chethoag","Atkuilp","Yood","Dond","Foutar","Orctstee","Crayb","Guesno","Seck","Luit","Prergnousy","Ishaulp","Pondroihy","Twi","Kue","Po","Chugawdwid","Quo","Naiboop","Yoithack","Ergomdash","Twyspeelk","Kou"],
 				star: {
-					emoji: {
-						"star": ["☀️"],
-						"black-hole": ["⚫"],
-						"binary": ["⚇"]
+					svg: {
+						"star": [
+							`<svg viewBox="10 10 80 80"><path d="M 32 50 C 32 60 40 68 50 68 C 60 68 68 60 68 50 C 68 40 60 32 50 32 C 40 32 32 40 32 50 Z M 68 41 C 68 41 68 43 69 44 C 72 46 76 48 80 50 C 76 52 72 54 69 56 C 68 57 68 59 68 59 C 68 62 70 68 71 71 C 68 70 62 68 59 68 C 59 68 57 68 56 69 C 54 72 52 76 50 80 C 48 76 46 72 44 69 C 43 68 41 68 41 68 C 38 68 32 70 29 71 C 30 68 32 62 32 59 C 32 59 32 57 31 56 C 28 54 24 52 20 50 C 24 48 28 46 31 44 C 32 43 32 41 32 41 C 32 38 30 32 29 29 C 32 30 38 32 41 32 C 41 32 43 32 44 31 C 46 28 48 24 50 20 C 52 24 54 28 56 31 C 57 32 59 32 59 32 C 62 32 68 30 71 29 C 70 32 68 38 68 41 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 68 41 C 68 41 68 43 69 44 C 72 46 76 48 80 50 C 76 52 72 54 69 56 C 68 57 68 59 68 59 C 68 62 70 68 71 71 C 68 70 62 68 59 68 C 59 68 57 68 56 69 C 54 72 52 76 50 80 C 48 76 46 72 44 69 C 43 68 41 68 41 68 C 38 68 32 70 29 71 C 30 68 32 62 32 59 C 32 59 32 57 31 56 C 28 54 24 52 20 50 C 24 48 28 46 31 44 C 32 43 32 41 32 41 C 32 38 30 32 29 29 C 32 30 38 32 41 32 C 41 32 43 32 44 31 C 46 28 48 24 50 20 C 52 24 54 28 56 31 C 57 32 59 32 59 32 C 62 32 68 30 71 29 C 70 32 68 38 68 41 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 59 54 C 58 56 56 58 54 59 C 52 70 51 75 50 80 C 49 75 48 70 46 59 C 44 58 42 56 41 54 C 30 52 25 51 20 50 C 25 49 30 48 41 46 C 42 44 44 42 46 41 C 48 30 49 25 50 20 C 51 25 52 30 54 41 C 56 42 58 44 59 46 C 70 48 75 49 80 50 C 75 51 70 52 59 54 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 41 44 C 38 40 35 36 33 33 C 36 35 40 38 44 41 C 45 42 45 41 46 41 C 48 30 49 25 50 20 C 51 25 52 30 54 41 C 55 41 55 42 56 41 C 60 38 64 35 67 33 C 65 36 62 40 59 44 C 58 45 59 45 59 46 C 70 48 75 49 80 50 C 75 51 70 52 59 54 C 59 55 58 55 59 56 C 62 60 65 64 67 67 C 64 65 60 62 56 59 C 55 58 55 59 54 59 C 52 70 51 75 50 80 C 49 75 48 70 46 59 C 45 59 45 58 44 59 C 40 62 36 65 33 67 C 35 64 38 60 41 56 C 42 55 41 55 41 54 C 30 52 25 51 20 50 C 25 49 30 48 41 46 C 41 45 42 45 41 44 Z"></path></svg>`
+						],
+						"black-hole": [
+							`<svg viewBox="10 10 80 80"><path d="M 32 50 C 32 52 44 52 50 52 C 56 52 68 52 68 50 C 68 41 60 33 50 33 C 40 33 32 41 32 50 Z M 38 62 C 38 64 44 67 50 67 C 56 67 62 64 62 62 C 62 60 68 59 68 61 C 68 67 60 75 50 75 C 40 75 32 67 32 61 C 32 59 38 60 38 62 Z M 74 37 C 78 42 90 46 90 50 C 90 54 80 57 74 58 C 68 59 60 60 50 60 C 40 60 32 59 26 58 C 20 57 10 54 10 50 C 10 46 22 42 26 37 C 30 32 39 25 50 25 C 61 25 70 32 74 37 Z"></path></svg>`
+						],
+						"binary": [
+							`<svg viewBox="10 10 80 80"><path d="M 25 50 C 25 56 29 60 35 60 C 41 60 45 56 45 50 C 45 44 41 40 35 40 C 29 40 25 44 25 50 Z M 55 50 C 55 56 59 60 65 60 C 71 60 75 56 75 50 C 75 44 71 40 65 40 C 59 40 55 44 55 50 Z M 50 37 C 50 37 50 37 50 37 C 54 33 59 30 65 30 C 76 30 85 39 85 50 C 85 61 76 70 65 70 C 59 70 54 67 50 63 C 50 63 50 63 50 63 C 46 67 41 70 35 70 C 24 70 15 61 15 50 C 15 39 24 30 35 30 C 41 30 46 33 50 37 C 50 37 50 37 50 37 Z"></path></svg>`
+						]
 					},
 					massFactor: [0,10], // kg
 					massPower: [30, 32], // 10^x
@@ -504,10 +514,22 @@
 					binaryChance: 0.2 // ratio
 				},
 				planet: {
-					emoji: {
-						"0-19": ["☄️"],
-						"20-24": ["🌎", "🌍", "🌏"],
-						"25-29": ["🪐"]
+					svg: {
+						"0-19": [
+							`<svg viewBox="10 10 80 80"><path d="M 55 35 C 55 32 57 30 60 30 C 63 30 72 30 75 30 C 78 30 80 32 80 35 C 80 38 78 40 75 40 C 72 40 63 40 60 40 C 57 40 55 38 55 35 Z M 75 75 C 73 77 70 77 68 75 C 66 73 52 59 50 57 C 48 55 48 52 50 50 C 52 48 55 48 57 50 C 59 52 73 66 75 68 C 77 70 77 73 75 75 Z M 35 80 C 32 80 30 78 30 75 C 30 72 30 63 30 60 C 30 57 32 55 35 55 C 38 55 40 57 40 60 C 40 63 40 72 40 75 C 40 78 38 80 35 80 Z M 20 36 C 20 27 27 20 36 20 C 44 20 50 26 50 37 C 50 47 47 50 37 50 C 26 50 20 44 20 36 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 51 40 C 49 36 52 28 51 25 C 50 23 46 25 44 25 C 41 25 40 27 38 28 C 33 30 32 33 32 38 C 28 41 24 46 27 48 C 30 50 33 54 35 54 C 37 54 39 49 41 49 C 43 47 44 45 47 46 C 51 48 54 42 51 40 Z M 61 42 C 58 42 56 45 56 48 C 56 50 54 52 56 52 C 58 52 58 54 60 54 C 62 54 66 54 67 52 C 68 50 70 51 71 51 C 73 52 76 49 76 48 C 75 47 75 45 75 43 C 75 40 72 40 70 40 C 68 39 67 41 61 42 Z M 66 37 C 66 37 71 37 72 33 C 71 32 70 32 72 31 C 72 31 72 29 70 27 C 68 26 66 29 63 27 C 60 25 59 28 57 26 C 55 23 54 26 53 33 C 53 36 54 34 54 37 C 54 40 58 36 58 38 C 58 40 62 39 66 37 Z M 36 58 C 32 58 27 52 27 57 C 27 58 28 60 27 60 C 26 60 26 60 26 62 C 26 63 30 66 30 70 C 31 72 31 74 32 75 C 33 76 37 74 39 74 C 41 74 43 73 45 72 C 47 70 44 67 42 65 C 40 64 39 59 36 58 Z M 61 71 C 63 70 71 73 73 69 C 74 65 74 61 75 57 C 76 53 70 58 67 57 C 65 56 59 57 55 57 C 52 55 52 47 45 51 C 40 54 42 57 43 61 C 44 65 49 65 50 67 C 51 69 53 69 52 70 C 53 71 59 72 61 71 Z M 46 74 C 45 74 44 76 42 76 C 39 77 34 83 29 77 C 26 74 28 68 27 68 C 24 67 21 68 21 59 C 20 58 22 57 24 54 C 25 53 23 53 22 48 C 22 45 28 34 28 32 C 28 21 36 29 37 25 C 37 22 40 22 42 22 C 44 22 45 23 48 22 C 54 17 58 24 62 22 C 64 21 64 24 70 24 C 74 23 77 29 76 32 C 74 36 82 43 79 49 C 78 51 79 52 79 54 C 79 57 78 62 78 64 C 78 66 81 67 74 76 C 73 78 64 75 62 76 C 52 84 53 74 48 74 C 50 74 47 74 46 74 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 42 78 C 37 74 20 77 20 62 C 20 56 26 49 26 45 C 26 40 21 38 28 27 C 32 21 47 27 53 23 C 68 13 64 30 70 30 C 75 30 80 40 80 46 C 80 55 70 56 68 63 C 66 69 61 67 60 73 C 59 79 47 82 42 78 Z"></path></svg>`
+						],
+						"20-24": [
+							`<svg viewBox="10 10 80 80"><path d="M 50 25 C 45 25 40 27 36 29 C 38 29 41 35 42 33 C 43 31 45 25 48 30 C 51 35 44 37 44 39 C 44 41 44 45 42 43 C 39 40 37 48 40 47 C 44 45 43 49 41 50 C 40 51 40 51 41 51 C 44 51 46 48 48 51 C 50 54 50 54 49 56 C 48 58 48 60 49 62 C 49 64 50 65 46 69 C 43 70 44 63 43 62 C 41 60 40 60 39 58 C 38 56 38 54 39 53 C 40 52 36 50 34 47 C 31 42 29 52 29 46 C 29 42 31 39 31 37 C 31 37 31 36 30 34 C 27 39 25 44 25 50 C 25 59 30 67 37 72 C 41 71 43 71 45 71 C 47 71 50 70 53 70 C 60 70 62 71 64 71 C 70 67 74 60 75 52 C 74 53 74 55 72 54 C 70 53 69 52 70 51 C 71 50 69 49 68 50 C 69 52 69 53 69 54 C 69 56 69 58 69 60 C 69 63 68 64 67 66 C 66 68 62 67 62 65 C 62 62 62 59 60 58 C 58 59 55 59 55 56 C 54 54 55 50 56 50 C 58 50 56 45 60 47 C 62 48 66 46 67 48 C 67 48 68 47 69 46 C 70 45 69 44 68 43 C 67 42 63 46 64 43 C 66 39 62 44 58 45 C 55 46 56 41 59 39 C 60 37 56 31 59 33 C 65 37 65 32 64 33 C 62 35 62 31 64 31 C 66 31 68 34 69 34 C 69 34 70 34 70 34 C 66 30 60 26 53 25 C 54 26 54 26 54 27 C 54 28 53 28 53 29 C 53 31 51 30 51 29 C 51 27 50 27 50 25 Z M 73 45 C 74 44 74 43 74 42 C 74 41 73 43 72 44 C 71 45 72 46 73 45 Z M 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 80 50 C 80 66 66 80 50 80 C 34 80 20 66 20 50 C 20 34 34 20 50 20 C 66 20 80 34 80 50 Z M 30 37 C 29 36 28 35 27 35 C 26 35 25 36 25 37 C 25 38 26 39 27 40 C 28 41 38 51 39 52 C 40 53 41 54 42 54 C 43 54 44 53 44 52 C 44 51 43 50 42 49 C 41 48 31 38 30 37 Z M 61 48 C 60 47 59 46 58 46 C 57 46 56 47 56 48 C 56 49 57 50 58 51 C 59 52 69 62 70 63 C 71 64 72 65 73 65 C 74 65 75 64 75 63 C 75 62 74 61 73 60 C 72 59 62 49 61 48 Z M 39 32 C 40 33 41 34 42 34 C 43 34 44 33 44 32 C 44 31 43 30 42 29 C 41 28 41 28 40 27 C 39 26 38 25 37 25 C 36 25 35 26 35 27 C 35 28 36 29 37 30 C 38 31 38 31 39 32 Z M 60 73 C 61 74 62 75 63 75 C 64 75 65 74 65 73 C 65 72 64 71 63 70 C 62 69 62 69 61 68 C 60 67 59 66 58 66 C 57 66 56 67 56 68 C 56 69 57 70 58 71 C 59 72 59 72 60 73 Z M 73 56 C 74 57 75 58 76 58 C 77 58 78 57 78 56 C 78 55 77 54 76 53 C 75 52 70 47 69 46 C 68 45 67 44 66 44 C 65 44 64 45 64 46 C 64 47 65 48 66 49 C 67 50 72 55 73 56 Z M 31 54 C 32 55 33 56 34 56 C 35 56 36 55 36 54 C 36 53 35 52 34 51 C 33 50 28 45 27 44 C 26 43 25 42 24 42 C 23 42 22 43 22 44 C 22 45 23 46 24 47 C 25 48 30 53 31 54 Z M 39 42 C 40 43 41 44 42 44 C 43 44 44 43 44 42 C 44 41 43 40 42 39 C 41 38 36 33 35 32 C 34 31 33 30 32 30 C 31 30 30 31 30 32 C 30 33 31 34 32 35 C 33 36 38 41 39 42 Z M 65 68 C 66 69 67 70 68 70 C 69 70 70 69 70 68 C 70 67 69 66 68 65 C 67 64 62 59 61 58 C 60 57 59 56 58 56 C 57 56 56 57 56 58 C 56 59 57 60 58 61 C 59 62 64 67 65 68 Z M 45 24 C 45 25 45 75 45 76 C 45 77 46 78 47 78 C 48 78 49 77 49 76 C 49 75 49 25 49 24 C 49 23 48 22 47 22 C 46 22 45 23 45 24 Z M 66 27 C 65 27 59 27 58 27 C 57 27 56 28 56 29 C 56 30 57 31 58 31 C 59 31 65 31 66 31 C 67 31 68 30 68 29 C 68 28 67 27 66 27 Z M 42 69 C 41 69 35 69 34 69 C 33 69 32 70 32 71 C 32 72 33 73 34 73 C 35 73 41 73 42 73 C 43 73 44 72 44 71 C 44 70 43 69 42 69 Z M 70 33 C 69 33 59 33 58 33 C 57 33 56 34 56 35 C 56 36 57 37 58 37 C 59 37 69 37 70 37 C 71 37 72 36 72 35 C 72 34 71 33 70 33 Z M 42 63 C 41 63 31 63 30 63 C 29 63 28 64 28 65 C 28 66 29 67 30 67 C 31 67 41 67 42 67 C 43 67 44 66 44 65 C 44 64 43 63 42 63 Z M 74 39 C 73 39 59 39 58 39 C 57 39 56 40 56 41 C 56 42 57 43 58 43 C 59 43 73 43 74 43 C 75 43 76 42 76 41 C 76 40 75 39 74 39 Z M 42 57 C 41 57 27 57 26 57 C 25 57 24 58 24 59 C 24 60 25 61 26 61 C 27 61 41 61 42 61 C 43 61 44 60 44 59 C 44 58 43 57 42 57 Z M 51 24 C 51 25 51 75 51 76 C 51 77 52 78 53 78 C 54 78 55 77 55 76 C 55 75 55 25 55 24 C 55 23 54 22 53 22 C 52 22 51 23 51 24 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z"></path></svg>`
+						],
+						"25-29": [
+							`<svg viewBox="10 10 80 80"><path d="M 75 48 C 75 48 75 48 75 50 C 75 52 75 52 75 52 C 76 52 80 51 80 50 C 80 49 76 48 75 48 Z M 25 48 C 24 48 20 49 20 50 C 20 51 24 52 25 52 C 25 52 25 52 25 50 C 25 48 25 48 25 48 Z M 74 42 C 80 43 90 46 90 50 C 90 54 80 57 74 58 C 70 68 61 75 50 75 C 39 75 29 67 26 58 C 20 57 10 54 10 50 C 10 46 20 43 26 42 C 30 32 39 25 50 25 C 61 25 70 32 74 42 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 48 25 C 48 25 48 25 50 25 C 52 25 52 25 52 25 C 52 24 51 20 50 20 C 49 20 48 24 48 25 Z M 48 75 C 48 76 49 80 50 80 C 51 80 52 76 52 75 C 52 75 52 75 50 75 C 48 75 48 75 48 75 Z M 42 26 C 43 20 46 10 50 10 C 54 10 57 20 58 26 C 68 30 75 39 75 50 C 75 61 67 71 58 74 C 57 80 54 90 50 90 C 46 90 43 80 42 74 C 32 70 25 61 25 50 C 25 39 32 30 42 26 Z"></path></svg>`,
+							`<svg viewBox="10 10 80 80"><path d="M 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 39 61 30 50 30 C 39 30 30 39 30 50 Z M 40 50 C 40 44.5 44.5 40 50 40 C 55.5 40 60 44.5 60 50 C 60 55.5 55.5 60 50 60 C 44.5 60 40 55.5 40 50 Z M 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z"></path></svg>`
+						]
 					},
 					massFactor: [0,10], // kg
 					massPower: [20, 29], // 10^x
@@ -519,7 +541,12 @@
 					children: [0, 4] // count
 				},
 				moon: {
-					emoji: ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"],
+					svg: [
+						`<svg viewBox="0 0 100 100"><path d="M 65 24 C 56 29 50 38 50 50 C 50 62 56 71 65 76 C 61 79 56 80 50 80 C 33 80 20 67 20 50 C 20 33 33 20 50 20 C 56 20 61 21 65 24 Z"></path></svg>`,
+						`<svg viewBox="0 0 100 100"><path d="M 35 76 C 44 71 50 62 50 50 C 50 38 44 29 35 24 C 39 21 44 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 44 80 39 79 35 76 Z"></path></svg>`,
+						`<svg viewBox="0 0 100 100"><path d="M 50 20 C 57 20 72 36 72 50 C 72 65 57 80 50 80 C 33 80 20 67 20 50 C 20 33 33 20 50 20 Z"></path></svg>`,
+						`<svg viewBox="0 0 100 100"><path d="M 50 80 C 43 80 28 64 28 50 C 28 35 43 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 Z"></path></svg>`
+					],
 					massFactor: [0,10], // kg
 					massPower: [17, 23], // 10^x
 					semiMajorAxis: [0.001, 0.01], // AU
@@ -2061,7 +2088,7 @@
 				// randomize
 					var button = document.createElement("button")
 						button.className = "star-randomize"
-						button.innerHTML = "&olarr; randomize"
+						button.innerHTML = CONSTANTS.random.svg + " randomize"
 						button.addEventListener(TRIGGERS.click, randomizeStar)
 					section.appendChild(button)
 					star.elements.randomize = button
@@ -6307,27 +6334,27 @@
 				// star
 					if (celestialBody.type == "star") {
 						if (celestialBody.class == "binary") {
-							return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.emoji.binary) + "</span>"
+							return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.svg.binary) + "</span>"
 						}
 						if (celestialBody.class == "black-hole") {
-							return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.emoji["black-hole"]) + "</span>"
+							return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.svg["black-hole"]) + "</span>"
 						}
-						return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.emoji.star) + "</span>"
+						return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.star.svg.star) + "</span>"
 					}
 
 				// planet
 					if (celestialBody.type == "planet") {
-						for (let i in CONSTANTS.random.planet.emoji) {
+						for (let i in CONSTANTS.random.planet.svg) {
 							let range = i.split("-")
 							if (range[0] <= celestialBody.massPower && celestialBody.massPower <= range[1]) { // 10^x
-								return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.planet.emoji[i]) + "</span>"
+								return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.planet.svg[i]) + "</span>"
 							}
 						}
 					}
 
 				// moon
 					if (celestialBody.type == "moon") {
-						return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.moon.emoji) + "</span>"
+						return "<span class='name-symbol'>" + chooseRandom(CONSTANTS.random.moon.svg) + "</span>"
 					}
 
 				// something else

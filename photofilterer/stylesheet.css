@@ -7,7 +7,7 @@
 		--border-radius: 10px;
 		--gap-size: 5px;
 		--font-family: monospace;
-		--font-size: 15px;
+		--font-size: 20px;
 	}
 
 	html, body {
@@ -21,6 +21,13 @@
 		background: var(--dark-gray);
 		overflow: hidden;
 		font-size: 0;
+	}
+
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
 	}
 
 	#container {
@@ -58,7 +65,7 @@
 		border-radius: var(--border-radius);
 		padding: calc(4 * var(--gap-size));
 		font-family: var(--font-family);
-		font-size: calc(var(--font-size) * 5);
+		font-size: calc(var(--font-size) * 3);
 		height: auto;
 		width: auto;
 		text-align: center;
@@ -190,7 +197,7 @@
 			padding: var(--gap-size);
 			font-family: var(--font-family);
 			font-size: var(--font-size);
-			height: calc(var(--font-size) + 3 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
 			color: var(--dark-gray);
 			background-color: var(--light-gray);
 			cursor: pointer;
@@ -249,6 +256,8 @@
 		}
 
 		#explanation summary {
+			height: var(--font-size);
+			text-align: center;
 			cursor: pointer;
 			outline: none;
 			text-transform: uppercase;
@@ -259,11 +268,14 @@
 		}
 
 		#explanation p {
+			font-size: calc(var(--font-size) * 3 / 4);
 			margin-bottom: var(--gap-size);
+			color: var(--dark-gray);
 		}
 
 	/* hue */
 		#explanation label {
+			margin-top: var(--gap-size);
 			display: block;
 			margin-bottom: var(--gap-size);
 		}
@@ -277,7 +289,7 @@
 		#hue {
 			display: inline-block;
 			width: calc(100% - 3 * var(--font-size) - 1 * var(--gap-size));
-			padding: var(--gap-size);
+			padding: 0;
 			border-radius: var(--border-radius);
 			border: none;
 			outline: none;
@@ -295,7 +307,7 @@
 			border-radius: var(--border-radius);
 			padding: var(--gap-size);
 			font-family: var(--font-family);
-			font-size: var(--font-size);
+			font-size: calc(var(--font-size) * 3 / 4);
 			min-height: calc(var(--font-size) * 5 + 3 * var(--gap-size));
 			max-height: calc(var(--font-size) * 5 + 3 * var(--gap-size));
 			min-width: 100%;
@@ -316,13 +328,32 @@
 			background: red;
 		}
 
+		#ranges-magenta {
+			text-shadow: 0 0 var(--gap-size) magenta;
+		}
+		#ranges-red {
+			text-shadow: 0 0 var(--gap-size) red;
+		}
+		#ranges-yellow {
+			text-shadow: 0 0 var(--gap-size) yellow;
+		}
+		#ranges-green {
+			text-shadow: 0 0 var(--gap-size) green;
+		}
+		#ranges-cyan {
+			text-shadow: 0 0 var(--gap-size) cyan;
+		}
+		#ranges-blue {
+			text-shadow: 0 0 var(--gap-size) blue;
+		}
+
 	/* upload */
 		#upload-outer, #download-button {
 			border-radius: var(--border-radius);
-			padding: var(--gap-size);
+			padding: 0 var(--gap-size);
 			font-family: var(--font-family);
 			font-size: var(--font-size);
-			height: calc(var(--font-size) + 1 * var(--gap-size));
+			height: calc(var(--font-size) + 2 * var(--gap-size));
 			color: var(--dark-gray);
 			background-color: var(--light-gray);
 			cursor: pointer;

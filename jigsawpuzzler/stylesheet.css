@@ -31,6 +31,12 @@
 		background: var(--light-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	/* summary marker */
 		details summary::marker, details summary::-webkit-details-marker {
 			height: 0px !important;
@@ -77,17 +83,16 @@
 			font-family: var(--font-family);
 			line-height: 1;
 			margin: 0;
-			padding: 0;
+			padding: var(--gap-size);
 			border: none;
 			background: transparent;
 			width: calc(var(--font-size) * 2);
 			height: calc(var(--font-size) * 2);
-			padding: var(--gap-size);
 			cursor: pointer;
 			outline: none;
 			text-align: center;
 			user-select: none;
-			color: var(--light-gray);
+			color: var(--dark-gray);
 		}
 
 		#menu-toggle:hover, #menu-toggle:focus {
@@ -334,7 +339,7 @@
 			outline: none;
 			text-align: center;
 			user-select: none;
-			color: var(--light-gray);
+			color: var(--dark-gray);
 			text-decoration: none;
 		}
 
@@ -370,7 +375,7 @@
 			outline: none;
 			text-align: center;
 			user-select: none;
-			color: var(--light-gray);
+			color: var(--dark-gray);
 			text-decoration: none;
 		}
 

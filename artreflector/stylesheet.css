@@ -46,6 +46,12 @@
 		background-position: center;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** canvas ***/
 	#canvas {
 		position: absolute;

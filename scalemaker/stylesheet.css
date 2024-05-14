@@ -35,6 +35,12 @@
 		background: var(--medium-light-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** staff ***/
 	#staff {
 		position: absolute;
@@ -285,6 +291,10 @@
 		padding-top: calc(var(--keyboard-height) - var(--icon-size) + var(--gap-size) - 5 * (var(--font-size) + 3 * var(--gap-size)));
 	}
 
+	#controls svg {
+		pointer-events: none;
+	}
+
 	.controls-row {
 		float: left;
 		width: 100%;
@@ -301,7 +311,7 @@
 			width: calc(var(--font-size) + 2 * var(--gap-size));
 			height: calc(var(--font-size) + 2 * var(--gap-size));
 			line-height: var(--line-height);
-			padding: var(--gap-size);
+			padding: 0;
 			box-sizing: border-box;
 			vertical-align: top;
 			user-select: none;

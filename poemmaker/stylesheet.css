@@ -34,6 +34,12 @@
 		font-size: 0;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	[hidden] {
 		display: none;
 	}
@@ -161,7 +167,7 @@
 			font-family: var(--monospace-font);
 			height: calc(2 * var(--monospace-font-size));
 			width: calc(2 * var(--monospace-font-size));
-			padding: 0 0 var(--gap-size) 0;
+			padding: 0;
 			border: none;
 			border-radius: var(--border-radius);
 			cursor: pointer;
@@ -194,14 +200,12 @@
 
 		.poem-line-remove {
 			vertical-align: bottom;
-			padding: 0 0 calc(2 * var(--border-size)) 0 !important;
 			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
 		}
 
 		.poem-line-add {
 			vertical-align: bottom;
 			margin-left: 0 !important;
-			padding: 0 0 calc(2 * var(--border-size)) 0 !important;
 			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
 		}
 
@@ -296,7 +300,7 @@
 			background-color: var(--medium-dark-gray);
 			border-radius: var(--border-radius);
 			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
-			width: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + var(--gap-size));
+			width: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
 			line-height: 1;
 			text-align: center;
 			cursor: pointer;
@@ -307,6 +311,7 @@
 			margin: 0;
 			padding: var(--border-size);
 			border: none;
+			color: var(--dark-gray);
 		}
 
 		#controls button:hover, #controls button:focus {
@@ -316,7 +321,7 @@
 
 		#controls button span {
 			display: inline-block;
-			height: calc(1.5 * var(--monospace-font-size));
+			height: 100%;
 		}
 
 		#controls-edit {

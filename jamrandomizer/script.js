@@ -637,6 +637,14 @@
 					group: "low",
 					offset: 3 * AUDIO_J.constants.semitonesPerOctave, // semitones
 				}
+			},
+			svg: {
+				left: `<svg viewBox="0 0 100 100"><path d="M 80 45 C 80 38 80 31 80 25 C 80 22 82 20 85 20 C 88 20 90 22 90 25 C 90 40 90 60 90 75 C 90 78 88 80 85 80 C 82 80 80 78 80 75 C 80 69 80 62 80 55 C 65 55 39 55 27 55 C 30 58 32 60 34 62 C 36 64 36 67 34 69 C 32 71 29 71 27 69 C 23 65 18 60 13 55 C 11 53 10 52 10 50 C 10 48 11 47 13 45 C 18 40 23 35 27 31 C 29 29 32 29 34 31 C 36 33 36 36 34 38 C 32 40 30 42 27 45 C 39 45 65 45 80 45 Z"></path></svg>`,
+				right: `<svg viewBox="0 0 100 100"><path d="M 20 55 C 20 62 20 69 20 75 C 20 78 18 80 15 80 C 12 80 10 78 10 75 C 10 60 10 40 10 25 C 10 22 12 20 15 20 C 18 20 20 22 20 25 C 20 31 20 38 20 45 C 35 45 61 45 73 45 C 70 42 68 40 66 38 C 64 36 64 33 66 31 C 68 29 71 29 73 31 C 77 35 82 40 87 45 C 89 47 90 48 90 50 C 90 52 89 53 87 55 C 82 60 77 65 73 69 C 71 71 68 71 66 69 C 64 67 64 64 66 62 C 68 60 70 58 73 55 C 61 55 35 55 20 55 Z"></path></svg>`,
+				rotate: `<svg viewBox="0 0 100 100"><path d="M 75 45 C 78 45 80 47 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 36 29 23 47 20 C 46 19 46 19 46 19 C 44 17 44 14 46 12 C 48 10 51 10 53 12 C 55 14 58 17 60 19 C 62 21 64 23 64 25 C 64 27 62 29 60 31 C 58 33 55 36 53 38 C 51 40 48 40 46 38 C 44 36 44 33 47 30 C 36 33 30 41 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 47 72 45 75 45 Z"></path></svg>`,
+				pin: `<svg viewBox="0 0 100 100"><path d="M 49 61 C 49 60 49 60 48 60 C 45 60 40 60 37 60 C 33 60 33 60 35 57 C 37 54 37 54 39 51 C 41 48 43 45 43 40 C 43 35 41 32 39 29 C 37 26 37 26 35 23 C 33 20 33 20 37 20 C 45 20 55 20 63 20 C 67 20 67 20 65 23 C 63 26 63 26 61 29 C 59 32 57 35 57 40 C 57 45 59 48 61 51 C 63 54 63 54 65 57 C 67 60 67 60 63 60 C 60 60 55 60 52 60 C 51 60 51 60 51 61 C 51 66 51 72 51 78 C 51 81 51 84 50 85 C 49 84 49 81 49 78 C 49 72 49 66 49 61 Z"></path></svg>`,
+				volume: `<svg viewBox="20 20 60 60"><path d="M 57 34 C 63 34 71 40 71 50 C 71 60 63 66 57 66 C 54 66 54 62 57 62 C 61 62 67 58 67 50 C 67 42 61 38 57 38 C 54 38 54 34 57 34 Z M 56 40 C 60 40 65 44 65 50 C 65 56 60 60 56 60 C 54 60 54 57 56 57 C 59 57 62 54 62 50 C 62 46 59 43 56 43 C 54 43 54 40 56 40 Z M 55 45 C 58 45 60 47 60 50 C 60 53 58 55 55 55 C 54 55 54 53 55 53 C 56 53 58 52 58 50 C 58 48 56 47 55 47 C 54 47 54 45 55 45 Z M 35 59 C 25 57 25 60 25 50 C 25 40 25 43 35 41 C 45 39 45 34 48 34 C 49 34 50 35 50 36 C 50 40 50 60 50 64 C 50 65 49 66 48 66 C 45 66 45 61 35 59 Z"></path></svg>`,
+				x: `<svg viewBox="10 10 80 80"><path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path></svg>`
 			}
 		}
 
@@ -2111,28 +2119,28 @@
 
 						const swapLeftButton = document.createElement("button")
 							swapLeftButton.className = "chord-block-swap-left"
-							swapLeftButton.innerHTML = "&larr;"
+							swapLeftButton.innerHTML = CONSTANTS.svg.left
 							swapLeftButton.title = "move chord left"
 							swapLeftButton.addEventListener(TRIGGERS.click, swapChordLeft)
 						chordElement.appendChild(swapLeftButton)
 
 						const rerollButton = document.createElement("button")
 							rerollButton.className = "chord-block-reroll"
-							rerollButton.innerHTML = "&orarr;"
+							rerollButton.innerHTML = CONSTANTS.svg.rotate
 							rerollButton.title = "randomize chord"
 							rerollButton.addEventListener(TRIGGERS.click, rerollChord)
 						chordElement.appendChild(rerollButton)
 
 						const tonicifyButton = document.createElement("button")
 							tonicifyButton.className = "chord-block-tonicify"
-							tonicifyButton.innerHTML = "I"
+							tonicifyButton.innerHTML = CONSTANTS.svg.pin
 							tonicifyButton.title = "make tonic"
 							tonicifyButton.addEventListener(TRIGGERS.click, tonicifyChord)
 						chordElement.appendChild(tonicifyButton)
 
 						const swapRightButton = document.createElement("button")
 							swapRightButton.className = "chord-block-swap-right"
-							swapRightButton.innerHTML = "&rarr;"
+							swapRightButton.innerHTML = CONSTANTS.svg.right
 							swapRightButton.title = "move chord right"
 							swapRightButton.addEventListener(TRIGGERS.click, swapChordRight)
 						chordElement.appendChild(swapRightButton)
@@ -2186,7 +2194,7 @@
 
 					// volume
 						const layerVolumeSpan = document.createElement("span")
-							layerVolumeSpan.innerHTML = "&#128266;"
+							layerVolumeSpan.innerHTML = CONSTANTS.svg.volume
 							layerVolumeSpan.className = "layer-volume-symbol"
 						layerElement.appendChild(layerVolumeSpan)
 
@@ -2238,7 +2246,7 @@
 					// remove
 						const layerRemoveButton = document.createElement("button")
 							layerRemoveButton.className = "layer-remove"
-							layerRemoveButton.innerHTML = "&#10060;"
+							layerRemoveButton.innerHTML = CONSTANTS.svg.x
 							layerRemoveButton.title = "remove layer"
 							layerRemoveButton.addEventListener(TRIGGERS.click, removeLayer)
 						layerElement.appendChild(layerRemoveButton)

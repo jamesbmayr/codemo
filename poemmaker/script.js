@@ -175,6 +175,13 @@
 					"ʊ": ["aʊ", "ɔ", "ɪ", "oʊ", "u", "ʌ"],
 					"ʌ": ["æ", "a", "ɔ", "ɔɪ", "ɛ", "oʊ", "ʊ"]
 				}
+			},
+			svg: {
+				rotate: `<svg viewBox="0 0 100 100"><path d="M 25 67 C 23 64 20 58 20 50 C 20 36 29 23 47 20 C 46 19 46 19 46 19 C 44 17 44 14 46 12 C 48 10 51 10 53 12 C 55 14 58 17 60 19 C 62 21 64 23 64 25 C 64 27 62 29 60 31 C 58 33 55 36 53 38 C 51 40 48 40 46 38 C 44 36 44 33 47 30 C 36 33 30 41 30 50 C 30 55 32 59 33 61 C 33 61 35 65 33 67 C 31 69 27 70 25 67 Z M 75 33 C 77 36 80 42 80 50 C 80 64 71 77 53 80 C 54 81 54 81 54 81 C 56 83 56 86 54 88 C 52 90 49 90 47 88 C 45 86 42 83 40 81 C 38 79 36 77 36 75 C 36 73 38 71 40 69 C 42 67 45 64 47 62 C 49 60 52 60 54 62 C 56 64 56 67 53 70 C 64 67 70 59 70 50 C 70 45 68 41 67 39 C 67 39 65 35 67 33 C 69 31 73 30 75 33 Z"></path></svg>`,
+				up: `<svg viewBox="0 0 100 100"><path d="M 50 90 C 47 90 45 88 45 85 C 45 70 45 40 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 40 55 70 55 85 C 55 88 53 90 50 90 Z"></path></svg>`,
+				down: `<svg viewBox="0 0 100 100"><path d="M 50 10 C 53 10 55 12 55 15 C 55 30 55 60 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 60 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
+				minus: `<svg viewBox="0 0 100 100"><path d="M 20 50 C 20 47 22 45 25 45 C 40 45 60 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 60 55 40 55 25 55 C 22 55 20 53 20 50 Z"></path></svg>`,
+				plus: `<svg viewBox="0 0 100 100"><path d="M 55 45 C 62 45 69 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 69 55 62 55 55 55 C 55 62 55 69 55 75 C 55 78 53 80 50 80 C 47 80 45 78 45 75 C 45 69 45 62 45 55 C 38 55 31 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 31 45 38 45 45 45 C 45 38 45 31 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 31 55 38 55 45 Z"></path></svg>`
 			}
 		}
 
@@ -1282,7 +1289,7 @@
 					// refresh
 						const refreshButton = document.createElement("button")
 							refreshButton.className = "poem-line-refresh"
-							refreshButton.innerHTML = "&orarr;"
+							refreshButton.innerHTML = CONSTANTS.svg.rotate
 							refreshButton.title = "regenerate line"
 							refreshButton.addEventListener(TRIGGERS.click, regenerateLine)
 						actionsCell.appendChild(refreshButton)
@@ -1294,14 +1301,14 @@
 					// up/down
 						const upButton = document.createElement("button")
 							upButton.className = "poem-line-up"
-							upButton.innerHTML = "&uarr;"
+							upButton.innerHTML = CONSTANTS.svg.up
 							upButton.title = "move line up"
 							upButton.addEventListener(TRIGGERS.click, moveLineUp)
 						actionsCell.appendChild(upButton)
 
 						const downButton = document.createElement("button")
 							downButton.className = "poem-line-down"
-							downButton.innerHTML = "&darr;"
+							downButton.innerHTML = CONSTANTS.svg.down
 							downButton.title = "move line down"
 							downButton.addEventListener(TRIGGERS.click, moveLineDown)
 						actionsCell.appendChild(downButton)
@@ -1309,14 +1316,14 @@
 					// add/remove
 						const removeButton = document.createElement("button")
 							removeButton.className = "poem-line-remove"
-							removeButton.innerText = "-"
+							removeButton.innerHTML = CONSTANTS.svg.minus
 							removeButton.title = "remove line"
 							removeButton.addEventListener(TRIGGERS.click, removeLine)
 						actionsCell.appendChild(removeButton)
 
 						const addButton = document.createElement("button")
 							addButton.className = "poem-line-add"
-							addButton.innerText = "+"
+							addButton.innerHTML = CONSTANTS.svg.plus
 							addButton.title = "add line"
 							addButton.addEventListener(TRIGGERS.click, addLine)
 						actionsCell.appendChild(addButton)

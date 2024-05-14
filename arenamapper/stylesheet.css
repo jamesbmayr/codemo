@@ -29,6 +29,13 @@
 		font-size: 0;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+	}
+
 /*** j-logo ***/
 	#j-logo {
 		position: absolute;
@@ -67,15 +74,15 @@
 	/* button */
 		#settings-open-button {
 			position: absolute;
-			top: 0;
-			left: 0;
+			top: var(--gap-size);
+			left: var(--gap-size);
 			height: calc(var(--small-font-size) + var(--gap-size));
 			width: calc(var(--small-font-size) + var(--gap-size));
 			background-color: transparent;
-			padding: calc(var(--gap-size) / 2);
+			padding: 0;
 			border: none;
 			border-radius: 100%;
-			color: var(--light-gray);
+			color: var(--dark-gray);
 			font-family: var(--font-family);
 			font-size: var(--small-font-size);
 			margin: calc(var(--gap-size) / 2);
@@ -101,15 +108,15 @@
 	/* button */
 		#download-button {
 			position: absolute;
-			top: 0;
-			left: var(--medium-font-size);
+			top: var(--gap-size);
+			left: calc(var(--gap-size) * 2 + var(--medium-font-size));
 			height: calc(var(--small-font-size) + var(--gap-size));
 			width: calc(var(--small-font-size) + var(--gap-size));
 			background-color: transparent;
-			padding: calc(var(--gap-size) / 2);
+			padding: 0;
 			border: none;
 			border-radius: 100%;
-			color: var(--light-gray);
+			color: var(--dark-gray);
 			font-family: var(--font-family);
 			font-size: var(--small-font-size);
 			margin: calc(var(--gap-size) / 2);

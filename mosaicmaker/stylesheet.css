@@ -27,6 +27,13 @@
 		background: var(--dark-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+	}
+
 	/* summary marker */
 		details summary::marker, details summary::-webkit-details-marker {
 			height: 0;
@@ -107,6 +114,7 @@
 			outline: none;
 			text-align: center;
 			user-select: none;
+			color: var(--light-gray);
 		}
 
 		#menu-toggle:hover, #menu-toggle:focus {
@@ -147,6 +155,7 @@
 		#menu-form > label > h3 {
 			text-align: center;
 			display: block;
+			height: calc(2 * var(--font-size));
 			width: 100%;
 			font-size: calc(2 * var(--font-size));
 			font-family: var(--font-family);
@@ -221,6 +230,7 @@
 	/* button */
 		#menu-form button {
 			width: 100%;
+			height: calc(2 * var(--font-size) + 2 * var(--gap-size));
 			border: 0;
 			background-color: var(--light-gray);
 			color: var(--dark-gray);
@@ -267,10 +277,10 @@
 		}
 
 	/* download */
-		#download {
+		#download, #download:visited {
 			position: absolute;
-			bottom: calc(2 * var(--gap-size));
-			right: calc(2 * var(--gap-size));
+			top: calc(2 * var(--gap-size));
+			left: calc(4 * var(--gap-size) + (var(--font-size) * 2));
 			font-size: calc(2 * var(--font-size));
 			font-family: var(--font-family);
 			line-height: 1;
@@ -285,6 +295,7 @@
 			outline: none;
 			text-align: center;
 			user-select: none;
+			color: var(--light-gray);
 		}
 
 		#download:hover, #download:focus {

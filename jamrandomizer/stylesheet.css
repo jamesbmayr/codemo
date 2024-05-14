@@ -50,6 +50,12 @@
 		scroll-behavior: smooth;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** viewer ***/
 	#viewer-outer {
 		float: left;
@@ -358,6 +364,12 @@
 			margin: 0;
 		}
 
+		#controls-chords-volume-symbol {
+			padding: 0 !important;
+			width: calc(2 * var(--gap-size) + var(--font-size));
+			height: calc(2 * var(--gap-size) + var(--font-size));
+		}
+
 		#controls-chords input, #controls-chords select {
 			display: inline-block;
 			vertical-align: top;
@@ -501,6 +513,12 @@
 			}
 
 		/* 4 */
+			#controls-chords-copy span, #controls-chords-download span {
+				width: 100%;
+				height: 100%;
+				padding: 0 !important;
+			}
+
 			#controls-chords button#controls-chords-copy {
 				font-weight: bold;
 				margin-right: 0;
@@ -613,7 +631,7 @@
 			text-align: center;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
 			width: auto;
-			padding: var(--gap-size) calc(2 * var(--gap-size));
+			padding: var(--gap-size) calc(2 * var(--gap-size)) calc(2 * var(--gap-size)) calc(2 * var(--gap-size));
 			box-sizing: border-box;
 			font-family: var(--font-family);
 			font-size: var(--font-size);
@@ -667,6 +685,12 @@
 			color: var(--light-gray);
 			user-select: none;
 			margin: var(--gap-size) 0 0 0;
+		}
+
+		.layer-volume-symbol {
+			padding: 0 !important;
+			width: calc(2 * var(--gap-size) + var(--font-size));
+			height: calc(2 * var(--gap-size) + var(--font-size));
 		}
 
 		.layer-block input, .layer-block select {

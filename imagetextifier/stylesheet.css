@@ -27,6 +27,12 @@
 		background: var(--dark-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** main ***/
 	#instructions {
 		position: absolute;
@@ -131,7 +137,7 @@
 			width: calc(var(--font-size) * 3 + 2 * var(--border-size));
 			text-align: center;
 			margin: var(--gap-size) 0 var(--gap-size) calc(-1 * var(--border-size));
-			padding: var(--border-size) !important;
+			padding: 0 !important;
 			transition: var(--transition-time);
 			cursor: pointer;
 			background: var(--light-gray);
@@ -173,7 +179,7 @@
 			width: calc(var(--font-size) * 8 + 2 * var(--border-size));
 			box-sizing: border-box;
 			margin: var(--gap-size) 0 var(--gap-size) var(--gap-size);
-			padding: 0;
+			padding: 0 !important;
 			overflow: hidden;
 			transition: var(--transition-time);
 			font-size: 0;
@@ -182,8 +188,8 @@
 
 		#fontsize-outer span {
 			float: left;
-			width: calc(var(--font-size) * 3 - 2 * var(--gap-size));
-			height: calc(var(--font-size) * 2);
+			width: calc(var(--font-size) * 3);
+			height: calc(var(--font-size) * 3);
 			font-size: calc(var(--font-size) * 2);
 			font-weight: bold;
 			font-family: var(--font-family);
@@ -200,6 +206,7 @@
 
 		#fontsize {
 			float: left;
+			margin: var(--gap-size) 0;
 			height: calc(var(--font-size) * 2);
 			width: calc(var(--font-size) * 5);
 			font-weight: bold;
@@ -253,23 +260,17 @@
 		}
 
 		#inverted:not(:checked):after {
-			content: "☼";
-			padding-top: 1px;
+			content: url("data:image/svg+xml,<svg viewBox='10 10 80 80' xmlns='http://www.w3.org/2000/svg'><path fill='%23111111' d='M 45 50 C 45 47 47 45 50 45 C 53 45 55 47 55 50 C 55 53 53 55 50 55 C 47 55 45 53 45 50 Z M 53 36 C 53 40 47 40 47 36 C 47 33 47 31 47 28 C 47 24 53 24 53 28 C 53 31 53 33 53 36 Z M 68 68 C 67 69 65 69 64 68 C 63 67 59 63 58 62 C 57 61 57 59 58 58 C 59 57 61 57 62 58 C 63 59 67 63 68 64 C 69 65 69 67 68 68 Z M 42 58 C 43 59 43 61 42 62 C 41 63 37 67 36 68 C 35 69 33 69 32 68 C 31 67 31 65 32 64 C 33 63 37 59 38 58 C 39 57 41 57 42 58 Z M 68 32 C 69 33 69 35 68 36 C 67 37 63 41 62 42 C 61 43 59 43 58 42 C 57 41 57 39 58 38 C 59 37 63 33 64 32 C 65 31 67 31 68 32 Z M 42 42 C 41 43 39 43 38 42 C 37 41 33 37 32 36 C 31 35 31 33 32 32 C 33 31 35 31 36 32 C 37 33 41 37 42 38 C 43 39 43 41 42 42 Z M 64 53 C 60 53 60 47 64 47 C 67 47 69 47 72 47 C 76 47 76 53 72 53 C 69 53 67 53 64 53 Z M 53 72 C 53 76 47 76 47 72 C 47 69 47 67 47 64 C 47 60 53 60 53 64 C 53 67 53 69 53 72 Z M 36 47 C 40 47 40 53 36 53 C 33 53 31 53 28 53 C 24 53 24 47 28 47 C 31 47 33 47 36 47 Z'></path></svg>");
 			font-family: var(--font-family);
-			font-size: calc(var(--font-size) * 3);
 			color: var(--dark-gray);
-			line-height: var(--line-height);
 			display: block;
 			user-select: none;
 		}
 
 		#inverted:checked:after {
-			content: "☀";
-			padding-top: 1px;
+			content: url("data:image/svg+xml,<svg viewBox='10 10 80 80' xmlns='http://www.w3.org/2000/svg'><path fill='%23111111' d='M 41 50 C 41 45 45 41 50 41 C 55 41 59 45 59 50 C 59 55 55 59 50 59 C 45 59 41 55 41 50 Z M 50 40 C 47 40 45 38 45 35 C 45 32 45 28 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 28 55 32 55 35 C 55 38 53 40 50 40 Z M 71 29 C 73 31 73 34 71 36 C 69 38 66 41 64 43 C 62 45 59 45 57 43 C 55 41 55 38 57 36 C 59 34 62 31 64 29 C 66 27 69 27 71 29 Z M 60 50 C 60 47 62 45 65 45 C 68 45 72 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 72 55 68 55 65 55 C 62 55 60 53 60 50 Z M 71 71 C 69 73 66 73 64 71 C 62 69 59 66 57 64 C 55 62 55 59 57 57 C 59 55 62 55 64 57 C 66 59 69 62 71 64 C 73 66 73 69 71 71 Z M 50 80 C 47 80 45 78 45 75 C 45 72 45 68 45 65 C 45 62 47 60 50 60 C 53 60 55 62 55 65 C 55 68 55 72 55 75 C 55 78 53 80 50 80 Z M 43 57 C 45 59 45 62 43 64 C 41 66 38 69 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 31 62 34 59 36 57 C 38 55 41 55 43 57 Z M 40 50 C 40 53 38 55 35 55 C 32 55 28 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 28 45 32 45 35 45 C 38 45 40 47 40 50 Z M 43 43 C 41 45 38 45 36 43 C 34 41 31 38 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 38 31 41 34 43 36 C 45 38 45 41 43 43 Z'></path></svg>");
 			font-family: var(--font-family);
-			font-size: calc(var(--font-size) * 3);
 			color: var(--dark-gray);
-			line-height: var(--line-height);
 			display: block;
 			user-select: none;
 		}
