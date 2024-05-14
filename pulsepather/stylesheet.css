@@ -21,6 +21,12 @@
 		color: #dddddd;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	/* effects */
 		[hidden] {
 			display: none;
@@ -314,6 +320,7 @@
 			z-index: 1;
 			padding: 0px;
 			user-select: none;
+			vertical-align: middle;
 		}
 
 		.keyboard-white:last-child {
@@ -339,6 +346,7 @@
 			z-index: 2;
 			padding: 0px;
 			user-select: none;
+			vertical-align: top;
 		}
 
 		.keyboard-white:hover, .keyboard-white:focus, .keyboard-black:hover, .keyboard-black:focus {
@@ -350,6 +358,13 @@
 			border-radius: 5px 0px 5px 5px;
 		}
 
+		#keyboard-null svg {
+			width: 100%;
+			height: auto;
+			color: #dddddd;
+			vertical-align: middle;
+			pointer-events: none;
+		}
 
 /*** j-logo ***/
 	#j-logo {

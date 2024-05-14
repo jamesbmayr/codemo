@@ -29,6 +29,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** game ***/
 	#game {
 		position: absolute;

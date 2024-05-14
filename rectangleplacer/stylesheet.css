@@ -11,6 +11,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	/* variables */
 		:root {
 			--square-size: 50;
@@ -133,6 +139,7 @@
 			width: 75px;
 			font-weight: bold;
 			outline: none;
+			padding: 0;
 		}
 
 		#play:hover, #play:focus {

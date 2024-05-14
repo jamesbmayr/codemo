@@ -28,6 +28,12 @@
 		font-size: 0;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** restart ***/
 	#restart {
 		position: absolute;
@@ -42,7 +48,7 @@
 		font-family: var(--font-family);
 		line-height: var(--line-height);
 		border-radius: 100%;
-		padding: 0 0 var(--gap-size) 0;
+		padding: 0;
 		outline: none;
 		cursor: pointer;
 		opacity: 1;

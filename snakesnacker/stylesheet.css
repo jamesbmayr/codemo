@@ -48,6 +48,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	.hidden {
 		display: none;
 	}
@@ -126,6 +132,11 @@
 		border: 0px;
 		cursor: pointer;
 		outline: none;
+		padding: 0;
+	}
+
+	#refresh svg {
+		vertical-align: middle;
 	}
 
 	#refresh:focus, #refresh:hover {

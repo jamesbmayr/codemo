@@ -17,6 +17,12 @@
 		font-size: 0px;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	/* variables */
 		:root {
 			--grid-height: 6;

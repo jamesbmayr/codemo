@@ -31,6 +31,13 @@
 		box-shadow: 0 0 calc(10 * var(--shadow-size)) var(--light-blue) inset;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+	}
+
 /*** header ***/
 	/* spin */
 		#spin {
@@ -68,6 +75,10 @@
 
 		#spin[disabled] span {
 			font-size: 0;
+		}
+
+		#spin[disabled] svg {
+			display: none;
 		}
 
 	/* j-logo */

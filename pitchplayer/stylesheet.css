@@ -26,6 +26,12 @@
 		overflow-y: auto;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	#header {
 		float: left;
 		width: 100vw;
@@ -97,6 +103,8 @@
 		cursor: pointer;
 		outline: none;
 		margin: 1px;
+		padding: 5px;
+		vertical-align: top;
 	}
 
 	#controls button:hover, #upload-outer:hover {
@@ -160,8 +168,12 @@
 	}
 
 	#upload-outer {
-		padding: 9px 10px 9px 10px;
+		display: inline-block;
+		height: 30px;
+		width: 30px;
+		padding: 5px;
 		margin: 0px 4px 0px 4px;
+		vertical-align: top;
 	}
 
 	#upload {
@@ -274,6 +286,11 @@
 		-webkit-user-select: none;
 		-moz-user-select: none;
 		-o-user-select: none;
+	}
+
+	#scroll-left svg, #scroll-right svg {
+		width: 100%;
+		height: auto;
 	}
 
 	#scroll-left {

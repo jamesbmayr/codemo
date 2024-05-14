@@ -18,18 +18,24 @@
 	<body>
 		<a id="j-logo" href="https://jamesmayr.com" target="_blank"><svg viewBox="10 10 80 80"><path></path></svg></a>
 		<form id="gallery-left-form" action="javascript:;" method="post">
-			<button id="gallery-left-button" title="navigate left">&lt;</button>
+			<button id="gallery-left-button" title="navigate left">
+				<svg viewBox="0 0 100 100"><path d="M 51 50 C 51 52 52 53 54 55 C 57 58 59 60 61 62 C 63 64 63 67 61 69 C 59 71 56 71 54 69 C 50 65 45 60 40 55 C 38 53 37 52 37 50 C 37 48 38 47 40 45 C 45 40 50 35 54 31 C 56 29 59 29 61 31 C 63 33 63 36 61 38 C 59 40 57 42 54 45 C 52 47 51 48 51 50 Z"></path></svg>
+			</button>
 		</form>
 		<form id="gallery-overlay-form" action="javascript:;" method="post">
 			<button id="gallery-overlay-button"></button>
 		</form>
 		<form id="gallery-right-form" action="javascript:;" method="post">
-			<button id="gallery-right-button" title="navigate right">&gt;</button>
+			<button id="gallery-right-button" title="navigate right">
+				<svg viewBox="0 0 100 100"><path d="M 49 50 C 49 48 48 47 46 45 C 43 42 41 40 39 38 C 37 36 37 33 39 31 C 41 29 44 29 46 31 C 50 35 55 40 60 45 C 62 47 63 48 63 50 C 63 52 62 53 60 55 C 55 60 50 65 46 69 C 44 71 41 71 39 69 C 37 67 37 64 39 62 C 41 60 43 58 46 55 C 48 53 49 52 49 50 Z"></path></svg>
+			</button>
 		</form>
 		<div id="gallery"></div>
 		<div id="overlay">
 			<form id="overlay-close-form" action="javascript:;" method="post">
-				<button id="overlay-close-button">&times;</button>
+				<button id="overlay-close-button">
+					<svg viewBox="0 0 100 100"><path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path></svg>
+				</button>
 			</form>
 			<div id="overlay-list-outer">
 				<div id="overlay-list-inner"></div>

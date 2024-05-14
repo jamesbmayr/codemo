@@ -24,6 +24,12 @@
 		text-align: center;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** interactive ***/
 	/* reset */
 		#reset {
@@ -33,7 +39,7 @@
 			border-radius: 100%;
 			line-height: 1;
 			border: 0;
-			padding: var(--gap-size);
+			padding: 0;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
 			width: calc(var(--font-size) + 2 * var(--gap-size));
 			background-color: var(--medium-gray);
@@ -214,7 +220,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		background-color: var(--medium-gray);
-		padding: var(--gap-size);
+		padding: 0;
 		color: var(--dark-gray);
 		border-radius: var(--border-radius);
 		font-size: calc(4 * var(--font-size));
@@ -223,6 +229,8 @@
 		cursor: pointer;
 		outline: none;
 		border: none;
+		height: calc(3 * var(--font-size));
+		width: auto;
 	}
 
 	#keyboard-button:focus, #keyboard-button:hover {

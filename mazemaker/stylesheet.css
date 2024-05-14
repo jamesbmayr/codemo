@@ -46,6 +46,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** form ***/
 	/* open */
 		#open {
@@ -64,6 +70,10 @@
 			z-index: 2;
 			outline: none;
 			cursor: pointer;
+		}
+
+		#open svg {
+			pointer-events: none;
 		}
 
 		#open:hover, #open:focus {
@@ -111,6 +121,10 @@
 			height: 25px;
 			width: 25px;
 			text-align: center;
+		}
+
+		#close svg {
+			pointer-events: none;
 		}
 
 		#close:hover, #close:focus {

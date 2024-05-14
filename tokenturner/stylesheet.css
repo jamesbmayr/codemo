@@ -32,6 +32,12 @@
 		background: var(--dark-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** game ***/
 	#gameboard {
 		position: absolute;

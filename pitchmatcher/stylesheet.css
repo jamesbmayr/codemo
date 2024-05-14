@@ -16,6 +16,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** game ***/
 	/* canvas */
 		#canvas {
@@ -80,6 +86,7 @@
 			color: #aaaaaa;
 			box-shadow: 0px 0px 5px #999999;
 			user-select: none;
+			padding: 0;
 		}
 
 		#refresh:hover {

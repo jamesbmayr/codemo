@@ -31,6 +31,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		width: 100%;
+		height: auto;
+	}
+
 	/* scrollbars */
 		::-webkit-scrollbar {
 			height: 0 !important;
@@ -73,7 +79,7 @@
 	/* controls */
 		#gallery-left-button, #gallery-right-button {
 			height: 100vh;
-			width: calc(var(--header-size) * 2);
+			width: calc(var(--header-size) + 4 * var(--gap-size));
 			font-size: var(--header-size);
 			font-family: var(--font-family);
 			font-weight: bold;

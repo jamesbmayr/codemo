@@ -13,6 +13,12 @@
 		width: 80vw;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** j-logo ***/
 	#j-logo {
 		position: absolute;
@@ -197,6 +203,7 @@
 		color: #dddddd;
 		outline: none;
 		cursor: pointer;
+		padding: 0;
 	}
 
 	#reset:hover, #reset:focus {

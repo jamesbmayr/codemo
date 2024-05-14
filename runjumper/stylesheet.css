@@ -18,6 +18,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** j-logo ***/
 	#j-logo {
 		position: absolute;
@@ -121,6 +127,10 @@
 		user-select: none;
 		transition: 0.5s;
 		opacity: 0.3;
+	}
+
+	#controls button svg {
+		pointer-events: none;
 	}
 
 	#controls button:hover, #controls button:focus {
