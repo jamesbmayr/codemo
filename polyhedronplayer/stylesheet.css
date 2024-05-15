@@ -15,6 +15,15 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+		pointer-events: none;
+	}
+
+
 	/* scrollbars */
 		::-webkit-scrollbar {
 			height: 0px !important;

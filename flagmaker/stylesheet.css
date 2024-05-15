@@ -21,6 +21,13 @@
 		color: #dddddd;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: middle;
+	}
+
 /*** j-logo ***/
 	#j-logo {
 		float: right;
@@ -90,7 +97,7 @@
 			user-select: none;
 			text-align: center;
 			overflow: hidden;
-			line-height: 1.7;
+			line-height: 1;
 		}
 
 		#menu button {

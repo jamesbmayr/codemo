@@ -30,6 +30,13 @@
 		line-height: var(--line-height);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+	}
+
 	input, textarea {
 		display: inline-block;
 		border: 0;
@@ -139,6 +146,7 @@
 		line-height: var(--line-height);
 		color: var(--light-gray);
 		font-size: calc(2 * var(--font-size));
+		height: calc(2 * var(--font-size) + 4 * var(--gap-size));
 		width: 100%;
 		box-sizing: border-box;
 		text-align: left;

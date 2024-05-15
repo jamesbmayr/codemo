@@ -18,6 +18,13 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: middle;
+	}
+
 /*** menu ***/
 	#menu {
 		position: absolute;
@@ -65,6 +72,8 @@
 			font-family: monospace;
 			border-radius: 100%;
 			font-size: 15px;
+			border: 2px solid #dddddd;
+			padding: 0;
 		}
 
 		.menu-button:hover {

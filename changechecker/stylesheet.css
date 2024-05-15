@@ -31,6 +31,13 @@
 		font-family: var(--font-family);
 	}
 
+		svg {
+			fill: currentColor;
+			height: 100%;
+			width: auto;
+			vertical-align: top;
+		}
+
 		h1 {
 			font-family: var(--font-family);
 			font-size: calc(var(--font-size) * 2);
@@ -166,6 +173,12 @@
 				text-transform: uppercase;
 				cursor: pointer;
 				user-select: none;
+			}
+
+			#input-uploads label div {
+				vertical-align: top;
+				line-height: var(--line-height);
+				display: inline-block;
 			}
 
 			#input-uploads label:hover, #input-uploads label:focus {

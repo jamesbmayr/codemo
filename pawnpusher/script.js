@@ -7,6 +7,14 @@
 			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
 		}
 
+	/* svg */
+		var SVG = {
+			up: `<svg viewBox="10 10 80 80"><path d="M 80 15 C 80 18 78 20 75 20 C 60 20 40 20 25 20 C 22 20 20 18 20 15 C 20 12 22 10 25 10 C 40 10 60 10 75 10 C 78 10 80 12 80 15 Z M 50 90 C 47 90 45 88 45 85 C 45 70 45 50 45 37 C 42 40 40 42 38 44 C 36 46 33 46 31 44 C 29 42 29 39 31 37 C 35 33 40 28 45 23 C 47 21 48 20 50 20 C 52 20 53 21 55 23 C 60 28 65 33 69 37 C 71 39 71 42 69 44 C 67 46 64 46 62 44 C 60 42 58 40 55 37 C 55 50 55 70 55 85 C 55 88 53 90 50 90 Z"></path></svg>`,
+			left: `<svg viewBox="10 10 80 80"><path d="M 15 20 C 18 20 20 22 20 25 C 20 40 20 60 20 75 C 20 78 18 80 15 80 C 12 80 10 78 10 75 C 10 60 10 40 10 25 C 10 22 12 20 15 20 Z M 90 50 C 90 53 88 55 85 55 C 70 55 50 55 37 55 C 40 58 42 60 44 62 C 46 64 46 67 44 69 C 42 71 39 71 37 69 C 33 65 28 60 23 55 C 21 53 20 52 20 50 C 20 48 21 47 23 45 C 28 40 33 35 37 31 C 39 29 42 29 44 31 C 46 33 46 36 44 38 C 42 40 40 42 37 45 C 50 45 70 45 85 45 C 88 45 90 47 90 50 Z"></path></svg>`,
+			right: `<svg viewBox="10 10 80 80"><path d="M 85 80 C 82 80 80 78 80 75 C 80 60 80 40 80 25 C 80 22 82 20 85 20 C 88 20 90 22 90 25 C 90 40 90 60 90 75 C 90 78 88 80 85 80 Z M 10 50 C 10 47 12 45 15 45 C 30 45 50 45 63 45 C 60 42 58 40 56 38 C 54 36 54 33 56 31 C 58 29 61 29 63 31 C 67 35 72 40 77 45 C 79 47 80 48 80 50 C 80 52 79 53 77 55 C 72 60 67 65 63 69 C 61 71 58 71 56 69 C 54 67 54 64 56 62 C 58 60 60 58 63 55 C 50 55 30 55 15 55 C 12 55 10 53 10 50 Z"></path></svg>`,
+			down: `<svg viewBox="10 10 80 80"><path d="M 20 85 C 20 82 22 80 25 80 C 40 80 60 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 Z M 50 10 C 53 10 55 12 55 15 C 55 30 55 50 55 63 C 58 60 60 58 62 56 C 64 54 67 54 69 56 C 71 58 71 61 69 63 C 65 67 60 72 55 77 C 53 79 52 80 50 80 C 48 80 47 79 45 77 C 40 72 35 67 31 63 C 29 61 29 58 31 56 C 33 54 36 54 38 56 C 40 58 42 60 45 63 C 45 50 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`
+		}
+
 	/* sizing */
 		var board = document.getElementById("board")
 		var marginX = null
@@ -85,7 +93,7 @@
 								pusher.setAttribute("y", y)
 								pusher.setAttribute("side", x ? "right" : "left")
 								pusher.setAttribute("p", (x ? -(y + 1) : (y + 1)))
-								pusher.innerHTML = (x ? "&#8592;" : "&#8594;")
+								pusher.innerHTML = (x ? SVG.left : SVG.right)
 							square.appendChild(pusher)
 						}
 
@@ -96,7 +104,7 @@
 								pusher.setAttribute("y", y)
 								pusher.setAttribute("side", y ? "bottom" : "top")
 								pusher.setAttribute("p", (y ? -(x + 5) : (x + 5)))
-								pusher.innerHTML = (y ? "&#8593;" : "&#8595;")
+								pusher.innerHTML = (y ? SVG.up : SVG.down)
 							square.appendChild(pusher)
 						}
 

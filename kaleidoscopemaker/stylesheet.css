@@ -28,6 +28,13 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: var(--font-size);
+		width: var(--font-size);
+		vertical-align: bottom;
+	}
+
 /*** menu ***/
 	#menu-outer {
 		position: absolute;
@@ -68,6 +75,12 @@
 			box-sizing: border-box;
 			line-height: var(--line-height);
 			z-index: 2;
+		}
+
+		#menu-button svg {
+			height: 100%;
+			width: 100%;
+			vertical-align: top;
 		}
 
 		#menu-button:hover, #menu-button:focus {
@@ -141,11 +154,6 @@
 			padding: var(--gap-size) 0 0 var(--gap-size);
 			line-height: var(--line-height);
 			box-sizing: border-box;
-		}
-
-		#menu label span.menu-span-overlap {
-			width: 0;
-			margin-left: calc(-5 * var(--font-size));
 		}
 
 		#menu input, #menu select {

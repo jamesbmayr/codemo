@@ -323,6 +323,7 @@
 		height: calc(var(--medium-font-size) + 2 * var(--small-gap-size));
 		width: calc(var(--medium-font-size) + 2 * var(--small-gap-size));
 		background: transparent;
+		fill: currentColor;
 		color: var(--dark-gray);
 		border: none;
 		padding: 0 0 var(--shadow-size) 0;

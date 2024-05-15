@@ -18,6 +18,13 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: middle;
+	}
+
 	/* structure */
 		#container {
 			position: absolute;
@@ -237,8 +244,8 @@
 
 	/* upload */
 		#upload-outer {
-			padding: 13px 0px 0px 0px;
-			height: 37px;
+			padding: 10px 0px;
+			height: 30px;
 		}
 
 		#upload {
@@ -258,11 +265,12 @@
 
 			.menu-button {
 				height: 45px;
+				font-size: 0px;
 			}
 
 			#upload-outer {
-				padding: 11px 0px 0px 0px;
-				height: 34px;
+				padding: 10px 0px;
+				height: 25px;
 			}
 
 			#slider-x {

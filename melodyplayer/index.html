@@ -20,24 +20,23 @@
 	<body>
 		<div id="scoreboard" pending>
 			<label id="file-label" title="upload your own song">
-				<span>&mapstoup;</span>
+				<span><svg viewBox="10 10 80 80"><path d="M 55 80 C 62 80 69 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 C 20 82 22 80 25 80 C 31 80 38 80 45 80 C 45 65 45 39 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 39 55 65 55 80 Z"></path></svg></span>
 				<input type="file" id="file-input">
 			</label>
 			<select id="title" title="select a song">
 				<option value="null" disabled selected>[title]</option>
 			</select>
-			<div id="title-helper">&uarr; pick a song</div>
+			<div id="title-helper"><svg viewBox="10 10 80 80"><path d="M 50 51 C 48 51 47 52 45 54 C 42 57 40 59 38 61 C 36 63 33 63 31 61 C 29 59 29 56 31 54 C 35 50 40 45 45 40 C 47 38 48 37 50 37 C 52 37 53 38 55 40 C 60 45 65 50 69 54 C 71 56 71 59 69 61 C 67 63 64 63 62 61 C 60 59 58 57 55 54 C 53 52 52 51 50 51 Z"></path></svg> pick a song</div>
 			<details id="parts-menu">
 				<summary id="parts-menu-summary">parts</summary>
 				<div id="parts-menu-inner">[select/upload song]</div>
 			</details>
 			<button id="metronome" title="metronome">
-				<div id="metronome-outer">&#9750;</div>
-				<div id="metronome-inner">|</div>
+				<svg viewBox="10 10 80 80"><path d="M 54 70 C 54 70 57 71 58 73 C 59 75 59 75 60 75 C 64 75 63 62 60 49 C 58 56 56 63 54 70 Z M 50 69 C 52 62 56 48 58 40 C 55 29 53 25 52 25 C 50 25 50 25 48 25 C 44 25 32 75 40 75 C 41 75 41 75 42 73 C 43 71 46 69 50 69 Z M 60 32 C 60 32 62 25 62 25 C 63 21 68 22 67 26 C 65 33 63 40 63 40 C 67 54 72 80 65 80 C 56 80 44 80 35 80 C 25 80 40 20 45 20 C 49 20 51 20 55 20 C 56 20 57 22 60 32 Z"></path></svg>
 			</button>
 			<input type="number" id="tempo-multiplier" step="0.1" min="0.1" max="3" value="1" title="tempo multiplier">
 			<div id="tempo-multiplier-x">&times;</div>
-			<button id="play" title="play/pause">&nbsp;&#9654;</button>
+			<button id="play" title="play/pause"><svg viewBox="10 10 80 80"><path d="M 32 72 C 32 60 32 40 32 28 C 32 26 34 24 36 24 C 38 24 38 24 40 25 C 48 30 65 40 73 45 C 76 47 77 48 77 50 C 77 52 76 53 73 55 C 65 60 48 70 40 75 C 38 76 38 76 36 76 C 34 76 32 74 32 72 Z"></path></svg></button>
 			<select id="synths" title="select a sound"></select>
 			<div id="score"></div>
 			<a id="j-logo" href="https://jamesmayr.com" target="_blank"><svg viewBox="10 10 80 80"><path></path></svg></a>

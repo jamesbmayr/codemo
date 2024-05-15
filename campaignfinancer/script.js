@@ -13,6 +13,7 @@
 
 	/* configs */
 		const CONFIGS = {
+			startingYear: 2000,
 			api_url: "https://api.open.fec.gov/v1/",
 			api_key: "R8VsEKxynUmTpiTZbDBIvVBkzipp8TISITLNgfFc",
 			api_endpoints: {
@@ -68,6 +69,25 @@
 		}
 
 /*** interaction ***/
+	/* createYears */
+		createYears()
+		function createYears() {
+			try {
+				// current year
+					let currentYear = new Date().getFullYear()
+					if (currentYear % 2) {
+						currentYear += 1
+					}
+
+				// loop through
+					for (let year = currentYear; year >= CONFIGS.startingYear; year -= 2) {
+						const option = document.createElement("option")
+							option.value = option.innerText = year
+						ELEMENTS.cycle.appendChild(option)
+					}
+			} catch (error) {console.log(error)}
+		}
+
 	/* requestCandidateOrCommittee */
 		ELEMENTS.form.addEventListener("submit", requestCandidateOrCommittee)
 		function requestCandidateOrCommittee(event) {

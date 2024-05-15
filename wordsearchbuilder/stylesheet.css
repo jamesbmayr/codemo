@@ -206,6 +206,7 @@
 			cursor: pointer;
 			margin-top: calc(50vh - 100px - 45px);
 			outline: none;
+			width: 50px;
 		}
 
 		#left:hover, #left:focus, #right:hover, #right:focus {

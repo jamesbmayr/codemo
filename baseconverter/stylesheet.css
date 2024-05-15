@@ -15,6 +15,13 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+	}
+
 	#container {
 		position: absolute;
 		top: 50%;
@@ -82,12 +89,13 @@
 			font-size: 40px;
 			font-weight: bold;
 			line-height: 1;
-			padding: 0px 10px;
+			padding: 0px 0px;
 			outline: none;
 			cursor: pointer;
 			width: 100%;
 			font-family: sans-serif;
 			margin-bottom: 20px;
+			height: 40px;
 		}
 
 		button:hover, button:focus {

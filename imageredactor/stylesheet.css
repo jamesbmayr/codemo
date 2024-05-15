@@ -27,6 +27,12 @@
 		touch-action: none;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	#message {
 		position: absolute;
 		top: 50%;

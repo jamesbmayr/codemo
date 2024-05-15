@@ -26,6 +26,13 @@
 		font-size: 0;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: middle;
+	}
+
 /*** structure ***/
 	#container {
 		position: absolute;
@@ -146,6 +153,7 @@
 			outline: none;
 			cursor: pointer;
 			line-height: 1;
+			padding: 0;
 		}
 
 		#settings-form label button div {
@@ -169,7 +177,7 @@
 			animation-duration: 1s;
 			animation-iteration-count: infinite;
 			animation-timing-function: linear;
-			line-height: 1.15;
+			line-height: 1;
 		}
 
 		@keyframes spin {

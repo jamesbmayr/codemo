@@ -42,6 +42,12 @@
 		font-family: var(--font-family);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	details summary::marker {
 		display: none;
 	}
@@ -117,6 +123,12 @@
 			border-radius: var(--border-radius);
 			box-shadow: 0 0 var(--shadow-size) var(--medium-gray);
 			background: var(--dark-gray);
+		}
+
+		#menu-inner svg {
+			height: var(--font-size);
+			width: var(--font-size);
+			vertical-align: middle;
 		}
 
 		#menu-start {

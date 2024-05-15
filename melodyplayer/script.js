@@ -43,7 +43,7 @@
 	/* constants */
 		const CONSTANTS = {
 			space: 32,
-			notesEmoji: "&#127926;",
+			notesEmoji: `<svg viewBox="10 10 80 80"><path d="M 55 10 C 58 10 61 14 64 18 C 79 36 79 45 73 64 C 71 70 69 70 67 70 C 64 70 62 67 63 64 C 70 44 70 42 61 29 C 60 28 60 30 60 33 C 60 49 60 60 60 75 C 60 83 53 90 45 90 C 37 90 30 83 30 75 C 30 67 37 60 45 60 C 47 60 47 60 49 60.5 C 50 61 50 60 50 58 C 50 50 50 40 50 15 C 50 12 52 10 55 10 Z"></path></svg>`,
 			percentage: 100,
 			minute: 1000 * 60,
 			startingTickOffset: 24 * 4,

@@ -11,6 +11,13 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: middle;
+	}
+
 	/* variables */
 		:root {
 			--hexagon-size: 50;
@@ -71,8 +78,13 @@
 		outline: none;
 	}
 
+	#settings summary {
+		height: 30px;
+		outline: none;
+	}
+
 	#settings summary:hover, #settings summary:focus {
-		text-shadow: 0 0 5px #222222;
+		filter: drop-shadow(0 0 5px #222222);
 	}
 
 	#settings label {
@@ -111,6 +123,7 @@
 		padding: 5px;
 		cursor: pointer;
 		width: 74px;
+		height: 30px;
 	}
 
 	#settings button:focus, #settings button:hover {
@@ -133,7 +146,7 @@
 	}
 
 	#container[grabbed] {
-		cursor: grabbing;
+		cursor: grabbing !important;
 	}
 
 /*** pieces ***/
@@ -142,6 +155,11 @@
 		width: auto;
 		height: auto;
 		opacity: 0.5;
+		cursor: grab;
+	}
+
+	#container[grabbed] .piece {
+		cursor: grabbing !important;
 	}
 
 	.hexagon {
@@ -211,7 +229,7 @@
 	}
 
 	#play:hover, #play:focus {
-		box-shadow: 0 0 20px #000000;
+		background-color: #aaaaaa;
 	}
 
 	/* gameover */

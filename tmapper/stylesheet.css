@@ -31,6 +31,12 @@
 		background-color: var(--light-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** canvas ***/
 	#canvas {
 		position: absolute;
@@ -67,6 +73,10 @@
 		left: var(--medium-gap-size);
 	}
 
+	#controls svg {
+		pointer-events: none;
+	}
+
 	#controls div {
 		width: auto;
 		height: calc(var(--medium-font-size) + var(--medium-gap-size));
@@ -99,11 +109,11 @@
 		border-radius: 50% 50% 0 0;
 	}
 
-	#controls-move-left, #controls-zoom-in {
+	#controls-move-left, #controls-zoom-out {
 		border-radius: 50% 0 0 50%;
 	}
 
-	#controls-move-right, #controls-zoom-out {
+	#controls-move-right, #controls-zoom-in {
 		border-radius: 0 50% 50% 0;
 	}
 

@@ -22,6 +22,12 @@
 		background: var(--dark-gray);
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 /*** j-logo ***/
 	#j-logo {
 		position: absolute;
@@ -133,6 +139,10 @@
 			-moz-user-select: none;
 			-ms-user-select: none;
 			-o-user-select: none;
+		}
+
+		#inputs button.option {
+			padding: var(--shadow-size);
 		}
 
 		#inputs:hover .option {

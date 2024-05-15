@@ -25,7 +25,13 @@
 
 	/* constants */
 		const CONSTANTS = {
-			copyDelay: 1000 // ms
+			copyDelay: 1000, // ms
+			svg: {
+				up: `<svg viewBox="10 10 80 80"><path d="M 50 90 C 47 90 45 88 45 85 C 45 70 45 40 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 40 55 70 55 85 C 55 88 53 90 50 90 Z"></path></svg>`,
+				down: `<svg viewBox="10 10 80 80"><path d="M 50 10 C 53 10 55 12 55 15 C 55 30 55 60 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 60 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
+				right: `<svg viewBox="10 10 80 80"><path d="M 10 50 C 10 47 12 45 15 45 C 30 45 60 45 73 45 C 70 42 68 40 66 38 C 64 36 64 33 66 31 C 68 29 71 29 73 31 C 77 35 82 40 87 45 C 89 47 90 48 90 50 C 90 52 89 53 87 55 C 82 60 77 65 73 69 C 71 71 68 71 66 69 C 64 67 64 64 66 62 C 68 60 70 58 73 55 C 60 55 30 55 15 55 C 12 55 10 53 10 50 Z"></path></svg>`,
+				x: `<svg viewBox="10 10 80 80"><path d="M 50 43 C 55 38 60 33 64 29 C 66 27 69 27 71 29 C 73 31 73 34 71 36 C 67 40 62 45 57 50 C 62 55 67 60 71 64 C 73 66 73 69 71 71 C 69 73 66 73 64 71 C 60 67 55 62 50 57 C 45 62 40 67 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 33 60 38 55 43 50 C 38 45 33 40 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 40 33 45 38 50 43 Z"></path></svg>`
+			}
 		}
 
 /*** mapping ***/
@@ -50,7 +56,7 @@
 
 						const arrow = document.createElement("span")
 							arrow.className = "mapping-arrow"
-							arrow.innerHTML = "&rarr;"
+							arrow.innerHTML = CONSTANTS.svg.right
 						row.appendChild(arrow)
 
 						const csvColumn = document.createElement("input")
@@ -64,21 +70,21 @@
 
 						const moveUp = document.createElement("button")
 							moveUp.className = "mapping-up"
-							moveUp.innerHTML = "&uarr;"
+							moveUp.innerHTML = CONSTANTS.svg.up
 							moveUp.title = "move mapping up"
 							moveUp.addEventListener(TRIGGERS.click, moveMappingUp)
 						row.appendChild(moveUp)
 
 						const moveDown = document.createElement("button")
 							moveDown.className = "mapping-down"
-							moveDown.innerHTML = "&darr;"
+							moveDown.innerHTML = CONSTANTS.svg.down
 							moveDown.title = "move mapping down"
 							moveDown.addEventListener(TRIGGERS.click, moveMappingDown)
 						row.appendChild(moveDown)
 
 						const deleteButton = document.createElement("button")
 							deleteButton.className = "mapping-delete"
-							deleteButton.innerHTML = "&times;"
+							deleteButton.innerHTML = CONSTANTS.svg.x
 							deleteButton.title = "delete mapping"
 							deleteButton.addEventListener(TRIGGERS.click, deleteMapping)
 						row.appendChild(deleteButton)

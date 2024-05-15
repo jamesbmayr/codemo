@@ -20,6 +20,14 @@
 		background-color: #111111;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+		pointer-events: none;
+	}
+
 /*** controls ***/
 	#controls {
 		float: left;
@@ -79,9 +87,8 @@
 			float: left;
 			height: 60px;
 			width: 50px;
-			padding: 0px;
+			padding: 10px 0px;
 			background-color: transparent;
-			transform: rotate(180deg);
 			color: #777777;
 			border: 0px;
 			cursor: pointer;
@@ -187,12 +194,12 @@
 
 	#spinner {
 		position: fixed;
-		top: calc(50% - 49px);
-		left: calc(50% - 46px);
-		height: 99px;
-		width: 92px;
+		top: calc(50% - 50px);
+		left: calc(50% - 50px);
+		height: 100px;
+		width: 100px;
 		font-size: 100px;
-		line-height: 0.85;
+		line-height: 1;
 		color: #777777;
 		animation-name: spinner;
 		animation-duration: 1.25s;

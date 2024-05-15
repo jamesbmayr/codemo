@@ -11,6 +11,13 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		vertical-align: top;
+	}
+
 /*** overlay ***/
 	#overlay {
 		position: absolute;
@@ -75,7 +82,7 @@
 		#controls-instrument {
 			float: left;
 			height: 100%;
-			width: calc(100% / 5 + 20px);
+			width: calc(100% / 5);
 			border: 0px;
 			margin: 0px;
 			background-color: #222222;
@@ -88,9 +95,9 @@
 		}
 
 	/* inputs */
-		#controls-speed-outer, #controls-radius-outer, #controls-shrink-outer {
+		#controls-speed-outer, #controls-radius-outer, #controls-shrink-outer, #controls-volume-outer {
 			float: left;
-			width: calc(100% / 5 - 20px);
+			width: calc(100% / 5);
 			padding: 0px;
 			height: 100%;
 			text-align: center;
@@ -101,18 +108,18 @@
 			outline: none;
 		}
 
-		#controls-speed-text, #controls-radius-text, #controls-shrink-text {
+		#controls-speed-text, #controls-radius-text, #controls-shrink-text, #controls-volume-text {
 			float: left;
-			height: calc(100% - 10px);
-			width: calc(50% - 10px);
+			height: 100%;
+			width: calc(50% - 5px);
 			text-align: right;
-			padding: 5px;
+			padding: 0px 5px 0px 0px;
 			overflow: hidden;
 			font-family: monospace;
 			font-size: 15px;
 		}
 
-		#controls-speed, #controls-radius, #controls-shrink {
+		#controls-speed, #controls-radius, #controls-shrink, #controls-volume {
 			float: left;
 			height: calc(100% - 10px);
 			width: calc(50% - 10px);
@@ -129,11 +136,9 @@
 
 	/* slider */
 		#controls-volume {
-			float: left;
-			width: calc(100% / 5 + 20px);
 			height: 100%;
 			color: #222222;
-			margin: 0px 0px 0px 10px;
+			margin: 0px;
 			padding: 0px;
 			cursor: pointer;
 			outline: none;

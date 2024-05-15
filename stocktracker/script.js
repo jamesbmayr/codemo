@@ -96,7 +96,7 @@
 					document.getElementById("spinner").className = "hidden"
 			}
 			catch (error) {
-				document.getElementById("yoy").innerText = "not found"
+				document.getElementById("yoy").innerText = "???"
 				document.getElementById("yoy").className = "negative"
 				document.getElementById("spinner").className = "hidden"
 			}

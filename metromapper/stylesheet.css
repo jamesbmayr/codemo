@@ -149,6 +149,13 @@
 		-o-pointer-events: all;
 	}
 
+	#zoom-in svg, #zoom-out svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		pointer-events: none;
+	}
+
 	#zoom-in:hover, #zoom-out:hover {
 		box-shadow: 0px 0px 20px #dddddd;
 	}

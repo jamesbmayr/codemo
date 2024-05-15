@@ -29,6 +29,13 @@
 		font-size: 0;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+		pointer-events: none;
+	}
+
 /*** game ***/
 	#container {
 		text-align: center;
@@ -153,8 +160,8 @@
 			font-size: var(--font-size);
 			height: calc(var(--font-size) + 2 * var(--padding-size));
 			width: calc(var(--font-size) + 2 * var(--padding-size));
-			color: var(--dark-gray);
 			background: var(--dark-gray);
+			color: var(--light-gray);
 			border: 0;
 			line-height: 1.1;
 			padding: var(--padding-size);	
@@ -176,6 +183,7 @@
 		}
 
 		#p1 button[selected], #p2 button[selected] {
+			color: var(--dark-gray);
 			background: var(--light-gray);
 		}
 

@@ -48,6 +48,13 @@
 		width: 100%;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: 100%;
+		pointer-events: none;
+	}
+
 /* end */
 	#end {
 		position: fixed;

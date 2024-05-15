@@ -45,6 +45,12 @@
 		overflow: hidden;
 	}
 
+	svg {
+		fill: currentColor;
+		height: 100%;
+		width: auto;
+	}
+
 	body.drawing {
 		cursor: -moz-grabbing;
 		cursor: -webkit-grabbing;
