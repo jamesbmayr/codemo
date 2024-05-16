@@ -81,6 +81,7 @@
 				hall: `<svg viewBox="0 0 100 100"><path d="M 20 47 C 20 46 20 45 20 41 C 20 39 30 40 40 30 C 43 27 50 30 47 27 C 46 26 45 26 48 23 C 51 20 49 20 52 23 C 55 26 54 26 53 27 C 50 30 57 27 60 30 C 70 40 80 39 80 41 C 80 45 80 46 80 47 C 80 50 90 58 90 60 C 90 65 90 72 90 78 C 90 79 89 80 88 80 C 63 80 37 80 12 80 C 11 80 10 79 10 78 C 10 72 10 65 10 60 C 10 58 20 50 20 47 Z"></path></svg>`,
 				headphones: `<svg viewBox="0 0 100 100"><path d="M 25 75 C 25 78 23 80 20 80 C 17 80 15 78 15 75 C 15 72 15 50 15 45 C 15 35 30 20 50 20 C 70 20 85 35 85 45 C 85 50 85 72 85 75 C 85 78 83 80 80 80 C 77 80 75 78 75 75 C 73 79 70 80 67 80 C 65 80 65 79 65 77 C 65 70 65 60 65 53 C 65 51 65 50 67 50 C 70 50 73 51 75 55 C 75 50 75 47 75 45 C 75 40 65 30 50 30 C 35 30 25 40 25 45 C 25 47 25 50 25 55 C 27 51 30 50 33 50 C 35 50 35 51 35 53 C 35 60 35 70 35 77 C 35 79 35 80 33 80 C 30 80 27 79 25 75 Z"></path></svg>`,
 				speechBubbles: `<svg viewBox="10 10 80 80"><path d="M 35 53 C 34 53 32 54 30 55 C 28 56 28 56 24 58 C 20 60 20 60 22 57 C 22 57 24 54 24 54 C 26 51 24 50 21 48 C 18 46 15 43 15 37 C 15 27 26 20 40 20 C 55 20 66 27 66 36 C 66 38 65 40 65 40 C 78 42 85 48 85 57 C 85 63 82 66 79 68 C 76 70 74 71 76 74 C 76 74 78 77 78 77 C 80 80 80 80 78 79 C 74 77 70 75 68 74 C 66 73 63 73 60 73 C 46 73 34 67 34 57 C 34 56 34 55 35 53 Z"></path></svg>`,
+				midi: `<svg viewBox="10 10 80 80"><path d="M 39 50 C 39 52.333 37.333 54 35 54 C 32.667 54 31 52.333 31 50 C 31 47.667 32.667 46 35 46 C 37.333 46 39 47.667 39 50 Z M 43 61 C 43 63.333 41.333 65 39 65 C 36.667 65 35 63.333 35 61 C 35 58.667 36.667 57 39 57 C 41.333 57 43 58.667 43 61 Z M 54 65 C 54 67.333 52.333 69 50 69 C 47.667 69 46 67.333 46 65 C 46 62.667 47.667 61 50 61 C 52.333 61 54 62.667 54 65 Z M 65 61 C 65 63.333 63.333 65 61 65 C 58.667 65 57 63.333 57 61 C 57 58.667 58.667 57 61 57 C 63.333 57 65 58.667 65 61 Z M 69 50 C 69 52.333 67.333 54 65 54 C 62.667 54 61 52.333 61 50 C 61 47.667 62.667 46 65 46 C 67.333 46 69 47.667 69 50 Z M 80 50 C 80 66 66 80 50 80 C 34 80 20 66 20 50 C 20 34 34 20 50 20 C 66 20 80 34 80 50 Z M 56 26 C 56 27 56 29 56 30 C 56 31.097 55.097 32 54 32 C 51.333 32 48.667 32 46 32 C 44.903 32 44 31.097 44 30 C 44 29 44 27 44 26 C 33 28 25 38 25 50 C 25 64 36 75 50 75 C 64 75 75 64 75 50 C 75 38 67 28 56 26 Z"></path></svg>`,
 			}
 		}
 
@@ -649,6 +650,16 @@
 						recordingToggle.addEventListener(TRIGGERS.click, adjustRecordingToolToggle)
 					powerSection.appendChild(recordingToggle)
 					ELEMENTS["tool-meta"]["recording"] = recordingToggle
+
+				// midi
+					const midiButton = document.createElement("button")
+						midiButton.id = "tool-meta-midi-button"
+						midiButton.className = "button"
+						midiButton.innerHTML = CONSTANTS.svg.midi
+						midiButton.title = "connect midi device"
+						midiButton.addEventListener(TRIGGERS.click, AUDIO_J.activateMidi)
+					ELEMENTS.toolSections["tool-meta"].appendChild(midiButton)
+					ELEMENTS["tool-meta"]["midi-button"] = midiButton
 			} catch (error) {console.log(error)}
 		}
 

@@ -278,6 +278,13 @@
 				// focus
 					ELEMENTS.word.focus()
 
+				// move cursor to end
+					try {
+						const wordLength = ELEMENTS.word.value.length
+						ELEMENTS.word.setSelectionRange(wordLength, wordLength)
+					}
+					catch (error) {}
+
 				// play
 					if (!SETTINGS.play) {
 						return

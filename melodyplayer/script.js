@@ -37,7 +37,8 @@
 			title: document.querySelector("#title"),
 			keyboard: document.querySelector("#keyboard"),
 			blockboard: document.querySelector("#blockboard-inner"),
-			blockboardScore: document.querySelector("#blockboard-score")
+			blockboardScore: document.querySelector("#blockboard-score"),
+			midi: document.querySelector("#midi")
 		}
 
 	/* constants */
@@ -192,6 +193,9 @@
 					buildTracksList()
 			} catch (error) {console.log(error)}
 		}
+
+	/* activateMidi */
+		ELEMENTS.midi.addEventListener(TRIGGERS.click, AUDIO_J.activateMidi)
 
 	/* buildTracksList */
 		function buildTracksList() {

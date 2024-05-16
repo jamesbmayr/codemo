@@ -4237,9 +4237,15 @@
 
 /*** MIDI ***/
 	/* buildMidi */
-		if (navigator.requestMIDIAccess) {
-			navigator.requestMIDIAccess().then(buildMidi)
+		AUDIO_J.activateMidi = activateMidi
+		function activateMidi() {
+			try {
+				if (navigator.requestMIDIAccess) {
+					navigator.requestMIDIAccess().then(buildMidi)
+				}
+			} catch (error) {console.log(error)}
 		}
+
 		function buildMidi(midi) {
 			try {
 				// no midi

@@ -24,6 +24,7 @@
 		var controlsSpeed = document.getElementById("controls-speed")
 		var controlsRadius = document.getElementById("controls-radius")
 		var controlsShrink = document.getElementById("controls-shrink")
+		var controlsMidi = document.getElementById("controls-midi")
 		var keyboard = document.getElementById("keyboard")
 
 	/* objects */
@@ -119,6 +120,9 @@
 		function changeShrink(event) {
 			window.circleShrink = Math.max(0, Math.min(5, Number(event.target.value)))
 		}
+
+	/* activateMidi */
+		controlsMidi.addEventListener("click", AUDIO_J.activateMidi)
 
 /*** helpers ***/
 	/* getKey */

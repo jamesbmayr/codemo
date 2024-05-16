@@ -557,6 +557,16 @@
 			display: none;
 		}
 
+		#tool-meta-midi-button {
+			right: 0;
+			bottom: 0;
+			height: calc(var(--large-font-size) + 2 * var(--gap-size));
+			width: calc(var(--large-font-size) + 2 * var(--gap-size));
+			font-size: var(--medium-font-size);
+			border-radius: var(--border-radius);
+			line-height: 1;
+		}
+
 /*** tool-meta-volume ***/
 	#tool-meta-volume {
 		top: calc((var(--large-font-size) + 3 * var(--gap-size)) * 2);

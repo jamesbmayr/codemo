@@ -134,6 +134,24 @@
 			text-align: right;
 		}
 
+	/* button */
+		#controls-midi {
+			height: 25px;
+			width: 25px;
+			padding: 0;
+			cursor: pointer;
+			color: var(--dark-gray);
+			outline: none;
+			border: none;
+			background: transparent;
+			vertical-align: top;
+			color: #222222;
+		}
+
+		#controls-midi:hover, #controls-midi:focus {
+			color: #04b1ff;
+		}
+
 	/* slider */
 		#controls-volume {
 			height: 100%;

@@ -70,6 +70,10 @@
 		outline: none;
 	}
 
+	#clear-search svg {
+		vertical-align: top;
+	}
+
 	#clear-search:hover, #clear-search:focus {
 		filter: drop-shadow(0 0 5px #111111);
 	}

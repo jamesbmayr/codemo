@@ -35,7 +35,8 @@
 					type: document.querySelector("#controls-chords-type"),
 					randomize: document.querySelector("#controls-chords-randomize"),
 					copy: document.querySelector("#controls-chords-copy"),
-					download: document.querySelector("#controls-chords-download")
+					download: document.querySelector("#controls-chords-download"),
+					midi: document.querySelector("#controls-midi")
 				},
 				layers: {
 					element: document.querySelector("#controls-layers"),
@@ -813,26 +814,29 @@
 		/* firstClick */
 			window.addEventListener(TRIGGERS.click, firstClick)
 			function firstClick() {
-			try {
-				// already audio
-					if (AUDIO_J.audio) {
-						return
-					}
-
-				// build
-					AUDIO_J.buildAudio()
-					AUDIO_J.master.gain.setValueAtTime(CONSTANTS.defaultMasterVolume, (AUDIO_J.audio.currentTime || 0))
-
-				// layers
-					for (const l in STATE.layers) {
-						const layer = STATE.layers[l]
-						const parameters = AUDIO_J.getInstrument(layer.synth)
-						if (parameters) {
-							AUDIO_J.instruments[layer.id] = AUDIO_J.buildInstrument(parameters)
+				try {
+					// already audio
+						if (AUDIO_J.audio) {
+							return
 						}
-					}
-			} catch (error) {console.log(error)}
-		}
+
+					// build
+						AUDIO_J.buildAudio()
+						AUDIO_J.master.gain.setValueAtTime(CONSTANTS.defaultMasterVolume, (AUDIO_J.audio.currentTime || 0))
+
+					// layers
+						for (const l in STATE.layers) {
+							const layer = STATE.layers[l]
+							const parameters = AUDIO_J.getInstrument(layer.synth)
+							if (parameters) {
+								AUDIO_J.instruments[layer.id] = AUDIO_J.buildInstrument(parameters)
+							}
+						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* activateMidi */
+			ELEMENTS.controls.chords.midi.addEventListener(TRIGGERS.click, AUDIO_J.activateMidi)
 
 	/** playback **/
 		/* changeVolume */

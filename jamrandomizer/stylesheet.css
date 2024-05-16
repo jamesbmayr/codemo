@@ -605,7 +605,7 @@
 				padding-bottom: calc(25 * var(--gap-size));
 			}
 
-			#controls-chords .controls-block:last-child {
+			#controls-chords .controls-block:last-child, #controls-chords .controls-block:nth-last-child(2) {
 				display: none;
 			}
 

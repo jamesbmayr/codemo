@@ -28,6 +28,7 @@
 		fill: currentColor;
 		height: 100%;
 		width: auto;
+		pointer-events: none;
 	}
 
 /*** interactive ***/

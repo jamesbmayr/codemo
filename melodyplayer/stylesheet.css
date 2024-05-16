@@ -61,7 +61,7 @@
 			margin-right: 0 !important;
 		}
 
-		#scoreboard[playing] #file-label, #scoreboard[playing] #tempo-multiplier, #scoreboard[playing] #tempo-multiplier-x, #scoreboard:not([playing]) #score {
+		#scoreboard[playing] #file-label, #scoreboard[playing] #tempo-multiplier, #scoreboard[playing] #tempo-multiplier-x, #scoreboard:not([playing]) #score, #scoreboard[playing] #midi {
 			padding: 0 !important;
 			width: 0 !important;
 			border-left: 0 !important;
@@ -433,6 +433,33 @@
 			line-height: 1;
 		}
 
+	/* midi */
+		#midi {
+			float: right;
+			margin: var(--gap-size) calc(32px + var(--gap-size)) var(--gap-size) 0;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			padding: 0;
+			box-sizing: border-box;
+			border: none;
+			border-radius: 100%;
+			font-size: calc(var(--font-size) * 3 / 4);
+			color: var(--light-gray);
+			font-weight: bold;
+			text-align: center;
+			line-height: 1;
+			cursor: pointer;
+			outline: none;
+			transition: var(--transition-time);
+			user-select: none;
+			background: transparent;
+		}
+
+		#midi:hover, #midi:focus {
+			box-shadow: 0 0 var(--shadow-size) var(--light-gray);
+			text-shadow: 0 0 var(--shadow-size) var(--light-gray);
+		}
+
 	/* j-logo */
 		#j-logo {
 			position: fixed;
@@ -500,6 +527,10 @@
 				opacity: 0 !important;
 				margin-left: 0 !important;
 				margin-right: 0 !important;
+			}
+
+			#midi {
+				display: none;
 			}
 
 			#keyboard, #blockboard {
