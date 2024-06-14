@@ -929,6 +929,14 @@ const PROJECTS = {
 		date: "November 1, 2012",
 		description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
 	},
+	phoneticconverter: {
+		skipRandom: true,
+		name: "phoneticConverter",
+		size: "small",
+		tags: ["code","tool","writing"],
+		date: "June 14, 2024",
+		description: "Convert phonetic text between IPA and ARPABET."
+	},
 	photofilterer: {
 		name: "photoFilterer",
 		size: "small",
