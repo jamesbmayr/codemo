@@ -88,9 +88,9 @@
 		max-width: calc(100% - 4 * var(--gap-size));
 		min-width: calc(100% - 4 * var(--gap-size));
 		box-sizing: border-box;
-		height: calc((100vh - (4 * (var(--font-size) + 4 * var(--gap-size)) - 6 * var(--gap-size))) / 2);
-		max-height: calc((100vh - (3 * (var(--font-size) + 4 * var(--gap-size)) - 6 * var(--gap-size))) / 2);
-		min-height: calc((100vh - (3 * (var(--font-size) + 4 * var(--gap-size)) - 6 * var(--gap-size))) / 2);
+		height:     calc((100vh - (2 * (var(--font-size) + 4 * var(--gap-size)) + (var(--font-size) + 6 * var(--gap-size)) + 8 * var(--gap-size))) / 2);
+		max-height: calc((100vh - (2 * (var(--font-size) + 4 * var(--gap-size)) + (var(--font-size) + 6 * var(--gap-size)) + 8 * var(--gap-size))) / 2);
+		min-height: calc((100vh - (2 * (var(--font-size) + 4 * var(--gap-size)) + (var(--font-size) + 6 * var(--gap-size)) + 8 * var(--gap-size))) / 2);
 		margin: calc(2 * var(--gap-size)) calc(2 * var(--gap-size)) 0 calc(2 * var(--gap-size));
 		border-radius: var(--border-radius);
 		border: none;
@@ -121,7 +121,7 @@
 		width: 100%;
 	}
 
-		button {
+		.copy-section button {
 			float: left;
 			height: var(--font-size);
 			width: var(--font-size);
@@ -143,14 +143,81 @@
 			z-index: 2;
 		}
 
-			button:focus, button:hover {
+			.copy-section button:focus, .copy-section button:hover {
 				color: var(--light-blue);
 			}
 
-			button[check] span:first-child {
+			.copy-section button[check] span:first-child {
 				display: none;
 			}
 
 			button:not([check]) span:last-child {
 				display: none;
+			}
+
+	#symbols-left, #symbols-right {
+		float: left;
+		width: calc(var(--font-size) + 2 * var(--gap-size));
+		height: calc(var(--font-size) + 2 * var(--gap-size));
+		background: transparent;
+		border: none;
+		border-radius: var(--border-radius);
+		outline: none;
+		cursor: pointer;
+		user-select: none;
+		transition: var(--transition-time);
+		color: var(--light-gray);
+		font-size: var(--font-size);
+		font-family: var(--font-family);
+		margin: calc(var(--gap-size) * 2);
+		text-align: center;
+		line-height: 1;
+	}
+
+		#symbols-left:hover, #symbols-right:hover, #symbols-left:focus, #symbols-right:focus {
+			color: var(--light-blue);
+		}
+
+	#symbol-buttons {
+		float: left;
+		width: calc(100% - 4 * var(--gap-size) - 2 * (var(--font-size) + 4 * var(--gap-size)));
+		height: calc(var(--font-size) + 4 * var(--gap-size));
+		box-sizing: border-box;
+		margin: calc(var(--gap-size) * 2) 0 0 0;
+		text-align: center;
+		vertical-align: top;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		white-space: nowrap;
+		font-size: 0;
+		scroll-behavior: smooth;
+	}
+
+		.symbol-button {
+			display: inline-block;
+			border-radius: var(--border-radius);
+			background: var(--light-gray);
+			color: var(--dark-gray);
+			outline: none;
+			border: none;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			width: calc(var(--font-size) + 2 * var(--gap-size));
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			transition: var(--transition-time);
+			cursor: pointer;
+			user-select: none;
+			text-align: center;
+			vertical-align: top;
+			padding: var(--gap-size);
+			line-height: 1;
+			margin-right: calc(2 * var(--gap-size));
+		}
+
+			.symbol-button:last-child {
+				margin-right: 0;
+			}
+
+			.symbol-button:hover, .symbol-button:focus {
+				background: var(--light-blue);
 			}

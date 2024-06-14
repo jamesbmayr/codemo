@@ -5,6 +5,10 @@
 			arpabetTextarea: document.querySelector("#arpabet-textarea"),
 			ipaButton: document.querySelector("#ipa-button"),
 			arpabetButton: document.querySelector("#arpabet-button"),
+			symbolsLeft: document.querySelector("#symbols-left"),
+			symbolsRight: document.querySelector("#symbols-right"),
+			symbolsContainer: document.querySelector("#symbol-buttons"),
+			symbolButtons: Array.from(document.querySelectorAll(".symbol-button"))
 		}
 
 	/* constants */
@@ -48,6 +52,7 @@
 				"l̩": "EL",
 				"m̩": "EM",
 				"n̩": "EN",
+				"ɹ̩": "ER",
 				"f": "F",
 				"ɡ": "G",
 				"g": "G",
@@ -146,6 +151,7 @@
 				"PCL": "p̚",
 				"TCL": "t̚",
 			},
+			symbolButtonWidth: 52, // px
 			copyWait: 1000, // ms
 			copyTimeout: null
 		}
@@ -222,6 +228,48 @@
 					CONSTANTS.copyTimeout = setInterval(() => {
 						ELEMENTS.arpabetButton.removeAttribute("check", true)
 					}, CONSTANTS.copyWait)
+			} catch (error) {console.log(error)}
+		}
+
+	/* scrollLeft */
+		ELEMENTS.symbolsLeft.addEventListener("click", scrollLeft)
+		function scrollLeft(event) {
+			try {
+				ELEMENTS.symbolsContainer.scrollBy(-CONSTANTS.symbolButtonWidth * 4, 0)
+			} catch (error) {console.log(error)}
+		}
+
+	/* scrollRight */
+		ELEMENTS.symbolsRight.addEventListener("click", scrollRight)
+		function scrollRight(event) {
+			try {
+				ELEMENTS.symbolsContainer.scrollBy(CONSTANTS.symbolButtonWidth * 4, 0)
+			} catch (error) {console.log(error)}
+		}
+
+	/* insertSymbol */
+		ELEMENTS.symbolButtons.forEach(button => button.addEventListener("click", insertSymbol))
+		function insertSymbol(event) {
+			try {
+				// symbol
+					const symbol = event.target.closest(".symbol-button").value
+
+				// position
+					const start = ELEMENTS.ipaTextarea.selectionStart
+					const end = ELEMENTS.ipaTextarea.selectionEnd
+
+				// insert
+					const currentText = ELEMENTS.ipaTextarea.value
+					const newText = currentText.slice(0, start) + symbol + currentText.slice(end, currentText.length)
+					ELEMENTS.ipaTextarea.value = newText
+
+				// refocus
+					ELEMENTS.ipaTextarea.focus()
+					ELEMENTS.ipaTextarea.selectionStart = start + 1
+					ELEMENTS.ipaTextarea.selectionEnd = start + 1
+
+				// convert
+					ELEMENTS.arpabetTextarea.value = convertText(newText, "IPAtoARPABET")
 			} catch (error) {console.log(error)}
 		}
 
