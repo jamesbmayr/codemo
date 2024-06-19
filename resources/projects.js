@@ -1252,6 +1252,13 @@ const PROJECTS = {
 		date: "February 1, 2018",
 		description: "A chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 	},
+	syllabolting: {
+		name: "Syllabolting",
+		size: "medium",
+		tags: ["code","writing","game","puzzle"],
+		date: "June 19, 2024",
+		description: "Connect words with overlapping sounds to build a chain from start to finish."
+	},
 	tempotapper: {
 		name: "tempoTapper",
 		size: "small",

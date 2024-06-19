@@ -41,7 +41,7 @@
 	/* constants */
 		const CONSTANTS = {
 			iconDesigner: "https://jamesmayr.com/icondesigner/",
-			requestURL: "https://script.google.com/macros/s/AKfycbzz8aIaN0_z5yNmPZeMIq3k8tfPKd_M0t0Vni6C89B6HvYK90NI3ugAzYpuDMKF1DxD/exec?search=",
+			requestURL: "https://script.google.com/macros/s/AKfycbz_NOnYfPYHShI5HUAFSwMdYqEPaVKY3jvInImJ2pj2lWaBNcVJnYdQECjHpCv_PL4PTQ/exec?project=iconlibrary",
 			percent: 100, // %
 			pngSize: 500, // px
 			pngNoPaddingOffset: -50, // px
@@ -408,7 +408,8 @@
 					ELEMENTS.controls.search.focus()
 
 				// make request
-					fetch(`${CONSTANTS.requestURL}${search}`)
+					const url = encodeURIComponent(window.location.href)
+					fetch(`${CONSTANTS.requestURL}&url=${url}&data=${search}`)
 
 				// unset
 					setTimeout(() => {
