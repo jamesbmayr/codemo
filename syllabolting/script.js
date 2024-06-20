@@ -70,7 +70,7 @@
 				"ö": ["ä", "ɔ", "ô", "u", "ʊ", "ʌ"],
 				"ô": ["ɑ", "ɔ", "â", "ö", "ʌ"],
 				"ʊ": ["ä", "ɔ", "ɪ", "ö", "u", "ʌ"],
-				"u": ["ä", "ö", "ʊ"],
+				"u": ["ä", "ö", "ʊ", "ʌ"],
 				"b": ["p"],
 				"ʧ": ["ʤ", "ʃ", "ʒ", "tʃ"],
 				"d": ["t"],
@@ -683,10 +683,7 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* convertARPABETtoIPA */
-		function convertARPABETtoIPA(arpabetText) {
-			try {
-				// conversion
+		// conversion
 					const ARPABETtoIPA = {
 						"aa": "ɑ",
 						"ae": "æ",
@@ -729,31 +726,29 @@
 						"zh": "ʒ"
 					}
 
-				// remove numbers & spaces
-					arpabetText = arpabetText.replace(/ /g, "")
+
+	/* convertARPABETtoIPA */
+		function convertARPABETtoIPA(arpabetText) {
+			try {
+				
+				// remove non-letters
 					arpabetText = arpabetText.replace(/\d/g, "")
 					arpabetText = arpabetText.toLowerCase()
+					arpabetText = arpabetText.split(" ")
 
 				// move through text
 					let position = 0
 					let ipaText = []
 					positionLoop: while (position < arpabetText.length) {
-						// look ahead 4 characters
-							let lookahead = 4
-							lookaheadLoop: while (lookahead) {
-								let chunk = arpabetText.slice(position, position + lookahead)
-								if (ARPABETtoIPA[chunk]) {
-									ipaText.push(ARPABETtoIPA[chunk])
-									position += lookahead
-									continue positionLoop
-								}
-								else {
-									lookahead--
-								}
+						// match
+							if (ARPABETtoIPA[arpabetText[position]]) {
+								ipaText.push(ARPABETtoIPA[arpabetText[position]])
+								position++
+								continue positionLoop
 							}
 
 						// no match?
-							ipaText.push(arpabetText.slice(position, position + 1))
+							ipaText.push(arpabetText[position])
 							position++
 					}
 

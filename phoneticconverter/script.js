@@ -274,40 +274,56 @@
 		}
 
 /*** convert ***/
-	function convertText(text, direction) {
+	function convertText(lines, direction) {
 		try {
-			// remove numbers & spaces from arpabet
-				if (direction == "ARPABETtoIPA") {
-					text = text.replace(/ /g, "")
-					text = text.replace(/\d/g, "")
-					text = text.toUpperCase()
-				}
+			// preserve lines
+				const newLines = []
+				lines = lines.split("\n")
 
-			// move through text
-				let position = 0
-				let newText = []
-				positionLoop: while (position < text.length) {
-					// look ahead 4 characters
-						let lookahead = 4
-						lookaheadLoop: while (lookahead) {
-							let chunk = text.slice(position, position + lookahead)
-							if (CONSTANTS[direction][chunk]) {
-								newText.push(CONSTANTS[direction][chunk])
-								position += lookahead
-								continue positionLoop
-							}
-							else {
-								lookahead--
-							}
+			// loop through lines
+				for (const l in lines) {
+					// get text
+						let text = lines[l]
+
+					// remove non-letters from arpabet
+						if (direction == "ARPABETtoIPA") {
+							text = text.replace(/\d/g, "")
+							text = text.toUpperCase()
+							text = text.split(" ")
+						}
+						else {
+							text = text.split("")
 						}
 
-					// no match?
-						newText.push(text.slice(position, position + 1))
-						position++
-				}
+					// move through text
+						let position = 0
+						let newText = []
+						positionLoop: while (position < text.length) {
+							// look ahead 2 characters in IPA
+								let lookahead = (direction == "IPAtoARPABET" ? 2 : 1)
+								lookaheadLoop: while (lookahead) {
+									let chunk = text.slice(position, position + lookahead).join("")
+									if (CONSTANTS[direction][chunk]) {
+										newText.push(CONSTANTS[direction][chunk])
+										position += lookahead
+										continue positionLoop
+									}
+									else {
+										lookahead--
+									}
+								}
 
-			// output
-				newText = newText.join(direction == "IPAtoARPABET" ? " " : "").replace(/\n /g, "\n")
-				return newText
+							// no match?
+								newText.push(text.slice(position, position + 1))
+								position++
+						}
+
+					// output
+						newText = newText.join(direction == "IPAtoARPABET" ? " " : "")
+						newLines.push(newText)
+				}
+			
+			// package up lines
+				return newLines.join("\n")
 		} catch (error) {console.log(error)}
 	}
