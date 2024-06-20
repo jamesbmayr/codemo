@@ -683,7 +683,10 @@
 			} catch (error) {console.log(error)}
 		}
 
-		// conversion
+	/* convertARPABETtoIPA */
+		function convertARPABETtoIPA(arpabetText) {
+			try {
+				// conversion
 					const ARPABETtoIPA = {
 						"aa": "ɑ",
 						"ae": "æ",
@@ -726,11 +729,6 @@
 						"zh": "ʒ"
 					}
 
-
-	/* convertARPABETtoIPA */
-		function convertARPABETtoIPA(arpabetText) {
-			try {
-				
 				// remove non-letters
 					arpabetText = arpabetText.replace(/\d/g, "")
 					arpabetText = arpabetText.toLowerCase()
