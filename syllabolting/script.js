@@ -315,7 +315,7 @@
 
 				// score --> end?
 					STATE.score.count++
-					if (STATE.chain[STATE.chain.length - 1].phonemes == STATE.end.phonemes) {
+					if (STATE.chain[STATE.chain.length - 1].graphemes == STATE.end.graphemes) {
 						STATE.score.complete = true
 						addToHistory(window.location.search)
 					}					
