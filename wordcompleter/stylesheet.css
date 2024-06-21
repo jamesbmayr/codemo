@@ -35,8 +35,8 @@
 	/* reset */
 		#reset {
 			position: absolute;
-			top: calc(var(--gap-size) * 2);
-			left: calc(var(--gap-size) * 2);
+			top: calc(var(--gap-size) * 3);
+			left: calc(var(--gap-size) * 3);
 			border-radius: 100%;
 			line-height: 1;
 			border: 0;
@@ -81,7 +81,7 @@
 			font-family: var(--font-family);
 			font-size: var(--font-size);
 			line-height: 1;
-			padding: calc(2 * var(--gap-size)) calc(6 * var(--gap-size) + var(--font-size));
+			padding: calc(4 * var(--gap-size)) calc(6 * var(--gap-size) + var(--font-size));
 			box-sizing: border-box;
 			user-select: 0;
 			transition: var(--transition);

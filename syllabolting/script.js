@@ -8,7 +8,6 @@
 
 	/* elements */
 		const ELEMENTS = {
-			reset: document.querySelector("#reset"),
 			score: {
 				element: document.querySelector("#score"),
 				count: document.querySelector("#score-count"),
@@ -20,6 +19,7 @@
 					element: document.querySelector("#words-start"),
 					graphemes: document.querySelector("#words-start-graphemes"),
 					phonemes: document.querySelector("#words-start-phonemes"),
+					shuffle: document.querySelector("#words-start-shuffle")
 				},
 				chain: document.querySelector("#words-chain"),
 				form: {
@@ -33,6 +33,7 @@
 					element: document.querySelector("#words-end"),
 					graphemes: document.querySelector("#words-end-graphemes"),
 					phonemes: document.querySelector("#words-end-phonemes"),
+					shuffle: document.querySelector("#words-end-shuffle")
 				},
 			},
 			history: {
@@ -176,6 +177,10 @@
 					displayScore()
 					displayURL()
 
+					ELEMENTS.words.form.error.innerHTML = ""
+					ELEMENTS.words.form.error.scrollIntoView()
+					ELEMENTS.words.form.input.focus()
+
 				// history
 					if (loadHistory) {
 						try {
@@ -243,12 +248,41 @@
 		}
 
 /*** interaction ***/
-	/* resetGame */
-		ELEMENTS.reset.addEventListener(TRIGGERS.click, resetGame)
-		function resetGame(event) {
+	/* shuffleStartWord */
+		ELEMENTS.words.start.shuffle.addEventListener(TRIGGERS.click, shuffleStartWord)
+		function shuffleStartWord(event) {
 			try {
-				// load empty game
-					loadGame()
+				// new word
+					const startWord = getRandomWord()
+
+				// url
+					let searchString = `?start=${startWord.graphemes}_${startWord.phonemes}`
+						searchString += `&end=${STATE.end.graphemes}_${STATE.end.phonemes}`
+
+				// load
+					loadGame(searchString)
+			} catch (error) {console.log(error)}
+		}
+
+	/* shuffleEndWord */
+		ELEMENTS.words.end.shuffle.addEventListener(TRIGGERS.click, shuffleEndWord)
+		function shuffleEndWord(event) {
+			try {
+				// new word
+					const endWord = getRandomWord()
+
+				// url
+					let searchString = `?start=${STATE.start.graphemes}_${STATE.start.phonemes}`
+						searchString += `&end=${endWord.graphemes}_${endWord.phonemes}`
+
+					const chainWords = []
+					for (let w = 1; w < STATE.chain.length; w++) {
+						chainWords.push(`${STATE.chain[w].graphemes}_${STATE.chain[w].phonemes}`)
+					}
+					searchString += chainWords.length ? `&chain=${chainWords.join(",")}` : ""
+
+				// load
+					loadGame(searchString)
 			} catch (error) {console.log(error)}
 		}
 
@@ -659,7 +693,7 @@
 
 /*** dictionary set-up ***/
 	/* loadDictionary */
-		function loadDictionary() {
+		function loadDictionary(text) {
 			try {
 				// this function does not execute at run-time
 				// instead, the dictionary was pre-parsed
@@ -667,7 +701,7 @@
 				// and some entries were updated, removed, or added
 
 				// load source & filter out blanks & symbols
-					const rows = DICTIONARY.split(/\n/g)
+					const rows = text.split(/\n/g)
 
 				// convert rows to pairs
 					const dictionary = rows.map(row => {
@@ -680,6 +714,16 @@
 
 				// output
 					return JSON.stringify(dictionary, null, 2)
+			} catch (error) {console.log(error)}
+		}
+
+	/* alphabetizeDictionary */
+		function alphabetizeDictionary(dictionary) {
+			try {
+				// sort by English word
+					return dictionary.sort((a, b) => {
+    					return (a[0] < b[0]) ? -1 : (a[0] > b[0]) ? 1 : 0
+					})
 			} catch (error) {console.log(error)}
 		}
 

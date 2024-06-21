@@ -62,18 +62,11 @@
 			}
 
 /*** score ***/
-	#reset {
-		z-index: 2;
-		position: absolute;
-		top: calc(2 * var(--gap-size));
-		left: calc(2 * var(--gap-size));
-	}
-
 	#score {
 		z-index: 2;
 		position: absolute;
 		top: calc(2 * var(--gap-size));
-		left: calc(2 * var(--gap-size) + (var(--font-size) + 2 * var(--gap-size)) + 2 * var(--gap-size));
+		left: calc(2 * var(--gap-size));
 		height: calc(2 * var(--gap-size) + var(--font-size));
 		font-size: var(--font-size);
 		font-family: var(--font-family);
@@ -203,6 +196,18 @@
 				font-size: calc(var(--font-size) / 2);
 			}
 
+			#words-start-shuffle {
+				position: absolute;
+				top: calc(var(--gap-size) * 3 / 2);
+				right: calc(5 / 2 * var(--gap-size));
+				background: transparent;
+				color: var(--light-gray);
+			}
+
+				#words-start-shuffle:focus, #words-start-shuffle:hover {
+					background: var(--medium-red);
+				}
+
 		#words-end {
 			position: absolute;
 			bottom: 0;
@@ -229,6 +234,18 @@
 			#words[complete="true"] #words-end {
 				display: none;
 			}
+
+			#words-end-shuffle {
+				position: absolute;
+				top: calc(var(--gap-size) * 3 / 2);
+				left: calc(5 / 2 * var(--gap-size));
+				background: transparent;
+				color: var(--light-gray);
+			}
+
+				#words-end-shuffle:focus, #words-end-shuffle:hover {
+					background: var(--medium-red);
+				}
 
 		#words-game {
 			position: absolute;

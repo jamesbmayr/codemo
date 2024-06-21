@@ -137,6 +137,77 @@
 			font-weight: bold;
 		}
 
+		#message {
+			z-index: 4;
+			position: absolute;
+			top: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(255,255,255,1);
+			border-radius: 5px;
+			border: 5px solid rgba(150,140,125,1);
+			color: rgba(150,140,125,1);
+			font-size: 22px;
+			font-family: sans-serif;
+			width: auto;
+			max-width: calc(100vw - 20px);
+			height: auto;
+			opacity: 0;
+			transition: 1s;
+			padding: 5px;
+			font-weight: bold;
+			text-transform: uppercase;
+			line-height: 1;
+			vertical-align: bottom;
+			pointer-events: none;
+			text-align: center;
+		}
+
+			#message[active] {
+				opacity: 1;
+				pointer-events: all;
+			}
+
+			#message_inner {
+				width: 100%;
+			}
+
+			#message:not([feedback]) #message_request {
+				display: none;
+			}
+
+			#message_request {
+				color: rgba(255,255,255,1);
+				border-radius: 5px;
+				background: rgba(200,180,150,1);
+				padding: 5px;
+				height: 27px;
+				width: 27px;
+				box-sizing: border-box;
+				margin: 0 0 0 5px;
+				border: none;
+				cursor: pointer;
+				user-select: none;
+			}
+
+			#message_request:hover, #message_request:focus {
+				background: rgba(150,140,125,1);
+			}
+
+			#message_request svg {
+				height: 100%;
+				width: auto;
+				fill: currentColor;
+			}
+
+			#message_request[active] svg:first-child {
+				display: none;
+			}
+
+			#message_request:not([active]) svg:last-child {
+				display: none;
+				}
+
 		#box {
 			float: left;
 			border: 1vh solid rgba(150,140,125,1);

@@ -290,7 +290,7 @@
 
 			else if (event.target.className.includes("selected")) { 
 				//illegal - repeated cube
-				alert("illegal move - repeated cubes")
+				displayMessage("illegal move - repeated cubes")
 			}
 
 			else if ( (newCube === oldCube - 1) || (newCube === oldCube + 1) || (newCube === oldCube - 10) || (newCube === oldCube + 10) || (newCube === oldCube - 11) || (newCube === oldCube + 11) || (newCube === oldCube - 9) || (newCube === oldCube + 9) ) {
@@ -304,7 +304,7 @@
 
 			else {
 				//illegal - not adjacent
-				alert("illegal move - not adjacent cubes")
+				displayMessage("illegal move - not adjacent cubes")
 			}
 
 		}
@@ -326,17 +326,17 @@
 
 			if (newWord.length < 3) {
 				//illegal - too short
-				alert("word must be 3+ letters")
+				displayMessage("word must be 3+ letters")
 			}
 
 			else if (allWords.indexOf(newWord.toUpperCase()) > -1) {
 				//illegal - duplicate word
-				alert("duplicate word")
+				displayMessage("duplicate word")
 			}
 
 			else if (!(dictionary[newWord[0]][newWord.length].indexOf(newWord) > -1)) {
 				//illegal - word not in dictionary
-				alert("word not found in our dictionary")
+				displayMessage("unknown word", true)
 			}
 
 			else {
@@ -427,4 +427,42 @@
 					document.querySelector("#_" + k).className = document.querySelector("#_" + k).className.replace(/\s?hidden/, "") + " hidden"
 				}
 			}
+		}
+
+	/* displayMessage */
+		function displayMessage(message, showFeedback) {
+			if (showFeedback) {
+				document.querySelector("#message").setAttribute("feedback", true)
+			}
+			else {
+				document.querySelector("#message").removeAttribute("feedback")
+			}
+
+			document.querySelector("#message_inner").innerText = message
+			document.querySelector("#message").setAttribute("active", true)
+
+			setTimeout(() => {
+				document.querySelector("#message").removeAttribute("active")
+			}, 3000)
+		}
+
+	/* requestWord */
+		document.querySelector("#message_request").addEventListener(on.click, requestWord)
+		function requestWord(event) {
+			try {
+				if (document.querySelector("#message_request").getAttribute("active")) {
+					return
+				}
+				document.querySelector("#message_request").setAttribute("active", true)
+
+				const word = document.querySelector(".newWord").innerText.trim()
+				const url = encodeURIComponent(window.location.href)
+
+				const requestURL = "https://script.google.com/macros/s/AKfycbz_NOnYfPYHShI5HUAFSwMdYqEPaVKY3jvInImJ2pj2lWaBNcVJnYdQECjHpCv_PL4PTQ/exec?project=wordfinder"
+				fetch(`${requestURL}&url=${url}&data=${word}`)
+
+				setTimeout(() => {
+					document.querySelector("#message_request").removeAttribute("active")
+				}, 1000)
+			} catch (error) {console.log(error)}
 		}
