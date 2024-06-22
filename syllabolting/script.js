@@ -73,29 +73,29 @@
 				"ʊ": ["ä", "ɔ", "ɪ", "ö", "u", "ʌ"],
 				"u": ["ä", "ö", "ʊ", "ʌ"],
 				"b": ["p"],
-				"ʧ": ["ʤ", "ʃ", "ʒ", "tʃ"],
+				"ʧ": ["ʤ", "ʃ", "tʃ"],
 				"d": ["t"],
-				"ð": ["f", "v", "θ"],
-				"f": ["v", "θ", "ð"],
+				"ð": ["v", "θ"],
+				"f": ["v", "θ"],
 				"g": ["k"],
 				"h": [""],
-				"ʤ": ["ʧ", "ʃ", "ʒ", "dʒ"],
+				"ʤ": ["ʧ", "ʒ", "dʒ"],
 				"k": ["g"],
 				"l": [],
-				"m": ["n", "ŋ"],
-				"n": ["m", "ŋ"],
-				"ŋ": ["m", "n"],
+				"m": [],
+				"n": ["ŋ"],
+				"ŋ": ["n"],
 				"p": ["b"],
 				"ɹ": [],
 				"s": ["z", "ʃ"],
-				"ʃ": ["ʤ", "ʧ", "ʒ"],
+				"ʃ": ["ʧ", "ʒ", "tʃ"],
 				"t": ["d"],
-				"θ": ["f", "v", "ð"],
-				"v": ["f", "θ", "ð"],
+				"θ": ["f", "ð"],
+				"v": ["f", "ð"],
 				"w": [],
 				"j": [],
 				"z": ["s", "ʒ"],
-				"ʒ": ["ʧ", "ʃ", "ʤ"],
+				"ʒ": ["ʃ", "ʤ", "dʒ"],
 			},
 			dictionary: window.DICTIONARY
 		}
@@ -143,7 +143,7 @@
 					}
 
 				// get random words
-					while (!STATE.start.phonemes) {
+					while (!STATE.start.phonemes || STATE.end.phonemes == STATE.start.phonemes || hasSyllableOverlap(STATE.start, STATE.end)) {
 						STATE.start = getRandomWord()
 					}
 
@@ -532,7 +532,10 @@
 						const phonemesBSlice = phonemesB.slice(0, overlapIndex + phonemesASlice.length)
 						if (!phonemesA.endsWith(phonemesBSlice)) {
 							// optional first h
-								if (phonemesBSlice[0] == "h" && !phonemesA.endsWith(phonemesBSlice.slice(1))) {
+								if (phonemesBSlice[0] !== "h") {
+									return false
+								}
+								if (!phonemesA.endsWith(phonemesBSlice.slice(1))) {
 									return false
 								}
 						}
