@@ -143,12 +143,16 @@
 					}
 
 				// get random words
-					while (!STATE.start.phonemes || STATE.end.phonemes == STATE.start.phonemes || hasSyllableOverlap(STATE.start, STATE.end)) {
-						STATE.start = getRandomWord()
+					if (!STATE.start.phonemes) {
+						while (!STATE.start.phonemes || STATE.end.phonemes == STATE.start.phonemes || hasSyllableOverlap(STATE.start, STATE.end)) {
+							STATE.start = getRandomWord()
+						}
 					}
 
-					while (!STATE.end.phonemes || STATE.end.phonemes == STATE.start.phonemes || hasSyllableOverlap(STATE.start, STATE.end)) {
-						STATE.end = getRandomWord()
+					if (!STATE.end.phonemes) {
+						while (!STATE.end.phonemes || STATE.end.phonemes == STATE.start.phonemes || hasSyllableOverlap(STATE.start, STATE.end)) {
+							STATE.end = getRandomWord()
+						}
 					}
 
 				// start chain
