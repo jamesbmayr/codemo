@@ -68,6 +68,7 @@
 				"p": "P",
 				"ʔ": "Q",
 				"ɹ": "R",
+				"r": "R",
 				"s": "S",
 				"ʃ": "SH",
 				"t": "T",
@@ -82,21 +83,22 @@
 				"b̚": "BCL",
 				"d̚": "DCL",
 				"ŋ̍": "ENG",
+				"ŋ̩": "ENG",
 				"ɡ̚": "GCL",
 				"ɦ": "HV",
 				"k̚": "KCL",
 				"p̚": "PCL",
-				"t̚": "TCL",
+				"t̚": "TCL"
 			},
 			ARPABETtoIPA: {
 				"AA": "ɑ",
 				"AE": "æ",
 				"AH": "ʌ",
 				"AO": "ɔ",
-				"AW": "aʊ",
+				"AW": "ɑʊ",
 				"AX": "ə",
 				"AXR": "ɚ",
-				"AY": "aɪ",
+				"AY": "ɑɪ",
 				"EH": "ɛ",
 				"ER": "ɝ",
 				"EY": "eɪ",
@@ -144,13 +146,26 @@
 				"AXH": "ə̥",
 				"BCL": "b̚",
 				"DCL": "d̚",
-				"ENG": "ŋ̍",
+				"ENG": "ŋ̩",
 				"GCL": "ɡ̚",
 				"HV": "ɦ",
 				"KCL": "k̚",
 				"PCL": "p̚",
 				"TCL": "t̚",
 			},
+			IPAtoARPABETstress: {
+				"ˈ": "1",
+				"ˌ": "2",
+				".": "0",
+			},
+			ARPABETtoIPAstress: {
+				"1": "ˈ",
+				"2": "ˌ",
+				"3": "ˌ",
+				"0": ".",
+			},
+			IPAtoARPABETvowels: ["AA","AE","AH","AO","AW","AX","AXR","AY","EH","ER","EY","IH","IX","IY","OW","OY","UH","UW","UX","EL","EM","EN","ER","ENG"],
+			ARPABETtoIPAvowels: ["ɑ","æ","ʌ","ɔ","ɑʊ","ə","ɚ","ɑɪ","ɛ","ɝ","eɪ","ɪ","ɨ","i","oʊ","ɔɪ","ʊ","u","ʉ","ə̥","l̩","m̩","n̩","ŋ̩"],
 			symbolButtonWidth: 52, // px
 			copyWait: 1000, // ms
 			copyTimeout: null
@@ -287,7 +302,10 @@
 
 					// remove non-letters from arpabet
 						if (direction == "ARPABETtoIPA") {
-							text = text.replace(/\d/g, "")
+							text = text.replace(/0/g, " 0")
+							text = text.replace(/1/g, " 1")
+							text = text.replace(/2/g, " 2")
+							text = text.replace(/3/g, " 3")
 							text = text.toUpperCase()
 							text = text.split(" ")
 						}
@@ -316,6 +334,45 @@
 							// no match?
 								newText.push(text.slice(position, position + 1))
 								position++
+						}
+
+					// stress
+						position = 0
+						let tempStress = null
+						while (position < newText.length) {
+							if (CONSTANTS[direction + "stress"][newText[position]] != undefined) {
+								tempStress = CONSTANTS[direction + "stress"][newText[position]]
+
+								if (direction == "IPAtoARPABET") {
+									newText.splice(position, 1)
+									position--
+								}
+								else if (direction == "ARPABETtoIPA") {
+									newText[position] = newText[position - 1]
+									newText[position - 1] = tempStress
+									tempStress = null
+								}
+							}
+							else if (direction == "IPAtoARPABET" && tempStress != null && CONSTANTS[direction + "vowels"].includes(newText[position])) {
+								newText[position] += tempStress
+								tempStress = null
+							}
+							position++
+						}
+
+					// move first stress forward
+						if (direction == "ARPABETtoIPA") {
+							let index = 0
+							let firstStress = null
+							const IPAstressMarks = Object.keys(CONSTANTS.IPAtoARPABETstress)
+							while (!firstStress && index < newText.length) {
+								if (IPAstressMarks.includes(newText[index])) {
+									firstStress = newText[index]
+									newText.splice(index, 1)
+									newText.splice(0, 0, firstStress)
+								}
+								index++
+							}
 						}
 
 					// output
