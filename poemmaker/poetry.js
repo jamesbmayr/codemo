@@ -17128,7 +17128,7 @@ window.LINES = {
     },
     {
       "i": {
-        "_1": "some some",
+        "_1": "some soap",
         "_2": "some slimy soap",
         "_3": "demolished by some soap",
         "_4": "the slime demolished by some soap",

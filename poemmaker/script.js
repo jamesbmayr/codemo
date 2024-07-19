@@ -80,6 +80,7 @@
 				"bob and wheel": 			["s3a","s6b","s6a","s6b","s6a"],
 				"chant": 					["a4a","s7b","a4a","r-1","/","a4c","r-1","a4c","r-1"],
 				"cinquain": 				["i1a","i2b","i3c","i4d","i1e"],
+				"common hymn": 				["i4a","i3b","i4c","i3b","/","i4d","i3e","i4f","i3e"],
 				"decima": 					["s8a","s8b","s8b","s8a","s8a","s8c","s8c","s8d","s8d","s8c"],
 				"dizain": 					["i5a","i5b","i5a","i5b","i5b","i5c","i5c","i5d","i5c","i5d"],
 				"dodoitsu": 				["s7a","s7b","s7c","s5d"],
@@ -130,7 +131,7 @@
 				"zejel": 					["i4a","i4a","i4a","/","i4b","i4b","i4b","i4a","/","i4c","i4c","i4c","i4a","/","i4d","i4d","i4d","i4a"],
 			},
 			formGroups: {
-				"iambic": 		["iambic couplet", "quatrain", "heroic stanza", "cinquain", "rhyme royal", "blank verse", "ottava rima", "terza rima", "dizain", "minute", "rondel", "madrigal", "petrarchan sonnet", "shakespearean sonnet", "zejel", "interlocking rubaiyat", "villanelle", "ballade"],
+				"iambic": 		["iambic couplet", "quatrain", "heroic stanza", "cinquain", "rhyme royal", "common hymn", "blank verse", "ottava rima", "terza rima", "dizain", "minute", "rondel", "madrigal", "petrarchan sonnet", "shakespearean sonnet", "zejel", "interlocking rubaiyat", "villanelle", "ballade"],
 				"anapestic": 	["anapestic couplet", "limerick", "strambotto", "seussian", "anapestic blank verse", "anapestic sonnet", "anaduo", "galloping denturn", "blood quill"],
 				"syllabic": 	["free verse", "haiku", "senryu", "zappai", "kimo", "kouta", "dodoitsu", "ballad", "endecha", "gwawdodyn", "tanka", "waka", "bob and wheel", "flamenca", "rime couee", "shadorma", "tripadi", "rondelet", "seguidilla", "chant", "imayo", "tricube", "nonet", "lai", "treochair", "decima", "ovillejo", "haiku sonnet", "kyrielle", "quatern", "pantoum", "12-bar blues", "sports taunt"]
 			},
