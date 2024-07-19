@@ -31,21 +31,30 @@
 					right: document.querySelector("#game-controls-right")
 				}
 			},
+			countdown: document.querySelector("#countdown"),
 			overlay: {
 				element: document.querySelector("#overlay"),
 				start: document.querySelector("#overlay-start"),
 				unpause: document.querySelector("#overlay-unpause")
 			},
-			pause: document.querySelector("#pause")
+			pause: document.querySelector("#pause"),
+			sound: document.querySelector("#sound"),
+			audio: {
+				soundtrack: document.querySelector("#audio-soundtrack"),
+				gameover: document.querySelector("#audio-gameover")
+			}
 		}
 
 	/* constants */
 		const CONSTANTS = {
+			percent: 100, // %
+			startCountdown: 3, // iterations
 			showCoordinates: false,
+			quietInterval: 100, // ms
+			quietRate: 10, // %
 			interval: 150, // ms
-			minimumInterval: 30, // ms
 			descendIterations: 3, // iterations
-			scoreFactor: 10, // hexes
+			scoreFactor: 6, // hexes
 			startingX: 0, // hexes
 			startingY: -2, // hexes
 			gameRadius: 9, // hexes
@@ -130,11 +139,14 @@
 
 	/* state */
 		const STATE = {
+			startCountdown: 0,
 			spikes: false,
 			interval: CONSTANTS.interval,
 			descendCountdown: CONSTANTS.descendIterations,
 			play: false,
 			pause: false,
+			music: false,
+			sound: false,
 			keys: {
 				"rotate-cw": false,
 				"rotate-ccw": false,
@@ -166,6 +178,18 @@
 		ELEMENTS.overlay.start.addEventListener(TRIGGERS.click, startGame)
 		function startGame() {
 			try {
+				// restart music
+					STATE.music = false
+					STATE.sound = false
+					setTimeout(() => {
+						ELEMENTS.audio.gameover.pause()
+						ELEMENTS.audio.gameover.currentTime = 0
+
+						ELEMENTS.audio.soundtrack.currentTime = 0
+						ELEMENTS.audio.soundtrack.play()
+						toggleSound()
+					}, 0)
+
 				// blur
 					ELEMENTS.overlay.start.blur()
 					document.body.focus()
@@ -175,22 +199,23 @@
 					clearInterval(STATE.gameloop)
 					STATE.gameloop = null
 					STATE.interval = CONSTANTS.interval
-					STATE.descendCountdown = CONSTANTS.descendIterations
+					STATE.descendCountdown = 0
+					STATE.startCountdown = CONSTANTS.startCountdown
 
 				// reset score
 					STATE.score = 0
 					ELEMENTS.game.score.innerText = getHexadecimal(STATE.score)
 
+				// clear container
+					ELEMENTS.game.container.innerHTML = ""
+					STATE.hexes = []
+
 				// reset piece
 					STATE.currentPiece.type = null
 					STATE.currentPiece.x = 0
 					STATE.currentPiece.y = 0
+					STATE.currentPiece.hexes = []
 					STATE.line = null
-					generatePiece(true)
-
-				// clear container
-					ELEMENTS.game.container.innerHTML = ""
-					STATE.hexes = []
 
 				// spikes
 					if (!STATE.spikes) {
@@ -315,6 +340,30 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* toggleSound */
+		ELEMENTS.audio.soundtrack.load()
+		ELEMENTS.audio.gameover.load()
+		ELEMENTS.sound.addEventListener(TRIGGERS.click, toggleSound)
+		function toggleSound(event) {
+			try {
+				// set state
+					STATE.sound = !STATE.sound
+
+				// pausing
+					if (!STATE.sound) {
+						ELEMENTS.sound.setAttribute("muted", true)
+						ELEMENTS.audio.soundtrack.volume = 0
+						ELEMENTS.audio.gameover.volume = 0
+						return
+					}
+
+				// playing
+					ELEMENTS.sound.removeAttribute("muted")
+					ELEMENTS.audio.soundtrack.volume = 1
+					ELEMENTS.audio.gameover.volume = 1
+			} catch (error) {console.log(error)}
+		}
+
 /*** helpers ***/
 	/* getHexadecimal */
 		function getHexadecimal(decimal) {
@@ -359,16 +408,36 @@
 	/* iterateGame */
 		function iterateGame() {
 			try {
-				// paused
-					if (!STATE.play || STATE.pause) {
-						return
-					}
-
 				// iterating
 					if (STATE.iterating) {
 						return
 					}
 					STATE.iterating = true
+
+				// reset
+					STATE.descendCountdown -= 1
+					if (STATE.descendCountdown < 0) {
+						STATE.descendCountdown = CONSTANTS.descendIterations
+					}
+
+				// paused
+					if (!STATE.play || STATE.pause) {
+						return
+					}
+
+				// countdown
+					if (STATE.startCountdown >= 0 && STATE.startCountdown !== null) {
+						if (!STATE.descendCountdown) {
+							STATE.startCountdown -= 1
+						}
+						if (STATE.startCountdown < 0) {
+							STATE.startCountdown = null
+							ELEMENTS.countdown.innerText = ""
+						}
+						else {
+							ELEMENTS.countdown.innerText = STATE.startCountdown || "GO"
+						}
+					}
 
 				// clean board
 					ELEMENTS.game.container.innerHTML = ""
@@ -381,20 +450,15 @@
 
 				// generate piece?
 					else if (!STATE.currentPiece.type) {
-						// next
-							generatePiece()
+						// time
+							if (!STATE.descendCountdown) {
+								// next
+									generatePiece()
 
-						// collisions?
-							if (getCollisions(getActualHexes(STATE.currentPiece.hexes, STATE.currentPiece.x, STATE.currentPiece.y)).length) {
-								endGame()
-							}
-
-						// decrease interval?
-							if (STATE.interval > CONSTANTS.minimumInterval && 
-								Math.floor((CONSTANTS.interval - STATE.interval) / CONSTANTS.descendIterations) < Math.floor(STATE.score / CONSTANTS.scoreFactor)) {
-								STATE.interval = Math.max(STATE.interval - CONSTANTS.descendIterations, CONSTANTS.minimumInterval)
-								clearInterval(STATE.gameloop)
-								STATE.gameloop = setInterval(iterateGame, STATE.interval)
+								// collisions?
+									if (getCollisions(getActualHexes(STATE.currentPiece.hexes, STATE.currentPiece.x, STATE.currentPiece.y)).length) {
+										endGame()
+									}
 							}
 					}
 
@@ -574,14 +638,10 @@
 	/* descendPiece */
 		function descendPiece() {
 			try {
-				// decrement
-					STATE.descendCountdown -= 1
-					if (STATE.descendCountdown >= 0) {
+				// not time to descend
+					if (STATE.descendCountdown) {
 						return
 					}
-
-				// reset
-					STATE.descendCountdown = CONSTANTS.descendIterations
 
 				// get potential coordinates
 					const downRightHexes = getActualHexes(STATE.currentPiece.hexes,
@@ -808,6 +868,21 @@
 				// display
 					ELEMENTS.game.element.setAttribute("gameover", true)
 					ELEMENTS.overlay.start.focus()
+
+				// sound
+					STATE.quietLoop = setInterval(() => {
+						if (ELEMENTS.audio.soundtrack.volume > 0) {
+							ELEMENTS.audio.soundtrack.volume = Math.floor((ELEMENTS.audio.soundtrack.volume * CONSTANTS.percent) - CONSTANTS.quietRate) / CONSTANTS.percent
+						}
+						else {
+							ELEMENTS.audio.soundtrack.volume = 0
+							ELEMENTS.audio.soundtrack.pause()
+							clearInterval(STATE.quietLoop)
+							delete STATE.quietLoop
+						}
+					}, CONSTANTS.quietInterval)
+					
+					ELEMENTS.audio.gameover.play()
 			} catch (error) {console.log(error)}
 		}
 

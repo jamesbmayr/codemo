@@ -51,6 +51,35 @@
 			pointer-events: none;
 		}
 
+		audio {
+			display: none;
+			opacity: 0;
+			pointer-events: none;
+			height: 0;
+			width: 0;
+			padding: 0;
+			margin: 0;
+			border: 0;
+		}
+
+/*** countdown ***/
+	#countdown {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		pointer-events: none;
+		background: none;
+		text-align: center;
+		font-size: calc(var(--font-size) * 3);
+		font-family: var(--font-family);
+		color: var(--light-gray);
+	}
+
+	#game:not([play]) ~ #countdown, #game[pause] ~ #countdown, #countdown:empty {
+		display: none;
+	}
+
 /*** overlay ***/
 	#overlay {
 		position: absolute;
@@ -121,10 +150,9 @@
 			}
 
 /*** pause ***/
-	#pause {
+	#pause, #sound {
 		position: absolute;
-		top: calc(var(--gap-size) * 1);
-		left: calc(var(--gap-size) * 1);
+		top: calc(var(--gap-size));
 		background: transparent;
 		color: var(--light-gray);
 		font-family: var(--font-family);
@@ -138,22 +166,65 @@
 		padding: var(--gap-size);
 		box-sizing: border-box;
 		outline: none;
-		height: calc(var(--font-size) + 4 * var(--gap-size));
+		height: calc(var(--font-size) + 6 * var(--gap-size));
 	}
 
-		#pause:hover, #pause:focus {
+		#pause {
+			left: calc(var(--gap-size));
+		}
+
+		#sound {
+			left: calc(var(--gap-size) + (var(--font-size) + 6 * var(--gap-size)) + var(--gap-size));
+		}
+
+		#pause:hover, #pause:focus, #sound:hover, #sound:focus {
 			color: var(--light-blue);
 		}
 
-		#game[pause] ~ #pause svg:first-child {
+		#game[pause] ~ #pause svg:last-child {
 			display: none;
 		}
 
-		#game:not([pause]) ~ #pause svg:last-child {
+		#game:not([pause]) ~ #pause svg:first-child {
 			display: none;
 		}
 
-	#game:not([play]) ~ #pause {
+		#sound[muted] svg:first-child {
+			display: none;
+		}
+
+		#sound:not([muted]) svg:last-child {
+			display: none;
+		}
+
+	#music-attribution {
+		position: absolute;
+		top: calc(var(--gap-size) + var(--font-size) + 6 * var(--gap-size) + var(--gap-size));
+		left: calc(var(--gap-size) * 2);
+		height: var(--font-size);
+		width: auto;
+		font-family: var(--font-family);
+		color: var(--color-cw-flag);
+		text-decoration: none;
+		outline: none;
+		cursor: pointer;
+		transition: var(--transition-time);
+	}
+
+		#music-attribution span {
+			font-size: var(--font-size);
+			margin: 0 var(--gap-size);
+		}
+
+		#music-attribution span:nth-child(2) {
+			color: var(--light-gray);
+		}
+
+		#music-attribution:hover, #music-attribution:focus {
+			color: var(--light-blue) !important;
+		}
+
+	#game:not([play]) ~ #pause, #game:not([play]) ~ #sound, #game:not([play]) ~ #music-attribution {
 		pointer-events: none;
 		opacity: 0;
 	}
