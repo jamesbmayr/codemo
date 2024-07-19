@@ -50,6 +50,7 @@
 			percent: 100, // %
 			startCountdown: 3, // iterations
 			showCoordinates: false,
+			pauseVolume: 0.5, // fraction
 			quietInterval: 100, // ms
 			quietRate: 10, // %
 			interval: 150, // ms
@@ -183,9 +184,11 @@
 					STATE.sound = false
 					setTimeout(() => {
 						ELEMENTS.audio.gameover.pause()
+						ELEMENTS.audio.gameover.volume = 1
 						ELEMENTS.audio.gameover.currentTime = 0
 
 						ELEMENTS.audio.soundtrack.currentTime = 0
+						ELEMENTS.audio.soundtrack.volume = 1
 						ELEMENTS.audio.soundtrack.play()
 						toggleSound()
 					}, 0)
@@ -252,12 +255,18 @@
 					if (STATE.pause) {
 						STATE.pause = false
 						ELEMENTS.game.element.removeAttribute("pause")
+						if (STATE.sound) {
+							ELEMENTS.audio.soundtrack.volume = 1
+						}
 						return
 					}
 
 				// pause
 					STATE.pause = true
 					ELEMENTS.game.element.setAttribute("pause", true)
+					if (STATE.sound) {
+						ELEMENTS.audio.soundtrack.volume = CONSTANTS.pauseVolume
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -359,7 +368,7 @@
 
 				// playing
 					ELEMENTS.sound.removeAttribute("muted")
-					ELEMENTS.audio.soundtrack.volume = 1
+					ELEMENTS.audio.soundtrack.volume = STATE.pause ? CONSTANTS.pauseVolume : 1
 					ELEMENTS.audio.gameover.volume = 1
 			} catch (error) {console.log(error)}
 		}
@@ -408,12 +417,6 @@
 	/* iterateGame */
 		function iterateGame() {
 			try {
-				// iterating
-					if (STATE.iterating) {
-						return
-					}
-					STATE.iterating = true
-
 				// reset
 					STATE.descendCountdown -= 1
 					if (STATE.descendCountdown < 0) {
@@ -497,7 +500,6 @@
 
 				// render everything
 					displayHexagons(hexesToRender)
-					delete STATE.iterating
 			} catch (error) {console.log(error)}
 		}
 

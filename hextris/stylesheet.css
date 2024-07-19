@@ -12,6 +12,7 @@
 		--border-radius: 5px;
 		--gap-size: 5px;
 		--shadow-size: 5px;
+		--blur-size: 3px;
 		--transition-time: 0.5s;
 		--controls-key-size: 50px;
 		--game-radius: 9;
@@ -249,10 +250,15 @@
 			max-height: calc(100vh - 4 * var(--gap-size));
 			max-width: calc(100vh - 4 * var(--gap-size));
 			pointer-events: none;
+			transition: filter var(--transition-time);
 		}
 
 			#game:not([play]) #game-background {
 				opacity: 0;
+			}
+
+			#game[pause] #game-background {
+				filter: blur(var(--blur-size));
 			}
 
 			#game-background-area {
@@ -308,7 +314,12 @@
 			width: calc(100vw - 4 * var(--gap-size));
 			max-height: calc((100vh - 4 * var(--gap-size)) * var(--hexagon-ratio));
 			max-width: calc(100vh - 4 * var(--gap-size));
+			transition: filter var(--transition-time);
 		}
+
+			#game[pause] #game-container {
+				filter: blur(var(--blur-size));
+			}
 
 			.game-hex {
 				position: absolute;
