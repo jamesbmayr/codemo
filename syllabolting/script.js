@@ -97,7 +97,7 @@
 				"z": ["s", "ʒ"],
 				"ʒ": ["ʃ", "ʤ", "dʒ"],
 			},
-			dictionary: window.DICTIONARY
+			dictionary: window.IPADICTIONARY
 		}
 
 	/* state */
@@ -220,14 +220,14 @@
 					if (parameters.start) {
 						const startPair = parameters.start.split("_")
 						parameters.start = {
-							graphemes: startPair[0].replace(/[^a-z]/g, ""),
+							graphemes: decodeURIComponent(startPair[0]).replace(/[^a-z\s]/g, ""),
 							phonemes: startPair[1]
 						}
 					}
 					if (parameters.end) {
 						const endPair = parameters.end.split("_")
 						parameters.end = {
-							graphemes: endPair[0].replace(/[^a-z]/g, ""),
+							graphemes: decodeURIComponent(endPair[0]).replace(/[^a-z\s]/g, ""),
 							phonemes: endPair[1]
 						}
 					}
@@ -240,7 +240,7 @@
 						for (let w = 0; w < words.length; w++) {
 							const wordPair = words[w].split("_")
 							parameters.chain.push({
-								graphemes: wordPair[0].replace(/[^a-z]/g, ""),
+								graphemes: decodeURIComponent(wordPair[0]).replace(/[^a-z\s]/g, ""),
 								phonemes: wordPair[1]
 							})
 						}
@@ -448,7 +448,7 @@
 					graphemes = graphemes.trim().toLowerCase().replace(/[^a-z]/g, "")
 
 				// find in dictionary
-					const wordOptions = CONSTANTS.dictionary.filter(entry => entry[0] == graphemes) || []
+					const wordOptions = CONSTANTS.dictionary.filter(entry => entry[0].replace(/[^a-z]/g, "") == graphemes) || []
 
 				// return options
 					return wordOptions.map(pair => {

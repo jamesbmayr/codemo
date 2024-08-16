@@ -42,7 +42,7 @@
 				y: 275, // px
 				w: window.innerWidth - 65, // px
 				color: "#111111", // hex
-				icon: "tech-location-marker-circle"
+				icon: "tech-gui-location-marker-circle"
 			},
 			svg: {
 				arrow: `<svg viewBox="29 29 42 42"><path d="M 49 50 C 49 48 48 47 46 45 C 43 42 41 40 39 38 C 37 36 37 33 39 31 C 41 29 44 29 46 31 C 50 35 55 40 60 45 C 62 47 63 48 63 50 C 63 52 62 53 60 55 C 55 60 50 65 46 69 C 44 71 41 71 39 69 C 37 67 37 64 39 62 C 41 60 43 58 46 55 C 48 53 49 52 49 50 Z"></path></svg>`,
