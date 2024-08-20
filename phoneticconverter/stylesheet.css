@@ -151,7 +151,7 @@
 				display: none;
 			}
 
-			button:not([check]) span:last-child {
+			.copy-section button:not([check]) span:last-child {
 				display: none;
 			}
 

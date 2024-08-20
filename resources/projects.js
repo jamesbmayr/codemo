@@ -566,7 +566,7 @@ const PROJECTS = {
 	hextris: {
 		name: "hextris",
 		size: "medium",
-		tags: ["code","game","arcade","puzzle","svg"],
+		tags: ["code","game","arcade","puzzle","svg","collaboration"],
 		date: "March 21, 2024",
 		description: "Tetris... but hexagons."
 	},
@@ -592,6 +592,13 @@ const PROJECTS = {
 		tags: ["code","game","puzzle"],
 		date: "September 14, 2017",
 		description: "In hueMatcher, adjust red, green, and blue to match the randomly generated color."
+	},
+	iconanimator: {
+		name: "iconAnimator",
+		size: "small",
+		tags: ["code","tool","design","art","svg"],
+		date: "August 20, 2024",
+		description: "Customize a looping CSS animation that draws an SVG icon's path."
 	},
 	icondesigner: {
 		name: "iconDesigner",
@@ -1102,6 +1109,13 @@ const PROJECTS = {
 		date: "August 7, 2023",
 		description: "A Chrome extension to rephrase text on any webpage in any style, via OpenAI's API."
 	},
+	rhymefinder: {
+		name: "rhymeFinder",
+		size: "small",
+		tags: ["code","tool","writing","poetry"],
+		date: "August 19, 2024",
+		description: "Find phonetic overlap: starting sounds, internal rhymes, and traditional end rhyme too."
+	},
 	robotdirector: {
 		name: "robotDirector",
 		size: "medium",
@@ -1254,7 +1268,7 @@ const PROJECTS = {
 	},
 	syllabolting: {
 		name: "Syllabolting",
-		size: "medium",
+		size: "large",
 		tags: ["code","writing","game","puzzle"],
 		date: "June 19, 2024",
 		description: "Connect words with overlapping sounds to build a chain from start to finish."

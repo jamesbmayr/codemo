@@ -141,58 +141,6 @@
 			} catch (error) {console.log(error)}
 		}
 
-	/* findWord */
-		function findWord(options) {
-			try {
-				// clear existing results
-					ELEMENTS.search.ipa.phonemes.innerHTML = ""
-					ELEMENTS.search.ipa.phonemeItems = []
-					ELEMENTS.error.text.innerText = ""
-					ELEMENTS.error.element.removeAttribute("visible")
-					ELEMENTS.results.element.innerHTML = ""
-					ELEMENTS.results.items = []
-
-				// get search
-					const search = ELEMENTS.search.input.value.trim().toLowerCase().replace(/[^a-z]/g, "")
-					if (!search.length) {
-						return
-					}
-
-				// find word
-					const matches = CONSTANTS.dictionary.filter(item => item[0].replace(/[^a-z]/g, "") == search)
-					if (!matches.length) {
-						ELEMENTS.error.text.innerText = "unknown word"
-						ELEMENTS.error.element.setAttribute("visible", "requestable")
-						setParameters({search})
-						return
-					}
-
-				// display first match
-					const firstMatch = matches[0]
-					const phonemes = firstMatch[1]
-					ELEMENTS.search.ipa.phonemeItems = displaySearchPhonemes(phonemes)
-
-				// get last vowel
-					let lastVowelIndex = 0
-					for (let i = 0; i < phonemes.length; i++) {
-						if (CONSTANTS.vowels.includes(phonemes[i])) {
-							lastVowelIndex = i
-						}
-					}
-
-				// set ranges
-					displaySliders({
-						startValue: options?.startValue ?? (lastVowelIndex || 0),
-						endValue: options?.endValue ?? phonemes.length,
-						phonemeCount: phonemes.length
-					})
-
-				// wait
-					clearTimeout(CONSTANTS.searchTimeout)
-					CONSTANTS.searchTimeout = setTimeout(findRhymes, 0)
-			} catch (error) {console.log(error)}
-		}
-
 	/* resetSearch */
 		ELEMENTS.search.reset.addEventListener(TRIGGERS.click, resetSearch)
 		function resetSearch(event) {
@@ -360,6 +308,90 @@
 
 				// return
 					return phonemes
+			} catch (error) {console.log(error)}
+		}
+
+/*** words ***/
+	/* findWord */
+		function findWord(options) {
+			try {
+				// clear existing results
+					ELEMENTS.search.ipa.phonemes.innerHTML = ""
+					ELEMENTS.search.ipa.phonemeItems = []
+					ELEMENTS.error.text.innerText = ""
+					ELEMENTS.error.element.removeAttribute("visible")
+					ELEMENTS.results.element.innerHTML = ""
+					ELEMENTS.results.items = []
+
+				// get search
+					const originalSearch = ELEMENTS.search.input.value.toLowerCase()
+					const condensedSearch = originalSearch.trim().replace(/[^a-z]/g, "")
+					if (!condensedSearch.trim().length) {
+						return
+					}
+
+				// single-word match
+					const matches = CONSTANTS.dictionary.filter(item => item[0].replace(/[^a-z]/g, "") == condensedSearch) || []
+					let phonemes = matches.length ? matches[0][1] : null
+					
+				// multi-word match
+					if (!phonemes) {
+						// split at spaces / dashes
+							const searchComponents = originalSearch.split(/[^a-z]/g)
+
+						// loop through and grab IPA for each
+							let concatenatedPhonemes = ""
+							for (const i in searchComponents) {
+								const submatches = CONSTANTS.dictionary.filter(item => item[0].replace(/[^a-z]/g, "") == searchComponents[i])
+								if (!submatches.length) {
+									ELEMENTS.error.text.innerText = "unknown word"
+									ELEMENTS.error.element.setAttribute("visible", "requestable")
+									setParameters({search})
+									return
+								}
+
+								concatenatedPhonemes += submatches[0][1]
+							}
+
+						// remove double letters
+							let previousPhoneme = phonemes = ""
+							for (let p in concatenatedPhonemes) {
+								if (concatenatedPhonemes[p] !== previousPhoneme) {
+									phonemes += concatenatedPhonemes[p]
+								}
+								previousPhoneme = concatenatedPhonemes[p]
+							}
+					}
+				
+				// no match
+					if (!phonemes) {
+						ELEMENTS.error.text.innerText = "unknown word"
+						ELEMENTS.error.element.setAttribute("visible", "requestable")
+						setParameters({search})
+						return
+					}
+
+				// display first match
+					ELEMENTS.search.ipa.phonemeItems = displaySearchPhonemes(phonemes)
+
+				// get last vowel
+					let lastVowelIndex = 0
+					for (let i = 0; i < phonemes.length; i++) {
+						if (CONSTANTS.vowels.includes(phonemes[i])) {
+							lastVowelIndex = i
+						}
+					}
+
+				// set ranges
+					displaySliders({
+						startValue: options?.startValue ?? (lastVowelIndex || 0),
+						endValue: options?.endValue ?? phonemes.length,
+						phonemeCount: phonemes.length
+					})
+
+				// wait
+					clearTimeout(CONSTANTS.searchTimeout)
+					CONSTANTS.searchTimeout = setTimeout(findRhymes, 0)
 			} catch (error) {console.log(error)}
 		}
 
