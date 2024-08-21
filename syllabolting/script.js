@@ -727,9 +727,21 @@
 	/* alphabetizeDictionary */
 		function alphabetizeDictionary(dictionary) {
 			try {
+				// duplicates
+					const dictionarySet = new Set()
+					for (const i in dictionary) {
+						const grapheme_phoneme = `${dictionary[i][0]}_${dictionary[i][1]}`
+						if (dictionarySet.has(grapheme_phoneme)) {
+							console.log(grapheme_phoneme)
+						}
+						else {
+							dictionarySet.add(grapheme_phoneme)
+						}
+					}
+
 				// sort by English word
 					return dictionary.sort((a, b) => {
-    					return (a[0] < b[0]) ? -1 : (a[0] > b[0]) ? 1 : 0
+						return (a[0] < b[0]) ? -1 : (a[0] > b[0]) ? 1 : 0
 					})
 			} catch (error) {console.log(error)}
 		}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>iconAnimator</title>
+		<link id="favicon" rel="shortcut icon" href="data:image/svg+xml,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='10 10 80 80'><path fill='%2304b1ff' d='M 50 40 C 47 40 45 38 45 35 C 45 32 45 28 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 28 55 32 55 35 C 55 38 53 40 50 40 Z M 71 29 C 73 31 73 34 71 36 C 69 38 66 41 64 43 C 62 45 59 45 57 43 C 55 41 55 38 57 36 C 59 34 62 31 64 29 C 66 27 69 27 71 29 Z M 60 50 C 60 47 62 45 65 45 C 68 45 72 45 75 45 C 78 45 80 47 80 50 C 80 53 78 55 75 55 C 72 55 68 55 65 55 C 62 55 60 53 60 50 Z M 71 71 C 69 73 66 73 64 71 C 62 69 59 66 57 64 C 55 62 55 59 57 57 C 59 55 62 55 64 57 C 66 59 69 62 71 64 C 73 66 73 69 71 71 Z M 50 80 C 47 80 45 78 45 75 C 45 72 45 68 45 65 C 45 62 47 60 50 60 C 53 60 55 62 55 65 C 55 68 55 72 55 75 C 55 78 53 80 50 80 Z M 43 57 C 45 59 45 62 43 64 C 41 66 38 69 36 71 C 34 73 31 73 29 71 C 27 69 27 66 29 64 C 31 62 34 59 36 57 C 38 55 41 55 43 57 Z M 40 50 C 40 53 38 55 35 55 C 32 55 28 55 25 55 C 22 55 20 53 20 50 C 20 47 22 45 25 45 C 28 45 32 45 35 45 C 38 45 40 47 40 50 Z M 43 43 C 41 45 38 45 36 43 C 34 41 31 38 29 36 C 27 34 27 31 29 29 C 31 27 34 27 36 29 C 38 31 41 34 43 36 C 45 38 45 41 43 43 Z'></path></svg>">
+		<link href="https://fonts.googleapis.com/css2?family=Alata&amp;display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<style id="keyframes"></style>
+		<meta name="description" content="iconAnimator is a Javascript demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="iconAnimator"/>
+		<meta property="og:url" content="https://jamesmayr.com/iconanimator"/>
+		<meta property="og:description" content="iconAnimator is a Javascript demo by James Mayr."/>
+		<meta property="og:image" content="https://jamesmayr.com/iconanimator/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<script src="../iconlibrary/svg.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<h1>iconAnimator</h1>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"><svg viewBox="10 10 80 80"><path></path></svg></a>
+		<div id="container">
+			<section id="options">
+				<div id="options-icon-outer">
+					<label for="options-icon-name">icon</label>			
+					<input id="options-icon-name" type="text" placeholder="icon name">
+					<div id="options-icon-results"></div>
+					<textarea id="options-icon-path" placeholder="icon path"></textarea>
+				</div>
+				<div>
+					<label for="options-stroke-color">stroke</label>
+					<input id="options-stroke-color" type="color" value="#04b1ff"></body>
+					<select id="options-stroke-corners">
+						<option value="round" selected>round</option>
+						<option value="sharp">sharp</option>
+						<option value="flat">flat</option>
+					</select>
+					<input id="options-stroke-width" type="number" value="3" step="0.1" min="0" max="25" placeholder="stroke width">
+					<span>px</span>
+				</div>
+				<div>
+					<label for="options-fill-color">fill</label>
+					<input id="options-fill-color" type="color" value="#111111"></body>
+					<select id="options-fill-type">
+						<option value="none" selected>none</option>
+						<option value="always">always</option>
+						<option value="complete">complete</option>
+					</select>
+				</div>
+				<div>
+					<label for="options-direction">animation</label>
+					<select id="options-direction">
+						<option value="forward">forward</option>
+						<option value="backward">backward</option>
+						<option value="forward-loop" selected>forward-loop</option>
+						<option value="backward-loop">backward-loop</option>
+					</select>
+				</div>
+				<div>
+					<label for="options-duration-animation">animation time</label>
+					<input id="options-duration-animation" type="number" value="1" step="0.1" min="0" max="60" placeholder="seconds">
+					<span>sec</span>
+				</div>
+				<div>
+					<label for="options-duration-endstates">endstates time</label>
+					<input id="options-duration-endstates" type="number" value="0.5" step="0.1" min="0" max="60" placeholder="seconds">
+					<span>sec</span>
+				</div>
+				<div id="options-iteration-outer">
+					<label for="options-iteration">infinite?</label>
+					<span>
+						<input id="options-iteration" type="checkbox" checked>
+					</span>
+				</div>
+			</section>
+			<section id="preview-outer">
+				<div id="preview">
+					<svg id="preview-svg" viewBox="0 0 100 100"><path id="preview-path"></path></svg>
+					<button id="preview-reset">
+						<svg viewBox="10 10 80 80"><path d="M 25 45 C 28 45 30 47 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 41 64 33 53 30 C 56 33 56 36 54 38 C 52 40 49 40 47 38 C 45 36 42 33 40 31 C 38 29 36 27 36 25 C 36 23 38 21 40 19 C 42 17 45 14 47 12 C 49 10 52 10 54 12 C 56 14 56 17 54 19 C 54 19 54 19 53 20 C 71 23 80 36 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 47 22 45 25 45 Z"></path></svg>
+					</button>
+				</div>
+			</section>
+			<hr>
+			<section id="text">
+				<div class="text-copy-outer">
+					<button id="text-html-copy" title="copy html">
+						<span><svg viewBox="20 20 60 60"><path d="M 45 40 C 48 40 51 40 54 40 C 57 40 60 43 60 46 C 60 49 60 52 60 55 C 65 55 70 55 73 55 C 74 55 75 54 75 53 C 75 45 75 35 75 27 C 75 26 74 25 73 25 C 65 25 55 25 47 25 C 46 25 45 26 45 27 C 45 30 45 35 45 40 C 45 40 45 40 45 40 Z M 27 45 C 26 45 25 46 25 47 C 25 55 25 65 25 73 C 25 74 26 75 27 75 C 35 75 45 75 53 75 C 54 75 55 74 55 73 C 55 65 55 55 55 47 C 55 46 54 45 53 45 C 45 45 35 45 27 45 Z M 60 60 C 60 65 60 70 60 74 C 60 77 57 80 54 80 C 45 80 35 80 26 80 C 23 80 20 77 20 74 C 20 65 20 55 20 46 C 20 43 23 40 26 40 C 30 40 35 40 40 40 C 40 35 40 30 40 26 C 40 23 43 20 46 20 C 55 20 65 20 74 20 C 77 20 80 23 80 26 C 80 35 80 45 80 54 C 80 57 77 60 74 60 C 70 60 65 60 60 60 C 60 60 60 60 60 60 Z"></path></svg></span>
+						<span><svg viewBox="20 20 60 60"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg></span>
+					</button>
+				</div>
+				<textarea id="text-html" placeholder="html" disabled><svg class="icon" viewBox="0 0 100 100"><path></path></svg></textarea>
+				<div class="text-copy-outer">
+					<button id="text-css-copy" title="copy css">
+						<span><svg viewBox="20 20 60 60"><path d="M 45 40 C 48 40 51 40 54 40 C 57 40 60 43 60 46 C 60 49 60 52 60 55 C 65 55 70 55 73 55 C 74 55 75 54 75 53 C 75 45 75 35 75 27 C 75 26 74 25 73 25 C 65 25 55 25 47 25 C 46 25 45 26 45 27 C 45 30 45 35 45 40 C 45 40 45 40 45 40 Z M 27 45 C 26 45 25 46 25 47 C 25 55 25 65 25 73 C 25 74 26 75 27 75 C 35 75 45 75 53 75 C 54 75 55 74 55 73 C 55 65 55 55 55 47 C 55 46 54 45 53 45 C 45 45 35 45 27 45 Z M 60 60 C 60 65 60 70 60 74 C 60 77 57 80 54 80 C 45 80 35 80 26 80 C 23 80 20 77 20 74 C 20 65 20 55 20 46 C 20 43 23 40 26 40 C 30 40 35 40 40 40 C 40 35 40 30 40 26 C 40 23 43 20 46 20 C 55 20 65 20 74 20 C 77 20 80 23 80 26 C 80 35 80 45 80 54 C 80 57 77 60 74 60 C 70 60 65 60 60 60 C 60 60 60 60 60 60 Z"></path></svg></span>
+						<span><svg viewBox="20 20 60 60"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg></span>
+					</button>
+				</div>
+				<textarea id="text-css" placeholder="css" disabled></textarea>
+			</section>
+		</div>
+	</body>
+</html>
