@@ -628,6 +628,13 @@ const PROJECTS = {
 		date: "January 15, 2022",
 		description: "Transform a random image - or your own selection - into a simple rotation puzzle."
 	},
+	imagestamper: {
+		name: "imageStamper",
+		size: "medium",
+		tags: ["code","tool","design","art","canvas","draw","photography","svg"],
+		date: "August 25, 2024",
+		description: "Draw all over an image - with colorful stamps!"
+	},
 	imagetextifier: {
 		name: "imageTextifier",
 		size: "small",
