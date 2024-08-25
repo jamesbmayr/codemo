@@ -19,7 +19,7 @@
 	</head>
 	<body>
 		<div id="canvas-outer">
-			<canvas id="canvas" height="1000" width="1000" tool="brush"></canvas>
+			<canvas id="canvas" height="1000" width="1000" tool="stamp"></canvas>
 		</div>
 		<div id="cursor-stamp">
 			<svg viewBox="0 0 100 100" id="cursor-stamp-svg"><path id="cursor-stamp-path"></path></svg>
@@ -62,7 +62,7 @@
 				<input id="tools-eraser-size" type="range" step="1" value="20" min="1" max="100">
 			</div>
 			<div class="tools-section" id="tools-section-brush">
-				<button id="tools-brush" value="brush" title="brush" active>
+				<button id="tools-brush" value="brush" title="brush">
 					<svg viewBox="10 10 80 80"><path d="M 48 66 C 47 67 48 68 48 70 C 48 75 45 80 35 80 C 28 80 24 76 22 74 C 20 72 20 72 26 72 C 31 72 30 68 38 64 C 40 63 41 64 43 62 C 51 51 64 33 72 22 C 76 17 82 22 78 27 C 71 36 57 54 48 66 Z"></path></svg>
 					<span>brush</span>
 				</button>
@@ -73,7 +73,7 @@
 				<input id="tools-brush-opacity" type="range" step="0.1" value="1" min="0.1" max="1">
 			</div>
 			<div class="tools-section" id="tools-section-stamp">
-				<button id="tools-stamp" value="stamp" title="stamp">
+				<button id="tools-stamp" value="stamp" title="stamp" active>
 					<svg viewBox="10 10 80 80"><path d="M 45 55 C 45 50 45 40 45 35 C 45 32 43 30 40 30 C 37 30 35 28 35 25 C 35 22 37 20 40 20 C 45 20 55 20 60 20 C 63 20 65 22 65 25 C 65 28 63 30 60 30 C 57 30 55 32 55 35 C 55 40 55 50 55 55 C 55 58 57 60 60 60 C 65 60 70 60 75 60 C 78 60 80 62 80 65 C 80 68 80 72 80 75 C 80 78 78 80 75 80 C 58 80 42 80 25 80 C 22 80 20 78 20 75 C 20 72 20 68 20 65 C 20 62 22 60 25 60 C 30 60 35 60 40 60 C 43 60 45 58 45 55 Z"></path></svg>
 					<span>stamp</span>
 				</button>

@@ -66,7 +66,7 @@
 
 	/* state */
 		const STATE = {
-			tool: "brush",
+			tool: "stamp",
 			background: {
 				image: null,
 				color: "#ffffff"
@@ -114,11 +114,12 @@
 				// set canvas
 					ELEMENTS.canvas.setAttribute("tool", STATE.tool)
 
-				// draw
-					drawBackground()
-
 				// set CSS
 					setStampCSS()
+					updateSearch()
+
+				// draw
+					drawBackground()
 
 				// save
 					appendHistory()
@@ -344,6 +345,7 @@
 		}
 
 	/* updateSearch */
+		ELEMENTS.tools.stampIcon.addEventListener(TRIGGERS.click, updateSearch)
 		ELEMENTS.tools.stampSearch.addEventListener(TRIGGERS.focus, updateSearch)
 		ELEMENTS.tools.stampSearch.addEventListener(TRIGGERS.input, updateSearch)
 		function updateSearch(event) {
@@ -351,6 +353,7 @@
 				// not yet searching
 					if (!ELEMENTS.tools.stampResults.getAttribute("visible")) {
 						ELEMENTS.tools.stampSearch.value = ""
+						ELEMENTS.tools.stampSearch.focus()
 						ELEMENTS.tools.stampResults.setAttribute("visible", true)
 					}
 
