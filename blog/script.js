@@ -417,6 +417,11 @@
 		function processMarkdown(html) {
 			try {
 				// html
+					// arbitrary code
+						if (html.indexOf("<div") == 0) {
+							return html
+						}
+
 					// iframe
 						if (html.indexOf("<iframe") == 0) {
 							return html
