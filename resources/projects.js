@@ -1184,6 +1184,13 @@ const PROJECTS = {
 		date: "May 30, 2016",
 		description: "Singles saw my return to lyrical composition with an emotional journey told through 16 alternative rock, pop, and jazz songs."
 	},
+	sixtactoe: {
+		name: "Six-Tac-Toe",
+		size: "small",
+		tags: ["code","ai","game","arcade","board","multiplayer","svg"],
+		date: "September 29, 2024",
+		description: "3-player 3-in-a-row on a hexagonal grid."
+	},
 	sketchtiler: {
 		name: "sketchTiler",
 		size: "small",

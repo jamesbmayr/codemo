@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Six-Tac-Toe</title>
+		<link rel="shortcut icon" href="data:image/svg+xml,<svg viewBox='20 20 60 60' xmlns='http://www.w3.org/2000/svg'><path fill='%2304b1ff' d='M 60 43 C 56 41 56 41 51 38 C 51 34 51 32 51 28 C 56 25 56 25 60 23 C 64 25 64 25 69 28 C 69 32 69 34 69 38 C 69 38 69 38 69 38 C 64 41 64 41 60 43 Z M 40 43 C 36 41 36 41 31 38 C 31 34 31 32 31 28 C 36 25 36 25 40 23 C 44 25 44 25 49 28 C 49 32 49 34 49 38 C 49 38 49 38 49 38 C 44 41 44 41 40 43 Z M 30 60 C 26 58 26 58 21 55 C 21 51 21 49 21 45 C 26 42 26 42 30 40 C 34 42 34 42 39 45 C 39 49 39 51 39 55 C 39 55 39 55 39 55 C 34 58 34 58 30 60 Z M 40 77 C 36 75 36 75 31 72 C 31 68 31 66 31 62 C 36 59 36 59 40 57 C 44 59 44 59 49 62 C 49 66 49 68 49 72 C 49 72 49 72 49 72 C 44 75 44 75 40 77 Z M 60 77 C 56 75 56 75 51 72 C 51 68 51 66 51 62 C 56 59 56 59 60 57 C 64 59 64 59 69 62 C 69 66 69 68 69 72 C 69 72 69 72 69 72 C 64 75 64 75 60 77 Z M 70 60 C 66 58 66 58 61 55 C 61 51 61 49 61 45 C 66 42 66 42 70 40 C 74 42 74 42 79 45 C 79 49 79 51 79 55 C 79 55 79 55 79 55 C 74 58 74 58 70 60 Z M 50 60 C 46 58 46 58 41 55 C 41 51 41 49 41 45 C 46 42 46 42 50 40 C 54 42 54 42 59 45 C 59 49 59 51 59 55 C 59 55 59 55 59 55 C 54 58 54 58 50 60 Z'></path></svg>">
+		<link href="https://fonts.googleapis.com/css2?family=Alata&amp;display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+		<meta name="description" content="Six-Tac-Toe is a Javascript demo by James Mayr"/>
+		<meta name="author" content="James Mayr"/>
+		<meta property="og:title" content="Six-Tac-Toe"/>
+		<meta property="og:url" content="https://jamesmayr.com/sixtactoe"/>
+		<meta property="og:description" content="Six-Tac-Toe is a Javascript demo by James Mayr."/>
+		<meta property="og:image" content="https://jamesmayr.com/sixtactoe/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+	</head>
+	<body>
+		<a id="j-logo" href="https://jamesmayr.com" target="_blank"><svg viewBox="10 10 80 80"><path></path></svg></a>
+		<div id="menu">
+			<div id="menu-background">
+				<svg viewBox="24 24 52 52"><path d="M 80 50 C 75 59 71 67 66 76 C 66 76 66 76 66 76 C 55 76 45 76 34 76 C 29 67 25 59 20 50 C 25 41 29 33 34 24 C 45 24 55 24 66 24 C 71 33 75 41 80 50 Z"></path></svg>
+			</div>
+			<div id="menu-top">
+				<h3>3-player 3-in-a-row</h3>
+				<h1>Six-Tac-Toe</h1>
+			</div>
+			<div id="menu-middle">
+				<label id="menu-p1">
+					<input id="menu-p1-checkbox" type="checkbox" checked>
+					<div id="menu-p1-human">human</div>
+					<span>1</span>
+					<div id="menu-p1-bot">bot</div>
+				</label>
+				<label id="menu-p2">
+					<input id="menu-p2-checkbox" type="checkbox" checked>
+					<div id="menu-p2-human">human</div>
+					<span>2</span>
+					<div id="menu-p2-bot">bot</div>
+				</label>
+				<label id="menu-p3">
+					<input id="menu-p3-checkbox" type="checkbox" checked>
+					<div id="menu-p3-human">human</div>
+					<span>3</span>
+					<div id="menu-p3-bot">bot</div>
+				</label>
+			</div>
+			<div id="menu-bottom">
+				<button id="menu-play">play</button>
+			</div>
+		</div>
+		<div id="board">
+			<div id="board-inner"></div>
+		</div>
+		<div id="message"></div>
+	</body>
+</html>
