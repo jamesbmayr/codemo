@@ -299,14 +299,6 @@
 						}
 					}
 
-				// rotation
-					if (tool == "stamp" && attribute == "rotation") {
-						if (STATE.stamp.rotation == CONSTANTS.circleDegrees) {
-							STATE.stamp.rotation = 0
-							ELEMENTS.tools.stampRotation.value = 0
-						}
-					}
-
 				// set tool
 					if (tool !== "background") {
 						selectTool(null, tool)
