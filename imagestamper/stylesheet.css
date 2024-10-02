@@ -84,7 +84,7 @@
 		#cursor-stamp-svg {
 			color: var(--stamp-color);
 			opacity: var(--stamp-opacity);
-			transform: var(--stamp-rotation);
+			transform: var(--stamp-flip) var(--stamp-rotation);
 		}
 
 			#cursor-stamp-path {
@@ -254,7 +254,7 @@
 						background: #484851;
 					}
 					#tools-stamp-rotation:hover:active::-moz-range-thumb {
-						background: #007aff;
+						background: 007aff;
 					}
 
 	/* color */
@@ -276,6 +276,39 @@
 			#tools input[type="color"]:hover, #tools input[type="color"]:focus {
 				background: var(--medium-gray);
 			}
+
+	/* flip */
+		#tools input[type="checkbox"] {
+			width: 0;
+			height: 0;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			outline: none;
+			color: transparent;
+			background: transparent;
+			pointer-events: none;
+			user-select: none;
+		}
+
+			#tools input[type="checkbox"]:checked + label {
+				background: var(--light-blue);
+			}
+
+			#tools input[type="checkbox"]:not(:checked):focus + label {
+				background: var(--medium-gray);
+			}
+
+		#tools-stamp-xflip-button {
+			margin-left: calc(var(--font-size) * 5 + 4 * var(--gap-size));
+			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
+			width: calc((100% - (var(--font-size) * 5 + 4 * var(--gap-size))) / 2) !important;
+		}
+
+		#tools-stamp-yflip-button {
+			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
+			width: calc((100% - (var(--font-size) * 5 + 4 * var(--gap-size))) / 2) !important;
+		}
 
 	/* history */
 		#tools #tools-undo {
@@ -394,7 +427,7 @@
 			#tools-stamp-icon {
 				color: var(--stamp-color);
 				opacity: var(--stamp-opacity);
-				transform: var(--stamp-rotation);
+				transform: var(--stamp-flip) var(--stamp-rotation);
 			}
 
 				#tools-stamp-icon-path {
@@ -424,7 +457,7 @@
 			#tools button.tools-stamp-result svg {
 				color: var(--stamp-color);
 				opacity: var(--stamp-opacity);
-				transform: var(--stamp-rotation);
+				transform: var(--stamp-flip) var(--stamp-rotation);
 			}
 
 		#tools-stamp-path {

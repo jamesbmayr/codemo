@@ -48,7 +48,7 @@
 					<span>reset</span>
 				</button>
 				<input id="tools-background-color" type="color" value="#ffffff" title="background">
-				<label id="tools-background-image-outer" class="pseudobutton" title="upload">
+				<label id="tools-background-image-outer" class="pseudobutton" title="upload background image">
 					<svg viewBox="0 0 100 100"><path d="M 55 80 C 62 80 69 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 C 20 82 22 80 25 80 C 31 80 38 80 45 80 C 45 65 45 39 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 40 18 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 39 55 65 55 80 Z"></path></svg>
 					<span>upload</span>
 					<input id="tools-background-image" type="file">
@@ -59,35 +59,46 @@
 					<svg viewBox="10 10 80 80"><path d="M 36 45 C 33 48 28 53 25 56 C 23 58 23 59 25 61 C 29 65 36 72 40 76 C 41 76 44 76 45 76 C 46 75 52 69 57 64 C 58 63 58 62 57 61 C 50 54 46 50 41 45 C 39 43 38 43 36 45 Z M 36 76 C 34 74 27 67 23 63 C 20 60 20 57 23 54 C 34 43 44 33 53 24 C 55 22 57 22 59 24 C 63 28 69 34 76 41 C 79 44 79 46 76 49 C 67 58 57 68 49 76 C 58 76 69 76 78 76 C 81 76 81 80 78 80 C 60 80 40 80 22 80 C 19 80 19 76 22 76 C 26 76 31 76 36 76 Z"></path></svg>
 					<span>eraser</span>
 				</button>
-				<input id="tools-eraser-size" type="range" step="1" value="20" min="1" max="100">
+				<input id="tools-eraser-size" type="range" step="1" value="20" min="1" max="100" title="eraser size">
 			</div>
 			<div class="tools-section" id="tools-section-brush">
 				<button id="tools-brush" value="brush" title="brush">
 					<svg viewBox="10 10 80 80"><path d="M 48 66 C 47 67 48 68 48 70 C 48 75 45 80 35 80 C 28 80 24 76 22 74 C 20 72 20 72 26 72 C 31 72 30 68 38 64 C 40 63 41 64 43 62 C 51 51 64 33 72 22 C 76 17 82 22 78 27 C 71 36 57 54 48 66 Z"></path></svg>
 					<span>brush</span>
 				</button>
-				<input id="tools-brush-size" type="range" step="1" value="20" min="1" max="100">
+				<input id="tools-brush-size" type="range" step="1" value="20" min="1" max="100" title="brush size">
 				<div class="tools-linebreak"></div>
-				<input id="tools-brush-color" type="color" value="#725dc1">
+				<input id="tools-brush-color" type="color" value="#725dc1" title="brush color">
 				<div id="tools-brush-opacity-backdrop"></div>
-				<input id="tools-brush-opacity" type="range" step="0.1" value="1" min="0.1" max="1">
+				<input id="tools-brush-opacity" type="range" step="0.1" value="1" min="0.1" max="1" title="brush opacity">
 			</div>
 			<div class="tools-section" id="tools-section-stamp">
 				<button id="tools-stamp" value="stamp" title="stamp" active>
 					<svg viewBox="10 10 80 80"><path d="M 45 55 C 45 50 45 40 45 35 C 45 32 43 30 40 30 C 37 30 35 28 35 25 C 35 22 37 20 40 20 C 45 20 55 20 60 20 C 63 20 65 22 65 25 C 65 28 63 30 60 30 C 57 30 55 32 55 35 C 55 40 55 50 55 55 C 55 58 57 60 60 60 C 65 60 70 60 75 60 C 78 60 80 62 80 65 C 80 68 80 72 80 75 C 80 78 78 80 75 80 C 58 80 42 80 25 80 C 22 80 20 78 20 75 C 20 72 20 68 20 65 C 20 62 22 60 25 60 C 30 60 35 60 40 60 C 43 60 45 58 45 55 Z"></path></svg>
 					<span>stamp</span>
 				</button>
-				<input id="tools-stamp-size" type="range" step="1" value="100" min="10" max="1000">
+				<input id="tools-stamp-size" type="range" step="1" value="100" min="10" max="1000" title="stamp size">
 				<div class="tools-linebreak"></div>
 				<input id="tools-stamp-color" type="color" value="#379494" title="stamp color">
 				<div id="tools-stamp-opacity-backdrop"></div>
-				<input id="tools-stamp-opacity" type="range" step="0.1" value="1" min="0.1" max="1">
+				<input id="tools-stamp-opacity" type="range" step="0.1" value="1" min="0.1" max="1" title="stamp opacity">
 				<div class="tools-linebreak"></div>
-				<button id="tools-stamp-rotate">
+				<button id="tools-stamp-rotate" title="rotate 90 degrees">
 					<svg viewBox="0 -5 100 100"><path d="M 75 45 C 78 45 80 47 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 36 29 23 47 20 C 46 19 46 19 46 19 C 44 17 44 14 46 12 C 48 10 51 10 53 12 C 55 14 58 17 60 19 C 62 21 64 23 64 25 C 64 27 62 29 60 31 C 58 33 55 36 53 38 C 51 40 48 40 46 38 C 44 36 44 33 47 30 C 36 33 30 41 30 50 C 30 61 39 70 50 70 C 61 70 70 61 70 50 C 70 47 72 45 75 45 Z"></path></svg>
 					<span>rotate</span>
 				</button>
-				<input id="tools-stamp-rotation" type="range" step="1" value="0" min="-360" max="360">
+				<input id="tools-stamp-rotation" type="range" step="1" value="0" min="-360" max="360" title="stamp rotation">
+				<div class="tools-linebreak"></div>
+				<input id="tools-stamp-xflip" type="checkbox">
+				<label id="tools-stamp-xflip-button" class="pseudobutton" for="tools-stamp-xflip" title="flip horizontally">
+					<svg viewBox="0 0 100 100"><path d="M 73 45 C 70 42 68 40 66 38 C 64 36 64 33 66 31 C 68 29 71 29 73 31 C 77 35 81 39 87 45 C 89 47 90 48 90 50 C 90 52 89 53 87 55 C 82 60 77 65 73 69 C 71 71 68 71 66 69 C 64 67 64 64 66 62 C 68 60 70 58 73 55 C 70 55 30 55 27 55 C 30 58 32 60 34 62 C 36 64 36 67 34 69 C 32 71 29 71 27 69 C 23 65 18 60 13 55 C 11 53 10 52 10 50 C 10 48 11 47 13 45 C 18 40 23 35 27 31 C 29 29 32 29 34 31 C 36 33 36 36 34 38 C 32 40 30 42 27 45 C 30 45 70 45 73 45 Z"></path></svg>
+					<span>flip</span>
+				</label>
+				<input id="tools-stamp-yflip" type="checkbox">
+				<label id="tools-stamp-yflip-button" class="pseudobutton" for="tools-stamp-yflip" title="flip vertically">
+					<svg viewBox="0 0 100 100"><path d="M 45 27 C 42 30 40 32 38 34 C 36 36 33 36 31 34 C 29 32 29 29 31 27 C 35 23 39 19 45 13 C 47 11 48 10 50 10 C 52 10 53 11 55 13 C 60 18 65 23 69 27 C 71 29 71 32 69 34 C 67 36 64 36 62 34 C 60 32 58 30 55 27 C 55 30 55 70 55 73 C 58 70 60 68 62 66 C 64 64 67 64 69 66 C 71 68 71 71 69 73 C 65 77 60 82 55 87 C 53 89 52 90 50 90 C 48 90 47 89 45 87 C 40 82 35 77 31 73 C 29 71 29 68 31 66 C 33 64 36 64 38 66 C 40 68 42 70 45 73 C 45 70 45 30 45 27 Z"></path></svg>
+					<span>flip</span>
+				</label>
 				<div class="tools-linebreak"></div>
 				<div id="tools-stamp-search-outer">
 					<input id="tools-stamp-search" type="text" placeholder="icon name">

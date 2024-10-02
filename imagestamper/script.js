@@ -43,6 +43,8 @@
 				stampOpacity: document.querySelector("#tools-stamp-opacity"),
 				stampRotate: document.querySelector("#tools-stamp-rotate"),
 				stampRotation: document.querySelector("#tools-stamp-rotation"),
+				stampXFlip: document.querySelector("#tools-stamp-xflip"),
+				stampYFlip: document.querySelector("#tools-stamp-yflip"),
 				stampSearch: document.querySelector("#tools-stamp-search"),
 				stampIcon: document.querySelector("#tools-stamp-icon"),
 				stampResults: document.querySelector("#tools-stamp-results"),
@@ -86,6 +88,8 @@
 				color: "#379494",
 				opacity: 1,
 				rotation: 0,
+				xflip: 1,
+				yflip: 1,
 				svg: null
 			},
 			pressing: false,
@@ -189,6 +193,7 @@
 													`\t--stamp-opacity: ${STATE.stamp.opacity};\n` +
 													`\t--stamp-size: ${stampSize}px;\n` +
 													`\t--stamp-rotation: rotate(${STATE.stamp.rotation}deg);\n` +
+													`\t--stamp-flip: scaleX(${STATE.stamp.xflip}) scaleY(${STATE.stamp.yflip});\n` +
 													`\t--stamp-path: path("${STATE.stamp.path}");\n` +
 													`}`
 
@@ -271,6 +276,8 @@
 		ELEMENTS.tools.stampColor.addEventListener(TRIGGERS.input, updateSetting)
 		ELEMENTS.tools.stampOpacity.addEventListener(TRIGGERS.input, updateSetting)
 		ELEMENTS.tools.stampRotation.addEventListener(TRIGGERS.input, updateSetting)
+		ELEMENTS.tools.stampXFlip.addEventListener(TRIGGERS.input, updateSetting)
+		ELEMENTS.tools.stampYFlip.addEventListener(TRIGGERS.input, updateSetting)
 		function updateSetting(event) {
 			try {
 				// get input
@@ -284,6 +291,9 @@
 				// set value
 					if (input.type == "range" || input.type == "number") {
 						STATE[tool][attribute] = Number(input.value)
+					}
+					else if (attribute == "xflip" || attribute == "yflip") {
+						STATE[tool][attribute] = input.checked ? -1 : 1
 					}
 					else {
 						STATE[tool][attribute] = input.value
@@ -325,6 +335,9 @@
 				setTimeout(() => {
 					// still within search
 						if (document.activeElement && document.activeElement.closest("#tools-section-stamp")) {
+							return
+						}
+						if (event.target && event.target.closest("#tools-section-stamp")) {
 							return
 						}
 
@@ -571,7 +584,7 @@
 		function pressCursor(event) {
 			try {
 				// stop search
-					revertSearch()
+					revertSearch(event)
 
 				// already drawing
 					if (STATE.drawing) {
@@ -749,6 +762,8 @@
 				// scale
 					const scaledWidth  = stampData.size
 					const scaledHeight = stampData.size
+					const xflip        = stampData.xflip
+					const yflip        = stampData.yflip
 
 				// offsets
 					const imageXoffset = -(scaledWidth  / 2)
@@ -758,6 +773,7 @@
 				// move & rotate
 					ELEMENTS.context.save()
 					ELEMENTS.context.translate(x, y)
+					ELEMENTS.context.scale(xflip, yflip)
 					ELEMENTS.context.rotate(imageAngle)
 
 				// draw
