@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Dance Dungeon Retribution</title>
+		<link rel="shortcut icon" href="#">
+		<link href="https://fonts.googleapis.com/css2?family=Jacquard+12&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="tracks.js" defer></script>
+		<script src="script.js" defer></script>
+	</head>
+	<body screen="menu">
+		<section id="menu">
+			<div id="menu-inner">
+				<h1>Dance Dungeon<br>Retribution</h1>
+				<hr>
+				<button id="menu-about" value="about">about</button>
+				<button id="menu-game">new game</button>
+				<button id="menu-highscores" value="highscores">high scores</button>
+			</div>
+		</section>
+		<section id="about">
+			<h2>about</h2>
+			<button id="about-menu" value="menu">back</button>
+			<hr>
+			<div id="about-inner">
+				<p>Dance Dungeon Retribution is a game created by <a href="https://echotechaudio.com" target="_blank">Alex Berg</a> and <a href="https://jamesmayr.com" target="_blank">James Mayr</a>.</p>
+			</div>
+		</section>
+		<section id="game">
+			<audio id="game-audio"></audio>
+			<div id="game-background"></div>
+			<div id="game-player"></div>
+			<div id="game-projectiles"></div>
+			<div id="game-foreground"></div>
+			<div id="game-health"></div>
+			<div id="game-tracker"></div>
+			<div id="game-score"></div>
+			<div id="game-streak"></div>
+			<div id="game-powerups">
+				<div id="game-powerups-x"></div>
+				<div id="game-powerups-y"></div>
+				<div id="game-powerups-z"></div>
+			</div>
+			<div id="game-gameover">
+				<h2 id="game-gameover-message"></h2>
+				<hr>
+				<form id="game-gameover-form" method="post" action="javascript:;">
+					<input id="game-gameover-name" type="text" placeholder="your name" autocomplete="off" autocapitalize="off" spellcheck="false">
+					<div id="game-gameover-score"></div>
+					<button id="game-gameover-save">
+						<span>save</span>
+						<span>saving...</span>
+					</button>
+				</form>
+			</div>
+		</section>
+		<section id="highscores">
+			<h2>highscores</h2>
+			<button id="highscores-menu" value="menu">back</button>
+			<hr>
+			<div id="highscores-inner"></div>
+		</section>
+	</body>
+</html>
