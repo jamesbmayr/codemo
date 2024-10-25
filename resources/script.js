@@ -28,6 +28,7 @@
 			waitTime: 300, // ms
 			timeout: null
 		}
+		const PIN_SVG = `<svg viewBox="10 10 80 80"><path d="M 63 64 C 62 63 61 63 60 64 C 59 65 56 68 53 71 C 50 74 50 74 49 70 C 48 66 48 66 47 62 C 46 58 46 55 43 52 C 40 49 37 49 33 48 C 29 47 29 47 25 46 C 21 45 21 45 24 42 C 30 36 36 30 42 24 C 45 21 45 21 46 25 C 47 29 47 29 48 33 C 49 37 49 40 52 43 C 55 46 58 46 62 47 C 66 48 66 48 70 49 C 74 50 74 50 71 53 C 68 56 65 59 64 60 C 63 61 63 62 64 63 C 65 64 65 64 66 65 C 66 66 65 66 65 66 C 64 65 64 65 63 64 Z"></path></svg>`
 		
 /*** action ***/
 	/* searchOnLoad */
@@ -215,6 +216,12 @@
 
 				// sort by date
 					projectsArray = projectsArray.sort(function(a, b) {
+						if (a.pinned && !b.pinned) {
+							return -1
+						}
+						if (b.pinned && !a.pinned) {
+							return 1
+						}
 						return ((new Date(b.date).getTime()) - (new Date(a.date).getTime()))
 					})
 
@@ -256,6 +263,14 @@
 						element.setAttribute("image-url", id + "/banner.png")
 					if (project.hidden) {
 						element.setAttribute("rel", "nofollow noopener noreferrer")
+					}
+
+				// pin
+					if (project.pinned) {
+						let pin = document.createElement("div")
+							pin.className = "project-pin"
+							pin.innerHTML = PIN_SVG
+						element.appendChild(pin)
 					}
 
 				// name

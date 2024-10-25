@@ -360,11 +360,26 @@
 			margin-bottom: var(--medium-gap-size);
 			margin-right: var(--medium-gap-size);
 			background-color: var(--dark-gray);
-			overflow: hidden;
 			box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
 			scrollbar-width: 0;
 			-ms-overflow-style: none;
 		}
+
+		.project-pin {
+			float: left;
+			height: 0;
+			width: 0;
+			margin-left: calc(var(--medium-font-size) * -0.5);
+			margin-top: calc(var(--medium-font-size) * -0.5);
+			z-index: 1;
+		}
+
+			.project-pin svg {
+				fill: currentColor;
+				color: var(--light-gray);
+				height: var(--medium-font-size);
+				width: var(--medium-font-size);
+			}
 
 		.project-name-outer {
 			float: left;

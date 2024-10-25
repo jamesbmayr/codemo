@@ -395,6 +395,7 @@ const PROJECTS = {
 		description: "Drafts Adrift 2 is a combination of various projects - including video game soundtracks, avant garde experiments, and some lyrical tracks."
 	},
 	draftsadrift3: {
+		pinned: true,
 		skipRandom: true,
 		name: "Drafts Adrift 3",
 		size: "large",
@@ -496,6 +497,7 @@ const PROJECTS = {
 		description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 	},
 	ghostescaper: {
+		pinned: true,
 		name: "ghostEscaper",
 		size: "medium",
 		tags: ["code","fantasy","game","arcade","svg"],
@@ -512,6 +514,7 @@ const PROJECTS = {
 		description: "This is a companion app for Goods, a multi-player strategy card game."
 	},
 	gradientmaker: {
+		pinned: true,
 		name: "gradientMaker",
 		size: "small",
 		tags: ["code","math","tool","design","art","canvas","draw"],
@@ -564,6 +567,7 @@ const PROJECTS = {
 		description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
 	},
 	hextris: {
+		pinned: true,
 		name: "hextris",
 		size: "medium",
 		tags: ["code","game","arcade","puzzle","svg","collaboration"],
@@ -629,6 +633,7 @@ const PROJECTS = {
 		description: "Transform a random image - or your own selection - into a simple rotation puzzle."
 	},
 	imagestamper: {
+		pinned: true,
 		name: "imageStamper",
 		size: "medium",
 		tags: ["code","tool","design","art","canvas","draw","photography","svg"],
@@ -1117,6 +1122,7 @@ const PROJECTS = {
 		description: "A Chrome extension to rephrase text on any webpage in any style, via OpenAI's API."
 	},
 	rhymefinder: {
+		pinned: true,
 		name: "rhymeFinder",
 		size: "small",
 		tags: ["code","tool","writing","poetry"],
