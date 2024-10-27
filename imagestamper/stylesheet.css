@@ -260,7 +260,7 @@
 	/* color */
 		#tools input[type="color"] {
 			height: calc(var(--font-size) + 2* var(--gap-size));
-			background: white;
+			background: var(--light-gray);
 			color: var(--dark-gray);
 			border-radius: var(--border-radius);
 			transition: var(--transition-time);
