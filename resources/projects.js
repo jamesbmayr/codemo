@@ -948,6 +948,14 @@ const PROJECTS = {
 		date: "November 1, 2012",
 		description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
 	},
+	phonemefinder: {
+		skipRandom: true,
+		name: "phonemeFinder",
+		size: "small",
+		tags: ["code","writing","game","puzzle"],
+		date: "November 21, 2024",
+		description: "Search for words in this hexagonal jumble of phonetic symbols."
+	},
 	phoneticconverter: {
 		skipRandom: true,
 		name: "phoneticConverter",
