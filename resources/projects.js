@@ -48,6 +48,7 @@ const PROJECTS = {
 		description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 	},
 	artparts: {
+		pinned: true,
 		skipRandom: true,
 		name: "ArtParts",
 		size: "medium",
@@ -395,7 +396,6 @@ const PROJECTS = {
 		description: "Drafts Adrift 2 is a combination of various projects - including video game soundtracks, avant garde experiments, and some lyrical tracks."
 	},
 	draftsadrift3: {
-		pinned: true,
 		skipRandom: true,
 		name: "Drafts Adrift 3",
 		size: "large",
@@ -497,7 +497,6 @@ const PROJECTS = {
 		description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 	},
 	ghostescaper: {
-		pinned: true,
 		name: "ghostEscaper",
 		size: "medium",
 		tags: ["code","fantasy","game","arcade","svg"],
@@ -1233,6 +1232,15 @@ const PROJECTS = {
 		tags: ["design","code","canvas","draw","art","tool"],
 		date: "January 1, 2019",
 		description: "Draw hexagonally symmetrical snowflakes in this canvas-powered web app."
+	},
+	songswecouldplaytogether: {
+		pinned: true,
+		skipRandom: true,
+		name: "Songs We Could Play Together",
+		size: "large",
+		tags: ["music","audio","jazz","orchestral","piano","pop","synth","writing","lyric","poetry","collaboration"],
+		date: "December 1, 2024",
+		description: "I set out to write an album in a year, with a particular focus on music I could play with friends and family."
 	},
 	soundbubbler: {
 		name: "soundBubbler",

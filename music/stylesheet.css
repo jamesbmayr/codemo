@@ -335,6 +335,7 @@
 			color: var(--light-gray);
 			transition: var(--transition-time);
 			outline: none;
+			vertical-align: top;
 		}
 
 		#discography ol li button:hover, #discography ol li button:focus {

@@ -115,6 +115,114 @@
 					height: 3
 				},
 			],
+			rooms_new: [
+				// 1
+				{
+					name: "porch",
+					background: "dark-orange",
+					top: 24,
+					left: 3,
+					width: 16,
+					height: 1
+				},
+				{
+					name: "hall",
+					background: "medium-red",
+					top: 14,
+					left: 3,
+					width: 6,
+					height: 10
+				},
+				{
+					name: "living room",
+					background: "medium-green",
+					top: 14,
+					left: 9,
+					width: 10,
+					height: 10
+				},
+				{
+					name: "kitchen",
+					background: "medium-orange",
+					top: 4,
+					left: 3,
+					width: 10,
+					height: 10
+				},
+				{
+					name: "bathroom",
+					background: "medium-blue",
+					top: 4,
+					left: 13,
+					width: 6,
+					height: 5
+				},
+				{
+					name: "studio",
+					background: "medium-purple",
+					top: 9,
+					left: 13,
+					width: 6,
+					height: 5
+				},
+				{
+					name: "laundry room",
+					background: "medium-gray",
+					top: 0,
+					left: 9,
+					width: 10,
+					height: 4
+				},
+				// 2
+				{
+					name: "stairs",
+					background: "light-red",
+					top: 14,
+					left: 23,
+					width: 6,
+					height: 4
+				},
+				{
+					name: "bathroom",
+					background: "light-blue",
+					top: 18,
+					left: 23,
+					width: 6,
+					height: 6
+				},
+				{
+					name: "guest room",
+					background: "light-green",
+					top: 14,
+					left: 29,
+					width: 10,
+					height: 10
+				},
+				{
+					name: "craft room",
+					background: "light-purple",
+					top: 4,
+					left: 23,
+					width: 10,
+					height: 10
+				},
+				{
+					name: "bedroom",
+					background: "light-yellow",
+					top: 4,
+					left: 33,
+					width: 6,
+					height: 5
+				},
+				{
+					name: "office",
+					background: "light-gray",
+					top: 9,
+					left: 33,
+					width: 6,
+					height: 5
+				},
+			],
 			devices: [
 				// philips hue
 					{

@@ -260,7 +260,25 @@
 				{name: "Cycles", audio: "cycles.mp3"},
 				{name: "Ending", audio: "ending.mp3"},
 				{name: "Reflections", audio: "reflections.mp3"}
-			]}
+			]},
+			songswecouldplaytogether: {id: "songswecouldplaytogether", image: "songswecouldplaytogether.png", name: "Songs We Could Play Together", year: 2024, tracks: [
+				{name: "The Wilds", audio: "thewilds.mp3"},
+				{name: "Lifelong Love", audio: "lifelonglove.mp3", lyrics: "lifelonglove.txt"},
+				{name: "Downturn Upswing", audio: "downturnupswing.mp3"},
+				{name: "And Still", audio: "andstill.mp3", lyrics: "andstill.txt"},
+				{name: "Dusk", audio: "dusk.mp3"},
+				{name: "Hero Returns Home", audio: "heroreturnshome.mp3"},
+				{name: "Insuervio Mondo", audio: "insuerviomondo.mp3"},
+				{name: "Voyage", audio: "voyage.mp3"},
+				{name: "Unrestoration", audio: "unrestoration.mp3"},
+				{name: "Running", audio: "running.mp3", lyrics: "running.txt"},
+				{name: "Sand Star", audio: "sandstar.mp3"},
+				{name: "Perspektive", audio: "perspektive.mp3", lyrics: "perspektive.txt"},
+				{name: "Suppertime Calamity", audio: "suppertimecalamity.mp3"},
+				{name: "Fortinbros Rereleased", audio: "fortinbrosrereleased.mp3"},
+				{name: "The Fuzzies", audio: "thefuzzies.mp3"},
+				{name: "All Good Things", audio: "allgoodthings.mp3", lyrics: "allgoodthings.txt"}
+			]},
 		}
 
 /*** menu ***/

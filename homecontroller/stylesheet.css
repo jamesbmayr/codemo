@@ -4,7 +4,7 @@
 		--house-width-height-ratio: calc(42 / 25);
 		--light-translucent: rgba(221, 221, 221, 0.9);
 		--light-gray: #dddddd;
-		--medium-gray: #555555;
+		--medium-gray: #777777;
 		--dark-gray: #111111;
 		--light-red: #ddaaaa;
 		--medium-red: #aa5555;
@@ -98,7 +98,6 @@
 			text-overflow: ellipsis;
 			overflow: hidden;
 			white-space: nowrap;
-			padding: var(--font-size);
 			box-sizing: border-box;
 		}
 
