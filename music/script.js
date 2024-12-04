@@ -466,10 +466,10 @@
 						}
 					}
 				
-				// neither
+				// neither --> newest album, random track
 					if (!STATE.album) {
 						const keys = Object.keys(MUSIC)
-						STATE.album = keys[Math.floor(Math.random() * keys.length)]
+						STATE.album = keys[keys.length - 1]
 
 						const album = MUSIC[STATE.album]
 						STATE.index = Math.floor(Math.random() * album.tracks.length)
