@@ -34,245 +34,203 @@
 				ifttt_key: "/with/key/"
 			},
 			rooms: [
-				{
-					name: "hall",
-					background: "light-red",
-					top: 4,
-					left: 6,
-					width: 11,
-					height: 6
-				},
-				{
-					name: "", // closet
-					background: "light-red",
-					top: 0,
-					left: 12,
-					width: 5,
-					height: 4
-				},
-				{
-					name: "", // hall
-					background: "light-red",
-					top: 7,
-					left: 17,
-					width: 7,
-					height: 3
-				},
-				{
-					name: "bathroom",
-					background: "light-yellow",
-					top: 0,
-					left: 17,
-					width: 7,
-					height: 7
-				},
-				{
-					name: "kitchen",
-					background: "light-orange",
-					top: 0,
-					left: 24,
-					width: 12,
-					height: 10
-				},
-				{
-					name: "", // pantry
-					background: "light-orange",
-					top: 0,
-					left: 36,
-					width: 6,
-					height: 5
-				},
-				{
-					name: "craft room",
-					background: "light-purple",
-					top: 10,
-					left: 0,
-					width: 13,
-					height: 12
-				},
-				{
-					name: "living room",
-					background: "light-blue",
-					top: 10,
-					left: 13,
-					width: 15,
-					height: 15
-				},
-				{
-					name: "bedroom",
-					background: "light-green",
-					top: 13,
-					left: 28,
-					width: 11,
-					height: 9
-				},
-				{
-					name: "", // bedroom
-					background: "light-green",
-					top: 10,
-					left: 32,
-					width: 7,
-					height: 3
-				},
-			],
-			rooms_new: [
 				// 1
 				{
 					name: "porch",
-					background: "dark-orange",
-					top: 24,
-					left: 3,
+					background: "#abb5bf",
+					top: 25 + 22,
+					left: 0,
 					width: 16,
 					height: 1
 				},
 				{
 					name: "hall",
-					background: "medium-red",
-					top: 14,
-					left: 3,
+					background: "#6b3e2b",
+					top: 15 + 22,
+					left: 0,
 					width: 6,
 					height: 10
 				},
 				{
 					name: "living room",
-					background: "medium-green",
-					top: 14,
-					left: 9,
+					background: "#efe273",
+					top: 15 + 22,
+					left: 6,
 					width: 10,
 					height: 10
 				},
 				{
 					name: "kitchen",
-					background: "medium-orange",
-					top: 4,
-					left: 3,
+					background: "#a1444d",
+					top: 5 + 22,
+					left: 0,
 					width: 10,
 					height: 10
 				},
 				{
 					name: "bathroom",
-					background: "medium-blue",
-					top: 4,
-					left: 13,
+					background: "#f0a5dd",
+					top: 5 + 22,
+					left: 10,
 					width: 6,
 					height: 5
 				},
 				{
 					name: "studio",
-					background: "medium-purple",
-					top: 9,
-					left: 13,
+					background: "#d8b167",
+					top: 10 + 22,
+					left: 10,
 					width: 6,
 					height: 5
 				},
 				{
 					name: "laundry room",
-					background: "medium-gray",
-					top: 0,
-					left: 9,
+					background: "#dddddd",
+					top: 0 + 22,
+					left: 6,
 					width: 10,
-					height: 4
+					height: 5
 				},
 				// 2
 				{
 					name: "stairs",
-					background: "light-red",
-					top: 14,
-					left: 23,
+					background: "#6b3e2b",
+					top: 10,
+					left: 0,
 					width: 6,
 					height: 4
 				},
 				{
 					name: "bathroom",
-					background: "light-blue",
-					top: 18,
-					left: 23,
+					background: "#a477c5",
+					top: 14,
+					left: 0,
 					width: 6,
 					height: 6
 				},
 				{
 					name: "guest room",
-					background: "light-green",
-					top: 14,
-					left: 29,
+					background: "#85ba58",
+					top: 10,
+					left: 6,
 					width: 10,
 					height: 10
 				},
 				{
 					name: "craft room",
-					background: "light-purple",
-					top: 4,
-					left: 23,
+					background: "#3b9791",
+					top: 0,
+					left: 0,
 					width: 10,
 					height: 10
 				},
 				{
 					name: "bedroom",
-					background: "light-yellow",
-					top: 4,
-					left: 33,
+					background: "#612aba",
+					top: 0,
+					left: 10,
 					width: 6,
 					height: 5
 				},
 				{
 					name: "office",
-					background: "light-gray",
-					top: 9,
-					left: 33,
+					background: "#04b1ff",
+					top: 5,
+					left: 10,
 					width: 6,
 					height: 5
 				},
 			],
 			devices: [
-				// philips hue
-					{
-						name: "hallway lights",
-						svg: SVG.ceilingLight,
-						top: 8.5,
-						left: 11.5,
-						buttons: {
-							"on": ["ifttt_url||hallway_lights_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||hallway_lights_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "bathroom lights",
-						svg: SVG.ceilingLight,
-						top: 5,
-						left: 20.5,
-						buttons: {
-							"on": ["ifttt_url||bathroom_lights_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bathroom_lights_off||ifttt_key", SVG.x]
-						}
-					},
+				// philips hue			
 					{
 						name: "kitchen lights",
 						svg: SVG.ceilingLight,
-						top: 6.5,
-						left: 30,
+						top: 32,
+						left: 5,
 						buttons: {
 							"on": ["ifttt_url||kitchen_lights_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||kitchen_lights_off||ifttt_key", SVG.x]
 						}
 					},
 					{
-						name: "living room lights",
+						name: "laundry room lights",
 						svg: SVG.ceilingLight,
-						top: 14.5,
-						left: 20.5,
+						top: 24.5,
+						left: 11,
 						buttons: {
-							"on": ["ifttt_url||living_room_lights_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||living_room_lights_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||laundry_room_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||laundry_room_lights_off||ifttt_key", SVG.x]
 						}
 					},
 					{
-						name: "bedside lights",
-						svg: SVG.sideLamp,
-						top: 14.5,
-						left: 29.5,
+						name: "studio lights",
+						svg: SVG.ceilingLight,
+						top: 34.5,
+						left: 13,
 						buttons: {
-							"on": ["ifttt_url||bedside_lights_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bedside_lights_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||studio_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||studio_lights_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "hall lamp",
+						svg: SVG.floorLamp,
+						top: 11,
+						left: 1.5,
+						buttons: {
+							"on": ["ifttt_url||hall_lamp_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||hall_lamp_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "stair lamp",
+						svg: SVG.floorLamp,
+						top: 38,
+						left: 1.5,
+						buttons: {
+							"on": ["ifttt_url||hall_lamp_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||hall_lamp_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "bedside lamp",
+						svg: SVG.sideLamp,
+						top: 1,
+						left: 14.5,
+						buttons: {
+							"on": ["ifttt_url||bedside_lamp_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||bedside_lamp_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "craft room lamp",
+						svg: SVG.floorLamp,
+						top: 5,
+						left: 5,
+						buttons: {
+							"on": ["ifttt_url||craft_room_lamp_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||craft_room_lamp_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "office lights",
+						svg: SVG.ceilingLight,
+						top: 6.5,
+						left: 13,
+						buttons: {
+							"on": ["ifttt_url||office_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||office_lights_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "guest room lights",
+						svg: SVG.ceilingLight,
+						top: 15,
+						left: 11,
+						buttons: {
+							"on": ["ifttt_url||guest_room_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_lights_off||ifttt_key", SVG.x]
 						}
 					},
 
@@ -280,8 +238,8 @@
 					{
 						name: "oscar",
 						svg: SVG.vacuum,
-						top: 3.5,
-						left: 40.5,
+						top: 24.5,
+						left: 14.5,
 						buttons: {
 							"on": ["ifttt_url||vacuum_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||vacuum_off||ifttt_key", SVG.x]
@@ -290,40 +248,20 @@
 
 				// smartlife
 					{
-						name: "craft room lamp",
-						svg: SVG.floorLamp,
-						top: 20.5,
-						left: 1.5,
+						name: "air purifier",
+						svg: SVG.airPurifier,
+						top: 40.5,
+						left: 11,
 						buttons: {
-							"on": ["ifttt_url||craft_room_lamp_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||craft_room_lamp_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "craft room string lights",
-						svg: SVG.stringLights,
-						top: 14.5,
-						left: 1.5,
-						buttons: {
-							"on": ["ifttt_url||craft_room_string_lights_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||craft_room_string_lights_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "space heater",
-						svg: SVG.spaceHeater,
-						top: 17.5,
-						left: 8.25,
-						buttons: {
-							"on": ["ifttt_url||craft_room_heater_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||craft_room_heater_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||air_purifier_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||air_purifier_off||ifttt_key", SVG.x]
 						}
 					},
 					{
 						name: "living room lamp",
 						svg: SVG.floorLamp,
-						top: 23.5,
-						left: 14.5,
+						top: 38,
+						left: 11,
 						buttons: {
 							"on": ["ifttt_url||living_room_lamp_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||living_room_lamp_off||ifttt_key", SVG.x]
@@ -332,68 +270,28 @@
 					{
 						name: "living room string lights",
 						svg: SVG.stringLights,
-						top: 14.5,
-						left: 13,
+						top: 37,
+						left: 8,
 						buttons: {
 							"on": ["ifttt_url||living_room_string_lights_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||living_room_string_lights_off||ifttt_key", SVG.x]
 						}
 					},
 					{
-						name: "humidifier",
-						svg: SVG.airPurifier,
-						top: 17.5,
-						left: 14.5,
+						name: "craft room string lights",
+						svg: SVG.stringLights,
+						top: 2.5,
+						left: 8,
 						buttons: {
-							"on": ["ifttt_url||humidifier_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||humidifier_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "living room air",
-						svg: SVG.airConditioner,
-						top: 23.5,
-						left: 20.5,
-						buttons: {
-							"on": ["ifttt_url||living_room_air_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||living_room_air_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "bedroom lamp",
-						svg: SVG.floorLamp,
-						top: 12,
-						left: 33.5,
-						buttons: {
-							"on": ["ifttt_url||bedroom_lamp_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bedroom_lamp_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "bedroom air",
-						svg: SVG.airConditioner,
-						top: 20.5,
-						left: 33.5,
-						buttons: {
-							"on": ["ifttt_url||bedroom_air_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bedroom_air_off||ifttt_key", SVG.x]
-						}
-					},
-					{
-						name: "bedroom fan",
-						svg: SVG.fan,
-						top: 14.5,
-						left: 37.5,
-						buttons: {
-							"on": ["ifttt_url||bedroom_fan_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bedroom_fan_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||craft_room_string_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||craft_room_string_lights_off||ifttt_key", SVG.x]
 						}
 					},
 					{
 						name: "bedroom string lights",
 						svg: SVG.stringLights,
-						top: 17.5,
-						left: 37.5,
+						top: 4,
+						left: 14.5,
 						buttons: {
 							"on": ["ifttt_url||bedroom_string_lights_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||bedroom_string_lights_off||ifttt_key", SVG.x]
@@ -404,8 +302,8 @@
 					{
 						name: "sonos",
 						svg: SVG.music,
-						top: 20.5,
-						left: 26.5,
+						top: 38,
+						left: 14.5,
 						buttons: {
 							"play": ["ifttt_url||sonos_on||ifttt_key", SVG.play],
 							"pause": ["ifttt_url||sonos_off||ifttt_key", SVG.pause],
@@ -416,8 +314,8 @@
 					{
 						name: "craft room speaker",
 						svg: SVG.speaker,
-						top: 20.5,
-						left: 5.5,
+						top: 8.5,
+						left: 1.5,
 						buttons: {
 							"on": ["ifttt_url||craft_room_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||craft_room_speaker_off||ifttt_key", SVG.x],
@@ -428,8 +326,8 @@
 					{
 						name: "living room speaker",
 						svg: SVG.speaker,
-						top: 12,
-						left: 24,
+						top: 45.5,
+						left: 7.5,
 						buttons: {
 							"on": ["ifttt_url||living_room_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||living_room_speaker_off||ifttt_key", SVG.x],
@@ -438,22 +336,22 @@
 						}
 					},
 					{
-						name: "bedroom speaker",
+						name: "guest room speaker",
 						svg: SVG.speaker,
-						top: 17.5,
-						left: 29.5,
+						top: 11.5,
+						left: 11,
 						buttons: {
-							"on": ["ifttt_url||bedroom_speaker_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bedroom_speaker_off||ifttt_key", SVG.x],
-							"up": ["ifttt_url||bedroom_speaker_volume_up||ifttt_key", SVG.volumeUp],
-							"down": ["ifttt_url||bedroom_speaker_volume_down||ifttt_key", SVG.volumeDown]
+							"on": ["ifttt_url||guest_room_speaker_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_speaker_off||ifttt_key", SVG.x],
+							"up": ["ifttt_url||guest_room_speaker_volume_up||ifttt_key", SVG.volumeUp],
+							"down": ["ifttt_url||guest_room_speaker_volume_down||ifttt_key", SVG.volumeDown]
 						}
 					},
 					{
 						name: "kitchen speaker",
 						svg: SVG.speaker,
-						top: 2,
-						left: 25.5,
+						top: 34.5,
+						left: 1.5,
 						buttons: {
 							"on": ["ifttt_url||kitchen_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||kitchen_speaker_off||ifttt_key", SVG.x],
@@ -462,10 +360,22 @@
 						}
 					},
 					{
+						name: "office speaker",
+						svg: SVG.speaker,
+						top: 9,
+						left: 13,
+						buttons: {
+							"on": ["ifttt_url||office_speaker_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||office_speaker_off||ifttt_key", SVG.x],
+							"up": ["ifttt_url||office_speaker_volume_up||ifttt_key", SVG.volumeUp],
+							"down": ["ifttt_url||office_speaker_volume_down||ifttt_key", SVG.volumeDown]
+						}
+					},
+					{
 						name: "roam",
 						svg: SVG.speaker,
-						top: 20.5,
-						left: 11,
+						top: 2.5,
+						left: 11.5,
 						buttons: {
 							"on": ["ifttt_url||roam_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||roam_off||ifttt_key", SVG.x],
@@ -476,26 +386,26 @@
 					{
 						name: "record player",
 						svg: SVG.recordPlayer,
-						top: 17.5,
-						left: 26.5,
+						top: 40.5,
+						left: 15,
 						buttons: {
 							"target": ["ifttt_url||record_player_on||ifttt_key", SVG.record]
 						}
 					},
 
-				// honeywell
-					{
-						name: "thermostat",
-						svg: SVG.furnace,
-						top: 20.5,
-						left: 14.5,
-						buttons: {
-							"65": ["ifttt_url||thermostat_to||ifttt_key||?value1=65", SVG.temperature1],
-							"68": ["ifttt_url||thermostat_to||ifttt_key||?value1=68", SVG.temperature2],
-							"70": ["ifttt_url||thermostat_to||ifttt_key||?value1=70", SVG.temperature3],
-							"72": ["ifttt_url||thermostat_to||ifttt_key||?value1=72", SVG.temperature4]
-						}
-					}
+				// honeywell // ???
+					// {
+					// 	name: "thermostat",
+					// 	svg: SVG.furnace,
+					// 	top: 37,
+					// 	left: 6,
+					// 	buttons: {
+					// 		"65": ["ifttt_url||thermostat_to||ifttt_key||?value1=65", SVG.temperature1],
+					// 		"68": ["ifttt_url||thermostat_to||ifttt_key||?value1=68", SVG.temperature2],
+					// 		"70": ["ifttt_url||thermostat_to||ifttt_key||?value1=70", SVG.temperature3],
+					// 		"72": ["ifttt_url||thermostat_to||ifttt_key||?value1=72", SVG.temperature4]
+					// 	}
+					// }
 			]
 		}
 
@@ -604,7 +514,7 @@
 				// create element
 					let roomElement = document.createElement("div")
 						roomElement.className = "room"
-						roomElement.style.background = "var(--" + room.background + ")"
+						roomElement.style.background = room.background
 						roomElement.style.top = "calc(" + room.top + " * var(--foot))"
 						roomElement.style.left = "calc(" + room.left + " * var(--foot) / var(--house-width-height-ratio))"
 						roomElement.style.height = "calc(" + room.height + " * var(--foot))"
