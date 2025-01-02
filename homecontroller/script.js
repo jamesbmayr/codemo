@@ -327,7 +327,7 @@
 						name: "living room speaker",
 						svg: SVG.speaker,
 						top: 45.5,
-						left: 7.5,
+						left: 11,
 						buttons: {
 							"on": ["ifttt_url||living_room_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||living_room_speaker_off||ifttt_key", SVG.x],
