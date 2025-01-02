@@ -323,8 +323,8 @@
 
 				// csvRows
 					const csvRows = []				
-					for (const j in json) {
-						const row = [j]
+					for (let j = 0; j < json.length; j++) {
+						const row = [j + 1]
 						for (const m in mapping) {
 							const value = getValue(json[j], m)
 							row.push(value)

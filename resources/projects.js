@@ -333,6 +333,14 @@ const PROJECTS = {
 		date: "July 22, 2019",
 		description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
 	},
+	csvconverter: {
+		skipRandom: true,
+		name: "csvConverter",
+		size: "small",
+		tags: ["code","tool"],
+		date: "December 24, 2024",
+		description: "Convert a comma-separated list of items into a JSON array with column headers as keys."
+	},
 	cubesolver: {
 		name: "cubeSolver",
 		size: "medium",
