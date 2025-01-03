@@ -27,8 +27,16 @@
 			temperature4: "M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z"
 		}
 
+	/* settings */
+		const SETTINGS = {
+			lastTouch: new Date().getTime(),
+			timeTillDarken: 1000 * 10,
+			darkenLoopInterval: 1000,
+			margin: 2,
+			floorOffset: 21
+		}
+
 	/* home */
-		const floorOffset = 22
 		const HOME = {
 			configuration: {
 				ifttt_url: "https://maker.ifttt.com/trigger/bluejay_",
@@ -37,17 +45,9 @@
 			rooms: [
 				// 1
 				{
-					name: "porch",
-					background: "#abb5bf",
-					top: 25 + floorOffset,
-					left: 0,
-					width: 16,
-					height: 1
-				},
-				{
 					name: "hall",
 					background: "#6b3e2b",
-					top: 15 + floorOffset,
+					top: 15 + SETTINGS.floorOffset,
 					left: 0,
 					width: 6,
 					height: 10
@@ -55,7 +55,7 @@
 				{
 					name: "living room",
 					background: "#efe273",
-					top: 15 + floorOffset,
+					top: 15 + SETTINGS.floorOffset,
 					left: 6,
 					width: 10,
 					height: 10
@@ -63,7 +63,7 @@
 				{
 					name: "kitchen",
 					background: "#a1444d",
-					top: 5 + floorOffset,
+					top: 5 + SETTINGS.floorOffset,
 					left: 0,
 					width: 10,
 					height: 10
@@ -71,7 +71,7 @@
 				{
 					name: "bathroom",
 					background: "#f0a5dd",
-					top: 5 + floorOffset,
+					top: 5 + SETTINGS.floorOffset,
 					left: 10,
 					width: 6,
 					height: 5
@@ -79,7 +79,7 @@
 				{
 					name: "studio",
 					background: "#d8b167",
-					top: 10 + floorOffset,
+					top: 10 + SETTINGS.floorOffset,
 					left: 10,
 					width: 6,
 					height: 5
@@ -87,7 +87,7 @@
 				{
 					name: "laundry room",
 					background: "#dddddd",
-					top: 0 + floorOffset,
+					top: 0 + SETTINGS.floorOffset,
 					left: 6,
 					width: 10,
 					height: 5
@@ -147,7 +147,7 @@
 					{
 						name: "kitchen lights",
 						svg: SVG.ceilingLight,
-						top: 32,
+						top: 10 + SETTINGS.floorOffset,
 						left: 5,
 						buttons: {
 							"on": ["ifttt_url||kitchen_lights_on||ifttt_key", SVG.check],
@@ -157,7 +157,7 @@
 					{
 						name: "laundry room lights",
 						svg: SVG.ceilingLight,
-						top: 24.5,
+						top: 2.5 + SETTINGS.floorOffset,
 						left: 11,
 						buttons: {
 							"on": ["ifttt_url||laundry_room_lights_on||ifttt_key", SVG.check],
@@ -167,7 +167,7 @@
 					{
 						name: "studio lights",
 						svg: SVG.ceilingLight,
-						top: 34.5,
+						top: 12.5 + SETTINGS.floorOffset,
 						left: 13,
 						buttons: {
 							"on": ["ifttt_url||studio_lights_on||ifttt_key", SVG.check],
@@ -187,7 +187,7 @@
 					{
 						name: "stair lamp",
 						svg: SVG.floorLamp,
-						top: 38,
+						top: 16 + SETTINGS.floorOffset,
 						left: 1.5,
 						buttons: {
 							"on": ["ifttt_url||hall_lamp_on||ifttt_key", SVG.check],
@@ -239,7 +239,7 @@
 					{
 						name: "oscar",
 						svg: SVG.vacuum,
-						top: 24.5,
+						top: 2.5 + SETTINGS.floorOffset,
 						left: 14.5,
 						buttons: {
 							"on": ["ifttt_url||vacuum_on||ifttt_key", SVG.check],
@@ -251,7 +251,7 @@
 					{
 						name: "air purifier",
 						svg: SVG.airPurifier,
-						top: 40.5,
+						top: 18.5 + SETTINGS.floorOffset,
 						left: 11,
 						buttons: {
 							"on": ["ifttt_url||air_purifier_on||ifttt_key", SVG.check],
@@ -261,7 +261,7 @@
 					{
 						name: "living room lamp",
 						svg: SVG.floorLamp,
-						top: 38,
+						top: 16 + SETTINGS.floorOffset,
 						left: 11,
 						buttons: {
 							"on": ["ifttt_url||living_room_lamp_on||ifttt_key", SVG.check],
@@ -271,7 +271,7 @@
 					{
 						name: "living room string lights",
 						svg: SVG.stringLights,
-						top: 37,
+						top: 15 + SETTINGS.floorOffset,
 						left: 8,
 						buttons: {
 							"on": ["ifttt_url||living_room_string_lights_on||ifttt_key", SVG.check],
@@ -303,7 +303,7 @@
 					{
 						name: "sonos",
 						svg: SVG.music,
-						top: 38,
+						top: 16 + SETTINGS.floorOffset,
 						left: 14.5,
 						buttons: {
 							"play": ["ifttt_url||sonos_on||ifttt_key", SVG.play],
@@ -327,7 +327,7 @@
 					{
 						name: "living room speaker",
 						svg: SVG.speaker,
-						top: 45.5,
+						top: 23.5 + SETTINGS.floorOffset,
 						left: 11,
 						buttons: {
 							"on": ["ifttt_url||living_room_speaker_on||ifttt_key", SVG.check],
@@ -351,7 +351,7 @@
 					{
 						name: "kitchen speaker",
 						svg: SVG.speaker,
-						top: 34.5,
+						top: 12.5 + SETTINGS.floorOffset,
 						left: 1.5,
 						buttons: {
 							"on": ["ifttt_url||kitchen_speaker_on||ifttt_key", SVG.check],
@@ -387,7 +387,7 @@
 					{
 						name: "record player",
 						svg: SVG.recordPlayer,
-						top: 40.5,
+						top: 18.5 + SETTINGS.floorOffset,
 						left: 15,
 						buttons: {
 							"target": ["ifttt_url||record_player_on||ifttt_key", SVG.record]
@@ -424,14 +424,6 @@
 			fullscreenOn: document.querySelector("#full-screen-on"),
 			fullscreenOff: document.querySelector("#full-screen-off"),
 			overlay: document.querySelector("#full-screen-overlay")
-		}
-
-	/* settings */
-		const SETTINGS = {
-			lastTouch: new Date().getTime(),
-			timeTillDarken: 1000 * 10,
-			darkenLoopInterval: 1000,
-			margin: 1
 		}
 
 /*** layout ***/
