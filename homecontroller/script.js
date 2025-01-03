@@ -28,6 +28,7 @@
 		}
 
 	/* home */
+		const floorOffset = 22
 		const HOME = {
 			configuration: {
 				ifttt_url: "https://maker.ifttt.com/trigger/bluejay_",
@@ -38,7 +39,7 @@
 				{
 					name: "porch",
 					background: "#abb5bf",
-					top: 25 + 22,
+					top: 25 + floorOffset,
 					left: 0,
 					width: 16,
 					height: 1
@@ -46,7 +47,7 @@
 				{
 					name: "hall",
 					background: "#6b3e2b",
-					top: 15 + 22,
+					top: 15 + floorOffset,
 					left: 0,
 					width: 6,
 					height: 10
@@ -54,7 +55,7 @@
 				{
 					name: "living room",
 					background: "#efe273",
-					top: 15 + 22,
+					top: 15 + floorOffset,
 					left: 6,
 					width: 10,
 					height: 10
@@ -62,7 +63,7 @@
 				{
 					name: "kitchen",
 					background: "#a1444d",
-					top: 5 + 22,
+					top: 5 + floorOffset,
 					left: 0,
 					width: 10,
 					height: 10
@@ -70,7 +71,7 @@
 				{
 					name: "bathroom",
 					background: "#f0a5dd",
-					top: 5 + 22,
+					top: 5 + floorOffset,
 					left: 10,
 					width: 6,
 					height: 5
@@ -78,7 +79,7 @@
 				{
 					name: "studio",
 					background: "#d8b167",
-					top: 10 + 22,
+					top: 10 + floorOffset,
 					left: 10,
 					width: 6,
 					height: 5
@@ -86,7 +87,7 @@
 				{
 					name: "laundry room",
 					background: "#dddddd",
-					top: 0 + 22,
+					top: 0 + floorOffset,
 					left: 6,
 					width: 10,
 					height: 5
@@ -429,7 +430,8 @@
 		const SETTINGS = {
 			lastTouch: new Date().getTime(),
 			timeTillDarken: 1000 * 10,
-			darkenLoopInterval: 1000
+			darkenLoopInterval: 1000,
+			margin: 1
 		}
 
 /*** layout ***/
@@ -515,7 +517,7 @@
 					let roomElement = document.createElement("div")
 						roomElement.className = "room"
 						roomElement.style.background = room.background
-						roomElement.style.top = "calc(" + room.top + " * var(--foot))"
+						roomElement.style.top = "calc(" + (room.top + SETTINGS.margin) + " * var(--foot))"
 						roomElement.style.left = "calc(" + room.left + " * var(--foot) / var(--house-width-height-ratio))"
 						roomElement.style.height = "calc(" + room.height + " * var(--foot))"
 						roomElement.style.width = "calc(" + room.width + " * var(--foot) / var(--house-width-height-ratio))"
@@ -538,7 +540,7 @@
 				// create element
 					let deviceElement = document.createElement("div")
 						deviceElement.className = "device"
-						deviceElement.style.top = "calc(" + device.top + " * var(--foot))"
+						deviceElement.style.top = "calc(" + (device.top + SETTINGS.margin) + " * var(--foot))"
 						deviceElement.style.left = "calc(" + device.left + " * var(--foot) / var(--house-width-height-ratio))"
 					ELEMENTS.devices.appendChild(deviceElement)
 
