@@ -217,7 +217,7 @@
 					{
 						name: "office lights",
 						svg: SVG.ceilingLight,
-						top: 6.5,
+						top: 6,
 						left: 13,
 						buttons: {
 							"on": ["ifttt_url||office_lights_on||ifttt_key", SVG.check],
@@ -232,6 +232,16 @@
 						buttons: {
 							"on": ["ifttt_url||guest_room_lights_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_lights_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "guest room lamp",
+						svg: SVG.floorLamp,
+						top: 11,
+						left: 9,
+						buttons: {
+							"on": ["ifttt_url||guest_room_lamp_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_lamp_off||ifttt_key", SVG.x]
 						}
 					},
 
@@ -281,7 +291,7 @@
 					{
 						name: "craft room string lights",
 						svg: SVG.stringLights,
-						top: 2.5,
+						top: 1.5,
 						left: 8,
 						buttons: {
 							"on": ["ifttt_url||craft_room_string_lights_on||ifttt_key", SVG.check],
@@ -339,8 +349,8 @@
 					{
 						name: "guest room speaker",
 						svg: SVG.speaker,
-						top: 11.5,
-						left: 11,
+						top: 12,
+						left: 13,
 						buttons: {
 							"on": ["ifttt_url||guest_room_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_speaker_off||ifttt_key", SVG.x],
@@ -363,7 +373,7 @@
 					{
 						name: "office speaker",
 						svg: SVG.speaker,
-						top: 9,
+						top: 8.5,
 						left: 13,
 						buttons: {
 							"on": ["ifttt_url||office_speaker_on||ifttt_key", SVG.check],
