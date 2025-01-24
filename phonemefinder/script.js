@@ -339,9 +339,11 @@
 					STATE.selecting = false
 
 				// test phonemes as word
-					const word = CONSTANTS.dictionary.find(word => word[1] == STATE.selectedPhonemes.join(""))
-					if (word) {
-						addWord(word, STATE.selectedHexes)
+					const words = CONSTANTS.dictionary.filter(word => word[1] == STATE.selectedPhonemes.join("")) || []
+					if (words.length) {
+						const combinedWords = words.map(word => word[0]).join(" • ")
+						const phonemes = words[0][1]
+						addWord([combinedWords, phonemes], STATE.selectedHexes)
 					}
 
 				// unselect everything
