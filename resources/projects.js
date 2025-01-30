@@ -521,7 +521,6 @@ const PROJECTS = {
 		description: "This is a companion app for Goods, a multi-player strategy card game."
 	},
 	gradientmaker: {
-		pinned: true,
 		name: "gradientMaker",
 		size: "small",
 		tags: ["code","math","tool","design","art","canvas","draw"],
@@ -954,6 +953,15 @@ const PROJECTS = {
 		tags: ["music","writing","jazz","pop","lyric","piano","poetry","autobiography"],
 		date: "November 1, 2012",
 		description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
+	},
+	phantomfinder: {
+		pinned: true,
+		skipRandom: true,
+		name: "Phantom Finder",
+		size: "large",
+		tags: ["code","node","websockets","fantasy","game","board","multiplayer","tabletop","collaboration"],
+		date: "January 29, 2025",
+		description: "Phantom Finder is an asymmetrical board game for two players: ghost and ghost hunters."
 	},
 	phonemefinder: {
 		skipRandom: true,
