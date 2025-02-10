@@ -766,6 +766,13 @@ const PROJECTS = {
 		date: "April 25, 2018",
 		description: "magnetMaker is a pseudo-realistic physics simulator with magnetic spheres and tons of forces."
 	},
+	mapmaker: {
+		name: "mapMaker",
+		size: "large",
+		tags: ["code","tool","fantasy","scifi","design","art","canvas","draw","svg"],
+		date: "February 9, 2025",
+		description: "Generate semi-random maps on a hex grid, with custom terrain types and a full icon library."
+	},
 	mayrhockey: {
 		skipRandom: true,
 		name: "MayrHockey",
