@@ -28,8 +28,8 @@
 				element: document.querySelector("#settings"),
 				brush: document.querySelector("#settings-brush"),
 				brushRange: document.querySelector("#settings-brush-range"),
-				density: document.querySelector("#settings-density"),
-				densityRange: document.querySelector("#settings-density-range"),
+				zoom: document.querySelector("#settings-zoom"),
+				zoomRange: document.querySelector("#settings-zoom-range"),
 				cohesion: document.querySelector("#settings-cohesion"),
 				tileTypes: {
 					shuffle: document.querySelector("#settings-tiletypes-shuffle"),
@@ -102,7 +102,9 @@
 			seedFactor: 1 / 10, // hexagons ratio
 			seedOffsetFactor: 1, // hexagons ratio
 			seedLayerOffsets: [4, 3, 6, 4, 8], // hexagons
-			density: 120, // hexagons across the screen
+			density: 255, // hexagons across the screen
+			maxDensity: 500, // hexagons across the screen
+			zoomSteps: 100, // steps
 			brushSize: 5, // rounds of hexagons
 			cohesion: 2000, // number of times each neighbor is added to tile types
 			tileTypeDefaults: {
@@ -502,9 +504,6 @@
 						ELEMENTS.settings.icons.search.value = STATE.settings.icons.name.replace(/-/g, " ")
 						ELEMENTS.settings.icons.results.innerHTML = ""
 						ELEMENTS.settings.icons.results.removeAttribute("visible")
-
-					// preview
-						updateIconPreview()
 				} catch (error) {console.log(error)}
 			}
 
@@ -556,30 +555,36 @@
 		/* updateIconPreview */
 			function updateIconPreview() {
 				try {
+					// parameters
+						const color = STATE.settings.icons.color
+						const name  = STATE.settings.icons.name
+						const path  = STATE.settings.icons.path
+
 					// set path
-						ELEMENTS.settings.icons.previewPath.setAttribute("d", STATE.settings.icons.path)
+						ELEMENTS.settings.icons.previewPath.setAttribute("d", path)
 
 					// set color
-						ELEMENTS.settings.icons.preview.style.color = STATE.settings.icons.color
+						ELEMENTS.settings.icons.preview.style.color = color
 				} catch (error) {console.log(error)}
 			}
 
 	/** other settings **/
-		/* updateDensity */
-			ELEMENTS.settings.density.addEventListener(TRIGGERS.input, updateDensity)
-			function updateDensity(event) {
+		/* updateZoom */
+			ELEMENTS.settings.zoom.addEventListener(TRIGGERS.input, updateZoom)
+			function updateZoom(event) {
 				try {
 					// get value
-						const density = Math.floor(Number(ELEMENTS.settings.density.value) || 0)
+						const zoom = Math.floor(Number(ELEMENTS.settings.zoom.value) || 1)
 
 					// update
+						const density = (CONSTANTS.maxDensity / CONSTANTS.zoomSteps) * (CONSTANTS.zoomSteps + 1 - zoom)
 						STATE.settings.density = density
 
 					// set range
-						ELEMENTS.settings.densityRange.value = density
+						ELEMENTS.settings.zoomRange.value = zoom
 
 					// recalculate
-						STATE.pxPerHexRadius = Math.floor(Math.min(ELEMENTS.canvas.width, ELEMENTS.canvas.height) / STATE.settings.density) / 2
+						STATE.pxPerHexRadius = (Math.min(ELEMENTS.canvas.width, ELEMENTS.canvas.height) / STATE.settings.density)
 
 					// redraw
 						clearCanvas()
@@ -588,21 +593,22 @@
 				} catch (error) {console.log(error)}
 			}
 
-		/* updateDensityRange */
-			ELEMENTS.settings.densityRange.addEventListener(TRIGGERS.input, updateDensityRange)
-			function updateDensityRange(event) {
+		/* updateZoomRange */
+			ELEMENTS.settings.zoomRange.addEventListener(TRIGGERS.input, updateZoomRange)
+			function updateZoomRange(event) {
 				try {
 					// get value
-						const density = Math.floor(Number(ELEMENTS.settings.densityRange.value) || 0)
+						const zoom = Math.floor(Number(ELEMENTS.settings.zoomRange.value) || 1)
 
 					// update
+						const density = (CONSTANTS.maxDensity / CONSTANTS.zoomSteps) * (CONSTANTS.zoomSteps + 1 - zoom)
 						STATE.settings.density = density
 
 					// set input
-						ELEMENTS.settings.density.value = density
+						ELEMENTS.settings.zoom.value = zoom
 
 					// recalculate
-						STATE.pxPerHexRadius = Math.floor(Math.min(ELEMENTS.canvas.width, ELEMENTS.canvas.height) / STATE.settings.density) / 2
+						STATE.pxPerHexRadius = (Math.min(ELEMENTS.canvas.width, ELEMENTS.canvas.height) / STATE.settings.density)
 
 					// redraw
 						clearCanvas()
@@ -756,26 +762,27 @@
 
 					// read file
 						const reader = new FileReader()
-							reader.readAsText(file)
-							reader.onload = event => {
-								try {
-									// try to parse data
-										const rawData = String(event.target.result)
-										if (!rawData || !rawData.length) {
-											return
-										}
-										const jsonData = JSON.parse(rawData)
+						reader.readAsText(file)
+						reader.onload = event => {
+							// try to parse data
+								const rawData = String(event.target.result)
+								if (!rawData || !rawData.length) {
+									return
+								}
 
-									// save
-										STATE.hexagons = jsonData.hexagons || {}
-										STATE.icons = jsonData.icons || {}
+							// save
+								loadHistory(rawData)
+								saveHistory()
 
-									// clear & redraw
-										clearCanvas()
-										drawMap(STATE)
-								} catch (error) {console.log(error)}
+							// clear & redraw
+								setTimeout(() => {
+									clearCanvas()
+									drawMap(STATE)
+								})
+
+							// reset upload
 								ELEMENTS.upload.value = null
-							}
+						}
 				} catch (error) {console.log(error)}
 			}
 
@@ -824,15 +831,13 @@
 				try {
 					// decrement state
 						STATE.historyIndex = Math.max(0, STATE.historyIndex - 1)
-
-					// set state
-						const historyState = JSON.parse(STATE.history[STATE.historyIndex])
-						STATE.hexagons = historyState.hexagons
-						STATE.icons = historyState.icons
-
+						loadHistory(STATE.history[STATE.historyIndex])	
+				
 					// clear & redraw
-						clearCanvas()
-						drawMap(STATE)
+						setTimeout(() => {
+							clearCanvas()
+							drawMap(STATE)
+						})
 				} catch (error) {console.log(error)}
 			}
 
@@ -842,15 +847,39 @@
 				try {
 					// increment state
 						STATE.historyIndex = Math.min(STATE.history.length - 1, STATE.historyIndex + 1)
+						loadHistory(STATE.history[STATE.historyIndex])						
+
+					// clear & redraw
+						setTimeout(() => {
+							clearCanvas()
+							drawMap(STATE)
+						})
+				} catch (error) {console.log(error)}
+			}
+
+		/* loadHistory */
+			function loadHistory(jsonData) {
+				try {
+					// data
+						const historyState = JSON.parse(jsonData)
 
 					// set state
-						const historyState = JSON.parse(STATE.history[STATE.historyIndex])
 						STATE.hexagons = historyState.hexagons
 						STATE.icons = historyState.icons
 
-					// clear & redraw
-						clearCanvas()
-						drawMap(STATE)
+					// load images
+						for (const i in STATE.icons) {
+							const color = STATE.icons[i].color
+							const name  = STATE.icons[i].name
+							const path  = STATE.icons[i].path
+
+							if (!STATE.images[`${color} - ${name}`]) {
+								STATE.images[`${color} - ${name}`] = new Image()
+								STATE.images[`${color} - ${name}`].src = `data:image/svg+xml,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='${CONSTANTS.svgSize}'>` + 
+									`<path d='${path}' fill='${encodeURIComponent(color)}'></path>` + 
+								`</svg>`
+							}
+						}
 				} catch (error) {console.log(error)}
 			}
 
@@ -932,6 +961,10 @@
 				try {
 					// delete everything
 						STATE.hexagons = {}
+						STATE.icons = {}
+						saveHistory()
+
+					// redraw
 						clearCanvas()
 				} catch (error) {console.log(error)}
 			}	
@@ -1143,14 +1176,28 @@
 		/* setIcon */
 			function setIcon({x, y, unstamp}) {
 				try {
+					// parameters
+						const color = STATE.settings.icons.color
+						const name = STATE.settings.icons.name
+						const path = STATE.settings.icons.path
+						const size = STATE.settings.icons.size
+
 					// add icon
 						STATE.icons[`${x},${y}`] = {
 							x,
 							y,
-							color: STATE.settings.icons.color,
-							name: STATE.settings.icons.name,
-							path: STATE.settings.icons.path,
-							size: STATE.settings.icons.size
+							color,
+							name,
+							path,
+							size
+						}
+
+					// save image
+						if (!STATE.images[`${color} - ${name}`]) {
+							STATE.images[`${color} - ${name}`] = new Image()
+							STATE.images[`${color} - ${name}`].src = `data:image/svg+xml,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' viewBox='${CONSTANTS.svgSize}'>` + 
+								`<path d='${path}' fill='${encodeURIComponent(color)}'></path>` + 
+							`</svg>`
 						}
 				} catch (error) {console.log(error)}
 			}
@@ -1173,7 +1220,7 @@
 						ELEMENTS.brushCanvas.height = window.innerHeight
 
 					// recalculate hexagons
-						STATE.pxPerHexRadius = Math.floor(Math.min(ELEMENTS.canvas.width, ELEMENTS.canvas.height) / STATE.settings.density) / 2
+						STATE.pxPerHexRadius = (Math.min(ELEMENTS.canvas.width, ELEMENTS.canvas.height) / STATE.settings.density)
 
 					// redraw
 						clearCanvas()
