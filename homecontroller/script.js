@@ -9,6 +9,7 @@
 			spaceHeater: "M 62 62 C 62 65 62 68 62 72 C 66 70 70 66 72 62 C 68 62 65 62 62 62 Z M 43 74 C 45 75 49 75 50 75 C 51 75 55 75 57 74 C 57 69 57 66 57 62 C 52 62 48 62 43 62 C 43 66 43 69 43 74 Z M 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 Z M 74 43 C 70 43 66 43 62 43 C 62 48 62 52 62 57 C 66 57 70 57 74 57 C 75 55 75 51 75 50 C 75 49 75 45 74 43 Z M 62 28 C 62 32 62 35 62 38 C 65 38 68 38 72 38 C 72 38 72 38 72 38 C 72 38 72 38 72 38 C 70 34 66 30 62 28 C 62 28 62 28 62 28 C 62 28 62 28 62 28 Z M 43 26 C 43 30 43 34 43 38 C 48 38 52 38 57 38 C 57 34 57 30 57 26 C 55 25 51 25 50 25 C 49 25 45 25 43 26 Z M 28 38 C 32 38 35 38 38 38 C 38 35 38 32 38 28 C 34 30 30 34 28 38 Z M 26 57 C 30 57 34 57 38 57 C 38 52 38 48 38 43 C 34 43 30 43 26 43 C 25 45 25 49 25 50 C 25 51 25 55 26 57 Z M 38 72 C 38 68 38 65 38 62 C 35 62 32 62 28 62 C 30 66 34 70 38 72 Z M 58 50 C 58 45 55 42 50 42 C 45 42 42 45 42 50 C 42 55 45 58 50 58 C 55 58 58 55 58 50 Z",
 			airPurifier: "M 70 26 C 56 26 44 26 30 26 C 27 26 26 27 26 30 C 26 44 26 56 26 70 C 26 73 27 74 30 74 C 44 74 56 74 70 74 C 73 74 74 73 74 70 C 74 56 74 44 74 30 C 74 27 73 26 70 26 Z M 31 50 C 31 40 40 31 50 31 C 60 31 69 40 69 50 C 69 60 60 69 50 69 C 40 69 31 60 31 50 Z M 74 20 C 77 20 80 23 80 26 C 80 42 80 58 80 74 C 80 77 77 80 74 80 C 58 80 42 80 26 80 C 23 80 20 77 20 74 C 20 58 20 42 20 26 C 20 23 23 20 26 20 C 42 20 58 20 74 20 Z M 64 50 C 64 42 58 36 50 36 C 42 36 36 42 36 50 C 36 58 42 64 50 64 C 58 64 64 58 64 50 Z",
 			airConditioner: "M 25 63 C 25 64 26 65 27 65 C 42 65 58 65 73 65 C 74 65 75 64 75 63 C 75 55 75 45 75 37 C 75 36 74 35 73 35 C 58 35 42 35 27 35 C 26 35 25 36 25 37 C 25 45 25 55 25 63 Z M 29 51 C 29 49 29 49 31 49 C 46 49 54 49 69 49 C 71 49 71 49 71 51 C 71 53 71 53 69 53 C 54 53 46 53 31 53 C 29 53 29 53 29 51 Z M 29 59 C 29 57 29 57 31 57 C 46 57 54 57 69 57 C 71 57 71 57 71 59 C 71 61 71 61 69 61 C 54 61 46 61 31 61 C 29 61 29 61 29 59 Z M 20 64 C 20 55 20 45 20 36 C 20 33 23 30 26 30 C 42 30 58 30 74 30 C 77 30 80 33 80 36 C 80 45 80 55 80 64 C 80 67 77 70 74 70 C 58 70 42 70 26 70 C 23 70 20 67 20 64 Z",
+			humidifier: "M 35 46 C 41 36 45 29 46 27 C 50 20 50 20 54 27 C 55 29 59 36 65 46 C 68 51 70 55 70 60 C 70 71 61 80 50 80 C 39 80 30 71 30 60 C 30 55 32 51 35 46 Z",
 			fan: "M 25 50 C 25 64 36 75 50 75 C 64 75 75 64 75 50 C 75 36 64 25 50 25 C 36 25 25 36 25 50 Z M 49 54 C 48 54 46 52 46 51 C 45 51 44 51 42 52 C 40 53 37 54 35 54 C 29 54 27 52 27 50 C 27 48 29 46 35 46 C 37 46 40 47 42 48 C 44 49 45 49 46 49 C 46 48 48 46 49 46 C 49 45 49 44 48 42 C 47 40 46 37 46 35 C 46 29 48 27 50 27 C 52 27 54 29 54 35 C 54 37 53 40 52 42 C 51 44 51 45 51 46 C 52 46 54 48 54 49 C 55 49 56 49 58 48 C 60 47 63 46 65 46 C 71 46 73 48 73 50 C 73 52 71 54 65 54 C 63 54 60 53 58 52 C 56 51 55 51 54 51 C 54 52 52 54 51 54 C 51 55 51 56 52 58 C 53 60 54 63 54 65 C 54 71 52 73 50 73 C 48 73 46 71 46 65 C 46 63 47 60 48 58 C 49 56 49 55 49 54 Z M 20 50 C 20 33 33 20 50 20 C 67 20 80 33 80 50 C 80 67 67 80 50 80 C 33 80 20 67 20 50 Z",
 			speaker: "M 37 25 C 36 25 35 26 35 27 C 35 42 35 58 35 73 C 35 74 36 75 37 75 C 45 75 55 75 63 75 C 64 75 65 74 65 73 C 65 58 65 42 65 27 C 65 26 64 25 63 25 C 55 25 45 25 37 25 Z M 40 60 C 40 54 44 50 50 50 C 56 50 60 54 60 60 C 60 66 56 70 50 70 C 44 70 40 66 40 60 Z M 43 37 C 43 33 46 30 50 30 C 54 30 57 33 57 37 C 57 41 54 44 50 44 C 46 44 43 41 43 37 Z M 36 20 C 45 20 55 20 64 20 C 67 20 70 23 70 26 C 70 42 70 58 70 74 C 70 77 67 80 64 80 C 55 80 45 80 36 80 C 33 80 30 77 30 74 C 30 58 30 42 30 26 C 30 23 33 20 36 20 Z",
 			music: "M 30 14 C 30 12 32 10 34 10 C 50 10 70 10 86 10 C 88 10 90 12 90 14 C 90 30 90 60 90 75 C 90 83 83 90 75 90 C 67 90 60 83 60 75 C 60 67 67 60 75 60 C 77 60 77 60 79 60.5 C 80 61 80 60 80 58 C 80 50 80 30 80 22 C 80 21 79 20 78 20 C 70 20 50 20 42 20 C 41 20 40 21 40 22 C 40 30 40 60 40 75 C 40 83 33 90 25 90 C 17 90 10 83 10 75 C 10 67 17 60 25 60 C 27 60 27 60 29 60.5 C 30 61 30 60 30 58 C 30 50 30 40 30 14 Z",
@@ -46,7 +47,7 @@
 				// 1
 				{
 					name: "hall",
-					background: "#6b3e2b",
+					background: "#854e36",
 					top: 15 + SETTINGS.floorOffset,
 					left: 0,
 					width: 6,
@@ -95,7 +96,7 @@
 				// 2
 				{
 					name: "stairs",
-					background: "#6b3e2b",
+					background: "#854e36",
 					top: 10,
 					left: 0,
 					width: 6,
@@ -127,7 +128,7 @@
 				},
 				{
 					name: "bedroom",
-					background: "#612aba",
+					background: "#7445bf",
 					top: 0,
 					left: 10,
 					width: 6,
@@ -234,16 +235,6 @@
 							"off": ["ifttt_url||guest_room_lights_off||ifttt_key", SVG.x]
 						}
 					},
-					{
-						name: "guest room lamp",
-						svg: SVG.floorLamp,
-						top: 11,
-						left: 9,
-						buttons: {
-							"on": ["ifttt_url||guest_room_lamp_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||guest_room_lamp_off||ifttt_key", SVG.x]
-						}
-					},
 
 				// roomba
 					{
@@ -289,6 +280,16 @@
 						}
 					},
 					{
+						name: "humidifier",
+						svg: SVG.humidifier,
+						top: 18.5 + SETTINGS.floorOffset,
+						left: 4.5,
+						buttons: {
+							"on": ["ifttt_url||humidifier_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||humidifier_off||ifttt_key", SVG.x]
+						}
+					},
+					{
 						name: "craft room string lights",
 						svg: SVG.stringLights,
 						top: 1.5,
@@ -306,6 +307,26 @@
 						buttons: {
 							"on": ["ifttt_url||bedroom_string_lights_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||bedroom_string_lights_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "guest room lamp",
+						svg: SVG.floorLamp,
+						top: 18.5,
+						left: 14.5,
+						buttons: {
+							"on": ["ifttt_url||guest_room_lamp_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_lamp_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "guest room fan",
+						svg: SVG.fan,
+						top: 18.5,
+						left: 8,
+						buttons: {
+							"on": ["ifttt_url||guest_room_fan_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_fan_off||ifttt_key", SVG.x]
 						}
 					},
 
@@ -350,7 +371,7 @@
 						name: "guest room speaker",
 						svg: SVG.speaker,
 						top: 12,
-						left: 13,
+						left: 14.5,
 						buttons: {
 							"on": ["ifttt_url||guest_room_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_speaker_off||ifttt_key", SVG.x],
@@ -385,8 +406,8 @@
 					{
 						name: "roam",
 						svg: SVG.speaker,
-						top: 2.5,
-						left: 11.5,
+						top: 1.5,
+						left: 1.5,
 						buttons: {
 							"on": ["ifttt_url||roam_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||roam_off||ifttt_key", SVG.x],
