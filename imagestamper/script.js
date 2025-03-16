@@ -24,6 +24,7 @@
 			canvas: document.querySelector("#canvas"),
 			context: document.querySelector("#canvas").getContext("2d"),
 			cursorStamp: document.querySelector("#cursor-stamp"),
+			cursorStampPath: document.querySelector("#cursor-stamp-path"),
 			tools: {
 				undo: document.querySelector("#tools-undo"),
 				redo: document.querySelector("#tools-redo"),
@@ -47,6 +48,7 @@
 				stampYFlip: document.querySelector("#tools-stamp-yflip"),
 				stampSearch: document.querySelector("#tools-stamp-search"),
 				stampIcon: document.querySelector("#tools-stamp-icon"),
+				stampIconPath: document.querySelector("#tools-stamp-icon-path"),
 				stampResults: document.querySelector("#tools-stamp-results"),
 				stampPath: document.querySelector("#tools-stamp-path")
 			}
@@ -194,8 +196,9 @@
 													`\t--stamp-size: ${stampSize}px;\n` +
 													`\t--stamp-rotation: rotate(${STATE.stamp.rotation}deg);\n` +
 													`\t--stamp-flip: scaleX(${STATE.stamp.xflip}) scaleY(${STATE.stamp.yflip});\n` +
-													`\t--stamp-path: path("${STATE.stamp.path}");\n` +
 													`}`
+					ELEMENTS.cursorStampPath.setAttribute("d", STATE.stamp.path)
+					ELEMENTS.tools.stampIconPath.setAttribute("d", STATE.stamp.path)
 
 				// image
 					STATE.stamp.svg = new Image()

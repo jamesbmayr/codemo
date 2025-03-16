@@ -545,8 +545,8 @@
 							for (let i in galleryMatches) {
 								const match = galleryMatches[i]
 								const beforeImages = "<div class='gallery' data-position='0'>"
-								const afterImages = "<button class='gallery-left'  onclick='clickGalleryButton(this)'><svg viewBox='25 25 50 50'><path></path></svg></button>" + 
-													"<button class='gallery-right' onclick='clickGalleryButton(this)'><svg viewBox='25 25 50 50'><path></path></svg></button>" +
+								const afterImages = "<button class='gallery-left'  onclick='clickGalleryButton(this)'><svg viewBox='25 25 50 50'><path d='M 51 50 C 51 52 52 53 54 55 C 57 58 59 60 61 62 C 63 64 63 67 61 69 C 59 71 56 71 54 69 C 50 65 45 60 40 55 C 38 53 37 52 37 50 C 37 48 38 47 40 45 C 45 40 50 35 54 31 C 56 29 59 29 61 31 C 63 33 63 36 61 38 C 59 40 57 42 54 45 C 52 47 51 48 51 50 Z'></path></svg></button>" + 
+													"<button class='gallery-right' onclick='clickGalleryButton(this)'><svg viewBox='25 25 50 50'><path d='M 49 50 C 49 48 48 47 46 45 C 43 42 41 40 39 38 C 37 36 37 33 39 31 C 41 29 44 29 46 31 C 50 35 55 40 60 45 C 62 47 63 48 63 50 C 63 52 62 53 60 55 C 55 60 50 65 46 69 C 44 71 41 71 39 69 C 37 67 37 64 39 62 C 41 60 43 58 46 55 C 48 53 49 52 49 50 Z'></path></svg></button>" +
 													"</div>"
 								html = html.replace(match, beforeImages + match.replace("<gallery>", "").replace("</gallery>", "").replace("<img", "<img selected='true'") + afterImages)
 							}
