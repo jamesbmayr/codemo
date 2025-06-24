@@ -107,7 +107,7 @@
 				"ovillejo": 				["s8a","s4a","/","s8b","s4b","/","s8c","s4c","/","s8c","s8d","s8d","r-1","r-4","r-7"],
 				"pantoum": 					["i4a","a3b","i4a","a3b","/","r-1","i4c","r-3","i4c","/","r-6","a3d","r-8","a3d","/","r-11","r-2","r-13","r-0"],
 				"petrarchan sonnet": 		["i5a","i5b","i5b","i5a","i5a","i5b","i5b","i5a","/","i5c","i5d","i5e","i5c","i5d","i5e"],
-				"pushkin sonnet": 			["i4a","i4b","i4a","i4b","i4c","i4c","i4d","i4d","/","i4e","i4f","i4f","i4e","i4g","i4g"],
+				"pushkin sonnet": 			["s9a","i4b","s9a","i4b","s9c","s9c","i4d","i4d","/","s9e","i4f","i4f","s9e","i4g","i4g"],
 				"quatern": 					["s8a","s8b","s8c","s8d","/","s8e","r-0","s8f","s8g","/","s8h","s8i","r-0","s8j","/","s8k","s8l","s8m","r-0"],
 				"quatrain": 				["i4a","i4a","i4b","i4b"],
 				"rhyme royal": 				["i5a","i5b","i5a","/","i5b","i5b","/","i5c","i5c"],
