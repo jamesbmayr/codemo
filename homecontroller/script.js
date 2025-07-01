@@ -329,6 +329,16 @@
 							"off": ["ifttt_url||guest_room_fan_off||ifttt_key", SVG.x]
 						}
 					},
+					{
+						name: "craft room fan",
+						svg: SVG.fan,
+						top: 8.5,
+						left: 8,
+						buttons: {
+							"on": ["ifttt_url||craft_room_fan_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||craft_room_fan_off||ifttt_key", SVG.x]
+						}
+					},
 
 				// sonos
 					{
