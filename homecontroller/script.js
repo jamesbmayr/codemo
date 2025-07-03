@@ -290,6 +290,16 @@
 						}
 					},
 					{
+						name: "craft room fan",
+						svg: SVG.fan,
+						top: 8.5,
+						left: 8,
+						buttons: {
+							"on": ["ifttt_url||craft_room_fan_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||craft_room_fan_off||ifttt_key", SVG.x]
+						}
+					},
+					{
 						name: "craft room string lights",
 						svg: SVG.stringLights,
 						top: 1.5,
@@ -313,7 +323,7 @@
 						name: "guest room lamp",
 						svg: SVG.floorLamp,
 						top: 18.5,
-						left: 14.5,
+						left: 11,
 						buttons: {
 							"on": ["ifttt_url||guest_room_lamp_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_lamp_off||ifttt_key", SVG.x]
@@ -322,22 +332,23 @@
 					{
 						name: "guest room fan",
 						svg: SVG.fan,
-						top: 18.5,
-						left: 8,
+						top: 15,
+						left: 14.5,
 						buttons: {
 							"on": ["ifttt_url||guest_room_fan_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_fan_off||ifttt_key", SVG.x]
 						}
 					},
 					{
-						name: "craft room fan",
-						svg: SVG.fan,
-						top: 8.5,
-						left: 8,
+						name: "guest room fan",
+						svg: SVG.airConditioner,
+						top: 18.5,
+						left: 14.5,
 						buttons: {
-							"on": ["ifttt_url||craft_room_fan_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||craft_room_fan_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||bluejay_guest_room_air_conditioner_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||bluejay_guest_room_air_conditioner_off||ifttt_key", SVG.x]
 						}
+						
 					},
 
 				// sonos
