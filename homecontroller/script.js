@@ -345,8 +345,8 @@
 						top: 18.5,
 						left: 14.5,
 						buttons: {
-							"on": ["ifttt_url||bluejay_guest_room_air_conditioner_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||bluejay_guest_room_air_conditioner_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||guest_room_air_conditioner_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_air_conditioner_off||ifttt_key", SVG.x]
 						}
 						
 					},
