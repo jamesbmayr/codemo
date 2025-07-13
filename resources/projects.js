@@ -48,7 +48,6 @@ const PROJECTS = {
 		description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 	},
 	artparts: {
-		pinned: true,
 		skipRandom: true,
 		name: "ArtParts",
 		size: "medium",
@@ -639,7 +638,6 @@ const PROJECTS = {
 		description: "Transform a random image - or your own selection - into a simple rotation puzzle."
 	},
 	imagestamper: {
-		pinned: true,
 		name: "imageStamper",
 		size: "medium",
 		tags: ["code","tool","design","art","canvas","draw","photography","svg"],
@@ -767,6 +765,7 @@ const PROJECTS = {
 		description: "magnetMaker is a pseudo-realistic physics simulator with magnetic spheres and tons of forces."
 	},
 	mapmaker: {
+		pinned: true,
 		name: "mapMaker",
 		size: "large",
 		tags: ["code","tool","fantasy","scifi","design","art","canvas","draw","svg"],
@@ -969,6 +968,14 @@ const PROJECTS = {
 		tags: ["code","node","websockets","fantasy","game","board","multiplayer","tabletop","collaboration"],
 		date: "January 29, 2025",
 		description: "Phantom Finder is an asymmetrical board game for two players: ghost and ghost hunters."
+	},
+	pictureclipper: {
+		pinned: true,
+		name: "pictureClipper",
+		size: "medium",
+		tags: ["code","tool","design","art","canvas","draw","photography","svg"],
+		date: "July 13, 2025",
+		description: "Edit photos and clip them out with icons or custom-drawn masks."
 	},
 	phonemefinder: {
 		skipRandom: true,
