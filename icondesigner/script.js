@@ -66,11 +66,12 @@
 			tempStrokeWidth: 0.1, // user units
 			mergeThreshold: 1, // user units
 			loopAttempts: 20, // #
+			drawingInterval: 100, // ms
 			points: {
-				r: "0.5%", // %
+				r: "0.75%", // %
 				pointWidth: "0.75%", // %
 				lineWidth: "0.25%", // %
-				fill: "#dddddd", // hex
+				fill: "transparent", // hex
 				pointLineStroke: "#333333", // hex
 				controlLineStroke: "#bbbbbb", // hex
 				pointStroke: "#04b1ff", // hex
@@ -112,6 +113,9 @@
 						height: 40,
 						rx:      5,
 						ry:      5
+					},
+					"draw...": {
+						points: "0,0"
 					},
 					polygon: {
 						points: "20,20\n80,20\n80,80\n20,80"
@@ -203,6 +207,7 @@
 	/* state */
 		const STATE = {
 			clicked: false,
+			drawing: null,
 			dimensions: {
 				offsetX: 0,
 				offsetY: 0,
@@ -285,6 +290,9 @@
 			ELEMENTS.controls.svgSize.addEventListener(TRIGGERS.change,   resizeSVG)
 			function resizeSVG(event, data) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+
 					// previous
 						const previousDimensions = {
 							offsetX: STATE.dimensions.offsetX,
@@ -358,6 +366,9 @@
 			ELEMENTS.controls.svgGrid.addEventListener(TRIGGERS.input, setGrid)
 			function setGrid(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+
 					// set state
 						STATE.dimensions.grid = ELEMENTS.controls.svgGrid.checked || false
 
@@ -375,6 +386,9 @@
 			ELEMENTS.controls.svgScale.addEventListener(TRIGGERS.input, setScale)
 			function setScale(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// checked
 						STATE.scaleItems = Boolean(ELEMENTS.controls.svgScale.checked)
 				} catch (error) {console.log(error)}
@@ -384,6 +398,9 @@
 			ELEMENTS.controls.svgSnap.addEventListener(TRIGGERS.input, setSnap)
 			function setSnap(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// checked
 						STATE.snapToGrid = Boolean(ELEMENTS.controls.svgSnap.checked)
 				} catch (error) {console.log(error)}
@@ -394,6 +411,11 @@
 			ELEMENTS.controls.exportSVG.addEventListener(TRIGGERS.click, exportSVG)
 			function exportSVG(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing()
+						 r
+						}
+						
 					// being exported
 						if (ELEMENTS.controls.exportSVG.getAttribute("disabled")) {
 							return
@@ -430,6 +452,9 @@
 			ELEMENTS.controls.exportPNG.addEventListener(TRIGGERS.click, exportPNG)
 			function exportPNG(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// being exported
 						if (ELEMENTS.controls.exportPNG.getAttribute("disabled")) {
 							return
@@ -502,6 +527,9 @@
 			ELEMENTS.controls.exportClippath.addEventListener(TRIGGERS.click, exportClippath)
 			function exportClippath(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// being copied
 						if (ELEMENTS.controls.exportClippath.getAttribute("disabled")) {
 							return
@@ -549,6 +577,9 @@
 			ELEMENTS.controls.exportCanvas.addEventListener(TRIGGERS.click, exportCanvas)
 			function exportCanvas(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// being copied
 						if (ELEMENTS.controls.exportCanvas.getAttribute("disabled")) {
 							return
@@ -603,6 +634,9 @@
 			ELEMENTS.controls.import.addEventListener(TRIGGERS.input, importSVG)
 			function importSVG(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// reader
 						const reader = new FileReader()
 						reader.onload = event => {
@@ -803,6 +837,9 @@
 			ELEMENTS.controls.addShape.addEventListener(TRIGGERS.input, addItem)
 			function addItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// select dropdown
 						if (event?.target == ELEMENTS.controls.addShape && event.type == TRIGGERS.click) {
 							return
@@ -858,6 +895,17 @@
 					// build item svg
 						item.svg = buildItemSVG(item)
 
+					// draw
+						if (shape == "draw...") {
+							STATE.drawing = {
+								id: id,
+								timestamp: null,
+								points: []
+							}
+							item.listing.container.setAttribute("shape", "draw...")
+							item.listing.summary.nameElement.innerText = "draw..."
+						}
+
 					// save
 						STATE.items[id] = item
 					
@@ -880,6 +928,9 @@
 			ELEMENTS.controls.undo.addEventListener(TRIGGERS.click, undoAction)
 			function undoAction(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// no history?
 						if (STATE.historyIndex == 0 || !STATE.history.length) {
 							return
@@ -916,6 +967,9 @@
 			ELEMENTS.controls.redo.addEventListener(TRIGGERS.click, redoAction)
 			function redoAction(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// no future?
 						if (STATE.historyIndex == STATE.history.length) {
 							return
@@ -952,6 +1006,11 @@
 		/* highlightItem */
 			function highlightItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) {
+							return
+						}
+
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -965,6 +1024,11 @@
 		/* unhighlightItem */
 			function unhighlightItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) {
+							return
+						}
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -978,6 +1042,9 @@
 		/* toggleItemVisibility */
 			function toggleItemVisibility(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1004,6 +1071,9 @@
 		/* toggleItemLock */
 			function toggleItemLock(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1020,6 +1090,9 @@
 		/* deleteItem */
 			function deleteItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1043,6 +1116,9 @@
 		/* copyItem */
 			function copyItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1070,6 +1146,9 @@
 		/* moveItemUpLayer */
 			function moveItemUpLayer(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1096,6 +1175,9 @@
 		/* moveItemDownLayer */
 			function moveItemDownLayer(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1124,6 +1206,9 @@
 		/* changeItemAttribute */
 			function changeItemAttribute(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1214,6 +1299,9 @@
 		/* changeItemScale */
 			function changeItemScale(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1258,6 +1346,9 @@
 		/* changeItemSkew */
 			function changeItemSkew(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1297,6 +1388,9 @@
 		/* changeItemRotation */
 			function changeItemRotation(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1339,6 +1433,9 @@
 		/* mergeItems */
 			function mergeItems(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// already merging
 						if (STATE.merging) {
 							return null
@@ -1397,6 +1494,9 @@
 		/* convertItemToPath */
 			function convertItemToPath(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const type = event.target.value
 						const parent = event.target.closest(".controls-listing")
@@ -1444,6 +1544,9 @@
 		/* convertItemToPolygon */
 			function convertItemToPolygon(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const type = event.target.value
 						const parent = event.target.closest(".controls-listing")
@@ -1483,6 +1586,9 @@
 		/* subdivideItem */
 			function subdivideItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const type = event.target.value
 						const parent = event.target.closest(".controls-listing")
@@ -1553,6 +1659,9 @@
 		/* toggleItemPoints */
 			function toggleItemPoints(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const parent = event.target.closest(".controls-listing")
 						const id = `_${parent.id.split("_")[1]}`
@@ -1571,6 +1680,9 @@
 		/* changeCurveInput */
 			function changeCurveInput(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const input = event.target
 						const parent = input.closest(".controls-listing")
@@ -1605,6 +1717,9 @@
 		/* changePolygonPoint */
 			function changePolygonPoint(item, pointIndex, coordinates, snap) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// snap?
 						let x = snap ? Math.round(coordinates.x) : roundNumber(coordinates.x)
 						let y = snap ? Math.round(coordinates.y) : roundNumber(coordinates.y)
@@ -1630,6 +1745,9 @@
 		/* changeCurvePoint */
 			function changeCurvePoint(item, curveIndex, pointIndex, coordinates, snap) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get curve
 						const curve = item.attributes.curves[curveIndex]
 
@@ -1686,6 +1804,9 @@
 		/* insertCurve */
 			function insertCurve(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const button = event.target
 						const parent = button.closest(".controls-listing")
@@ -1761,6 +1882,9 @@
 		/* removeCurve */
 			function removeCurve(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// get item
 						const button = event.target
 						const parent = button.closest(".controls-listing")
@@ -1806,6 +1930,13 @@
 						STATE.cursor.x = roundNumber((windowX - svgContainerRect.x) / svgContainerRect.width  * STATE.dimensions.size + STATE.dimensions.offsetX)
 						STATE.cursor.y = roundNumber((windowY - svgContainerRect.y) / svgContainerRect.height * STATE.dimensions.size + STATE.dimensions.offsetY)
 
+					// drawing
+						if (STATE.drawing) {
+							STATE.drawing.timestamp = new Date().getTime()
+							STATE.drawing.points.push([STATE.cursor.x, STATE.cursor.y])
+							return
+						}
+
 					// select background
 						STATE.selected = {
 							click: {
@@ -1827,6 +1958,11 @@
 		/* selectItem */
 			function selectItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) {
+							return
+						}
+
 					// don't select container
 						event.stopPropagation()
 
@@ -1870,6 +2006,11 @@
 		/* selectPoint */
 			function selectPoint(event) {
 				try {
+					// drawing
+						if (STATE.drawing) {
+							return
+						}
+
 					// don't select container
 						event.stopPropagation()
 
@@ -1918,7 +2059,7 @@
 			function moveMouse(event) {
 				try {
 					// nothing selected
-						if (!STATE.selected) {
+						if (!STATE.selected && (!STATE.drawing || !STATE.drawing.timestamp)) {
 							return
 						}
 
@@ -1933,6 +2074,23 @@
 						const svgContainerRect = ELEMENTS.container.svg.getBoundingClientRect()
 						STATE.cursor.x = roundNumber((windowX - svgContainerRect.x) / svgContainerRect.width  * STATE.dimensions.size + STATE.dimensions.offsetX)
 						STATE.cursor.y = roundNumber((windowY - svgContainerRect.y) / svgContainerRect.height * STATE.dimensions.size + STATE.dimensions.offsetY)
+
+					// drawing --> add to points
+						if (STATE.drawing && STATE.drawing.timestamp) {
+							const time = new Date().getTime()
+							if (time - STATE.drawing.timestamp > CONSTANTS.drawingInterval) {
+								STATE.drawing.timestamp = time
+								STATE.drawing.points.push([STATE.cursor.x, STATE.cursor.y])
+								
+								const item = STATE.items[STATE.drawing.id]
+									item.attributes.coordinates.points = STATE.drawing.points.join("\n")
+									item.listing.container.setAttribute("shape", "polygon")
+									item.listing.summary.nameElement.innerText = "polygon"
+									item.listing.coordinates.points.value = item.attributes.coordinates.points
+								setItemCoordinates(item)
+							}
+							return
+						}
 
 					// nothing selected --> move grid
 						if (!STATE.selected.id) {
@@ -2036,7 +2194,16 @@
 			function upMouse(event) {
 				try {
 					// nothing selected
-						if (!STATE.selected) {
+						if (!STATE.selected && !STATE.drawing) {
+							return
+						}
+
+					// drawing?
+						if (STATE.drawing) {
+							if (STATE.drawing.timestamp) {
+								STATE.drawing = null
+								recordHistory()
+							}
 							return
 						}
 
@@ -2064,7 +2231,7 @@
 			function scrollMouse(event) {
 				try {
 					// something selected
-						if (STATE.selected) {
+						if (STATE.selected || STATE.drawing) {
 							return
 						}
 
@@ -2106,6 +2273,9 @@
 		/* doubleclickItem */
 			function doubleclickItem(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// don't select container
 						event.stopPropagation()
 
@@ -2133,6 +2303,9 @@
 		/* doubleclickPoint */
 			function doubleclickPoint(event) {
 				try {
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
 					// don't select container
 						event.stopPropagation()
 
@@ -2228,6 +2401,26 @@
 						if (event?.type) {
 							recordHistory()
 						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* cancelDrawing */
+			function cancelDrawing() {
+				try {
+					// not drawing
+						if (!STATE.drawing) {
+							return
+						}
+
+					// remove item
+						const item = STATE.items[STATE.drawing.id]
+							item.listing.container.remove()
+							item.points.group.remove()
+							item.svg.remove()
+						delete STATE.items[STATE.drawing.id]
+
+					// end drawing
+						STATE.drawing = false
 				} catch (error) {console.log(error)}
 			}
 
@@ -2945,9 +3138,26 @@
 									return
 								}
 
-								const p = item.points[`point-${coordinateIndex}`]
-									p.setAttribute("cx", pair[0])
-									p.setAttribute("cy", pair[1])
+								if (!item.points[`point-${coordinateIndex}`]) {
+									const newP = document.createElementNS("http://www.w3.org/2000/svg", "circle")
+										newP.id = `${item.id}-controls-listing-coordinates-point-${coordinateIndex}`
+										newP.className = "polygon-point"
+										newP.setAttribute("cx", pair[0])
+										newP.setAttribute("cy", pair[1])
+										newP.setAttribute("r",  CONSTANTS.points.r)
+										newP.setAttribute("fill", CONSTANTS.points.fill)
+										newP.setAttribute("stroke", CONSTANTS.points.pointStroke)
+										newP.setAttribute("stroke-width", CONSTANTS.points.pointWidth)
+										newP.addEventListener(TRIGGERS.mousedown, selectPoint)
+										newP.addEventListener(TRIGGERS.doubleclick, doubleclickPoint)
+									item.points.group.appendChild(newP)
+									item.points[`point-${coordinateIndex}`] = newP
+								}
+								else {
+									const p = item.points[`point-${coordinateIndex}`]
+										p.setAttribute("cx", pair[0])
+										p.setAttribute("cy", pair[1])
+								}
 							}
 
 							for (let p in item.points) {
