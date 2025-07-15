@@ -11,7 +11,9 @@
 			input: "input",
 			mousedown: "mousedown",
 			mouseup: "mouseup",
-			mousemove: "mousemove"
+			mousemove: "mousemove",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -110,7 +112,8 @@
 					}
 				}
 			},
-			transitionTime: 500
+			transitionTime: 500, // ms
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 		}
 
 	/* state */
@@ -266,6 +269,62 @@
 				// file
 					const file = ELEMENTS.controls.image.upload.files[0]
 					if (!file) {
+						return
+					}
+
+				// remove element
+					if (ELEMENTS.uploadCenterOuter) {
+						ELEMENTS.uploadCenterOuter.remove()
+						ELEMENTS.controls.element.setAttribute("open", true)
+
+						// resize canvas
+							setTimeout(() => {
+								resizeCanvas()
+							}, CONSTANTS.transitionTime)
+					}
+
+				// read file
+					const reader = new FileReader()
+						reader.onload = function(event) {
+							const image = new Image
+								image.onload = function() {
+									STATE.imageData = image
+									drawCanvas()
+								}
+								image.src = event.target.result
+							ELEMENTS.controls.image.upload.value = null
+							ELEMENTS.controls.image.upload.blur()
+						}
+						reader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragImage */
+		ELEMENTS.uploadCenterOuter.addEventListener(TRIGGERS.dragover, dragImage)
+		ELEMENTS.canvas.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.uploadCenterOuter.addEventListener(TRIGGERS.drop, dropImage)
+		ELEMENTS.canvas.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!CONSTANTS.imageTypes.includes(file.type)) {
 						return
 					}
 

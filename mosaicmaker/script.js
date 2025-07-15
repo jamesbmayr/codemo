@@ -1,6 +1,7 @@
 /*** globals ***/
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			menu: {
 				details: document.querySelector("#menu"),
 				toggle: document.querySelector("#menu-toggle"),
@@ -36,7 +37,8 @@
 			overlayOperation: "multiply",
 			overlayOpacity: 0.75,
 			secondOverlayOperation: "screen",
-			secondOverlayOpacity: 0.75
+			secondOverlayOpacity: 0.75,
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 		}
 
 	/* state */
@@ -115,6 +117,68 @@
 							}
 							tileReader.readAsDataURL(STATE.tileFiles[i])
 					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragImages */
+		ELEMENTS.body.addEventListener("dragover", dragImages)
+		function dragImages(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImages */
+		ELEMENTS.body.addEventListener("drop", dropImages)
+		function dropImages(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const files = [...event.dataTransfer.items]
+					const images = []
+					for (const f in files) {
+						const file = files[f].getAsFile()
+						if (!file) {
+							return
+						}
+						if (!SETTINGS.imageTypes.includes(file.type)) {
+							return
+						}
+						images.push(file)
+					}
+
+				// reset download
+					ELEMENTS.download.setAttribute("href", "#")
+
+				// get files
+					let mainFile = images[0]
+					let tileFiles = images.slice(1)
+					let chunksCount = Number(ELEMENTS.menu.chunks.count.value) || 1
+
+				// validation
+					if (!mainFile) {
+						return
+					}
+
+				// set state
+					STATE.mainFile = mainFile
+					STATE.tileFiles = tileFiles
+					STATE.chunksCount = chunksCount
+					STATE.pixels = []
+					STATE.XYratio = 1
+					STATE.mainImage = null
+					STATE.tileImages = []
+
+				// close form
+					ELEMENTS.menu.details.removeAttribute("open")
+
+				// upload images
+					uploadImages()
 			} catch (error) {console.log(error)}
 		}
 

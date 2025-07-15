@@ -10,6 +10,8 @@
 			press: "mousedown",
 			move: "mousemove",
 			lift: "mouseup",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.click = "touchstart"
@@ -458,6 +460,50 @@
 			try {
 				// file
 					const file = ELEMENTS.tools.backgroundImage.files[0]
+					if (!file) {
+						return
+					}
+					if (!CONSTANTS.imageTypes.includes(file.type)) {
+						return
+					}
+
+				// read file
+					const reader = new FileReader()
+						reader.onload = event => {
+							const image = new Image()
+								image.onload = () => {
+									STATE.background.image = image
+									drawBackground(image)
+									appendHistory()
+								}
+								image.src = event.target.result
+							ELEMENTS.tools.backgroundImage.value = null
+							ELEMENTS.tools.backgroundImage.blur()
+						}
+						reader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragImage */
+		ELEMENTS.canvas.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.canvas.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
 					if (!file) {
 						return
 					}

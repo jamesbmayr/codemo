@@ -1,9 +1,9 @@
 /* triggers */
 	if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-		var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+		var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", dragover: "dragover", drop: "drop" }
 	}
 	else {
-		var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+		var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", dragover: "dragover", drop: "drop" }
 	}
 
 /* load */
@@ -25,6 +25,42 @@
 	}
 
 	document.querySelector("#refresh").addEventListener(on.click, createPuzzle)
+	document.querySelector("body").addEventListener(on.dragover, dragImage)
+	document.querySelector("body").addEventListener(on.drop, dropImage)
+
+/* dragImage */
+	function dragImage(event) {
+		event.preventDefault()
+	}
+
+/* dropImage */
+	function dropImage(event) {
+		try {
+			// defaults
+				event.preventDefault()
+				if (!event.dataTransfer || !event.dataTransfer.items) {
+					return
+				}
+
+			// file
+				const file = [...event.dataTransfer.items][0].getAsFile()
+				if (!file) {
+					return
+				}
+				const imageTypes = ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"]
+				if (!imageTypes.includes(file.type)) {
+					return
+				}
+
+			// read file
+				let reader = new FileReader()
+					reader.onload = function(event) {
+						document.querySelector("#url").value = event.target.result
+						createPuzzle()
+					}
+					reader.readAsDataURL(file)
+		} catch (error) {console.log(error)}
+	}
 
 /* createPuzzle */
 	function createPuzzle() {

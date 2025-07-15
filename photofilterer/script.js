@@ -49,6 +49,7 @@
 	/* elements */
 		const ELEMENTS = {
 			ratio: document.querySelector("#ratio"),
+			body: document.body,
 			container: document.querySelector("#container"),
 			overlay: {
 				form: document.querySelector("#overlay"),
@@ -363,7 +364,7 @@
 		}
 
 	/* dragImage */
-		ELEMENTS.container.addEventListener(TRIGGERS.dragover, dragImage)
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragImage)
 		function dragImage(event) {
 			try {
 				event.preventDefault()
@@ -371,7 +372,7 @@
 		}
 
 	/* dropImage */
-		ELEMENTS.container.addEventListener(TRIGGERS.drop, dropImage)
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropImage)
 		function dropImage(event) {
 			try {
 				// defaults

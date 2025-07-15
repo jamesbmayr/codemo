@@ -32,7 +32,8 @@
 					out: "20% 80%, 20% 55%, 15% 55%, 12.5% 58.5%, 10% 60%, 5% 60%, 2.5% 58.5%, 1.25% 57%, 0% 52.5%, 0% 47.5%, 1.25% 43%, 2.5% 41.5%, 5% 40%, 10% 40%, 12.5% 41.5%, 15% 45%, 20% 45%, 20% 20%",
 					flat: "0% 80%, 0% 20%"
 				},
-			}
+			},
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 		}
 
 	/* triggers */
@@ -41,7 +42,9 @@
 			mousedown: "mousedown",
 			mousemove: "mousemove",
 			mouseup: "mouseup",
-			mouseenter: "mouseenter"
+			mouseenter: "mouseenter",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.click = "touchstart"
@@ -54,6 +57,7 @@
 	/* elements */
 		const ELEMENTS = {
 			variables: document.querySelector("#variables"),
+			body: document.body,
 			menu: {
 				element: document.querySelector("#menu"),
 				toggle: document.querySelector("#menu-toggle"),
@@ -144,9 +148,45 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* dragImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!CONSTANTS.imageTypes.includes(file.type)) {
+						return
+					}
+
+				// form
+					changeFile()
+
+				// read file
+					submitForm(null, file)
+			} catch (error) {console.log(error)}
+		}
+
+
 	/* submitForm */
 		ELEMENTS.menu.form.addEventListener("submit", submitForm)
-		function submitForm(event) {
+		function submitForm(event, droppedFile) {
 			try {
 				// assume no errors
 					let errorCount = 0
@@ -159,7 +199,7 @@
 
 				// validate url / file
 					let url = ELEMENTS.menu.url.value || null
-					let file = ELEMENTS.menu.file.files ? ELEMENTS.menu.file.files[0] : null
+					let file = droppedFile ? droppedFile : ELEMENTS.menu.file.files ? ELEMENTS.menu.file.files[0] : null
 					ELEMENTS.puzzle.link.href = "#"
 
 					let imageType = ELEMENTS.menu.type.url.checked ? "url"

@@ -7,7 +7,9 @@
 			mouseup: "mouseup",
 			submit: "submit",
 			input: "input",
-			change: "change"
+			change: "change",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -19,6 +21,7 @@
 		
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			settings: {
 				element: document.querySelector("#settings"),
 				form: document.querySelector("#settings-inner"),
@@ -46,6 +49,7 @@
 			circle: 360,
 			radians: 2 * Math.PI,
 			rotations: [0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180, 202.5, 225, 247.5, 270, 292.5, 315, 337.5],
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 			transform: function(angle) { return "translateX(-50%) translateY(-50%) rotate(" + angle + "deg)" },
 			api: {
 				url: "https://api.unsplash.com/photos/random?client_id=",
@@ -206,9 +210,42 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* dragImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!CONSTANTS.imageTypes.includes(file.type)) {
+						return
+					}
+
+				// form
+					selectFile()
+					submitForm(null, file)
+			} catch (error) {console.log(error)}
+		}
+
 	/* submitForm */
 		ELEMENTS.settings.form.addEventListener(TRIGGERS.submit, submitForm)
-		function submitForm(event) {
+		function submitForm(event, file) {
 			try {
 				// assume good
 					ELEMENTS.settings.submit.removeAttribute("invalid")
@@ -255,9 +292,12 @@
 
 				// image from file
 					if (type == "file") {
-						if (!ELEMENTS.settings.file.files || !ELEMENTS.settings.file.files[0]) {
-							ELEMENTS.settings.file.setAttribute("invalid", true)
-							return
+						if (!file) {
+							if (!ELEMENTS.settings.file.files || !ELEMENTS.settings.file.files[0]) {
+								ELEMENTS.settings.file.setAttribute("invalid", true)
+								return
+							}
+							file = ELEMENTS.settings.file.files[0]
 						}
 
 						let fileReader = new FileReader()
@@ -269,7 +309,7 @@
 								ELEMENTS.settings.error.value = "invalid file"
 								ELEMENTS.settings.submit.setAttribute("invalid", true)
 							}
-							fileReader.readAsDataURL(ELEMENTS.settings.file.files[0])
+							fileReader.readAsDataURL(file)
 						return
 					}
 

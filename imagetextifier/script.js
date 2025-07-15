@@ -5,6 +5,8 @@
 			click: "click",
 			play: "playing",
 			resize: "resize",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 	/* elements */
@@ -30,6 +32,7 @@
 			copyTimeout: 1000,
 			ascii: "@$%#8&WM0ZSOXHI1*+=•~-:. ",
 			monospaceRatio: 0.6,
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 			source: null,
 			processingLoop: null,
 			processingInterval: 1000 / 50,
@@ -46,6 +49,64 @@
 			try {
 				// get file
 					const file = ELEMENTS.upload.files[0]
+
+				// get file
+					const imageReader = new FileReader()
+						imageReader.onload = function(event) {
+							const rawImage = new Image
+								rawImage.onload = function() {
+									// stop video
+										STATE.playing = false
+										clearInterval(STATE.processingLoop)
+										STATE.processingLoop = null
+
+									// save
+										STATE.source = rawImage
+
+									// clear input
+										ELEMENTS.upload.value = null
+
+									// hide instructions
+										ELEMENTS.instructions.style.display = "none"
+
+									// get dimensions
+										resizeVideo()
+
+									// process
+										processFrame()
+								}
+								rawImage.src = event.target.result
+						}
+						imageReader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!STATE.imageTypes.includes(file.type)) {
+						return
+					}
 
 				// get file
 					const imageReader = new FileReader()

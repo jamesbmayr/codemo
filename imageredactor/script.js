@@ -7,7 +7,9 @@
 			input: "input",
 			mousedown: "mousedown",
 			mouseup: "mouseup",
-			mousemove: "mousemove"
+			mousemove: "mousemove",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -19,6 +21,7 @@
 
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			configs: document.querySelector("#configs"),
 			upload: document.querySelector("#upload"),
 			download: document.querySelector("#download"),
@@ -39,7 +42,8 @@
 		const CONSTANTS = {
 			circle: 2 * Math.PI,
 			blurReplaceOpacity: 0.5,
-			blurReplaceBlur: 0.05
+			blurReplaceBlur: 0.05,
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 		}
 
 	/* state */
@@ -63,6 +67,52 @@
 
 				// no file
 					if (!file) {
+						return
+					}
+
+				// hide message
+					ELEMENTS.message.style.display = "none"
+
+				// read file
+					let reader = new FileReader()
+						reader.onload = function(event) {
+							let image = new Image
+								image.onload = function() {
+									STATE.image = image
+									STATE.transformations = [STATE.image]
+									resizeCanvas(ELEMENTS.canvas, ELEMENTS.context, STATE.image)
+								}
+								image.src = event.target.result
+							ELEMENTS.upload.value = null
+						}
+						reader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!CONSTANTS.imageTypes.includes(file.type)) {
 						return
 					}
 

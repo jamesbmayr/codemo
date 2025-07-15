@@ -4,7 +4,9 @@
 			input: "input",
 			click: "click",
 			resize: "resize",
-			contextmenu: "contextmenu"
+			contextmenu: "contextmenu",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 	/* elements */
@@ -51,7 +53,8 @@
 			shapes: ["triangle", "square", "rectangle"],
 			defaultBackground: "#000000", // hex
 			defaultKaleidoscopeScale: 150, // %
-			defaultImageScale: 50 // %
+			defaultImageScale: 50, // %
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 		}
 
 	/* state */
@@ -97,6 +100,56 @@
 				// file
 					const file = ELEMENTS.menu.upload.files[0]
 					if (!file) {
+						return
+					}
+
+				// remove element
+					if (ELEMENTS.uploadCenter) {
+						ELEMENTS.uploadCenter.remove()
+					}
+
+				// read file
+					const reader = new FileReader()
+						reader.onload = function(event) {
+							const image = new Image
+								image.onload = function() {
+									STATE.imageData = image
+									drawKaleidoscope()
+								}
+								image.src = event.target.result
+							ELEMENTS.menu.upload.value = null
+							ELEMENTS.menu.upload.blur()
+						}
+						reader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragImage */
+		ELEMENTS.uploadCenter.addEventListener(TRIGGERS.dragover, dragImage)
+		ELEMENTS.canvas.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.uploadCenter.addEventListener(TRIGGERS.drop, dropImage)
+		ELEMENTS.canvas.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!CONSTANTS.imageTypes.includes(file.type)) {
 						return
 					}
 
