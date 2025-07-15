@@ -833,7 +833,6 @@
 	/** other main controls **/
 		/* addItem */
 			ELEMENTS.controls.add.focus()
-			ELEMENTS.controls.add.addEventListener(TRIGGERS.click, addItem)
 			ELEMENTS.controls.addShape.addEventListener(TRIGGERS.input, addItem)
 			function addItem(event) {
 				try {
