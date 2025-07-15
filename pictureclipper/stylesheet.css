@@ -236,31 +236,31 @@
 				filter: drop-shadow(0 0 var(--shadow-size) var(--medium-gray));
 			}
 
-			#tools-transform-rotation {
+			#tools-transform-rotation, #tools-mask-rotation {
 				-webkit-appearance: none;
 				background: transparent;
 			}
 
-				#tools-transform-rotation::-webkit-slider-runnable-track {
+				#tools-transform-rotation::-webkit-slider-runnable-track, #tools-mask-rotation::-webkit-slider-runnable-track {
 					background: var(--light-gray);
 					border-radius: calc(2 * var(--border-radius));
 				}
-				#tools-transform-rotation::-moz-range-track {
+				#tools-transform-rotation::-moz-range-track, #tools-mask-rotation::-moz-range-track {
 					background: var(--light-gray);
 					border-radius: calc(2 * var(--border-radius));
 					height: 5px;
 				}
 
-				#tools-transform-rotation::-moz-range-thumb {
+				#tools-transform-rotation::-moz-range-thumb, #tools-mask-rotation::-moz-range-thumb {
 					background: #676774;
 					border-radius: 100%;
 					outline: 2px solid var(--light-gray);
 					box-shadow: 0 0 0.5px #484851 inset;
 				}
-					#tools-transform-rotation:hover::-moz-range-thumb {
+					#tools-transform-rotation:hover::-moz-range-thumb, #tools-mask-rotation:hover::-moz-range-thumb {
 						background: #484851;
 					}
-					#tools-transform-rotation:hover:active::-moz-range-thumb {
+					#tools-transform-rotation:hover:active::-moz-range-thumb, #tools-mask-rotation:hover:active::-moz-range-thumb {
 						background: 007aff;
 					}
 
@@ -268,7 +268,7 @@
 		#tools select {
 			display: inline-block;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
-			width: calc(100% - (var(--font-size) * 5 + 2 * var(--gap-size)));
+			width: calc(100% - 2 * (var(--font-size) * 5 + 2 * var(--gap-size)));
 			padding: 0;
 			box-sizing: border-box;
 			background: var(--light-gray);
@@ -527,6 +527,11 @@
 			#tools-mask-path:not([visible]) {
 				display: none;
 			}
+
+	/* tiling */
+		#tools-tiling-active-button {
+			width: 100% !important;
+		}
 
 /*** mobile ***/
 	@media screen and (max-width: 600px) {

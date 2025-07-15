@@ -53,6 +53,7 @@
 					icon: document.querySelector("#tools-mask-icon"),
 					iconPath: document.querySelector("#tools-mask-icon-path"),
 					path: document.querySelector("#tools-mask-path"),
+					invert: document.querySelector("#tools-mask-invert"),
 					scaleButton: document.querySelector("#tools-mask-scale-button"),
 					scale: document.querySelector("#tools-mask-scale"),
 					rotationButton: document.querySelector("#tools-mask-rotation-button"),
@@ -77,6 +78,9 @@
 					x: document.querySelector("#tools-transform-x"),
 					yButton: document.querySelector("#tools-transform-y-button"),
 					y: document.querySelector("#tools-transform-y"),
+				},
+				tiling: {
+					active: document.querySelector("#tools-tiling-active")
 				}
 			},
 			raw: {
@@ -90,7 +94,7 @@
 			rounding: 1000, // .#
 			circleDegrees: 360, // degrees
 			circleRadians: Math.PI * 2, // radians
-			rotationDegrees: 90, // degrees
+			invertPath: "M 2000 -1000 L -1000 -1000 L -1000 2000 L 2000 2000 Z ", // svg units
 			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 			canvasSize: 1000, // canvas px
 			svgSize: 100, // svg units
@@ -135,6 +139,7 @@
 					name: null,
 					path: null,
 					draw: true,
+					invert: false,
 					scale: 0, // 2^n
 					rotation: 0, // degrees
 					xFlip: 1, // sign
@@ -149,6 +154,9 @@
 					yFlip: 1, // sign
 					x: 0, // ratio
 					y: 0, // ratio
+				},
+				tiling: {
+					layers: 0, // count
 				}
 			},
 			drawing: null,
@@ -177,10 +185,17 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* duplicateObject */
+		function duplicateObject(data) {
+			try {
+				return JSON.parse(JSON.stringify(data))
+			} catch (error) {console.log(error)}
+		}
+
 	/* transformMask */
 		function transformMask({path,
 			imageScale, imageTranslationX, imageTranslationY,
-			maskRotation, maskScale, maskXFlip, maskYFlip, maskX, maskY
+			maskRotation, maskScale, maskXFlip, maskYFlip, maskX, maskY, maskInvert
 		}) {
 			try {
 				// scale to canvas
@@ -194,7 +209,7 @@
 						commands = getScaledCommands(commands, svgToCanvas, svgToCanvas)
 					
 				// get commands adjusted for settings
-					if (maskRotation !== 0 || maskScale !== 1 || maskXFlip !== 1 || maskYFlip !== 1 || maskX !== 0 || maskY !== 0) {
+					if (maskRotation != 0 || maskScale != 1 || maskXFlip != 1 || maskYFlip != 1 || maskX != 0 || maskY != 0) {
 						commands = getTranslatedCommands(commands, -canvasRadius, -canvasRadius)
 						commands = getRotatedCommands(commands, maskRotation)
 						commands = getScaledCommands(commands, maskScale * maskXFlip, maskScale * maskYFlip)
@@ -202,13 +217,19 @@
 					}
 
 				// get commands rescaled for image
-					if (imageScale !== 1 || imageTranslationX !== 0 || imageTranslationY !== 0) {
+					if (imageScale != 1 || imageTranslationX != 0 || imageTranslationY != 0) {
 						commands = getTranslatedCommands(commands, imageTranslationX, imageTranslationY)
 						commands = getScaledCommands(commands, imageScale, imageScale)
 					}
 
+				// path
+					let transformedPath = getPathFromCommands(commands)
+					if (maskInvert) {
+						transformedPath = CONSTANTS.invertPath + transformedPath
+					}
+
 				// return
-					return getPathFromCommands(commands)
+					return transformedPath
 			} catch (error) {console.log(error)}
 		}
 
@@ -392,20 +413,13 @@
 				// get data
 					const data = await file.getType(file.types[0])
 
-				// image
-					const image = new Image()
-					image.onload = async () => {
-						// save image
-							STATE.dryImage.src = image.src
-							await processImage()
-							drawImage()
-
-						// update history
-							appendHistory()
+				// redraw & update history
+					STATE.dryImage.onload = async () => {
+						processImage(appendHistory)
 					}
 
 				// load image
-					image.src = URL.createObjectURL(data)
+					STATE.dryImage.src = URL.createObjectURL(data)
 			} catch (error) {console.log(error)}
 		}
 
@@ -415,20 +429,13 @@
 				// reader
 					const reader = new FileReader()
 					reader.onload = event => {
-						// image
-							const image = new Image()
-							image.onload = async () => {
-								// save image
-									STATE.dryImage.src = image.src
-									await processImage()
-									drawImage()
-
-								// update history
-									appendHistory()
+						// redraw & update history
+							STATE.dryImage.onload = async () => {
+								processImage(appendHistory)
 							}
 
 						// load image
-							image.src = event.target.result
+							STATE.dryImage.src = event.target.result
 
 						// callback
 							if (callback) {
@@ -597,7 +604,11 @@
 					ELEMENTS.tools.transform.x.value = STATE.tools.transform.x
 					ELEMENTS.tools.transform.y.value = STATE.tools.transform.y
 
+					ELEMENTS.tools.tiling.active.checked = STATE.tools.tiling.active
+
 				// checkboxes
+					ELEMENTS.tools.mask.invert.checked = STATE.tools.mask.invert
+
 					ELEMENTS.tools.mask.xFlip.checked = (STATE.tools.mask.xFlip == -1)
 					ELEMENTS.tools.mask.yFlip.checked = (STATE.tools.mask.yFlip == -1)
 
@@ -678,11 +689,8 @@
 				// get value
 					STATE.tools.color.brightness = Number(ELEMENTS.tools.color.brightness.value)
 
-				// update image
-					await processImage()
-
 				// redraw
-					drawImage()
+					processImage()
 			} catch (error) {console.log(error)}
 		}
 
@@ -708,11 +716,8 @@
 				// get value
 					STATE.tools.color.saturation = Number(ELEMENTS.tools.color.saturation.value)
 
-				// update image
-					await processImage()
-
 				// redraw
-					drawImage()
+					processImage()
 			} catch (error) {console.log(error)}
 		}
 
@@ -738,11 +743,8 @@
 				// get value
 					STATE.tools.color.red = Number(ELEMENTS.tools.color.red.value)
 
-				// update image
-					await processImage()
-
 				// redraw
-					drawImage()
+					processImage()
 			} catch (error) {console.log(error)}
 		}
 
@@ -768,11 +770,8 @@
 				// get value
 					STATE.tools.color.green = Number(ELEMENTS.tools.color.green.value)
 
-				// update image
-					await processImage()
-
 				// redraw
-					drawImage()
+					processImage()
 			} catch (error) {console.log(error)}
 		}
 
@@ -798,11 +797,8 @@
 				// get value
 					STATE.tools.color.blue = Number(ELEMENTS.tools.color.blue.value)
 
-				// update image
-					await processImage()
-
 				// redraw
-					drawImage()
+					processImage()
 			} catch (error) {console.log(error)}
 		}
 
@@ -815,11 +811,21 @@
 					const shapeName = ELEMENTS.tools.mask.shape.value
 
 				// preset
-					if (!["[none]", "[draw]", "[icon]", "[custom]"].includes(shapeName)) {
+					if (!["[none]", "[draw]", "[icon]", "[random]", "[custom]"].includes(shapeName)) {
 						STATE.tools.mask.draw = false
 						ELEMENTS.tools.mask.searchOuter.removeAttribute("visible")
 						ELEMENTS.tools.mask.path.removeAttribute("visible")
 						updateMaskIcon(null, shapeName)
+						return
+					}
+
+				// random
+					if (shapeName == "[random]") {
+						STATE.tools.mask.draw = false
+						ELEMENTS.tools.mask.shape.value = "[icon]"
+						ELEMENTS.tools.mask.searchOuter.setAttribute("visible", true)
+						ELEMENTS.tools.mask.path.removeAttribute("visible")
+						updateMaskIcon(null, chooseRandom(Object.keys(SVG.icons)))
 						return
 					}
 
@@ -891,6 +897,7 @@
 						// reveal icon search
 							ELEMENTS.tools.mask.path.removeAttribute("visible")
 							ELEMENTS.tools.mask.searchOuter.setAttribute("visible", true)
+							ELEMENTS.tools.mask.search.focus()
 					}
 
 				// custom
@@ -1007,6 +1014,21 @@
 					STATE.tools.mask.path = ELEMENTS.tools.mask.path.value.trim()
 
 				// redraw
+					drawImage()
+
+				// update history
+					appendHistory()
+			} catch (error) {console.log(error)}
+		}
+
+	/* updateMaskInvert */
+		ELEMENTS.tools.mask.invert.addEventListener(TRIGGERS.input, updateMaskInvert)
+		function updateMaskInvert(event) {
+			try {
+				// flip sign
+					STATE.tools.mask.invert = ELEMENTS.tools.mask.invert.checked ? true : false
+
+				// redraw image
 					drawImage()
 
 				// update history
@@ -1331,9 +1353,22 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** tools - tiling ***/
+	/* updateTilingActive */
+		ELEMENTS.tools.tiling.active.addEventListener(TRIGGERS.input, updateTilingActive)
+		function updateTilingActive(event) {
+			try {
+				// translation
+					STATE.tools.tiling.active = ELEMENTS.tools.tiling.active.checked
+				
+				// redraw image
+					drawImage()
+			} catch (error) {console.log(error)}
+		}
+
 /*** image recoloring ***/
 	/* processImage */
-		async function processImage() {
+		async function processImage(callback) {
 			try {
 				// get dimensions
 					const imageWidth  = STATE.dryImage.naturalWidth
@@ -1363,9 +1398,12 @@
 
 				// update state
 					STATE.wetImage.src = ELEMENTS.raw.canvas.toDataURL("image/png")
-
-				// return
-					return true
+					STATE.wetImage.onload = () => {
+						drawImage()
+						if (callback) {
+							callback()
+						}
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -1531,9 +1569,54 @@
 						return
 					}
 
-				// save path
-					STATE.tools.mask.path = STATE.drawing
+				// get adjustments
+					const imageTranslationX = STATE.tools.transform.x * -CONSTANTS.svgSize
+					const imageTranslationY = STATE.tools.transform.y * -CONSTANTS.svgSize
+					const imageRotation = -STATE.tools.transform.rotation * (CONSTANTS.circleRadians / CONSTANTS.circleDegrees)
+					const imageScale = 1 / (2 ** STATE.tools.transform.scale)
+					const imageXFlip = STATE.tools.transform.xFlip
+					const imageYFlip = STATE.tools.transform.yFlip
+
+				// scale to radius
+					const svgRadius = CONSTANTS.svgSize / 2
+
+				// get commands adjusted for canvas
+					let commands = getCommandsFromPath(STATE.drawing)
+						commands = getAbsoluteCommands(commands)
+						commands = getSimplifiedCommands(commands)
+					
+				// get commands un-adjusted for settings
+						commands = getTranslatedCommands(commands, -svgRadius, -svgRadius)
+						commands = getScaledCommands(commands, imageScale, imageScale)
+						commands = getTranslatedCommands(commands, imageTranslationX, imageTranslationY)
+						commands = getRotatedCommands(commands, imageRotation)
+						commands = getScaledCommands(commands, imageXFlip, imageYFlip)
+						commands = getTranslatedCommands(commands, svgRadius, svgRadius)
+
+				// reverse?
+					let curves = getCurvesFromCommands(commands)
+						if (getSignedArea(curves) < 0) {
+							curves = getReversedCurves(curves)
+							commands = getCommandsFromCurves(curves)
+						}
+
+				// update state
+					STATE.tools.mask.path = getPathFromCommands(commands)
+					STATE.tools.mask.scale = 0
+					STATE.tools.mask.rotation = 0
+					STATE.tools.mask.xFlip = 1
+					STATE.tools.mask.yFlip = 1
+					STATE.tools.mask.x = 0
+					STATE.tools.mask.y = 0
+
+				// update elements
 					ELEMENTS.tools.mask.path.value = STATE.tools.mask.path
+					ELEMENTS.tools.mask.scale.value = STATE.tools.mask.scale
+					ELEMENTS.tools.mask.rotation.value = STATE.tools.mask.rotation
+					ELEMENTS.tools.mask.xFlip.checked = (STATE.tools.mask.xFlip == -1)
+					ELEMENTS.tools.mask.yFlip.checked = (STATE.tools.mask.yFlip == -1)
+					ELEMENTS.tools.mask.x.value = STATE.tools.mask.x
+					ELEMENTS.tools.mask.y.value = STATE.tools.mask.y
 
 				// update state
 					STATE.drawing = false
@@ -1571,6 +1654,7 @@
 					const imageHeight = STATE.wetImage.naturalHeight
 
 				// resize for canvas
+					const canvasRadius   = CONSTANTS.canvasSize / 2
 					const resizeFactor   = CONSTANTS.canvasSize / Math.max(imageWidth, imageHeight)
 					const resizedWidth   = resizeFactor * imageWidth
 					const resizedHeight  = resizeFactor * imageHeight
@@ -1594,6 +1678,7 @@
 					const imageYFlip = STATE.tools.transform.yFlip
 					const maskXFlip  = STATE.tools.mask.xFlip
 					const maskYFlip  = STATE.tools.mask.yFlip
+					const maskInvert = STATE.tools.mask.invert
 
 				// translation settings
 					const imageX = CONSTANTS.canvasSize * STATE.tools.transform.x * imageScale
@@ -1612,23 +1697,63 @@
 						maskXFlip,
 						maskYFlip,
 						maskX,
-						maskY
+						maskY,
+						maskInvert
 					}) : null
 
-				// transformations
-					ELEMENTS.context.save()
-					ELEMENTS.context.translate(imageXoffset + imageX, imageYoffset + imageY)
-					ELEMENTS.context.translate(imageScaledWidth / 2, imageScaledHeight / 2)
-					ELEMENTS.context.rotate(imageRotation)
-					ELEMENTS.context.scale(imageXFlip, imageYFlip)
-					ELEMENTS.context.translate(imageScaledWidth / -2, imageScaledHeight / -2)
-					if (maskPath) { ELEMENTS.context.clip(new Path2D(maskPath)) }
-				
-				// draw
-					ELEMENTS.context.drawImage(STATE.wetImage, 0, 0, imageScaledWidth, imageScaledHeight)
-					ELEMENTS.context.restore()
+				// tiling
+					if (STATE.tools.tiling.active) {
+						ELEMENTS.context.save()
 
-				// drawing
+						// mask
+							if (maskPath) {
+								ELEMENTS.context.translate(resizedOffsetX, resizedOffsetY)
+								ELEMENTS.context.scale(1 / imageScale, 1 / imageScale)
+								ELEMENTS.context.clip(new Path2D(maskPath))
+								ELEMENTS.context.scale(imageScale, imageScale)
+								ELEMENTS.context.translate(-resizedOffsetX, -resizedOffsetY)
+							}
+
+						// tiling pattern
+							const matrix = new DOMMatrix([1, 0, 0, 1, 0, 0])
+							const pattern = ELEMENTS.context.createPattern(STATE.wetImage, "repeat")
+								pattern.setTransform(matrix
+									.translate(imageXoffset + imageX, imageYoffset + imageY)
+									.translate(imageScaledWidth / 2, imageScaledHeight / 2)
+									.rotate(STATE.tools.transform.rotation)
+									.scale(imageXFlip, imageYFlip)
+									.translate(imageScaledWidth / -2, imageScaledHeight / -2)
+									.scale(resizeFactor * imageScale)
+								)
+							ELEMENTS.context.fillStyle = pattern
+							ELEMENTS.context.fillRect(0, 0, CONSTANTS.canvasSize, CONSTANTS.canvasSize)
+						
+						ELEMENTS.context.restore()
+					}
+
+				// single image
+					else {
+						ELEMENTS.context.save()
+
+						// transformations
+							ELEMENTS.context.translate(imageXoffset + imageX, imageYoffset + imageY)
+							ELEMENTS.context.translate(imageScaledWidth / 2, imageScaledHeight / 2)
+							ELEMENTS.context.rotate(imageRotation)
+							ELEMENTS.context.scale(imageXFlip, imageYFlip)
+							ELEMENTS.context.translate(imageScaledWidth / -2, imageScaledHeight / -2)
+
+						// mask
+							if (maskPath) {
+								ELEMENTS.context.clip(new Path2D(maskPath))
+							}
+
+						// image
+							ELEMENTS.context.drawImage(STATE.wetImage, 0, 0, imageScaledWidth, imageScaledHeight)
+
+						ELEMENTS.context.restore()
+					}				
+
+				// drawing custom mask
 					if (STATE.drawing) {
 						const scaledDrawingPath = transformMask({
 							path: STATE.drawing,
@@ -1640,7 +1765,8 @@
 							maskXFlip: 1,
 							maskYFlip: 1,
 							maskX: 0,
-							maskY: 0
+							maskY: 0,
+							maskInvert: false
 						})
 						const drawingPath = new Path2D(scaledDrawingPath)
 						ELEMENTS.context.strokeStyle = CONSTANTS.drawingColor
@@ -2466,5 +2592,242 @@
 						x: roundNumber(x * cosTheta - y * sinTheta),
 						y: roundNumber(y * cosTheta + x * sinTheta)
 					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* getCurvesFromCommands */
+		function getCurvesFromCommands(commands) {
+			try {
+				// empty curves
+					const curves = []
+					const coordinates = {x: null, y: null}
+					const start       = {x: null, y: null}
+
+				// loop through commands
+					for (let c = 0; c < commands.length; c++) {
+						// components
+							const components = commands[c].split(/\s/g)
+
+						// M
+							if (components[0] == "M") {
+								if (c && !curves[curves.length - 1].z) {
+									curves.push({
+										z: true,
+										zx: start.x,
+										zy: start.y
+									})
+								}
+
+								curves.push({
+									x: Number(components[1]),
+									y: Number(components[2])
+								})
+
+								coordinates.x = Number(components[1])
+								coordinates.y = Number(components[2])
+								start.x       = coordinates.x
+								start.y       = coordinates.y
+							}
+
+						// C
+							else if (components[0] == "C") {
+								curves.push({
+									c1x: Number(components[1]),
+									c1y: Number(components[2]),
+									c2x: Number(components[3]),
+									c2y: Number(components[4]),
+									x: Number(components[5]),
+									y: Number(components[6])
+								})
+								coordinates.x = Number(components[5])
+								coordinates.y = Number(components[6])
+							}
+
+						// Z
+							else if (components[0] == "Z") {
+								if (!curves[curves.length - 1].z) {
+									curves.push({
+										z: true,
+										zx: start.x,
+										zy: start.y
+									})
+									coordinates.x = start.x
+									coordinates.y = start.y
+								}
+							}
+
+						// others
+							else {
+								throw new Error(`non-standard command: ${components[0]}`)
+							}
+					}
+
+				// always end in Z
+					if (!curves[curves.length - 1].z) {
+						curves.push({
+							z: true,
+							zx: start.x,
+							zy: start.y
+						})
+					}
+
+				// return
+					return curves
+			} catch (error) {console.log(error)}
+		}
+
+	/* getSignedArea */
+		function getSignedArea(curves) {
+			try {
+				// A = 1/2 * (x1*y2 - x2*y1 + x2*y3 - x3*y2 + ... + xn*y1 - x1*yn)
+
+				// get all points
+					const points = []
+					for (const c in curves) {
+						points.push(curves[c].z ? {x: curves[c].zx, y: curves[c].zy} : {x: curves[c].x, y: curves[c].y})
+					}
+
+				// calculate area
+					let area = 0
+					for (let p = 0; p < points.length; p++) {
+						const thisPoint = points[p]
+						const nextPoint = points[p + 1] ?? points[0]
+
+						area += ((thisPoint.x * nextPoint.y) - (nextPoint.x * thisPoint.y))
+					}
+
+				// area
+					return area
+			} catch (error) {console.log(error)}
+		}
+
+
+
+	/* getReversedCurves */
+		function getReversedCurves(curves, intersections) {
+			try {
+				// replace Zs with Cs (as necessary)
+					const curvesCopy = getZtoCCurves(duplicateObject(curves))
+
+				// new curves
+					const newCurves = []
+					const startPoint = {x: null, y: null}
+					const controlPoints = {}
+
+				// loop through in reverse
+					for (let c = curvesCopy.length; c; c--) {
+						// new curve
+							const newCurve = {
+								x: curvesCopy[c - 1].x,
+								y: curvesCopy[c - 1].y
+							}
+
+						// C (held controlPoints)
+							if (controlPoints.c1x !== undefined && controlPoints.c1y !== undefined && 
+								controlPoints.c2x !== undefined && controlPoints.c2y !== undefined) {
+								newCurve.c1x = controlPoints.c2x
+								newCurve.c1y = controlPoints.c2y
+								newCurve.c2x = controlPoints.c1x
+								newCurve.c2y = controlPoints.c1y
+							}
+
+						// M
+							else {
+								startPoint.x = curvesCopy[c - 1].x
+								startPoint.y = curvesCopy[c - 1].y
+							}
+
+						// hold new controlPoints (or undefined)
+							controlPoints.c1x = curvesCopy[c - 1].c1x ?? undefined
+							controlPoints.c1y = curvesCopy[c - 1].c1y ?? undefined
+							controlPoints.c2x = curvesCopy[c - 1].c2x ?? undefined
+							controlPoints.c2y = curvesCopy[c - 1].c2y ?? undefined
+
+						// add
+							newCurves.push(newCurve)
+					}
+
+				// intersections?
+					if (intersections && intersections !== true) {
+						intersections.reverse()
+						for (const i in intersections) {
+							if (intersections[i].type == "leave") {
+								intersections[i].type = "enter"
+							}
+							else if (intersections[i].type == "enter") {
+								intersections[i].type = "leave"
+							}
+						}
+					}
+
+				// return
+					return newCurves
+			} catch (error) {console.log(error)}
+		}
+
+	/* getZtoCCurves */
+		function getZtoCCurves(curves) {
+			try {
+				// no curves
+					if (!curves || !curves.length) {
+						return curves
+					}
+
+				// loop through curves
+					for (let c = 0; c < curves.length; c++) {
+						// not Z --> continue
+							if (!curves[c].z) {
+								continue
+							}
+
+						// Z in place --> remove
+							if (curves[c].zx == curves[c - 1].x && curves[c].zy == curves[c - 1].y) {
+								curves.splice(c, 1)
+								c--
+								continue
+							}
+
+						// Z --> C
+							const pseudoCommands = getSimplifiedCommands([
+								`M ${curves[c - 1].x } ${curves[c - 1].y }`,
+								`L ${curves[c    ].zx} ${curves[c    ].zy}`
+							])
+							const pseudoCurves = getCurvesFromCommands(pseudoCommands).slice(0,2)
+							curves[c] = pseudoCurves[1]
+					}
+
+				// return
+					return curves
+			} catch (error) {console.log(error)}
+		}
+
+	/* getCommandsFromCurves */
+		function getCommandsFromCurves(curves) {
+			try {
+				// empty commands
+					const commands = []
+
+				// loop through curves
+					for (let c = 0; c < curves.length; c++) {
+						const curve = curves[c]
+
+						// Z
+							if (curve.z) {
+								commands.push(`Z`)
+							}
+
+						// C
+							else if (curve.c1x !== undefined) {
+								commands.push(`C ${curve.c1x} ${curve.c1y} ${curve.c2x} ${curve.c2y} ${curve.x} ${curve.y}`)
+							}
+
+						// M
+							else {
+								commands.push(`M ${curve.x} ${curve.y}`)
+							}
+					}
+
+				// return
+					return commands
 			} catch (error) {console.log(error)}
 		}

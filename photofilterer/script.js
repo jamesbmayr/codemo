@@ -30,7 +30,8 @@
 					gray: [],
 					all: [[0, 360]]
 			},
-			hueWedge: 40
+			hueWedge: 40,
+			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 		}
 
 	/* triggers */
@@ -40,12 +41,15 @@
 			change: "change",
 			input: "input",
 			play: "playing",
-			resize: "resize"
+			resize: "resize",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 	/* elements */
 		const ELEMENTS = {
 			ratio: document.querySelector("#ratio"),
+			container: document.querySelector("#container"),
 			overlay: {
 				form: document.querySelector("#overlay"),
 				begin: document.querySelector("#begin"),
@@ -164,6 +168,11 @@
 		window.addEventListener(TRIGGERS.resize, resizeVideo)
 		function resizeVideo(event) {
 			try {
+				// no video
+					if (!SETTINGS.source) {
+						return
+					}
+
 				// dimensions
 					let sourceWidth = SETTINGS.source.videoWidth || SETTINGS.source.width
 					let sourceHeight = SETTINGS.source.videoHeight || SETTINGS.source.height
@@ -350,8 +359,73 @@
 								rawImage.src = event.target.result
 						}
 						imageReader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
 
-				// push to canvas
+	/* dragImage */
+		ELEMENTS.container.addEventListener(TRIGGERS.dragover, dragImage)
+		function dragImage(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropImage */
+		ELEMENTS.container.addEventListener(TRIGGERS.drop, dropImage)
+		function dropImage(event) {
+			try {
+				// defaults
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (!SETTINGS.imageTypes.includes(file.type)) {
+						return
+					}
+
+				// skip
+					skipCamera()
+
+				// get file
+					let imageReader = new FileReader()
+						imageReader.onload = function(event) {
+							let rawImage = new Image
+								rawImage.onload = function() {
+									// save
+										SETTINGS.source = rawImage
+
+									// get dimensions
+										let imageWidth = rawImage.width
+										let imageHeight = rawImage.height
+
+									// ratio
+										let ratio = imageWidth / imageHeight
+
+									// resize canvas
+										ELEMENTS.raw.canvas.width = imageWidth
+										ELEMENTS.raw.canvas.height = imageHeight
+										ELEMENTS.processed.canvas.width = imageWidth
+										ELEMENTS.processed.canvas.height = imageHeight
+
+									// update ratio style
+										ELEMENTS.ratio.innerText = ":root {--ratio: " + ratio + "}"
+
+									// processing loop
+										SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
+
+									// show download
+										ELEMENTS.actions.downloadButton.removeAttribute("hidden")
+										ELEMENTS.actions.capture.querySelector("span").innerText = "camera"
+								}
+								rawImage.src = event.target.result
+						}
+						imageReader.readAsDataURL(file)
 			} catch (error) {console.log(error)}
 		}
 
