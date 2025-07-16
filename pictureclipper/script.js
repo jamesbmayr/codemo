@@ -95,6 +95,7 @@
 			circleDegrees: 360, // degrees
 			circleRadians: Math.PI * 2, // radians
 			invertPath: "M 2000 -1000 L -1000 -1000 L -1000 2000 L 2000 2000 Z ", // svg units
+			invertPathFlipped: "M 2000 -1000  L 2000 2000 L -1000 2000 L -1000 -1000 Z ", // svg units
 			imageTypes: ["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"],
 			canvasSize: 1000, // canvas px
 			svgSize: 100, // svg units
@@ -225,7 +226,7 @@
 				// path
 					let transformedPath = getPathFromCommands(commands)
 					if (maskInvert) {
-						transformedPath = CONSTANTS.invertPath + transformedPath
+						transformedPath = maskInvert + transformedPath
 					}
 
 				// return
@@ -1678,7 +1679,7 @@
 					const imageYFlip = STATE.tools.transform.yFlip
 					const maskXFlip  = STATE.tools.mask.xFlip
 					const maskYFlip  = STATE.tools.mask.yFlip
-					const maskInvert = STATE.tools.mask.invert
+					const maskInvert = STATE.tools.mask.invert ? (STATE.tools.mask.xFlip + STATE.tools.mask.yFlip == 0 ? CONSTANTS.invertPathFlipped : CONSTANTS.invertPath) : ""
 
 				// translation settings
 					const imageX = CONSTANTS.canvasSize * STATE.tools.transform.x * imageScale
