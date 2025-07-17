@@ -172,6 +172,52 @@
 		}
 
 /*** interaction ***/
+	/* dragFile */
+		ELEMENTS.ipaTextarea.addEventListener("dragover", dragFile)
+		ELEMENTS.arpabetTextarea.addEventListener("dragover", dragFile)
+		function dragFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.ipaTextarea.addEventListener("drop", dropFile)
+		ELEMENTS.arpabetTextarea.addEventListener("drop", dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+
+				// get target
+					const textarea = event.target.closest("textarea")
+
+				// get file contents
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+				
+				// get contents
+					const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = event => {
+							const fileString = String(event.target.result) || ""
+							textarea.value = fileString
+
+							if (textarea == ELEMENTS.ipaTextarea) {
+								inputIPA()
+								return
+							}
+							inputARPABET()
+						}
+			} catch (error) {console.log(error)}
+		}
+
 	/* inputIPA */
 		ELEMENTS.ipaTextarea.addEventListener("input", inputIPA)
 		function inputIPA(event) {

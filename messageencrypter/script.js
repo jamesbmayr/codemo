@@ -56,6 +56,42 @@
 			catch (error) { console.log(error) }
 		}
 
+	/* dragFile */
+		ELEMENTS.message.addEventListener("dragover", dragFile)
+		function dragFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.message.addEventListener("drop", dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+
+				// get file contents
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+				
+				// get contents
+					const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = event => {
+							const fileString = String(event.target.result) || ""
+							ELEMENTS.message.value = fileString
+							submitForm()
+						}
+			} catch (error) {console.log(error)}
+		}
+
 /*** helpers ***/
 	/* cleanText */
 		function cleanText(text) {

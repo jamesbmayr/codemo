@@ -1,10 +1,10 @@
 /*** update ***/
 	/* triggers */
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+			var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", dragover: "dragover", drop: "drop" }
 		}
 		else {
-			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+			var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", dragover: "dragover", drop: "drop" }
 		}
 
 	/* onload */
@@ -181,6 +181,38 @@
 					document.getElementById("container").style.backgroundImage = "url(" + event.target.result + ")"
 				}
 				fileReader.readAsDataURL(file)
+		}
+
+	/* dragFile */
+		document.body.addEventListener(on.dragover, dragFile)
+		function dragFile(event) {
+			event.preventDefault()
+		}
+
+	/* dropFile */
+		document.body.addEventListener(on.drop, dropFile)
+		function dropFile(event) {
+			// prevent default
+				event.preventDefault()
+				if (!event.dataTransfer || !event.dataTransfer.items) {
+					return
+				}
+
+			// file
+				var file = [...event.dataTransfer.items][0].getAsFile()
+				if (!file) {
+					return
+				}
+				if (!["image/png", "image/jpeg", "image/jpg", "image/gif", "image/webp", "image/bmp", "image/tiff", "image/svg+xml"].includes(file.type)) {
+					return
+				}
+
+			// upload
+				var fileReader = new FileReader()
+					fileReader.onload = function(event) {
+						document.getElementById("container").style.backgroundImage = "url(" + event.target.result + ")"
+					}
+					fileReader.readAsDataURL(file)
 		}
 
 	/* clearBackground */

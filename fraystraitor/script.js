@@ -7,6 +7,7 @@
 
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			input: document.querySelector("#input"),
 			output: document.querySelector("#output"),
 		}
@@ -26,6 +27,41 @@
 
 				// put text into output
 					ELEMENTS.output.value = text
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragFile */
+		ELEMENTS.body.addEventListener("dragover", dragFile)
+		function dragFile(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener("drop", dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+
+				// import
+					const reader = new FileReader()
+					reader.readAsText(file)
+					reader.onload = event => {
+						const fileString = String(event.target.result) || ""
+						ELEMENTS.input.value = fileString
+						inputText()
+					}
 			} catch (error) {console.log(error)}
 		}
 

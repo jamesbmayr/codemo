@@ -5,11 +5,14 @@
 			input: "input",
 			change: "change",
 			keydown: "keydown",
-			keyup: "keyup"
+			keyup: "keyup",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			controls: {
 				element: document.querySelector("#controls"),
 				sizeInput: document.querySelector("#controls-size-input"),
@@ -167,6 +170,42 @@
 
 				// set lineheight
 					ELEMENTS.controls.text.style.lineHeight = lineheight
+			} catch (error) {console.log(error)}
+		}
+
+/*** file ***/
+	/* dragFile */
+		ELEMENTS.body.addEventListener("dragover", dragFile)
+		function dragFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener("drop", dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+
+				// get file contents
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+				
+				// get contents
+					const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = event => {
+							const fileString = String(event.target.result) || ""
+							ELEMENTS.controls.text.value = fileString
+						}
 			} catch (error) {console.log(error)}
 		}
 

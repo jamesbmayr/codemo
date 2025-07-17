@@ -248,4 +248,50 @@ window.addEventListener("load", function() {
 				catch (error) { console.log(error) }
 			}
 
+	/*** files ***/
+		/* dragFile */
+			ELEMENTS.plaintext.addEventListener("dragover", dragFile)
+			ELEMENTS.codetext.addEventListener("dragover", dragFile)
+			function dragFile(event) {
+				try {
+					// prevent default
+						event.preventDefault()
+				} catch (error) {console.log(error)}
+			}
+
+		/* dropFile */
+			ELEMENTS.plaintext.addEventListener("drop", dropFile)
+			ELEMENTS.codetext.addEventListener("drop", dropFile)
+			function dropFile(event) {
+				try {
+					// prevent default
+						event.preventDefault()
+
+					// get target
+						const textarea = event.target.closest("textarea")
+
+					// get file contents
+						if (!event.dataTransfer || !event.dataTransfer.items) {
+							return
+						}
+						const file = [...event.dataTransfer.items][0].getAsFile()
+						if (!file) {
+							return
+						}
+					
+					// get contents
+						const reader = new FileReader()
+							reader.readAsText(file)
+							reader.onload = event => {
+								const fileString = String(event.target.result) || ""
+								textarea.value = fileString
+
+								if (textarea == ELEMENTS.plaintext) {
+									encodeText()
+									return
+								}
+								decodeText()
+							}
+				} catch (error) {console.log(error)}
+			}
 })

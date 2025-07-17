@@ -1,6 +1,8 @@
 /*** globals ***/
 	const TRIGGERS = {
-		input: "input"
+		input: "input",
+		dragover: "dragover",
+		drop: "drop"
 	}
 
 	const ELEMENTS = {
@@ -11,9 +13,12 @@
 		inputOptionsSpacing: document.querySelector("#input-options-checkbox-spacing"),
 		inputOptionsCasing: document.querySelector("#input-options-checkbox-casing"),
 		inputOptionsPlacing: document.querySelector("#input-options-checkbox-placing"),
-		outputSummaryMatchesCount: document.querySelector("#output-summary-matches-count"),
 		outputSummaryDeletionsCount: document.querySelector("#output-summary-deletions-count"),
+		outputSummaryMatchesCount: document.querySelector("#output-summary-matches-count"),
 		outputSummaryInsertionsCount: document.querySelector("#output-summary-insertions-count"),
+		outputOptionsDeletions: document.querySelector("#output-options-checkbox-deletion"),
+		outputOptionsMatches: document.querySelector("#output-options-checkbox-match"),
+		outputOptionsInsertions: document.querySelector("#output-options-checkbox-insertion"),
 		outputOptionsFormatting: document.querySelector("#output-options-checkbox-formatting"),
 		output: document.querySelector("#output")
 	}
@@ -22,6 +27,9 @@
 		casing: true,
 		spacing: true,
 		placing: true,
+		deletion: true,
+		match: true,
+		insertion: true,
 		formatting: false,
 		waitTime: 1000, // ms
 		waitLoop: null
@@ -54,6 +62,48 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* dragFile */
+		ELEMENTS.input1.addEventListener("dragover", dragFile)
+		ELEMENTS.input2.addEventListener("dragover", dragFile)
+		function dragFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.input1.addEventListener("drop", dropFile)
+		ELEMENTS.input2.addEventListener("drop", dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+
+				// get target
+					const textarea = event.target.closest("textarea")
+
+				// get file contents
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+				
+				// get contents
+					const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = event => {
+							const fileString = String(event.target.result) || ""
+							textarea.value = fileString
+
+							compareInputs()
+						}
+			} catch (error) {console.log(error)}
+		}
+
 	/* updateInputs */
 		ELEMENTS.input1.addEventListener(TRIGGERS.input, updateInputs)
 		ELEMENTS.input2.addEventListener(TRIGGERS.input, updateInputs)
@@ -69,6 +119,9 @@
 		ELEMENTS.inputOptionsSpacing.addEventListener(TRIGGERS.input, updateCheckbox)
 		ELEMENTS.inputOptionsCasing.addEventListener( TRIGGERS.input, updateCheckbox)
 		ELEMENTS.inputOptionsPlacing.addEventListener(TRIGGERS.input, updateCheckbox)
+		ELEMENTS.outputOptionsDeletions.addEventListener(TRIGGERS.input, updateCheckbox)
+		ELEMENTS.outputOptionsMatches.addEventListener(TRIGGERS.input, updateCheckbox)
+		ELEMENTS.outputOptionsInsertions.addEventListener(TRIGGERS.input, updateCheckbox)
 		ELEMENTS.outputOptionsFormatting.addEventListener(TRIGGERS.input, updateCheckbox)
 		function updateCheckbox(event) {
 			try {
@@ -261,6 +314,11 @@
 	/* displayRow */
 		function displayRow(column1Data, column2Data) {
 			try {
+				// type
+					if (!STATE[column1Data.type] && !STATE[column2Data.type]) {
+						return
+					}
+
 				// element
 					const rowElement = document.createElement("tr")
 						rowElement.className = "row"

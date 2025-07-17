@@ -1677,6 +1677,36 @@
 			} catch (error) { handleError(arguments.callee.name, error) }
 		}
 
+	/* detectDropInput */
+		var DROP_OUTPUT = document.querySelector("#input-drop .block-value")
+		var DROP_INPUT = document.querySelector("#input-drop")
+			DROP_INPUT.addEventListener("dragover", detectDropDragover)
+			DROP_INPUT.addEventListener("drop", detectDropInput)
+		function detectDropDragover(event) {
+			try {
+				event.preventDefault()
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+		function detectDropInput(event) {
+			try {
+				event.preventDefault()
+				if (!event.dataTransfer || !event.dataTransfer.items) {
+					return
+				}
+
+				var file = [...event.dataTransfer.items][0].getAsFile()
+				if (!file) {
+					return
+				}
+
+				var reader = new FileReader()
+					reader.readAsText(file)
+					reader.onload = function(event) {
+						DROP_OUTPUT.innerHTML = file.name + "<br>" + file.type + "<br><br>" + String(event.target.result)
+					}
+			} catch (error) { handleError(arguments.callee.name, error) }
+		}
+
 	/* detectContenteditable */
 		var CONTENTEDITABLE_OUTPUT = document.querySelector("#input-contenteditable .block-value")
 		var CONTENTEDITABLE_INPUT = document.querySelector("#input-contenteditable .block-label")
