@@ -12,7 +12,9 @@
 			mouseup: "mouseup",
 			click: "click",
 			change: "change",
-			rightclick: "contextmenu"
+			rightclick: "contextmenu",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.mousedown = "touchstart"
@@ -382,6 +384,61 @@
 				// file
 					const file = ELEMENTS.upload.files[0]
 					if (!file) { return }
+
+				// read
+					const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = function(event) {
+							try {
+								// remove custom options
+									const customOptions = Array.from(ELEMENTS.title.querySelectorAll("option[custom]")) || []
+									for (let i in customOptions) {
+										customOptions[i].remove()
+									}
+
+								// parse XML
+									const parser = new DOMParser()
+									const musicXML = parser.parseFromString(event.target.result, "text/xml")
+									STATE.music = MUSICXML_J.parseMusicXML(musicXML)
+
+								// reset music
+									resetMusic()
+							} catch (error) {console.log(error)}
+							ELEMENTS.upload.value = null
+						}
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragFile)
+		function dragFile(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropFile)
+		function dropFile(event) {
+			try {
+				// initialize audio
+					firstClick()
+
+				// prevent default
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					console.log(file.type)
+					if (file.type !== "application/vnd.recordare.musicxml+xml") {
+						return
+					}
 
 				// read
 					const reader = new FileReader()

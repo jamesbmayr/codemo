@@ -8,7 +8,9 @@
 			blur: "blur",
 			mousedown: "mousedown",
 			mousemove: "mousemove",
-			mouseup: "mouseup"
+			mouseup: "mouseup",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.mousedown = "touchstart"
@@ -761,6 +763,59 @@
 						const file = ELEMENTS.upload.files[0]
 
 					// read file
+						const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = event => {
+							// try to parse data
+								const rawData = String(event.target.result)
+								if (!rawData || !rawData.length) {
+									return
+								}
+
+							// save
+								loadHistory(rawData)
+								saveHistory()
+
+							// clear & redraw
+								setTimeout(() => {
+									clearCanvas()
+									drawMap(STATE)
+								})
+
+							// reset upload
+								ELEMENTS.upload.value = null
+						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* dragFile */
+			ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragFile)
+			function dragFile(event) {
+				try {
+					event.preventDefault()
+				} catch (error) {console.log(error)}
+			}
+
+		/* dropFile */
+			ELEMENTS.body.addEventListener(TRIGGERS.drop, dropFile)
+			function dropFile(event) {
+				try {
+					// prevent default
+						event.preventDefault()
+						if (!event.dataTransfer || !event.dataTransfer.items) {
+							return
+						}
+
+					// file
+						const file = [...event.dataTransfer.items][0].getAsFile()
+						if (!file) {
+							return
+						}
+						if (file.type !== "application/json") {
+							return
+						}
+
+					// import
 						const reader = new FileReader()
 						reader.readAsText(file)
 						reader.onload = event => {

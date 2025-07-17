@@ -12,7 +12,9 @@
 			mouseup: "mouseup",
 			keydown: "keydown",
 			keyup: "keyup",
-			change: "change"
+			change: "change",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.click = "touchstart"
@@ -791,6 +793,50 @@
 
 				const reader = new FileReader()
 					reader.readAsText(event.target.files[0])
+					reader.onload = function(event) {
+						try {
+							const fileString = String(event.target.result)
+							const fileJSON = JSON.parse(fileString)
+							setInstrument(fileJSON, true)
+							ELEMENTS["tool-meta"]["upload-link"].blur()
+						} catch (error) {console.log(error)}
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragFile)
+		function dragFile(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropFile)
+		function dropFile(event) {
+			try {
+				// initialize audio
+					firstClick()
+					
+				// prevent default
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (file.type !== "application/json") {
+						return
+					}
+
+				// import
+					const reader = new FileReader()
+					reader.readAsText(file)
 					reader.onload = function(event) {
 						try {
 							const fileString = String(event.target.result)

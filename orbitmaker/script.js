@@ -8,7 +8,9 @@
 			mouseup: "mouseup",
 			mousemove: "mousemove",
 			scroll: "wheel",
-			keydown: "keydown"
+			keydown: "keydown",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
@@ -1368,6 +1370,7 @@
 
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			options: {
 				button: document.querySelector("#options-button"),
 				overlay: document.querySelector("#options-overlay"),
@@ -1702,6 +1705,63 @@
 
 				// no file
 					if (!file) {
+						return
+					}
+
+				// read file
+					let reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = function(event) {
+							try {
+								// try to parse data
+									let data = String(event.target.result)
+									if (!data || !data.length) {
+										return
+									}
+									data = JSON.parse(data)
+
+								// clear existing data
+									for (let childId in STATE.system.children) {
+										STATE.system.children[childId].elements.section.remove()
+									}
+									STATE.system.children = {}
+
+								// loop through data to create system
+									for (let i in data.children) {
+										let child = createCelestialBody(data.children[i], null)
+										STATE.system.children[child.id] = child
+										ELEMENTS.system.appendChild(child.elements.section)
+									}
+							} catch (error) {console.log(error)}
+							ELEMENTS.controls.upload.value = null
+						}
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragFile)
+		function dragFile(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (file.type !== "application/json") {
 						return
 					}
 

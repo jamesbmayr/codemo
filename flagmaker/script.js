@@ -2,10 +2,10 @@ window.addEventListener("load", function() {
 	/*** globals ***/
 		/* triggers */
 			if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
-				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend" }
+				var on = { click: "touchstart", mousedown: "touchstart", mousemove: "touchmove", mouseup: "touchend", dragover: "dragover", drop: "drop" }
 			}
 			else {
-				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup" }
+				var on = { click:      "click", mousedown:  "mousedown", mousemove: "mousemove", mouseup:  "mouseup", dragover: "dragover", drop: "drop" }
 			}
 
 		/* canvas */
@@ -829,6 +829,47 @@ window.addEventListener("load", function() {
 							}
 					}
 				})
+			}
+
+		/* dragFile */
+			document.body.addEventListener(on.dragover, dragFile)
+			function dragFile(event) {
+				try {
+					event.preventDefault()
+				} catch (error) {console.log(error)}
+			}
+
+		/* dropFile */
+			document.body.addEventListener(on.drop, dropFile)
+			function dropFile(event) {
+				try {
+					// prevent default
+						event.preventDefault()
+						if (!event.dataTransfer || !event.dataTransfer.items) {
+							return
+						}
+
+					// file
+						const file = [...event.dataTransfer.items][0].getAsFile()
+						if (!file) {
+							return
+						}
+						if (file.type !== "application/json") {
+							return
+						}
+
+					// import
+						var reader = new FileReader()
+							reader.readAsText(file)
+							reader.onload = function(event) {
+								try {
+									data = JSON.parse(String(event.target.result))
+									updateMenu()
+									createFlag()
+								}
+								catch (error) { console.log(error) }
+							}
+				} catch (error) {console.log(error)}
 			}
 
 	/*** tools ***/

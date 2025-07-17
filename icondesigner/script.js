@@ -11,7 +11,9 @@
 			scroll: "mousewheel",
 			mouseenter: "mouseenter",
 			mouseleave: "mouseleave",
-			rightclick: "contextmenu"
+			rightclick: "contextmenu",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.mousedown = "touchstart"
@@ -651,6 +653,53 @@
 							ELEMENTS.controls.import.value = ""
 						}
 						reader.readAsText(event.target.files[0])
+				} catch (error) {console.log(error)}
+			}
+
+		/* dragFile */
+			ELEMENTS.container.element.addEventListener(TRIGGERS.dragover, dragFile)
+			function dragFile(event) {
+				try {
+					event.preventDefault()
+				} catch (error) {console.log(error)}
+			}
+
+		/* dropFile */
+			ELEMENTS.container.element.addEventListener(TRIGGERS.drop, dropFile)
+			function dropFile(event) {
+				try {
+					// prevent default
+						event.preventDefault()
+						if (!event.dataTransfer || !event.dataTransfer.items) {
+							return
+						}
+
+					// file
+						const file = [...event.dataTransfer.items][0].getAsFile()
+						if (!file) {
+							return
+						}
+						if (file.type !== "image/svg+xml") {
+							return
+						}
+
+					// drawing
+						if (STATE.drawing) { cancelDrawing() }
+						
+					// reader
+						const reader = new FileReader()
+						reader.onload = event => {
+							const svgString = String(event.target.result)
+							const domParser = new DOMParser()
+							const svgXML = domParser.parseFromString(svgString, "image/svg+xml")?.documentElement
+							if (!svgXML) {
+								return
+							}
+							parseSVG(svgXML)
+							recordHistory()
+							ELEMENTS.controls.import.value = ""
+						}
+						reader.readAsText(file)
 				} catch (error) {console.log(error)}
 			}
 

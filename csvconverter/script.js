@@ -2,11 +2,14 @@
 	/* triggers */
 		const TRIGGERS = {
 			click: "click",
-			input: "input"
+			input: "input",
+			dragover: "dragover",
+			drop: "drop"
 		}
 
 	/* elements */
 		const ELEMENTS = {
+			body: document.body,
 			csv: {
 				upload: document.querySelector("#csv-upload"),
 				textarea: document.querySelector("#csv-textarea"),
@@ -50,6 +53,46 @@
 							ELEMENTS.csv.textarea.focus()
 						}
 						reader.readAsText(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragFile)
+		function dragFile(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (file.type !== "text/csv") {
+						return
+					}
+
+				// import
+					const reader = new FileReader()
+					reader.readAsText(file)
+					reader.onload = event => {
+						const fileString = String(event.target.result) || ""
+						ELEMENTS.csv.textarea.value = fileString
+						
+						ELEMENTS.csv.upload.value = null
+						ELEMENTS.csv.textarea.focus()
+					}
 			} catch (error) {console.log(error)}
 		}
 

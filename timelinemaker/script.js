@@ -6,6 +6,8 @@
 			mousemove: "mousemove",
 			mouseup: "mouseup",
 			input: "input",
+			dragover: "dragover",
+			drop: "drop"
 		}
 		if ((/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i).test(navigator.userAgent)) {
 			TRIGGERS.mousedown = "touchstart"
@@ -235,6 +237,61 @@
 
 				// no file
 					if (!file) {
+						return
+					}
+
+				// read file
+					const reader = new FileReader()
+						reader.readAsText(file)
+						reader.onload = event => {
+							try {
+								// try to parse data
+									const content = String(event.target.result)
+									if (!content || !content.length) {
+										return
+									}
+
+								// set state
+									setState(JSON.parse(content))
+
+								// save
+									saveState()
+
+								// switch to edit mode
+									if (ELEMENTS.body.getAttribute("mode") == "view") {
+										switchMode()
+									}
+							} catch (error) {console.log(error)}
+							
+							ELEMENTS.import.value = null
+						}
+			} catch (error) {console.log(error)}
+		}
+
+	/* dragFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.dragover, dragFile)
+		function dragFile(event) {
+			try {
+				event.preventDefault()
+			} catch (error) {console.log(error)}
+		}
+
+	/* dropFile */
+		ELEMENTS.body.addEventListener(TRIGGERS.drop, dropFile)
+		function dropFile(event) {
+			try {
+				// prevent default
+					event.preventDefault()
+					if (!event.dataTransfer || !event.dataTransfer.items) {
+						return
+					}
+
+				// file
+					const file = [...event.dataTransfer.items][0].getAsFile()
+					if (!file) {
+						return
+					}
+					if (file.type !== "application/json") {
 						return
 					}
 
