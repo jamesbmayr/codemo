@@ -25,7 +25,8 @@
 			temperature1: "M 47 63 C 46 64 43 66 43 70 C 43 74 46 77 50 77 C 53 77 57 74 57 70 C 57 66 54 64 53 63 C 52 62 52 62 52 59 C 52 50 52 35 52 25 C 52 24 51 23 50 23 C 49 23 48 24 48 25 C 48 35 48 50 48 59 C 48 62 48 62 47 63 Z M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z",
 			temperature2: "M 50 50 C 52 50 52 51 52 49 C 52 40 52 35 52 25 C 52 24 51 23 50 23 C 49 23 48 24 48 25 C 48 35 48 40 48 49 C 48 51 48 50 50 50 Z M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z",
 			temperature3: "M 50 31 C 52 31 52 32 52 29 C 52 28 52 26 52 25 C 52 24 51 23 50 23 C 49 23 48 24 48 25 C 48 26 48 28 48 29 C 48 32 48 31 50 31 Z M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z",
-			temperature4: "M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z"
+			temperature4: "M 45 61 C 45 50 45 35 45 25 C 45 22 47 20 50 20 C 53 20 55 22 55 25 C 55 35 55 50 55 61 C 58 63 60 66 60 70 C 60 76 56 80 50 80 C 44 80 40 76 40 70 C 40 66 42 63 45 61 Z",
+			aurorae: "M 66 54 C 63 61 63 61 60 68 C 57 61 57 61 54 54 C 47 51 47 51 40 48 C 47 45 47 45 54 42 C 57 35 57 35 60 28 C 63 35 63 35 66 42 C 73 45 73 45 80 48 C 73 51 73 51 66 54 Z M 38 73 C 37 75 37 75 35 80 C 33 75 33 75 32 73 C 30 72 30 72 25 70 C 30 68 30 68 32 67 C 33 65 33 65 35 60 C 37 65 37 65 38 67 C 40 68 40 68 45 70 C 40 72 40 72 38 73 Z M 33 33 C 32 35 32 35 30 40 C 28 35 28 35 27 33 C 25 32 25 32 20 30 C 25 28 25 28 27 27 C 28 25 28 25 30 20 C 32 25 32 25 33 27 C 35 28 35 28 40 30 C 35 32 35 32 33 33 Z",
 		}
 
 	/* settings */
@@ -178,8 +179,8 @@
 					{
 						name: "hall lamp",
 						svg: SVG.floorLamp,
-						top: 11,
-						left: 1.5,
+						top: 11.5,
+						left: 2,
 						buttons: {
 							"on": ["ifttt_url||hall_lamp_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||hall_lamp_off||ifttt_key", SVG.x]
@@ -188,8 +189,8 @@
 					{
 						name: "stair lamp",
 						svg: SVG.floorLamp,
-						top: 16 + SETTINGS.floorOffset,
-						left: 1.5,
+						top: 16.5 + SETTINGS.floorOffset,
+						left: 2,
 						buttons: {
 							"on": ["ifttt_url||hall_lamp_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||hall_lamp_off||ifttt_key", SVG.x]
@@ -198,7 +199,7 @@
 					{
 						name: "bedside lamp",
 						svg: SVG.sideLamp,
-						top: 1,
+						top: 1.5,
 						left: 14.5,
 						buttons: {
 							"on": ["ifttt_url||bedside_lamp_on||ifttt_key", SVG.check],
@@ -262,7 +263,7 @@
 					{
 						name: "living room lamp",
 						svg: SVG.floorLamp,
-						top: 16 + SETTINGS.floorOffset,
+						top: 16.5 + SETTINGS.floorOffset,
 						left: 11,
 						buttons: {
 							"on": ["ifttt_url||living_room_lamp_on||ifttt_key", SVG.check],
@@ -279,14 +280,34 @@
 							"off": ["ifttt_url||living_room_string_lights_off||ifttt_key", SVG.x]
 						}
 					},
+					// {
+					// 	name: "humidifier",
+					// 	svg: SVG.humidifier,
+					// 	top: 18.5 + SETTINGS.floorOffset,
+					// 	left: 4.5,
+					// 	buttons: {
+					// 		"on": ["ifttt_url||humidifier_on||ifttt_key", SVG.check],
+					// 		"off": ["ifttt_url||humidifier_off||ifttt_key", SVG.x]
+					// 	}
+					// },
 					{
-						name: "humidifier",
-						svg: SVG.humidifier,
-						top: 18.5 + SETTINGS.floorOffset,
-						left: 4.5,
+						name: "living room air conditioner",
+						svg: SVG.airConditioner,
+						top: 23.5 + SETTINGS.floorOffset,
+						left: 14.5,
 						buttons: {
-							"on": ["ifttt_url||humidifier_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||humidifier_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||living_room_air_conditioner_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||living_room_air_conditioner_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "craft room air conditioner",
+						svg: SVG.airConditioner,
+						top: 1.5,
+						left: 2,
+						buttons: {
+							"on": ["ifttt_url||craft_room_air_conditioner_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||craft_room_air_conditioner_off||ifttt_key", SVG.x]
 						}
 					},
 					{
@@ -340,7 +361,7 @@
 						}
 					},
 					{
-						name: "guest room fan",
+						name: "guest room air conditioner",
 						svg: SVG.airConditioner,
 						top: 18.5,
 						left: 14.5,
@@ -348,14 +369,23 @@
 							"on": ["ifttt_url||guest_room_air_conditioner_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_air_conditioner_off||ifttt_key", SVG.x]
 						}
-						
+					},
+					{
+						name: "bathroom aurorae",
+						svg: SVG.aurorae,
+						top: 19,
+						left: 4,
+						buttons: {
+							"on": ["ifttt_url||bathroom_aurorae_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||bathroom_aurorae_off||ifttt_key", SVG.x]
+						}
 					},
 
 				// sonos
 					{
 						name: "sonos",
 						svg: SVG.music,
-						top: 16 + SETTINGS.floorOffset,
+						top: 16.5 + SETTINGS.floorOffset,
 						left: 14.5,
 						buttons: {
 							"play": ["ifttt_url||sonos_on||ifttt_key", SVG.play],
@@ -368,7 +398,7 @@
 						name: "craft room speaker",
 						svg: SVG.speaker,
 						top: 8.5,
-						left: 1.5,
+						left: 2,
 						buttons: {
 							"on": ["ifttt_url||craft_room_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||craft_room_speaker_off||ifttt_key", SVG.x],
@@ -403,8 +433,8 @@
 					{
 						name: "kitchen speaker",
 						svg: SVG.speaker,
-						top: 12.5 + SETTINGS.floorOffset,
-						left: 1.5,
+						top: 13 + SETTINGS.floorOffset,
+						left: 2,
 						buttons: {
 							"on": ["ifttt_url||kitchen_speaker_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||kitchen_speaker_off||ifttt_key", SVG.x],
@@ -424,29 +454,29 @@
 							"down": ["ifttt_url||office_speaker_volume_down||ifttt_key", SVG.volumeDown]
 						}
 					},
-					{
-						name: "roam",
-						svg: SVG.speaker,
-						top: 1.5,
-						left: 1.5,
-						buttons: {
-							"on": ["ifttt_url||roam_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||roam_off||ifttt_key", SVG.x],
-							"up": ["ifttt_url||roam_volume_up||ifttt_key", SVG.volumeUp],
-							"down": ["ifttt_url||roam_volume_down||ifttt_key", SVG.volumeDown]
-						}
-					},
+					// {
+					// 	name: "roam",
+					// 	svg: SVG.speaker,
+					// 	top: 1.5,
+					// 	left: 1.5,
+					// 	buttons: {
+					// 		"on": ["ifttt_url||roam_on||ifttt_key", SVG.check],
+					// 		"off": ["ifttt_url||roam_off||ifttt_key", SVG.x],
+					// 		"up": ["ifttt_url||roam_volume_up||ifttt_key", SVG.volumeUp],
+					// 		"down": ["ifttt_url||roam_volume_down||ifttt_key", SVG.volumeDown]
+					// 	}
+					// },
 					{
 						name: "record player",
 						svg: SVG.recordPlayer,
-						top: 18.5 + SETTINGS.floorOffset,
+						top: 19.5 + SETTINGS.floorOffset,
 						left: 15,
 						buttons: {
 							"target": ["ifttt_url||record_player_on||ifttt_key", SVG.record]
 						}
 					},
 
-				// honeywell // ???
+				// honeywell
 					// {
 					// 	name: "thermostat",
 					// 	svg: SVG.furnace,
