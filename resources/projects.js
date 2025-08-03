@@ -48,6 +48,7 @@ const PROJECTS = {
 		description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 	},
 	artparts: {
+		pinned: true,
 		skipRandom: true,
 		name: "ArtParts",
 		size: "medium",
@@ -1159,7 +1160,6 @@ const PROJECTS = {
 		description: "A Chrome extension to rephrase text on any webpage in any style, via OpenAI's API."
 	},
 	rhymefinder: {
-		pinned: true,
 		name: "rhymeFinder",
 		size: "small",
 		tags: ["code","tool","writing","poetry"],
@@ -1264,7 +1264,6 @@ const PROJECTS = {
 		description: "Draw hexagonally symmetrical snowflakes in this canvas-powered web app."
 	},
 	songswecouldplaytogether: {
-		pinned: true,
 		skipRandom: true,
 		name: "Songs We Could Play Together",
 		size: "large",
@@ -1331,6 +1330,14 @@ const PROJECTS = {
 		tags: ["game","code","node","websockets","multiplayer","tabletop","card"],
 		date: "February 1, 2018",
 		description: "A chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
+	},
+	swoopdeloop: {
+		pinned: true,
+		name: "Swoop-de-Loop",
+		size: "large",
+		tags: ["code","simulation","game","arcade","tabletop","godot","collaboration"],
+		date: "August 3, 2025",
+		description: "A skywriting flight simulator for GMTK Game Jam 2025 (with Alex Berg, Dan Weinstein, Liz Ford)"
 	},
 	syllabolting: {
 		name: "Syllabolting",
