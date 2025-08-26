@@ -51,10 +51,6 @@
       {
         "source": "/api/wordshuffler",
         "function": "wordshuffler"
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
       }
     ]
   }
