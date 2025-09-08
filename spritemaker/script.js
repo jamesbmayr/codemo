@@ -125,10 +125,14 @@ window.addEventListener("load", function() {
 		/* saveCode */
 			document.getElementById("save").addEventListener(on.click, saveCode)
 			function saveCode() {
+				// data
+					const data = sprites[sprites.length - 1]
+						data.project = "spriteMaker"
+
 				// package up
 					var saveLink = document.createElement("a")
 						saveLink.id = "save-link"
-						saveLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(sprites[sprites.length - 1])))
+						saveLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data)))
 						saveLink.setAttribute("download", "spriteMaker_" + (new Date().getTime()) + ".json")
 						saveLink.addEventListener(on.click, function() {
 							var saveLink = document.getElementById("save-link")

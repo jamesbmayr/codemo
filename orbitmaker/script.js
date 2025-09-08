@@ -1804,6 +1804,7 @@
 
 				// sanitize
 					system = sanitizeObject(system)
+					system.project = "orbitMaker"
 
 				// package up
 					let link = document.createElement("a")

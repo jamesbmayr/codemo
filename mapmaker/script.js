@@ -741,6 +741,7 @@
 						const downloadLink = document.createElement("a")
 							downloadLink.id = "download-link"
 							downloadLink.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+								project: "mapMaker",
 								hexagons: STATE.hexagons,
 								icons: STATE.icons
 							})))

@@ -752,6 +752,7 @@
 						file.name = name
 						delete file.real
 						delete file.wave
+						file.project = "toneMaker"
 
 				//  package up
 					const downloadLink = document.createElement("a")

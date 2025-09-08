@@ -252,7 +252,8 @@
 									}
 
 								// set state
-									setState(JSON.parse(content))
+									const data = JSON.parse(content)
+									setState(data.timelines ?? data)
 
 								// save
 									saveState()
@@ -330,10 +331,16 @@
 				// disable button
 					ELEMENTS.export.setAttribute("downloading", true)
 
+				// export
+					const timelines = JSON.parse(STATE.history[STATE.history.length - 1])
+
 				// download
 					const link = document.createElement("a")
 						link.id = "download-link"
-						link.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(STATE.history[STATE.history.length - 1]))
+						link.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
+							project: "timelineMaker",
+							timelines: timelines
+						})))
 						link.setAttribute("download", "timelineMaker_" + (new Date().getTime()) + ".json")
 						link.addEventListener(TRIGGERS.click, () => link.remove())
 					link.click()

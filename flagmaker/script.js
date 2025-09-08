@@ -774,6 +774,9 @@ window.addEventListener("load", function() {
 				// save to previous
 					previous.push(JSON.stringify(data))
 
+				// project
+					data.project = "flagMaker"
+
 				// package up
 					var saveLink = document.createElement("a")
 						saveLink.id = "save-link"
