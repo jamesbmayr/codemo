@@ -37,6 +37,7 @@
 	/* constants */
 		const CONSTANTS = {
 			bytesPerKilobyte: 1000, // bytes
+			percentage: 100, // %
 			nameCharacters: 20, // characters
 			identifiers: {
 				html: `<!doctype html`,
@@ -358,8 +359,8 @@
 					}
 
 				// update gauge
-					const characters = window.localStorage.assets.length
-					ELEMENTS.gauge.style.width = `${characters / CONSTANTS.storageLimit * 100}%`
+					const characters = window.localStorage.assets.length || 0
+					ELEMENTS.gauge.style.width = `${Math.round(characters / CONSTANTS.storageLimit * CONSTANTS.bytesPerKilobyte) / CONSTANTS.bytesPerKilobyte * CONSTANTS.percentage}%`
 
 				// parse assets
 					STATE.assets = JSON.parse(stringifiedAssets)
@@ -395,7 +396,7 @@
 
 				// update gauge
 					const characters = window.localStorage.assets.length
-					ELEMENTS.gauge.style.width = `${characters / CONSTANTS.storageLimit * 100}%`
+					ELEMENTS.gauge.style.width = `${Math.round(characters / CONSTANTS.storageLimit * CONSTANTS.bytesPerKilobyte) / CONSTANTS.bytesPerKilobyte * CONSTANTS.percentage}%`
 			} catch (error) {console.log(error)}
 		}
 
