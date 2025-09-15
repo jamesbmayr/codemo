@@ -31,7 +31,7 @@
 		fill: currentColor;
 		height: 100%;
 		width: auto;
-		vertical-align: top;
+		vertical-align: bottom;
 	}
 
 	/* summary marker */
@@ -125,7 +125,7 @@
 			transform: translateX(-50%) translateY(-50%);
 			height: auto;
 			max-height: calc(100vh - 2 * var(--gutter-size));
-			min-width: var(--canvas-size);
+			width: var(--canvas-size);
 			max-width: calc(100vw - 2 * var(--gutter-size));
 			border-radius: var(--border-radius);
 			background-color: var(--medium-gray);
@@ -134,12 +134,13 @@
 			padding: var(--gap-size);
 			overflow-x: hidden;
 			overflow-y: scroll;
+			box-sizing: border-box;
 		}
 
 		#menu-form > label {
 			width: 100%;
 			display: block;
-			margin-bottom: calc(6 * var(--gap-size));
+			margin-bottom: calc(4 * var(--gap-size));
 			font-size: var(--font-size);
 			font-family: var(--font-family);
 			text-transform: uppercase;
@@ -149,17 +150,18 @@
 		}
 
 		#menu-form > label > h3 {
-			text-align: center;
+			text-align: left;
 			display: block;
 			height: calc(2 * var(--font-size));
 			width: 100%;
-			font-size: calc(2 * var(--font-size));
+			font-size: calc(1.5 * var(--font-size));
 			font-family: var(--font-family);
 			color: var(--dark-gray);
 			text-transform: uppercase;
 			user-select: none;
 			font-weight: bold;
 			margin: var(--gap-size) 0;
+			padding-bottom: calc(2 * var(--gap-size));
 		}
 
 	/* inputs */
@@ -230,7 +232,7 @@
 			border: 0;
 			background-color: var(--light-gray);
 			color: var(--dark-gray);
-			font-size: calc(2 * var(--font-size));
+			font-size: calc(1.5 * var(--font-size));
 			font-family: var(--font-family);
 			font-weight: bold;
 			text-transform: uppercase;
@@ -239,11 +241,19 @@
 			outline: none;
 			cursor: pointer;
 			user-select: none;
+			box-sizing: border-box;
 		}
 
 		#menu-form button:hover, #menu-form button:focus {
 			background-color: var(--dark-gray);
 			color: var(--light-gray);
+		}
+
+	/* linebreak */
+		#menu-form hr {
+			border: 2px solid var(--dark-gray);
+			border-radius: var(--border-radius);
+			margin-bottom: calc(var(--font-size) * 2);
 		}
 
 /*** art ***/

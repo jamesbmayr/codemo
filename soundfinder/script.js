@@ -164,6 +164,20 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* first click */
+		window.addEventListener(TRIGGERS.click, firstClick)
+		function firstClick() {
+			try {
+				// already audio?
+					if (AUDIO_J.audio) {
+						return
+					}
+
+				// build audio
+					AUDIO_J.buildAudio()
+			} catch (error) {console.log(error)}
+		}
+
 /*** menu ***/
 	/* checkAllBoxes */
 		ELEMENTS.menu.notes.header.addEventListener(TRIGGERS.click, checkAllBoxes)
@@ -255,6 +269,33 @@
 							}
 						}
 					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					const label = document.createElement("label")
+					ELEMENTS.menu.synths.element.querySelector(".menu-synths-family:last-child").appendChild(label)
+
+					const input = document.createElement("input")
+						input.type = "checkbox"
+						input.className = "menu-synths-checkbox"
+						input.value = instrument.parameters.name
+						input.checked = true
+					label.appendChild(input)
+
+					const span = document.createElement("span")
+						span.innerText = instrument.parameters.name
+					label.appendChild(span)
+
+					ELEMENTS.menu.synths.checkboxes[instrument.parameters.name] = input
 			} catch (error) {console.log(error)}
 		}
 

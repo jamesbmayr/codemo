@@ -152,6 +152,24 @@
 			changeVolume()
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					const option = document.createElement("option")
+						option.value = option.innerText = instrument.parameters.name
+					const synthSelect = document.getElementById("menu-instrument")
+					synthSelect.querySelector("optgroup[label='custom']").appendChild(option)
+					synthSelect.value = instrument.parameters.name
+					changeInstrument()
+			} catch (error) {console.log(error)}
+		}
+
 /*** grid ***/
 	/* buildGrid */
 		buildGrid()

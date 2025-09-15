@@ -428,6 +428,28 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					const image = new Image
+						image.onload = function() {
+							STATE.imageData = image
+							drawCanvas()
+						}
+						image.src = data
+
+					if (ELEMENTS.uploadCenterOuter) {
+						ELEMENTS.uploadCenterOuter.remove()
+						ELEMENTS.controls.element.setAttribute("open", true)
+						setTimeout(() => {
+							resizeCanvas()
+						}, CONSTANTS.transitionTime)
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** cursor ***/
 	/* downCursor */
 		ELEMENTS.canvas.addEventListener(TRIGGERS.mousedown, downCursor)

@@ -329,3 +329,8 @@
 	#j-logo:hover, #j-logo:focus {
 		filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
 	}
+
+	#controls[open] ~ #assets_j_button {
+		opacity: 0;
+		pointer-events: none;
+	}

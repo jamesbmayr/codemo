@@ -423,3 +423,27 @@
 					return parent.branches
 			} catch (error) {console.log(error)}
 		}
+
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// json
+					if (type == "json") {
+						return {
+							name: "wordChainer_" + TREE.word + "_" + (new Date().getTime()) + ".json",
+							type: "json",
+							data: JSON.stringify(TREE)
+						}
+					}
+
+				// html
+					if (type == "html") {
+						return {
+							name: "wordChainer_" + TREE.word + "_" + (new Date().getTime()) + ".json",
+							type: "html",
+							data: "<style>details { margin-left: 20px; }</style>" + ELEMENTS.output.innerHTML
+						}
+					}
+			} catch (error) {console.log(error)}
+		}

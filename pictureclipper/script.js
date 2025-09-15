@@ -584,6 +584,30 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					STATE.dryImage.onload = async () => {
+						processImage(appendHistory)
+					}
+					STATE.dryImage.src = data
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "pictureClipper_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: await getCroppedImage()
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** tools ***/
 	/* updateTools */
 		function updateTools() {

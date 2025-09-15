@@ -4235,6 +4235,59 @@
 			} catch (error) {console.log(error)}
 		}
 
+	/* storeInstrument */
+		AUDIO_J.storeInstrument = storeInstrument
+		function storeInstrument(name, parameters) {
+			try {
+				// default
+					if (!name || AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(name)) {
+						return
+					}
+
+				// get data
+					let custom = {}
+					if (window.localStorage.synthesizers) {
+						custom = JSON.parse(window.localStorage.synthesizers) || {}
+					}
+
+				// package up
+					custom[name] = JSON.parse(JSON.stringify(parameters))
+					custom[name].imag = Array.from(parameters.imag)
+					custom[name].real = Array.from(parameters.real)
+
+				// save
+					window.localStorage.synthesizers = JSON.stringify(custom)
+			} catch (error) {console.log(error)}
+		}
+
+	/* deleteInstrument */
+		AUDIO_J.deleteInstrument = deleteInstrument
+		function deleteInstrument(name) {
+			try {
+				// default
+					if (!name || AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(name)) {
+						return
+					}
+
+				// remove from AUDIO_J instruments
+					if (AUDIO_J.instruments[name]) {
+						delete AUDIO_J.instruments[name]
+					}
+
+				// get data
+					let custom = {}
+					if (window.localStorage.synthesizers) {
+						custom = JSON.parse(window.localStorage.synthesizers) || {}
+					}
+
+				// remove & save
+					if (custom[name]) {
+						delete custom[name]
+						window.localStorage.synthesizers = JSON.stringify(custom)
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** MIDI ***/
 	/* buildMidi */
 		AUDIO_J.activateMidi = activateMidi

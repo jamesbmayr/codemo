@@ -378,3 +378,7 @@
 	#j-logo:hover, #j-logo:focus {
 		filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
 	}
+
+	#assets_j_button {
+		position: fixed !important;
+	}

@@ -302,3 +302,7 @@
 	#j-logo:hover, #j-logo:focus {
 		filter: drop-shadow(0px 0px 8px var(--dark-gray));
 	}
+
+	#assets_j_button:not(:focus):not(:hover) {
+		color: var(--medium-gray) !important;
+	}

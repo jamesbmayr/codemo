@@ -262,7 +262,7 @@
 		-moz-user-select: none;
 		-ms-user-select: none;
 		-o-user-select: none;
-		background-color: var(--medium-gray);
+		background-color: var(--dark-gray);
 		box-shadow: 0 0 var(--gap-size) var(--dark-gray);
 		text-align: left;
 		z-index: 3;
@@ -280,25 +280,25 @@
 			line-height: 1;
 			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
 			width: calc(var(--monospace-font-size) * 14);
-			max-width: calc(100vw - 5 * (2 * var(--monospace-font-size) + 2 * var(--border-size) + var(--gap-size)) - 2 * (var(--gap-size) + 3 * var(--border-size)) - 4 * var(--gap-size));
+			max-width: calc(100vw - 5 * (2 * var(--monospace-font-size) + 2 * var(--border-size) + var(--gap-size)) - 2 * (var(--gap-size) + 3 * var(--border-size)) - 4 * var(--gap-size) - 2 * var(--monospace-font-size) - 3 * var(--gap-size));
 			text-align: left;
-			background-color: var(--medium-dark-gray);
+			background-color: transparent;
 			box-sizing: border-box;
 			float: left;
 			border: none;
+			border-radius: var(--border-radius);
+			color: var(--light-gray);
 		}
 
 		#controls-forms:hover, #controls-forms:focus {
-			background-color: var(--dark-gray);
-			color: var(--light-gray);
+			color: var(--light-blue);
 		}
 
 	/* buttons */
 		#controls button {
 			font-size: calc(1.5 * var(--monospace-font-size));
 			font-family: var(--font-family);
-			background-color: var(--medium-dark-gray);
-			border-radius: var(--border-radius);
+			background-color: transparent;
 			height: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
 			width: calc(2 * var(--monospace-font-size) + 2 * var(--border-size) + 2 * var(--gap-size));
 			line-height: 1;
@@ -311,12 +311,11 @@
 			margin: 0;
 			padding: var(--border-size);
 			border: none;
-			color: var(--dark-gray);
+			color: var(--light-gray);
 		}
 
 		#controls button:hover, #controls button:focus {
-			background-color: var(--dark-gray);
-			color: var(--light-gray);
+			color: var(--light-blue);
 		}
 
 		#controls button span {
@@ -327,24 +326,20 @@
 		#controls-edit {
 			float: left;
 			margin: 0 !important;
-			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
 		}
 
 		#controls-refresh {
 			float: left;
 			margin: 0 !important;
-			border-radius: 0 var(--border-radius) var(--border-radius) 0 !important;
 		}
 
 		#controls-copy {
 			float: right;
-			border-radius: var(--border-radius) 0 0 var(--border-radius) !important;
 		}
 
 		#controls-download {
 			float: right;
-			border-radius: 0 !important;
-			margin-right: calc(2 * var(--monospace-font-size) + 2 * var(--border-size)) !important;
+			margin-right: calc(4 * var(--monospace-font-size) + 4 * var(--gap-size)) !important;
 		}
 
 		#controls-refresh .controls-button-normal, #controls button .controls-button-success, #controls-edit-hide {
@@ -376,18 +371,15 @@
 	/* j-logo */
 		#j-logo {
 			position: fixed;
-			top: 9px;
+			top: 14px;
 			right: 7px;
-			background-color: var(--medium-dark-gray);
-			color: var(--light-blue);
+			color: var(--light-gray);
 			height: 32px;
 			width: 32px;
-			padding: var(--gap-size) 0 var(--gap-size) var(--border-size);
-			cursor: pointer; z-index: 1000;
-			outline: none;			
-			border-radius: 0 var(--border-radius) var(--border-radius) 0;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
 			transition: var(--transition-time);
-
 		}
 
 		#j-logo svg {
@@ -397,13 +389,13 @@
 		}
 
 		#j-logo:hover, #j-logo:focus {
-			background-color: var(--dark-gray);
+			color: var(--light-blue);
 		}
 
 	/* toast */
 		#controls-toast {
 			position: absolute;
-			top: calc(var(--gap-size) + 4 * var(--border-size));
+			top: calc(2 * var(--monospace-font-size) + 8 * var(--gap-size));
 			left: 50%;
 			z-index: 1001;
 			transform: translateX(-50%);
@@ -440,7 +432,7 @@
 /*** rhyme-controls ***/
 	#rhyme-controls {
 		position: fixed;
-		top: calc(2 * var(--monospace-font-size) + 6 * var(--gap-size));
+		top: calc(2 * var(--monospace-font-size) + 5 * var(--gap-size));
 		left: 0;
 		width: 100%;
 		text-align: center;

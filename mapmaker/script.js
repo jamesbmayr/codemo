@@ -939,6 +939,47 @@
 				} catch (error) {console.log(error)}
 			}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					loadHistory(data)
+					saveHistory()
+					setTimeout(() => {
+						clearCanvas()
+						drawMap(STATE)
+					})
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// json
+					if (type == "json") {
+						return {
+							name: "mapMaker_" + (new Date().getTime()) + ".json",
+							type: "json",
+							data: JSON.stringify({
+								project: "mapMaker",
+								hexagons: STATE.hexagons,
+								icons: STATE.icons
+							})
+						}
+					}
+
+				// png
+					if (type == "png") {
+						return {
+							name: "mapMaker_" + (new Date().getTime()) + ".png",
+							type: "png",
+							data: ELEMENTS.canvas.toDataURL("image/png")
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** map ***/
 	/** helpers **/
 		/* generateWeightedColors */

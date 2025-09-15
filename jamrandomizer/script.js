@@ -1632,6 +1632,53 @@
 				} catch (error) {console.log(error)}
 			}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					for (const l in STATE.layers) {
+						const option = document.createElement("option")
+							option.value = option.innerText = instrument.parameters.name
+						STATE.layers[l].element.querySelector(".layer-synth-select optgroup[label='custom']").appendChild(option)
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// musicxml
+					if (type == "musicxml") {
+						return {
+							name: `${STATE.music.title || "untitled"}_${new Date().getTime()}.musicxml`,
+							type: "musicxml",
+							data: MUSICXML_J.buildMusicXML(STATE.music)
+						}
+					}
+
+				// txt
+					if (type == "txt") {
+						const numeralSpaces = Math.max(...STATE.progression.chords.map(chord => chord.numeral.length)) + CONSTANTS.copySpaces
+						const nameSpaces    = Math.max(...STATE.progression.chords.map(chord => chord.name.length   )) + CONSTANTS.copySpaces
+						const text = STATE.progression.chords.map(chord => 
+							[	   chord.numeral,	...new Array(numeralSpaces).fill(" ")].join("").slice(0, numeralSpaces) + 
+							[	   chord.name,		...new Array(nameSpaces   ).fill(" ")].join("").slice(0, nameSpaces   ) + 
+							["(" + chord.notes.join("-") + ")"									].join("")
+						).join("\n")
+						return {
+							name: `${STATE.music.title || "untitled"}_${new Date().getTime()}.txt`,
+							type: "txt",
+							data: text
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** helpers ***/
 	/** random **/
 		/* chooseRandom */

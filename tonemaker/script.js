@@ -84,6 +84,8 @@
 				headphones: `<svg viewBox="0 0 100 100"><path d="M 25 75 C 25 78 23 80 20 80 C 17 80 15 78 15 75 C 15 72 15 50 15 45 C 15 35 30 20 50 20 C 70 20 85 35 85 45 C 85 50 85 72 85 75 C 85 78 83 80 80 80 C 77 80 75 78 75 75 C 73 79 70 80 67 80 C 65 80 65 79 65 77 C 65 70 65 60 65 53 C 65 51 65 50 67 50 C 70 50 73 51 75 55 C 75 50 75 47 75 45 C 75 40 65 30 50 30 C 35 30 25 40 25 45 C 25 47 25 50 25 55 C 27 51 30 50 33 50 C 35 50 35 51 35 53 C 35 60 35 70 35 77 C 35 79 35 80 33 80 C 30 80 27 79 25 75 Z"></path></svg>`,
 				speechBubbles: `<svg viewBox="10 10 80 80"><path d="M 35 53 C 34 53 32 54 30 55 C 28 56 28 56 24 58 C 20 60 20 60 22 57 C 22 57 24 54 24 54 C 26 51 24 50 21 48 C 18 46 15 43 15 37 C 15 27 26 20 40 20 C 55 20 66 27 66 36 C 66 38 65 40 65 40 C 78 42 85 48 85 57 C 85 63 82 66 79 68 C 76 70 74 71 76 74 C 76 74 78 77 78 77 C 80 80 80 80 78 79 C 74 77 70 75 68 74 C 66 73 63 73 60 73 C 46 73 34 67 34 57 C 34 56 34 55 35 53 Z"></path></svg>`,
 				midi: `<svg viewBox="10 10 80 80"><path d="M 39 50 C 39 52.333 37.333 54 35 54 C 32.667 54 31 52.333 31 50 C 31 47.667 32.667 46 35 46 C 37.333 46 39 47.667 39 50 Z M 43 61 C 43 63.333 41.333 65 39 65 C 36.667 65 35 63.333 35 61 C 35 58.667 36.667 57 39 57 C 41.333 57 43 58.667 43 61 Z M 54 65 C 54 67.333 52.333 69 50 69 C 47.667 69 46 67.333 46 65 C 46 62.667 47.667 61 50 61 C 52.333 61 54 62.667 54 65 Z M 65 61 C 65 63.333 63.333 65 61 65 C 58.667 65 57 63.333 57 61 C 57 58.667 58.667 57 61 57 C 63.333 57 65 58.667 65 61 Z M 69 50 C 69 52.333 67.333 54 65 54 C 62.667 54 61 52.333 61 50 C 61 47.667 62.667 46 65 46 C 67.333 46 69 47.667 69 50 Z M 80 50 C 80 66 66 80 50 80 C 34 80 20 66 20 50 C 20 34 34 20 50 20 C 66 20 80 34 80 50 Z M 56 26 C 56 27 56 29 56 30 C 56 31.097 55.097 32 54 32 C 51.333 32 48.667 32 46 32 C 44.903 32 44 31.097 44 30 C 44 29 44 27 44 26 C 33 28 25 38 25 50 C 25 64 36 75 50 75 C 64 75 75 64 75 50 C 75 38 67 28 56 26 Z"></path></svg>`,
+				jLogo: `<svg viewBox="10 10 80 80"><path d="M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z"></path></svg>`,
+				assetManager: `<svg viewBox="-10 -5 120 120"><path d="M 38 18 C 38 20 38 30 38 32 C 40 33 47 36 49 37 C 49 35 49 25 49 23 C 47 22 40 19 38 18 Z M 62 18 C 60 19 53 22 51 23 C 51 25 51 35 51 37 C 53 36 60 33 62 32 C 62 30 62 20 62 18 Z M 50 8 C 54 10 60 13 64 15 C 64 21 64 27 64 33 C 60 35 54 38 50 40 C 46 38 40 35 36 33 C 36 27 36 21 36 15 C 40 13 46 10 50 8 Z M 23 44 C 23 46 23 56 23 58 C 25 59 32 62 34 63 C 34 61 34 51 34 49 C 32 48 25 45 23 44 Z M 47 44 C 45 45 38 48 36 49 C 36 51 36 61 36 63 C 38 62 45 59 47 58 C 47 56 47 46 47 44 Z M 35 34 C 39 36 45 39 49 41 C 49 47 49 53 49 59 C 45 61 39 64 35 66 C 31 64 25 61 21 59 C 21 53 21 47 21 41 C 25 39 31 36 35 34 Z M 53 44 C 53 46 53 56 53 58 C 55 59 62 62 64 63 C 64 61 64 51 64 49 C 62 48 55 45 53 44 Z M 77 44 C 75 45 68 48 66 49 C 66 51 66 61 66 63 C 68 62 75 59 77 58 C 77 56 77 46 77 44 Z M 65 34 C 69 36 75 39 79 41 C 79 47 79 53 79 59 C 75 61 69 64 65 66 C 61 64 55 61 51 59 C 51 53 51 47 51 41 C 55 39 61 36 65 34 Z M 8 70 C 8 72 8 82 8 84 C 10 85 17 88 19 89 C 19 87 19 77 19 75 C 17 74 10 71 8 70 Z M 32 70 C 30 71 23 74 21 75 C 21 77 21 87 21 89 C 23 88 30 85 32 84 C 32 82 32 72 32 70 Z M 20 60 C 24 62 30 65 34 67 C 34 73 34 79 34 85 C 30 87 24 90 20 92 C 16 90 10 87 6 85 C 6 79 6 73 6 67 C 10 65 16 62 20 60 Z M 38 70 C 38 72 38 82 38 84 C 40 85 47 88 49 89 C 49 87 49 77 49 75 C 47 74 40 71 38 70 Z M 62 70 C 60 71 53 74 51 75 C 51 77 51 87 51 89 C 53 88 60 85 62 84 C 62 82 62 72 62 70 Z M 50 60 C 54 62 60 65 64 67 C 64 73 64 79 64 85 C 60 87 54 90 50 92 C 46 90 40 87 36 85 C 36 79 36 73 36 67 C 40 65 46 62 50 60 Z M 68 70 C 68 72 68 82 68 84 C 70 85 77 88 79 89 C 79 87 79 77 79 75 C 77 74 70 71 68 70 Z M 92 70 C 90 71 83 74 81 75 C 81 77 81 87 81 89 C 83 88 90 85 92 84 C 92 82 92 72 92 70 Z M 80 60 C 84 62 90 65 94 67 C 94 73 94 79 94 85 C 90 87 84 90 80 92 C 76 90 70 87 66 85 C 66 79 66 73 66 67 C 70 65 76 62 80 60 Z"></path></svg>`,
 			}
 		}
 
@@ -557,15 +559,8 @@
 						jLogo.id = "j-logo"
 						jLogo.href = "https://jamesmayr.com"
 						jLogo.target = "_blank"
+						jLogo.innerHTML = CONSTANTS.svg.jLogo
 					fileSection.appendChild(jLogo)
-
-					const jLogoSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
-						jLogoSVG.setAttribute("viewBox", "10 10 80 80")
-					jLogo.appendChild(jLogoSVG)
-
-						const jLogoPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
-							jLogoPath.setAttribute("d", "M 60 27 C 60 42 60 58 60 73 C 60 74 60 74 61 74 C 64 74 68 74 70 74 C 71 74 72 73 72 72 C 72 58 72 42 72 28 C 72 27 71 26 70 26 C 68 26 64 26 61 26 C 60 26 60 26 60 27 Z M 30 74 C 32 74 36 74 38 74 C 39 74 39 74 38 73 C 35 70 32 67 29 64 C 28 63 28 63 28 64 C 28 67 28 70 28 72 C 28 73 29 74 30 74 Z M 43 74 C 46 74 54 74 57 74 C 58 74 58 74 58 73 C 58 66 58 34 58 27 C 58 26 58 26 57 26 C 54 26 46 26 44 26 C 42 26 42 26 40 24 C 38 22 30 14 28 12 C 27 11 26 10 28 10 C 30 10 54 10 56 10 C 58 10 58 10 60 12 C 62 14 69 21 72 24 C 74 26 74 26 74 29 C 74 34 74 66 74 71 C 74 74 74 74 72 76 C 70 78 62 86 60 88 C 58 90 58 90 56 90 C 54 90 46 90 44 90 C 42 90 42 90 40 88 C 38 86 30 78 28 76 C 26 74 26 74 26 71 C 26 70 26 62 26 60 C 26 58 27 59 28 60 C 30 62 38 70 40 72 C 42 74 42 74 43 74 Z")
-						jLogoSVG.appendChild(jLogoPath)
 
 				// download
 					const downloadButton = document.createElement("button")
@@ -583,6 +578,7 @@
 						nameInput.className = "input"
 						nameInput.placeholder = "(name your changes)"
 						nameInput.setAttribute("spellcheck", "false")
+						nameInput.setAttribute("autocomplete", "off")
 						nameInput.title = "synth name"
 						nameInput.addEventListener(TRIGGERS.change, nameFile)
 					fileSection.appendChild(nameInput)
@@ -644,6 +640,19 @@
 						volumeTrack.appendChild(volumeBar)
 						ELEMENTS["tool-meta"]["volume-bar"] = volumeBar
 
+				// assetManager
+					const existingButton = document.querySelector("#assets_j_button")
+					if (existingButton) {
+						existingButton.remove()
+					}
+					const assetManagerButton = document.createElement("div")
+						assetManagerButton.id = "assets_j_button"
+						assetManagerButton.className = "button"
+						assetManagerButton.innerHTML = CONSTANTS.svg.assetManager
+						assetManagerButton.title = "asset manager"
+						assetManagerButton.addEventListener(TRIGGERS.click, ASSETS_J.displayOverlay)
+					powerSection.appendChild(assetManagerButton)
+
 				// recording
 					const recordingToggle = document.createElement("button")
 						recordingToggle.id = "tool-meta-recording-toggle"
@@ -651,7 +660,7 @@
 						recordingToggle.innerHTML = CONSTANTS.svg.record
 						recordingToggle.title = "audio recording toggle"
 						recordingToggle.addEventListener(TRIGGERS.click, adjustRecordingToolToggle)
-					powerSection.appendChild(recordingToggle)
+					ELEMENTS.toolSections["tool-meta"].appendChild(recordingToggle)
 					ELEMENTS["tool-meta"]["recording"] = recordingToggle
 
 				// midi
@@ -689,8 +698,7 @@
 				
 				// custom
 					else {
-						deleteFile(null, oldName)
-
+						AUDIO_J.deleteInstrument(oldName)
 						const options = Array.from(ELEMENTS["tool-meta"]["select"].querySelectorAll("option"))
 						const option = options.find(function (o) {
 							return o.value == oldName
@@ -710,26 +718,12 @@
 	/* saveFile */
 		function saveFile(event) {
 			try {
-				// default
+				// store data
 					const name = AUDIO_J.activeInstrumentId
-					if (!name || AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(name)) {
-						return
-					}
+					const parameters = AUDIO_J.instruments[name].parameters
+					AUDIO_J.storeInstrument(name, parameters)
 
-				// get data
-					let custom = {}
-					if (window.localStorage.synthesizers) {
-						custom = JSON.parse(window.localStorage.synthesizers) || {}
-					}
-
-				// package up
-					custom[name] = JSON.parse(JSON.stringify(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters))
-					custom[name].imag = Array.from(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.imag)
-					custom[name].real = Array.from(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.real)
-				
-				// save
-					window.localStorage.synthesizers = JSON.stringify(custom)
-
+				// add option
 					const options = Array.from(ELEMENTS["tool-meta"]["select"].querySelectorAll("option[value='" + name + "']"))
 					if (!options.length) {
 						const option = document.createElement("option")
@@ -738,7 +732,9 @@
 					}
 
 				// update meta tool
-					ELEMENTS.toolSections["tool-meta"].setAttribute("custom", true)
+					if (!AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(name)) {
+						ELEMENTS.toolSections["tool-meta"].setAttribute("custom", true)
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -843,50 +839,25 @@
 							const fileString = String(event.target.result)
 							const fileJSON = JSON.parse(fileString)
 							setInstrument(fileJSON, true)
-							ELEMENTS["tool-meta"]["upload-link"].blur()
 						} catch (error) {console.log(error)}
 					}
 			} catch (error) {console.log(error)}
 		}
 
 	/* deleteFile */
-		function deleteFile(event, overrideName) {
+		function deleteFile(event) {
 			try {
-				// get default instruments
-					const currentInstrument = overrideName || AUDIO_J.activeInstrumentId
-					if (!currentInstrument || AUDIO_J.getInstruments({include: ["simple", "default"], grouping: "flat", format: "names"}).includes(currentInstrument)) {
-						return
-					}
+				// delete instrument
+					const deleteName = AUDIO_J.activeInstrumentId
+					AUDIO_J.deleteInstrument(deleteName)
+
+				// remove option
+					ELEMENTS["tool-meta"]["group-custom"].querySelector("[value='" + deleteName + "']").remove()
 
 				// choose a new random instrument
-					if (!overrideName) {
-						const defaultInstrumentNames = AUDIO_J.getInstruments({include: ["default"], grouping: "flat", format: "names"})
-						const instrumentName = defaultInstrumentNames[Math.floor(Math.random() * defaultInstrumentNames.length)]
-						setInstrument(AUDIO_J.getInstrument(instrumentName) || {}, true)
-					}
-
-				// find old one from localstorage
-					let custom = {}
-					if (window.localStorage.synthesizers) {
-						custom = JSON.parse(window.localStorage.synthesizers) || {}
-					}
-					if (!custom || !(currentInstrument in custom)) {
-						return
-					}
-
-				// remove from localstorage
-					delete custom[currentInstrument]
-					window.localStorage.synthesizers = JSON.stringify(custom)
-
-				// remove from AUDIO_J instruments
-					if (AUDIO_J.instruments[currentInstrument]) {
-						delete AUDIO_J.instruments[currentInstrument]
-					}
-
-				// update selection
-					if (event) {
-						ELEMENTS["tool-meta"]["group-custom"].querySelector("[value='" + currentInstrument + "']").remove()
-					}
+					const defaultInstrumentNames = AUDIO_J.getInstruments({include: ["default"], grouping: "flat", format: "names"})
+					const instrumentName = defaultInstrumentNames[Math.floor(Math.random() * defaultInstrumentNames.length)]
+					setInstrument(AUDIO_J.getInstrument(instrumentName) || {}, true)
 			} catch (error) {console.log(error)}
 		}
 
@@ -955,6 +926,35 @@
 					event.target.setAttribute("selected", true)
 					AUDIO_J.startRecording()
 				}
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const fileJSON = JSON.parse(data)
+					setInstrument(fileJSON, true)
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// json
+					const name = ELEMENTS["tool-meta"]["name"].value.trim().replace(/\s/g, "_")
+					const file = JSON.parse(JSON.stringify(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters))
+						file.imag = Array.from(AUDIO_J.instruments[AUDIO_J.activeInstrumentId].parameters.imag)
+						delete file.real
+						delete file.wave
+						file.name = name
+						file.project = "toneMaker"
+					return {
+						name: "toneMaker_" + name + ".json",
+						type: "json",
+						data: JSON.stringify(file)
+					}
 			} catch (error) {console.log(error)}
 		}
 

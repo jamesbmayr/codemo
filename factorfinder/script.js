@@ -144,6 +144,21 @@
 				loading.removeAttribute("rotate")
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					const num = String(input.value)
+					const data = num + "\n\n\n" + outputFactors.innerText.trim() + "\n\n\n" + outputQualities.innerText.trim()
+					return {
+						name: "factorFinder_" + num + ".txt",
+						type: "txt",
+						data: data
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** math - update ***/
 	/* updatePrimes */
 		function updatePrimes(n) {

@@ -181,6 +181,33 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					let image = new Image
+						image.onload = function() {
+							STATE.image = image
+							STATE.transformations = [STATE.image]
+							resizeCanvas(ELEMENTS.canvas, ELEMENTS.context, STATE.image)
+						}
+						image.src = data
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "imageRedactor_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.canvas.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** options ***/
 	/* setOptions */
 		setOptions()

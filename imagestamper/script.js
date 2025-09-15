@@ -547,6 +547,35 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					const image = new Image()
+						image.onload = () => {
+							STATE.background.image = image
+							drawBackground(image)
+							appendHistory()
+						}
+						image.src = data
+					ELEMENTS.tools.backgroundImage.value = null
+					ELEMENTS.tools.backgroundImage.blur()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "imageStamper_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: STATE.history[STATE.historyIndex].src
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** history ***/
 	/* appendHistory */
 		function appendHistory() {

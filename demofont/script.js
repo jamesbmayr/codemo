@@ -209,6 +209,15 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					ELEMENTS.controls.text.value = data
+			} catch (error) {console.log(error)}
+		}
+
 /*** keyboard ***/
 	/* pressKeyButton */
 		for (let i in ELEMENTS.glyphs.keys) {

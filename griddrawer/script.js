@@ -136,6 +136,36 @@
 			canvas.setAttribute("tool", settings.cursor.tool)
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					const option = document.createElement("option")
+						option.value = option.innerText = instrument.parameters.name
+					const synthSelect = document.getElementById("instrument")
+						synthSelect.querySelector("optgroup[label='custom']").appendChild(option)
+						synthSelect.value = instrument.parameters.name
+					selectInstrument()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "gridDrawer_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: canvas.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** input ***/
 	/* downShift */
 		document.addEventListener("keydown", function(event) {

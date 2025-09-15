@@ -329,35 +329,7 @@
 				// get file
 					let imageReader = new FileReader()
 						imageReader.onload = function(event) {
-							let rawImage = new Image
-								rawImage.onload = function() {
-									// save
-										SETTINGS.source = rawImage
-
-									// get dimensions
-										let imageWidth = rawImage.width
-										let imageHeight = rawImage.height
-
-									// ratio
-										let ratio = imageWidth / imageHeight
-
-									// resize canvas
-										ELEMENTS.raw.canvas.width = imageWidth
-										ELEMENTS.raw.canvas.height = imageHeight
-										ELEMENTS.processed.canvas.width = imageWidth
-										ELEMENTS.processed.canvas.height = imageHeight
-
-									// update ratio style
-										ELEMENTS.ratio.innerText = ":root {--ratio: " + ratio + "}"
-
-									// processing loop
-										SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
-
-									// show download
-										ELEMENTS.actions.downloadButton.removeAttribute("hidden")
-										ELEMENTS.actions.capture.querySelector("span").innerText = "camera"
-								}
-								rawImage.src = event.target.result
+							importImage(event.target.result)
 						}
 						imageReader.readAsDataURL(file)
 			} catch (error) {console.log(error)}
@@ -395,36 +367,8 @@
 
 				// get file
 					let imageReader = new FileReader()
-						imageReader.onload = function(event) {
-							let rawImage = new Image
-								rawImage.onload = function() {
-									// save
-										SETTINGS.source = rawImage
-
-									// get dimensions
-										let imageWidth = rawImage.width
-										let imageHeight = rawImage.height
-
-									// ratio
-										let ratio = imageWidth / imageHeight
-
-									// resize canvas
-										ELEMENTS.raw.canvas.width = imageWidth
-										ELEMENTS.raw.canvas.height = imageHeight
-										ELEMENTS.processed.canvas.width = imageWidth
-										ELEMENTS.processed.canvas.height = imageHeight
-
-									// update ratio style
-										ELEMENTS.ratio.innerText = ":root {--ratio: " + ratio + "}"
-
-									// processing loop
-										SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
-
-									// show download
-										ELEMENTS.actions.downloadButton.removeAttribute("hidden")
-										ELEMENTS.actions.capture.querySelector("span").innerText = "camera"
-								}
-								rawImage.src = event.target.result
+						imageReader.onload = imageReader.onload = function(event) {
+							importImage(event.target.result)
 						}
 						imageReader.readAsDataURL(file)
 			} catch (error) {console.log(error)}
@@ -447,6 +391,64 @@
 				// blur
 					ELEMENTS.actions.downloadLink.blur()
 					ELEMENTS.actions.capture.blur()
+			} catch (error) {console.log(error)}
+		}
+
+	/* importImage */
+		function importImage(imageData) {
+			try {
+				// image
+					let rawImage = new Image
+					rawImage.onload = function() {
+						// save
+							SETTINGS.source = rawImage
+
+						// get dimensions
+							let imageWidth = rawImage.width
+							let imageHeight = rawImage.height
+
+						// ratio
+							let ratio = imageWidth / imageHeight
+
+						// resize canvas
+							ELEMENTS.raw.canvas.width = imageWidth
+							ELEMENTS.raw.canvas.height = imageHeight
+							ELEMENTS.processed.canvas.width = imageWidth
+							ELEMENTS.processed.canvas.height = imageHeight
+
+						// update ratio style
+							ELEMENTS.ratio.innerText = ":root {--ratio: " + ratio + "}"
+
+						// processing loop
+							SETTINGS.processingLoop = setInterval(processFrame, SETTINGS.processingInterval)
+
+						// show download
+							ELEMENTS.actions.downloadButton.removeAttribute("hidden")
+							ELEMENTS.actions.capture.querySelector("span").innerText = "camera"
+					}
+					rawImage.src = imageData
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					skipCamera()
+					importImage(data)
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "photoFilterer_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.processed.canvas.toDataURL("image/png")
+					}
 			} catch (error) {console.log(error)}
 		}
 

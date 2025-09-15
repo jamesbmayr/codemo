@@ -137,6 +137,29 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// txt
+					ELEMENTS.statements.value = data
+					evaluateLogic()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// html
+					return {
+						name: "logicEvaluator_" + (new Date().getTime()) + ".html",
+						type: "html",
+						data: ELEMENTS.truths.outerHTML
+					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** evaluate ***/
 	/* evaluateLogic */
 		ELEMENTS.evaluate.addEventListener("click", evaluateLogic)
 		function evaluateLogic() {

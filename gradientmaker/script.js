@@ -680,6 +680,19 @@
 				// check
 					ELEMENTS.menu.copy.setAttribute("check", true)
 
+				// copy to clipboard
+					navigator.clipboard.writeText(buildGradientText())
+
+				// uncheck
+					setTimeout(() => {
+						ELEMENTS.menu.copy.removeAttribute("check")
+					}, CONSTANTS.actionDelay)
+			} catch (error) {console.log(error)}
+		}
+
+	/* buildGradientText */
+		function buildGradientText() {
+			try {
 				// gradient text
 					let gradientText = ""
 					const colorStops = STATE.gradient.colors.slice().sort((a, b) => {
@@ -706,13 +719,8 @@
 						gradientText = `conic-gradient(from ${rotatedDegrees}deg, ${colorStopsString})`
 					}
 
-				// copy to clipboard
-					navigator.clipboard.writeText(gradientText ?? "")
-
-				// uncheck
-					setTimeout(() => {
-						ELEMENTS.menu.copy.removeAttribute("check")
-					}, CONSTANTS.actionDelay)
+				// return
+					return gradientText || ""
 			} catch (error) {console.log(error)}
 		}
 
@@ -736,6 +744,30 @@
 
 				// redisplay
 					drawGradient()
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// css
+					if (type == "css") {
+						return {
+							name: "gradientMaker_" + (new Date().getTime()) + ".css",
+							type: "css",
+							data: `#element { background: ${buildGradientText()}; }`
+						}
+					}
+
+				// png
+					if (type == "png") {
+						return {
+							name: "gradientMaker_" + (new Date().getTime()) + ".png",
+							type: "png",
+							data: ELEMENTS.canvas.toDataURL("image/png")
+						}
+					}
 			} catch (error) {console.log(error)}
 		}
 

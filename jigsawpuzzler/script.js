@@ -324,6 +324,24 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					STATE.pieces = []
+					STATE.settings = {
+						x: Number(ELEMENTS.menu.x.value) || 0,
+						y: Number(ELEMENTS.menu.y.value) || 0,
+						image: new Image,
+						imageType: "file",
+						imageData: data
+					}
+					STATE.settings.image.onload = createPuzzle
+					STATE.settings.image.src = STATE.settings.imageData
+			} catch (error) {console.log(error)}
+		}
+
 /*** puzzle ***/
 	/* createPuzzle */
 		function createPuzzle() {

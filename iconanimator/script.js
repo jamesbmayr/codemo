@@ -251,6 +251,51 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// svg
+					if (type == "svg") {
+						const parser = new DOMParser()
+						const htmlData = parser.parseFromString(data, "text/html")
+						const path = htmlData.querySelector("path")
+						const d = path.getAttribute("d")
+						ELEMENTS.options.iconPath.value = d
+						updatePath()
+						return
+					}
+
+				// txt
+					ELEMENTS.options.iconPath.value = data
+					updatePath()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// css
+					if (type == "css") {
+						return {
+							name: "iconAnimator_" + (new Date().getTime()) + ".css",
+							type: "css",
+							data: ELEMENTS.text.css.value.trim()
+						}
+					}
+
+				// html
+					if (type == "html") {
+						const css = ELEMENTS.text.css.value.split(/\n/g).map(line => "    " + line).join("\n")
+						return {
+							name: "iconAnimator_" + (new Date().getTime()) + ".html",
+							type: "html",
+							data: ELEMENTS.text.html.value.trim() + `\n<style>\n${css}\n</style>`
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** animation ***/
 	/* constructAnimation */
 		function constructAnimation() {

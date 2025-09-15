@@ -457,3 +457,7 @@
 		#j-logo:hover, #j-logo:focus {
 			color: var(--light-blue);
 		}
+
+	#assets_j_button:not(:hover):not(:focus) {
+		color: var(--medium-gray) !important;
+	}

@@ -295,6 +295,71 @@
 			}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// css
+					if (type == "css") {
+						const cssList = data.split(/\n/g)
+						for (const c in cssList) {
+							const cssLine = cssList[c]
+							const color = cssLine.slice(cssLine.indexOf("#") + 1, cssLine.indexOf("{")).trim()
+							const textarea = document.getElementById(color + "Text")
+							if (textarea) {
+								textarea.value = cssLine.slice(cssLine.indexOf("(") + 1, cssLine.indexOf(")")).trim()
+								updatePath(color)
+							}
+						}
+						return
+					}
+
+				// txt
+					if (type == "txt") {
+						const currentColor = document.getElementById("color").value
+						document.getElementById(currentColor + "Text").value = data
+						updatePath(currentColor)
+						return
+					}
+
+				// image
+					document.getElementById("container").style.backgroundImage = "url(" + data + ")"
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// css
+					if (type == "css") {
+						const cssList = []
+						const textareas = Array.from(document.querySelectorAll("textarea"))
+						for (const t in textareas) {
+							const colorName = textareas[t].id.replace("Text", "")
+							const text = textareas[t].value
+							if (text.length) {
+								cssList.push(`#${colorName} { clip-path: polygon(${text}); }`)
+							}
+						}
+						return {
+							name: `clipPather_${new Date().getTime()}.css`,
+							type: "css",
+							data: cssList.join("\n")
+						}
+					}
+
+				// txt
+					if (type == "txt") {
+						const currentColor = document.getElementById("color").value
+						return {
+							name: `clipPather_${currentColor}_${new Date().getTime()}.txt`,
+							type: "txt",
+							data: document.getElementById(currentColor + "Text").value.trim()
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** transforms ***/
 	/* translatePath */
 		document.getElementById("translate").addEventListener(on.click, translatePath)

@@ -56,3 +56,16 @@
 			// append
 				ELEMENTS.output.value = PREVIOUSTEXT + currentText
 		}
+
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					return {
+						name: "voiceTranscriber_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: ELEMENTS.output.value.trim()
+					}
+			} catch (error) {console.log(error)}
+		}

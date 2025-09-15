@@ -74,7 +74,7 @@
 		position: fixed;
 		top: 5px;
 		left: 5px;
-		width: calc(100vw - 52px);
+		width: calc(100vw - 100px);
 		border-radius: 10px;
 		height: 50px;
 		overflow-x: auto;

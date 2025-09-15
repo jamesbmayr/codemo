@@ -47,6 +47,17 @@
 		overflow-x: hidden;
 	}
 
+	h1 {
+		color: #ffffff;
+		margin: 0;
+		padding: 10px 10px 0px 10px;
+		height: 40px;
+		width: auto;
+		text-align: left;
+		user-select: none;
+		font-size: 30px;
+	}
+
 /* input */
 	#input-outer {
 		width: 100vw;

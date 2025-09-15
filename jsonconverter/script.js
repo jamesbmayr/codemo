@@ -592,4 +592,38 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json, txt
+					ELEMENTS.inputText.value = data
+					ELEMENTS.inputText.focus()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// csv
+					if (type == "csv") {
+						const name = ELEMENTS.mappingName.value.trim() || "jsonConverter"
+						return {
+							name: `${name}_${new Date().getTime()}.csv`,
+							type: "csv",
+							data: ELEMENTS.outputText.value
+						}
+					}
+
+				// html
+					if (type == "html") {
+						const name = ELEMENTS.mappingName.value.trim() || "jsonConverter"
+						return {
+							name: `${name}_${new Date().getTime()}.html`,
+							type: "html",
+							data: ELEMENTS.outputTable.innerHTML
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
 

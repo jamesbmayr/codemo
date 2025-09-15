@@ -144,3 +144,7 @@
 	#j-logo:hover, #j-logo:focus {
 		filter: drop-shadow(0px 0px 8px #333333);
 	}
+
+	#assets_j_button:not(:hover):not(:focus) {
+		color: #333333 !important;
+	}

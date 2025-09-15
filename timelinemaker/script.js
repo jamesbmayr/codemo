@@ -257,11 +257,6 @@
 
 								// save
 									saveState()
-
-								// switch to edit mode
-									if (ELEMENTS.body.getAttribute("mode") == "view") {
-										switchMode()
-									}
 							} catch (error) {console.log(error)}
 							
 							ELEMENTS.import.value = null
@@ -308,15 +303,11 @@
 									}
 
 								// set state
-									setState(JSON.parse(content))
+									const data = JSON.parse(content)
+									setState(data.timelines ?? data)
 
 								// save
 									saveState()
-
-								// switch to edit mode
-									if (ELEMENTS.body.getAttribute("mode") == "view") {
-										switchMode()
-									}
 							} catch (error) {console.log(error)}
 							
 							ELEMENTS.import.value = null
@@ -403,6 +394,32 @@
 				// no more history?
 					if (STATE.history.length <= 1) {
 						ELEMENTS.undo.setAttribute("unavailable", true)
+					}
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const jsonData = JSON.parse(data)
+					setState(jsonData.timelines ?? jsonData)
+					saveState()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// json
+					return {
+						name: "timelineMaker_" + (new Date().getTime()) + ".json",
+						type: "json",
+						data: JSON.stringify({
+							project: "timelineMaker",
+							timelines: JSON.parse(STATE.history[STATE.history.length - 1])
+						})
 					}
 			} catch (error) {console.log(error)}
 		}

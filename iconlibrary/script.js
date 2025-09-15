@@ -293,7 +293,7 @@
 
 	/* downloadSVG */
 		ELEMENTS.selected.download.addEventListener(TRIGGERS.click, downloadSVG)
-		function downloadSVG() {
+		function downloadSVG(event, asAsset) {
 			try {
 				// just done
 					if (ELEMENTS.selected.download.getAttribute("active")) {
@@ -302,34 +302,39 @@
 
 				// set state
 					ELEMENTS.selected.download.setAttribute("active", true)
+					setTimeout(() => {
+						ELEMENTS.selected.download.removeAttribute("active")
+					}, CONSTANTS.actionResetTime)
 
 				// get attributes
 					const state = getControlsState()
 					state.frame = buildFrame(state)
-					const title = ELEMENTS.selected.name.innerText
+					const title = ELEMENTS.selected.name.innerText + (state.frame[0] ? ` (${state.frame[0]})` : "")
 
 				// build file
 					const svg = ELEMENTS.selected.svg.innerHTML.replace('<svg', '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"')
+
+				// asset
+					if (asAsset) {
+						return {title: title, data: svg}
+					}
+
+				// download
 					const downloadLink = document.createElement("a")
 						downloadLink.setAttribute("href", "data:image/svg+xml," + encodeURIComponent(svg))
-						downloadLink.setAttribute("download", title + (state.frame[0] ? ` (${state.frame[0]})` : "") + ".svg")
+						downloadLink.setAttribute("download", title + ".svg")
 
 				// click
 					downloadLink.click()
 					setTimeout(() => {
 						downloadLink.remove()
-					}, 0)
-
-				// unset
-					setTimeout(() => {
-						ELEMENTS.selected.download.removeAttribute("active")
-					}, CONSTANTS.actionResetTime)
+					}, 0)					
 			} catch (error) {console.log(error)}
 		}
 
 	/* exportPNG */
 		ELEMENTS.selected.export.addEventListener(TRIGGERS.click, exportPNG)
-		function exportPNG(event) {
+		function exportPNG(event, asAsset) {
 			try {
 				// just done
 					if (ELEMENTS.selected.export.getAttribute("active")) {
@@ -338,11 +343,14 @@
 
 				// set state
 					ELEMENTS.selected.export.setAttribute("active", true)
+					setTimeout(() => {
+						ELEMENTS.selected.export.removeAttribute("active")
+					}, CONSTANTS.actionResetTime)
 
 				// get attributes
 					const state = getControlsState()
 					state.frame = buildFrame(state)
-					const title = ELEMENTS.selected.name.innerText
+					const title = ELEMENTS.selected.name.innerText + (state.frame[0] ? ` (${state.frame[0]})` : "") 
 					const path = ELEMENTS.selected.path.innerText
 
 				// modified path
@@ -369,10 +377,16 @@
 				// get image
 					const imageData = canvas.toDataURL("image/png")
 
+				// asset
+					if (asAsset) {
+						canvas.remove()
+						return {title: title, data: imageData}
+					}
+
 				// download link
 					const downloadLink = document.createElement("a")
 						downloadLink.setAttribute("href", imageData)
-						downloadLink.setAttribute("download", title + (state.frame[0] ? ` (${state.frame[0]})` : "") + ".png")
+						downloadLink.setAttribute("download", title + ".png")
 
 				// download
 					downloadLink.click()
@@ -380,11 +394,6 @@
 						canvas.remove()
 						downloadLink.remove()
 					}, 0)
-				
-				// unset
-					setTimeout(() => {
-						ELEMENTS.selected.export.removeAttribute("active")
-					}, CONSTANTS.actionResetTime)
 			} catch (error) {console.log(error)}
 		}
 
@@ -415,6 +424,37 @@
 					setTimeout(() => {
 						ELEMENTS.list.request.removeAttribute("active")
 					}, CONSTANTS.actionResetTime)
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// none
+					if (!ELEMENTS.selected.name.innerText.length) {
+						return
+					}
+
+				// svg
+					if (type == "svg") {
+						const {title, data} = downloadSVG(null, true)
+						return {
+							name: title + ".svg",
+							type: "svg",
+							data: data
+						}
+					}
+
+				// png
+					if (type == "png") {
+						const {title, data} = exportPNG(null, true)
+						return {
+							name: title + ".png",
+							type: "png",
+							data: data
+						}
+					}
 			} catch (error) {console.log(error)}
 		}
 

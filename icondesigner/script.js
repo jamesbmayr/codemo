@@ -411,18 +411,19 @@
 	/** exports **/
 		/* exportSVG */
 			ELEMENTS.controls.exportSVG.addEventListener(TRIGGERS.click, exportSVG)
-			function exportSVG(event) {
+			function exportSVG(event, asAsset) {
 				try {
 					// drawing
-						if (STATE.drawing) { cancelDrawing()
-						 r
-						}
+						if (STATE.drawing) { cancelDrawing() }
 						
 					// being exported
 						if (ELEMENTS.controls.exportSVG.getAttribute("disabled")) {
 							return
 						}
 						ELEMENTS.controls.exportSVG.setAttribute("disabled", true)
+						setTimeout(() => {
+							ELEMENTS.controls.exportSVG.removeAttribute("disabled")
+						}, CONSTANTS.exportWaitTime)
 
 					// from SVG element
 						const xml = ELEMENTS.container.svg.outerHTML
@@ -431,6 +432,11 @@
 							.replace(/\n/g, " ")
 							.replace(/\shighlight=\"true\"/g, "")
 							.replace(/\svisible=\"true\"/g, "")
+
+					// asset
+						if (asAsset) {
+							return xml
+						}
 
 					// download link
 						const downloadLink = document.createElement("a")
@@ -442,17 +448,12 @@
 						setTimeout(() => {
 							downloadLink.remove()
 						}, 0)
-					
-					// timeout
-						setTimeout(() => {
-							ELEMENTS.controls.exportSVG.removeAttribute("disabled")
-						}, CONSTANTS.exportWaitTime)
 				} catch (error) {console.log(error)}
 			}
 
 		/* exportPNG */
 			ELEMENTS.controls.exportPNG.addEventListener(TRIGGERS.click, exportPNG)
-			function exportPNG(event) {
+			function exportPNG(event, asAsset) {
 				try {
 					// drawing
 						if (STATE.drawing) { cancelDrawing() }
@@ -462,6 +463,9 @@
 							return
 						}
 						ELEMENTS.controls.exportPNG.setAttribute("disabled", true)
+						setTimeout(() => {
+							ELEMENTS.controls.exportPNG.removeAttribute("disabled")
+						}, CONSTANTS.exportWaitTime)
 
 					// order
 						const itemIds = Array.from(ELEMENTS.container.svg.childNodes).map(element => element.id.slice(3))
@@ -506,6 +510,12 @@
 					// get image
 						const imageData = canvas.toDataURL("image/png")
 
+					// asset
+						if (asAsset) {
+							canvas.remove()
+							return imageData
+						}
+
 					// download link
 						const downloadLink = document.createElement("a")
 							downloadLink.setAttribute("href", imageData)
@@ -517,17 +527,12 @@
 							canvas.remove()
 							downloadLink.remove()
 						}, 0)
-					
-					// timeout
-						setTimeout(() => {
-							ELEMENTS.controls.exportPNG.removeAttribute("disabled")
-						}, CONSTANTS.exportWaitTime)
 				} catch (error) {console.log(error)}
 			}
 
 		/* exportClippath */
 			ELEMENTS.controls.exportClippath.addEventListener(TRIGGERS.click, exportClippath)
-			function exportClippath(event) {
+			function exportClippath(event, asAsset) {
 				try {
 					// drawing
 						if (STATE.drawing) { cancelDrawing() }
@@ -565,6 +570,11 @@
 							clippathText.push(pathText)
 						}
 
+					// asset
+						if (asAsset) {
+							return clippathText.join("\n")
+						}
+
 					// to clipboard
 						navigator.clipboard.writeText(clippathText.join("\n")).then(() => {
 							ELEMENTS.controls.exportClippath.setAttribute("disabled", true)
@@ -577,7 +587,7 @@
 
 		/* exportCanvas */
 			ELEMENTS.controls.exportCanvas.addEventListener(TRIGGERS.click, exportCanvas)
-			function exportCanvas(event) {
+			function exportCanvas(event, asAsset) {
 				try {
 					// drawing
 						if (STATE.drawing) { cancelDrawing() }
@@ -619,6 +629,11 @@
 							}
 
 							canvasText.push(pathText)
+						}
+
+					// asset
+						if (asAsset) {
+							return canvasText.join("\n")
 						}
 
 					// to clipboard
@@ -875,6 +890,60 @@
 								else if (transform.type == "translate") {
 									translateItem(item, duplicateObject(item.attributes.coordinates), transform.args[0] ?? 0, transform.args[1] ?? 0)
 								}
+						}
+				} catch (error) {console.log(error)}
+			}
+
+	/** assetManager **/
+		/* retrieveAsset */
+			window.ASSETS_J.retrieveAsset = function(name, type, data) {
+				try {
+					// svg
+						const domParser = new DOMParser()
+						const svgXML = domParser.parseFromString(data, "image/svg+xml")?.documentElement
+						if (svgXML) {
+							parseSVG(svgXML)
+						}
+				} catch (error) {console.log(error)}
+			}
+
+		/* storeAsset */
+			window.ASSETS_J.storeAsset = async function(type) {
+				try {
+					// svg
+						if (type == "svg") {
+							return {
+								name: "iconDesigner_" + (new Date().getTime()) + ".svg",
+								type: "svg",
+								data: exportSVG(null, true)
+							}
+						}
+
+					// png
+						if (type == "png") {
+							return {
+								name: "iconDesigner_" + (new Date().getTime()) + ".png",
+								type: "png",
+								data: exportPNG(null, true)
+							}
+						}
+
+					// css
+						if (type == "css") {
+							return {
+								name: "iconDesigner_" + (new Date().getTime()) + ".css",
+								type: "css",
+								data: exportClippath(null, true)
+							}
+						}
+
+					// js
+						if (type == "js") {
+							return {
+								name: "iconDesigner_" + (new Date().getTime()) + ".js",
+								type: "js",
+								data: exportCanvas(null, true)
+							}
 						}
 				} catch (error) {console.log(error)}
 			}

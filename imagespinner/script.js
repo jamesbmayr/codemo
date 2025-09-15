@@ -254,7 +254,7 @@
 					ELEMENTS.settings.error.value = ""
 
 				// layers
-					GAME.settings.layers = Math.floor(ELEMENTS.settings.layers.value) || minimumPieces
+					GAME.settings.layers = Math.floor(ELEMENTS.settings.layers.value) || CONSTANTS.minimumPieces
 
 				// type
 					let type = ELEMENTS.settings.type.url.checked ? "url"
@@ -489,5 +489,18 @@
 
 				// still here
 					return true
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					GAME.settings.layers = Math.floor(ELEMENTS.settings.layers.value) || CONSTANTS.minimumPieces
+					GAME.settings.image = new Image
+					GAME.settings.image.onload = createPuzzle
+					GAME.settings.image.extraInfo = null
+					GAME.settings.image.src = data
 			} catch (error) {console.log(error)}
 		}

@@ -95,6 +95,11 @@
 			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
 		}
 
+		#assets_j_button svg {
+			height: 100% !important;
+			width: auto !important;
+		}
+
 	/* inputs */
 		#controls svg {
 			height: var(--font-size);

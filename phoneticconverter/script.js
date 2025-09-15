@@ -334,6 +334,36 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// txt
+					const ipaSymbols = Object.keys(CONSTANTS.IPAtoARPABET)
+					for (const s in ipaSymbols) {
+						if (data.includes(ipaSymbols[s])) {
+							ELEMENTS.ipaTextarea.value = data
+							inputIPA()
+							return
+						}
+					}
+					ELEMENTS.arpabetTextarea.value = data
+					inputARPABET()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					return {
+						name: "phoneticConverter_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: `IPA:\n\n${ELEMENTS.ipaTextarea.value.trim()}\n\n\nARPABET:\n\n${ELEMENTS.arpabetTextarea.value.trim()}`
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** convert ***/
 	function convertText(lines, direction) {
 		try {

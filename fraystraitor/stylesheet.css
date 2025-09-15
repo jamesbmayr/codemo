@@ -68,3 +68,7 @@
 	#j-logo:hover, #j-logo:focus {
 		filter: drop-shadow(0 0 var(--gap-size) var(--dark-gray));
 	}
+
+	#assets_j_button:not(:focus):not(:hover) {
+		color: var(--medium-gray) !important;
+	}

@@ -938,6 +938,50 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					const option = document.createElement("option")
+						option.value = option.innerText = instrument.parameters.name
+					ELEMENTS.controls.synth.querySelector("optgroup[label='custom']").appendChild(option)
+					ELEMENTS.controls.synth.value = instrument.parameters.name
+					setSynth()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// musicxml
+					if (type == "musicxml") {
+						return {
+							name: `${STATE.music.title || "untitled"}_${new Date().getTime()}.musicxml`,
+							type: "musicxml",
+							data: MUSICXML_J.buildMusicXML(STATE.music)
+						}
+					}
+
+				// txt
+					if (type == "txt") {
+						const text = STATE.tonic + " " + STATE.scale + "\n" + 
+							"notes:     " + STATE.notes.map(note => (note.name        + CONSTANTS.copySpaces).slice(0, CONSTANTS.copySpaces.length)).join(" ") + "\n" + 
+							"degrees:   " + STATE.notes.map(note => (note.scaleDegree + CONSTANTS.copySpaces).slice(0, CONSTANTS.copySpaces.length)).join(" ") + "\n" + 
+							"semitones: " + STATE.notes.map(note => (note.semitone    + CONSTANTS.copySpaces).slice(0, CONSTANTS.copySpaces.length)).join(" ")
+						return {
+							name: `${STATE.music.title || "untitled"}_${new Date().getTime()}.txt`,
+							type: "txt",
+							data: text
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** music ***/
 	/* generateState */
 		function generateState() {

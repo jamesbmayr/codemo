@@ -744,3 +744,7 @@
 		color: var(--light-blue);
 		filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
 	}
+
+	#assets_j_button:not(:focus):not(:hover) {
+		color: var(--translucent-medium) !important;
+	}

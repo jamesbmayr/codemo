@@ -60,6 +60,10 @@
 		filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
 	}
 
+	#assets_j_button:not(:hover):not(:focus) {
+		color: var(--medium-gray) !important;
+	}
+
 /*** open ***/
 	#settings-open-form {
 		opacity: 1;

@@ -116,7 +116,7 @@
 	/* buttons */
 		#mode button {
 			float: left;
-			width: calc((100% - 2 * var(--icon-size)) / 2);
+			width: calc((100% - 3 * var(--icon-size)) / 2 - var(--gap-size) - 2px);
 			height: 100%;
 			border: none;
 			color: var(--medium-gray);

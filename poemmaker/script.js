@@ -348,6 +348,27 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					let poemString = ""
+					for (let i = 0; i < STATE.poem.length; i++) {
+						poemString += (STATE.poem[i] == CONSTANTS.stanzaBreak ? "" : STATE.poem[i])
+						if (i !== STATE.poem.length - 1) {
+							poemString += "\n"
+						}
+					}
+
+					return {
+						name: "poemMaker_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: poemString
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** randoms ***/
 	/* rangeRandom */
 		function rangeRandom(a, b) {

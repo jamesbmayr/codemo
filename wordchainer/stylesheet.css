@@ -10,6 +10,7 @@
 		--large-gap-size: 20px;
 		--shadow-size: 5px;
 		--border-radius: 5px;
+		--gutter-size: 116px;
 	}
 
 	html, body {
@@ -45,7 +46,8 @@
 		width: 90vw;
 		max-width: 1000px;
 		height: auto;
-		max-height: 90vh;
+		box-sizing: border-box;
+		max-height: calc(100vh - var(--gutter-size));
 	}
 
 	#container h1 {
@@ -199,7 +201,7 @@
 		float: left;
 		width: calc(100% - 2 * var(--small-gap-size));
 		height: auto;
-		max-height: calc(90vh - (1 * var(--small-gap-size) + var(--large-font-size)) - 4 * (var(--small-font-size) + 3 * var(--small-gap-size)) - 7 * var(--small-gap-size));
+		max-height: calc(100vh - (1 * var(--small-gap-size) + var(--large-font-size)) - 4 * (var(--small-font-size) + 3 * var(--small-gap-size)) - 9 * var(--small-gap-size) - var(--gutter-size));
 		font-size: var(--small-font-size);
 		font-family: var(--font-family);
 		color: var(--light-gray);

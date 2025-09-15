@@ -353,7 +353,7 @@
 /*** load ***/
 	/* downloadScore */
 		document.getElementById("download").addEventListener(on.click, downloadScore)
-		function downloadScore() {
+		function downloadScore(event, asAsset) {
 			//build musicXML
 				var musicXML = ""
 					musicXML += '<?xml version="1.0" standalone="no"?><!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd"><score-partwise><part-list><score-part id="P1"><part-name>Synth</part-name></score-part></part-list><part id="P1">'
@@ -402,6 +402,11 @@
 				}
 
 				musicXML += '</part></score-partwise>'
+
+			// assetManager
+				if (asAsset) {
+					return musicXML
+				}
 
 			//download sequence
 				musicXML = "text/xml;charset=utf-8," + encodeURIComponent(musicXML)
@@ -562,4 +567,43 @@
 
 					staff.insertBefore(measure, spacer)
 				}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					if (type == "json") {
+						const json = JSON.parse(data)
+						const instrument = AUDIO_J.buildInstrument(json)
+						AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+						const option = document.createElement("option")
+							option.value = option.innerText = instrument.parameters.name
+						const synthSelect = document.getElementById("wave")
+							synthSelect.querySelector("optgroup[label='custom']").appendChild(option)
+							synthSelect.value = instrument.parameters.name
+						changeInstrument()
+						return
+					}
+
+				// musicxml
+					if (type == "musicxml") {
+						mapNotes(data)
+						return
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// musicxml
+					return {
+						name: `pitchPlayer_${new Date().getTime()}.musicxml`,
+						type: "musicxml",
+						data: downloadScore(null, true)
+					}
+			} catch (error) {console.log(error)}
 		}

@@ -70,7 +70,7 @@
 					AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ power: 0 })
 				}
 
-				var name = event.target.value.trim()
+				var name = controlsInstrument.value.trim()
 
 				if (AUDIO_J.instruments[name]) {
 					AUDIO_J.activeInstrumentId = name
@@ -123,6 +123,23 @@
 
 	/* activateMidi */
 		controlsMidi.addEventListener("click", AUDIO_J.activateMidi)
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					const option = document.createElement("option")
+						option.value = option.innerText = instrument.parameters.name
+					controlsInstrument.querySelector("optgroup[label='custom']").appendChild(option)
+					controlsInstrument.value = instrument.parameters.name
+					changeInstrument()
+			} catch (error) {console.log(error)}
+		}
 
 /*** helpers ***/
 	/* getKey */

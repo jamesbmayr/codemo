@@ -21,6 +21,10 @@
 	#j-logo:hover, #j-logo:focus {
 		filter: drop-shadow(0px 0px 4px #000000);
 	}
+
+	#assets_j_button:not(:focus):not(:hover) {
+		color: #333333 !important;
+	}
 	
 /* page */
 	html {
@@ -204,13 +208,12 @@
 		width: 32px;
 		outline: none;
 		border: none;
-		padding: auto;
 		font-family: monospace;
 		font-size: 20px;
 		background-color: #333333;
 		color: #dddddd;
 		z-index: 3;
-		top: 14px;
+		right: 7px;
 		filter: drop-shadow(0px 0px 20px #000000);
 		box-shadow: 0px 0px 20px #000000 inset;
 		cursor: pointer;
@@ -222,11 +225,11 @@
 	}
 
 	#zoom-in {
-		right: 84px;
+		top: 60px;
 	}
 
 	#zoom-out {
-		right: 44px;
+		top: 100px;
 	}
 
 /* mobile */

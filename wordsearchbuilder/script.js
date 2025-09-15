@@ -54,6 +54,28 @@
 			}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// txt
+					document.getElementById("words").value = data
+					submitForm()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					return {
+						name: "wordsearchBuilder_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: document.getElementById("viewer").innerText
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** depicting grid ***/
 	/* getRandom */
 		function getRandom() {

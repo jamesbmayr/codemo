@@ -138,6 +138,33 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// txt
+					if (ELEMENTS.input1.value.length && !ELEMENTS.input2.value.length) {
+						ELEMENTS.input2.value = data
+					}
+					else {
+						ELEMENTS.input1.value = data
+					}
+					updateInputs()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// html
+					return {
+						name: "changeChecker_" + (new Date().getTime()) + ".html",
+						type: "html",
+						data: ELEMENTS.output.outerHTML
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** comparison ***/
 	/* compareInputs */
 		function compareInputs() {

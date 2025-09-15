@@ -1822,6 +1822,51 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const jsonData = JSON.parse(data)
+					for (let childId in STATE.system.children) {
+						STATE.system.children[childId].elements.section.remove()
+					}
+					STATE.system.children = {}
+					for (let i in jsonData.children) {
+						let child = createCelestialBody(jsonData.children[i], null)
+						STATE.system.children[child.id] = child
+						ELEMENTS.system.appendChild(child.elements.section)
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// json
+					if (type == "json") {
+						let system = duplicateObject(STATE.system)
+							system = sanitizeObject(system)
+							system.project = "orbitMaker"
+
+						return {
+							name: "orbitMaker_" + (new Date().getTime()) + ".json",
+							type: "json",
+							data: JSON.stringify(system)
+						}
+					}
+
+				// png
+					if (type == "png") {
+						return {
+							name: "orbitMaker_" + (new Date().getTime()) + ".png",
+							type: "png",
+							data: ELEMENTS.simulation.canvas.toDataURL("image/png")
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** inputs - outside of menu ***/
 	/* pressKey */
 		window.addEventListener(TRIGGERS.keydown, pressKey)

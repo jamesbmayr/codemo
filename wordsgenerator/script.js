@@ -1380,6 +1380,19 @@
 			} catch (error) { ELEMENTS.error.innerText = "unknown error in " + arguments.callee.name }
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					return {
+						name: "wordsGenerator_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: ELEMENTS.words.innerText.trim()
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** form building ***/
 	/* initializeApplication */
 		initializeApplication()

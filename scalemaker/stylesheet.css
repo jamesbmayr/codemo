@@ -515,7 +515,7 @@
 
 		#controls h1 span {
 			height: var(--icon-size);
-			width: calc(100% - var(--gap-size) - var(--icon-size));
+			width: calc(100% - var(--gap-size) - var(--icon-size) - var(--icon-size));
 			font-size: var(--icon-size);
 			font-family: var(--font-family);
 			user-select: none;
@@ -546,6 +546,11 @@
 		
 		#j-logo:hover, #j-logo:focus {
 			filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+		}
+
+		#assets_j_button {
+			display: inline-block;
+			position: inherit !important;
 		}
 
 /*** keyboard ***/

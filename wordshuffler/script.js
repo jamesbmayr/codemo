@@ -40,7 +40,6 @@
 						results[length].push(words[w])
 					}
 				}
-				console.log(results)
 
 				var output = ""
 				var keys = Object.keys(results).sort(function(a,b) { return a > b })
@@ -67,7 +66,6 @@
 	function buildWords(words, letters, stem) {
 		for (var l in letters) {
 			var word = stem + letters[l]
-			console.log(word)
 			if ((word.length > 1) && (window.dictionary[word[0]][word.length] && window.dictionary[word[0]][word.length].indexOf(word) > -1)) {
 				words.push(word)
 			}
@@ -84,6 +82,40 @@
 			return self.indexOf(w) == i
 		})
 	}
+
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// html
+					if (type == "html") {
+						const word = document.querySelector("#input").value.trim()
+						return {
+							name: word + ".html",
+							type: "html",
+							data: `<h1>${word}</h1>${document.querySelector("#output").innerHTML}`
+						}
+					}
+
+				// txt
+					if (type == "txt") {
+						const word = document.querySelector("#input").value.trim()
+						const list = []
+						const sections = Array.from(document.querySelectorAll("#output details"))
+						for (const s in sections) {
+							const length = sections[s].querySelector("summary").innerText
+							const words = Array.from(sections[s].querySelectorAll("li")).map(listItem => `- ${listItem.innerHTML}`)
+							list.push(`${length}\n${words.join("\n")}`)
+						}
+
+						return {
+							name: word + ".txt",
+							type: "txt",
+							data: word + "\n\n" + list.join("\n\n")
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
 
 /* dictionary */
 	// https://norvig.com/ngrams/enable1.txt

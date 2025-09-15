@@ -237,6 +237,34 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					const grapheme = ELEMENTS.search.input.value.trim()
+					if (!grapheme || !grapheme.length) {
+						return
+					}
+					const phoneme = ELEMENTS.search.ipa.phonemes.innerText.trim()
+					const searchMode = ELEMENTS.search.mode.value
+					const searchType = ELEMENTS.search.type.value
+					const searchPhonemes = Array.from(ELEMENTS.search.ipa.phonemes.querySelectorAll("span[highlighted='true']")).map(span => span.innerText).join("")
+					
+					const data = `${grapheme} (${phoneme})\n` +
+						`${searchMode} ${searchType}: ${searchPhonemes}\n\n` +
+						Array.from(ELEMENTS.results.element.querySelectorAll(".result")).map(result => {
+						    return `${result.querySelector(".result-grapheme").innerText} (${result.querySelector(".result-phoneme").innerText})`
+						}).join("\n")
+					
+					return {
+						name: "rhymeFinder_" + grapheme + ".txt",
+						type: "txt",
+						data: data
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** tools ***/
 	/* getParameters */
 		function getParameters(searchString) {

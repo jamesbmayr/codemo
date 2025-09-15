@@ -89,7 +89,7 @@
 					}
 
 				// split
-					const options = text.split(/\s?,\s?/g).filter(function(option) {
+					const options = text.split(/\s?,\s?|\n/g).filter(function(option) {
 						return option.trim().length
 					})
 
@@ -175,6 +175,28 @@
 
 				// start loop
 					STATE.rotationLoop = setInterval(updateWheelRotation, CONSTANTS.circle.iterationTime)
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// csv, txt
+					ELEMENTS.options.value = data
+					updateOptions()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "decisionMaker_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.canvas.toDataURL("image/png")
+					}
 			} catch (error) {console.log(error)}
 		}
 

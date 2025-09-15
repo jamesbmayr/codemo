@@ -188,3 +188,16 @@
 				window.localStorage.stocks = ""
 			}
 		}
+
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "stockTracker_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: canvas.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}

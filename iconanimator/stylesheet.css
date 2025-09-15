@@ -347,7 +347,7 @@
 
 /*** j-logo ***/
 	#j-logo {
-		position: fixed;
+		position: absolute;
 		top: 14px;
 		right: 7px;
 		height: 32px;

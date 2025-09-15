@@ -518,6 +518,34 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					if (type == "json") {
+						const json = JSON.parse(data)
+						const instrument = AUDIO_J.buildInstrument(json)
+						AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+						const option = document.createElement("option")
+							option.value = option.innerText = instrument.parameters.name
+						ELEMENTS.synths.querySelector("optgroup[label='custom']").appendChild(option)
+						ELEMENTS.synths.value = instrument.parameters.name
+						changePlayerSynth()
+						return
+					}
+
+				// musicxml
+					if (type == "musicxml") {
+						const parser = new DOMParser()
+						const musicXML = parser.parseFromString(data, "text/xml")
+						STATE.music = MUSICXML_J.parseMusicXML(musicXML)
+						resetMusic()
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** keyboard ***/
 	/* buildKeyboard */
 		buildKeyboard()

@@ -118,7 +118,7 @@
 		top: 0px;
 		left: 0px;
 		height: 60px;
-		width: calc(100% - 40px);
+		width: calc(100% - 96px);
 		overflow-y: hidden;
 		overflow-x: auto;
 		list-style-type: none;

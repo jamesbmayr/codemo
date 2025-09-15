@@ -1030,6 +1030,19 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "arenaMapper_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.download.canvas.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** tools ***/
 	/* chooseRandom */
 		function chooseRandom(array) {

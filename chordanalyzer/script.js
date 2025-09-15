@@ -102,13 +102,22 @@
 		}
 
 	/* listeners */
+		window.addEventListener("click", firstClick)
+		function firstClick() {
+			try {
+				// already audio?
+					if (AUDIO_J.audio) {
+						return
+					}
+
+				// build audio
+					AUDIO_J.buildAudio()
+			} catch (error) {console.log(error)}
+		}
+
 		document.querySelector("#instruments").addEventListener("change", changeInstrument)
 		function changeInstrument(event) {
-			if (!AUDIO_J.audio) {
-				AUDIO_J.buildAudio()
-			}
-
-			var name = event.target.value
+			var name = document.querySelector("#instruments").value
 			
 			if (AUDIO_J.instruments[AUDIO_J.activeInstrumentId]) {
 				AUDIO_J.instruments[AUDIO_J.activeInstrumentId].setParameters({ power: 0 })
@@ -132,6 +141,7 @@
 			document.querySelector("#instruments").blur()
 		}
 
+	/* keyboard */
 		function pressKeyButton(event) {
 			if (!event.target.className.includes("active")) {
 				var key = event.target.getAttribute("value")
@@ -1157,6 +1167,38 @@
 				sample.pause()
 				sample.currentTime = 0
 			}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// json
+					const json = JSON.parse(data)
+					const instrument = AUDIO_J.buildInstrument(json)
+					AUDIO_J.storeInstrument(instrument.parameters.name, instrument.parameters)
+
+					const option = document.createElement("option")
+						option.value = option.innerText = instrument.parameters.name
+					const synthSelect = document.getElementById("instruments")
+						synthSelect.querySelector("optgroup[label='custom']").appendChild(option)
+						synthSelect.value = instrument.parameters.name
+					changeInstrument()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					if (type == "txt") {
+						return {
+							name: `chordAnalyzer_${document.getElementById("bigOutput").innerText}.txt`,
+							type: "txt",
+							data: document.getElementById("smallOutput").innerText
+						}
+					}
+			} catch (error) {console.log(error)}
 		}
 
 /*** midi hooks ***/

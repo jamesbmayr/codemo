@@ -198,3 +198,25 @@
 					link.click()
 			} catch (error) {console.log(error)}
 		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// csv, txt
+					ELEMENTS.csv.textarea.value = data
+					ELEMENTS.csv.textarea.focus()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// json
+					return {
+						name: `csvConverter_${new Date().getTime()}.json`,
+						type: "json",
+						data: ELEMENTS.json.textarea.value.trim()
+					}
+			} catch (error) {console.log(error)}
+		}

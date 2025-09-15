@@ -426,6 +426,36 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					const image = new Image
+						image.onload = function() {
+							STATE.imageData = image
+							drawKaleidoscope()
+						}
+						image.src = data
+
+					if (ELEMENTS.uploadCenter) {
+						ELEMENTS.uploadCenter.remove()
+					}
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "kaleidoscopeMaker_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.canvas.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** helpers ***/
 	/* getVector */
 		function getVector(a, b) {

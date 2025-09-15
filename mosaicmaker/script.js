@@ -278,6 +278,36 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image
+					ELEMENTS.menu.details.removeAttribute("open")
+					STATE.mainFile = null
+					STATE.tileFiles = []
+					STATE.chunksCount = Number(ELEMENTS.menu.chunks.count.value) || 1
+					STATE.pixels = []
+					STATE.XYratio = 1
+					STATE.tileImages = []
+					STATE.mainImage = new Image
+						STATE.mainImage.onload = createMosaic
+						STATE.mainImage.src = data
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "mosaicMaker_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.canvas.tile.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** tools ***/
 	/* chooseRandom */
 		function chooseRandom(array) {

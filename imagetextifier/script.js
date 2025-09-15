@@ -53,29 +53,7 @@
 				// get file
 					const imageReader = new FileReader()
 						imageReader.onload = function(event) {
-							const rawImage = new Image
-								rawImage.onload = function() {
-									// stop video
-										STATE.playing = false
-										clearInterval(STATE.processingLoop)
-										STATE.processingLoop = null
-
-									// save
-										STATE.source = rawImage
-
-									// clear input
-										ELEMENTS.upload.value = null
-
-									// hide instructions
-										ELEMENTS.instructions.style.display = "none"
-
-									// get dimensions
-										resizeVideo()
-
-									// process
-										processFrame()
-								}
-								rawImage.src = event.target.result
+							importImage(event.target.result)
 						}
 						imageReader.readAsDataURL(file)
 			} catch (error) {console.log(error)}
@@ -111,31 +89,39 @@
 				// get file
 					const imageReader = new FileReader()
 						imageReader.onload = function(event) {
-							const rawImage = new Image
-								rawImage.onload = function() {
-									// stop video
-										STATE.playing = false
-										clearInterval(STATE.processingLoop)
-										STATE.processingLoop = null
-
-									// save
-										STATE.source = rawImage
-
-									// clear input
-										ELEMENTS.upload.value = null
-
-									// hide instructions
-										ELEMENTS.instructions.style.display = "none"
-
-									// get dimensions
-										resizeVideo()
-
-									// process
-										processFrame()
-								}
-								rawImage.src = event.target.result
+							importImage(event.target.result)
 						}
 						imageReader.readAsDataURL(file)
+			} catch (error) {console.log(error)}
+		}
+
+	/* importImage */
+		function importImage(imageData) {
+			try {
+				// new image
+					const rawImage = new Image
+					rawImage.onload = function() {
+						// stop video
+							STATE.playing = false
+							clearInterval(STATE.processingLoop)
+							STATE.processingLoop = null
+
+						// save
+							STATE.source = rawImage
+
+						// clear input
+							ELEMENTS.upload.value = null
+
+						// hide instructions
+							ELEMENTS.instructions.style.display = "none"
+
+						// get dimensions
+							resizeVideo()
+
+						// process
+							processFrame()
+					}
+					rawImage.src = imageData
 			} catch (error) {console.log(error)}
 		}
 
@@ -209,6 +195,27 @@
 					setTimeout(function() {
 						ELEMENTS.copy.removeAttribute("copied")
 					}, STATE.copyTimeout)
+			} catch (error) {console.log(error)}
+		}
+
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// image					
+					importImage(data)
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "imageTextifier_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: ELEMENTS.output.innerText
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -313,6 +320,11 @@
 	/* processFrame */
 		function processFrame(event) {
 			try {
+				// no source
+					if (!STATE.source) {
+						return
+					}
+
 				// push video to raw canvas
 					ELEMENTS.context.clearRect(0, 0, ELEMENTS.canvas.width, ELEMENTS.canvas.height)
 					ELEMENTS.context.drawImage(STATE.source, 0, 0, ELEMENTS.canvas.width, ELEMENTS.canvas.height)

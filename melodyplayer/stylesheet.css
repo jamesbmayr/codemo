@@ -132,6 +132,8 @@
 				- (2 * var(--gap-size) + 8 * var(--font-size))
 				- (var(--font-size) * 5)
 				- (var(--gap-size) * 4)
+				- 48px
+				- 32px
 			);
 			width: calc(var(--font-size) * 15 + 3 * var(--gap-size));
 			white-space: nowrap;
@@ -436,7 +438,7 @@
 	/* midi */
 		#midi {
 			float: right;
-			margin: var(--gap-size) calc(32px + var(--gap-size)) var(--gap-size) 0;
+			margin: var(--gap-size) calc(32px + 48px + var(--gap-size)) var(--gap-size) 0;
 			height: calc(var(--font-size) + 2 * var(--gap-size));
 			width: calc(var(--font-size) + 2 * var(--gap-size));
 			padding: 0;
@@ -485,7 +487,7 @@
 		}
 
 	/* mobile */
-		@media screen and (max-width: 750px) {
+		@media screen and (max-width: 800px) {
 			body {
 				--key-height: 150px;
 			}
@@ -515,7 +517,7 @@
 				display: none;
 			}
 
-			#scoreboard:not([pending]):not([playing]) #j-logo {
+			#scoreboard:not([pending]):not([playing]) #j-logo, #scoreboard:not([pending]):not([playing]) #assets_j_button {
 				padding: 0 !important;
 				width: 0 !important;
 				border-left: 0 !important;

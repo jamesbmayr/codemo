@@ -92,6 +92,28 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// txt
+					ELEMENTS.message.value = data
+					submitForm()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// txt
+					return {
+						name: "messageEncrypter_" + (new Date().getTime()) + ".txt",
+						type: "txt",
+						data: ELEMENTS.output.value.trim()
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** helpers ***/
 	/* cleanText */
 		function cleanText(text) {

@@ -259,6 +259,19 @@
 			} catch (error) {}
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "sketchTiler_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.mirror.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** canvas ***/
 	/* clearCanvas */
 		function clearCanvas(canvas, context, options) {

@@ -211,6 +211,19 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					return {
+						name: "artReflector_" + (new Date().getTime()) + ".png",
+						type: "png",
+						data: ELEMENTS.canvas.toDataURL("image/png")
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** mouse ***/
 	/* downMouse */
 		window.addEventListener(TRIGGERS.mousedown, downMouse)

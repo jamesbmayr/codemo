@@ -95,6 +95,40 @@
 			} catch (error) {console.log(error)}
 		}
 
+/*** assetManager ***/
+	/* retrieveAsset */
+		window.ASSETS_J.retrieveAsset = function(name, type, data) {
+			try {
+				// txt
+					activateMakeMode()
+					ELEMENTS.make.input.value = String(data)
+					inputText()
+			} catch (error) {console.log(error)}
+		}
+
+	/* storeAsset */
+		window.ASSETS_J.storeAsset = async function(type) {
+			try {
+				// png
+					if (type == "png") {
+						return {
+							name: ELEMENTS.make.input.value.trim(),
+							type: "png",
+							data: ELEMENTS.make.image.querySelector("img")?.src
+						}
+					}
+
+				// txt
+					if (type == "txt") {
+						return {
+							name: STATE.detected,
+							type: "txt",
+							data: STATE.detected
+						}
+					}
+			} catch (error) {console.log(error)}
+		}
+
 /*** mode ***/
 	/* activateMakeMode */
 		ELEMENTS.mode.make.addEventListener(TRIGGERS.click, activateMakeMode)
