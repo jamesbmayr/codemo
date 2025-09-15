@@ -106,7 +106,7 @@
 
 				// initialize
 					ASSETS_J.initialized = true
-					ASSETS_J.overlay.src = "../assetManager/index.html"
+					ASSETS_J.overlay.src = "../assetmanager/index.html"
 					ASSETS_J.overlay.onload = () => {
 						ASSETS_J.overlay.contentWindow.postMessage({
 							action: "initialize",
