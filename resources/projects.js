@@ -11,7 +11,7 @@ const PROJECTS = {
 	adventure: {
 		skipRandom: true,
 		name: "Adventure",
-		size: "large",
+		size: "extra-large",
 		tags: ["game","code","fantasy","node","websockets","mongo","canvas","tabletop","multiplayer"],
 		date: "May 15, 2020",
 		description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
@@ -41,6 +41,7 @@ const PROJECTS = {
 		description: "Generate arena maps with customizable size, background, walls types, and features."
 	},
 	arrowsmasher: {
+		skipRandom: true,
 		name: "arrowSmasher",
 		size: "small",
 		tags: ["code","game","arcade"],
@@ -48,7 +49,6 @@ const PROJECTS = {
 		description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 	},
 	artparts: {
-		pinned: true,
 		skipRandom: true,
 		name: "ArtParts",
 		size: "medium",
@@ -63,6 +63,14 @@ const PROJECTS = {
 		date: "January 14, 2023",
 		description: "Paint colored dots, reflected around the center to create rotational designs."
 	},
+	assetmanager: {
+		skipRandom: true,
+		name: "assetManager",
+		size: "medium",
+		tags: ["code","tool"],
+		date: "September 14, 2025",
+		description: "All my tools that import or export images, code, text, and more are connected by this browser-based file vault."
+	},
 	balloonpopper: {
 		name: "balloonPopper",
 		size: "small",
@@ -71,6 +79,7 @@ const PROJECTS = {
 		description: "balloonPopper is a simple web game - pop the balloons before they float away!"
 	},
 	baseconverter: {
+		skipRandom: true,
 		name: "baseConverter",
 		size: "small",
 		tags: ["code","math","tool"],
@@ -102,7 +111,7 @@ const PROJECTS = {
 	blog: {
 		skipRandom: true,
 		name: "blog",
-		size: "small",
+		size: "extra-large",
 		tags: ["code","api","writing","autobiography"],
 		date: "April 17, 2022",
 		description: "An ongoing blog about making projects with and for people."
@@ -287,6 +296,7 @@ const PROJECTS = {
 		description: "CoChords is a real-time collaborative music composition tool, supporting musicXML, audio export, and custom synths."
 	},
 	cocolors: {
+		skipRandom: true,
 		name: "CoColors",
 		size: "medium",
 		tags: ["design","code","node","websockets","canvas","multiplayer","draw","tool","art"],
@@ -328,7 +338,7 @@ const PROJECTS = {
 	couplets: {
 		skipRandom: true,
 		name: "couplets",
-		size: "medium",
+		size: "large",
 		tags: ["writing","collaboration","api","lyric","poetry","autobiography"],
 		date: "July 22, 2019",
 		description: "Couplets is a collaborative poetry project, a timeline of rhyming adventures with Liz Ford."
@@ -349,6 +359,7 @@ const PROJECTS = {
 		description: "Shuffle and solve a color puzzle cube... or watch it solve itself."
 	},
 	decisionmaker: {
+		skipRandom: true,
 		name: "decisionMaker",
 		size: "large",
 		tags: ["code","tool","canvas"],
@@ -372,6 +383,7 @@ const PROJECTS = {
 		description: "Originally an abstract strategy game I designed long ago, Diamond Checkers is a node.js web game, a battle of wits for two players."
 	},
 	diceroller: {
+		skipRandom: true,
 		name: "diceRoller",
 		size: "small",
 		tags: ["code","math","tool"],
@@ -426,6 +438,14 @@ const PROJECTS = {
 		tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
 		date: "December 30, 2020",
 		description: "This multi-player multi-round elimination card game is all about becoming the next king."
+	},
+	etcitra: {
+		skipRandom: true,
+		name: "Et Citra",
+		size: "large",
+		tags: ["game","board","card","multiplayer","tabletop"],
+		date: "September 1, 2025",
+		description: "Build your citrus business and corner the fruit market first in this competitive worker placement card game."
 	},
 	eternalhorizon: {
 		skipRandom: true,
@@ -573,7 +593,6 @@ const PROJECTS = {
 		description: "hexSequencer is a memory game like Simon, with 6 musical colored lights."
 	},
 	hextris: {
-		pinned: true,
 		name: "hextris",
 		size: "medium",
 		tags: ["code","game","arcade","puzzle","svg","collaboration"],
@@ -766,7 +785,6 @@ const PROJECTS = {
 		description: "magnetMaker is a pseudo-realistic physics simulator with magnetic spheres and tons of forces."
 	},
 	mapmaker: {
-		pinned: true,
 		name: "mapMaker",
 		size: "large",
 		tags: ["code","tool","fantasy","scifi","design","art","canvas","draw","svg"],
@@ -871,6 +889,7 @@ const PROJECTS = {
 		description: "A collection of compositions from a few musical friends; each event challenged us to make music in a new way."
 	},
 	nameshuffler: {
+		skipRandom: true,
 		name: "nameShuffler",
 		size: "small",
 		tags: ["code","tool","writing","autobiography","collaboration"],
@@ -886,6 +905,7 @@ const PROJECTS = {
 		description: "This web-audio / canvas / websockets raincloud soundscape was built with Liz Ford at a hackathon."
 	},
 	noughtcrosser: {
+		skipRandom: true,
 		name: "noughtCrosser",
 		size: "small",
 		tags: ["code","game","ai","multiplayer","tabletop","board"],
@@ -962,7 +982,6 @@ const PROJECTS = {
 		description: "My first post-college album, Penduluminous is all about swing - with 16 vocal tracks all set in different jazz and pop styles."
 	},
 	phantomfinder: {
-		pinned: true,
 		skipRandom: true,
 		name: "Phantom Finder",
 		size: "large",
@@ -971,7 +990,6 @@ const PROJECTS = {
 		description: "Phantom Finder is an asymmetrical board game for two players: ghost and ghost hunters."
 	},
 	pictureclipper: {
-		pinned: true,
 		name: "pictureClipper",
 		size: "medium",
 		tags: ["code","tool","design","art","canvas","draw","photography","svg"],
@@ -1166,6 +1184,14 @@ const PROJECTS = {
 		date: "August 19, 2024",
 		description: "Find phonetic overlap: starting sounds, internal rhymes, and traditional end rhyme too."
 	},
+	rigmaroll: {
+		skipRandom: true,
+		name: "Rigmaroll",
+		size: "large",
+		tags: ["game","board","card","multiplayer","tabletop"],
+		date: "August 1, 2025",
+		description: "Fight back against the randomness by rigging your rolls with modifier cards in this competitive dice-and-tokens game."
+	},
 	robotdirector: {
 		name: "robotDirector",
 		size: "medium",
@@ -1182,6 +1208,7 @@ const PROJECTS = {
 		description: "Fight monsters to find the orbs in this 8-bit co-op dungeon crawler. Art by Jenn Levy. Sound by Alex Berg."
 	},
 	rpsthrower: {
+		skipRandom: true,
 		name: "RPSthrower",
 		size: "small",
 		tags: ["code","game","ai","multiplayer"],
@@ -1317,6 +1344,7 @@ const PROJECTS = {
 		description: "Create colored videogame sprites to export as images or canvas coordinates."
 	},
 	stocktracker: {
+		skipRandom: true,
 		name: "stockTracker",
 		size: "medium",
 		tags: ["code","api","canvas","tool","money"],
@@ -1332,7 +1360,7 @@ const PROJECTS = {
 		description: "A chaotic party game for 4+ players - guess words to get points, but lose them the longer it takes opponents to guess."
 	},
 	swoopdeloop: {
-		pinned: true,
+		skipRandom: true,
 		name: "Swoop-de-Loop",
 		size: "large",
 		tags: ["code","simulation","game","arcade","tabletop","godot","collaboration"],
@@ -1347,6 +1375,7 @@ const PROJECTS = {
 		description: "Connect words with overlapping sounds to build a chain from start to finish."
 	},
 	tempotapper: {
+		skipRandom: true,
 		name: "tempoTapper",
 		size: "small",
 		tags: ["code","tool","music"],
@@ -1354,6 +1383,7 @@ const PROJECTS = {
 		description: "Use your mouse, keyboard, or touchscreen to tap a tempo and detect the beats per minute."
 	},
 	tempoticker: {
+		skipRandom: true,
 		name: "tempoTicker",
 		size: "small",
 		tags: ["code","tool","music"],
@@ -1377,6 +1407,7 @@ const PROJECTS = {
 		description: "This is an epic fantasy adventure set to sweeping orchestral music, released with a corresponding poem."
 	},
 	ticktocker: {
+		skipRandom: true,
 		name: "tickTocker",
 		size: "small",
 		tags: ["code","tool"],
@@ -1412,6 +1443,7 @@ const PROJECTS = {
 		description: "Create branching paths through time and space for stories and histories alike."
 	},
 	timestopper: {
+		skipRandom: true,
 		name: "timeStopper",
 		size: "small",
 		tags: ["code","tool"],
@@ -1472,6 +1504,7 @@ const PROJECTS = {
 		description: "Convert between all kinds of units measuring all kinds of quantities."
 	},
 	voicetranscriber: {
+		skipRandom: true,
 		name: "voiceTranscriber",
 		size: "small",
 		tags: ["code","tool","simulation","api"],
