@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>alieNcounters</title>
+		<link rel="shortcut icon" href="data:image/svg+xml,<svg viewBox='10 10 80 80' xmlns='http://www.w3.org/2000/svg'><path fill='%234ab799' d='M 32 50 C 32 52 44 52 50 52 C 56 52 68 52 68 50 C 68 41 60 33 50 33 C 40 33 32 41 32 50 Z M 38 62 C 38 64 44 67 50 67 C 56 67 62 64 62 62 C 62 60 68 59 68 61 C 68 67 60 75 50 75 C 40 75 32 67 32 61 C 32 59 38 60 38 62 Z M 74 37 C 78 42 90 46 90 50 C 90 54 80 57 74 58 C 68 59 60 60 50 60 C 40 60 32 59 26 58 C 20 57 10 54 10 50 C 10 46 22 42 26 37 C 30 32 39 25 50 25 C 61 25 70 32 74 37 Z'></path></svg>">
+		<meta name="description" content="alieNcounters is a 2-player card game by Dan Weinstein"/>
+		<meta name="author" content="Dan Weinstein"/>
+		<meta property="og:title" content="alieNcounters"/>
+		<meta property="og:url" content="https://jamesmayr.com/aliencounters/"/>
+		<meta property="og:description" content="alieNcounters is a 2-player card game by Dan Weinstein"/>
+		<meta property="og:image" content="https://jamesmayr.com/aliencounters/banner.png"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"/>
+		<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="stylesheet.css">
+		<script src="script.js" defer></script>
+	</head>
+	<body>
+		<div id="container" tab="player">
+			<h1>alieNcounters</h1>
+			<div id="navbar">
+				<button id="navbar-player">us</button>
+				<button id="navbar-opponent">them</button>
+				<button id="navbar-game">end</button>
+			</div>
+			<section id="player">
+				<div id="player-visuals">
+					<div id="player-visuals-inner">
+						<div id="player-visuals-top"></div>
+						<div id="player-visuals-bag"></div>
+					</div>
+				</div>
+				<div id="player-controls">
+					<div id="red" class="player-column">
+						<button id="red-plus">+</button>
+						<div id="red-token">r</div>
+						<button id="red-minus">-</button>
+					</div>
+					<div id="random" class="player-column">
+						<button id="random-plus">+</button>
+						<div id="random-token">?</div>
+						<button id="random-minus">-</button>
+					</div>
+					<div id="blue" class="player-column">
+						<button id="blue-plus">+</button>
+						<div id="blue-token">b</div>
+						<button id="blue-minus">-</button>
+					</div>
+					<button id="undo">undo</button>
+				</div>
+			</section>
+			<section id="opponent">
+				<div id="opponent-visuals" blur="true">
+					<div id="opponent-visuals-red">?</div>
+					<div id="opponent-visuals-blue">?</div>
+				</div>
+				<div id="opponent-controls">
+					<div id="opponent-timer"></div>
+					<div id="opponent-check">check this bag</div>
+					<button id="check-1">1</button>
+					<button id="check-2">2</button>
+					<button id="check-3">3</button>
+					<button id="check-4">4</button>
+					<button id="check-5">5</button>
+				</div>
+			</section>
+			<section id="game">
+				<div id="game-visuals" blur="true">
+					<div id="game-visuals-red">?</div>
+					<div id="game-visuals-blue">?</div>
+				</div>
+				<div id="game-controls">
+					<div id="game-timer"></div>
+					<div id="reveal-section">
+						<button id="reveal" visible="true">reveal</button>
+						<button id="reveal-confirm">confirm</button>
+						<button id="reveal-cancel">cancel</button>
+					</div>
+					<div id="empty-section">
+						<button id="empty" visible="true">empty</button>
+						<button id="empty-confirm">confirm</button>
+						<button id="empty-cancel">cancel</button>
+					</div>
+				</div>
+			</section>
+		</div>
+	</body>
+</html>
