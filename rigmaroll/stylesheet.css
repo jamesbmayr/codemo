@@ -143,7 +143,7 @@
 	}
 
 	#overview-attributes {
-		margin: var(--font-size) 0;
+		margin: var(--font-size) 0 calc(2 * var(--font-size)) 0;
 	}
 
 		#overview-attributes div {
