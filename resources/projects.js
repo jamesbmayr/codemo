@@ -1537,6 +1537,14 @@ const PROJECTS = {
 		date: "June 19, 2017",
 		description: "Generate a web of interconnected items that rearranges itself."
 	},
+	whatthehex: {
+		skipRandom: true,
+		name: "What the Hex!?",
+		size: "large",
+		tags: ["game","board","card","multiplayer","tabletop"],
+		date: "November 1, 2025",
+		description: "What the Hex!? is a cooperative dungeon-crawler where everyone's a wizard."
+	},
 	wheelturner: {
 		name: "wheelTurner",
 		size: "small",
