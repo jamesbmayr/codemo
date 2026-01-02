@@ -48,6 +48,13 @@ const PROJECTS = {
 		date: "June 5, 2020",
 		description: "arrowSmasher is a web game played in the tab title by pressing arrow keys."
 	},
+	artguesser: {
+		name: "artGuesser",
+		size: "medium",
+		tags: ["code","game","puzzle","design","art","canvas","photography"],
+		date: "January 1, 2026",
+		description: "In this pixellated daily puzzle, you guess the title or artist of famous paintings, photos, sculptures, and more."
+	},
 	artparts: {
 		skipRandom: true,
 		name: "ArtParts",
