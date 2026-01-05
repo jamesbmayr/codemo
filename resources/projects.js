@@ -531,6 +531,13 @@ const PROJECTS = {
 		date: "September 3, 2021",
 		description: "FundFuser calculates an equitable split for your next group gift or shared expense."
 	},
+	gameguesser: {
+		name: "gameGuesser",
+		size: "small",
+		tags: ["code","api","game","arcade","puzzle","canvas"],
+		date: "January 5, 2026",
+		description: "Guess as many video games as you can from pixellated images, via the RAWG API."
+	},
 	ghostescaper: {
 		name: "ghostEscaper",
 		size: "medium",
