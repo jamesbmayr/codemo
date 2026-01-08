@@ -27,6 +27,9 @@
 	}
 
 	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
 		background: var(--conic-gradient);
 		margin: 0;
 		padding: 0;
@@ -48,8 +51,8 @@
 	#header {
 		position: absolute;
 		top: 14px;
-		left: 50%;
-		transform: translateX(-50%);
+		right: 50%;
+		transform: translateX(50%);
 		height: 32px;
 		width: auto;
 		color: var(--light-gray);
@@ -332,7 +335,7 @@
 	#sidebar {
 		z-index: 10;
 		position: absolute;
-		left: calc(var(--font-size) + 3 * var(--gap-size) - var(--sidebar-width));
+		right: calc(100vw - (var(--font-size) + 3 * var(--gap-size)));
 		top: 0;
 		width: var(--sidebar-width);
 		height: 100vh;
@@ -342,7 +345,7 @@
 	}
 
 		#sidebar[open] {
-			left: 0;
+			right: calc(100vw - var(--sidebar-width));
 		}
 
 		#sidebar-inner {
