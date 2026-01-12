@@ -30,11 +30,6 @@
 
 	/* constants */
 		const CONSTANTS = {
-			apiURL: "https://api.rawg.io/api/games?key=",
-			hexes: ["80091c","39e202","4ab785","8fabe9","473954","610000"],
-			apiParameters: "&page_size=40&metacritic=65,100&exclude_additions=true&ordering=-metacritic",
-			apiPages: 100,
-			poolSize: 100,
 			infoURL: "https://rawg.io/games/",
 			blocks: [32,64,128,256,2048],
 			minWordLength: 4,
@@ -50,7 +45,7 @@
 			info: {},
 			strikes: 0,
 			correct: false,
-			results: []
+			previousGames: []
 		}
 
 /*** helpers ***/
@@ -60,10 +55,10 @@
 		}
 
 /*** image ***/
-	/* requestImage */
-		requestImage()
-		ELEMENTS.refresh.addEventListener(TRIGGERS.click, requestImage)
-		function requestImage() {
+	/* loadImage */
+		loadImage()
+		ELEMENTS.refresh.addEventListener(TRIGGERS.click, loadImage)
+		function loadImage() {
 			// reset
 				STATE.correct = false
 				STATE.strikes = 0
@@ -73,48 +68,22 @@
 			// hide canvas until ready
 				ELEMENTS.canvas.setAttribute("invisible", true)
 
-			// already enough stored?
-				if (STATE.results.length > CONSTANTS.poolSize) {
-					const index = Math.floor(Math.random() * STATE.results.length)
-					const game = STATE.results.splice(index, 1)[0]
-					loadImage(game)
-					return
+			// random game
+				let gameIndex = null
+				do {
+					gameIndex = Math.floor(Math.random() * window.GAMES.length)
 				}
-				
-			// get data from API
-				const randomPage = Math.floor(Math.random() * CONSTANTS.apiPages) + 1
-				fetch(`${CONSTANTS.apiURL}${CONSTANTS.hexes.join("").slice(0,32)}${CONSTANTS.apiParameters}&page=${randomPage}`)
-					.then(response => response.json())
-					.then(storeResults)
-		}
+				while (STATE.previousGames.length < window.GAMES.length && STATE.previousGames.includes(gameIndex))
+				STATE.previousGames.push(gameIndex)
+				const game = window.GAMES[gameIndex]
 
-	/* storeResults */
-		function storeResults(response) {
-			// no results
-				if (!response || !response.results || !response.results.length) {
-					return
-				}
-
-			// pick an image from the new results
-				const index = Math.floor(Math.random() * response.results.length)
-				const game = response.results.splice(index, 1)[0]
-
-			// store the rest
-				STATE.results = STATE.results.concat(response.results)
-
-			// load image
-				loadImage(game)
-		}
-
-	/* loadImage */
-		function loadImage(game) {
 			// save image info
 				STATE.info = {
-					id: game.slug,
-					title: game.name,
-					image: game.background_image,
-					date: game.released,
-					rating: game.metacritic
+					id: game.id,
+					title: game.title,
+					image: game.image,
+					date: game.date,
+					rating: game.rating
 				}
 
 			// background image
@@ -242,8 +211,8 @@
 				if (STATE.correct || STATE.strikes == CONSTANTS.maxStrikes) {
 					ELEMENTS.plaque.info.setAttribute("gameover", true)
 					ELEMENTS.plaque.title.innerText = STATE.info.title
-					ELEMENTS.plaque.date.innerText = STATE.info.date
-					ELEMENTS.plaque.rating.innerText = `${STATE.info.rating}/100`
+					ELEMENTS.plaque.date.innerText = STATE.info.date || ""
+					ELEMENTS.plaque.rating.innerText = `${STATE.info.rating || "?"}/100`
 					ELEMENTS.plaque.link.href = `${CONSTANTS.infoURL}${STATE.info.id}`
 					ELEMENTS.refresh.focus()
 				}
