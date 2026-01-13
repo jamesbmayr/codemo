@@ -3472,13 +3472,6 @@ window.GAMES = [
     "id": 11975
   },
   {
-    "title": "ESPN NFL 2K5",
-    "date": "2004-07-20",
-    "rating": null,
-    "image": null,
-    "id": 440073
-  },
-  {
     "title": "Monument Valley",
     "date": "2014-04-03",
     "rating": 89,
@@ -3631,13 +3624,6 @@ window.GAMES = [
     "rating": 90,
     "image": "https://media.rawg.io/media/screenshots/b23/b23b3b0f25b10123c0338cf9f5c8bc12.jpg",
     "id": 27023
-  },
-  {
-    "title": "Virtua Fighter 4",
-    "date": "2001-01-02",
-    "rating": null,
-    "image": null,
-    "id": 311656
   },
   {
     "title": "System Shock",
@@ -3820,13 +3806,6 @@ window.GAMES = [
     "rating": null,
     "image": "https://media.rawg.io/media/games/9a9/9a982da190ff3bbbf36511675d174d89.jpg",
     "id": 53195
-  },
-  {
-    "title": "Super Puzzle Fighter 2 Turbo",
-    "date": null,
-    "rating": null,
-    "image": null,
-    "id": 331572
   },
   {
     "title": "FIFA 12",
@@ -4550,13 +4529,6 @@ window.GAMES = [
     "id": 30407
   },
   {
-    "title": "Slaves to Armok 2: Dwarf Fortress",
-    "date": "2006-08-08",
-    "rating": null,
-    "image": null,
-    "id": 330361
-  },
-  {
     "title": "DRAGON BALL FighterZ",
     "date": "2018-01-25",
     "rating": 86,
@@ -4674,13 +4646,6 @@ window.GAMES = [
     "rating": 85,
     "image": "https://media.rawg.io/media/screenshots/6fc/6fc5f9e00777bdc6bc6e1786f2cd65d6.jpg",
     "id": 24792
-  },
-  {
-    "title": "Rainbow Islands",
-    "date": "2004-02-19",
-    "rating": null,
-    "image": null,
-    "id": 331484
   },
   {
     "title": "Donkey Kong Jungle Beat",
@@ -6459,13 +6424,6 @@ window.GAMES = [
     "rating": 81,
     "image": "https://media.rawg.io/media/screenshots/76c/76ccafdfdade806abdb7ee8d9bf54bda.jpg",
     "id": 53461
-  },
-  {
-    "title": "Gradius V",
-    "date": "2015-04-28",
-    "rating": null,
-    "image": null,
-    "id": 3351
   },
   {
     "title": "Pilotwings 64",
