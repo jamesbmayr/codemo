@@ -1213,6 +1213,15 @@ const PROJECTS = {
 		date: "January 25, 2017",
 		description: "In robotDirector, players must guide simple bots to a color-coded collection point."
 	},
+	rpsrng: {
+		skipRandom: true,
+		hidden: true,
+		name: "RPS RNG",
+		size: "small",
+		tags: ["code","simulation","game","multiplayer"],
+		date: "January 19, 2026",
+		description: "Simulate hundreds of games of rock-paper-scissors by setting each competitor's chances of throwing each option."
+	},
 	rpsrpg: {
 		skipRandom: true,
 		name: "RPS RPG",
@@ -1404,10 +1413,19 @@ const PROJECTS = {
 		date: "May 1, 2021",
 		description: "A simple audio-visual metronome with customizable beat count and tempo."
 	},
+	terrainstorm: {
+		skipRandom: true,
+		hidden: true,
+		name: "Terrainstorm",
+		size: "medium",
+		tags: ["game","board","multiplayer","puzzle","tabletop","collaboration"],
+		date: "January 11, 2026",
+		description: "A drafting game where players use terrain tile dominos to build custom Islands, complete Requests, and win Awards."
+	},
 	thecouncil: {
 		skipRandom: true,
 		name: "The Council",
-		size: "medium",
+		size: "large",
 		tags: ["game","code","node","websockets","canvas","fantasy","tabletop","multiplayer"],
 		date: "November 30, 2018",
 		description: "Keep the republic from crumbling - rule the fantasy realm together in The Council, a game of politics and persuasion."
