@@ -205,8 +205,15 @@
 			blasts: {},
 			bases: {},
 			asteroids: {},
-			gameLoop: null
+			gameLoop: null,
+			musicSFXplaying: false,
 		}
+
+	/* sfx */
+		const SFX = {
+			play: () => {},
+			stop: () => {},
+		} // window.SFX
 
 /*** interaction ***/
 	/* loadGame */
@@ -722,6 +729,14 @@
 					ELEMENTS.body.removeAttribute("gameover")
 					ELEMENTS.menu.start.blur()
 					ELEMENTS.menu.start.setAttribute("disabled", true)
+
+				// music
+					if (!STATE.musicSFXplaying) {
+						STATE.musicSFXplaying = true
+						setTimeout(() => {
+							SFX.play({name: "music.mp3", loop: true})
+						}, 0)
+					}
 			} catch (error) {console.log(error)}
 		}
 
@@ -810,6 +825,8 @@
 
 				// stop playing
 					STATE.playing = false
+					SFX.stop({name: "thrust.mp3"})
+					SFX.play({name: "ship_destroyed.mp3"})
 
 				// blur & menu
 					setTimeout(function() {
@@ -954,6 +971,14 @@
 						if (!player.indicators.fuel) {
 							player.cooldowns.fuel = CONSTANTS.player.fuelDepletionCooldown
 						}
+
+				// any buttons pressed
+					if (player.keys.a || player.keys.d || player.keys.x || player.keys.w || player.keys.e || player.keys.z) {
+						SFX.play({name: "thrust.mp3", loop: true, fadeIn: 200, upsert: true})
+					}
+					else {
+						SFX.stop({name: "thrust.mp3", fadeOut: 200})
+					}
 
 				// three buttons pressed
 					if      (netEffect.x ==  1 && netEffect.y ==  1 && netEffect.z ==  1) {
@@ -1167,6 +1192,9 @@
 									hexagon: true
 								})
 							if (collisionData.isCollision) {
+								if (STATE.playing) {
+									SFX.play({name: "bounce.mp3"})
+								}
 								player.velocity.x *= -1 * CONSTANTS.player.bouncebackRatio
 								player.velocity.y *= -1 * CONSTANTS.player.bouncebackRatio
 								player.velocity.z *= -1 * CONSTANTS.player.bouncebackRatio
@@ -1331,6 +1359,10 @@
 						}
 					}
 
+					if (STATE.playing) {
+						SFX.play({name: "laser.mp3"})
+					}
+
 				// return
 					return blast
 			} catch (error) {console.log(error)}
@@ -1418,6 +1450,10 @@
 									hexagon: true
 								})
 							if (collisionData.isCollision) {
+								if (STATE.playing) {
+									SFX.play({name: "hit.mp3"})
+								}
+
 								STATE.player.score++
 								if (STATE.asteroids[a].type == "asteroid") {
 									createMiniAsteroids(STATE.asteroids[a])
@@ -1521,8 +1557,14 @@
 			try {
 				// center
 					if (asteroid.type !== "base") {
+						if (STATE.playing) {
+							SFX.play({name: "asteroid_destroyed.mp3"})
+						}
 						const centerAsteroid = createAsteroid([asteroid.position.x, asteroid.position.y, asteroid.position.z], asteroid.type)
 							STATE.asteroids[centerAsteroid.id] = centerAsteroid
+					}
+					else if (STATE.playing) {
+						SFX.play({name: "base_destroyed.mp3"})
 					}
 
 				// surrounding the center
@@ -1621,6 +1663,9 @@
 									hexagon: true
 								})
 							if (collisionData.isCollision) {
+								if (STATE.playing) {
+									SFX.play({name: "damage.mp3"})
+								}
 								STATE.bases[b].shield = Math.max(0, STATE.bases[b].shield - asteroid.damage)
 								if (asteroid.type == "asteroid") {
 									createMiniAsteroids(asteroid)
@@ -1648,6 +1693,9 @@
 								hexagon: true
 							})
 						if (collisionData.isCollision) {
+							if (STATE.playing) {
+								SFX.play({name: "damage.mp3"})
+							}
 							STATE.player.score++
 							STATE.player.indicators.shield = Math.max(0, STATE.player.indicators.shield - asteroid.damage)
 							if (asteroid.type == "asteroid") {
