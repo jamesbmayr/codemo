@@ -8,6 +8,14 @@ const TAGS = [
 ]
 
 const PROJECTS = {
+	"246": {
+		skipRandom: true,
+		name: "246",
+		size: "small",
+		tags: ["code","math","game","puzzle"],
+		date: "March 15, 2026",
+		description: "Can you figure out the secret rule in this classic psych study? (Random rule each time!)"
+	},
 	adventure: {
 		skipRandom: true,
 		name: "Adventure",
