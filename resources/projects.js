@@ -672,6 +672,13 @@ const PROJECTS = {
 		date: "March 20, 2022",
 		description: "Draw on an image to blur sections and cover up sensitive information."
 	},
+	imageshader: {
+		name: "imageshader",
+		size: "small",
+		tags: ["code","tool","design","art","canvas","photography"],
+		date: "March 23, 2026",
+		description: "Apply black & white dithering to your device's camera feed and export the resulting photos."
+	},
 	imagespinner: {
 		name: "imageSpinner",
 		size: "small",
