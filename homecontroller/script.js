@@ -94,6 +94,14 @@
 					width: 10,
 					height: 5
 				},
+				{
+					name: "",
+					background: "#888888",
+					top: 1 + SETTINGS.floorOffset,
+					left: 1,
+					width: 4,
+					height: 3
+				},
 				// 2
 				{
 					name: "stairs",
@@ -210,7 +218,7 @@
 						name: "craft room lamp",
 						svg: SVG.floorLamp,
 						top: 5,
-						left: 5,
+						left: 2,
 						buttons: {
 							"on": ["ifttt_url||craft_room_lamp_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||craft_room_lamp_off||ifttt_key", SVG.x]
@@ -229,7 +237,7 @@
 					{
 						name: "guest room lights",
 						svg: SVG.ceilingLight,
-						top: 15,
+						top: 13.5,
 						left: 11,
 						buttons: {
 							"on": ["ifttt_url||guest_room_lights_on||ifttt_key", SVG.check],
@@ -250,6 +258,16 @@
 					},
 
 				// smartlife
+					{
+						name: "basement dehumidifier",
+						svg: SVG.airPurifier,
+						top: 23.5 + SETTINGS.floorOffset,
+						left: 4,
+						buttons: {
+							"on": ["ifttt_url||basement_dehumidifier_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||basement_dehumidifier_off||ifttt_key", SVG.x]
+						}
+					},
 					{
 						name: "air purifier",
 						svg: SVG.airPurifier,
@@ -280,16 +298,6 @@
 							"off": ["ifttt_url||living_room_string_lights_off||ifttt_key", SVG.x]
 						}
 					},
-					// {
-					// 	name: "humidifier",
-					// 	svg: SVG.humidifier,
-					// 	top: 18.5 + SETTINGS.floorOffset,
-					// 	left: 4.5,
-					// 	buttons: {
-					// 		"on": ["ifttt_url||humidifier_on||ifttt_key", SVG.check],
-					// 		"off": ["ifttt_url||humidifier_off||ifttt_key", SVG.x]
-					// 	}
-					// },
 					{
 						name: "living room air conditioner",
 						svg: SVG.airConditioner,
@@ -321,6 +329,16 @@
 						}
 					},
 					{
+						name: "craft room aurorae",
+						svg: SVG.aurorae,
+						top: 5,
+						left: 8,
+						buttons: {
+							"on": ["ifttt_url||craft_room_aurorae_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||craft_room_aurorae_off||ifttt_key", SVG.x]
+						}
+					},
+					{
 						name: "craft room string lights",
 						svg: SVG.stringLights,
 						top: 1.5,
@@ -341,20 +359,20 @@
 						}
 					},
 					{
-						name: "guest room lamp",
-						svg: SVG.floorLamp,
+						name: "guest room string lights",
+						svg: SVG.stringLights,
 						top: 18.5,
-						left: 11,
+						left: 8,
 						buttons: {
-							"on": ["ifttt_url||guest_room_lamp_on||ifttt_key", SVG.check],
-							"off": ["ifttt_url||guest_room_lamp_off||ifttt_key", SVG.x]
+							"on": ["ifttt_url||guest_room_string_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||guest_room_string_lights_off||ifttt_key", SVG.x]
 						}
 					},
 					{
 						name: "guest room fan",
 						svg: SVG.fan,
-						top: 15,
-						left: 14.5,
+						top: 16.5,
+						left: 11,
 						buttons: {
 							"on": ["ifttt_url||guest_room_fan_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||guest_room_fan_off||ifttt_key", SVG.x]
@@ -373,7 +391,7 @@
 					{
 						name: "bathroom aurorae",
 						svg: SVG.aurorae,
-						top: 19,
+						top: 18.5,
 						left: 4,
 						buttons: {
 							"on": ["ifttt_url||bathroom_aurorae_on||ifttt_key", SVG.check],
@@ -385,8 +403,8 @@
 					{
 						name: "sonos",
 						svg: SVG.music,
-						top: 16.5 + SETTINGS.floorOffset,
-						left: 14.5,
+						top: 2.5 + SETTINGS.floorOffset,
+						left: 3,
 						buttons: {
 							"play": ["ifttt_url||sonos_on||ifttt_key", SVG.play],
 							"pause": ["ifttt_url||sonos_off||ifttt_key", SVG.pause],
@@ -454,23 +472,11 @@
 							"down": ["ifttt_url||office_speaker_volume_down||ifttt_key", SVG.volumeDown]
 						}
 					},
-					// {
-					// 	name: "roam",
-					// 	svg: SVG.speaker,
-					// 	top: 1.5,
-					// 	left: 1.5,
-					// 	buttons: {
-					// 		"on": ["ifttt_url||roam_on||ifttt_key", SVG.check],
-					// 		"off": ["ifttt_url||roam_off||ifttt_key", SVG.x],
-					// 		"up": ["ifttt_url||roam_volume_up||ifttt_key", SVG.volumeUp],
-					// 		"down": ["ifttt_url||roam_volume_down||ifttt_key", SVG.volumeDown]
-					// 	}
-					// },
 					{
 						name: "record player",
 						svg: SVG.recordPlayer,
-						top: 19.5 + SETTINGS.floorOffset,
-						left: 15,
+						top: 15,
+						left: 14.5,
 						buttons: {
 							"target": ["ifttt_url||record_player_on||ifttt_key", SVG.record]
 						}
