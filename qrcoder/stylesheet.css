@@ -238,7 +238,7 @@
 			width: calc(100vw - 6 * var(--gap-size));
 			max-height: calc(100vh - 2 * (var(--icon-size) + 9 * var(--gap-size)));
 			max-width: calc(100vh - 2 * (var(--icon-size) + 9 * var(--gap-size)));
-			background: var(--light-gray);
+			background: white;
 			color: var(--dark-gray);
 			border-radius: var(--border-radius);
 		}

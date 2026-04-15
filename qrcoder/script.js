@@ -44,12 +44,15 @@
 			},
 			qrCodeGenerator: {
 				settings: {
-					width: 500, // px
-					height: 500, // px
+					width: 480, // px
+					height: 480, // px
 					colorDark: "black",
 					colorLight: "white",
 					correctLevel: QRCode.CorrectLevel.M
-				}
+				},
+				padding: 10, // px // not part of the spec
+				waitTime: 10, // ms // not part of the spec
+				debounceTime: 200, // ms // not part of the spec
 			}
 		}
 
@@ -58,7 +61,8 @@
 			qrCodeReader: null,
 			detected: null,
 			rendered: null,
-			qrCodeViewer: null
+			qrCodeViewer: null,
+			inputWait: null
 		}
 
 /*** window ***/
@@ -182,7 +186,10 @@
 					}
 
 				// display image
-					displayQRcode(text)
+					clearInterval(STATE.inputWait)
+					STATE.inputWait = setTimeout(() => {
+						displayQRcode(text)
+					}, CONSTANTS.qrCodeGenerator.debounceTime)
 			} catch (error) {console.log(error)}
 		}
 
@@ -200,6 +207,22 @@
 						text: text,
 						...CONSTANTS.qrCodeGenerator.settings
 					})
+
+				// grab image
+					setTimeout(() => {
+						const image = ELEMENTS.make.image.querySelector("img")
+						const canvas = ELEMENTS.make.image.querySelector("canvas")
+							canvas.width  = CONSTANTS.qrCodeGenerator.settings.width  + CONSTANTS.qrCodeGenerator.padding * 2
+							canvas.height = CONSTANTS.qrCodeGenerator.settings.height + CONSTANTS.qrCodeGenerator.padding * 2
+						
+						const context = canvas.getContext("2d")
+							context.fillStyle = "white"
+							context.fillRect(0, 0, canvas.width, canvas.height)
+							context.drawImage(image, CONSTANTS.qrCodeGenerator.padding, CONSTANTS.qrCodeGenerator.padding)
+
+						const data = canvas.toDataURL()
+							image.src = data
+					}, CONSTANTS.qrCodeGenerator.waitTime)				
 			} catch (error) {console.log(error)}
 		}
 
