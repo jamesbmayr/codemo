@@ -34,7 +34,7 @@
 			lastTouch: new Date().getTime(),
 			timeTillDarken: 1000 * 10,
 			darkenLoopInterval: 1000,
-			margin: 2,
+			margin: 1,
 			floorOffset: 21
 		}
 
@@ -46,6 +46,14 @@
 			},
 			rooms: [
 				// 1
+				{
+					name: "porch",
+					background: "#483504",
+					top: 25 + SETTINGS.floorOffset,
+					left: 0,
+					width: 16,
+					height: 2
+				},
 				{
 					name: "hall",
 					background: "#854e36",
@@ -182,6 +190,16 @@
 						buttons: {
 							"on": ["ifttt_url||studio_lights_on||ifttt_key", SVG.check],
 							"off": ["ifttt_url||studio_lights_off||ifttt_key", SVG.x]
+						}
+					},
+					{
+						name: "porch string lights",
+						svg: SVG.stringLights,
+						top: 26 + SETTINGS.floorOffset,
+						left: 8,
+						buttons: {
+							"on": ["ifttt_url||porch_string_lights_on||ifttt_key", SVG.check],
+							"off": ["ifttt_url||porch_string_lights_off||ifttt_key", SVG.x]
 						}
 					},
 					{
