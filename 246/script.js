@@ -164,11 +164,7 @@
 				}
 
 			// hypothesis present
-				const hypothesis = ELEMENTS.form.hypothesis.value.trim()
-				if (!hypothesis || !hypothesis.length) {
-					ELEMENTS.form.error.innerText = "Enter a hypothesis."
-					return false
-				}
+				const hypothesis = ELEMENTS.form.hypothesis.value.trim() || ""
 
 			// test
 				ELEMENTS.form.error.innerText = ""
