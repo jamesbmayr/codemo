@@ -1607,6 +1607,13 @@ const PROJECTS = {
 		date: "January 6, 2021",
 		description: "See the world through any-color glasses with this Chrome extension that adds a colored overlay to any website."
 	},
+	wordBreaker: {
+		name: "wordBreaker",
+		size: "small",
+		tags: ["code","game","arcade","puzzle"],
+		date: "May 18, 2026",
+		description: "Find words to break blocks in this fast-paced unending arcade game."
+	},
 	wordchainer: {
 		name: "wordChainer",
 		size: "small",
