@@ -24,7 +24,9 @@
 				words: document.querySelector("#gameboard-score-words"),
 				time: document.querySelector("#gameboard-score-time"),
 				menu: document.querySelector("#gameboard-menu"),
-				start: document.querySelector("#gameboard-menu-start")
+				resume: document.querySelector("#gameboard-menu-resume"),
+				start: document.querySelector("#gameboard-menu-start"),
+				longestword: document.querySelector("#gameboard-menu-longestword-inner")
 			}
 		}
 
@@ -92,7 +94,8 @@
 				STATE.row = 0
 				STATE.ticksPerCycle = CONSTANTS.ticksPerCycle
 				ELEMENTS.gameboard.inner.innerHTML = ""
-				ELEMENTS.gameboard.menu.setAttribute("invisible", true)
+				ELEMENTS.gameboard.menu.removeAttribute("gameover")
+				ELEMENTS.gameboard.longestword.innerText = ""
 
 			// game loop
 				clearInterval(STATE.gameloop)
@@ -107,6 +110,7 @@
 			// unpause
 				STATE.paused = false
 				ELEMENTS.gameboard.pause.removeAttribute("paused")
+				ELEMENTS.gameboard.menu.removeAttribute("paused")
 		}
 
 	/* iterateTick */
@@ -204,25 +208,40 @@
 				STATE.playing = false
 				STATE.pressing = false
 
+			// longest word
+				const allWords = Object.values(STATE.words)
+				if (allWords.length) {
+					const longestWordLength = allWords.sort((a, b) => {
+						return b.length - a.length
+					})[0].length
+					const longestWords = allWords.filter(word => word.length == longestWordLength).join(" & ")
+					ELEMENTS.gameboard.longestword.innerText = longestWords
+				}
+
 			// display menu
-				ELEMENTS.gameboard.menu.removeAttribute("invisible")
+				ELEMENTS.gameboard.menu.removeAttribute("paused")
+				ELEMENTS.gameboard.menu.setAttribute("gameover", true)
 		}
 
 	/* pauseGame */
 		ELEMENTS.gameboard.pause.addEventListener(TRIGGERS.click, pauseGame)
+		ELEMENTS.gameboard.resume.addEventListener(TRIGGERS.click, pauseGame)
 		function pauseGame() {
+			// not playing
+				if (!STATE.playing) { return }
+
 			// unpause
 				if (STATE.paused) {
 					STATE.paused = false
 					ELEMENTS.gameboard.pause.removeAttribute("paused")
-					ELEMENTS.gameboard.menu.setAttribute("invisible", true)
+					ELEMENTS.gameboard.menu.removeAttribute("paused", true)
 					return
 				}
 
 			// pause
 				STATE.paused = true
 				ELEMENTS.gameboard.pause.setAttribute("paused", true)
-				ELEMENTS.gameboard.menu.removeAttribute("invisible")
+				ELEMENTS.gameboard.menu.setAttribute("paused", true)
 		}
 
 /*** gameplay ***/
