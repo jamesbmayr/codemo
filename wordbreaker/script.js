@@ -17,6 +17,7 @@
 		const ELEMENTS = {
 			gameboard: {
 				pause: document.querySelector("#gameboard-pause"),
+				vibrate: document.querySelector("#gameboard-vibrate"),
 				inner: document.querySelector("#gameboard-inner"),
 				left: document.querySelector("#gameboard-left"),
 				right: document.querySelector("#gameboard-right"),
@@ -67,6 +68,7 @@
 			playing: false,
 			paused: false,
 			pressing: false,
+			vibration: false,
 			blocks: {},
 			selected: [],
 			words: {},
@@ -243,6 +245,21 @@
 				STATE.paused = true
 				ELEMENTS.gameboard.pause.setAttribute("paused", true)
 				ELEMENTS.gameboard.menu.setAttribute("paused", true)
+		}
+
+	/* toggleVibration */
+		ELEMENTS.gameboard.vibrate.addEventListener(TRIGGERS.click, toggleVibration)
+		function toggleVibration() {
+			// toggle off
+				if (STATE.vibration) {
+					STATE.vibration = false
+					ELEMENTS.gameboard.vibrate.removeAttribute("active")
+					return
+				}
+
+			// toggle on
+				STATE.vibration = true
+				ELEMENTS.gameboard.vibrate.setAttribute("active", true)
 		}
 
 /*** gameplay ***/
@@ -457,9 +474,11 @@
 				STATE.ticksPerCycle = getTicksPerCycle()
 
 			// vibrate
-				try {
-					navigator.vibrate([CONSTANTS.vibrationMS * STATE.selected.length])
-				} catch (error) {}
+				if (STATE.vibration) {
+					try {
+						navigator.vibrate([CONSTANTS.vibrationMS * STATE.selected.length])
+					} catch (error) {}
+				}
 		}
 
 	/* getTicksPerCycle */

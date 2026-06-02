@@ -204,6 +204,43 @@
 			background: var(--light-blue);
 		}
 
+/*** vibrate ***/
+	#gameboard-vibrate {
+		z-index: 2;
+		position: absolute;
+		top: calc(var(--block-size) + 2 * var(--gap-size));
+		right: calc(var(--block-size) * -1.5);
+		border-radius: var(--border-radius);
+		background: var(--light-gray);
+		height: var(--block-size);
+		width: var(--block-size);
+		border: none;
+		padding: var(--gap-size);
+		box-sizing: border-box;
+		font-size: var(--font-size);
+		font-family: var(--font-family);
+		color: var(--dark-gray);
+		text-align: center;
+		outline: none;
+		user-select: none;
+		cursor: pointer;
+		transition: var(--button-transition-time);
+		box-shadow: 0 0 calc(var(--shadow-size) * 2) var(--dark-gray) inset;
+		filter: drop-shadow(0 0 var(--border-size) var(--dark-gray));
+	}
+
+		#gameboard-vibrate:not([active]) {
+			color: var(--translucent);
+		}
+
+		#gameboard-vibrate:hover {
+			box-shadow: 0 0 calc(var(--shadow-size) * 4) var(--light-blue) inset;
+		}
+
+		#gameboard-vibrate:focus {
+			background: var(--light-blue);
+		}
+
 /*** menu ***/
 	#gameboard-menu {
 		z-index: 10;
@@ -351,6 +388,24 @@
 				height: calc(2 * var(--font-size));
 				width: calc(2 * var(--font-size));
 			}
+
+		/* vibrate */
+			#gameboard-vibrate {
+				top: unset;
+				right: unset;
+				left: 50%;
+				transform: translateX(-50%);
+				bottom: calc(var(--block-size) * -1/2 + var(--gap-size) * -1);
+				width: calc(var(--block-size) * 2);
+				height: calc(var(--block-size) / 2);
+				padding: 0;
+			}
+
+				#gameboard-vibrate svg {
+					height: 100%;
+					width: auto;
+					vertical-align: top;
+				}
 
 		/* score */
 			#gameboard-score {
