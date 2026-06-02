@@ -46,6 +46,7 @@
 			msPerTick: 10, // ms
 			msPerSecond: 1000, // s
 			ticksPerCycle: 50, // 10ms
+			vibrationMS: 100, // ms
 			minTicksPower: 4, // 2^n
 			maxTicksPower: 10, // 2^n
 			startingRows: 4, // letters
@@ -454,6 +455,11 @@
 				STATE.letters += destroyedIds.length
 				ELEMENTS.gameboard.letters.innerText = STATE.letters
 				STATE.ticksPerCycle = getTicksPerCycle()
+
+			// vibrate
+				try {
+					navigator.vibrate([CONSTANTS.vibrationMS * STATE.selected.length])
+				} catch (error) {}
 		}
 
 	/* getTicksPerCycle */
