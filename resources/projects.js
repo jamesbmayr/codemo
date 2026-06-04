@@ -24,14 +24,6 @@ const PROJECTS = {
 		date: "May 15, 2020",
 		description: "Adventure is a simplified pen-and-paper role playing game set in a fantasy world with a balance of combat, puzzle-solving, and character growth."
 	},
-	aiarenas: {
-		skipRandom: true,
-		name: "AI Arenas",
-		size: "extra-large",
-		tags: ["code","game","scifi","ai","multiplayer","node","websockets","mongo","simulation"],
-		date: "May 1, 2017",
-		description: "AI Arenas is a web game where javascript robots battle for cubes in a competitive coding arena."
-	},
 	api: {
 		skipRandom: true,
 		name: "API",
@@ -511,6 +503,7 @@ const PROJECTS = {
 	},
 	firestormsea: {
 		skipRandom: true,
+		hidden: true,
 		name: "Firestorm Sea",
 		size: "large",
 		tags: ["game","fantasy","art"],
@@ -1048,14 +1041,6 @@ const PROJECTS = {
 		date: "January 1, 2022",
 		description: "Apply a color pass filter to the device's live camera feed and export the resulting photographs."
 	},
-	photoshots: {
-		skipRandom: true,
-		name: "PhotoShots",
-		size: "large",
-		tags: ["code","mongo","node","websockets","game","multiplayer","canvas","photography"],
-		date: "June 12, 2023",
-		description: "Photography hide and seek - phone tag reimagined."
-	},
 	pieceflipper: {
 		name: "pieceFlipper",
 		size: "small",
@@ -1525,23 +1510,6 @@ const PROJECTS = {
 		date: "November 6, 2022",
 		description: "A synth creator built in 2018, overhauled in 2022. Build your own web audio sounds with limitless customization."
 	},
-	truecolors: {
-		skipRandom: true,
-		name: "True Colors",
-		size: "large",
-		tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
-		date: "October 4, 2020",
-		description: "A strategic bluffing asymmetrical card game about colors and symbols and sabotage."
-	},
-	underblue: {
-		skipRandom: true,
-		hidden: true,
-		name: "Underblue",
-		size: "extra-large",
-		tags: ["collaboration","music","jazz","pop","lyric","piano"],
-		date: "March 30, 2016",
-		description: "I composed and played piano and clarinet in Underblue, performing across New York City venues in this 5-person rock and indie pop band."
-	},
 	unitconverter: {
 		skipRandom: true,
 		name: "unitConverter",
@@ -1642,14 +1610,6 @@ const PROJECTS = {
 		tags: ["code","game","tabletop","board","multiplayer"],
 		date: "July 9, 2016",
 		description: "wordFinder is a web game in the style of Boggle, using an online dictionary."
-	},
-	wordsblockchain: {
-		skipRandom: true,
-		name: "wordsblockchain",
-		size: "large",
-		tags: ["game","code","node","websockets","tabletop","multiplayer"],
-		date: "November 25, 2018",
-		description: "Race your friends to build a chain of connected compound words in this real-time web game."
 	},
 	wordsearchbuilder: {
 		name: "wordsearchBuilder",

@@ -33,12 +33,26 @@
 				idea: "Some projects work out, and they go live at <a href='https://jamesmayr.com' target='_blank'>jamesmayr.com</a>. Other projects die an early death.",
 				obituary: "And thus, this gallery: a graveyard of ideas."
 			},
+			photoshots: {
+				name: "PhotoShots",
+				birth: "June 2023",
+				death: "June 2026",
+				idea: "I had a crazy idea: \"Photography hide and seek - phone tag reimagined.\" Print out big QR codes and tape them to your shirt, then run around with phone cameras trying to scan people from afar.",
+				obituary: "I just don't know anybody who would actually play this game. It never got tested, but I suspect it would have been incredibly impractical anyway."
+			},
 			paypool: {
 				name: "PayPool",
 				birth: "March 2021",
 				death: "July 2021",
 				idea: "This was a Slackbot for creating a short-term crowdfunding campaign within your workspace. Contributors don't see one another's pledges, and if the target is met, it's split as an equal percentage of everyone's max pledge.",
 				obituary: "The way I was using the Slack bot system prevented messages outside of a 30-minute window, which is far too short a timeframe. This project lives on as a standalone web-app called <a href='https://jamesmayr.com/fundfuser' target='_blank'>FundFuser</a>."
+			},
+			truecolors: {
+				name: "True Colors",
+				birth: "October 2020",
+				death: "June 2026",
+				idea: "At the height of the COVID-19 pandemic, I built a virtual card game for my friends to play remotely. It was designed to be a strategic bluffing asymmetrical card game about colors and symbols and sabotage.",
+				obituary: "It... wasn't particularly fun."
 			},
 			textbasedrpg: {
 				name: "Text-Based RPG",
@@ -67,6 +81,13 @@
 				death: "November 2019",
 				idea: "I wrote a <a href='https://www.themuse.com/advice/job-search-spreadsheet-track-application' target='_blank'>short article</a> for The Muse about tracking your job applications, follow-up emails, and interviews, and created this corresponding spreadsheet template.",
 				obituary: "This was the second of only <a href='https://www.themuse.com/author/james-mayr' target='_blank'>two articles</a> I'd write for The Muse. But I did end up using this spreadsheet template when applying for my next role!"
+			},
+			wordsblockchain: {
+				name: "wordsblockchain",
+				birth: "November 2018",
+				death: "June 2026",
+				idea: "For a time, you could race your friends to build a chain of connected compound words in this real-time web game.",
+				obituary: "I didn't have a mechanism to ensure the words you submitted actually connected, or indeed, were even real words. But <a href='https://jamesmayr.com/syllabolting'>Syllabolting</a>, my single-player replacement, fixed those problems a few years later."
 			},
 			themusereflekts: {
 				name: "The Muse Reflekts",
@@ -103,11 +124,18 @@
 				idea: "Together with <a href='https://www.echotechaudio.com/' target='_blank'>Alex Berg</a>, Ayelet Kershenbaum, and <a href='https://www.youtube.com/dannymusic' target='_blank'>Danny Romberger</a>, we set out to make a podcast about music - how it works, where it comes from, and why it matters. The name \"Noteworthy\" was taken, so we eventually switched to Pickup Notes.",
 				obituary: "After recording a few sample episodes of us basically chatting about some topic in music, we realized that we had no idea what we were doing... and didn't have the time to do it anyway."
 			},
+			aiarenas: {
+				name: "AI Arenas",
+				birth: "May 2017",
+				death: "June 2026",
+				idea: "AI Arenas was a web game where javascript robots battled for cubes in a competitive coding arena. It was my first big nodeJS project with accounts, and exemplified my new passion for code.",
+				obituary: "I shared this with some friends, and then never really used it again. The ASCII robots were cute, and I really wish I'd held onto that domain (aiarenas.com), but I think I was a bit too late to the \"code battles\" scene."
+			},
 			coderunner: {
 				name: "codeRunner",
 				birth: "May 2017",
 				death: "May 2017",
-				idea: "Built as part of <a href='https://jamesmayr.com/aiarenas'>AI Arenas</a>, this <a href='https://jamesmayr.com/coderunner'>web app</a> evaluates your custom Javascript in slow motion.",
+				idea: "Built as part of <a href='https://jamesmayr.com/projectgraveyard/#aiarenas'>AI Arenas</a>, this <a href='https://jamesmayr.com/coderunner'>web app</a> evaluates your custom Javascript in slow motion.",
 				obituary: "Even before I built this, all modern browsers were already running a more modern Javascript, ES6 - which includes many features I hadn't accounted for."
 			},
 			shapeanimator: {
@@ -137,6 +165,13 @@
 				death: "June 2016",
 				idea: "My friend <a href='https://maximpekarsky.com' target='_blank'>Max Pekarsky</a> and I collaborated on a fantasy-themed cooperative turn-based web-game - a bunch of fighters working together against a dragon.",
 				obituary: "It worked! But we decided to stop maintaining it (and stop coding in PHP)."
+			},
+			underblue: {
+				name: "Underblue",
+				birth: "March 2016",
+				death: "July 2017",
+				idea: "I composed and played piano and clarinet in Underblue, performing across New York City venues in this 5-person rock and indie pop band.",
+				obituary: "I left the band due to creative differences. They continued on and released an <a href='https://open.spotify.com/artist/2TJPo2ycm9kGbyRC9qcWkL' target='_blank'>excellent album</a> in 2023."
 			},
 			sharewaves: {
 				name: "ShareWaves",
