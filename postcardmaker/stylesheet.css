@@ -1,0 +1,396 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #333333;
+		--light-gray: #dddddd;
+		--light-blue: #04b1ff;
+		--translucent-gray: rgba(0, 0, 0, 0.5);
+		--gutter-size: 20px;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+		--font-size: 20px;
+		--font-family: "Alata", sans-serif;
+		--line-height: 1;
+		--transition-time: 0.5s;
+		--postcard-ratio: 2 / 3;
+		--tile-count: 3;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		background: var(--medium-gray);
+		font-size: 0;
+		overflow: hidden;
+		user-select: none;
+	}
+
+		svg {
+			fill: currentColor;
+			width: auto;
+			height: 100%;
+			transition: var(--transition-time);
+		}
+
+		label {
+			display: inline-block;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			border: none;
+			padding: 0;
+			border-radius: var(--border-radius);
+			vertical-align: top;
+		}
+
+		label svg {
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			user-select: none;
+			vertical-align: top;
+			padding: 0;
+			color: var(--light-gray);
+		}
+
+		button {
+			display: inline-block;
+			box-sizing: border-box;
+			background: transparent;
+			outline: none;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			border: none;
+			padding: 0;
+			transition: var(--transition-time);
+			color: var(--light-gray);
+			cursor: pointer;
+			vertical-align: top;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+		}
+
+			button:hover, button:focus {
+				color: var(--light-blue);
+			}
+
+			button:hover svg, button:focus svg {
+				color: var(--light-blue);
+			}
+
+		select {
+			box-sizing: border-box;
+			background: transparent;
+			outline: none;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			border: none;
+			padding: var(--gap-size);
+			transition: var(--transition-time);
+			border-radius: var(--border-radius);
+			color: var(--light-gray);
+			cursor: pointer;
+			vertical-align: top;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+		}
+
+			select:hover, select:focus {
+				color: var(--light-blue);
+			}
+
+		input[type="range"] {
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			margin: 0;
+			cursor: pointer;
+			-webkit-appearance: none;
+			background: transparent;
+		}
+
+				input[type="range"]::-webkit-slider-runnable-track {
+					background: var(--light-gray);
+					border-radius: calc(2 * var(--border-radius));
+				}
+				input[type="range"]::-moz-range-track {
+					background: var(--light-gray);
+					border-radius: calc(2 * var(--border-radius));
+					height: 5px;
+				}
+
+				input[type="range"]::-moz-range-thumb {
+					background: #676774;
+					border-radius: 100%;
+					outline: 2px solid var(--light-gray);
+					box-shadow: 0 0 0.5px #484851 inset;
+				}
+					input[type="range"]:hover::-moz-range-thumb {
+						background: #484851;
+					}
+					input[type="range"]:hover:active::-moz-range-thumb {
+						background: #007aff;
+					}
+
+/*** postcard ***/
+	#postcard-outer {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		width: var(--postcard-size);
+		height: var(--postcard-size);
+		z-index: 1;
+	}
+
+		#postcard {
+			background: transparent;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: 100%;
+			height: calc(100% * var(--postcard-ratio));
+			filter: drop-shadow(0 0 var(--shadow-size) var(--light-gray));
+			border-radius: var(--border-radius);
+			overflow: hidden;
+			margin-top: calc(var(--font-size) + var(--gap-size));
+		}
+
+			.postcard-tile {
+				width: calc(100% / var(--tile-count));
+				height: calc(100% / var(--tile-count));
+				display: inline-block;
+				background: transparent;
+				overflow-y: hidden;
+			}
+
+				.postcard-tile-canvas {
+					width: 100%;
+					height: 100%;
+				}
+
+				.postcard-tile-label-outer {
+					position: relative;
+					width: 100%;
+					height: 0;
+					text-align: left;
+					z-index: 2;
+				}
+
+					.postcard-tile-label {
+						display: inline-block;
+						box-sizing: border-box;
+						width: var(--font-size);
+						height: var(--font-size);
+						font-size: var(--font-size);
+						font-weight: bold;
+						font-family: var(--font-family);
+						color: var(--light-gray);
+						padding: 0;
+						border-radius: var(--border-radius);
+						margin: calc(var(--gap-size) * 2);
+						line-height: 1;
+						vertical-align: baseline;
+						text-align: center;
+						filter: drop-shadow(0 0 var(--shadow-size) var(--dark-gray));
+						cursor: pointer;
+					}
+
+					.postcard-tile-label:hover {
+						transform: translateX(-25%) translateY(-25%);
+						margin: var(--gap-size);
+						zoom: 2;
+						z-index: 10;
+					}
+
+					.postcard-tile-initialize-label {
+						cursor: pointer;
+						transition: var(--transition-time);
+						height: auto;
+						width: 100%;
+						text-align: center;
+						margin: 0;
+						display: block;
+						position: absolute;
+						top: calc(var(--postcard-size) * var(--postcard-ratio) / var(--tile-count) / 2);
+						left: 0;
+						transform: translateY(-50%);
+					}
+
+						.postcard-tile[overlay] .postcard-tile-initialize-label {
+							display: none;
+						}
+
+						.postcard-tile[initialized="true"] .postcard-tile-initialize-label {
+							display: none;
+						}
+
+						.postcard-tile-initialize-label svg {
+							height: calc((var(--font-size) + var(--gap-size) * 2) * 2)
+						}
+
+						.postcard-tile-initialize-label:hover svg, .postcard-tile-initialize-label:focus svg {
+							color: var(--light-blue);
+						}
+
+					.postcard-tile-initialize {
+						display: none;
+						height: 0;
+						width: 0;
+						font-size: 0;
+						padding: 0;
+						margin: 0;
+						opacity: 0;
+						pointer-events: none;
+						outline: none;
+					}
+
+				.postcard-tile-overlay {
+					width: 100%;
+					height: 100%;
+					box-sizing: border-box;
+					padding: var(--gap-size);
+					opacity: 1;
+					transform: translateY(-100%);
+					transition: var(--transition-time);
+					background: var(--translucent-gray);
+					overflow: hidden;
+				}
+
+					.postcard-tile:not([overlay]) .postcard-tile-overlay {
+						opacity: 0;
+					}
+
+					.postcard-tile:not([overlay]) .postcard-tile-overlay > * {
+						pointer-events: none;
+					}
+
+					.postcard-tile-overlay-buttons {
+						width: 100%;
+						height: calc(var(--font-size) + var(--gap-size) * 2);
+						box-sizing: border-box;
+						padding-left: calc(var(--font-size) + var(--gap-size) * 3);
+						overflow: hidden;
+					}
+
+						.postcard-tile-overlay-upload-label {
+							cursor: pointer;
+							transition: var(--transition-time);
+							margin-right: 0;
+						}
+
+							.postcard-tile-overlay-upload-label:hover svg, .postcard-tile-overlay-upload-label:focus svg {
+								color: var(--light-blue);
+							}
+
+						.postcard-tile-overlay-upload {
+							display: none;
+							height: 0;
+							width: 0;
+							font-size: 0;
+							padding: 0;
+							margin: 0;
+							opacity: 0;
+							pointer-events: none;
+							outline: none;
+						}
+
+						.postcard-tile-overlay-close {
+							float: right;
+						}
+
+					.postcard-tile-overlay-vertical {
+						float: left;
+						width: calc((100% - (var(--font-size) + 2 * var(--gap-size))) * var(--postcard-ratio));
+						height: calc(100% - (var(--font-size) + 2 * var(--gap-size)));
+						border-radius: var(--border-radius);
+					}
+
+						.postcard-tile-overlay-vertical label {
+							width: 100%;
+							height: 100%;
+							margin-right: 0;
+						}
+
+						.postcard-tile-overlay-vertical input[type="range"] {
+							display: block;
+							height: calc(var(--font-size) + 2 * var(--gap-size));
+							width: calc(100% - var(--font-size) - 5 * var(--gap-size));
+							transform-origin: top left;
+							transform: rotate(90deg) translateY(calc(var(--font-size) * -1 + var(--gap-size) * -2));
+						}
+
+					.postcard-tile-overlay-horizontal {
+						display: inline-block;
+						height: 0;
+						width: calc(100% - (var(--font-size) + 2 * var(--gap-size)));
+						margin-left: calc(((100% - (var(--font-size) + 2 * var(--gap-size))) * var(--postcard-ratio)) * -1 + (var(--font-size) + 2 * var(--gap-size)));
+					}
+
+						.postcard-tile-overlay-horizontal label {
+							width: 100%;
+						}
+
+						.postcard-tile-overlay-horizontal input {
+							width: calc(100% - (var(--font-size) + 2 * var(--gap-size)));
+						}
+
+					.postcard-tile-overlay-swap {
+						text-align: center;
+					}
+
+/*** toolbar ***/
+	#toolbar {
+		position: absolute;
+		top: calc(2 * var(--gap-size));
+		left: calc(2 * var(--gap-size));
+		height: calc(var(--font-size) * 1.5 + 2 * var(--gap-size));
+		width: auto;
+		z-index: 10;
+	}
+
+		#toolbar label, #toolbar svg, #toolbar button, #toolbar select {
+			margin-right: 0;
+			height: calc(var(--font-size) * 1.5 + 2 * var(--gap-size));
+		}
+
+		#toolbar-download:not([active]) svg:last-child, #toolbar-copy:not([active]) svg:last-child, #toolbar-share:not([active]) svg:last-child {
+			display: none;
+		}
+
+		#toolbar-download[active] svg:first-child, #toolbar-copy[active] svg:first-child, #toolbar-share[active] svg:first-child {
+			display: none;
+		}
+
+		#toolbar-canvas {
+			display: none;
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 7px;
+		color: var(--light-blue);
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		outline: none;
+		transition: var(--transition-time);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		filter: drop-shadow(0 0 var(--shadow-size) var(--light-blue));
+	}
+
+/*** mobile ***/
+	@media screen and (max-width: 768px) {
+		.postcard-tile-overlay-paste {
+			display: none;
+		}
+
+		.postcard-tile-overlay-swap {
+			display: none;
+		}
+	}
