@@ -1130,6 +1130,13 @@ const PROJECTS = {
 		date: "December 2, 2015",
 		description: "Portmantoasters are word puzzles with two words overlapped into one - and this was a daily blog challenging readers to figure them out."
 	},
+	postcardmaker: {
+		name: "postcardMaker",
+		size: "medium",
+		tags: ["code","tool","design","art","canvas","photography"],
+		date: "July 18, 2026",
+		description: "Create shareable postcards by finding photos to fit the prompts."
+	},
 	projectgraveyard: {
 		skipRandom: true,
 		name: "Project Graveyard",
