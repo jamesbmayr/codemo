@@ -19,9 +19,45 @@
 		--card-size: 250px;
 	}
 
-	@media screen and (min-width: 600px) and (max-width: 800px) {
+	@media screen and (min-width: 350px) and (max-width: 399px) {
+		:root {
+			--card-size: 300px;
+		}
+	}
+
+	@media screen and (min-width: 400px) and (max-width: 449px) {
+		:root {
+			--card-size: 350px;
+		}
+	}
+
+	@media screen and (min-width: 450px) and (max-width: 499px) {
+		:root {
+			--card-size: 400px;
+		}
+	}
+
+	@media screen and (min-width: 500px) and (max-width: 549px) {
+		:root {
+			--card-size: 450px;
+		}
+	}
+
+	@media screen and (min-width: 550px) and (max-width: 599px) {
 		:root {
 			--card-size: 500px;
+		}
+	}
+
+	@media screen and (min-width: 600px) and (max-width: 649px) {
+		:root {
+			--card-size: 550px;
+		}
+	}
+
+	@media screen and (min-width: 650px) and (max-width: 768px) {
+		:root {
+			--card-size: 300px;
 		}
 	}
 
@@ -396,7 +432,7 @@
 			}
 
 				.card-actions button {
-					width: calc(100% / 3);
+					width: calc(100% / 4);
 					height: calc(var(--font-size) + 2 * var(--gap-size));
 					border: none;
 					border-radius: 0;
@@ -428,6 +464,14 @@
 				}
 
 				.card-actions-copy[active] svg:first-child {
+					display: none;
+				}
+
+				.card-actions-share:not([active]) svg:last-child {
+					display: none;
+				}
+
+				.card-actions-share[active] svg:first-child {
 					display: none;
 				}
 
@@ -525,7 +569,7 @@
 
 	/* import */
 		body[framed] .card-actions button {
-			width: calc(100% / 4);
+			width: calc(100% / 5);
 		}
 
 		body[framed] .card-actions button:nth-child(2) {

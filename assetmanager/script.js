@@ -101,6 +101,7 @@
 				assetManager: `<svg viewBox="0 0 100 100"><path d="M 38 18 C 38 20 38 30 38 32 C 40 33 47 36 49 37 C 49 35 49 25 49 23 C 47 22 40 19 38 18 Z M 62 18 C 60 19 53 22 51 23 C 51 25 51 35 51 37 C 53 36 60 33 62 32 C 62 30 62 20 62 18 Z M 50 8 C 54 10 60 13 64 15 C 64 21 64 27 64 33 C 60 35 54 38 50 40 C 46 38 40 35 36 33 C 36 27 36 21 36 15 C 40 13 46 10 50 8 Z M 23 44 C 23 46 23 56 23 58 C 25 59 32 62 34 63 C 34 61 34 51 34 49 C 32 48 25 45 23 44 Z M 47 44 C 45 45 38 48 36 49 C 36 51 36 61 36 63 C 38 62 45 59 47 58 C 47 56 47 46 47 44 Z M 35 34 C 39 36 45 39 49 41 C 49 47 49 53 49 59 C 45 61 39 64 35 66 C 31 64 25 61 21 59 C 21 53 21 47 21 41 C 25 39 31 36 35 34 Z M 53 44 C 53 46 53 56 53 58 C 55 59 62 62 64 63 C 64 61 64 51 64 49 C 62 48 55 45 53 44 Z M 77 44 C 75 45 68 48 66 49 C 66 51 66 61 66 63 C 68 62 75 59 77 58 C 77 56 77 46 77 44 Z M 65 34 C 69 36 75 39 79 41 C 79 47 79 53 79 59 C 75 61 69 64 65 66 C 61 64 55 61 51 59 C 51 53 51 47 51 41 C 55 39 61 36 65 34 Z M 8 70 C 8 72 8 82 8 84 C 10 85 17 88 19 89 C 19 87 19 77 19 75 C 17 74 10 71 8 70 Z M 32 70 C 30 71 23 74 21 75 C 21 77 21 87 21 89 C 23 88 30 85 32 84 C 32 82 32 72 32 70 Z M 20 60 C 24 62 30 65 34 67 C 34 73 34 79 34 85 C 30 87 24 90 20 92 C 16 90 10 87 6 85 C 6 79 6 73 6 67 C 10 65 16 62 20 60 Z M 38 70 C 38 72 38 82 38 84 C 40 85 47 88 49 89 C 49 87 49 77 49 75 C 47 74 40 71 38 70 Z M 62 70 C 60 71 53 74 51 75 C 51 77 51 87 51 89 C 53 88 60 85 62 84 C 62 82 62 72 62 70 Z M 50 60 C 54 62 60 65 64 67 C 64 73 64 79 64 85 C 60 87 54 90 50 92 C 46 90 40 87 36 85 C 36 79 36 73 36 67 C 40 65 46 62 50 60 Z M 68 70 C 68 72 68 82 68 84 C 70 85 77 88 79 89 C 79 87 79 77 79 75 C 77 74 70 71 68 70 Z M 92 70 C 90 71 83 74 81 75 C 81 77 81 87 81 89 C 83 88 90 85 92 84 C 92 82 92 72 92 70 Z M 80 60 C 84 62 90 65 94 67 C 94 73 94 79 94 85 C 90 87 84 90 80 92 C 76 90 70 87 66 85 C 66 79 66 73 66 67 C 70 65 76 62 80 60 Z"></path></svg>`,
 				download: `<svg viewBox="0 0 100 100"><path d="M 20 85 C 20 82 22 80 25 80 C 40 80 60 80 75 80 C 78 80 80 82 80 85 C 80 88 78 90 75 90 C 60 90 40 90 25 90 C 22 90 20 88 20 85 Z M 50 10 C 53 10 55 12 55 15 C 55 30 55 50 55 63 C 58 60 60 58 62 56 C 64 54 67 54 69 56 C 71 58 71 61 69 63 C 65 67 60 72 55 77 C 53 79 52 80 50 80 C 48 80 47 79 45 77 C 40 72 35 67 31 63 C 29 61 29 58 31 56 C 33 54 36 54 38 56 C 40 58 42 60 45 63 C 45 50 45 30 45 15 C 45 12 47 10 50 10 Z"></path></svg>`,
 				copy: `<svg viewBox="10 10 80 80"><path d="M 45 40 C 48 40 51 40 54 40 C 57 40 60 43 60 46 C 60 49 60 52 60 55 C 65 55 70 55 73 55 C 74 55 75 54 75 53 C 75 45 75 35 75 27 C 75 26 74 25 73 25 C 65 25 55 25 47 25 C 46 25 45 26 45 27 C 45 30 45 35 45 40 C 45 40 45 40 45 40 Z M 27 45 C 26 45 25 46 25 47 C 25 55 25 65 25 73 C 25 74 26 75 27 75 C 35 75 45 75 53 75 C 54 75 55 74 55 73 C 55 65 55 55 55 47 C 55 46 54 45 53 45 C 45 45 35 45 27 45 Z M 60 60 C 60 65 60 70 60 74 C 60 77 57 80 54 80 C 45 80 35 80 26 80 C 23 80 20 77 20 74 C 20 65 20 55 20 46 C 20 43 23 40 26 40 C 30 40 35 40 40 40 C 40 35 40 30 40 26 C 40 23 43 20 46 20 C 55 20 65 20 74 20 C 77 20 80 23 80 26 C 80 35 80 45 80 54 C 80 57 77 60 74 60 C 70 60 65 60 60 60 C 60 60 60 60 60 60 Z"></path></svg>`,
+				share: `<svg viewBox="10 10 80 80"><path d="M 60 38 C 51 42 49 43 41 47 C 39 48 40 47 40 50 C 40 53 39 52 41 53 C 49 57 51 58 60 62 C 62 63 62 63 63 62 C 64 61 66 60 70 60 C 76 60 80 64 80 70 C 80 76 76 80 70 80 C 64 80 60 76 60 70 C 60 69 60 68 58 67 C 52 64 46 61 40 58 C 38 57 38 57 37 58 C 36 59 34 60 30 60 C 24 60 20 56 20 50 C 20 44 24 40 30 40 C 34 40 36 41 37 42 C 38 43 38 43 40 42 C 46 39 52 36 58 33 C 60 32 60 31 60 30 C 60 24 64 20 70 20 C 76 20 80 24 80 30 C 80 36 76 40 70 40 C 66 40 64 39 63 38 C 62 37 62 37 60 38 Z"></path></svg>`,
 				check: `<svg viewBox="10 10 80 80"><path d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg>`,
 				delete: `<svg viewBox="10 10 80 80"><path d="M 67 30 C 70 30 73 30 76 30 C 78 30 80 32 80 34 C 80 35 80 35 80 36 C 80 38 78 40 76 40 C 72 40 70 40 70 41 C 70 51 70 63 70 74 C 70 77 67 80 64 80 C 55 80 45 80 36 80 C 33 80 30 77 30 74 C 30 63 30 51 30 41 C 30 40 28 40 24 40 C 22 40 20 38 20 36 C 20 35 20 35 20 34 C 20 32 22 30 24 30 C 27 30 30 30 33 30 C 36 30 37 29 37 26 C 37 23 40 20 43 20 C 47 20 53 20 57 20 C 60 20 63 23 63 26 C 63 29 64 30 67 30 Z"></path></svg>`,
 			}
@@ -486,6 +487,13 @@
 							copyButton.addEventListener(TRIGGERS.click, copyAsset)
 						actions.appendChild(copyButton)
 
+					// share
+						const shareButton = document.createElement("button")
+							shareButton.className = "card-actions-share"
+							shareButton.innerHTML = CONSTANTS.svg.share + CONSTANTS.svg.check
+							shareButton.addEventListener(TRIGGERS.click, shareAsset)
+						actions.appendChild(shareButton)
+
 					// delete
 						const deleteButton = document.createElement("button")
 							deleteButton.className = "card-actions-delete"
@@ -726,7 +734,52 @@
 							}
 							reader.readAsDataURL(await getImagePromise())
 					}
-				} catch (error) {console.log(error)}
+			} catch (error) {console.log(error)}
+		}
+
+	/* shareAsset */
+		async function shareAsset(event) {
+			try {
+				// permission
+					if (!navigator.canShare) {
+						return
+					}
+
+				// get asset
+					const button = event.target.closest(".card-actions-share")
+					const assetId = button.closest(".card").id.replace("card-", "")
+					const asset = STATE.assets.find(a => a.id == assetId)
+
+				// metadata
+					const title = asset.name.endsWith(`.${asset.type}`) ? asset.name : `${asset.name}.${asset.type}`
+					const data = { title }
+
+				// not an image
+					if (asset.type == "svg" || CONSTANTS.types[asset.type][0] !== "image") {
+						data.text = asset.data
+					}
+
+				// image
+					else {
+						const imageBlob = await fetch(asset.data).then(result => result.blob())
+						data.files = [
+							new File([imageBlob], title, {
+								type: imageBlob.type,
+							}),
+						]
+					}
+
+				// share
+					if (!navigator.canShare(data)) {
+						return
+					}
+					await navigator.share(data).then(() => {
+						button.setAttribute("active", true)
+						setTimeout(() => {
+							button.removeAttribute("active")
+						}, CONSTANTS.activeTimeout)	
+					}).catch(error => console.log(error))
+			} catch (error) {console.log(error)}
 		}
 
 	/* deleteAsset */
@@ -736,6 +789,11 @@
 					const button = event.target.closest(".card-actions-delete")
 					const assetId = button.closest(".card").id.replace("card-", "")
 					const asset = STATE.assets.find(a => a.id == assetId)
+
+				// confirm
+					if (!window.confirm(`Delete ${asset.name}?`)) {
+						return
+					}
 
 				// remove from state
 					asset.element.remove()
