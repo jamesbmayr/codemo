@@ -123,6 +123,13 @@ const PROJECTS = {
 		date: "April 17, 2022",
 		description: "An ongoing blog about making projects with and for people."
 	},
+	boxlighter: {
+		name: "boxLighter",
+		size: "small",
+		tags: ["code","game","puzzle"],
+		date: "July 30, 2026",
+		description: "Toggle a box to flip its neighbors. Light them all to win."
+	},
 	breakout: {
 		skipRandom: true,
 		hidden: true,

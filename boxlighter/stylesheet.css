@@ -1,0 +1,194 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #333333;
+		--light-gray: #dddddd;
+		--light-blue: #04b1ff;
+		--gap-size: 5px;
+		--shadow-size: 5px;
+		--border-radius: 5px;
+		--font-size: 20px;
+		--box-size: 50px;
+		--font-family: monospace;
+		--line-height: 1;
+		--transition-time: 0.25s;
+	}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		font-size: 0;
+		font-family: monospace;
+		user-select: none;
+		background: var(--medium-gray);
+	}
+
+	svg {
+		width: auto;
+		height: 100%;
+		fill: currentColor;
+	}
+
+	label {
+		display: inline-block;
+		font-size: 0;
+		vertical-align: middle;
+		height: calc(var(--gap-size) * 2 + var(--font-size));
+		background: var(--light-gray);
+		border-radius: var(--border-radius);
+		color: var(--dark-gray);
+		margin-right: var(--gap-size);
+	}
+
+	button, select, input {
+		box-sizing: border-box;
+		vertical-align: top;
+		height: calc(var(--gap-size) * 2 + var(--font-size));
+		margin: 0;
+		padding: var(--gap-size);
+		border-radius: var(--border-radius);
+		font-size: var(--font-size);
+		font-family: var(--font-family);
+		line-height: var(--line-height);
+		border: none;
+		outline: none;
+		cursor: pointer;
+		transition: var(--transition-time);
+		background: var(--light-gray);
+		color: var(--dark-gray);
+	}
+
+	input {
+		cursor: auto;
+	}
+
+	button:hover, button:focus, select:hover, select:focus, input:hover, input:focus {
+		background: var(--light-blue);
+	}
+
+/*** game ***/
+	#menu {
+		position: absolute;
+		top: calc(var(--gap-size) * 3);
+		left: calc(var(--gap-size) * 3);
+	}
+
+		#menu-reset {
+			margin-right: var(--gap-size);
+		}
+
+	#board-outer {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		box-sizing: border-box;
+	}
+
+		#board-inner {
+			position: relative;
+			width: 100%;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		#board {
+			z-index: 1;
+			box-sizing: border-box;
+			margin: auto auto;
+			width: 100%;
+			height: auto;
+			border-radius: calc(var(--border-radius) * 2);
+			padding: var(--gap-size);
+			background: var(--light-gray);
+			box-shadow: 0 0 var(--shadow-size) var(--dark-gray);
+		}
+
+			#board[solved] {
+				background: var(--light-blue);
+				box-shadow: 0 0 var(--shadow-size) var(--light-blue);
+			}
+
+			.board-row {
+				width: auto;
+				display: block;
+			}
+
+			.board-box {
+				display: inline-block;
+				width: var(--box-size);
+				height: var(--box-size);
+				border-radius: var(--gap-size);
+				margin: var(--gap-size);
+				background: var(--dark-gray);
+				transition: var(--transition-time);
+			}
+
+				.board-box[active="1"] {
+					background: var(--light-blue);
+				}
+
+				#board:not([solved]) .board-box {
+					cursor: pointer;
+				}
+
+				#board:not([solved]) .board-box:hover {
+					box-shadow: 0 0 var(--shadow-size) var(--light-gray) inset;
+				}
+
+		#board-solved {
+			z-index: 2;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			pointer-events: none;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			color: var(--light-gray);
+		}
+
+			#board:not([solved]) ~ #board-solved {
+				display: none;
+			}
+
+		#board-instructions, #board-moves {
+			display: inline-block;
+			box-sizing: border-box;
+			text-align: center;
+			width: 100%;
+			margin: var(--font-size) 0;
+			font-size: var(--font-size);
+			font-family: var(--font-family);
+			line-height: var(--line-height);
+			color: var(--light-gray);
+		}
+
+/*** j-logo ***/
+	#j-logo {
+		position: absolute;
+		top: 14px;
+		right: 7px;
+		color: var(--light-gray);
+		height: 32px;
+		width: 32px;
+		cursor: pointer;
+		outline: none;
+		transition: var(--transition-time);
+	}
+
+	#j-logo:hover, #j-logo:focus {
+		color: var(--light-blue);
+	}
+
+/*** mobile ***/
+	@media screen and (max-width: 768px) {
+		:root {
+			--box-size: 25px;
+		}
+	}
