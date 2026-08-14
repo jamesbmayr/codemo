@@ -638,6 +638,7 @@
 			}
 			else if (timeNow < STATE.roundStart + CONSTANTS.timers.round + CONSTANTS.timers.guess) {
 				setMode("guess")
+				ELEMENTS.guess.input.focus()
 			}
 
 			if (STATE.mode == "color") {
@@ -667,6 +668,7 @@
 		ELEMENTS.round.ready.addEventListener(TRIGGERS.click, readyRound)
 		function readyRound() {
 			setMode("guess")
+			ELEMENTS.guess.input.focus()
 		}
 
 /*** guess ***/
