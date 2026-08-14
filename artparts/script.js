@@ -677,7 +677,7 @@
 				// not started / unknown --> start
 					STATE.qrCodeReader.start(CONSTANTS.qrCodeReader.camera, CONSTANTS.qrCodeReader.framesPerSecond, detectQRcode)
 									  .then(handleQRcodeElements)
-									  .catch(detectQRcode)
+									  .catch(console.log)
 			} catch (error) {console.log(error)}
 		}
 
@@ -735,7 +735,7 @@
 					
 				// pause
 					if (STATE.qrCodeReader?.getState() == CONSTANTS.qrCodeReader.states.SCANNING) {
-						STATE.qrCodeReader.pause()
+						STATE.qrCodeReader.stop()
 					}
 
 				// switch mode

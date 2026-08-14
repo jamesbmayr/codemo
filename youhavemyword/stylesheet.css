@@ -1,0 +1,445 @@
+/*** page ***/
+	:root {
+		--dark-gray: #111111;
+		--medium-gray: #444444;
+		--light-gray: #ffffff;
+		--dark-blue: #0d1e3b;
+		--medium-blue: #0066aa;
+		--light-blue: #04b1ff;
+		--dark-red: #540808;
+		--medium-red: #d94c4c;
+		--light-red: #db7373;
+		--medium-green: #029632;
+		--light-green: #26bd68;
+		--gradient-redshift: linear-gradient(180deg, #540808 20%, #0d1e3b 100%);
+		--gradient: linear-gradient(165deg, #540808 10%, #0d1e3b 90%);
+		--gradient-blueshift: linear-gradient(150deg, #540808 0%, #0d1e3b 80%);
+		--border-size: 2px;
+		--gap-size: 5px;
+		--border-radius: 10px;
+		--shadow-size: 5px;
+		--container-size: 768px;
+		--font-size: 25px;
+		--header-font: "Megrim", monospace;
+		--main-font: "Geo", monospace;
+		--line-height: 1.25;
+		--transition-time: 0.5s;
+		--gradient-shift-time: 60s;
+	}
+
+		@property --gradient-red-percent {
+			syntax: '<percentage>';
+			inherits: false;
+			initial-value: 10%;
+		}
+
+		@property --gradient-blue-percent {
+			syntax: '<percentage>';
+			inherits: false;
+			initial-value: 90%;
+		}
+
+		@property --gradient-angle {
+			syntax: '<angle>';
+			inherits: false;
+			initial-value: 165deg;
+		}
+
+		@keyframes gradient-shift {
+			from {
+				--gradient-angle: 150deg;
+				--gradient-red-percent: 0%;
+				--gradient-blue-percent: 80%;
+			}
+
+			50% {
+				--gradient-angle: 180deg;
+				--gradient-red-percent: 20%;
+				--gradient-blue-percent: 100%;
+			}
+
+			to {
+				--gradient-angle: 210deg;
+				--gradient-red-percent: 0%;
+				--gradient-blue-percent: 80%;
+			}
+		}
+
+	html, body {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		font-size: 0;
+		--gradient-angle: 165deg;
+		--gradient-red-percent: 10%;
+		--gradient-blue-percent: 90%;
+		background: linear-gradient(var(--gradient-angle), var(--dark-red) var(--gradient-red-percent), var(--dark-blue) var(--gradient-blue-percent));
+		animation: gradient-shift linear var(--gradient-shift-time) infinite alternate;
+	}
+
+/*** elements ***/
+	section {
+		display: none;
+		box-sizing: border-box;
+		height: 100%;
+		width: 100%;
+		padding: calc(var(--gap-size) * 2) calc(var(--gap-size) * 2) calc(var(--gap-size) * 10) calc(var(--gap-size) * 2);
+		text-align: center;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+
+		h1 {
+			font-size: calc(var(--font-size) * 3);
+			font-family: var(--header-font);
+			line-height: 1;
+			color: var(--light-gray);
+			user-select: none;
+			margin: var(--font-size) 0;
+		}
+
+		h2 {
+			font-size: calc(var(--font-size) * 2);
+			font-family: var(--header-font);
+			line-height: 1;
+			color: var(--light-gray);
+			user-select: none;
+			margin: var(--font-size) 0;
+		}
+
+		p {
+			font-size: var(--font-size);
+			font-family: var(--main-font);
+			line-height: var(--line-height);
+			color: var(--light-gray);
+			user-select: none;
+			margin: var(--font-size) 0;
+		}
+
+		li {
+			font-size: var(--font-size);
+			font-family: var(--main-font);
+			line-height: var(--line-height);
+			color: var(--light-gray);
+			user-select: none;
+			margin: var(--gap-size) 0;
+			text-align: left;
+		}
+
+		span {
+			vertical-align: top;
+		}
+
+		hr {
+			border: var(--border-size) solid var(--light-gray);
+			border-radius: var(--border-radius) 0;
+			margin: var(--font-size) 0;
+			width: calc(100% - var(--gap-size));
+		}
+
+		button {
+			box-sizing: border-box;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			vertical-align: top;
+			border: none;
+			border-radius: var(--border-radius) 0;
+			padding: var(--gap-size);
+			font-size: var(--font-size);
+			font-family: var(--main-font);
+			line-height: 1;
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			margin: var(--gap-size);
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			user-select: none;
+		}
+
+			button:hover, button:focus {
+				background: var(--light-blue);
+			}
+
+		select {
+			box-sizing: border-box;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			vertical-align: top;
+			border: none;
+			border-radius: var(--border-radius) 0;
+			padding: 0 var(--gap-size);
+			font-size: var(--font-size);
+			font-family: var(--main-font);
+			line-height: 1;
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			margin: var(--gap-size);
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			user-select: none;
+		}
+
+			select:hover, select:focus {
+				background: var(--light-blue);
+			}
+
+		input {
+			box-sizing: border-box;
+			height: calc(var(--font-size) + 2 * var(--gap-size));
+			vertical-align: top;
+			border: none;
+			border-radius: var(--border-radius) 0;
+			padding: 0 var(--gap-size);
+			font-size: var(--font-size);
+			font-family: var(--main-font);
+			line-height: 1;
+			color: var(--dark-gray);
+			background: var(--light-gray);
+			margin: var(--gap-size);
+			transition: var(--transition-time);
+			cursor: pointer;
+			outline: none;
+			user-select: none;
+		}
+
+			input:hover, input:focus {
+				background: var(--light-blue);
+			}
+
+		svg {
+			width: auto;
+			height: 100%;
+			fill: currentColor;
+		}
+
+/*** classes ***/
+	.team-blue {
+		color: var(--medium-blue);
+	}
+
+	.team-red {
+		color: var(--medium-red);
+	}
+
+	.timer {
+		box-sizing: border-box;
+		background: var(--dark-gray);
+		color: var(--light-gray);
+		font-family: var(--main-font);
+		font-size: calc(var(--font-size) * 2);
+		text-align: center;
+		border-radius: var(--border-radius) 0;
+		padding: var(--gap-size);
+		user-select: none;
+		width: 100%;
+		margin: var(--font-size) 0;
+	}
+
+		.timer:empty {
+			display: none;
+		}
+
+	.quit {
+		color: var(--medium-red);
+	}
+
+	.quit:hover, .quit:focus {
+		color: var(--dark-gray);
+		background: var(--light-red);
+	}
+
+/*** container ***/
+	#container {
+		box-sizing: border-box;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		height: 100%;
+		width: var(--container-size);
+		max-width: 100vw;
+		margin: auto auto;
+		background: transparent;
+		overflow: hidden;
+	}
+
+		#container:not([mode="menu"]) ~ #j-logo {
+			display: none;
+		}
+
+		#j-logo {
+			position: fixed;
+			top: 14px;
+			right: 7px;
+			color: var(--light-gray);
+			height: 32px;
+			width: 32px;
+			cursor: pointer;
+			z-index: 1000;
+			outline: none;
+			transition: var(--transition-time);
+		}
+
+		#j-logo svg {
+			fill: currentColor;
+			height: 100%;
+			width: auto;
+		}
+		
+		#j-logo:hover, #j-logo:focus {
+			color: var(--light-blue);
+		}
+
+/*** menu ***/
+	#container[mode="menu"] section#menu {
+		display: block;
+		overflow: hidden;
+	}
+
+		#menu-inner {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: calc(100% - 4 * var(--gap-size));
+			height: auto;
+			text-align: center;
+			margin: 0;
+		}
+
+		#menu-join {
+			margin-top: calc(var(--font-size) * 2);
+		}
+
+		#menu-create {
+			border-radius: var(--border-radius) 0 0 0;
+			margin-right: 0;
+		}
+
+		#menu-players {
+			border-radius: 0 0 var(--border-radius) 0;
+			margin-left: 0;
+		}
+
+/*** qrcodes ***/
+	#container[mode="qrcodes"] section#qrcodes {
+		display: block;
+	}
+
+		#qrcodes-image {
+			box-sizing: border-box;
+			width: 100%;
+			border-radius: calc(var(--border-radius) * 2) 0;
+			overflow: hidden;
+			padding: var(--font-size);
+			background: white;
+			margin-bottom: var(--gap-size);
+			user-select: none;
+		}
+
+			#qrcodes-image img {
+				display: inline-block !important;
+				user-select: none;
+			}
+
+/*** join ***/
+	#container[mode="join"] section#join {
+		display: block;
+	}
+
+		#join-scan {
+			border-radius: var(--border-radius) 0;
+			margin: var(--font-size) 0;
+			overflow: hidden;
+		}
+
+/*** setup ***/
+	#container[mode="setup"] section#setup {
+		display: block;
+		overflow-y: scroll;
+	}
+
+/*** team ***/
+	#container[mode="team"] section#team {
+		display: block;
+	}
+
+		#team-icon {
+			height: calc(var(--font-size) * 4);
+			border-radius: var(--border-radius) 0;
+		}
+
+			#team-icon[team="blue"] {
+				background: var(--medium-blue);
+				color: var(--light-gray) !important;
+			}
+
+			#team-icon[team="red"] {
+				background: var(--medium-red);
+				color: var(--light-gray) !important;
+			}
+
+		#team-goal {
+			text-align: left;
+		}
+
+/*** color ***/
+	#container[mode="color"] section#color {
+		display: block;
+	}
+
+		#color-result {
+			margin: calc(2 * var(--font-size)) auto;
+			height: calc(12 * var(--font-size));
+			width: calc(12 * var(--font-size));
+			max-width: 100%;
+			border-radius: calc(2 * var(--border-radius)) 0;
+			background: var(--medium-green);
+		}
+
+			#color-result[team="blue"] {
+				background: var(--medium-blue);
+				color: var(--light-gray) !important;
+				border-radius: 100%;
+			}
+
+			#color-result[team="red"] {
+				background: var(--medium-red);
+				color: var(--light-gray) !important;
+				border-radius: calc(var(--border-radius) / 2);
+			}
+
+/*** round ***/
+	#container[mode="round"] section#round {
+		display: block;
+	}
+
+		#round-words {
+			font-size: calc(var(--font-size) * 2);
+			line-height: 2;
+			text-transform: uppercase;
+		}
+
+/*** guess ***/
+	#container[mode="guess"] section#guess {
+		display: block;
+	}
+
+		#guess-input {
+			text-transform: uppercase;
+			margin-left: 0;
+			margin-right: 0;
+			border-radius: var(--border-radius) 0 0 0;
+			max-width: calc(100% - var(--font-size) * 5 + var(--gap-size));
+		}
+
+		#guess-submit {
+			margin-left: 0;
+			margin-right: 0;
+			border-radius: 0 0 var(--border-radius) 0;
+		}

@@ -1663,6 +1663,15 @@ const PROJECTS = {
 		date: "September 10, 2017",
 		description: "xmlParser is a Javascript web tool for converting XML into JSON."
 	},
+	youhavemyword: {
+		skipRandom: true,
+		hidden: true,
+		name: "You Have My Word",
+		size: "large",
+		tags: ["code","scifi","game","multiplayer","tabletop"],
+		date: "August 13, 2026",
+		description: "Secret Members of the Blue Society must communicate the code word, while Loyalist Soldier-spies for the Red Faction work to disrupt and deceive them."
+	},
 	zeroblaster: {
 		name: "zeroBlaster",
 		size: "small",
