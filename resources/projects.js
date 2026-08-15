@@ -1665,12 +1665,11 @@ const PROJECTS = {
 	},
 	youhavemyword: {
 		skipRandom: true,
-		hidden: true,
 		name: "You Have My Word",
 		size: "large",
 		tags: ["code","scifi","game","multiplayer","tabletop"],
 		date: "August 13, 2026",
-		description: "Secret Members of the Blue Society must communicate the code word, while Loyalist Soldier-spies for the Red Faction work to disrupt and deceive them."
+		description: "Secret Members of the Quorum of Blue must communicate the code word, while Loyalist Soldier-spies for the Red Faction work to disrupt and deceive them."
 	},
 	zeroblaster: {
 		name: "zeroBlaster",
