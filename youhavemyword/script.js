@@ -3,6 +3,7 @@
 		const TRIGGERS = {
 			click: "click",
 			submit: "submit",
+			input: "input"
 		}
 
 		document.addEventListener("dblclick", event => {
@@ -34,10 +35,11 @@
 				scan: document.querySelector("#join-scan"),
 				quit: document.querySelector("#join-quit"),
 			},
-			setup: {
-				player: document.querySelector("#setup-player"),
-				ready: document.querySelector("#setup-ready"),
-				quit: document.querySelector("#setup-quit"),
+			rules: {
+				player: document.querySelector("#rules-player"),
+				ready: document.querySelector("#rules-ready"),
+				rescan: document.querySelector("#rules-rescan"),
+				quit: document.querySelector("#rules-quit"),
 			},
 			team: {
 				player: document.querySelector("#team-player"),
@@ -45,23 +47,28 @@
 				name: document.querySelector("#team-name"),
 				goal: document.querySelector("#team-goal"),
 				ready: document.querySelector("#team-ready"),
+				quit: document.querySelector("#team-quit")
 			},
 			color: {
 				result: document.querySelector("#color-result"),
 				ready: document.querySelector("#color-ready"),
+				round: document.querySelector("#color-round"),
 				timer: document.querySelector("#color-timer"),
+				return: document.querySelector("#color-return"),
 			},
 			round: {
 				number: document.querySelector("#round-number"),
 				words: document.querySelector("#round-words"),
 				ready: document.querySelector("#round-ready"),
 				timer: document.querySelector("#round-timer"),
+				return: document.querySelector("#round-return"),
 			},
 			guess: {
 				form: document.querySelector("#guess-form"),
 				input: document.querySelector("#guess-input"),
 				submit: document.querySelector("#guess-submit"),
 				timer: document.querySelector("#guess-timer"),
+				return: document.querySelector("#guess-return"),
 			}
 		}
 
@@ -160,7 +167,7 @@
 			team: "",
 			codewords: [],
 			rounds: [],
-			round: -1,
+			round: 0,
 			roundStart: null,
 			interval: null
 		}
@@ -207,9 +214,33 @@
 			ELEMENTS.container.setAttribute("mode", mode)
 		}
 
+	/* clearContent */
+		function clearContent() {
+			ELEMENTS.color.round.innerText = STATE.round < CONSTANTS.rounds ? `Begin Round ${STATE.round + 1}.` : `Reveal Role.`
+			ELEMENTS.color.timer.innerText = ""
+			ELEMENTS.color.result.removeAttribute("team")
+			ELEMENTS.color.result.innerHTML = CONSTANTS.check
+
+			ELEMENTS.round.timer.innerText = ""
+			ELEMENTS.round.words.innerHTML = ""
+
+			if (STATE.round < CONSTANTS.rounds) {
+				ELEMENTS.team.ready.setAttribute("visible", true)
+				ELEMENTS.team.quit.setAttribute("visible", false)
+			}
+			else {
+				ELEMENTS.team.ready.setAttribute("visible", false)
+				ELEMENTS.team.quit.setAttribute("visible", true)
+			}
+			
+			ELEMENTS.guess.timer.innerText = ""
+			ELEMENTS.guess.input.value = ""
+		}
+
 /*** create ***/
 	/* createGame */
 		ELEMENTS.menu.create.addEventListener(TRIGGERS.click, createGame)
+		ELEMENTS.menu.players.addEventListener(TRIGGERS.input, createGame)
 		function createGame() {		
 			const playerCount = Number(ELEMENTS.menu.players.value)
 			const players     = new Array(playerCount)
@@ -373,6 +404,8 @@
 				STATE.qrCodeReader.stop()
 			}
 
+			STATE.round = 0
+			clearContent()
 			setMode("menu")
 		}
 
@@ -442,7 +475,7 @@
 
 /*** load ***/
 	/* loadGame */
-		function loadGame(text, round) {
+		function loadGame(text, round, players) {
 			const url = new URL(text)
 			if (!url || !url.search) {
 				return
@@ -461,8 +494,9 @@
 			}
 
 			STATE.player = Number(parameters.a)
-			ELEMENTS.setup.player.innerText = STATE.player
+			ELEMENTS.rules.player.innerText = STATE.player
 			ELEMENTS.team.player.innerText = STATE.player
+			ELEMENTS.rules.rescan.setAttribute("visible", STATE.player == 1 ? true : false)
 
 			STATE.team = (Number(parameters.b) ? "red" : "blue")
 			ELEMENTS.team.icon.innerHTML = CONSTANTS.teams[STATE.team].icon
@@ -492,22 +526,31 @@
 				}
 			}
 
-			STATE.round = (round !== undefined) ? round : -1
+			STATE.round = (round !== undefined) ? round : 0
 			STATE.roundStart = null
 			STATE.interval = null
-			ELEMENTS.color.result.removeAttribute("team")
-			ELEMENTS.color.result.innerHTML = CONSTANTS.check
+			
+			if (players) {
+				STATE.players = players
+			}
 
 			updateLocal()
-			setMode("setup")
+			clearContent()
+			setMode("rules")
 		}
 
 	/* updateLocal */
 		function updateLocal() {
-			window.localStorage.youhavemyword = JSON.stringify({
+			const data = {
 				url: `${CONSTANTS.url}?${STATE.queryString}`,
 				round: STATE.round
-			})
+			}
+
+			if (STATE.players) {
+				data.players = STATE.players
+			}
+
+			window.localStorage.youhavemyword = JSON.stringify(data)
 		}
 
 	/* loadFromLocal */
@@ -516,12 +559,13 @@
 			try {
 				if (window.location.search) {
 					loadGame(String(window.location))
+					window.history.pushState({}, document.title, window.location.pathname)
 					return
 				}
 
 				if (window.localStorage.youhavemyword) {
 					const data = JSON.parse(window.localStorage.youhavemyword)
-					loadGame(data.url, Number(data.round))
+					loadGame(data.url, Number(data.round), data.players)
 				}
 			} catch (error) {console.log(error)}
 		}
@@ -563,7 +607,7 @@
 	/* readyQRcode */
 		ELEMENTS.qrcodes.ready.addEventListener(TRIGGERS.click, readyQRcode)
 		function readyQRcode() {
-			setMode("setup")
+			setMode("rules")
 		}
 
 	/* quitQRcode */
@@ -571,21 +615,32 @@
 		function quitQRcode() {
 			window.localStorage.youhavemyword = ""
 			delete window.localStorage.youhavemyword
+			STATE.round = 0
+			clearContent()
 			setMode("menu")
 		}
 
-/*** setup ***/
-	/* readySetup */
-		ELEMENTS.setup.ready.addEventListener(TRIGGERS.click, readySetup)
-		function readySetup() {
+/*** rules ***/
+	/* readyRules */
+		ELEMENTS.rules.ready.addEventListener(TRIGGERS.click, readyRules)
+		function readyRules() {
 			setMode("team")
 		}
 
-	/* quitSetup */
-		ELEMENTS.setup.quit.addEventListener(TRIGGERS.click, quitSetup)
-		function quitSetup() {
+	/* rescanRules */
+		ELEMENTS.rules.rescan.addEventListener(TRIGGERS.click, rescanRules)
+		function rescanRules() {
+			setMode("qrcodes")
+			loadQRcode(1)
+		}
+
+	/* quitRules */
+		ELEMENTS.rules.quit.addEventListener(TRIGGERS.click, quitRules)
+		function quitRules() {
 			window.localStorage.youhavemyword = ""
 			delete window.localStorage.youhavemyword
+			STATE.round = 0
+			clearContent()
 			setMode("menu")
 		}
 
@@ -593,21 +648,23 @@
 	/* readyTeam */
 		ELEMENTS.team.ready.addEventListener(TRIGGERS.click, readyTeam)
 		function readyTeam() {
-			if (STATE.round < CONSTANTS.rounds - 1) {
-				setMode("color")
-				return
-			}
-			
+			setMode("color")
+		}
+
+	/* quitTeam */
+		ELEMENTS.team.quit.addEventListener(TRIGGERS.click, quitTeam)
+		function quitTeam() {
+			window.localStorage.youhavemyword = ""
+			delete window.localStorage.youhavemyword
+			STATE.round = 0
+			clearContent()
 			setMode("menu")
 		}
 
 /*** color ***/
 	/* readyColor */
 		ELEMENTS.color.ready.addEventListener(TRIGGERS.click, readyColor)
-		function readyColor() {
-			updateLocal()
-			STATE.round += 1
-			
+		function readyColor() {			
 			if (STATE.round < CONSTANTS.rounds) {
 				ELEMENTS.color.timer.innerText = (CONSTANTS.timers.color / CONSTANTS.second)
 				
@@ -620,9 +677,15 @@
 				return
 			}
 
-			window.localStorage.youhavemyword = ""
-			delete window.localStorage.youhavemyword
 			setMode("team")
+		}
+
+	/* returnColor */
+		ELEMENTS.color.return.addEventListener(TRIGGERS.click, returnColor)
+		function returnColor() {
+			clearContent()
+			clearInterval(STATE.interval)
+			setMode("rules")
 		}
 
 /*** round ***/
@@ -631,37 +694,38 @@
 			const timeNow = new Date().getTime()
 
 			if (timeNow < STATE.roundStart) {
+				const secondsLeft = Math.max(Math.ceil((STATE.roundStart - timeNow) / CONSTANTS.second), 0)
+				ELEMENTS.color.timer.innerText = secondsLeft
 				setMode("color")
+				return
 			}
-			else if (timeNow < STATE.roundStart + CONSTANTS.timers.round) {
-				if (STATE.mode !== "guess") { setMode("round") }
+			
+			if (timeNow < STATE.roundStart + CONSTANTS.timers.round) {
+				if (STATE.mode !== "guess") {
+					setMode("round")
+				}
 			}
 			else if (timeNow < STATE.roundStart + CONSTANTS.timers.round + CONSTANTS.timers.guess) {
 				setMode("guess")
 				ELEMENTS.guess.input.focus()
 			}
-
-			if (STATE.mode == "color") {
-				const secondsLeft = Math.ceil((STATE.roundStart - timeNow) / CONSTANTS.second)
-				ELEMENTS.color.timer.innerText = secondsLeft
-				return
+			else {
+				submitGuess()
 			}
 
 			if (STATE.mode == "round") {
-				const secondsLeft = Math.ceil((STATE.roundStart + CONSTANTS.timers.round - timeNow) / CONSTANTS.second)
+				const secondsLeft = Math.max(Math.ceil((STATE.roundStart + CONSTANTS.timers.round - timeNow) / CONSTANTS.second), 0)
 				const minutesLeft = `${Math.floor(secondsLeft / CONSTANTS.minute) || "0"}:${("00" + Math.floor(secondsLeft % CONSTANTS.minute)).slice(-2)}`
 				ELEMENTS.round.timer.innerText = minutesLeft
 				return
 			}
 
 			if (STATE.mode == "guess") {
-				const secondsLeft = Math.ceil((STATE.roundStart + CONSTANTS.timers.round + CONSTANTS.timers.guess - timeNow) / CONSTANTS.second)
+				const secondsLeft = Math.max(Math.ceil((STATE.roundStart + CONSTANTS.timers.round + CONSTANTS.timers.guess - timeNow) / CONSTANTS.second), 0)
 				const minutesLeft = `${Math.floor(secondsLeft / CONSTANTS.minute) || "0"}:${("00" + Math.floor(secondsLeft % CONSTANTS.minute)).slice(-2)}`
 				ELEMENTS.guess.timer.innerText = minutesLeft
 				return
 			}
-
-			submitGuess()
 		}
 
 	/* readyRound */
@@ -671,18 +735,31 @@
 			ELEMENTS.guess.input.focus()
 		}
 
+	/* returnRound */
+		ELEMENTS.round.return.addEventListener(TRIGGERS.click, returnRound)
+		function returnRound() {
+			clearContent()
+			clearInterval(STATE.interval)
+			setMode("rules")
+		}
+
 /*** guess ***/
 	/* submitGuess */
 		ELEMENTS.guess.form.addEventListener(TRIGGERS.submit, submitGuess)
 		ELEMENTS.guess.submit.addEventListener(TRIGGERS.click, submitGuess)
 		function submitGuess(event) {
-			event.preventDefault()
+			if (event) {
+				event.preventDefault()
+			}
 			clearInterval(STATE.interval)
 
-			const guess = ELEMENTS.guess.input.value.toLowerCase().replace(/\s/g, "")
+			const guess = (ELEMENTS.guess.input.value || "").toLowerCase().replace(/\s/g, "")
 			const correct = (guess == STATE.codewords[STATE.round].toLowerCase().replace(/\s/g, ""))
+			STATE.round += 1
+			clearContent()
+			updateLocal()
 
-			if (correct && STATE.team == "blue" || !correct && STATE.team == "red") {
+			if ((correct && STATE.team == "blue") || (!correct && STATE.team == "red")) {
 				ELEMENTS.color.result.setAttribute("team", "blue")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.blue.icon
 			}
@@ -690,11 +767,13 @@
 				ELEMENTS.color.result.setAttribute("team", "red")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.red.icon
 			}
-
-			ELEMENTS.color.timer.innerText = ""
-			ELEMENTS.round.timer.innerText = ""
-			ELEMENTS.round.words.innerHTML = ""
-			ELEMENTS.guess.timer.innerText = ""
-			ELEMENTS.guess.input.value = ""
 			setMode("color")
+		}
+
+	/* returnGuess */
+		ELEMENTS.guess.return.addEventListener(TRIGGERS.click, returnGuess)
+		function returnGuess() {
+			clearContent()
+			clearInterval(STATE.interval)
+			setMode("rules")
 		}

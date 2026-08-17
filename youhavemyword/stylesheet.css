@@ -245,13 +245,26 @@
 		}
 
 	.quit {
+		background: transparent;
 		color: var(--medium-red);
 	}
 
-	.quit:hover, .quit:focus {
-		color: var(--dark-gray);
-		background: var(--light-red);
+		.quit:hover, .quit:focus {
+			background: var(--medium-red);
+			color: var(--light-gray);
+			
+		}
+
+	.return {
+		background: transparent;
+		color: var(--medium-gray);
+		margin: 0;
 	}
+
+		.return:hover, .return:focus {
+			background: transparent;
+			color: var(--light-blue);
+		}
 
 /*** container ***/
 	#container {
@@ -358,11 +371,16 @@
 			overflow: hidden;
 		}
 
-/*** setup ***/
-	#container[mode="setup"] section#setup {
+/*** rules ***/
+	#container[mode="rules"] section#rules {
 		display: block;
 		overflow-y: scroll;
 	}
+
+		#rules-rescan:not([visible="true"]) {
+			display: none;
+			pointer-events: none;
+		}
 
 /*** team ***/
 	#container[mode="team"] section#team {
@@ -386,6 +404,16 @@
 
 		#team-goal {
 			text-align: left;
+		}
+
+		#team-ready:not([visible="true"]) {
+			display: none;
+			pointer-events: none;
+		}
+
+		#team-quit:not([visible="true"]) {
+			display: none;
+			pointer-events: none;
 		}
 
 /*** color ***/
