@@ -83,19 +83,18 @@
 			sameCategoryChance: 0.333, // ratio
 			wordsPerPlayer: 3, // #
 			players: {
-				_4:  {blue: 3,  red: 1, decoys: 5 },
-				_5:  {blue: 4,  red: 1, decoys: 6 },
+				_5:  {blue: 3,  red: 2, decoys: 6 },
 				_6:  {blue: 4,  red: 2, decoys: 7 },
 				_7:  {blue: 5,  red: 2, decoys: 8 },
-				_8:  {blue: 6,  red: 2, decoys: 9 },
+				_8:  {blue: 5,  red: 3, decoys: 9 },
 				_9:  {blue: 6,  red: 3, decoys: 10},
 				_10: {blue: 7,  red: 3, decoys: 11},
-				_11: {blue: 8,  red: 3, decoys: 12},
-				_12: {blue: 9,  red: 3, decoys: 13},
+				_11: {blue: 7,  red: 4, decoys: 12},
+				_12: {blue: 8,  red: 4, decoys: 13},
 				_13: {blue: 9,  red: 4, decoys: 14},
-				_14: {blue: 10, red: 4, decoys: 15},
-				_15: {blue: 11, red: 4, decoys: 16},
-				_16: {blue: 12, red: 4, decoys: 17},
+				_14: {blue: 9,  red: 5, decoys: 15},
+				_15: {blue: 10, red: 5, decoys: 16},
+				_16: {blue: 11, red: 5, decoys: 17},
 			},
 			teams: {
 				blue: {
