@@ -83,6 +83,7 @@
 			sameCategoryChance: 0.333, // ratio
 			wordsPerPlayer: 3, // #
 			players: {
+				_4:  {blue: 3,  red: 1, decoys: 5 },
 				_5:  {blue: 3,  red: 2, decoys: 6 },
 				_6:  {blue: 4,  red: 2, decoys: 7 },
 				_7:  {blue: 5,  red: 2, decoys: 8 },
