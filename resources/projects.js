@@ -1100,6 +1100,14 @@ const PROJECTS = {
 		date: "June 10, 2017",
 		description: "With pixelPainter, blocky 8-bit art is just a click-and-drag away."
 	},
+	places: {
+		skipRandom: true,
+		name: "Places",
+		size: "medium",
+		tags: ["game","card","multiplayer","tabletop","collaboration"],
+		date: "August 1, 2026",
+		description: "Players pick Places for the Sorter to sort, and earn Tokens based on the round's random Category."
+	},
 	poemmaker: {
 		name: "poemMaker",
 		size: "large",
