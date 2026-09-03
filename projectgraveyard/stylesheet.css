@@ -224,8 +224,7 @@
 			width: 100%;
 			color: var(--medium-gray);
 			margin: 0;
-			margin-bottom: var(--font-size);
-			padding: 0;
+			padding: 0 0 var(--font-size) 0;
 			overflow: hidden;
 			line-height: 1;
 		}

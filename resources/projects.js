@@ -2,7 +2,7 @@ const TAGS = [
 	"code","ai","api","extension","math","money","mongo","node","simulation","tool","websockets",
 	"music","audio","jazz","orchestral","piano","pop","synth",
 	"writing","autobiography","fantasy","lyric","poetry","prose","scifi",
-	"game","arcade","board","card","multiplayer","puzzle","tabletop","unity",
+	"game","arcade","board","card","multiplayer","puzzle","tabletop",
 	"design","art","canvas","draw","photography","svg",
 	"collaboration"
 ]
@@ -135,7 +135,7 @@ const PROJECTS = {
 		hidden: true,
 		name: "breakout",
 		size: "small",
-		tags: ["code","game","arcade","unity"],
+		tags: ["code","game","arcade"],
 		date: "June 7, 2020",
 		description: "This is a Unity demo of the classic game, built step-by-step from a Youtube tutorial."
 	},
@@ -237,7 +237,7 @@ const PROJECTS = {
 		hidden: true,
 		name: "checkers",
 		size: "small",
-		tags: ["code","game","board","tabletop","multiplayer","unity"],
+		tags: ["code","game","board","tabletop","multiplayer"],
 		date: "June 14, 2020",
 		description: "This is a Unity demo of the classic game, built step-by-step from a Youtube tutorial."
 	},
@@ -276,14 +276,6 @@ const PROJECTS = {
 		tags: ["writing","design","prose","art","photography"],
 		date: "December 2, 2014",
 		description: "Clevernacular is a blog about how amazing everyday design can be - a celebration of the brilliance all around us."
-	},
-	clickclique: {
-		skipRandom: true,
-		name: "ClickClique",
-		size: "small",
-		tags: ["code","websockets","multiplayer"],
-		date: "April 25, 2018",
-		description: "ClickClique is a PVP real-time clicking competition, built with nodeJS and websockets."
 	},
 	clippather: {
 		name: "clipPather",
@@ -444,14 +436,6 @@ const PROJECTS = {
 		tags: ["game","tabletop","board","card","puzzle","multiplayer"],
 		date: "April 1, 2014",
 		description: "DreamHatcher offers dozens of free print-and-play tabletop games - and tons of templates to help aspiring designers craft their own."
-	},
-	dynasty: {
-		skipRandom: true,
-		name: "Dynasty",
-		size: "large",
-		tags: ["game","code","node","websockets","tabletop","card","multiplayer"],
-		date: "December 30, 2020",
-		description: "This multi-player multi-round elimination card game is all about becoming the next king."
 	},
 	etcitra: {
 		skipRandom: true,
@@ -703,7 +687,7 @@ const PROJECTS = {
 	infinitesnake: {
 		name: "Infinite Snake",
 		size: "small",
-		tags: ["code","game","arcade","unity"],
+		tags: ["code","game","arcade"],
 		date: "April 14, 2022",
 		description: "This is a Unity clone of the classic arcade game, modified from a tutorial to a wrap-around plane."
 	},
@@ -844,14 +828,6 @@ const PROJECTS = {
 		date: "February 7, 2021",
 		description: "A top-down multiplayer arcade game with 5 laser tag modes in randomly generated arenas. Music & SFX by Alex Berg. Visuals by Liz Ford."
 	},
-	melodemons: {
-		skipRandom: true,
-		name: "melodemons",
-		size: "large",
-		tags: ["game","code","music","node","websockets","canvas","audio","fantasy","synth","piano","arcade","multiplayer","art"],
-		date: "October 9, 2018",
-		description: "Melodemons is a real-time multiplayer music-based post-capturing platformer."
-	},
 	melodyplayer: {
 		name: "melodyPlayer",
 		size: "medium",
@@ -952,6 +928,7 @@ const PROJECTS = {
 	},
 	numpadtyper: {
 		skipRandom: true,
+		hidden: true,
 		name: "numpadTyper",
 		size: "small",
 		tags: ["code","tool","writing"],
@@ -1170,6 +1147,7 @@ const PROJECTS = {
 	},
 	pulsepather: {
 		skipRandom: true,
+		hidden: true,
 		name: "pulsePather",
 		size: "small",
 		tags: ["code","music","audio","synth","art","piano"],
@@ -1204,14 +1182,6 @@ const PROJECTS = {
 		tags: ["code","game","puzzle"],
 		date: "August 24, 2020",
 		description: "Fit all of the randomly generated rectangles within the available area."
-	},
-	rephraiser: {
-		skipRandom: true,
-		name: "rephrAIser",
-		size: "small",
-		tags: ["code","ai","api","extension","tool","writing"],
-		date: "August 7, 2023",
-		description: "A Chrome extension to rephrase text on any webpage in any style, via OpenAI's API."
 	},
 	rhymefinder: {
 		name: "rhymeFinder",
@@ -1469,9 +1439,11 @@ const PROJECTS = {
 		description: "tickTocker is a clock."
 	},
 	tictactoe: {
+		skipRandom: true,
+		hidden: true,
 		name: "tictactoe",
 		size: "medium",
-		tags: ["code","game","unity","tabletop","board","multiplayer"],
+		tags: ["code","game","tabletop","board","multiplayer"],
 		date: "June 20, 2020",
 		description: "This is a Unity demo of the classic game, built from scratch with a customizable grid."
 	},
@@ -1542,6 +1514,7 @@ const PROJECTS = {
 	},
 	voicetranscriber: {
 		skipRandom: true,
+		hidden: true,
 		name: "voiceTranscriber",
 		size: "small",
 		tags: ["code","tool","simulation","api"],
@@ -1588,14 +1561,6 @@ const PROJECTS = {
 		tags: ["code","game","puzzle"],
 		date: "May 16, 2020",
 		description: "Turn one wheel and see it turn another - it's hard to crack, even if you know the code."
-	},
-	windowtinter: {
-		skipRandom: true,
-		name: "windowTinter",
-		size: "medium",
-		tags: ["code","tool","design","extension"],
-		date: "January 6, 2021",
-		description: "See the world through any-color glasses with this Chrome extension that adds a colored overlay to any website."
 	},
 	wordBreaker: {
 		name: "wordBreaker",

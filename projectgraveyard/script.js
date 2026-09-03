@@ -33,6 +33,13 @@
 				idea: "Some projects work out, and they go live at <a href='https://jamesmayr.com' target='_blank'>jamesmayr.com</a>. Other projects die an early death.",
 				obituary: "And thus, this gallery: a graveyard of ideas."
 			},
+			rephraiser: {
+				name: "rephrAIser",
+				birth: "August 2023",
+				death: "September 2026",
+				idea: "This was a Chrome extension that could rephrase text on any webpage, in any style, via OpenAI's API. I made it as a proof-of-concept for work.",
+				obituary: "Tools like this have become ubiquitous, and I don't need to be part of that scene."
+			},
 			photoshots: {
 				name: "PhotoShots",
 				birth: "June 2023",
@@ -46,6 +53,20 @@
 				death: "July 2021",
 				idea: "This was a Slackbot for creating a short-term crowdfunding campaign within your workspace. Contributors don't see one another's pledges, and if the target is met, it's split as an equal percentage of everyone's max pledge.",
 				obituary: "The way I was using the Slack bot system prevented messages outside of a 30-minute window, which is far too short a timeframe. This project lives on as a standalone web-app called <a href='https://jamesmayr.com/fundfuser' target='_blank'>FundFuser</a>."
+			},
+			windowtinter: {
+				name: "windowTinter",
+				birth: "January 2021",
+				death: "September 2026",
+				idea: "You could see the world through any-color glasses with this Chrome extension that added a colored overlay to any website.",
+				obituary: "The Chrome Web Store policies and technical requirements changed, and I just never prioritized refactoring this toy extension."
+			},
+			dynasty: {
+				name: "Dynasty",
+				birth: "December 2020",
+				death: "September 2026",
+				idea: "This multi-player multi-round elimination card game was all about becoming the next king. Based on <a href='https://boardgamegeek.com/boardgame/929/the-great-dalmuti' target='_blank'>The Great Dalmuti</a>, this was our COVID-era New Years activity.",
+				obituary: "My monthly \"free hours\" quota on Render.com was being eaten up by this clone-of-a-card-game project.",
 			},
 			truecolors: {
 				name: "True Colors",
@@ -89,6 +110,13 @@
 				idea: "For a time, you could race your friends to build a chain of connected compound words in this real-time web game.",
 				obituary: "I didn't have a mechanism to ensure the words you submitted actually connected, or indeed, were even real words. But <a href='https://jamesmayr.com/syllabolting'>Syllabolting</a>, my single-player replacement, fixed those problems a few years later."
 			},
+			melodemons: {
+				name: "melodemons",
+				birth: "October 2018",
+				death: "September 2026",
+				idea: "Melodemons was a real-time multiplayer music-based post-capturing platformer. It was a Demo Day presentation, and while it wasn't really fun, it was kinda cool.",
+				obituary: "I like the visuals, the wrap-around world, the theme, the music... but the gameplay just wasn't there."
+			},
 			themusereflekts: {
 				name: "The Muse Reflekts",
 				birth: "August 2018",
@@ -102,6 +130,13 @@
 				death: "October 2020",
 				idea: "Using a free video game API, this tool compared all the games given a search term and graphed them across release year and community rating.",
 				obituary: "They say all good APIs come to an end... this one was bought out by Twitch."
+			},
+			clickclique: {
+				name: "ClickClique",
+				birth: "April 2018",
+				death: "September 2026",
+				idea: "ClickClique was a PVP real-time clicking competition, built with nodeJS and websockets. If I remember right, I made this to demo websockets to the engineering team.",
+				obituary: "Another classic proof-of-concept project; this was never meant to be more than a stepping stone on the path to real multi-player games."
 			},
 			wavestacker: {
 				name: "waveStacker",
