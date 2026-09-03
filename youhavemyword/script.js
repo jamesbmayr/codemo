@@ -2,7 +2,6 @@
 	/* triggers */
 		const TRIGGERS = {
 			click: "click",
-			submit: "submit",
 			input: "input"
 		}
 
@@ -64,11 +63,14 @@
 				return: document.querySelector("#round-return"),
 			},
 			guess: {
-				form: document.querySelector("#guess-form"),
-				input: document.querySelector("#guess-input"),
-				submit: document.querySelector("#guess-submit"),
+				buttons: document.querySelector("#guess-buttons"),
 				timer: document.querySelector("#guess-timer"),
 				return: document.querySelector("#guess-return"),
+			},
+			feedback: {
+				verdict: document.querySelector("#feedback-verdict"),
+				impact: document.querySelector("#feedback-impact"),
+				ready: document.querySelector("#feedback-ready"),
 			}
 		}
 
@@ -77,25 +79,21 @@
 			minute: 60, // s
 			second: 1000, // ms
 			tick: 100, // ms
+			alphabet: 'abcdefghijklmnopqrstuvwxyz',
 			url: "https://jamesmayr.com/youhavemyword",
 			check: `<svg viewBox="0 0 100 100"><path fill="#ffffff" d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg>`,
 			rounds: 5, // #
-			sameCategoryChance: 0.333, // ratio
 			wordsPerPlayer: 3, // #
 			players: {
-				_4:  {blue: 3,  red: 1, decoys: 5 },
+				_4:  {blue: 3,  red: 1, decoys: 6 },
 				_5:  {blue: 3,  red: 2, decoys: 6 },
-				_6:  {blue: 4,  red: 2, decoys: 7 },
-				_7:  {blue: 5,  red: 2, decoys: 8 },
-				_8:  {blue: 5,  red: 3, decoys: 9 },
-				_9:  {blue: 6,  red: 3, decoys: 10},
-				_10: {blue: 7,  red: 3, decoys: 11},
-				_11: {blue: 7,  red: 4, decoys: 12},
-				_12: {blue: 8,  red: 4, decoys: 13},
-				_13: {blue: 9,  red: 4, decoys: 14},
-				_14: {blue: 9,  red: 5, decoys: 15},
-				_15: {blue: 10, red: 5, decoys: 16},
-				_16: {blue: 11, red: 5, decoys: 17},
+				_6:  {blue: 4,  red: 2, decoys: 8 },
+				_7:  {blue: 5,  red: 2, decoys: 10},
+				_8:  {blue: 5,  red: 3, decoys: 10},
+				_9:  {blue: 6,  red: 3, decoys: 12},
+				_10: {blue: 7,  red: 3, decoys: 14},
+				_11: {blue: 7,  red: 4, decoys: 14},
+				_12: {blue: 8,  red: 4, decoys: 16},
 			},
 			teams: {
 				blue: {
@@ -137,24 +135,24 @@
 			dictionary: [
 				["apple", "banana", "blueberry", "cantaloupe", "cherry", "cranberry", "grape", "kiwi", "lemon", "lime", "mango", "orange", "papaya", "peach", "pear", "pineapple", "plum", "raspberry", "strawberry", "watermelon"], // fruit
 				["asparagus", "broccoli", "cabbage", "carrot", "cauliflower", "celery", "corn", "cucumber", "eggplant", "garlic", "lettuce", "mushroom", "onion", "peas", "potato", "pumpkin", "radish", "spinach", "tomato", "yam"], // vegetables
+				["bamboo", "bush", "cactus", "clover", "daisy", "dandelion", "fern", "grass", "ivy", "lily", "maple", "moss", "oak", "palm", "pine", "rose", "seaweed", "sunflower", "tulip", "willow"], // plants
 				["camel", "canary", "cat", "chicken", "cow", "dog", "donkey", "ferret", "goat", "goldfish", "horse", "lizard", "llama", "mouse", "parrot", "pig", "pigeon", "rabbit", "sheep", "snake"], // domesticated animals
 				["alligator", "bat", "bear", "buffalo", "deer", "elephant", "frog", "giraffe", "gorilla", "kangaroo", "koala", "lion", "monkey", "otter", "panda", "porcupine", "rat", "tiger", "wolf", "zebra"], // wild land animals
 				["blue jay", "cardinal", "crow", "dove", "eagle", "flamingo", "hawk", "hummingbird", "ostrich", "owl", "peacock", "pelican", "penguin", "puffin", "robin", "seagull", "swan", "turkey", "vulture", "woodpecker"], // birds
 				["ant", "bee", "butterfly", "caterpillar", "centipede", "dragonfly", "firefly", "flea", "fly", "grasshopper", "ladybug", "leech", "mosquito", "moth", "scorpion", "snail", "spider", "tick", "wasp", "worm"], // bugs
 				["coral", "crab", "dolphin", "eel", "jellyfish", "lobster", "octopus", "oyster", "stingray", "salmon", "seahorse", "shark", "shrimp", "sponge", "starfish", "swordfish", "tuna", "turtle", "walrus", "whale"], // aquatic animals
+				["ankle", "arm", "brain", "ear", "elbow", "eye", "finger", "foot", "hair", "hand", "head", "heart", "knee", "leg", "lung", "mouth", "neck", "nose", "spine", "stomach"], // body parts
+				["beach", "city", "cave", "desert", "farm", "forest", "field", "garden", "glacier", "hill", "jungle", "lake", "mountain", "ocean", "river", "savanna", "swamp", "tundra", "volcano", "waterfall"], // biomes
+				["blizzard", "cloud", "drought", "fog", "flood", "hail", "humidity", "hurricane", "ice", "lightning", "rain", "rainbow", "sandstorm", "smog", "snow", "temperature", "thunder", "tides", "tornado", "wind"], // weather
 				["amber", "chalk", "coal", "copper", "diamond", "emerald", "limestone", "gold", "granite", "iron", "lead", "marble", "obsidian", "opal", "pearl", "quartz", "ruby", "sandstone", "sapphire", "silver"], // minerals
 				["asteroid", "black hole", "comet", "earth", "galaxy", "jupiter", "mars", "mercury", "moon", "neptune", "pluto", "rocket", "satellite", "saturn", "space", "star", "sun", "supernova", "uranus", "venus"], // space
 				["australia", "brazil", "canada", "chile", "china", "colombia", "cuba", "egypt", "france", "germany", "greece", "india", "ireland", "japan", "korea", "madagascar", "mexico", "nigeria", "russia", "spain"], // countries
-				["bamboo", "bush", "cactus", "clover", "daisy", "dandelion", "fern", "grass", "ivy", "lily", "maple", "moss", "oak", "palm", "pine", "rose", "seaweed", "sunflower", "tulip", "willow"], // plants
+				["airport", "apartment", "barn", "bank", "castle", "factory", "hospital", "hotel", "house", "library", "mall", "mansion", "office", "restaurant", "school", "skyscraper", "station", "temple", "theater", "warehouse"], // buildings
 				["bicycle", "blimp", "bus", "ferry", "helicopter", "kayak", "motorcycle", "plane", "racecar", "rowboat", "sailboat", "sled", "submarine", "subway", "tank", "taxi", "train", "truck", "van", "wagon"], // transportation
-				["accordion", "banjo", "bass", "bassoon", "bell", "cello", "clarinet", "drum", "flute", "guitar", "harmonica", "harp", "saxophone", "organ", "piano", "trombone", "trumpet", "ukulele", "violin", "xylophone"], // instruments
-				["ankle", "arm", "brain", "ear", "elbow", "eye", "finger", "foot", "hair", "hand", "head", "heart", "knee", "leg", "lung", "mouth", "neck", "nose", "spine", "stomach"], // body parts
 				["apron", "belt", "bracelet", "boot", "coat", "dress", "earring", "glasses", "glove", "hat", "kilt", "necklace", "pants", "ring", "scarf", "shirt", "shoe", "sock", "sweater", "tie"], // clothing
 				["bed", "chair", "chest", "couch", "desk", "dishwasher", "fan", "freezer", "futon", "lamp", "microwave", "oven", "shelf", "stool", "stove", "table", "television", "wardrobe", "washing machine", "vacuum"], // appliances & furniture
-				["beach", "city", "cave", "desert", "farm", "forest", "field", "garden", "glacier", "hill", "jungle", "lake", "mountain", "ocean", "river", "savanna", "swamp", "tundra", "volcano", "waterfall"], // biomes
-				["arrow", "axe", "bomb", "bow", "catapult", "cannon", "club", "flamethrower", "hammer", "grenade", "gun", "knife", "lance", "laser", "mine", "missile", "spear", "sword", "torpedo", "whip"], // weapons
-				["airport", "apartment", "barn", "bank", "castle", "factory", "hospital", "hotel", "house", "library", "mall", "mansion", "office", "restaurant", "school", "skyscraper", "station", "temple", "theater", "warehouse"], // buildings
-				["blizzard", "cloud", "drought", "fog", "flood", "hail", "humidity", "hurricane", "ice", "lightning", "rain", "rainbow", "sandstorm", "smog", "snow", "temperature", "thunder", "tornado", "tsunami", "wind"], // weather
+				["accordion", "banjo", "bass", "bassoon", "bell", "cello", "clarinet", "drum", "flute", "guitar", "harmonica", "harp", "saxophone", "organ", "piano", "trombone", "trumpet", "ukulele", "violin", "xylophone"], // instruments
+				["crayon", "glue", "hammer", "hook", "key", "knife", "magnet", "marker", "paintbrush", "paper", "pencil", "rope", "ruler", "saw", "scissors", "screw", "tape", "thread", "wrench", "yarn"], // crafting
 			]
 		}
 
@@ -165,6 +163,7 @@
 			queryString: "",
 			player: 0,
 			team: "",
+			categories: [],
 			codewords: [],
 			rounds: [],
 			round: 0,
@@ -234,7 +233,32 @@
 			}
 			
 			ELEMENTS.guess.timer.innerText = ""
-			ELEMENTS.guess.input.value = ""
+			ELEMENTS.guess.buttons.innerHTML = ""
+
+			ELEMENTS.feedback.verdict.innerText = ""
+			ELEMENTS.feedback.impact.innerText = ""
+		}
+
+	/* convertList */
+		function convertList(list, toBase) {
+			if (!Array.isArray(list)) {
+				return list
+			}
+
+			const newList = []
+
+			if (toBase == "alphabet") {
+				for (let i in list) {
+					newList[i] = CONSTANTS.alphabet[list[i]]
+				}
+			}
+			else if (toBase == "integer") {
+				for (let i in list) {
+					newList[i] = CONSTANTS.alphabet.indexOf(list[i])
+				}
+			}
+
+			return newList
 		}
 
 /*** create ***/
@@ -246,10 +270,11 @@
 			const players     = new Array(playerCount)
 				assignPlayerTeams(players)
 			
-			const codewords   = getCodewords()
-			const decoys      = getDecoys(playerCount, codewords)
+			const categories  = getCategories()
+			const codewords   = getCodewords(categories)
+			const decoys      = getDecoys(playerCount, categories, codewords)
 				assignPlayerWords(players, codewords, decoys)
-				assignPlayerURLs(players, codewords)
+				assignPlayerURLs(players, categories, codewords)
 
 			STATE.players = players
 
@@ -267,24 +292,24 @@
 			for (let p = 0; p < players.length; p++) {
 				players[p] = {
 					number: p + 1,
-					team: shuffledTeams[p]
+					team: shuffledTeams[p],
+					rounds: []
 				}
 			}
 		}
 
+	/* getCategories */
+		function getCategories() {
+			return sortRandom(Object.keys(CONSTANTS.dictionary)).slice(0, CONSTANTS.rounds)
+		}
+
 	/* getCodewords */
-		function getCodewords() {
+		function getCodewords(categories) {
 			const codewords = []
 
 			for (let round = 0; round < CONSTANTS.rounds; round++) {
-				const thisCodeword = {}
-
-				do {
-					thisCodeword.category = rangeRandom(0, CONSTANTS.dictionary.length)
-					thisCodeword.index = rangeRandom(0, CONSTANTS.dictionary[thisCodeword.category].length)
-					thisCodeword.word = CONSTANTS.dictionary[thisCodeword.category][thisCodeword.index]
-				} while (codewords.map(item => item.word).includes(thisCodeword.word))
-				
+				const thisCategory = categories[round]
+				const thisCodeword = rangeRandom(0, CONSTANTS.dictionary[thisCategory].length).toString()
 				codewords.push(thisCodeword)
 			}
 
@@ -292,37 +317,14 @@
 		}
 
 	/* getDecoys */
-		function getDecoys(playerCount, codewords) {
+		function getDecoys(playerCount, categories, codewords) {
 			const decoys = []
 			const decoyCount = CONSTANTS.players[`_${playerCount}`].decoys
 			
 			for (let round = 0; round < CONSTANTS.rounds; round++) {
+				const thisCategory = categories[round]
 				const thisCodeword = codewords[round]
-				
-				const theseDecoys = []
-				while (theseDecoys.length < decoyCount) {
-					const thisDecoy = {
-						bluePlayers: 0
-					}
-					
-					if (Math.random() < CONSTANTS.sameCategoryChance) {
-						do {
-							thisDecoy.category = thisCodeword.category
-							thisDecoy.index = rangeRandom(0, CONSTANTS.dictionary[thisDecoy.category].length)
-							thisDecoy.word = CONSTANTS.dictionary[thisDecoy.category][thisDecoy.index]
-						} while (thisCodeword.word == thisDecoy.word || theseDecoys.map(item => item.word).includes(thisDecoy.word))
-					}
-					else {
-						do {
-							thisDecoy.category = rangeRandom(0, CONSTANTS.dictionary.length)
-							thisDecoy.index = rangeRandom(0, CONSTANTS.dictionary[thisDecoy.category].length)
-							thisDecoy.word = CONSTANTS.dictionary[thisDecoy.category][thisDecoy.index]
-						} while (thisCodeword.category == thisDecoy.category || theseDecoys.map(item => item.word).includes(thisDecoy.word))
-					}
-
-					theseDecoys.push(thisDecoy)
-				}
-
+				const theseDecoys = sortRandom(Object.keys(CONSTANTS.dictionary[thisCategory])).filter(word => word !== thisCodeword).slice(0, decoyCount)
 				decoys.push(theseDecoys)
 			}
 
@@ -331,42 +333,34 @@
 
 	/* assignPlayerWords */
 		function assignPlayerWords(players, codewords, decoys) {
-			const blueCount = CONSTANTS.players[`_${players.length}`].blue
+			for (let round = 0; round < CONSTANTS.rounds; round++) {
+				const decoysBlue = sortRandom(decoys[round])
+				const decoysRed  = sortRandom(decoys[round])
 
-			for (let p in players) {
-				const player = players[p]
-					player.rounds = []
-
-				for (let round = 0; round < CONSTANTS.rounds; round++) {
-					const roundWords = []
-
+				for (let p in players) {
+					const player = players[p]
+					player.rounds[round] = []
 					if (player.team == "blue") {
-						roundWords.push(codewords[round])
+						player.rounds[round].push(codewords[round])
+						while (player.rounds[round].length < CONSTANTS.wordsPerPlayer) {
+							player.rounds[round].push(decoysBlue.pop())
+						}
 					}
-					while (roundWords.length < CONSTANTS.wordsPerPlayer) {
-						const thisDecoy = {}
-						do {
-							const randomDecoy = chooseRandom(decoys[round])
-							thisDecoy.category = randomDecoy.category
-							thisDecoy.index = randomDecoy.index
-							thisDecoy.word = randomDecoy.word
-						} while (roundWords.map(item => item.word).includes(thisDecoy.word))
-						roundWords.push(thisDecoy)
+					else {
+						while (player.rounds[round].length < CONSTANTS.wordsPerPlayer) {
+							player.rounds[round].push(decoysRed.pop())
+						}
 					}
 
-					// it's technically possible for all blue players to end up with a same decoy // ???
-					player.rounds.push(sortRandom(roundWords))
+					player.rounds[round] = sortRandom(player.rounds[round])
 				}
 			}
 		}
 
 	/* assignPlayerURLs */
-		function assignPlayerURLs(players, codewords) {
-			const codewordsList = []
-			for (const c in codewords) {
-				codewordsList.push(`${codewords[c].category}-${codewords[c].index}`)
-			}
-			const codewordsString = "&c=" + codewordsList.join("_")
+		function assignPlayerURLs(players, categories, codewords) {
+			const categoriesString = "&c=" + convertList(categories, "alphabet").join("")
+			const codewordsString = "&e=" + convertList(codewords, "alphabet").join("")
 
 			for (let p = 0; p < players.length; p++) {
 				const player = players[p]
@@ -375,17 +369,11 @@
 				
 				const wordsList = []
 				for (let round = 0; round < CONSTANTS.rounds; round++) {
-					const roundWordsList = []
-					for (const w in player.rounds[round]) {
-						const thisWord = player.rounds[round][w]
-						roundWordsList.push(`${("0" + thisWord.category).slice(-2)}-${("0" + thisWord.index).slice(-2)}`)
-					}
-					const roundWordsString = roundWordsList.join("_")
-					wordsList.push(roundWordsString)
+					wordsList.push(convertList(player.rounds[round], "alphabet").join(""))
 				}
-				const wordsString = "&d=" + wordsList.join("__")
+				const wordsString = "&d=" + wordsList.join("_")
 
-				player.url = CONSTANTS.url + numberString + teamString + codewordsString + wordsString
+				player.url = CONSTANTS.url + numberString + teamString + categoriesString + wordsString + codewordsString
 			}
 		}
 
@@ -489,7 +477,7 @@
 				parameters[pair[0]] = pair[1]
 			}
 
-			if (parameters.a == undefined || parameters.b == undefined || parameters.c == undefined || parameters.d == undefined) {
+			if (parameters.a == undefined || parameters.b == undefined || parameters.c == undefined || parameters.d == undefined || parameters.e == undefined) {
 				return
 			}
 
@@ -504,24 +492,24 @@
 			ELEMENTS.team.name.innerHTML = CONSTANTS.teams[STATE.team].name
 			ELEMENTS.team.goal.innerHTML = CONSTANTS.teams[STATE.team].goal
 
-			const codewordNumbers = parameters.c.split("_")
+			STATE.categories = convertList(parameters.c.split(""), "integer")
+
+			const codewordNumbers = convertList(parameters.e.split(""), "integer")
 			STATE.codewords = []
-			for (const c in codewordNumbers) {
-				const wordPair = codewordNumbers[c].split("-")
-				const category = Number(wordPair[0])
-				const index = Number(wordPair[1])
+			for (let round = 0; round < codewordNumbers.length; round++) {
+				const category = STATE.categories[round]
+				const index = codewordNumbers[round]
 				STATE.codewords.push(CONSTANTS.dictionary[category][index])
 			}
 			
-			const playerWordNumbers = parameters.d.split("__")
+			const playerWordNumbers = parameters.d.split("_").map(letters => convertList(letters.split(""), "integer"))
 			STATE.rounds = []
 			for (let round = 0; round < playerWordNumbers.length; round++) {
 				STATE.rounds[round] = []
-				const roundWordNumbers = playerWordNumbers[round].split("_")
+				const roundWordNumbers = playerWordNumbers[round]
 				for (const w in roundWordNumbers) {
-					const wordPair = roundWordNumbers[w].split("-")
-					const category = Number(wordPair[0])
-					const index = Number(wordPair[1])
+					const category = STATE.categories[round]
+					const index = roundWordNumbers[w]
 					STATE.rounds[round].push(CONSTANTS.dictionary[category][index])
 				}
 			}
@@ -672,6 +660,8 @@
 				ELEMENTS.round.number.innerText = (STATE.round + 1)
 				ELEMENTS.round.words.innerHTML = sortRandom(STATE.rounds[STATE.round]).join("<br>")
 
+				createGuessButtons()
+
 				clearInterval(STATE.interval)
 				STATE.interval = setInterval(tickRound, CONSTANTS.tick)
 				return
@@ -707,7 +697,6 @@
 			}
 			else if (timeNow < STATE.roundStart + CONSTANTS.timers.round + CONSTANTS.timers.guess) {
 				setMode("guess")
-				ELEMENTS.guess.input.focus()
 			}
 			else {
 				submitGuess()
@@ -732,7 +721,6 @@
 		ELEMENTS.round.ready.addEventListener(TRIGGERS.click, readyRound)
 		function readyRound() {
 			setMode("guess")
-			ELEMENTS.guess.input.focus()
 		}
 
 	/* returnRound */
@@ -744,30 +732,43 @@
 		}
 
 /*** guess ***/
-	/* submitGuess */
-		ELEMENTS.guess.form.addEventListener(TRIGGERS.submit, submitGuess)
-		ELEMENTS.guess.submit.addEventListener(TRIGGERS.click, submitGuess)
-		function submitGuess(event) {
-			if (event) {
-				event.preventDefault()
+	/* createGuessButtons */
+		function createGuessButtons() {
+			const category = STATE.categories[STATE.round]
+			const words = CONSTANTS.dictionary[category]
+			for (const w in words) {
+				const guessButton = document.createElement("button")
+					guessButton.className = "guess-button"
+					guessButton.value = words[w]
+					guessButton.innerText = words[w]
+					guessButton.addEventListener(TRIGGERS.click, submitGuess)
+				ELEMENTS.guess.buttons.appendChild(guessButton)
 			}
+		}
+
+	/* submitGuess */
+		function submitGuess(event) {
 			clearInterval(STATE.interval)
 
-			const guess = (ELEMENTS.guess.input.value || "").toLowerCase().replace(/\s/g, "")
-			const correct = (guess == STATE.codewords[STATE.round].toLowerCase().replace(/\s/g, ""))
+			const guess = event ? event.target.value : null
+			const correct = (guess == STATE.codewords[STATE.round])
 			STATE.round += 1
 			clearContent()
 			updateLocal()
 
+			ELEMENTS.feedback.verdict.innerText = correct ? "That was the Code Word!" : "That was a Decoy."
+
 			if ((correct && STATE.team == "blue") || (!correct && STATE.team == "red")) {
 				ELEMENTS.color.result.setAttribute("team", "blue")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.blue.icon
+				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You're doing your part for the Quorum of Blue!" : "You failed to intercept the Blue communication."
 			}
 			else {
 				ELEMENTS.color.result.setAttribute("team", "red")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.red.icon
+				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You were deceived by the Red Faction. Unity is broken." : "You have contributed to a glorious Red victory!"
 			}
-			setMode("color")
+			setMode("feedback")
 		}
 
 	/* returnGuess */
@@ -776,4 +777,11 @@
 			clearContent()
 			clearInterval(STATE.interval)
 			setMode("rules")
+		}
+
+/*** feedback ***/
+	/* readyFeedback */
+		ELEMENTS.feedback.ready.addEventListener(TRIGGERS.click, readyFeedback)
+		function readyFeedback() {
+			setMode("color")
 		}

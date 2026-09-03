@@ -458,16 +458,11 @@
 		display: block;
 	}
 
-		#guess-input {
+		.guess-button {
 			text-transform: uppercase;
-			margin-left: 0;
-			margin-right: 0;
-			border-radius: var(--border-radius) 0 0 0;
-			max-width: calc(100% - var(--font-size) * 5 + var(--gap-size));
 		}
-
-		#guess-submit {
-			margin-left: 0;
-			margin-right: 0;
-			border-radius: 0 0 var(--border-radius) 0;
-		}
+		
+/*** feedback ***/
+	#container[mode="feedback"] section#feedback {
+		display: block;
+	}
