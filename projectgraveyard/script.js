@@ -75,6 +75,13 @@
 				idea: "At the height of the COVID-19 pandemic, I built a virtual card game for my friends to play remotely. It was designed to be a strategic bluffing asymmetrical card game about colors and symbols and sabotage.",
 				obituary: "It... wasn't particularly fun."
 			},
+			tictactoe: {
+				name: "tictactoe",
+				birth: "June 2020",
+				death: "September 2026",
+				idea: "This was a Unity demo of the classic game, built with a customizable grid and win condition.",
+				obituary: "There's no reason for checkers to fall onto the board with gravity. This was a way too over-engineered version of the world's simplest game."
+			},
 			textbasedrpg: {
 				name: "Text-Based RPG",
 				birth: "April 2020",
@@ -109,6 +116,13 @@
 				death: "June 2026",
 				idea: "For a time, you could race your friends to build a chain of connected compound words in this real-time web game.",
 				obituary: "I didn't have a mechanism to ensure the words you submitted actually connected, or indeed, were even real words. But <a href='https://jamesmayr.com/syllabolting'>Syllabolting</a>, my single-player replacement, fixed those problems a few years later."
+			},
+			pulsepather: {
+				name: "pulsePather",
+				birth: "October 2018",
+				death: "September 2026",
+				idea: "In this web audio experiment, you'd see a soundboard light up with colors and sounds as an \"active\" state moved outwards from the middle.",
+				obituary: "I should've unlisted this confusing, lackluster project far earlier than I did."
 			},
 			melodemons: {
 				name: "melodemons",
@@ -349,6 +363,10 @@
 							text.appendChild(description)
 
 						// add to overlay
+							if (i == "projectgraveyard") {
+								continue
+							}
+
 							let overlayForm = document.createElement("form")
 								overlayForm.setAttribute("project", slide.id)
 								overlayForm.setAttribute("action", "javascript:;")
