@@ -34,11 +34,16 @@
 				scan: document.querySelector("#join-scan"),
 				quit: document.querySelector("#join-quit"),
 			},
+			joined: {
+				player: document.querySelector("#joined-player"),
+				ready: document.querySelector("#joined-ready"),
+			},
 			rules: {
-				player: document.querySelector("#rules-player"),
+				next: document.querySelector("#rules-next"),
+				previous2: document.querySelector("#rules-2-previous"),
+				next2: document.querySelector("#rules-2-next"),
+				previous3: document.querySelector("#rules-3-previous"),
 				ready: document.querySelector("#rules-ready"),
-				rescan: document.querySelector("#rules-rescan"),
-				quit: document.querySelector("#rules-quit"),
 			},
 			team: {
 				player: document.querySelector("#team-player"),
@@ -46,31 +51,40 @@
 				name: document.querySelector("#team-name"),
 				goal: document.querySelector("#team-goal"),
 				ready: document.querySelector("#team-ready"),
-				quit: document.querySelector("#team-quit")
+				quit: document.querySelector("#team-quit"),
 			},
 			color: {
 				result: document.querySelector("#color-result"),
 				ready: document.querySelector("#color-ready"),
 				round: document.querySelector("#color-round"),
 				timer: document.querySelector("#color-timer"),
-				return: document.querySelector("#color-return"),
+				help: document.querySelector("#color-help"),
 			},
 			round: {
 				number: document.querySelector("#round-number"),
 				words: document.querySelector("#round-words"),
 				ready: document.querySelector("#round-ready"),
 				timer: document.querySelector("#round-timer"),
-				return: document.querySelector("#round-return"),
+				help: document.querySelector("#round-help"),
 			},
 			guess: {
 				buttons: document.querySelector("#guess-buttons"),
 				timer: document.querySelector("#guess-timer"),
-				return: document.querySelector("#guess-return"),
+				help: document.querySelector("#guess-help"),
 			},
 			feedback: {
 				verdict: document.querySelector("#feedback-verdict"),
 				impact: document.querySelector("#feedback-impact"),
 				ready: document.querySelector("#feedback-ready"),
+				help: document.querySelector("#feedback-help"),
+			},
+			help: {
+				element: document.querySelector("#help"),
+				player: document.querySelector("#help-player"),
+				team: document.querySelector("#help-team"),
+				close: document.querySelector("#help-close"),
+				rescan: document.querySelector("#help-rescan"),
+				quit: document.querySelector("#help-quit"),
 			}
 		}
 
@@ -109,8 +123,8 @@
 			},
 			timers: {
 				color: 1000 * 3, // ms
-				round: 1000 * 60 * 5, // ms
-				guess: 1000 * 30, // ms
+				round: 1000 * 60 * 4, // ms
+				guess: 1000 * 10, // ms
 			},
 			qrCodeGenerator: {
 				settings: {
@@ -482,15 +496,17 @@
 			}
 
 			STATE.player = Number(parameters.a)
-			ELEMENTS.rules.player.innerText = STATE.player
+			ELEMENTS.joined.player.innerText = STATE.player
 			ELEMENTS.team.player.innerText = STATE.player
-			ELEMENTS.rules.rescan.setAttribute("visible", STATE.player == 1 ? true : false)
+			ELEMENTS.help.player.innerText = STATE.player
+			ELEMENTS.help.rescan.setAttribute("visible", STATE.player == 1 ? true : false)
 
 			STATE.team = (Number(parameters.b) ? "red" : "blue")
 			ELEMENTS.team.icon.innerHTML = CONSTANTS.teams[STATE.team].icon
 			ELEMENTS.team.icon.setAttribute("team", STATE.team)
 			ELEMENTS.team.name.innerHTML = CONSTANTS.teams[STATE.team].name
 			ELEMENTS.team.goal.innerHTML = CONSTANTS.teams[STATE.team].goal
+			ELEMENTS.help.team.innerHTML = CONSTANTS.teams[STATE.team].name
 
 			STATE.categories = convertList(parameters.c.split(""), "integer")
 
@@ -524,7 +540,7 @@
 
 			updateLocal()
 			clearContent()
-			setMode("rules")
+			setMode("joined")
 		}
 
 	/* updateLocal */
@@ -608,28 +624,42 @@
 			setMode("menu")
 		}
 
+/*** joined ***/
+	/* readyJoined */
+		ELEMENTS.joined.ready.addEventListener(TRIGGERS.click, readyJoined)
+		function readyJoined() {
+			setMode("rules")
+		}
+
 /*** rules ***/
+	/* nextRules */
+		ELEMENTS.rules.next.addEventListener(TRIGGERS.click, nextRules)
+		function nextRules() {
+			setMode("rules-2")
+		}
+
+	/* previousRule2 */
+		ELEMENTS.rules.previous2.addEventListener(TRIGGERS.click, previousRule2)
+		function previousRule2() {
+			setMode("rules")
+		}
+
+	/* nextRules2 */
+		ELEMENTS.rules.next2.addEventListener(TRIGGERS.click, nextRules2)
+		function nextRules2() {
+			setMode("rules-3")
+		}
+
+	/* previousRules3 */
+		ELEMENTS.rules.previous3.addEventListener(TRIGGERS.click, previousRules3)
+		function previousRules3() {
+			setMode("rules-2")
+		}
+
 	/* readyRules */
 		ELEMENTS.rules.ready.addEventListener(TRIGGERS.click, readyRules)
 		function readyRules() {
 			setMode("team")
-		}
-
-	/* rescanRules */
-		ELEMENTS.rules.rescan.addEventListener(TRIGGERS.click, rescanRules)
-		function rescanRules() {
-			setMode("qrcodes")
-			loadQRcode(1)
-		}
-
-	/* quitRules */
-		ELEMENTS.rules.quit.addEventListener(TRIGGERS.click, quitRules)
-		function quitRules() {
-			window.localStorage.youhavemyword = ""
-			delete window.localStorage.youhavemyword
-			STATE.round = 0
-			clearContent()
-			setMode("menu")
 		}
 
 /*** team ***/
@@ -668,14 +698,6 @@
 			}
 
 			setMode("team")
-		}
-
-	/* returnColor */
-		ELEMENTS.color.return.addEventListener(TRIGGERS.click, returnColor)
-		function returnColor() {
-			clearContent()
-			clearInterval(STATE.interval)
-			setMode("rules")
 		}
 
 /*** round ***/
@@ -723,14 +745,6 @@
 			setMode("guess")
 		}
 
-	/* returnRound */
-		ELEMENTS.round.return.addEventListener(TRIGGERS.click, returnRound)
-		function returnRound() {
-			clearContent()
-			clearInterval(STATE.interval)
-			setMode("rules")
-		}
-
 /*** guess ***/
 	/* createGuessButtons */
 		function createGuessButtons() {
@@ -756,7 +770,7 @@
 			clearContent()
 			updateLocal()
 
-			ELEMENTS.feedback.verdict.innerText = correct ? "That was the Code Word!" : "That was a Decoy."
+			ELEMENTS.feedback.verdict.innerText = (!guess || !guess.length) ? "You ran out of time." : (correct ? "That was the Code Word!" : "That was a Decoy.")
 
 			if ((correct && STATE.team == "blue") || (!correct && STATE.team == "red")) {
 				ELEMENTS.color.result.setAttribute("team", "blue")
@@ -766,17 +780,9 @@
 			else {
 				ELEMENTS.color.result.setAttribute("team", "red")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.red.icon
-				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You were deceived by the Red Faction. Unity is broken." : "You have contributed to a glorious Red victory!"
+				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You were foiled by the Red Faction. Unity is broken." : "You have contributed to a glorious Red victory!"
 			}
 			setMode("feedback")
-		}
-
-	/* returnGuess */
-		ELEMENTS.guess.return.addEventListener(TRIGGERS.click, returnGuess)
-		function returnGuess() {
-			clearContent()
-			clearInterval(STATE.interval)
-			setMode("rules")
 		}
 
 /*** feedback ***/
@@ -784,4 +790,39 @@
 		ELEMENTS.feedback.ready.addEventListener(TRIGGERS.click, readyFeedback)
 		function readyFeedback() {
 			setMode("color")
+		}
+
+/*** help ***/
+	/* openHelp */
+		ELEMENTS.color.help.addEventListener(TRIGGERS.click, openHelp)
+		ELEMENTS.round.help.addEventListener(TRIGGERS.click, openHelp)
+		ELEMENTS.guess.help.addEventListener(TRIGGERS.click, openHelp)
+		ELEMENTS.feedback.help.addEventListener(TRIGGERS.click, openHelp)
+		function openHelp() {
+			ELEMENTS.help.element.setAttribute("visible", true)
+		}
+
+	/* closeHelp */
+		ELEMENTS.help.close.addEventListener(TRIGGERS.click, closeHelp)
+		function closeHelp() {
+			ELEMENTS.help.element.removeAttribute("visible")
+		}
+
+	/* rescanHelp */
+		ELEMENTS.help.rescan.addEventListener(TRIGGERS.click, rescanHelp)
+		function rescanHelp() {
+			closeHelp()
+			setMode("qrcodes")
+			loadQRcode(1)
+		}
+
+	/* quitHelp */
+		ELEMENTS.help.quit.addEventListener(TRIGGERS.click, quitHelp)
+		function quitHelp() {
+			closeHelp()
+			window.localStorage.youhavemyword = ""
+			delete window.localStorage.youhavemyword
+			STATE.round = 0
+			clearContent()
+			setMode("menu")
 		}
