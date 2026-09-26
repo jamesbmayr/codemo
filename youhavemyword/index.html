@@ -25,6 +25,7 @@
 				<h2 id="help-header">How to Play</h2>
 				<hr>
 				<p>You are Citizen <span id="help-player"></span>.<br><br>You are a <span id="help-team"></span>.</p>
+				<p id="help-counts"></p>
 				<hr>
 				<p>Figure out the code word by talking to people.</p>
 				<p>Every member of <span class="team-blue">the Quorum of Blue</span> gets one code word and two decoys.</p>
@@ -32,9 +33,9 @@
 				<hr>
 				<p>Avoid outright sharing your words! Instead, hint at what you have so that only someone else with the same word would know what you mean.</p>
 				<p>For example, talk about where that thing can be found, what it's used for, or who might have it.</p>
+				<hr>
 				<p>When someone's talking to you, do their clues connect to any of your three words?</p>
 				<p>If so, maybe that's the code word!<br>...Or maybe it's a decoy and they're trying to trick you.</p>
-				<hr>
 				<p>Try to talk to everyone, every round.</p>
 				<hr>
 				<button id="help-close" title="close">
@@ -118,7 +119,7 @@
 			<section id="rules">
 				<h2 id="rules-header">Rules (1/3)</h2>
 				<hr>
-				<p>There is a conflict brewing.<br><br>The <span class="team-blue">The Quorum of Blue</span> is an underground resistance, while <span class="team-red">The Red Faction</span> seeks to suppress all dissent.<br><br>But no one knows where their fellow citizens' loyalties lie.</p>
+				<p>There is a conflict brewing.<br><br><span class="team-blue">The Quorum of Blue</span> is an underground resistance, while <span class="team-red">The Red Faction</span> seeks to suppress all dissent.<br><br>But no one knows where their fellow citizens' loyalties lie.</p>
 				<hr>
 				<button id="rules-next" title="ready">
 					<span>Next.</span>
@@ -158,10 +159,18 @@
 				<hr>
 				<p>Either way, you'll need to talk to lots of people.<br><br>But talk in riddles; be vague, with just a hint of direction. You're trying to convey information while enemies are listening (or confuse your opponents while still seeming trustworthy).</p>
 				<hr>
+				<p>Each round...</p>
 				<ul>
 					<li><span class="team-blue">The Quorum of Blue</span> needs all members to enter the code word. If even a single member is wrong, <span class="team-red">the Red Faction</span> succeeds instead.</li>
-					<li><span class="team-red">The Red Faction</span> can also succeed if one or more soldiers correctly identify the code word.</li>
-					<li>The conflict ends when one side achieves three victories.</li>
+					<li><span class="team-red">The Red Faction</span> can also succeed if any soldiers correctly identify the code word.</li>
+				</ul>
+				<hr>
+				<p>Use 3 <span class="team-red">Red</span> tokens and 3 <span class="team-blue">Blue</span> tokens to track the conflict:</p>
+				<ul>
+					<li>Round 1: 1 point</li>
+					<li>Round 2: 2 points</li>
+					<li>Round 3: 3 points</li>
+					<li>Tiebreaker (if necessary)</li>
 				</ul>
 				<hr>
 				<button id="rules-3-previous" title="previous">
@@ -180,11 +189,13 @@
 				<h2 id="team-name"></h2>
 				<hr>
 				<p id="team-goal"></p>
+				<p id="team-counts"></p>
 				<hr>
 				<button id="team-ready" title="ready" visible="true">
 					<span>We shall prevail.</span>
 					<svg viewBox="15 15 70 70"><path d="M 49 50 C 49 48 48 47 46 45 C 43 42 41 40 39 38 C 37 36 37 33 39 31 C 41 29 44 29 46 31 C 50 35 55 40 60 45 C 62 47 63 48 63 50 C 63 52 62 53 60 55 C 55 60 50 65 46 69 C 44 71 41 71 39 69 C 37 67 37 64 39 62 C 41 60 43 58 46 55 C 48 53 49 52 49 50 Z"></path></svg>
 				</button>
+				<br>
 				<button id="team-quit" title="quit game" class="quit" visible="false">
 					<svg viewBox="15 15 70 70"><path d="M 51 50 C 51 52 52 53 54 55 C 57 58 59 60 61 62 C 63 64 63 67 61 69 C 59 71 56 71 54 69 C 50 65 45 60 40 55 C 38 53 37 52 37 50 C 37 48 38 47 40 45 C 45 40 50 35 54 31 C 56 29 59 29 61 31 C 63 33 63 36 61 38 C 59 40 57 42 54 45 C 52 47 51 48 51 50 Z"></path></svg>
 					<span>Exit.</span>
@@ -196,8 +207,12 @@
 				<div id="color-result"></div>
 				<hr>
 				<p>All Citizens Ready?</p>
-				<button id="color-ready" title="ready">
-					<span id="color-round">Begin Round 1.</span>
+				<button id="color-ready" title="ready" visible="true">
+					<span id="color-round">Begin Round.</span>
+					<svg viewBox="15 15 70 70"><path d="M 49 50 C 49 48 48 47 46 45 C 43 42 41 40 39 38 C 37 36 37 33 39 31 C 41 29 44 29 46 31 C 50 35 55 40 60 45 C 62 47 63 48 63 50 C 63 52 62 53 60 55 C 55 60 50 65 46 69 C 44 71 41 71 39 69 C 37 67 37 64 39 62 C 41 60 43 58 46 55 C 48 53 49 52 49 50 Z"></path></svg>
+				</button>
+				<button id="color-reveal" title="reveal">
+					<span>Reveal Role.</span>
 					<svg viewBox="15 15 70 70"><path d="M 49 50 C 49 48 48 47 46 45 C 43 42 41 40 39 38 C 37 36 37 33 39 31 C 41 29 44 29 46 31 C 50 35 55 40 60 45 C 62 47 63 48 63 50 C 63 52 62 53 60 55 C 55 60 50 65 46 69 C 44 71 41 71 39 69 C 37 67 37 64 39 62 C 41 60 43 58 46 55 C 48 53 49 52 49 50 Z"></path></svg>
 				</button>
 				<div id="color-timer" class="timer"></div>
@@ -239,6 +254,7 @@
 				<hr>
 				<p id="feedback-verdict"></p>
 				<p id="feedback-impact"></p>
+				<p>(Now that you know, you cannot converse with others until the round ends.)</p>
 				<hr>
 				<button id="feedback-ready" title="ready">
 					<span>Continue.</span>

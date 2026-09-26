@@ -50,6 +50,7 @@
 				icon: document.querySelector("#team-icon"),
 				name: document.querySelector("#team-name"),
 				goal: document.querySelector("#team-goal"),
+				counts: document.querySelector("#team-counts"),
 				ready: document.querySelector("#team-ready"),
 				quit: document.querySelector("#team-quit"),
 			},
@@ -57,6 +58,7 @@
 				result: document.querySelector("#color-result"),
 				ready: document.querySelector("#color-ready"),
 				round: document.querySelector("#color-round"),
+				reveal: document.querySelector("#color-reveal"),
 				timer: document.querySelector("#color-timer"),
 				help: document.querySelector("#color-help"),
 			},
@@ -82,6 +84,7 @@
 				element: document.querySelector("#help"),
 				player: document.querySelector("#help-player"),
 				team: document.querySelector("#help-team"),
+				counts: document.querySelector("#help-counts"),
 				close: document.querySelector("#help-close"),
 				rescan: document.querySelector("#help-rescan"),
 				quit: document.querySelector("#help-quit"),
@@ -96,7 +99,7 @@
 			alphabet: 'abcdefghijklmnopqrstuvwxyz',
 			url: "https://jamesmayr.com/youhavemyword",
 			check: `<svg viewBox="0 0 100 100"><path fill="#ffffff" d="M 40 60 C 47 53 63 37 72 28 C 74 26 77 26 79 28 C 81 30 81 33 79 35 C 70 44 54 60 44 70 C 42 72 38 72 36 70 C 26 60 24 58 21 55 C 19 53 19 50 21 48 C 23 46 26 46 28 48 C 31 51 33 53 40 60 Z"></path></svg>`,
-			rounds: 5, // #
+			rounds: ["1 point", "2 points", "3 points", "Tiebreaker"], // points
 			wordsPerPlayer: 3, // #
 			players: {
 				_4:  {blue: 3,  red: 1, decoys: 6 },
@@ -125,6 +128,9 @@
 				color: 1000 * 3, // ms
 				round: 1000 * 60 * 4, // ms
 				guess: 1000 * 10, // ms
+				warning: 1000 * 30, // ms
+				threshold: 50, //ms
+				vibrate: 500, // ms
 			},
 			qrCodeGenerator: {
 				settings: {
@@ -229,7 +235,21 @@
 
 	/* clearContent */
 		function clearContent() {
-			ELEMENTS.color.round.innerText = STATE.round < CONSTANTS.rounds ? `Begin Round ${STATE.round + 1}.` : `Reveal Role.`
+			if (STATE.round < CONSTANTS.rounds.length) {
+				ELEMENTS.color.ready.setAttribute("visible", true)
+				ELEMENTS.color.round.innerText = `Begin Round ${STATE.round + 1}. (${CONSTANTS.rounds[STATE.round]})`
+			}
+			else {
+				ELEMENTS.color.ready.setAttribute("visible", false)
+			}
+
+			if (STATE.round >= CONSTANTS.rounds.length - 1) {
+				ELEMENTS.color.reveal.setAttribute("visible", true)
+			}
+			else {
+				ELEMENTS.color.reveal.setAttribute("visible", false)
+			}
+
 			ELEMENTS.color.timer.innerText = ""
 			ELEMENTS.color.result.removeAttribute("team")
 			ELEMENTS.color.result.innerHTML = CONSTANTS.check
@@ -237,13 +257,18 @@
 			ELEMENTS.round.timer.innerText = ""
 			ELEMENTS.round.words.innerHTML = ""
 
-			if (STATE.round < CONSTANTS.rounds) {
+			if (STATE.round < CONSTANTS.rounds.length) {
 				ELEMENTS.team.ready.setAttribute("visible", true)
-				ELEMENTS.team.quit.setAttribute("visible", false)
 			}
 			else {
 				ELEMENTS.team.ready.setAttribute("visible", false)
+			}
+			
+			if (STATE.round >= CONSTANTS.rounds.length - 1) {
 				ELEMENTS.team.quit.setAttribute("visible", true)
+			}
+			else {
+				ELEMENTS.team.quit.setAttribute("visible", false)
 			}
 			
 			ELEMENTS.guess.timer.innerText = ""
@@ -314,14 +339,14 @@
 
 	/* getCategories */
 		function getCategories() {
-			return sortRandom(Object.keys(CONSTANTS.dictionary)).slice(0, CONSTANTS.rounds)
+			return sortRandom(Object.keys(CONSTANTS.dictionary)).slice(0, CONSTANTS.rounds.length)
 		}
 
 	/* getCodewords */
 		function getCodewords(categories) {
 			const codewords = []
 
-			for (let round = 0; round < CONSTANTS.rounds; round++) {
+			for (let round = 0; round < CONSTANTS.rounds.length; round++) {
 				const thisCategory = categories[round]
 				const thisCodeword = rangeRandom(0, CONSTANTS.dictionary[thisCategory].length).toString()
 				codewords.push(thisCodeword)
@@ -335,7 +360,7 @@
 			const decoys = []
 			const decoyCount = CONSTANTS.players[`_${playerCount}`].decoys
 			
-			for (let round = 0; round < CONSTANTS.rounds; round++) {
+			for (let round = 0; round < CONSTANTS.rounds.length; round++) {
 				const thisCategory = categories[round]
 				const thisCodeword = codewords[round]
 				const theseDecoys = sortRandom(Object.keys(CONSTANTS.dictionary[thisCategory])).filter(word => word !== thisCodeword).slice(0, decoyCount)
@@ -347,7 +372,7 @@
 
 	/* assignPlayerWords */
 		function assignPlayerWords(players, codewords, decoys) {
-			for (let round = 0; round < CONSTANTS.rounds; round++) {
+			for (let round = 0; round < CONSTANTS.rounds.length; round++) {
 				const decoysBlue = sortRandom(decoys[round])
 				const decoysRed  = sortRandom(decoys[round])
 
@@ -378,11 +403,11 @@
 
 			for (let p = 0; p < players.length; p++) {
 				const player = players[p]
-				const numberString = "?a=" + player.number
+				const numberString = "?a=" + player.number + "_" + players.length
 				const teamString = "&b=" + (player.team == "blue" ? 0 : 1)
 				
 				const wordsList = []
-				for (let round = 0; round < CONSTANTS.rounds; round++) {
+				for (let round = 0; round < CONSTANTS.rounds.length; round++) {
 					wordsList.push(convertList(player.rounds[round], "alphabet").join(""))
 				}
 				const wordsString = "&d=" + wordsList.join("_")
@@ -495,7 +520,8 @@
 				return
 			}
 
-			STATE.player = Number(parameters.a)
+			STATE.player = Number(parameters.a.split("_")[0])
+			const playerCount = parameters.a.split("_")[1] || 5 // default
 			ELEMENTS.joined.player.innerText = STATE.player
 			ELEMENTS.team.player.innerText = STATE.player
 			ELEMENTS.help.player.innerText = STATE.player
@@ -506,7 +532,9 @@
 			ELEMENTS.team.icon.setAttribute("team", STATE.team)
 			ELEMENTS.team.name.innerHTML = CONSTANTS.teams[STATE.team].name
 			ELEMENTS.team.goal.innerHTML = CONSTANTS.teams[STATE.team].goal
+			ELEMENTS.team.counts.innerHTML = `There are ${CONSTANTS.players["_" + playerCount].blue} members of the <span class='team-blue'>Quorum of Blue</span> and ${CONSTANTS.players["_" + playerCount].red} members of the <span class='team-red'>Red Faction</span>.`
 			ELEMENTS.help.team.innerHTML = CONSTANTS.teams[STATE.team].name
+			ELEMENTS.help.counts.innerHTML = ELEMENTS.team.counts.innerHTML
 
 			STATE.categories = convertList(parameters.c.split(""), "integer")
 
@@ -683,20 +711,21 @@
 	/* readyColor */
 		ELEMENTS.color.ready.addEventListener(TRIGGERS.click, readyColor)
 		function readyColor() {			
-			if (STATE.round < CONSTANTS.rounds) {
-				ELEMENTS.color.timer.innerText = (CONSTANTS.timers.color / CONSTANTS.second)
-				
-				STATE.roundStart = new Date().getTime() + CONSTANTS.timers.color
-				ELEMENTS.round.number.innerText = (STATE.round + 1)
-				ELEMENTS.round.words.innerHTML = sortRandom(STATE.rounds[STATE.round]).join("<br>")
+			ELEMENTS.color.timer.innerText = (CONSTANTS.timers.color / CONSTANTS.second)
+			
+			STATE.roundStart = new Date().getTime() + CONSTANTS.timers.color
+			ELEMENTS.round.number.innerText = (STATE.round + 1)
+			ELEMENTS.round.words.innerHTML = sortRandom(STATE.rounds[STATE.round]).join("<br>")
 
-				createGuessButtons()
+			createGuessButtons()
 
-				clearInterval(STATE.interval)
-				STATE.interval = setInterval(tickRound, CONSTANTS.tick)
-				return
-			}
+			clearInterval(STATE.interval)
+			STATE.interval = setInterval(tickRound, CONSTANTS.tick)
+		}
 
+	/* revealColor */
+		ELEMENTS.color.reveal.addEventListener(TRIGGERS.click, revealColor)
+		function revealColor() {
 			setMode("team")
 		}
 
@@ -722,6 +751,12 @@
 			}
 			else {
 				submitGuess()
+			}
+
+			if (Math.abs(STATE.roundStart + CONSTANTS.timers.round - CONSTANTS.timers.warning - timeNow) < CONSTANTS.timers.threshold) {
+				try {
+					navigator.vibrate([CONSTANTS.timers.vibrate])
+				} catch (error) {}
 			}
 
 			if (STATE.mode == "round") {
@@ -756,15 +791,33 @@
 					guessButton.value = words[w]
 					guessButton.innerText = words[w]
 					guessButton.addEventListener(TRIGGERS.click, submitGuess)
+
+					if (STATE.team == "blue") {
+						if (STATE.rounds[STATE.round].includes(words[w])) {
+							guessButton.setAttribute("guess-possible", true)
+						}
+					}
+					else {
+						if (!STATE.rounds[STATE.round].includes(words[w])) {
+							guessButton.setAttribute("guess-possible", true)
+						}
+					}
+
 				ELEMENTS.guess.buttons.appendChild(guessButton)
 			}
 		}
 
 	/* submitGuess */
 		function submitGuess(event) {
-			clearInterval(STATE.interval)
-
 			const guess = event ? event.target.value : null
+
+			if (guess) {
+				if (!window.confirm(`Guess "${guess.toUpperCase()}"?`)) {
+					return
+				}
+			}
+
+			clearInterval(STATE.interval)
 			const correct = (guess == STATE.codewords[STATE.round])
 			STATE.round += 1
 			clearContent()
@@ -775,12 +828,12 @@
 			if ((correct && STATE.team == "blue") || (!correct && STATE.team == "red")) {
 				ELEMENTS.color.result.setAttribute("team", "blue")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.blue.icon
-				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You're doing your part for the Quorum of Blue!" : "You failed to intercept the Blue communication."
+				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You're doing your part for the Quorum of Blue!" : "You failed to intercept the Blue communication. (But pretend to be happy.)"
 			}
 			else {
 				ELEMENTS.color.result.setAttribute("team", "red")
 				ELEMENTS.color.result.innerHTML = CONSTANTS.teams.red.icon
-				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You were foiled by the Red Faction. Unity is broken." : "You have contributed to a glorious Red victory!"
+				ELEMENTS.feedback.impact.innerText = STATE.team == "blue" ? "You were foiled by the Red Faction. Unity is broken." : "You have contributed to a glorious Red victory! (Pretend to be sad though.)"
 			}
 			setMode("feedback")
 		}
@@ -805,13 +858,17 @@
 	/* closeHelp */
 		ELEMENTS.help.close.addEventListener(TRIGGERS.click, closeHelp)
 		function closeHelp() {
-			ELEMENTS.help.element.removeAttribute("visible")
+			ELEMENTS.help.element.setAttribute("visible", false)
 		}
 
 	/* rescanHelp */
 		ELEMENTS.help.rescan.addEventListener(TRIGGERS.click, rescanHelp)
 		function rescanHelp() {
 			closeHelp()
+
+			clearContent()
+			clearInterval(STATE.interval)
+
 			setMode("qrcodes")
 			loadQRcode(1)
 		}

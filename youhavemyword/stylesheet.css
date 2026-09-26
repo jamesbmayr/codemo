@@ -1,7 +1,7 @@
 /*** page ***/
 	:root {
 		--dark-gray: #111111;
-		--medium-gray: #444444;
+		--medium-gray: #666666;
 		--light-gray: #ffffff;
 		--dark-blue: #0d1e3b;
 		--medium-blue: #0066aa;
@@ -23,6 +23,7 @@
 		--header-font: "Megrim", monospace;
 		--main-font: "Geo", monospace;
 		--help-opacity: 0.95;
+		--guess-opacity: 0.25;
 		--line-height: 1.25;
 		--transition-time: 0.5s;
 		--gradient-shift-time: 60s;
@@ -258,7 +259,7 @@
 
 	.help {
 		background: transparent;
-		color: var(--medium-gray);
+		color: var(--medium-green);
 		margin: 0;
 	}
 
@@ -418,7 +419,7 @@
 				color: var(--light-gray) !important;
 			}
 
-		#team-goal {
+		#team-goal, #team-counts {
 			text-align: left;
 		}
 
@@ -458,6 +459,11 @@
 				border-radius: calc(var(--border-radius) / 2);
 			}
 
+		#color-ready:not([visible="true"]), #color-reveal:not([visible="true"]) {
+			display: none;
+			pointer-events: none;
+		}
+
 /*** round ***/
 	#container[mode="round"] section#round {
 		display: block;
@@ -475,7 +481,13 @@
 	}
 
 		.guess-button {
+			height: calc(var(--font-size) * 2 + 2 * var(--gap-size));
 			text-transform: uppercase;
+			font-size: calc(var(--font-size) * 2);
+		}
+
+		.guess-button:not([guess-possible="true"]) {
+			opacity: var(--guess-opacity);
 		}
 		
 /*** feedback ***/
@@ -503,7 +515,7 @@
 		overflow-x: hidden;
 		overflow-y: scroll;
 		opacity: var(--help-opacity);
-		padding: var(--gap-size);
+		padding: var(--gap-size) var(--gap-size) calc(3 * var(--font-size)) var(--gap-size);
 		box-sizing: border-box;
 		z-index: 10;
 		text-align: center;
