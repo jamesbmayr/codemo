@@ -61,7 +61,9 @@
 				{name: "Spider Jazz", audio: "spiderjazz.mp3"},
 				{name: "Stride (piano)", audio: "stridepiano.mp3"},
 				{name: "Wake (Captain Chrono)", audio: "wakecaptainchrono.mp3"},
-				{name: "Miracle / Shadow: The Next Generation (Dan Weinstein mix)", audio: "miracleshadowthenextgenerationdanweinsteinmix.mp3"}
+				{name: "Miracle / Shadow: The Next Generation (Dan Weinstein mix)", audio: "miracleshadowthenextgenerationdanweinsteinmix.mp3"},
+				{name: "By the Sweat of Our Brows (Explo Expo 2026: Take 1)", audio: "bythesweatofourbrowsexploexpo2026take1.mp3"},
+				{name: "By the Sweat of Our Brows (Explo Expo 2026: Take 2)", audio: "bythesweatofourbrowsexploexpo2026take2.mp3"},
 			]},
 			eternalhorizon: {id: "eternalhorizon", image: "eternalhorizon.png", name: "Eternal Horizon", year: 2007, tracks: [
 				{name: "Eternal Horizon", audio: "eternalhorizon.mp3"},
