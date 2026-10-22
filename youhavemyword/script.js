@@ -127,7 +127,7 @@
 			timers: {
 				color: 1000 * 3, // ms
 				round: 1000 * 60 * 4, // ms
-				guess: 1000 * 10, // ms
+				guess: 1000 * 30, // ms
 				warning: 1000 * 30, // ms
 				threshold: 50, //ms
 				vibrate: 500, // ms
@@ -755,7 +755,7 @@
 
 			if (Math.abs(STATE.roundStart + CONSTANTS.timers.round - CONSTANTS.timers.warning - timeNow) < CONSTANTS.timers.threshold) {
 				try {
-					navigator.vibrate([CONSTANTS.timers.vibrate])
+					navigator.vibrate(CONSTANTS.timers.vibrate)
 				} catch (error) {}
 			}
 
